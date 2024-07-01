@@ -1,0 +1,25 @@
+%Listing
+\usepackage{listings} %Code
+\renewcommand{\lstlistingname}{Code}%
+\definecolor{keyword}{RGB}{255, 0, 0}
+\definecolor{identifier}{RGB}{0, 0, 255}
+\definecolor{comment}{RGB}{0, 128, 0}
+\definecolor{string}{RGB}{163, 21, 21}
+
+\lstdefinestyle{c}{
+	language=C,
+	basicstyle=\ttfamily\small,
+	keywordstyle=\color{keyword},
+	identifierstyle=\color{identifier},
+	commentstyle=\color{comment}\itshape,
+	stringstyle=\color{string},
+	showstringspaces=false,
+	%	numberstyle=\tiny\color{gray},
+	%	numbersep=5pt,
+	frame=single,
+	tabsize=4,
+	captionpos=b,
+	breaklines=true,
+	breakatwhitespace=true,
+	%	numbers=left
+}

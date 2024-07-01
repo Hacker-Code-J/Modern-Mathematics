@@ -1,0 +1,55 @@
+% Group Homomorphism
+\section{Exponentiation Function}
+
+Consider the following groups:
+\begin{itemize}
+	\item The \textbf{additive group on integers} \((\mathbb{Z}, +)\):
+	\begin{itemize}
+		\item Set: \(\mathbb{Z}\)
+		\item Operation: Addition (+)
+		\item Identity Element: 0
+		\item Inverses: For each \(a \in \mathbb{Z}\), the inverse is \(-a\).
+	\end{itemize}
+	
+	\item The \textbf{multiplicative group on nonzero rational numbers} \((\mathbb{Q}^*, \cdot)\):
+	\begin{itemize}
+		\item Set: \(\mathbb{Q}^*\)
+		\item Operation: Multiplication (\(\cdot\))
+		\item Identity Element: 1
+		\item Inverses: For each \(q \in \mathbb{Q}^*\), the inverse is \(q^{-1} = \frac{1}{q}\).
+	\end{itemize}
+\end{itemize}
+
+We define the exponential function \( \exp : \mathbb{Z} \to \mathbb{Q}^* \) by:
+\[
+\exp(n) = 2^n \quad \text{for all} \ n \in \mathbb{Z}.
+\]
+
+\subsection*{Verification}
+
+\paragraph{Homomorphism Property:}
+\[
+\exp(a + b) = 2^{a + b} = 2^a \cdot 2^b = \exp(a) \cdot \exp(b).
+\]
+
+\paragraph{Identity Element:}
+\begin{itemize}
+	\item In \((\mathbb{Z}, +)\), the identity element is 0.
+	\item In \((\mathbb{Q}^*, \cdot)\), the identity element is 1.
+\end{itemize}
+\[
+\exp(0) = 2^0 = 1.
+\]
+
+\paragraph{Inverses:}
+\begin{itemize}
+	\item For each \( n \in \mathbb{Z} \), the inverse of \( n \) in \(\mathbb{Z}\) is \(-n\).
+	\item The inverse of \( \exp(n) = 2^n \) in \(\mathbb{Q}^*\) should be \( \exp(-n) = 2^{-n} \).
+\end{itemize}
+\[
+\exp(-n) = 2^{-n} = \frac{1}{2^n} = (\exp(n))^{-1}.
+\]
+
+Thus, the exponential function \( \exp(n) = 2^n \) preserves the group structure between the additive group on integers \((\mathbb{Z}, +)\) and the multiplicative group on nonzero rational numbers \((\mathbb{Q}^*, \cdot)\).
+
+\end{document}

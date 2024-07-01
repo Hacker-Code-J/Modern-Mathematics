@@ -1,0 +1,275 @@
+% Algebra: Quadratic Formula and Peano Axiom
+
+\section{Quadratic Formula}
+\begin{note}
+	We want to find the roots of the quadratic equation: for $a\neq 0$,
+	\[
+	ax^2 + bx + c = 0.
+	\]
+	\begin{proof}[\sol]
+		\begin{align*}
+			ax^2 + bx + c = 0&\iff ax^2 + bx = -c & \\
+			&\iff x^2 + \frac{b}{a}x = -\frac{c}{a} & \text{Divide every term by \(a\neq 0\)}\\
+			&\iff x^2 + \frac{b}{a}x + \left(\frac{b}{2a}\right)^2 - \left(\frac{b}{2a}\right)^2 = -\frac{c}{a} & \text{Complete the square on the left side} \\
+			&\iff \left(x + \frac{b}{2a}\right)^2 = \left(\frac{b}{2a}\right)^2 - \frac{c}{a} & \\
+			&\iff x + \frac{b}{2a} = \pm \sqrt{\left(\frac{b}{2a}\right)^2 - \frac{c}{a}}
+			& \text{Take the square root on both sides} \\
+			&\iff x = -\frac{b}{2a} \pm \sqrt{\left(\frac{b}{2a}\right)^2 - \frac{c}{a}} & \text{Simplify to solve for \(x\)} \\
+			&\iff x = -\frac{b}{2a} \pm \sqrt{\frac{b^2 - 4ac}{4a^2}} & \\
+			&\iff x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a} & \text{Quadratic formula}
+		\end{align*}
+		This expression provides the solutions for \(x\) in the quadratic equation \(ax^2 + bx + c = 0\) ($a\neq 0$).
+	\end{proof}
+\end{note}
+
+\newpage
+\section{Peano Axiom and Natural Number}
+\subsection{Peano Axiom and Successor Function}
+The set of natural numbers, denoted by \(\mathbb{N}\), is defined by the following axioms:
+
+\begin{enumerate}[\bf 1.]
+	\item \textbf{\underline{Zero is a natural number}}: \(\mathcolorbox{yellow}{0 \in\N}\).
+	
+	There exists a natural number \(0\).\vspace{12pt}
+	\item \textbf{\underline{Successor}}: \(\mathcolorbox{yellow}{n\in\N\implies S(n)\in\N}\).
+	
+	For every natural number \(n\), there exists a natural number \(S(n)\), called the successor of \(n\).
+	\begin{enumerate}[(i)]
+		\item (\textcolor{green!50!black}{$\boldsymbol{\checkmark}$})\begin{tikzcd}
+			0 \arrow[r] & S(0) \arrow[r] & S(S(0)) \arrow[r] & \cdots
+		\end{tikzcd}
+		\item (\textcolor{red}{$\boldsymbol{\times}$})\begin{tikzcd}
+			k\in\mathbb{N} \arrow[r] & S(k)=0 \arrow[r] & S0 \arrow[r] & SS0 \arrow[r] & \cdots
+		\end{tikzcd}
+		\item (\textcolor{red}{$\boldsymbol{\times}$}) \begin{center}\begin{tikzcd}
+				0 \arrow[r] & S0 \arrow[r]    & SS0 \arrow[d]  \\
+				& SSSS0 \arrow[u] & SSS0 \arrow[l]
+			\end{tikzcd}
+		\end{center}
+		\item (\textcolor{red}{$\boldsymbol{\times}$}) \begin{center}\begin{tikzcd}
+				0 \arrow[r] & S0 \arrow[r] & SS0 \arrow[r]            & SSS0 \\
+				&              & S(k) \arrow[u]           &      \\
+				&              & k\in\mathbb{N} \arrow[u] &     
+			\end{tikzcd}
+		\end{center}
+		\item (\textcolor{red}{$\boldsymbol{\times}$}) \begin{center}\begin{tikzcd}
+				0 \arrow[r] & S0 \arrow[r] & SS0 \arrow[r]  & SSS0 \arrow[r] & SSSS0 \\
+				&              & k\in\mathbb{N} &                &      
+			\end{tikzcd}
+		\end{center}
+	\end{enumerate}
+	\vspace{12pt}
+	\item \textbf{\underline{No natural number has 0 as its successor}}: \(\mathcolorbox{yellow}{n \in \mathbb{N}\implies \ S(n) \neq 0}\).
+	
+	There is no natural number whose successor is \(0\). (It solves 2-(ii))
+	\vspace{12pt}
+	\item \textbf{\underline{Distinctness}}: \(\mathcolorbox{yellow}{\forall m,n\in\N:[S(m)=S(n)\implies m=n]}\).Define addition to the set of natural numbers and define integers based on the concepts of identity and inverse. Also define rational numbers based on the multiplication of integers. In this way, derive the group structure and define the group. Give me the ratex code to be a professional mathematician.
+	
+	Distinct natural numbers have distinct successors. (It solves 2-(iii) and (iv))
+	\vspace{12pt}
+	\item \textbf{\underline{Induction}}: \(\mathcolorbox{yellow}{(0 \in M)\land(n \in M\Rightarrow S(n) \in M)\implies\N\subseteq M}\)
+	
+	If a set \(M\) of natural numbers contains \(0\) and is closed under the successor function (i.e., \(n \in M \implies S(n) \in M\)), then \(M\) contains all natural numbers. (It solves 2-(v))
+\end{enumerate}
+
+\begin{remark}[\textcolor{blue}{\bf Successor Function $\boldsymbol{S(n)}$}] \ \\
+	The successor function $S(n)$ can be understood through these principles:
+	\begin{enumerate}
+		\item \textbf{Uniqueness and Existence}: For each natural number $n$, there exists a unique natural number $S(n)$. This means $S(n)$ is well-defined and there is no ambiguity about what the successor of $n$ is.
+		\item \textbf{Construction of Natural Numbers}: The successor function constructs the sequence of natural numbers starting from 0. For example: \[
+		S(0)=1,\quad S(1)=2,\quad S(2)=3,\quad\text{and so on}.
+		\]
+		Here, 1 is the successor of 0, 2 is the successor of 1, and so forth. Each natural number $n$ can be reached by repeatedly applying the successor function starting from 0.
+		\item \textbf{Non-circularity} No natural number $n$ has $0$ as its successor. This avoids circular definitions and ensures a clear progression of numbers: \[
+		\forall n\in\N:S(n)\neq 0.
+		\]
+		\item \textbf{Injectivity}:  The axiom $S(m)=S(n)\implies m=n$ ensures that the successor function is injective, meaning different numbers have different successors. This property is essential for maintaining the distinctness of natural numbers.
+		\item \textbf{Basis of Induction}: The induction axiom relies on the successor function. It states that if a property holds for 0 and holds for $S(n)$ whenever it holds for $n$, then the property holds for all natural numbers. This principle is the foundation of mathematical induction.
+	\end{enumerate}
+	
+	A  visual representation of the successor function can help understand its role: \[
+	0\xrightarrow{S} 1\xrightarrow{S} 2\xrightarrow{S} 3\xrightarrow{S} 4\xrightarrow{S} \cdots
+	\] Each arrow represents the application of the successor function, moving from one natural number to the next.
+	
+	In summary, the successor function $S(n)$ in Peano's axioms is a fundamental operation that:
+	\begin{itemize}
+		\item Provides a way to generate the next natural number from a given one.
+		\item  Ensures the natural numbers are distinct and ordered.
+		\item erves as the basis for defining natural numbers and performing induction.
+	\end{itemize}
+	These properties make the successor function an essential component in the foundation of arithmetic and number theory.
+\end{remark}
+
+\newpage
+% Sec. Group Structure ========================================================================
+\section{Group Structure}
+
+% Sub. Addition and Multiplication on Natural Number ==========================================
+\subsection{Addition and Multiplication on Natural Numbers}
+\begin{observation}
+	\ \begin{itemize}
+		\item $1+1=2$
+		\item $(-1)\times(-1)=1$
+	\end{itemize}
+\end{observation}
+
+\defbox[Addition on Natural Numbers]{
+Addition on the set of natural numbers \(\mathbb{N}\) is defined recursively:
+\begin{itemize}
+	\item \textbf{(Base Case)} \[
+	n \in \mathbb{N}\implies \ 0 + n = n.
+	\]
+	\item \textbf{(Recursive Step)} \[
+	m, n \in \mathbb{N}\implies S(m) + n = S(m + n).
+	\]
+\end{itemize}
+}
+\begin{remark}
+	\begin{align*}
+		1 &= S0	\\
+		2 &= SS0 &= S^20 \\
+		3 &= SSS0 &= S^30\\
+		&\vdots \\
+		n &= \underbrace{S\cdots S}_{n}0 &= S^n0
+	\end{align*}
+\end{remark}
+
+\begin{example}
+	Prove that $1+1=2$.
+	\begin{proof}
+		Consider $1=S(0)$. Then \begin{align*}
+			1+1=S(0)+S(0)=S(S(0)+0)=S(S0)=2.
+		\end{align*}
+	\end{proof}
+\end{example}
+
+\defbox[Multiplication on Natural Numbers]{
+	Multiplication on the set of natural numbers \(\mathbb{N}\) is defined recursively:
+	\begin{itemize}
+		\item \textbf{(Base Case)} \[
+		n \in \mathbb{N}\implies \ 0 \cdot n = n.
+		\]
+		\item \textbf{(Recursive Step)} \[
+		m, n \in \mathbb{N}\implies S(m) \cdot n = (m\cdot n) + n.
+		\]
+	\end{itemize}
+}
+
+\begin{example}
+	Prove that $n\times 1 = n$ for all $n\in\N$.
+	\begin{proof}
+		Consider $n,1\in\N$, i.e., $n=S^n0$, $1=S0$. Then \begin{align*}
+			n\times 1=S^n0\times S0&=S(S^{n-1}0)\times S0\\
+			&= (S^{n-1}0\times S0)+S0 \\
+			&= (S^{n-2}0\times S0) + (S0 + S0) \\ 
+			&= (0\times S0) + (\underbrace{S0 + S0 + \cdots + S0}_n) \\
+			&= 0 + n\\
+			&= n.
+		\end{align*}
+	\end{proof}
+\end{example}
+
+\defbox[Construction of Integer]{
+	The set of integers \(\mathbb{Z}\) includes identity and inverse elements.
+	
+	\begin{itemize}
+		\item \textbf{Identity}: \(\forall a \in \mathbb{Z}, \ a + 0 = a\)
+		\item \textbf{Inverses}: \(\forall n \in \mathbb{N}, \ \exists -n \in \mathbb{Z} \text{ such that } n + (-n) = 0\)
+	\end{itemize}
+	
+	Formally, the set of integers \(\mathbb{Z}\) is:
+	\begin{align*}
+		\Z &= -\N\cup\set{0}\cup\N \\
+		&= \set{-1,-2,-3,\dots}\cup\set{0}\cup\set{1,2,3,\dots} \\
+		&= \set{\dots, -3, -2, -1, 0, 1, 2, 3, \dots}.
+	\end{align*}
+}
+
+\begin{example}
+	Prove that $(-1)\times (-1) = 1$.
+	\begin{proof}
+		\begin{align*}
+			0 &= 0\times (-1) \\
+			&= S(-1)\times (-1) \\
+			&= ((-1)\times (-1)) + (-1).
+		\end{align*} Thus, $(-1)\times (-1)=1$.
+	\end{proof}
+\end{example}
+
+\subsection{Rational Number and Equivalence Relation}
+\begin{observation}
+	\ \begin{itemize}
+		\item $\frac{1}{2}=0.5$
+		\item $\frac{1}{2}=\frac{2}{4}=\cdots=\frac{1622660}{3245320}$
+	\end{itemize}
+\end{observation}
+
+
+\defbox[Rational Numbers]{
+A rational number $\Q$ is defined as an ordered pair of integers \((a, b)\) where \(a \in \mathbb{Z}\) and \(b \in \mathbb{Z} \setminus \{0\}\). This pair represents the fraction \(\frac{a}{b}\).
+}
+
+\begin{note}
+	We introduce an equivalence relation on the set of pairs of integers:
+	\[
+	(a, b) \sim (c, d) \iff ad = bc
+	\]
+	This relation ensures that different pairs of integers representing the same rational number are considered equivalent.
+		
+	The set of rational numbers \(\mathbb{Q}\) is the set of equivalence classes of the pairs \((a, b)\):
+	\[
+	\mathbb{Q} = \left\{ \left. \frac{a}{b} \ \right| \ a \in \mathbb{Z}, b \in \mathbb{Z} \setminus \{0\}, (a, b) \sim (c, d) \iff ad = bc \right\}
+	\]
+\end{note}
+
+\subsection{Groups}
+\begin{observation}
+\ \begin{center}
+\begin{minipage}{.48\textwidth}
+	\((\mathbb{Z}, +)\)
+	\begin{itemize}
+		\item \(\forall a, b \in \mathbb{Z}, \ a + b \in \mathbb{Z}\)
+		\item \(\forall a, b, c \in \mathbb{Z}, \ (a + b) + c = a + (b + c)\)
+		\item \(\exists 0 \in \mathbb{Z} \text{ such that } \forall a \in \mathbb{Z}, \ a + 0 = a\)
+		\item \(\forall a \in \mathbb{Z}, \ \exists -a \in \mathbb{Z} \text{ such that } a + (-a) = 0\)
+	\end{itemize}
+\end{minipage}
+\begin{minipage}{.48\textwidth}
+	\((\mathbb{Q}^*, \cdot)\)
+	\begin{itemize}
+		\item \(\forall a, b \in \mathbb{Q}^*, \ a \cdot b \in \mathbb{Q}^*\)
+		\item \(\forall a, b, c \in \mathbb{Q}^*, \ (a \cdot b) \cdot c = a \cdot (b \cdot c)\)
+		\item \(\exists 1 \in \mathbb{Q}^* \text{ such that } \forall a \in \mathbb{Q}^*, \ a \cdot 1 = a\)
+		\item \(\forall a \in \mathbb{Q}^*, \ \exists a^{-1} \in \mathbb{Q}^* \text{ such that } a \cdot a^{-1} = 1\)
+	\end{itemize}
+\end{minipage}
+\end{center}
+\end{observation}
+\defbox[Group]{
+\begin{definition}
+A \textbf{group} is a set \( G \) equipped with a binary operation \(*:G\times G\to G\) that combines any two elements \( a \) and \( b \) to form another element denoted \( a * b \). The set and operation, \((G, *)\), must satisfy four fundamental properties known as the group axioms:
+
+\begin{enumerate}
+	\item \textbf{Closure}:
+	\[
+	a, b \in G\implies a * b \in G
+	\]
+	
+	\item \textbf{Associativity}:
+	\[
+	a, b, c \in G\implies (a * b) \cdot c = a * (b * c)
+	\]
+	
+	\item \textbf{Identity Element}:
+	\[
+	\exists e \in G:[a \in G\implies \ e * a = a = a * e]
+	\]
+	
+	\item \textbf{Inverse Element}:
+	\[
+	a \in G\implies[\exists a^{-1} \in G : a * a^{-1} = e = a^{-1} * a]
+	\]
+\end{enumerate}
+\end{definition}
+}
+

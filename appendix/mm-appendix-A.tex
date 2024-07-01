@@ -1,0 +1,176 @@
+\appendix
+\chapter{Preliminaries}
+\section{Sets, Cartesian Products, and Relations}
+
+\subsection{Sets and Ordered Pairs}
+
+\subsection*{Set}
+
+A \textbf{set} is a well-defined collection of distinct objects, called elements or members of the set. Sets are one of the most fundamental concepts in mathematics.
+
+\defbox[Set]{
+\begin{definition}
+	A \textbf{set} is a well-defined collection of distinct objects, considered as an object in its own right. Sets are usually denoted by capital letters, and the elements are listed within curly braces.
+\end{definition}
+}
+\begin{example}
+For example:
+\[
+A = \{1, 2, 3\}
+\]
+This denotes a set \(A\) containing the elements 1, 2, and 3.
+\end{example}
+\vspace{12pt}
+\begin{note}[Properties]
+\ \begin{itemize}
+	\item \textbf{No Repetition}: Each element in a set appears only once.
+	\item \textbf{Order Irrelevance}: The order of elements in a set does not matter. For instance, \(\{1, 2, 3\} = \{3, 2, 1\}\).
+	\item \textbf{Membership}: If an element \(a\) is in a set \(A\), we write \(a \in A\).
+\end{itemize}
+\end{note}
+\vspace{12pt}
+\begin{note}[Types of Sets]
+\ \begin{itemize}
+	\item \textbf{Finite and Infinite Sets}: A set with a finite number of elements is finite; otherwise, it is infinite.
+	\item \textbf{Subset}: A set \(A\) is a subset of a set \(B\) if every element of \(A\) is also an element of \(B\), denoted \(A \subseteq B\).
+	\item \textbf{Power Set}: The power set of \(A\) is the set of all subsets of \(A\), denoted \(\mathcal{P}(A)\).
+\end{itemize}
+\end{note}
+
+\subsection*{Ordered Pair}
+
+An \textbf{ordered pair} is a fundamental concept in mathematics used to combine two elements in a specific order. The notation for an ordered pair is \((a, b)\), where \(a\) is the first element and \(b\) is the second element.
+
+\defbox[Ordered Pair]{
+\begin{definition}
+	An \textbf{ordered pair} \((a, b)\) is a collection of two elements where the order of the elements matters. This is in contrast to a set, where the order of elements does not matter.
+\end{definition}
+}
+\begin{remark}
+	\ \begin{itemize}
+		\item The ordered pair \((a, b)\) is not the same as \((b, a)\) unless \(a = b\).
+		\item Formally, the ordered pair \((a, b)\) can be defined using sets to ensure the distinction from unordered pairs. One common definition is:
+		\[
+		(a, b) = \{ \{a\}, \{a, b\} \}
+		\]
+		This definition ensures that:
+		\[
+		(a, b) = (c, d) \iff a = c \ \text{and} \ b = d
+		\]
+	\end{itemize}
+\end{remark}
+\vspace{12pt}
+\begin{note}[Properties]
+\begin{itemize}
+	\item \textbf{Uniqueness}: Each ordered pair \((a, b)\) is unique if either \(a\) or \(b\) is unique.
+	\item \textbf{Order}: The order of elements in an ordered pair is significant.
+\end{itemize}
+\end{note}
+
+\subsection{Cartesian Product and Relation}
+
+\subsection*{Cartesian Product}
+
+The \textbf{Cartesian product} is a fundamental concept in set theory, used to define the set of all possible ordered pairs from two sets.
+
+\defbox[Cartesian Product]{
+Given two sets \( A \) and \( B \), the Cartesian product \( A \times B \) is defined as the set of all ordered pairs \((a, b)\) where \( a \in A \) and \( b \in B \). Formally,
+\[
+A \times B = \{ (a, b) \mid a \in A \ \text{and} \ b \in B \}
+\]
+}
+\vspace{12pt}
+\begin{note}[Properties]
+\ \begin{itemize}
+	\item \textbf{Order Matters}: The pair \((a, b)\) is different from the pair \((b, a)\) unless \(a = b\).
+	\item \textbf{Empty Set}: If either \(A\) or \(B\) is the empty set \(\emptyset\), then \(A \times B\) is also empty:
+	\[
+	A \times \emptyset = \emptyset \quad \text{and} \quad \emptyset \times B = \emptyset
+	\]
+\end{itemize}
+\end{note}
+\begin{example}
+\ \begin{enumerate}
+	\item If \( A = \{1, 2\} \) and \( B = \{x, y\} \), then
+	\[
+	A \times B = \{ (1, x), (1, y), (2, x), (2, y) \}
+	\]
+	
+	\item If \( A = \{a, b\} \) and \( B = \{1, 2, 3\} \), then
+	\[
+	A \times B = \{ (a, 1), (a, 2), (a, 3), (b, 1), (b, 2), (b, 3) \}
+	\]
+\end{enumerate}
+\end{example}
+
+\subsection*{Relation}
+
+A \textbf{relation} generalizes the concept of Cartesian product to establish connections between elements of two sets.
+
+\defbox[Relation]{
+\begin{definition}
+	A relation \( R \) from a set \( A \) to a set \( B \) is a subset of the Cartesian product \( A \times B \). Formally,
+	\[
+	R \subseteq A \times B
+	\]
+	This means that a relation \( R \) consists of ordered pairs \((a, b)\) where \(a \in A\) and \(b \in B\).
+\end{definition}
+}
+\vspace{12pt}
+\begin{note}[Properties of Relations]
+\ \begin{itemize}
+	\item \textbf{Domain and Range}:
+	\begin{itemize}
+		\item The \textbf{domain} of \( R \) is the set of all \( a \in A \) such that there exists \( b \in B \) with \((a, b) \in R\).
+		\[
+		\text{Domain}(R) = \{ a \in A \mid \exists b \in B, \ (a, b) \in R \}
+		\]
+		\item The \textbf{range} of \( R \) is the set of all \( b \in B \) such that there exists \( a \in A \) with \((a, b) \in R\).
+		\[
+		\text{Range}(R) = \{ b \in B \mid \exists a \in A, \ (a, b) \in R \}
+		\]
+	\end{itemize}
+	
+	\item \textbf{Inverse Relation}: The inverse of a relation \( R \), denoted \( R^{-1} \), is the set of all pairs \((b, a)\) such that \((a, b) \in R\):
+	\[
+	R^{-1} = \{ (b, a) \mid (a, b) \in R \}
+	\]
+	
+	\item \textbf{Composition of Relations}: Given a relation \( R \) from \( A \) to \( B \) and a relation \( S \) from \( B \) to \( C \), the composition \( S \circ R \) is a relation from \( A \) to \( C \) defined by:
+	\[
+	S \circ R = \{ (a, c) \mid \exists b \in B, \ (a, b) \in R \ \text{and} \ (b, c) \in S \}
+	\]
+\end{itemize}
+\end{note}
+
+\vspace{12pt}
+\begin{note}[Types of Relations]
+\ \begin{itemize}
+	\item \textbf{Binary Relation}: A relation involving two sets, as defined above.
+	\item \textbf{Unary Relation}: A relation on a single set \( A \) is simply a subset of \( A \).
+	\item \textbf{Ternary and Higher Relations}: Relations involving three or more sets, defined as subsets of the Cartesian product of those sets.
+\end{itemize}
+\end{note}
+
+\begin{example}
+	\ \begin{enumerate}
+		\item If \( A = \{1, 2, 3\} \) and \( B = \{a, b\} \), a possible relation \( R \) from \( A \) to \( B \) could be:
+		\[
+		R = \{ (1, a), (2, b), (3, a) \}
+		\]
+		\begin{itemize}
+			\item Domain: \(\{1, 2, 3\}\)
+			\item Range: \(\{a, b\}\)
+		\end{itemize}
+		
+		\item Consider the relation \( R \) on set \( A = \{1, 2, 3\} \) defined by:
+		\[
+		R = \{ (1, 2), (2, 3), (3, 1) \}
+		\]
+		\begin{itemize}
+			\item Domain: \(\{1, 2, 3\}\)
+			\item Range: \(\{1, 2, 3\}\)
+			\item Inverse Relation: \( R^{-1} = \{ (2, 1), (3, 2), (1, 3) \} \)
+		\end{itemize}
+	\end{enumerate}
+\end{example}

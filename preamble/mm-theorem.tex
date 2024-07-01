@@ -1,0 +1,36 @@
+\usepackage{amsthm}
+
+% Define custom theorem styles
+\newtheoremstyle{dotless} % Name of the style
+{3pt} % Space above
+{3pt} % Space below
+{\itshape} % Body font
+{} % Indent amount
+{\bfseries} % Theorem head font
+{} % Punctuation after theorem head
+{2.5mm} % Space after theorem head
+{} % Theorem head spec
+
+\newtheoremstyle{definitionstyle} % Name of the style
+{3pt} % Space above
+{3pt} % Space below
+{} % Body font
+{} % Indent amount
+{\bfseries} % Theorem head font
+{.} % Punctuation after theorem head
+{2.5mm} % Space after theorem head
+{} % Theorem head spec
+
+% Applying custom styles
+\theoremstyle{dotless}
+\newtheorem{theorem}{Theorem}[section] % Theorem environment with section-wise numbering
+\newtheorem{lemma}[theorem]{Lemma} % Lemma shares the counter with theorem
+\newtheorem{corollary}[theorem]{Corollary} % Corollary shares the counter with theorem
+
+\theoremstyle{definitionstyle}
+\newtheorem*{observation}{\textcolor{Magenta}{Observation}}
+\newtheorem{definition}{Definition}[chapter] % Definition shares the counter with theorem
+\newtheorem{example}{Example}[chapter] % Example shares the counter with theorem
+\newtheorem{exercise}{Exercise}[chapter] % Example shares the counter with theorem
+\newtheorem{remark}{Remark}[definition] % Remark shares the counter with theorem
+\newtheorem*{note}{Note}

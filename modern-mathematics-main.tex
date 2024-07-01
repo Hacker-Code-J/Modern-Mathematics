@@ -1,0 +1,34 @@
+% pdflatex -shell-escape software-analysis-main.tex
+\documentclass[12pt,openany]{book}
+
+\input{preamble/mm-package}
+\input{preamble/mm-theorem}
+\input{preamble/mm-layout}
+\input{preamble/mm-tcolorbox}
+\input{preamble/mm-tikz}
+\input{preamble/mm-algorithm}
+\input{preamble/mm-listing}
+\input{preamble/mm-commands}
+
+
+\begin{document}
+	
+	\input{mm-titlepage}
+	\tableofcontents
+	\newpage
+	\chapter{Introduction}
+	\input{chapter/mm-chap1}
+	
+	\chapter{Quadratic Formula and Peano Axiom}
+	\input{chapter/mm-chap2}
+	
+	\chapter{Functions}
+	\input{chapter/mm-chap3}
+	
+	\chapter{Group Homomorphism}
+	\input{chapter/mm-chap4}
+	
+	% Appendix
+	\input{appendix/mm-appendix-A}
+	
+\end{document}
