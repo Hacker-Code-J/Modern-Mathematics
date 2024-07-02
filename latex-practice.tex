@@ -1,0 +1,64 @@
+\begin{itemize}
+	\item \textbf{Block Size}: $n$ (number of bits in a block)
+	\item \textbf{Key Size}: $k$ (number of bits in the key)
+\end{itemize}
+\begin{align*}
+	E:\boxed{\set{0,1}^k\times\set{0,1}^n}\to\set{0,1}^n \\
+	D:\boxed{\set{0,1}^k\times\set{0,1}^n}\to\set{0,1}^n
+\end{align*}
+\adjustbox{scale=.9, center}{
+	\begin{tikzpicture}
+		% Draw the sets A and B
+		\draw[thick] (-6,0) ellipse (1.5 and 2);
+		\draw[thick] (-2,0) ellipse (1.5 and 2);
+		\draw[thick] (4,0) ellipse (1.5 and 2);
+		\draw[draw=black] (-8, 4) rectangle (0,-4);
+		% Labels for sets
+		\node at (-6, 2.25) {$\mathcal{K}$};
+		\node at (-4, 2.25) {$\times$};
+		\node at (-2, 2.25) {$\mathcal{M}$};
+		\node at (4, 2.25) {$\mathcal{C}$};
+		
+		% Draw the arrows representing the function
+		\draw[-Stealth, thick] (0, 2.25) -- (3.5,2.25) node[midway, above] {$E$};
+		
+		\node (K) at (-6, .45) {$k$};
+		\node (M) at (-2, .45) {$m$};
+		\node (C) at (4, .45) {$c=E(k,m)$};
+		\draw[fill] (-6,0) circle (.05);
+		\draw[fill] (-2,0) circle (.05);
+		\draw[fill] (4,0) circle (.05);
+		
+		\draw[|-Stealth, thick, bend right=25pt, shorten <= 5pt, shorten >= 5pt] (-6, 0) to node[midway,below] {} (4,0);
+		\draw[|-Stealth, thick, bend right=25pt, shorten <= 5pt, shorten >= 5pt] (-2, 0) to node[midway,below] {} (4,0);
+\end{tikzpicture}}
+\begin{align*}
+	E:\set{0,1}^k\to\boxed{\set{0,1}^n\to\set{0,1}^n} \\
+	D:\set{0,1}^k\to\boxed{\set{0,1}^n\to\set{0,1}^n}
+\end{align*}
+\adjustbox{scale=.9, center}{
+	\begin{tikzpicture}
+		% Draw the sets A and B
+		\draw[thick] (-6,0) ellipse (1.5 and 2);
+		\draw[thick] (-2,0) ellipse (1.5 and 2);
+		\draw[thick] (4,0) ellipse (1.5 and 2);
+		\draw[draw=black] (-4, 4) rectangle (6,-4);
+		% Labels for sets
+		\node at (-6, 2.25) {$\mathcal{K}$};
+		\node at (-2, 2.25) {$\mathcal{M}$};
+		\node at (4, 2.25) {$\mathcal{C}$};
+		
+		% Draw the arrows representing the function
+		\draw[-Stealth, thick] (-1.5, 2.25) -- (3.5,2.25) node[midway, above] {$E_k$};
+		\draw[-Stealth, thick] (-5.5, 2.25) -- (-4,2.25) node[midway, above] {};
+		
+		\node (K) at (-6, .45) {$k$};
+		\node (M) at (-2, .45) {$m$};
+		\node (C) at (4, .45) {$c=E_k(m)$};
+		\draw[fill] (-6,0) circle (.05);
+		\draw[fill] (-2,0) circle (.05);
+		\draw[fill] (4,0) circle (.05);
+		
+		\draw[|-Stealth, thick] (-5.5, 0) to node[midway,below] {} (-4,0);
+		\draw[|-Stealth, thick] (-1.5, 0) to node[midway,below] {} (3.5,0);
+\end{tikzpicture}}

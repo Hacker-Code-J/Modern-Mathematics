@@ -1,4 +1,3 @@
-\appendix
 \chapter{Preliminaries}
 \section{Sets, Cartesian Products, and Relations}
 
@@ -174,3 +173,242 @@ A \textbf{relation} generalizes the concept of Cartesian product to establish co
 		\end{itemize}
 	\end{enumerate}
 \end{example}
+
+\section{Rational Number and Equivalence Class}
+
+We define the equivalence relation \((a, b) \sim (c, d)\) on the set \(\mathbb{Z} \times \mathbb{Z}^*\) as:
+\[
+(a, b) \sim (c, d) \iff ad = bc
+\]
+\begin{proof}
+To prove that \(\sim\) is an equivalence relation, we must show it is reflexive, symmetric, and transitive.
+\begin{itemize}
+	\item \textbf{Reflexive}: A relation \(\sim\) is reflexive if every element is related to itself.
+	
+	For any \((a, b) \in \mathbb{Z} \times \mathbb{Z}^*\), we need to show that \((a, b) \sim (a, b)\).
+	\[
+	(a, b) \sim (a, b) \iff ab = ba
+	\]
+	This is true because \(ab = ba\) holds for all integers \(a\) and \(b\).
+	Thus, the relation is reflexive.
+	\item \textbf{Symmetric}: A relation \(\sim\) is symmetric if whenever \((a, b) \sim (c, d)\), then \((c, d) \sim (a, b)\).
+	
+	Assume \((a, b) \sim (c, d)\). This means:
+	\[
+	ad = bc
+	\]
+	We need to show that \((c, d) \sim (a, b)\).
+	\[
+	(c, d) \sim (a, b) \iff cd = da
+	\]
+	Since \(ad = bc\), we have \(cd = da\) by the commutative property of multiplication.
+	Thus, the relation is symmetric.
+	\item \textbf{Transitive}: A relation \(\sim\) is transitive if whenever \((a, b) \sim (c, d)\) and \((c, d) \sim (e, f)\), then \((a, b) \sim (e, f)\).
+	
+	Assume \((a, b) \sim (c, d)\) and \((c, d) \sim (e, f)\). This means:
+	\[
+	ad = bc \quad \text{and} \quad cf = de
+	\]
+	We need to show that \((a, b) \sim (e, f)\).
+	\[
+	(a, b) \sim (e, f) \iff af = be
+	\]
+	From \(ad = bc\), we have \(d = \frac{bc}{a}\) (assuming \(a \neq 0\)). Substituting \(d\) into \(cf = de\):
+	\[
+	c f = \left(\frac{bc}{a}\right) e
+	\]
+	Multiplying both sides by \(a\):
+	\[
+	a c f = b c e
+	\]
+	Since \(c \neq 0\):
+	\[
+	a f = b e
+	\]
+	Thus, \((a, b) \sim (e, f)\), proving that the relation is transitive.	
+\end{itemize}
+\end{proof}
+
+Since the relation \((a, b) \sim (c, d) \iff ad = bc\) is reflexive, symmetric, and transitive, it is an equivalence relation on \(\mathbb{Z} \times \mathbb{Z}^*\).
+
+
+The equivalence relation \((a, b) \sim (c, d) \iff ad = bc\) naturally connects to the division of the set of pairs of integers into equivalence classes, where each equivalence class represents a unique rational number.
+
+An equivalence class \([(a, b)]\) under this relation consists of all pairs \((c, d)\) such that \((a, b) \sim (c, d)\). This can be interpreted as:
+\[
+[(a, b)] = \{ (c, d) \mid ad = bc \}
+\]
+
+Each equivalence class \([(a, b)]\) corresponds to the rational number \(\frac{a}{b}\), and different pairs \((a, b)\) and \((c, d)\) represent the same rational number if and only if they belong to the same equivalence class.
+
+\begin{example}
+Consider \((1, 2)\), \((2, 4)\), \((3, 6)\), \((-1, -2)\), \((1, -2)\)
+\begin{itemize}
+	\item (Class of $(1,2)$)
+\[
+[1, 2] = \{ (c, d) \in \mathbb{Z} \times \mathbb{Z}^* \mid 1d = 2c \} = \{ (1, 2), (2, 4), (3, 6), (-1, -2), \ldots \}
+\]
+This class represents the rational number \(\frac{1}{2}\).
+\item (Class of $(2,3)$)
+\[
+[2, 3] = \{ (c, d) \in \mathbb{Z} \times \mathbb{Z}^* \mid 2d = 3c \} = \{ (2, 3), (4, 6), (-2, -3), \ldots \}
+\]
+This class represents the rational number \(\frac{2}{3}\).
+\item (Class of $(1,-2)$)
+\[
+[1, -2] = \{ (c, d) \in \mathbb{Z} \times \mathbb{Z}^* \mid 1d = -2c \} = \{ (1, -2), (2, -4), (-1, 2), \ldots \}
+\]
+This class represents the rational number \(\frac{1}{-2}\).
+\end{itemize}
+\end{example}
+
+\begin{remark}[Properties of Partition]
+\ \begin{itemize}
+	\item (Disjoint) Each element of \(\mathbb{Z} \times \mathbb{Z}^*\) belongs to exactly one equivalence class. If \((a, b) \in [c, d]\), then \([a, b] = [c, d]\).
+	\item (Exhaustive) The union of all equivalence classes covers the entire set \(\mathbb{Z} \times \mathbb{Z}^*\). Every pair \((a, b) \in \mathbb{Z} \times \mathbb{Z}^*\) is in some equivalence class.
+\end{itemize}
+\end{remark}
+
+\section*{Bijection Between \(\mathbb{Z} \times \mathbb{Z}^*\) and \(\mathbb{N}\)}
+
+To establish a bijection between \(\mathbb{Z} \times \mathbb{Z}^*\) and \(\mathbb{N}\), we construct a function that maps each pair \((a, b)\) in \(\mathbb{Z} \times \mathbb{Z}^*\) to a unique natural number.
+
+\subsection*{Encoding Integers as Natural Numbers}
+
+Define the encoding function \(e: \mathbb{Z} \to \mathbb{N}\) as follows:
+\[
+e(a) =
+\begin{cases}
+	2a & \text{if } a \geq 0 \\
+	-2a - 1 & \text{if } a < 0
+\end{cases}
+\]
+
+Define the encoding function \(e^*: \mathbb{Z}^* \to \mathbb{N}\) similarly:
+\[
+e^*(b) =
+\begin{cases}
+	2b & \text{if } b > 0 \\
+	-2b - 1 & \text{if } b < 0
+\end{cases}
+\]
+
+\subsection*{Pairing Function}
+
+Define a pairing function \(\pi: \mathbb{N} \times \mathbb{N} \to \mathbb{N}\) by:
+\[
+\pi(n_1, n_2) = \frac{(n_1 + n_2)(n_1 + n_2 + 1)}{2} + n_2
+\]
+
+\subsection*{Mapping Function}
+
+Define the mapping function \(f: \mathbb{Z} \times \mathbb{Z}^* \to \mathbb{N}\) by:
+\[
+f(a, b) = \pi(e(a), e^*(b))
+\]
+
+\subsection*{Bijection}
+
+To show that \(f\) is a bijection, we need to prove that it is both injective and surjective.
+
+\subsubsection*{Injectivity}
+
+Assume \(f(a, b) = f(c, d)\). This implies:
+\[
+\pi(e(a), e^*(b)) = \pi(e(c), e^*(d))
+\]
+Since \(\pi\) is injective, we have:
+\[
+(e(a), e^*(b)) = (e(c), e^*(d))
+\]
+This implies \(e(a) = e(c)\) and \(e^*(b) = e^*(d)\), which in turn implies \(a = c\) and \(b = d\).
+
+Thus, \(f\) is injective.
+
+\subsubsection*{Surjectivity}
+
+Let \(n \in \mathbb{N}\). We need to find \((a, b) \in \mathbb{Z} \times \mathbb{Z}^*\) such that \(f(a, b) = n\).
+
+Since \(\pi\) is surjective, there exist \(n_1, n_2 \in \mathbb{N}\) such that:
+\[
+n = \pi(n_1, n_2)
+\]
+Using the inverse of \(e\) and \(e^*\), we can find \(a\) and \(b\) such that:
+\[
+e(a) = n_1 \quad \text{and} \quad e^*(b) = n_2
+\]
+
+Thus, \(f(a, b) = n\), and \(f\) is surjective.
+
+\subsection*{Conclusion}
+
+Since \(f\) is both injective and surjective, it is a bijection. Therefore, \(\mathbb{Z} \times \mathbb{Z}^*\) is in one-to-one correspondence with \(\mathbb{N}\).
+
+\section*{Invalid Equivalence Classes and Proof Using Natural Numbers and Integers}
+
+Consider the equivalence relation \((a, b) \sim (c, d)\) defined by:
+\[
+(a, b) \sim (c, d) \iff ad = bc
+\]
+where \((a, b), (c, d) \in \mathbb{Z} \times \mathbb{Z}^*\) and \(\mathbb{Z}^* = \mathbb{Z} \setminus \{0\}\).
+
+\subsection*{Invalid Equivalence Classes}
+
+\subsubsection*{Equivalence Classes Overview}
+
+In mathematics, an equivalence class under a given equivalence relation is a subset formed by grouping all elements related to each other by that relation. For the relation \((a, b) \sim (c, d) \iff ad = bc\) on \(\mathbb{Z} \times \mathbb{Z}^*\), each equivalence class represents a unique rational number.
+
+\subsubsection*{Valid Equivalence Classes}
+
+Under the relation \((a, b) \sim (c, d) \iff ad = bc\) with \( b \neq 0 \) and \( d \neq 0 \), each equivalence class \([a, b]\) includes all pairs \((c, d)\) such that \( ad = bc \). Formally:
+\[
+[a, b] = \{(c, d) \in \mathbb{Z} \times \mathbb{Z}^* \mid ad = bc\}
+\]
+These equivalence classes correspond to unique relationships between pairs of integers.
+
+\subsubsection*{Invalid Equivalence Classes with Zero Denominator}
+
+When \( b = 0 \) or \( d = 0 \), the equivalence relation breaks down because:
+
+\begin{itemize}
+	\item \textbf{Undefined Products}: A pair \((a, 0)\) does not represent a valid mathematical entity since \(a \cdot 0\) is not meaningful in the context of this relation.
+	\item \textbf{Equivalence Condition Breakdown}: If \( b = 0 \) or \( d = 0 \), the condition \( ad = bc \) can lead to contradictions or meaningless comparisons.
+\end{itemize}
+
+\subsection*{Proof: If \( b = 0 \) or \( d = 0 \), Then \((a, b)\) is Not Equivalent to \((c, d)\)}
+
+\subsubsection*{Case 1: \( b = 0 \) and \( d \neq 0 \)}
+
+Suppose \((a, 0) \sim (c, d)\). According to the equivalence relation:
+\[
+a \cdot d = 0 \cdot c \implies ad = 0
+\]
+For this to hold, at least one of \(a\) or \(d\) must be zero. Given that \(d \neq 0\), we must have \(a = 0\). Thus:
+\[
+(a, 0) \sim (0, d)
+\]
+This implies that \((a, 0)\) can only be equivalent to pairs of the form \((0, d)\).
+
+\subsubsection*{Case 2: \( d = 0 \) and \( b \neq 0 \)}
+
+Suppose \((a, b) \sim (c, 0)\). According to the equivalence relation:
+\[
+a \cdot 0 = b \cdot c \implies 0 = bc
+\]
+For this to hold, at least one of \(b\) or \(c\) must be zero. Given that \(b \neq 0\), we must have \(c = 0\). Thus:
+\[
+(a, b) \sim (0, 0)
+\]
+This implies that \((c, 0)\) can only be equivalent to pairs of the form \((a, 0)\).
+
+\subsubsection*{Case 3: Both \( b = 0 \) and \( d = 0 \)}
+
+Suppose \((a, 0) \sim (c, 0)\). According to the equivalence relation:
+\[
+a \cdot 0 = 0 \cdot c \implies 0 = 0
+\]
+This is trivially true, so pairs of the form \((a, 0)\) are all equivalent to each other, regardless of the value of \(a\) or \(c\).
+
+\subsection*{Conclusion}
+
+When \( b = 0 \) or \( d = 0 \), the equivalence relation \((a, b) \sim (c, d) \iff ad = bc\) does not define valid equivalence classes that can represent meaningful relationships between pairs of integers. These invalid equivalence classes do not correspond to well-defined mathematical entities because they involve undefined or meaningless products.
