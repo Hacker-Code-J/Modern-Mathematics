@@ -1,0 +1,128 @@
+% Linear Algebra and Group
+\begin{note}[General Definition of Vector Space]
+The operations $+$ and $\cdot$ must satisfy the following properties for all $\mathbf{u}, \mathbf{v} \in V$ and $\alpha, \beta \in \mathbb{F}$:
+\begin{enumerate}
+	\item \textbf{Associativity of Addition}:
+	\begin{equation*}
+		(\mathbf{u} + \mathbf{v}) + \mathbf{w} = \mathbf{u} + (\mathbf{v} + \mathbf{w})
+	\end{equation*}
+	\item \textbf{Commutativity of Addition}:
+	\begin{equation*}
+		\mathbf{u} + \mathbf{v} = \mathbf{v} + \mathbf{u}
+	\end{equation*}
+	\item \textbf{Existence of Additive Identity}:
+	\begin{equation*}
+		\vec{u}\in V\implies\exists \mathbf{0} \in V:\mathbf{u} + \mathbf{0} = \mathbf{u}
+	\end{equation*}
+	\item \textbf{Existence of Additive Inverse}:
+	\begin{equation*}
+		\vec{u}\in V\implies \exists -\mathbf{u} \in V : \mathbf{u} + (-\mathbf{u}) = \mathbf{0}
+	\end{equation*}
+	\item \textbf{Distributivity of Scalar Multiplication over Vector Addition}:
+	\begin{equation*}
+		\alpha \cdot (\mathbf{u} + \mathbf{v}) = (\alpha \cdot \mathbf{u}) + (\alpha \cdot \mathbf{v})
+	\end{equation*}
+	\item \textbf{Distributivity of Scalar Multiplication over Field Addition}:
+	\begin{equation*}
+		(\alpha + \beta) \cdot \mathbf{u} = (\alpha \cdot \mathbf{u}) + (\beta \cdot \mathbf{u})
+	\end{equation*}
+	\item \textbf{Compatibility of Scalar Multiplication with Field Multiplication}:
+	\begin{equation*}
+		(\alpha \beta) \cdot \mathbf{u} = \alpha \cdot (\beta \cdot \mathbf{u})
+	\end{equation*}
+	\item \textbf{Identity Element of Scalar Multiplication}:
+	\begin{equation*}
+		1 \cdot \mathbf{u} = \mathbf{u}
+	\end{equation*}
+\end{enumerate}
+\end{note}
+
+\defbox[Linear Operation]{\begin{definition}
+Let $V$ be a set over a field $\mathbb{F}$. We define the following linear operations on $V$:
+\begin{enumerate}
+	\item An \textbf{addition operation} 
+	\begin{align*}
+		+ : V \times V &\rightarrow V \\
+		(\mathbf{u}, \mathbf{v}) &\mapsto \mathbf{u} + \mathbf{v}
+	\end{align*}
+	on $V$ such that $(V, +)$ is an abelian group.
+		
+	\item A \textbf{scalar multiplication operation} 
+	\begin{align*}
+		\cdot : \mathbb{F} \times V &\rightarrow V \\
+		(\alpha, \mathbf{u}) &\mapsto \alpha \cdot \mathbf{u}
+	\end{align*}
+	on $V$. Here $0\cdot\vec{u}:=\vec{0}$ and $1\cdot\vec{u}:=\vec{u}$, \ie, \begin{align*}
+		\cdot : \F \times V &\rightarrow V & \cdot : \F \times V &\rightarrow V \\
+		(0, \mathbf{u}) &\mapsto \mathbf{0} & (1, \mathbf{u}) &\mapsto \mathbf{u}
+	\end{align*}
+\end{enumerate}
+\end{definition}}
+\begin{remark}
+Consider \[
+\cdot:\F\to[V\to V].
+\] Then 
+\input{tikz/scalar-multiplication}
+\end{remark}
+\begin{remark}
+	Let $V$ be a set over a field $\F$. Assume that, for $\vec{x},\vec{y}\in V$ and $\alpha,\beta\in F$, \[
+	\alpha\cdot\vec{x} + \beta\cdot\vec{y}\in V.
+	\] Then \[\begin{array}{rcll}
+		\alpha=1=\beta &\implies &\vec{x} + \vec{y} \in V &\cdots\cdots\text{(Additivity)} \\
+		\beta=0 &\implies &\alpha\cdot \vec{x} \in V &\cdots\cdots\text{(Homogeneity)}
+	\end{array}
+	\]
+\end{remark}
+
+\defbox[Vector Space]{\begin{definition}
+A \textbf{vector space} \((V,+,\cdot)\), simply \( V \), over a field \( F \) is a set \( V \) together with two operations:
+\begin{enumerate}
+	\item \textbf{Vector Addition:} \[
+	\fullfunction{+}{V\times V}{V}{(\vec{u},\vec{v})}{\vec{u}+\vec{v}},
+	\] such that \( (V, +) \) forms an \underline{abelian group}.
+	\item \textbf{Scalar Multiplication:} \[
+	\fullfunction{\cdot}{F\times V}{V}{(a,\vec{u})}{a\cdot\vec{u}},
+	\] such that \( (V, \cdot) \) satisfies the following properties:
+	\begin{enumerate}
+		\item \textbf{Distributivity of Scalar Multiplication with Respect to Vector Addition:} \[
+		a \cdot (\mathbf{u} + \mathbf{v}) = (a \cdot \mathbf{u}) + (a \cdot \mathbf{v}).
+		\]
+		\item \textbf{Distributivity of Scalar Multiplication with Respect to Field Addition:} \[
+		(a + b) \cdot \mathbf{v} = (a \cdot \mathbf{v}) + (b \cdot \mathbf{v}).
+		\]
+		\item \textbf{Associativity of Scalar Multiplication:} \[
+		a \cdot (b \cdot \mathbf{v}) = (a \cdot b) \cdot \mathbf{v}.
+		\]
+		\item \textbf{Multiplicative Identity:} \[
+		\vec{v}\in V\implies 1 \cdot \mathbf{v} = \mathbf{v},
+		\] where 1 is the multiplicative identity in \( F \).
+	\end{enumerate}
+\end{enumerate}
+\end{definition}}
+
+\defbox[Linear Transformation]{\begin{definition}
+Let \( V \) and \( W \) be vector spaces over the same field \( F \). A function \( T : V \to W \) is called a \textbf{linear transformation} (or linear map) if for all \( \mathbf{u}, \mathbf{v} \in V \) and all scalars \( a \in F \), the following two conditions are satisfied:
+
+\begin{enumerate}
+	\item \textbf{Additivity:} \[
+	T(\mathbf{u} + \mathbf{v}) = T(\mathbf{u}) + T(\mathbf{v}).
+	\]
+	\item \textbf{Homogeneity of Scalar Multiplication:} \[
+	T(a \cdot \mathbf{u}) = a \cdot T(\mathbf{u}).
+	\]
+\end{enumerate}
+That is, \( T \) preserves the operations of vector addition and scalar multiplication.
+\end{definition}}
+\begin{remark}
+Given that \( T : V \to W \) is a linear transformation, the following properties hold:
+\begin{enumerate}
+	\item \( T(\mathbf{0}_V) = \mathbf{0}_W \), where \( \mathbf{0}_V \) and \( \mathbf{0}_W \) are the zero vectors in \( V \) and \( W \), respectively.
+	\item \( T\left(\sum_{i=1}^n a_i \mathbf{u}_i\right) = \sum_{i=1}^n a_i T(\mathbf{u}_i) \) for any finite set of vectors \( \mathbf{u}_1, \mathbf{u}_2, \ldots, \mathbf{u}_n \in V \) and scalars \( a_1, a_2, \ldots, a_n \in F \).
+\end{enumerate}
+\end{remark}
+\begin{remark}
+\ \begin{center}
+\input{tikz/linear-transformation}
+\end{center}
+\end{remark}
+

@@ -1,0 +1,104 @@
+\begin{tikzpicture}[auto, node distance=2cm, thick, >=Stealth]
+	% Vector Addition
+	\node (O1) at (0,0) {};
+	\node (U) at (2,1) {};
+	\node (V) at (1,2) {};
+	\node (U+V) at ($(U) + (V)$) {};
+	
+	\node (TO1) at (0,-5) {};
+	\node (TU) at (2,-4) {};
+	\node (TV) at (1,-3) {};
+	\node (TU+TV) at (3,-2) {};
+	
+	% Vectors for Addition
+	\draw[->] (O1.center) -- (U.center) node[midway, below right] {$\mathbf{u}$};
+	\draw[->] (O1.center) -- (V.center) node[midway, above left] {$\mathbf{v}$};
+	\draw[->, dashed] (U.center) -- (U+V.center) node[midway, above right] {};
+	\draw[->, dashed] (V.center) -- (U+V.center) node[midway, below left] {};
+	\draw[->, very thick, magenta] (O1.center) -- (U+V.center) node[midway, above] {};
+	
+	\draw[->] (TO1.center) -- (TU.center) node[midway, below right] {$T(\mathbf{u})$};
+	\draw[->] (TO1.center) -- (TV.center) node[midway, above left] {$T(\mathbf{v})$};
+	\draw[->, dashed] (TU.center) -- (TU+TV.center) node[midway, above right] {};
+	\draw[->, dashed] (TV.center) -- (TU+TV.center) node[midway, below left] {};
+	\draw[->, very thick, magenta] (TO1.center) -- (TU+TV.center) node[midway, above] {};
+	
+	% Points for Addition
+	\fill (O1) circle (2pt) node[below left] {$\mathbf{O}$};
+	\fill (U) circle (2pt) node[below right] {};
+	\fill (V) circle (2pt) node[above left] {};
+	\fill (U+V) circle (2pt) node[above right] {\textcolor{magenta}{$\mathbf{u} + \mathbf{v}$}};
+	
+	\fill (TO1) circle (2pt) node[below left] {$\mathbf{O}$};
+	\fill (TU) circle (2pt) node[below right] {};
+	\fill (TV) circle (2pt) node[above left] {};
+	\fill (TU+TV) circle (2pt) node[above right] {\textcolor{magenta}{$T(\mathbf{u}) + T(\mathbf{v})$}};
+	
+	% Scalar Multiplication
+	\node (O2) at (7,0) {};
+	\node (U2) at (9,1) {};
+	\node (AU2) at ($(O2)!2!(U2)$) {};
+	
+	\node (TO2) at (7,-5) {};
+	\node (TU2) at (9,-4) {};
+	\node (TAU2) at (11,-3) {};
+	
+	% Vectors for Multiplication
+	\draw[->] (O2.center) -- (U2.center) node[midway, below right] {$\mathbf{u}$};
+	\draw[->, very thick, magenta] (O2.center) -- (AU2.center) node[midway, above] {};
+	
+	\draw[->] (TO2.center) -- (TU2.center) node[midway, below right] {$T(\mathbf{u})$};
+	\draw[->, very thick, magenta] (TO2.center) -- (TAU2.center) node[midway, above] {};
+	
+	% Points for Multiplication
+	\fill (O2) circle (2pt) node[below left] {$\mathbf{O}$};
+	\fill (U2) circle (2pt) node[below right] {};
+	\fill (AU2) circle (2pt) node[above] {\textcolor{magenta}{$a \cdot \mathbf{u}$}};
+	
+	\fill (TO2) circle (2pt) node[below left] {$\mathbf{O}$};
+	\fill (TU2) circle (2pt) node[below right] {};
+	\fill (TAU2) circle (2pt) node[above] {\textcolor{magenta}{$a \cdot T(\mathbf{u})$}};
+	
+	% Mapping
+	\draw[draw=black] (-1, 3.5) rectangle (6,-.5);
+	\draw[draw=black] (-1, -1.25) rectangle (6,-5.75);
+	\draw[draw=black] (6.25, 3.5) rectangle (13,-.5);
+	\draw[draw=black] (6.25, -1.25) rectangle (13,-5.75);
+%	\draw[|-Stealth, thick, shorten <= 10pt, shorten >= 5pt] (3, 3) to node[midway, right] {$T(\vec{u}+\vec{v})$} (3,-2);
+%	\draw[|-Stealth, thick, shorten <= 10pt, shorten >= 5pt] (11, 2) to node[midway, right] {$T(a\cdot\vec{u})$} (11,-3);
+\end{tikzpicture}
+%\vspace{36pt}
+%\begin{tikzpicture}[auto, node distance=2cm, thick, >=Stealth]
+%	% Vector Addition
+%	\node (O1) at (0,0) {};
+%	\node (U) at (2,1) {};
+%	\node (V) at (1,2) {};
+%	\node (U+V) at ($(U) + (V)$) {};
+%	
+%	% Vectors for Addition
+%	\draw[->] (O1.center) -- (U.center) node[midway, below right] {$T(\mathbf{u})$};
+%	\draw[->] (O1.center) -- (V.center) node[midway, above left] {$T(\mathbf{v})$};
+%	\draw[->, dashed] (U.center) -- (U+V.center) node[midway, above right] {};
+%	\draw[->, dashed] (V.center) -- (U+V.center) node[midway, below left] {};
+%	\draw[->, very thick, magenta] (O1.center) -- (U+V.center) node[midway, above] {};
+%	
+%	% Points for Addition
+%	\fill (O1) circle (2pt) node[below left] {$\mathbf{O}$};
+%	\fill (U) circle (2pt) node[below right] {};
+%	\fill (V) circle (2pt) node[above left] {};
+%	\fill (U+V) circle (2pt) node[above right] {\textcolor{magenta}{$T(\mathbf{u}) + T(\mathbf{v})$}};
+%	
+%	% Scalar Multiplication
+%	\node (O2) at (7,0) {};
+%	\node (U2) at (9,1) {};
+%	\node (AU2) at ($(O2)!2!(U2)$) {};
+%	
+%	% Vectors for Multiplication
+%	\draw[->] (O2.center) -- (U2.center) node[midway, below right] {$T(\mathbf{u})$};
+%	\draw[->, very thick, magenta] (O2.center) -- (AU2.center) node[midway, above] {};
+%	
+%	% Points for Multiplication
+%	\fill (O2) circle (2pt) node[below left] {$\mathbf{O}$};
+%	\fill (U2) circle (2pt) node[below right] {};
+%	\fill (AU2) circle (2pt) node[above] {\textcolor{magenta}{$a \cdot T(\mathbf{u})$}};
+%\end{tikzpicture}

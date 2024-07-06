@@ -1,0 +1,22 @@
+\begin{center}\adjustbox{scale=.9}{
+\begin{tikzpicture}
+	% Draw the sets A and B
+	\draw[thick] (-4,0) ellipse (2 and 3);
+	\draw[thick] ( 4,0) ellipse (2 and 3);
+	
+	% Labels for sets
+	\node at (-4, 3.25) {$\F$};
+	\node at ( 4, 3.25) {$V^V$};
+	
+	% Draw the arrows representing the function
+	\draw[-Stealth, thick] (-3.5, 3.25) -- (3.5,3.25) node[midway, above] {$\cdot$};
+	\draw[fill] (-4,.75) circle (.05) node[left] {$0=e_{(\F,+)}$};
+	\draw[fill] (-4,-.75) circle (.05) node[left] {$1=e_{(\F,\times)}$};
+	
+	\draw[fill] (4,.75) circle (.05) node[right] {$Z_V$ (Zero Transformation)};
+	\draw[fill] (4,-.75) circle (.05) node[right] {$I_V$ (Identity Transformation)};
+	
+	\draw[-Stealth, thick] (-4, .75) -- (4, .75);
+	\draw[-Stealth, thick] (-4, -.75) -- (4, -.75);
+\end{tikzpicture}}
+\end{center}
