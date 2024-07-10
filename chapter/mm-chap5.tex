@@ -114,6 +114,14 @@ Let \( V \) and \( W \) be vector spaces over the same field \( F \). A function
 That is, \( T \) preserves the operations of vector addition and scalar multiplication.
 \end{definition}}
 \begin{remark}
+	\[\begin{cases}
+		\vec{u},\vec{v}\in V\\
+		a,b\in F
+	\end{cases}\implies
+	\fullfunction{T}{V}{W}{a\cdot\vec{u}+b\cdot\vec{v}}{T(a\cdot\vec{u}+b\cdot\vec{v})=a\cdot T(\vec{u})+b\cdot T(\vec{v})}
+	\]
+\end{remark}
+\begin{remark}
 Given that \( T : V \to W \) is a linear transformation, the following properties hold:
 \begin{enumerate}
 	\item \( T(\mathbf{0}_V) = \mathbf{0}_W \), where \( \mathbf{0}_V \) and \( \mathbf{0}_W \) are the zero vectors in \( V \) and \( W \), respectively.
@@ -124,5 +132,29 @@ Given that \( T : V \to W \) is a linear transformation, the following propertie
 \ \begin{center}
 \input{tikz/linear-transformation}
 \end{center}
+\end{remark}
+\begin{remark}[\bf Dimension]
+\ \begin{itemize}
+	\item (\textbf{Finite-Dimensional Vector Spaces}) A finite-dimensional vector space \( V \) over a field \( F \) with dimension \( n \) is always isomorphic to \( F^n \).
+	\item (\textbf{Basis and Isomorphism}) \begin{itemize}
+		\item Let \( \{\mathbf{e}_1, \mathbf{e}_2, \ldots, \mathbf{e}_n\} \) be a basis for \( V \).
+		\item Any vector \( \mathbf{v} \in V \) can be uniquely expressed as:
+		\[
+		\mathbf{v} = a_1 \mathbf{e}_1 + a_2 \mathbf{e}_2 + \cdots + a_n \mathbf{e}_n,
+		\]
+		where \( a_i \in F \) for \( i = 1, 2, \ldots, n \).
+		\item The map:
+		\[
+		\varphi : V \to F^n, \quad \mathbf{v} \mapsto (a_1, a_2, \ldots, a_n)
+		\]
+		is a linear isomorphism.
+	\end{itemize}
+	\item (\textbf{Infinite-Dimensional Vector Spaces}) Infinite-dimensional vector spaces are more complex and are not isomorphic to \( F^n \) for any finite \( n \).
+	\item (\textbf{Examples and Considerations}) \begin{itemize}
+		\item \textbf{Function Spaces}: Spaces like the set of all polynomials \( \mathbb{P} \) or the space of continuous functions \( C([0, 1]) \).
+		\item \textbf{Hilbert Spaces}: Spaces such as \( \ell^2 \) (space of square-summable sequences).
+		\item \textbf{Isomorphisms}: Infinite-dimensional vector spaces may be isomorphic to structures like \( F^\infty \) (sequences with only finitely many non-zero entries) or \( F^{(\infty)} \) (the direct sum of infinitely many copies of \( F \)).
+	\end{itemize}
+\end{itemize}
 \end{remark}
 
