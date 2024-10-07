@@ -114,8 +114,8 @@
 \end{proposition}}
 \begin{proof}
 	\begin{enumerate}[(1)]
-		\item 
-		\item 
+		\item Refer to the Video\cite{set_thery_a}.
+		\item Refer to the Video\cite{set_thery_a}.
 		\item \textcolor{gray!50!white}{$(A\cup B)^C=\set{x:\lnot\left[x\in A\lor x\in B\right]}=\set{x:x\notin A\land x\notin B}=A^C\cap B^C.$}
 		\item \textcolor{gray!50!white}{$(A\cap B)^C=\set{x:\lnot\left[x\in A\land x\in B\right]}=\set{x:x\notin A\lor x\notin B}=A^C\cup B^C.$}
 	\end{enumerate}
@@ -184,12 +184,9 @@
 		\item The \hl{\textbf{preimage}} of $f$ is the set \begin{align*}
 			\preimg{f}=f^{-1}[B]:&=\set{a\in A:\exists b \in B\ \text{s.t.}\ (a,b)\in f}\\
 			&=\set{a\in A:\exists! b \in B\ \text{s.t.}\ b=f(a)}\ \text{by def. of a function}\\
-			&=\set{a\in A:f(a)=b\ \text{for at most one}\ b\in B}.
-		\end{align*} Simply we can express it as $f^{-1}[B]=\set{a\in A:f(a)\in B}$. Note that $f^{-1}[B]\subseteq A=\text{Dom}(f)$.
-	
-		Note that \begin{align*}
-		a\in f^{-1}[B]\iff f(a)\in B.
-\end{align*}
+			&=\set{a\in A:f(a)=b\ \text{for exactly one}\ b\in B}.
+		\end{align*} ``Exactly one'' ensures a unique assignment for every element of $A$, while ``at most one'' allows no assignment. Simply we can express it as $f^{-1}[B]=\set{a\in A:f(a)\in B}$. Note that $f^{-1}[B]\subseteq A=\text{Dom}(f)$.
+		Note that $a\in f^{-1}[B]\iff f(a)\in B.$
 	\end{itemize}
 \end{remark*}
 
@@ -359,71 +356,115 @@
 	(f_2\circ f_1)(a):= f_2(f_1(a)).
 	\] for all $a\in A$.
 \end{definition*}}
-\begin{remark*}
-\ \begin{itemize}
-	\item $f_2\circ f_1=\set{(a,c)\in A\times C: (f_1(a), c)\in f_2}=\set{(a,c)\in A\times C: c=f_2(f_1(a))}$.
-	\item $f_2\circ f_1=\set{(a,c)\in A\times C: \exists b\in f_2\ \text{s.t.}\ f_1(a)=b\land f_2(b)=c}$.
-\end{itemize}
-\end{remark*}
-\vfill
+%\begin{remark*}
+%\ \begin{itemize}
+%	\item $f_2\circ f_1=\set{(a,c)\in A\times C: (f_1(a), c)\in f_2}=\set{(a,c)\in A\times C: c=f_2(f_1(a))}$.
+%	\item $f_2\circ f_1=\set{(a,c)\in A\times C: \exists b\in f_2\ \text{s.t.}\ f_1(a)=b\land f_2(b)=c}$.
+%\end{itemize}
+%\end{remark*}
 \begin{note}[Diagram]
-\ \begin{figure}[h!]
-	\centering
-	\begin{tikzcd}
-		A \arrow[rrr, "f_1"] \arrow[rrrddd, "f_2\circ f_1"', dashed] &  &  & B \arrow[ddd, "f_2"] \\
-		&  &  &                        \\
-		&  &  &                        \\
-		&  &  & C                   
-	\end{tikzcd}
-%	\caption{Diagram of $f_2\circ f_1$}
-\end{figure}
+	\ \begin{figure}[h!]
+		\centering
+		\adjustbox{scale=1}{\begin{tikzcd}
+				A \arrow[rrr, "f_1"] \arrow[rrrddd, "f_2\circ f_1"', dashed] &  &  & B \arrow[ddd, "f_2"] \\
+				&  &  &                        \\
+				&  &  &                        \\
+				&  &  & C                   
+		\end{tikzcd}}
+		%	\caption{Diagram of $f_2\circ f_1$}
+	\end{figure}
 \end{note}
-\vfill
 \begin{note}[Illustration]
-	\ \begin{center}\begin{tikzpicture}[scale=.9]
-	% Draw the sets A, B and C
-	\filldraw[thick, cyan!50] (-6,0) ellipse (2.75 and 4);
-	\draw[thick, line width = .25mm] (-6,0) ellipse (2.75 and 4);
-	\filldraw[thick, magenta!50] (0,0) ellipse (2.75 and 4);
-	\draw[thick, line width = .25mm] (0,0) ellipse (2.75 and 4);
-	\filldraw[thick, yellow!50] (6,0) ellipse (2.75 and 4);
-	\draw[thick, line width = .25mm] (6,0) ellipse (2.75 and 4);
-	
-	\filldraw[thick, cyan!50] (0,0) ellipse (2 and 2.5);
-	\draw[thick, line width = .25mm] (0,0) ellipse (2 and 2.5);
-	
-	\filldraw[thick, magenta!50] (6,0) ellipse (2.5 and 2.5);
-	\draw[thick, line width = .25mm] (6,0) ellipse (2.5 and 2.5);
-	\filldraw[thick, cyan!50] (6,0) ellipse (2.25 and 1);
-	\draw[thick, line width = .25mm] (6,0) ellipse (2.25 and 1);
-	
-	% Draw the arrows representing the function
-	\draw[-Stealth, thick] (-5.5, 4.25) -- (-.5,4.25) node[midway, above] {$f_1$};
-	\draw[-Stealth, thick] (.5, 4.25) -- (5.5,4.25) node[midway, above] {$f_2$};
-	
-	% Labels for sets
-	\node at (-6, 4.25) {$A$};
-	\node at (0, 4.25) {$B$};
-	\node at (6, 4.25) {$C$};
-	\node at (-6, -4.5) {$\text{Dom}(f_1)$};
-	\node at (0, -4.5) {$\text{Cdm}(f_1)=\text{Dom}(f_2)$};
-	\node at (6, -4.5) {$\text{Cdm}(f_2)$};
-	
-	\node at (0, 0) {$\img{f_1}=f_1[A]$};
-	\draw[dashed, thick, line width= .5mm, color=cyan] (-5.75, 4) -- (.25, 2.5);
-	\draw[dashed, thick, line width= .5mm, color=cyan] (-5.75, -4) -- (.25, -2.5);
-	
-	\node at (6, 1.5) {$\img{f_2}=f_2[B]$};
-	\draw[dashed, thick, line width= .5mm, color=magenta] (0.25, 4) -- (6.25, 2.5);
-	\draw[dashed, thick, line width= .5mm, color=magenta] (0.25, -4) -- (6.25, -2.5);
-	
-	\node at (6, 0) {$\img{f_2\circ f_1}=f_2[f_1[A]]$};
-	\draw[dashed, thick, line width= .5mm, color=cyan] (0.25, 2.5) -- (6.25, 1);
-	\draw[dashed, thick, line width= .5mm, color=cyan] (0.25, -2.5) -- (6.25, -1);
-
-\end{tikzpicture}
+	\ \begin{center}\begin{tikzpicture}[scale=.5]
+			\def \x {11};
+			\def \ellmajor {4.25};
+			\def \ellminor {2.75};
+			% Draw the sets A, B and C
+			\filldraw[thick, cyan!50] (-\x,0) ellipse (4.75 and \ellmajor);
+			\draw[thick, line width = .25mm] (-\x,0) ellipse (4.75 and \ellmajor);
+			\filldraw[thick, magenta!50] (0,0) ellipse (4.75 and \ellmajor);
+			\draw[thick, line width = .25mm] (0,0) ellipse (4.75 and \ellmajor);
+			\filldraw[thick, yellow!50] (\x,0) ellipse (4.75 and \ellmajor);
+			\draw[thick, line width = .25mm] (\x,0) ellipse (4.75 and \ellmajor);
+			
+			\filldraw[thick, cyan!50] (0,0) ellipse (4.25 and 2.5);
+			\draw[thick, line width = .25mm] (0,0) ellipse (4.25 and 2.5);
+			
+			\filldraw[thick, magenta!50] (\x,0) ellipse (4.5 and 2.5);
+			\draw[thick, line width = .25mm] (\x,0) ellipse (4.5 and 2.5);
+			\filldraw[thick, cyan!50] (\x,0) ellipse (4.25 and 1);
+			\draw[thick, line width = .25mm] (\x,0) ellipse (4.25 and 1);
+			
+			% Draw the arrows representing the function
+			\draw[-Stealth, thick] (-\x + .5, 4.5) -- (-.5,4.5) node[midway, above] {$f_1$};
+			\draw[-Stealth, thick] (.5, 4.5) -- (\x - .5,4.5) node[midway, above] {$f_2$};
+			
+			% Labels for sets
+			\node at (-\x, 4.5) {$A$};
+			\node at (0, 4.5) {$B$};
+			\node at (\x, 4.5) {$C$};
+			
+			\node at (0, 0) {$\img{f_1}=f_1[A]$};
+			\draw[dashed, thick, line width= .5mm, color=cyan] (-\x + .25, \ellmajor) -- (.25, 2.5);
+			\draw[dashed, thick, line width= .5mm, color=cyan] (-\x + .25, -\ellmajor) -- (.25, -2.5);
+			
+			\node at (\x, 1.5) {$\img{f_2}=f_2[B]$};
+			\draw[dashed, thick, line width= .5mm, color=magenta] (0.25, \ellmajor) -- (\x + .25, 2.5);
+			\draw[dashed, thick, line width= .5mm, color=magenta] (0.25, -\ellmajor) -- (\x + .25, -2.5);
+			
+			\node at (\x, 0) {$\img{f_2\circ f_1}=f_2[f_1[A]]$};
+			\draw[dashed, thick, line width= .5mm, color=cyan] (0.25, 2.5) -- (\x + .25, 1);
+			\draw[dashed, thick, line width= .5mm, color=cyan] (0.25, -2.5) -- (\x + .25, -1);
+			
+			\node at (-\x, -4.5) {$\text{Dom}(f_1)$};
+			\node at (0, -4.5) {$\text{Cdm}(f_1)=\text{Dom}(f_2)$};
+			\node at (\x, -4.5) {$\text{Cdm}(f_2)$};
+		\end{tikzpicture}
 	\end{center}
 \end{note}
+\vfill
+\begin{remark*}
+	The composition is associative. For any \( f, g, h \in G \), $
+	(f \circ g) \circ h = f \circ (g \circ h) $.\\
+	\adjustbox{scale=.8, center}{
+		\begin{tikzpicture}
+			% Draw the sets A and B
+			\draw[thick] (-6,0) ellipse (1.5 and 2);
+			\draw[thick] (-2,0) ellipse (1.5 and 2);
+			\draw[thick] (2,0) ellipse (1.5 and 2);
+			\draw[thick] (6,0) ellipse (1.5 and 2);
+			
+			% Labels for sets
+			\node at (-6, 2.25) {$A$};
+			\node at (-2, 2.25) {$B$};
+			\node at (2, 2.25) {$C$};
+			\node at (6, 2.25) {$D$};
+			
+			% Draw the arrows representing the function
+			\draw[-Stealth] (-5.5, 2.25) -- (-2.5, 2.25) node[midway, above] {$f$};
+			\draw[-Stealth] (-1.5, 2.25) -- (1.5, 2.25) node[midway, above] {$g$};
+			\draw[-Stealth] (2.5, 2.25) -- (5.5, 2.25) node[midway, above] {$h$};
+			\draw[|-Stealth, line width=.5mm] (-5.5, 0) -- (-2.5, 0);
+			\draw[|-Stealth, line width=.5mm] (-1.5, 0) -- (1.5, 0);
+			\draw[|-Stealth, line width=.5mm] (2.5, 0) -- (5.5, 0);
+			
+			% Labels for elements in Domain
+			\node[fill, circle, inner sep=0.05cm] at (-6,0) (A) {};
+			\node[fill, circle, inner sep=0.05cm] at (-2,0) (B) {};
+			\node[fill, circle, inner sep=0.05cm] at (2,0) (C) {};
+			\node[fill, circle, inner sep=0.05cm] at (6,0) (D) {};
+			\node (A2) at (-6, 0.5) {$a$};
+			\node (B2) at (-2, 0.5) {$f(a)$};
+			\node (C2) at (2, 0.5) {$g(f(a))$};
+			\node (D2) at (6, 0.5) {$h(g(f(a)))$};
+			
+			\draw[-Stealth, bend right=25pt, shorten <= 5pt, shorten >= 5pt] (A) to node[midway,below] {$g\circ f$} (C);
+			\draw[-Stealth, bend right=25pt, shorten <= 5pt, shorten >= 5pt] (A) to node[midway,below] {$h\circ(g\circ f)$} (D);
+			
+			\draw[-Stealth, bend left=25pt, shorten <= 5pt, shorten >= 5pt] (A) to node[midway,above] {$(h\circ g)\circ f$} (D);
+			\draw[-Stealth, bend left=25pt, shorten <= 5pt, shorten >= 5pt] (B) to node[midway,above] {$h\circ g$} (D);
+	\end{tikzpicture}}
+\end{remark*}
 
 \thmbox[]{\begin{theorem}
 	Let $A$ and $B$ are sets. Let $f:A\to B$ be a function.
@@ -436,11 +477,11 @@
 	\ \begin{center}
 		(1) % https://tikzcd.yichuanshen.de/#N4Igdg9gJgpgziAXAbVABwnAlgFyxMJZABgBpiBdUkANwEMAbAVxiRAEEQBfU9TXfIRQAmclVqMWbAELdeIDNjwEiAFjHV6zVog7dxMKAHN4RUADMAThAC2SMiBwQkARk2SdIc3IvW7iN0dnRFEJbTYjHy8-e2onJFCAIxgwKCQAWgBmBwY6ZIYABX5lIRBLLCMACxwQd3DdIwAdRoBjLEsWgAJzToBeTuacGAAPHEhLG0ZgLCguAH1OLgouIA
 		\begin{tikzcd}
-			A \arrow[rr, "f"] \arrow[rrrr, "g\circ f = \textnormal{id}_A"', bend right] &  & B \arrow[rr, "g"] &  & A
+			A \arrow[rr, "\textcolor{red}{f}"] \arrow[rrrr, "\textcolor{green!50!black}{g}\circ \textcolor{red}{f} = \textnormal{id}_A"', bend right] &  & B \arrow[rr, "\exists\textcolor{green!50!black}{g}"] &  & A
 		\end{tikzcd}\hspace{50pt} (2) % https://tikzcd.yichuanshen.de/#N4Igdg9gJgpgziAXAbVABwnAlgFyxMJZABgBpiBdUkANwEMAbAVxiRACEQBfU9TXfIRQAmclVqMWbAILdeIDNjwEiAFjHV6zVog7dxMKAHN4RUADMAThAC2SMiBwQkARk2SdII3IvW7iN0dnRFEJbTZzHxArW3tqJyRQgCMYMCgkAFoAZgcGOhSGAAV+ZSEQSywjAAscEHdw3XMAHSaAYyxLVoACIy6AXi6WnBgADxxISxtGYCwoLgB9Ti4KLiA
 		\begin{tikzcd}
-		B \arrow[rr, "g"] \arrow[rrrr, "f\circ g = \textnormal{id}_B"', bend right] &  & A \arrow[rr, "f"] &  & B
-	\end{tikzcd}
+			B \arrow[rr, "\exists\textcolor{green!50!black}{g}"] \arrow[rrrr, "\textcolor{red}{f}\circ\textcolor{green!50!black}{g} = \textnormal{id}_B"', bend right] &  & A \arrow[rr, "\textcolor{red}{f}"] &  & B
+		\end{tikzcd}
 	\end{center}
 \end{remark*}
 \begin{proof}
@@ -538,8 +579,9 @@
 		\] for each $b\in B$. Thus, \begin{align*}
 			(f\circ g)(b) &= f(g(b))&\text{by def. of composition} \\
 			&=f(a) &\text{by def. of $g$} \\
-			&=b &\text{by assumption}
-		\end{align*} for all $b\in B$. Without the Axiom of Choice, we cannot always guarantee the existence of such a selection function, especially when the sets $f^{-1}[\set{b}]$ are uncountable.
+			&=b &\text{by assumption} \\
+			&=\text{id}_B(b)
+		\end{align*} for all $b\in B$. That is, $f\circ g=\text{id}_B$. Without the Axiom of Choice, we cannot always guarantee the existence of such a selection function, especially when the sets $f^{-1}[\set{b}]$ are uncountable.
 		\vspace{12pt}
 		\item[($\Leftarrow$)] Assume that there exists $g:B\to A$ such that $f\circ g=\text{id}_B$. Let $b\in B$. Since $f\circ g=\text{id}_B$, we have $f(g(b))=\text{id}_B(b)=b$. Thus, for every $b\in B$, \[
 		\exists a=g(b)\in A\quad\text{such that}\quad f(a)=f(g(b))=b.
