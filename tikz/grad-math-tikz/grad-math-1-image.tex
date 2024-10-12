@@ -1,0 +1,21 @@
+\begin{tikzpicture}
+	% Draw the sets A and B
+	\draw[thick] (-2,0) ellipse (1.2 and 2);
+	\draw[thick] (2,0) ellipse (1.2 and 2);
+	\draw[thick] (2,0) ellipse (1 and 1);
+	
+	% Labels for sets
+	\node at (-2, 2.25) {$A$};
+	\node at (2, 2.25) {$B$};
+	
+	% Draw the arrows representing the function
+	\draw[-Stealth, thick] (-1.5, 2.25) -- (1.5,2.25) node[midway, above] {$f$};
+	
+	\node at (2, 1.25) {$f[A]$};
+	\draw[dashed, thick] (-1.75, 2) -- (1.75, 1);
+	\draw[dashed, thick] (-1.75, -2) -- (1.75, -1);
+	
+	\filldraw (-2,0) circle (1pt) node[below] {$a$};
+	\filldraw (2,0) circle (1pt) node[below] {$b=f(a)$};
+	\draw[|->, thick] (-1.75, 0) -- (1.75, 0);
+\end{tikzpicture}

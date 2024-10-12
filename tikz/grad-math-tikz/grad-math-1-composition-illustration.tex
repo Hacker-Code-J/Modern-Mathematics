@@ -1,0 +1,45 @@
+\begin{tikzpicture}[scale=.5]
+	\def \x {11};
+	\def \ellmajor {8};
+	\def \ellminor {2.75};
+	% Draw the sets A, B and C
+	\filldraw[thick, cyan!50] (-\x,0) ellipse (4.75 and \ellmajor);
+	\draw[thick, line width = .25mm] (-\x,0) ellipse (4.75 and \ellmajor);
+	\filldraw[thick, magenta!50] (0,0) ellipse (4.75 and \ellmajor);
+	\draw[thick, line width = .25mm] (0,0) ellipse (4.75 and \ellmajor);
+	\filldraw[thick, yellow!50] (\x,0) ellipse (4.75 and \ellmajor);
+	\draw[thick, line width = .25mm] (\x,0) ellipse (4.75 and \ellmajor);
+	
+	\filldraw[thick, cyan!50] (0,0) ellipse (4.25 and 5.5);
+	\draw[thick, line width = .25mm] (0,0) ellipse (4.25 and 5.5);
+	
+	\filldraw[thick, magenta!50] (\x,0) ellipse (4.5 and 6.5);
+	\draw[thick, line width = .25mm] (\x,0) ellipse (4.5 and 6.5);
+	\filldraw[thick, cyan!50] (\x,0) ellipse (4.25 and 3.5);
+	\draw[thick, line width = .25mm] (\x,0) ellipse (4.25 and 3.5);
+	
+	% Draw the arrows representing the function
+	\draw[-Stealth, thick] (-\x + .5, 8.5) -- (-.5, 8.5) node[midway, above] {$f_1$};
+	\draw[-Stealth, thick] (.5, 8.5) -- (\x - .5, 8.5) node[midway, above] {$f_2$};
+	
+	% Labels for sets
+	\node at (-\x, 8.5) {$A$};
+	\node at (0, 8.5) {$B$};
+	\node at (\x, 8.5) {$C$};
+	
+	\node at (0, 0) {$\img{f_1}=f_1[A]$};
+	\draw[dashed, thick, line width= .5mm, color=cyan] (-\x + .25, \ellmajor) -- (.25, 5.5);
+	\draw[dashed, thick, line width= .5mm, color=cyan] (-\x + .25, -\ellmajor) -- (.25, -5.5);
+	
+	\node at (\x, 4.5) {$\img{f_2}=f_2[B]$};
+	\draw[dashed, thick, line width= .5mm, color=magenta] (0.25, \ellmajor) -- (\x + .25, 6.5);
+	\draw[dashed, thick, line width= .5mm, color=magenta] (0.25, -\ellmajor) -- (\x + .25, -6.5);
+	
+	\node at (\x, 0) {$\img{f_2\circ f_1}=f_2[f_1[A]]$};
+	\draw[dashed, thick, line width= .5mm, color=cyan] (0.25, 5.5) -- (\x + .25, 3.5);
+	\draw[dashed, thick, line width= .5mm, color=cyan] (0.25, -5.5) -- (\x + .25, -3.5);
+	
+	\node at (-\x, -8.5) {$\text{Dom}(f_1)$};
+	\node at (0, -8.5) {$\text{Cdm}(f_1)=\text{Dom}(f_2)$};
+	\node at (\x, -8.5) {$\text{Cdm}(f_2)$};
+\end{tikzpicture}

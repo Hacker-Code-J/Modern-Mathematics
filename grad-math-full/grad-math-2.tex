@@ -1,0 +1,109 @@
+\documentclass[11pt,openany]{article}
+
+\input{grad-math-preamble}
+\input{tcolorbox}
+\input{theorem}
+\input{tikz}
+\input{grad-math-commands}
+
+\setstretch{1.25}
+\begin{document}
+\pagenumbering{arabic}
+\begin{center}
+	\huge\textbf{Set Theory II}\\
+	\vspace{0.5em}
+	\large{Ji, Yong-hyeon}\\
+	\vspace{0.5em}
+	\normalsize{\today}\\
+\end{center}
+
+\noindent We cover the following topics in this note.
+\begin{itemize}
+	\item Relations
+	\item Equivalence Relations
+	\item Partitions
+\end{itemize}
+\hrule\vspace{12pt}
+\defbox[Relation]{\begin{definition*}
+	$\mathcal{R}\subseteq A\times B$
+\end{definition*}}
+
+\begin{example*}
+	Let $A=\set{1,2}$ and $B=\set{4,5}$. Then \[
+	A\times B=\set{(1,4),(1,5),(2,4),(2,5)}.
+	\] Here, $R=\set{(1,4),(2,5)}\subseteq A\times B$ be a relation.
+\end{example*}
+
+\begin{example*}
+	\[
+	(a,b)\in f\iff a\mathrel{f}b\iff b=f(a)
+	\]
+\end{example*}
+
+\defbox[Equivalence Relation]{\begin{definition*}
+	Let $R$ be a relation on $A$.
+	\begin{enumerate}[(i)]
+		\item (Reflexivity)
+		\item (Symmetry)
+		\item (Transitivity)
+	\end{enumerate}
+\end{definition*}}
+
+\begin{example*}
+	Let $A=\set{1,2,3,4}$. \begin{align*}
+		R=&\{\textcolor{red}{(1,1)},\textcolor{red}{(2,2)},\textcolor{red}{(3,3)},\textcolor{red}{(4,4)}, \\
+		&\textcolor{gray}{(1,2)},\textcolor{gray}{(2,1)}\}
+	\end{align*}
+\end{example*}
+
+\probox{\begin{proposition}
+	Let $X$ and $Y$ are sets. Let $f:X\to Y$ be \begin{enumerate}[(1)]
+		\item If $g\circ f$ is one-to-one, then $f$ is one-to-one.
+		\item If $g\circ f$ is onto, then $g$ is onto.
+	\end{enumerate}
+\end{proposition}}
+
+\probox{\begin{proposition}
+	Let $X$ and $Y$ are sets. Let $f:X\to Y$ be \begin{enumerate}[(1)]
+		\item If $f$ and $g$ are both one-to-one, then $g\circ f$ is one-to-one.
+		\item If $f$ and $g$ are both one-to-one, then $g\circ f$ is onto.
+	\end{enumerate}
+\end{proposition}}
+
+\begin{example*}
+	$F=\mathcal{P}(A)$ \[
+	R:=\set{(X\times Y)\in F\times F:\exists\text{a bijection}\ f:X\to Y}
+	\]
+	We claim that $R$ is an equivalence relation on $\mathcal{P}(A)$: \begin{enumerate}[(i)]
+		\item (Reflexivity)
+		\item (Symmetry)
+		\item (Transitivity)
+	\end{enumerate}
+\end{example*}
+
+\defbox[Family (Indexed Set)]{\begin{definition*}
+	
+\end{definition*}}
+
+\defbox[Partitions]{\begin{definition*}
+	
+\end{definition*}}
+
+\thmbox[Fundamental Theorem of Equivalence Relation]{\begin{theorem}
+	
+\end{theorem}}
+
+\begin{example*}
+	Let $\mathbb{Z}$ be a set of integers. Define \[
+	[k]_3:=\set{n\in\mathbb{Z}: x=3a+k,\ a\in\mathbb{Z}}=\set{n\in\mathbb{Z}:3a\mid n,\ a\in \mathbb{Z}}
+	\]
+\end{example*}
+
+\vfill
+\begin{thebibliography}{9}
+	\bibitem{set_thery_c}
+	수학의 즐거움, Enjoying Math. ``수학 공부, 기초부터 대학원 수학까지, 3. 집합론 기초 (c).'' YouTube Video, 35:04. Published 
+	September 07, 2019. URL: \url{https://www.youtube.com/watch?v=2gM-Vh8CY8I&list=PL4m4z_pFWq2pLwFsWf0KJX_uMNo-jktN5&index=136}.
+\end{thebibliography}
+
+\end{document}

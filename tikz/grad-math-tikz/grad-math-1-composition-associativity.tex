@@ -1,0 +1,35 @@
+\begin{tikzpicture}
+	\draw[thick] (-6,0) ellipse (1.5 and 4);
+	\draw[thick] (-2,0) ellipse (1.5 and 4);
+	\draw[thick] (2,0) ellipse (1.5 and 4);
+	\draw[thick] (6,0) ellipse (1.5 and 4);
+	
+	\node at (-6, 4.25) {$A$};
+	\node at (-2, 4.25) {$B$};
+	\node at (2, 4.25) {$C$};
+	\node at (6, 4.25) {$D$};
+	
+	\draw[-Stealth] (-5.5, 4.25) -- (-2.5, 4.25) node[midway, above] {$f$};
+	\draw[-Stealth] (-1.5, 4.25) -- (1.5, 4.25) node[midway, above] {$g$};
+	\draw[-Stealth] (2.5, 4.25) -- (5.5, 4.25) node[midway, above] {$h$};
+	\draw[|->, line width=.25mm] (-5.5, 0) -- (-2.5, 0);
+	\draw[|->, line width=.25mm] (-1.5, 0) -- (1.5, 0);
+	\draw[|->, line width=.25mm] (2.5, 0) -- (5.5, 0);
+	
+	\node[fill, circle, inner sep=0.05cm] at (-6,0) (A) {};
+	\node[fill, circle, inner sep=0.05cm] at (-2,0) (B) {};
+	\node[fill, circle, inner sep=0.05cm] at (2,0) (C) {};
+	\node[fill, circle, inner sep=0.05cm] at (6,0) (D) {};
+	\node (A2) at (-6, 0.5) {$a$};
+	\node (B2) at (-2, 0.5) {$f(a)$};
+	\node (C2) at (2, 0.5) {$g(f(a))$};
+	\node (D2) at (6, 0.5) {$h(g(f(a)))$};
+	
+	\draw[-Stealth, bend right=55pt, shorten <= 5pt, shorten >= 5pt, red] (A) to node[midway,below] {$g\circ f$} (C);
+	\draw[-Stealth, bend right=55pt, shorten <= 5pt, shorten >= 5pt, red] (C) to node[midway,below] {$h$} (D);
+	\draw[-Stealth, bend right=75pt, shorten <= 5pt, shorten >= 5pt, red] (A) to node[midway,below] {$h\circ(g\circ f)$} (D);
+	
+	\draw[-Stealth, bend left=75pt, shorten <= 20pt, shorten >= 20pt, blue] (A) to node[midway,above] {$(h\circ g)\circ f$} (D);
+	\draw[-Stealth, bend left=55pt, shorten <= 20pt, shorten >= 20pt, blue] (A) to node[midway,above] {$f$} (B);
+	\draw[-Stealth, bend left=55pt, shorten <= 20pt, shorten >= 20pt, blue] (B) to node[midway,above] {$h\circ g$} (D);
+\end{tikzpicture}

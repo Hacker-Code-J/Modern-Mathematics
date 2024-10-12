@@ -1,0 +1,36 @@
+\begin{tikzpicture}[>=Stealth, scale=.65]
+	% Draw the sets A, B and C
+	\draw[thick] (-6,0) ellipse (2.5 and 3);
+	\draw[thick] (0,0) ellipse (2.5 and 3);
+	\draw[thick] (6,0) ellipse (2.5 and 3);
+	
+	\draw[thick] (0,1) ellipse (2 and 1.75);
+	
+	% Draw the arrows representing the function
+	\draw[-Stealth, thick] (-5.5, 3.25) -- (-.5,3.25) node[midway, above] {$f$};
+	\draw[-Stealth, thick] (.5, 3.25) -- (5.5,3.25) node[midway, above] {$g$};
+	
+	% Labels for sets
+	\node at (-6, 3.25) {$A$};
+	\node at (0, 3.25) {$B$};
+	\node at (6, 3.25) {$A$};
+	
+	\node at (2, 2.5) {$f[A]$};
+	\draw[dashed, thick] (-6, 3) -- (0,2.75);
+	\draw[dashed, thick] (-5.5, -2.95) -- (0,-.75);
+	\node at (1, -1.5) {$B\setminus f[A]$};
+	
+	\filldraw (-6,0) circle (2pt) node[below] {$a$};
+	\draw[->, dotted, line width = .25mm] (-6, 0) -- (0,1);
+	\filldraw (0,1) circle (2pt) node[below] {$f(a)$};
+	\draw[->, dotted, line width = .25mm] (0, 1) -- (6,0);
+	\filldraw (6,0) circle (2pt) node[below] {$a$};
+	
+	\filldraw[red] (0,-2.5) circle (2pt) ;
+	\filldraw[red] (-1,-1.5) circle (2pt) ;
+	\filldraw[red] (1,-2) circle (2pt) ;
+	\filldraw[red] (6,-1.5) circle (2pt) node[below] {$a_0$};
+	\draw[->, dotted, red, line width = .25mm] (0, -2.5) -- (6,-1.5);
+	\draw[->, dotted, red, line width = .25mm] (-1, -1.5) -- (6,-1.5);
+	\draw[->, dotted, red, line width = .25mm] (1, -2) -- (6,-1.5);
+\end{tikzpicture}

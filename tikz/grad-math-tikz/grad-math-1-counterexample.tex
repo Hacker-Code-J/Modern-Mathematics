@@ -1,0 +1,25 @@
+\begin{tikzpicture}
+	% Draw the sets A and B
+	\draw[thick] (-2,0) ellipse (1 and 2);
+	\draw[thick] (2,0) ellipse (1 and 2);
+	
+	% Labels for sets
+	\node at (-2, 2.25) {$A$};
+	\node at (2, 2.25) {$B$};
+	
+	% Draw the arrows representing the function
+	\draw[-Stealth, thick] (-1.5, 2.25) -- (1.5,2.25) node[midway, above] {$f$};
+	
+	\node at (-2, .75) {$1$};
+	\node at (-2, -.75) {$2$};
+	\draw[fill] (-1.75,.75) circle (.05);
+	\draw[fill] (-1.75,-.75) circle (.05);
+	
+	\node at (2, .75) {$a$};
+	\node at (2, -.75) {$b$};
+	\draw[fill] (1.75,.75) circle (.05);
+	\draw[fill] (1.75,-.75) circle (.05);
+	
+	\draw[-Stealth, thick] (-1.75, .75) -- (1.75, .75);
+	\draw[-Stealth, thick] (-1.75, -.75) -- (1.75, .75);
+\end{tikzpicture}

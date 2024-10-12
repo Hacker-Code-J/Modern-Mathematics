@@ -42,7 +42,7 @@
 \begin{exercise*}
 	Show that $\sqrt{2}$ is irrational.
 	\begin{proof}[\sol]
-		\textcolor{gray!50!white}{Assume \( \sqrt{2} \in \mathbb{Q} \), i.e., \( \exists p, q \in \mathbb{Z} \) such that
+		\textcolor{gray!30!white}{Assume \( \sqrt{2} \in \mathbb{Q} \), i.e., \( \exists p, q \in \mathbb{Z} \) such that
 		$\sqrt{2}q = p, \quad g\neq 0$ and $\gcd(p, q) = 1.$
 		Then $2q^2 = p^2$. Since \( p^2 \) is even \( \Rightarrow p \) is even,
 		\[
@@ -90,13 +90,13 @@
 	Let $U$ is a universal set, and let $A,B\subseteq U$.
 	\begin{itemize}
 		\item The \hl{\textbf{union}} of $A$ and $B$ is the set \[
-		\boxed{A\cup B:=\set{x:x\in A\lor x\in B}}.
+		\boxed{A\cup B:=\set{x\in U:x\in A\lor x\in B}}.
 		\] Note that $x\in A\cup B\iff x\in A\lor x\in B$.
 		\item The \hl{\textbf{intersection}} of $A$ and $B$ is the set \[
-		\boxed{A\cap B:=\set{x:x\in A\land x\in B}}.
+		\boxed{A\cap B:=\set{x\in U:x\in A\land x\in B}}.
 		\] Note that $x\in A\cap B\iff x\in A\land x\in B$.
 		\item The \hl{\textbf{complement}} of $A$ is the set \[
-		\boxed{A^C:=\set{x:\lnot(x\in A)}=\set{x:x\notin A}}.
+		\boxed{A^C:=\set{x\in U:\lnot(x\in A)}=\set{x:x\notin A}}.
 		\] Note that $x\in A^C\iff x\notin A$.
 	\end{itemize}
 \end{definition*}}
@@ -116,8 +116,8 @@
 	\begin{enumerate}[(1)]
 		\item Refer to the Video\cite{set_thery_a}.
 		\item Refer to the Video\cite{set_thery_a}.
-		\item \textcolor{gray!50!white}{$(A\cup B)^C=\set{x:\lnot\left[x\in A\lor x\in B\right]}=\set{x:x\notin A\land x\notin B}=A^C\cap B^C.$}
-		\item \textcolor{gray!50!white}{$(A\cap B)^C=\set{x:\lnot\left[x\in A\land x\in B\right]}=\set{x:x\notin A\lor x\notin B}=A^C\cup B^C.$}
+		\item \textcolor{gray!30!white}{$(A\cup B)^C=\set{x:\lnot\left[x\in A\lor x\in B\right]}=\set{x:x\notin A\land x\notin B}=A^C\cap B^C.$}
+		\item \textcolor{gray!30!white}{$(A\cap B)^C=\set{x:\lnot\left[x\in A\land x\in B\right]}=\set{x:x\notin A\lor x\notin B}=A^C\cup B^C.$}
 	\end{enumerate}
 \end{proof}
 
@@ -125,7 +125,7 @@
 \begin{exercise*}
 	Let $A$ has $n$ elements. Show that $\mathcal{P}(A)$ has $2^n$ elements.
 	\begin{proof}[\sol] 
-		\textcolor{gray!50!white}{\begin{itemize}
+		\textcolor{gray!30!white}{\begin{itemize}
 			\item[(pf 1)] For each element of $A$, there are two choices:
 			\begin{enumerate}
 				\item Include the element in the subset.
@@ -194,7 +194,7 @@
 	\end{enumerate}
 \end{proposition}}
 \begin{proof}
-\ \textcolor{gray!50!white}
+\ \textcolor{gray!30!white}
 %\ \textcolor{black}
 {Recall that \[
 	b\in f[A]\iff b=f(a)\ \text{for some}\ a\in A.
@@ -227,7 +227,7 @@
 	\end{enumerate}
 \end{proposition}}
 \begin{proof}
-\ \textcolor{gray!50!white}
+\ \textcolor{gray!30!white}
 %\textcolor{black}
 {Recall that \[ a\in f^{-1}[B]\iff f(a)\in B.\]
 	\begin{enumerate}[(1)]
@@ -277,7 +277,7 @@
 	\end{enumerate}
 \end{proposition}}
 \begin{proof}
-\textcolor{gray!50!white}{
+\textcolor{gray!30!white}{
 	Recall that \[\begin{array}{ll}
 		f^{-1}[B_1]:=\set{a\in A:f(a)\in B_1}, &\quad\quad f[A_1]:=\set{f(a)\in B:a\in A_1}, \\
 		f[f^{-1}[B_1]]:=\set{f(a)\in B:a \in f^{-1}[B_1]}, &\quad\quad f^{-1}[f[A_1]]:=\set{a\in A:f(a)\in f[A_1]}.
@@ -292,31 +292,8 @@
 
 \begin{example*}[Counterexample]
 	Consider a function $f:A\to B$, where $A=\set{1,2}$ and $B=\set{a,b}$.
-	\begin{center}\begin{tikzpicture}
-			% Draw the sets A and B
-			\draw[thick] (-2,0) ellipse (1 and 2);
-			\draw[thick] (2,0) ellipse (1 and 2);
-			
-			% Labels for sets
-			\node at (-2, 2.25) {$A$};
-			\node at (2, 2.25) {$B$};
-			
-			% Draw the arrows representing the function
-			\draw[-Stealth, thick] (-1.5, 2.25) -- (1.5,2.25) node[midway, above] {$f$};
-			
-			\node at (-2, .75) {$1$};
-			\node at (-2, -.75) {$2$};
-			\draw[fill] (-1.75,.75) circle (.05);
-			\draw[fill] (-1.75,-.75) circle (.05);
-			
-			\node at (2, .75) {$a$};
-			\node at (2, -.75) {$b$};
-			\draw[fill] (1.75,.75) circle (.05);
-			\draw[fill] (1.75,-.75) circle (.05);
-			
-			\draw[-Stealth, thick] (-1.75, .75) -- (1.75, .75);
-			\draw[-Stealth, thick] (-1.75, -.75) -- (1.75, .75);
-		\end{tikzpicture}
+	\begin{center}
+	\input{../tikz/grad-math-tikz/grad-math-1-counterexample}
 	\end{center}
 	\begin{enumerate}[(1)]
 		\item Let $B_1=\set{b}\subseteq B$. Then $f^{-1}[B_1]=\varnothing$ and so \[
@@ -362,63 +339,16 @@
 \begin{note}[Diagram]
 \ \begin{figure}[h!]
 	\centering
-	\adjustbox{scale=1}{\begin{tikzcd}
-		A \arrow[rrr, "f_1"] \arrow[rrrddd, "f_2\circ f_1"', dashed] &  &  & B \arrow[ddd, "f_2"] \\
-		&  &  &                        \\
-		&  &  &                        \\
-		&  &  & C                   
-	\end{tikzcd}}
-%	\caption{Diagram of $f_2\circ f_1$}
+	\input{../tikz/grad-math-tikz/grad-math-1-composition-diagram}
+	\caption{Diagram of $f_2\circ f_1$}
 \end{figure}
 \end{note}
 \vfill
 \begin{note}[Illustration]
-	\ \begin{center}\begin{tikzpicture}[scale=.5]
-	\def \x {11};
-	\def \ellmajor {8};
-	\def \ellminor {2.75};
-	% Draw the sets A, B and C
-	\filldraw[thick, cyan!50] (-\x,0) ellipse (4.75 and \ellmajor);
-	\draw[thick, line width = .25mm] (-\x,0) ellipse (4.75 and \ellmajor);
-	\filldraw[thick, magenta!50] (0,0) ellipse (4.75 and \ellmajor);
-	\draw[thick, line width = .25mm] (0,0) ellipse (4.75 and \ellmajor);
-	\filldraw[thick, green!50] (\x,0) ellipse (4.75 and \ellmajor);
-	\draw[thick, line width = .25mm] (\x,0) ellipse (4.75 and \ellmajor);
-	
-	\filldraw[thick, cyan!50] (0,0) ellipse (4.25 and 6);
-	\draw[thick, line width = .25mm] (0,0) ellipse (4.25 and 6);
-	
-	\filldraw[thick, magenta!50] (\x,0) ellipse (4.5 and 5);
-	\draw[thick, line width = .25mm] (\x,0) ellipse (4.5 and 5);
-	\filldraw[thick, cyan!50] (\x,0) ellipse (4.25 and 3);
-	\draw[thick, line width = .25mm] (\x,0) ellipse (4.25 and 3);
-	
-	% Draw the arrows representing the function
-	\draw[-Stealth, thick] (-\x + .5, 8.5) -- (-.5,8.5) node[midway, above] {$f_1$};
-	\draw[-Stealth, thick] (.5, 8.5) -- (\x - .5,8.5) node[midway, above] {$f_2$};
-	
-	% Labels for sets
-	\node at (-\x, 8.5) {$A$};
-	\node at (0, 8.5) {$B$};
-	\node at (\x, 8.5) {$C$};
-	
-	\draw[dashed, thick, line width= .5mm, color=cyan] (-\x + .25, \ellmajor) -- (.25, 6);
-	\draw[dashed, thick, line width= .5mm, color=cyan] (-\x + .25, -\ellmajor) -- (.25, -6);
-	
-	\draw[dashed, thick, line width= .5mm, color=magenta] (0.25, \ellmajor) -- (\x + .25, 5);
-	\draw[dashed, thick, line width= .5mm, color=magenta] (0.25, -\ellmajor) -- (\x + .25, -5);
-	
-	\draw[dashed, thick, line width= .5mm, color=cyan] (0.25, 6) -- (\x + .25, 3);
-	\draw[dashed, thick, line width= .5mm, color=cyan] (0.25, -6) -- (\x + .25, -3);
-
-	\node at (0, 0) {$\img{f_1}=f_1[A]$};
-	\node at (\x, 3.5) {$\img{f_2}=f_2[B]$};
-	\node at (\x, 0) {$\img{f_2\circ f_1}=f_2[f_1[A]]$};
-	\node at (-\x, -8.5) {$\text{Dom}(f_1)$};
-	\node at (0, -8.5) {$\text{Cdm}(f_1)=\text{Dom}(f_2)$};
-	\node at (\x, -8.5) {$\text{Cdm}(f_2)$};
-\end{tikzpicture}
-	\end{center}
+	\ \begin{figure}[h!]\centering
+		\input{../tikz/grad-math-tikz/grad-math-1-composition-illustration}
+		\caption{Illustration of $f_2\circ f_1$}
+	\end{figure}
 \end{note}
 %\begin{remark*}
 %	The composition is associative. For any \( f, g, h \in G \),
@@ -534,7 +464,7 @@
 	(g\circ f)(a)=g(f(a))=a=\text{id}_A(a)
 	\] for all $a\in A$.
 	\vfill
-	\item[($\Leftarrow$)] \textcolor{gray!50!white}{Assume that there exists $g:B\to A$ such that $g\circ f=\text{id}_A$. Suppose that $f(a_1)=f(a_2)$ for any $a_1,a_2\in A$. Then \begin{align*}
+	\item[($\Leftarrow$)] \textcolor{gray!30!white}{Assume that there exists $g:B\to A$ such that $g\circ f=\text{id}_A$. Suppose that $f(a_1)=f(a_2)$ for any $a_1,a_2\in A$. Then \begin{align*}
 		f(a_1)=f(a_2) &\implies g(f(a_1))=g(f(a_2))\quad\text{by def. of a function}\\
 		&\implies a_1=a_2\quad\text{by assumption}\ g\circ f=\text{id}_A.
 	\end{align*}}
@@ -582,7 +512,7 @@
 			&=\text{id}_B(b)
 		\end{align*} for all $b\in B$. That is, $f\circ g=\text{id}_B$. Without the Axiom of Choice, we cannot always guarantee the existence of such a selection function, especially when the sets $f^{-1}[\set{b}]$ are uncountable.
 		\vspace{12pt}
-		\item[($\Leftarrow$)] \textcolor{gray!50!white}{Assume that there exists $g:B\to A$ such that $f\circ g=\text{id}_B$. Let $b\in B$. Since $f\circ g=\text{id}_B$, we have $f(g(b))=\text{id}_B(b)=b$. Thus, for every $b\in B$, \[
+		\item[($\Leftarrow$)] \textcolor{gray!30!white}{Assume that there exists $g:B\to A$ such that $f\circ g=\text{id}_B$. Let $b\in B$. Since $f\circ g=\text{id}_B$, we have $f(g(b))=\text{id}_B(b)=b$. Thus, for every $b\in B$, \[
 		\exists a=g(b)\in A\quad\text{such that}\quad f(a)=f(g(b))=b.
 		\]}
 	\end{itemize}

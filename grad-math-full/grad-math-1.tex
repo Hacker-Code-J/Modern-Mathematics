@@ -90,13 +90,13 @@
 	Let $U$ is a universal set, and let $A,B\subseteq U$.
 	\begin{itemize}
 		\item The \hl{\textbf{union}} of $A$ and $B$ is the set \[
-		\boxed{A\cup B:=\set{x:x\in A\lor x\in B}}.
+		\boxed{A\cup B:=\set{x\in U:x\in A\lor x\in B}}.
 		\] Note that $x\in A\cup B\iff x\in A\lor x\in B$.
 		\item The \hl{\textbf{intersection}} of $A$ and $B$ is the set \[
-		\boxed{A\cap B:=\set{x:x\in A\land x\in B}}.
+		\boxed{A\cap B:=\set{x\in U:x\in A\land x\in B}}.
 		\] Note that $x\in A\cap B\iff x\in A\land x\in B$.
 		\item The \hl{\textbf{complement}} of $A$ is the set \[
-		\boxed{A^C:=\set{x:\lnot(x\in A)}=\set{x:x\notin A}}.
+		\boxed{A^C:=\set{x\in U:\lnot(x\in A)}=\set{x:x\notin A}}.
 		\] Note that $x\in A^C\iff x\notin A$.
 	\end{itemize}
 \end{definition*}}
@@ -172,25 +172,31 @@
 	\begin{itemize}
 		\item The \hl{\textbf{domain}} of $f$ is $\text{Dom}(f)=A$.
 		\item The \hl{\textbf{codomain}} of $f$ is $\text{Cdm}(f)=B$.
-		\item The \hl{\textbf{image}} of $f$ is the set \begin{align*}\
+		\item The \hl{\textbf{image}} \textbf{of $A$ under $f$} is the set \begin{align*}\
 			\img{f}=f[A]:&=\set{b\in B:\exists a \in A\ \text{s.t.}\ (a,b)\in f}\\
 			&=\set{b\in B:\exists a \in A\ \text{s.t.}\ f(a)=b}\\
 			&=\set{b\in B: b = f(a)\ \text{for at least one}\ a\in A}.
-		\end{align*} Simply we can express it as $f[A]=\set{f(a)\in B:a\in A}$. Note that $f[A]\subseteq B=\text{Cdm}(f)$. 
-	
-		Note that \begin{align*}
+		\end{align*} Simply we can express it as $f[A]=\set{f(a)\in B:a\in A}$. 
+		\begin{figure}[h!]\centering
+			\input{../tikz/grad-math-tikz/grad-math-1-image}
+			\caption{Image of $A$ under $f$.}
+		\end{figure}\\
+		Note that $f[A]\subseteq B=\text{Cdm}(f)$ and that \begin{align*}
 			b\in f[A]\iff b=f(a)\ \text{for some}\ a\in A.
 		\end{align*}
-		\item The \hl{\textbf{preimage}} of $f$ is the set \begin{align*}
-			\preimg{f}=f^{-1}[B]:&=\set{a\in A:\exists b \in B\ \text{s.t.}\ (a,b)\in f}\\
-			&=\set{a\in A:\exists! b \in B\ \text{s.t.}\ b=f(a)}\ \text{by def. of a function}\\
-			&=\set{a\in A:f(a)=b\ \text{for exactly one}\ b\in B}.
-		\end{align*} ``Exactly one'' ensures a unique assignment for every element of $A$, while ``at most one'' allows no assignment. Simply we can express it as $f^{-1}[B]=\set{a\in A:f(a)\in B}$. Note that $f^{-1}[B]\subseteq A=\text{Dom}(f)$.
-		Note that $a\in f^{-1}[B]\iff f(a)\in B.$
+		\item The \hl{\textbf{preimage}} \textbf{of $B_1\subseteq B$ under $f$} is the set \begin{align*}
+			f^{-1}[B_1]:&=\set{a\in A:\exists b \in B_1\ \text{s.t.}\ (a,b)\in f}\\
+			&=\set{a\in A:\exists! b \in B_1\ \text{s.t.}\ b=f(a)}\ \text{by def. of a function}\\
+			&=\set{a\in A:f(a)=b\ \text{for exactly one}\ b\in B_1}.
+		\end{align*} ``Exactly one'' ensures a unique assignment for every element of $A$, while ``at most one'' allows no assignment. Simply we can express it as $f^{-1}[B_1]=\set{a\in A:f(a)\in B_1}$.
+		\begin{figure}[h!]\centering
+				\input{../tikz/grad-math-tikz/grad-math-1-preimage}
+				\caption{Preimage of $B_1\subseteq B$ under $f$.}
+			\end{figure}\\
+		Note that $f^{-1}[B_1]\subseteq A=\text{Dom}(f)$ and that $a\in f^{-1}[B_1]\iff f(a)\in B_1.$
 	\end{itemize}
 \end{remark*}
-
-\newpage
+\vfill
 \probox{\begin{proposition}
 	Let $f:A\to B$ be a function from $A$ to $B$, and let $A_1,A_2\subseteq A$. \begin{enumerate}[(1)]
 		\item $f[A_1\cup A_2]=f[A_1]\cup f[A_2]$.
@@ -221,8 +227,7 @@
 		\end{enumerate} \underline{Therefore, $b=f(a)\in f[A_1]\cap f[A_2]$}.
 \end{enumerate}}
 \end{proof}
-
-\newpage
+\vfill
 \probox{\begin{proposition}
 	Let $f:A\to B$ be a function from $A$ to $B$, and let $B_1,B_2\subseteq B$. \begin{enumerate}[(1)]
 		\item $f^{-1}[B_1\cup B_2]=f^{-1}[B_1]\cup f^{-1}[B_2]$.
@@ -254,7 +259,6 @@
 			\item $f(a)\in B_2\implies a\in f^{-1}[B_2]$.
 		\end{enumerate}\ \\ \underline{Thus, $a\in f^{-1}[B_1]\cap f[B_2]$}.
 		\vspace{12pt}
-		\newpage
 		\item[($\supseteq$)] \underline{Let $a\in f^{-1}[B_1]\cap f^{-1}[B_2]$}. Then $a\in f^{-1}[B_1]$ and $a\in f^{-1}[B_2]$. Then \textit{both} of the following hold:\\ \begin{enumerate}[(i)]
 			\item $a\in f^{-1}[B_1]\implies f(a)\in B_1$.
 			\item $a\in f^{-1}[B_2]\implies f(a)\in B_2$.
@@ -296,31 +300,8 @@
 
 \begin{example*}[Counterexample]
 	Consider a function $f:A\to B$, where $A=\set{1,2}$ and $B=\set{a,b}$.
-	\begin{center}\begin{tikzpicture}
-			% Draw the sets A and B
-			\draw[thick] (-2,0) ellipse (1 and 2);
-			\draw[thick] (2,0) ellipse (1 and 2);
-			
-			% Labels for sets
-			\node at (-2, 2.25) {$A$};
-			\node at (2, 2.25) {$B$};
-			
-			% Draw the arrows representing the function
-			\draw[-Stealth, thick] (-1.5, 2.25) -- (1.5,2.25) node[midway, above] {$f$};
-			
-			\node at (-2, .75) {$1$};
-			\node at (-2, -.75) {$2$};
-			\draw[fill] (-1.75,.75) circle (.05);
-			\draw[fill] (-1.75,-.75) circle (.05);
-			
-			\node at (2, .75) {$a$};
-			\node at (2, -.75) {$b$};
-			\draw[fill] (1.75,.75) circle (.05);
-			\draw[fill] (1.75,-.75) circle (.05);
-			
-			\draw[-Stealth, thick] (-1.75, .75) -- (1.75, .75);
-			\draw[-Stealth, thick] (-1.75, -.75) -- (1.75, .75);
-		\end{tikzpicture}
+	\begin{center}
+	\input{../tikz/grad-math-tikz/grad-math-1-counterexample}
 	\end{center}
 	\begin{enumerate}[(1)]
 		\item Let $B_1=\set{b}\subseteq B$. Then $f^{-1}[B_1]=\varnothing$ and so \[
@@ -349,8 +330,7 @@
 		\item $f$ is \hl{\textbf{one-to-one and onto}} (or \hl{\textbf{a one-to-one correspondence}}).
 	\end{itemize}
 \end{remark*}
-
-\newpage
+\vfill
 \defbox[Composition of Functions]{\begin{definition*}
 	Let $f_1:A\to B$ and $f_2:B\to C$ be functions such that $\text{Cdm}(f_1)=B=\text{Dom}(f_2)$. The \hl{\textbf{composition}} $f_2\circ f_1$ is defined as: \[
 	(f_2\circ f_1)(a):= f_2(f_1(a)).
@@ -365,107 +345,28 @@
 \begin{note}[Diagram]
 	\ \begin{figure}[h!]
 		\centering
-		\adjustbox{scale=1}{\begin{tikzcd}
-				A \arrow[rrr, "f_1"] \arrow[rrrddd, "f_2\circ f_1"', dashed] &  &  & B \arrow[ddd, "f_2"] \\
-				&  &  &                        \\
-				&  &  &                        \\
-				&  &  & C                   
-		\end{tikzcd}}
-		%	\caption{Diagram of $f_2\circ f_1$}
+		\input{../tikz/grad-math-tikz/grad-math-1-composition-diagram}
+		\caption{Diagram of $f_2\circ f_1$.}
 	\end{figure}
 \end{note}
+\newpage
 \begin{note}[Illustration]
-	\ \begin{center}\begin{tikzpicture}[scale=.5]
-			\def \x {11};
-			\def \ellmajor {4.25};
-			\def \ellminor {2.75};
-			% Draw the sets A, B and C
-			\filldraw[thick, cyan!50] (-\x,0) ellipse (4.75 and \ellmajor);
-			\draw[thick, line width = .25mm] (-\x,0) ellipse (4.75 and \ellmajor);
-			\filldraw[thick, magenta!50] (0,0) ellipse (4.75 and \ellmajor);
-			\draw[thick, line width = .25mm] (0,0) ellipse (4.75 and \ellmajor);
-			\filldraw[thick, yellow!50] (\x,0) ellipse (4.75 and \ellmajor);
-			\draw[thick, line width = .25mm] (\x,0) ellipse (4.75 and \ellmajor);
-			
-			\filldraw[thick, cyan!50] (0,0) ellipse (4.25 and 2.5);
-			\draw[thick, line width = .25mm] (0,0) ellipse (4.25 and 2.5);
-			
-			\filldraw[thick, magenta!50] (\x,0) ellipse (4.5 and 2.5);
-			\draw[thick, line width = .25mm] (\x,0) ellipse (4.5 and 2.5);
-			\filldraw[thick, cyan!50] (\x,0) ellipse (4.25 and 1);
-			\draw[thick, line width = .25mm] (\x,0) ellipse (4.25 and 1);
-			
-			% Draw the arrows representing the function
-			\draw[-Stealth, thick] (-\x + .5, 4.5) -- (-.5,4.5) node[midway, above] {$f_1$};
-			\draw[-Stealth, thick] (.5, 4.5) -- (\x - .5,4.5) node[midway, above] {$f_2$};
-			
-			% Labels for sets
-			\node at (-\x, 4.5) {$A$};
-			\node at (0, 4.5) {$B$};
-			\node at (\x, 4.5) {$C$};
-			
-			\node at (0, 0) {$\img{f_1}=f_1[A]$};
-			\draw[dashed, thick, line width= .5mm, color=cyan] (-\x + .25, \ellmajor) -- (.25, 2.5);
-			\draw[dashed, thick, line width= .5mm, color=cyan] (-\x + .25, -\ellmajor) -- (.25, -2.5);
-			
-			\node at (\x, 1.5) {$\img{f_2}=f_2[B]$};
-			\draw[dashed, thick, line width= .5mm, color=magenta] (0.25, \ellmajor) -- (\x + .25, 2.5);
-			\draw[dashed, thick, line width= .5mm, color=magenta] (0.25, -\ellmajor) -- (\x + .25, -2.5);
-			
-			\node at (\x, 0) {$\img{f_2\circ f_1}=f_2[f_1[A]]$};
-			\draw[dashed, thick, line width= .5mm, color=cyan] (0.25, 2.5) -- (\x + .25, 1);
-			\draw[dashed, thick, line width= .5mm, color=cyan] (0.25, -2.5) -- (\x + .25, -1);
-			
-			\node at (-\x, -4.5) {$\text{Dom}(f_1)$};
-			\node at (0, -4.5) {$\text{Cdm}(f_1)=\text{Dom}(f_2)$};
-			\node at (\x, -4.5) {$\text{Cdm}(f_2)$};
-		\end{tikzpicture}
-	\end{center}
+	\ \begin{figure}[h!]\centering
+		\adjustbox{scale=.9}{\input{../tikz/grad-math-tikz/grad-math-1-composition-illustration}}
+		\caption{Illustration of $f_2\circ f_1$}
+	\end{figure}
 \end{note}
 \vfill
 \begin{remark*}
 	The composition is associative. For any \( f, g, h \in G \), $
-	(f \circ g) \circ h = f \circ (g \circ h) $.\\
-	\adjustbox{scale=.8, center}{
-		\begin{tikzpicture}
-			% Draw the sets A and B
-			\draw[thick] (-6,0) ellipse (1.5 and 2);
-			\draw[thick] (-2,0) ellipse (1.5 and 2);
-			\draw[thick] (2,0) ellipse (1.5 and 2);
-			\draw[thick] (6,0) ellipse (1.5 and 2);
-			
-			% Labels for sets
-			\node at (-6, 2.25) {$A$};
-			\node at (-2, 2.25) {$B$};
-			\node at (2, 2.25) {$C$};
-			\node at (6, 2.25) {$D$};
-			
-			% Draw the arrows representing the function
-			\draw[-Stealth] (-5.5, 2.25) -- (-2.5, 2.25) node[midway, above] {$f$};
-			\draw[-Stealth] (-1.5, 2.25) -- (1.5, 2.25) node[midway, above] {$g$};
-			\draw[-Stealth] (2.5, 2.25) -- (5.5, 2.25) node[midway, above] {$h$};
-			\draw[|-Stealth, line width=.5mm] (-5.5, 0) -- (-2.5, 0);
-			\draw[|-Stealth, line width=.5mm] (-1.5, 0) -- (1.5, 0);
-			\draw[|-Stealth, line width=.5mm] (2.5, 0) -- (5.5, 0);
-			
-			% Labels for elements in Domain
-			\node[fill, circle, inner sep=0.05cm] at (-6,0) (A) {};
-			\node[fill, circle, inner sep=0.05cm] at (-2,0) (B) {};
-			\node[fill, circle, inner sep=0.05cm] at (2,0) (C) {};
-			\node[fill, circle, inner sep=0.05cm] at (6,0) (D) {};
-			\node (A2) at (-6, 0.5) {$a$};
-			\node (B2) at (-2, 0.5) {$f(a)$};
-			\node (C2) at (2, 0.5) {$g(f(a))$};
-			\node (D2) at (6, 0.5) {$h(g(f(a)))$};
-			
-			\draw[-Stealth, bend right=25pt, shorten <= 5pt, shorten >= 5pt] (A) to node[midway,below] {$g\circ f$} (C);
-			\draw[-Stealth, bend right=25pt, shorten <= 5pt, shorten >= 5pt] (A) to node[midway,below] {$h\circ(g\circ f)$} (D);
-			
-			\draw[-Stealth, bend left=25pt, shorten <= 5pt, shorten >= 5pt] (A) to node[midway,above] {$(h\circ g)\circ f$} (D);
-			\draw[-Stealth, bend left=25pt, shorten <= 5pt, shorten >= 5pt] (B) to node[midway,above] {$h\circ g$} (D);
-	\end{tikzpicture}}
+	(f \circ g) \circ h = f \circ (g \circ h) $.
+	\begin{figure}[h!]\centering
+	\adjustbox{scale=.9}{\input{../tikz/grad-math-tikz/grad-math-1-composition-associativity}}
+	\caption{Associativity of Composition.}
+\end{figure}
 \end{remark*}
 
+\newpage
 \thmbox[]{\begin{theorem}
 	Let $A$ and $B$ are sets. Let $f:A\to B$ be a function.
 	\begin{enumerate}[(1)]
@@ -488,43 +389,9 @@
 \begin{enumerate}[(1)]
 	\item \begin{itemize}
 		\item[($\Rightarrow$)] Assume that $f:A\to B$ is injective. We need to construct a function $g:B\to A$ such that $g\circ f=\textnormal{id}_A$.
-		\begin{center}\begin{tikzpicture}[>=Stealth, scale=.6]
-		% Draw the sets A, B and C
-		\draw[thick] (-6,0) ellipse (2.5 and 3);
-		\draw[thick] (0,0) ellipse (2.5 and 3);
-		\draw[thick] (6,0) ellipse (2.5 and 3);
-		
-		\draw[thick] (0,1) ellipse (2 and 1.75);
-		
-		% Draw the arrows representing the function
-		\draw[-Stealth, thick] (-5.5, 3.25) -- (-.5,3.25) node[midway, above] {$f$};
-		\draw[-Stealth, thick] (.5, 3.25) -- (5.5,3.25) node[midway, above] {$g$};
-		
-		% Labels for sets
-		\node at (-6, 3.25) {$A$};
-		\node at (0, 3.25) {$B$};
-		\node at (6, 3.25) {$A$};
-		
-		\node at (2, 2.5) {$f[A]$};
-		\draw[dashed, thick] (-6, 3) -- (0,2.75);
-		\draw[dashed, thick] (-5.5, -2.95) -- (0,-.75);
-		\node at (1, -1.5) {$B\setminus f[A]$};
-		
-		\filldraw (-6,0) circle (2pt) node[below] {$a$};
-		\draw[->, dotted, line width = .25mm] (-6, 0) -- (0,1);
-		\filldraw (0,1) circle (2pt) node[below] {$f(a)$};
-		\draw[->, dotted, line width = .25mm] (0, 1) -- (6,0);
-		\filldraw (6,0) circle (2pt) node[below] {$a$};
-		
-		\filldraw[red] (0,-2.5) circle (2pt) ;
-		\filldraw[red] (-1,-1.5) circle (2pt) ;
-		\filldraw[red] (1,-2) circle (2pt) ;
-		\filldraw[red] (6,-1.5) circle (2pt) node[below] {$a_0$};
-		\draw[->, dotted, red, line width = .25mm] (0, -2.5) -- (6,-1.5);
-		\draw[->, dotted, red, line width = .25mm] (-1, -1.5) -- (6,-1.5);
-		\draw[->, dotted, red, line width = .25mm] (1, -2) -- (6,-1.5);
-		\end{tikzpicture}
-	\end{center}
+		\begin{figure}[h!]\centering
+			\input{../tikz/grad-math-tikz/grad-math-1-injective-iff}
+		\end{figure} \\
 	We define a function $g:B\to A$ given by \[
 	g(b)=\begin{cases}
 			a &\text{if}\ \exists! a\in A\ \text{such that}\ f(a)=b \\
@@ -542,38 +409,9 @@
 	\end{itemize}
 	\item \begin{itemize}
 		\item[($\Rightarrow$)] Assume $f:A\to B$ is surjective. Then, for every $b\in B$, there exists at least one $a\in A$ such that $f(a)=b$. We need to construct a function $g:B\to A$ such that $f\circ g=\textnormal{id}_B$, \ie, $f(g(b))=b$ for every $b\in B$.
-		\begin{center}\begin{tikzpicture}[>=Stealth, scale=.6]
-				% Draw the sets A, B and C
-				\draw[thick] (-6,0) ellipse (2.5 and 3);
-				\draw[thick] (0,0) ellipse (2.5 and 3);
-				\draw[thick] (6,0) ellipse (2.5 and 3);
-				
-				\draw[thick] (0,1) ellipse (1.5 and 1.5);
-				
-				% Draw the arrows representing the function
-				\draw[-Stealth, thick] (-5.5, 3.25) -- (-.5,3.25) node[midway, above] {$g$};
-				\draw[-Stealth, thick] (.5, 3.25) -- (5.5,3.25) node[midway, above] {$f$};
-				
-				% Labels for sets
-				\node at (-6, 3.25) {$B$};
-				\node at (0, 3.25) {$A$};
-				\node at (6, 3.25) {$B$};
-				
-				\node at (2, 2.25) {$f^{-1}[\set{b}]$};
-				
-				\filldraw[gray!20!white] (0,2) circle (2pt) node[below] {$a_0$};
-				\filldraw[gray!20!white] (0,0) circle (2pt) node[below] {$a_1$};
-				\draw[->, dotted, gray!40!white, line width = .25mm] (0, 2) -- (6, 0) node[midway] {?};
-				\draw[->, dotted, gray!40!white, line width = .25mm] (0, 0) -- (6, 0) node[midway] {?};
-				
-				\filldraw[blue] (0,1) circle (2pt) node[below] {$a$};
-				\filldraw[blue] (6,0) circle (2pt) node[below] {$b$};
-				\draw[->, dotted, blue, line width = .25mm] (0, 1) -- (6, 0);
-				
-				\filldraw[red] (-6,0) circle (2pt) node[below] {$b$};
-				\draw[->, dotted, red!40!white, line width = .25mm] (-6, 0) -- (-.5, 1) node[midway, above] {$g(b)$};
-			\end{tikzpicture}
-		\end{center}
+		\begin{figure}[h!]\centering
+			\input{../tikz/grad-math-tikz/grad-math-1-surjective-iff}
+		\end{figure} \\
 		The \textbf{Axiom of Choice}\footnote{{Here, $\mathbb{S}=\set{f^{-1}[\set{b}]\subseteq A:b\in B}$ and $\bigcup\mathbb{S}=\bigcup_{b\in B}f^{-1}[\set{b}]=A$. That is, there is a choice function $F:\mathcal{P}(A)\setminus\set{\emptyset}\to A$.}} allows us to define $g:B\to A$ given by \[
 		g(b)=a\in f^{-1}[\set{b}]
 		\] for each $b\in B$. Thus, \begin{align*}
@@ -593,56 +431,15 @@
 \newpage
 \begin{note}[Axiom of Choice]
 	Let $\mathbb{S}$ be a set of non-empty sets. \begin{center}
-		``It is always possible to construct a choice function \\ that selects a one element from each member of the set.''
+		``It is always possible to assert the existence of a choice function\\ that selects one element from each member of the set.''
 	\end{center} Formally, \[
 	\forall\mathbb{S}:\left[\varnothing\notin \mathbb{S}\implies\exists\left(f:\mathbb{S}\to\bigcup\mathbb{S}\right)\ \text{s.t.}\ \forall X\in\mathbb{S}:[f(X)\in X]\right].
 	\] 
 	\vspace{24pt} \\
 	\noindent For example, let $\mathbb{S}=\set{A,B,C,\dots}$ and $\bigcup\mathbb{S}=A\cup B\cup C\cup\cdots$.
-	\begin{center}
-	\begin{tikzpicture}[>=Stealth, scale=.75]
-		\draw[thick] (-4.5,0) ellipse (3.5 and 5);
-		\draw[thick] (4.5,0) ellipse (3.5 and 5);
-		\node at (-4, 5.5) {$\mathbb{S}$};
-		\node at (4, 5.5) {$\bigcup\mathbb{S}$};
-		\draw[->] (-3.5, 5.5) -- (3.5, 5.5) node[midway, above] {Choice Function $f$};
-		
-		\draw[thick] (-4.5,3.5) ellipse (2 and 1.25); \node at (-6.75, 3.5) {$A$};
-		\draw[thick] (-4.5,.5) ellipse (2 and 1.25); \node at (-6.75, .5) {$B$};
-		\draw[thick] (-4.5,-2.5) ellipse (2 and 1.25); \node at (-6.75, -2.5) {$C$};
-		\node at (-4.5, -4.5) {$\bullet\ \bullet\ \bullet$};
-		
-		% Elements of A
-		\filldraw[red] (-5.5, 4) circle (7pt);
-		\filldraw[orange] (-4.5, 3.5) circle (10pt);
-		\filldraw[yellow] (-3.5, 3.75) circle (8pt);
-		
-		% Elements of B
-		\filldraw[blue] (-5.5, .5) circle (6pt);
-		\filldraw[cyan] (-3.5, .75) circle (10pt);
-		
-		% Elements of C
-		\filldraw[green] (-4.5, -2) circle (10pt);
-		\filldraw[violet] (-5, -3) circle (7pt);
-		\filldraw[magenta] (-3, -2.5) circle (10pt);
-		
-		% Elements of Codomain
-		\filldraw[red] (5.5, .5) circle (7pt) node[below] {$f(A)\in A$};
-		\filldraw[orange] (4.5, -2) circle (10pt);
-		\filldraw[yellow] (6.5, -3) circle (8pt);
-		\filldraw[blue] (5.5, 3.75) circle (6pt);
-		\filldraw[cyan] (3.5, -2.5) circle (10pt) node[below] {$f(B)\in B$};
-		\filldraw[green] (4.5, 4) circle (10pt) node[above] {$f(C)\in C$};
-		\filldraw[violet] (5, 3.5) circle (7pt);
-		\filldraw[magenta] (3, .75) circle (10pt);
-		\node at (4.5, -4.5) {$\bullet\ \bullet\ \bullet$};
-		
-		% Mapsto
-		\node at (-4.5, -6) {$X\in\mathbb{S}$};
-		\node at (4.5, -6) {$f(X)\in X$};
-		\draw[|->] (-3.5, -6) -- (3.5, -6);
-	\end{tikzpicture}
-\end{center}
+	\begin{figure}[h!]\centering
+		\input{../tikz/grad-math-tikz/grad-math-1-axiom-of-choice}
+	\end{figure}
 \end{note}
 \vfill
 \begin{thebibliography}{9}
