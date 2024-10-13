@@ -21,6 +21,7 @@
 \begin{itemize}
 	\item Relations
 	\item Equivalence Relations
+	\item Equivalence Classes
 	\item Partitions
 \end{itemize}
 \hrule\vspace{12pt}
@@ -33,9 +34,7 @@
 	$\mathcal{R}$ is a relation on $A$ $\iff$ $\mathcal{R}\subseteq A\times A$.
 \end{remark*}
 \begin{note}[Notation]
-	Let $(s,t)\in\mathcal{R}$. We use the notation  \[
-	s\relation t
-	\] and we can say ``\textbf{$s$ is related to $t$ by $R$}''. If $(s,t)\notin\mathcal{R}$, we denote as: $s\centernot\relation t$.
+	Let $(s,t)\in\mathcal{R}$. We use the notation $s\relation t$ and we can say ``\textbf{$s$ is related to $t$ by $R$}''. If $(s,t)\notin\mathcal{R}$, we denote as: $s\centernot\relation t$.
 \end{note}
 \vfill
 \begin{example*}
@@ -137,10 +136,10 @@
 \end{proof}
 \vfill
 \probox[Equivalence Relation on $2^A$ Based on Bijection]{\begin{proposition}
-	Let $A$ be a set, and $2^A$ be its power set. Define a relation $\sim_{\mathcal{R}}$ on $2^A$ as follows: \[
-	X\sim_{\mathcal{R}} Y\iff \exists (f:X\to Y)\ \text{such that $f$ is bijective},
+	Let $A$ be a set, and $2^A$ be its power set. Define a relation $\mathcal{R}$ on $2^A$ as follows: \[
+	X\sim_{\cR} Y\iff \exists f\in Y^X\ \text{such that $f$ is bijective},
 	\] for $X,Y\in 2^A$. In other words, \[
-	\sim_{\mathcal{R}}:=\set{(X,Y)\in 2^A\times 2^A:\exists\ \text{a bijection}\ (f:X\to Y)}.
+	\mathcal{R}:=\set{(X,Y)\in 2^A\times 2^A:\exists\ \text{a bijection}\ f\in Y^X}.
 	\]
 \end{proposition}}
 \begin{proof}
@@ -211,7 +210,7 @@
 	\end{itemize}
 \end{definition*}}
 \begin{remark*}
-	Let $I=\N$. Then \begin{itemize}
+	Let $I=\set{1,\dots,n}$. Then \begin{itemize}
 		\item $\displaystyle\bigcup_{i\in I}S_i=\bigcup_{i=1}^nS_i=S_1\cup S_2\cup\cdots\cup S_n$.
 		\item $\displaystyle\bigcap_{i\in I}S_i=\bigcap_{i=1}^nS_i=S_1\cap S_2\cap\cdots\cap S_n$.
 	\end{itemize}
@@ -303,9 +302,9 @@ Then \begin{enumerate}[(i)]
 	\end{enumerate}
 \end{proof}
 \thmbox[]{\begin{theorem}
-	Let $S$ be a set. Let $\mathcal{R}$ be an equivalence relation on $S$. The set of equivalence classes \[
-	\mathcal{P}:=\set{[x]_{\mathcal{R}}:x\in S}\ \text{where}\ [x]_{\mathcal{R}}=\set{y\in S:x\relation y}
-	\] forms a partition of $S$.
+	Let $S$ be a set and let $\mathcal{R}$ be an equivalence relation on $S$. Define the set of equivalence classes \[
+	\mathcal{P}:=\set{[x]_{\mathcal{R}}:x\in S},
+	\] where $[x]_{\mathcal{R}}=\set{y\in S:x\relation y}$. Then $\mathcal{P}$ forms a partition of $S$.
 \end{theorem}}
 \begin{proof}
 	We must show that the set of equivalence classes $\set{[x]_{\mathcal{R}}:x\in S}$ satisfies the three conditions of a partition:
@@ -326,9 +325,9 @@ Then \begin{enumerate}[(i)]
 
 \newpage
 \thmbox[]{\begin{theorem}
-	Let $S$ be a set and $\mathcal{P}=\Gen{P_i}_{i\in I}$ a partition of $S$. We define a relation $\sim_{\mathcal{P}}$ be the relation defined as: \[
-	x\sim_{\mathcal{P}}y \iff \exists i\in I\ \text{such that}\ x,y\in P_i
-	\] for all $x,y\in S$. That is, $x$ is related to $y$ under $\sim_{\mathcal{P}}$ if and only if $x$ and $y$ belong to the same subset $P_i$ in the partition. Then $\sim_\mathcal{P}$ is the equivalence relation induced by a partition $\mathcal{P}$.
+	Let $S$ be a set and $\mathcal{P}=\Gen{P_i}_{i\in I}$ be a partition of $S$. We define a relation ${\mathcal{R}}$ on $S$: \[
+	x\sim_{\mathcal{R}}y \iff \exists i\in I\ \text{such that}\ x,y\in P_i
+	\] for all $x,y\in S$. That is, $x$ is related to $y$ under $\mathcal{R}$ if and only if $x$ and $y$ belong to the same subset $P_i$ in the partition. Then $\mathcal{R}$ is the equivalence relation induced by a partition $\mathcal{P}$.
 \end{theorem}}
 \begin{proof}
 	Let $\Gen{P_i}_{i\in I}$ be a partition of $S$. That is, \[
@@ -337,23 +336,23 @@ Then \begin{enumerate}[(i)]
 	\text{(c)}\ \bigcup_{i\in I}P_i=S.
 	\]
 	Let $x,y\in S$. Note that \[
-	\sim_{\mathcal{P}}:=\set{(x,y)\in S\times S: \exists i\in I\ \text{s.t.}\ x\in P_i\land y\in P_i}.
-	\]We NTS $\sim_{\mathcal{P}}$ is reflexive, symmetric and transitive:
+	\cR:=\set{(x,y)\in S\times S: \exists i\in I\ \text{s.t.}\ x\in P_i\land y\in P_i}.
+	\] We NTS $\sim_{\mathcal{R}}$ is reflexive, symmetric and transitive:
 	\begin{enumerate}[(i)]
-		\item (Reflexivity) We NTS that $x\sim_{\mathcal{P}} x$: \[
-		x\in S\overset{\text{by (c)}}{\implies} x\in \bigcup_{i\in I}P_i\implies \exists i\in I\ \text{s.t.}\ x\in P_i\implies \exists i\in I\ \text{s.t.}\ x\in P_i\land x\in P_i\implies x\sim_{\mathcal{P}} x.
+		\item (Reflexivity) We NTS that $x\sim_{\mathcal{R}} x$: \[
+		x\in S\overset{\text{by (c)}}{\implies} x\in \bigcup_{i\in I}P_i\implies \exists i\in I\ \text{s.t.}\ x\in P_i\implies \exists i\in I\ \text{s.t.}\ x\in P_i\land x\in P_i\implies x\sim_{\mathcal{R}} x.
 		\]
-		\item (Symmetry) We NTS that $x\sim_{\mathcal{P}} y\implies y\sim_{\mathcal{P}} x$:\[
-		x\sim_{\mathcal{P}} y\implies \exists i\in I\ \text{s.t.}\ x\in P_i\land y\in P_i\implies \exists i\in I\ \text{s.t.}\ y\in P_i\land x\in P_i\implies y\sim_{\mathcal{P}} x.
+		\item (Symmetry) We NTS that $x\sim_{\mathcal{R}} y\implies y\sim_{\mathcal{R}} x$:\[
+		x\sim_{\mathcal{R}} y\implies \exists i\in I\ \text{s.t.}\ x\in P_i\land y\in P_i\implies \exists i\in I\ \text{s.t.}\ y\in P_i\land x\in P_i\implies y\sim_{\mathcal{R}} x.
 		\]
-		\item (Transitivity) We NTS that $x\sim_{\mathcal{P}} y\land y\sim_{\mathcal{P}} z\implies x\sim_{\mathcal{P}} z$:\[
+		\item (Transitivity) We NTS that $x\sim_{\mathcal{R}} y\land y\sim_{\mathcal{R}} z\implies x\sim_{\mathcal{R}} z$:\[
 		\begin{cases*}
-			x\sim_{\mathcal{P}} y \\
-			y\sim_{\mathcal{P}} z
+			x\sim_{\mathcal{R}} y \\
+			y\sim_{\mathcal{R}} z
 		\end{cases*}\implies \begin{cases*}
 		\exists i\in I\ \text{s.t.}\ x\in P_i\land \textcolor{red}{y\in P_i} \\
 		\exists j\in I\ \text{s.t.}\ \textcolor{red}{y\in P_j}\land z\in P_j
-	\end{cases*}\overset{\text{by (b), $i=j$}}{\implies}\exists i=j\in I\ \text{s.t.}\ x\in P_i\land z\in P_i\implies x\sim_{\mathcal{P}} z.
+	\end{cases*}\overset{\text{by (b), $i=j$}}{\implies}\exists i=j\in I\ \text{s.t.}\ x\in P_i\land z\in P_i\implies x\sim_{\mathcal{R}} z.
 		\]
 	\end{enumerate}
 \end{proof}
