@@ -165,28 +165,32 @@
 	\ \begin{itemize}
 		\item The \hl{\textbf{domain}} of $f$ is $\text{Dom}(f)=A$.
 		\item The \hl{\textbf{codomain}} of $f$ is $\text{Cdm}(f)=B$.
-		\item The \hl{\textbf{image}} of $f$ is the set \begin{align*}\
+		\item The \hl{\textbf{image}} \textbf{of $A$ under $f$} is the set \begin{align*}\
 			\img{f}=f[A]:&=\set{b\in B:\exists a \in A\ \text{s.t.}\ (a,b)\in f}\\
 			&=\set{b\in B:\exists a \in A\ \text{s.t.}\ f(a)=b}\\
 			&=\set{b\in B: b = f(a)\ \text{for at least one}\ a\in A}.
-		\end{align*} Simply we can express it as $f[A]=\set{f(a)\in B:a\in A}$. Note that $f[A]\subseteq B=\text{Cdm}(f)$. 
-	
-		Note that \begin{align*}
+		\end{align*} Simply we can express it as $f[A]=\set{f(a)\in B:a\in A}$. 
+		\begin{figure}[h!]\centering
+			\input{../tikz/grad-math-tikz/grad-math-1-image}
+			\caption{Image of $A$ under $f$.}
+		\end{figure}\\
+		Note that $f[A]\subseteq B=\text{Cdm}(f)$ and that \begin{align*}
 			b\in f[A]\iff b=f(a)\ \text{for some}\ a\in A.
 		\end{align*}
-		\item The \hl{\textbf{preimage}} of $f$ is the set \begin{align*}
-			\preimg{f}=f^{-1}[B]:&=\set{a\in A:\exists b \in B\ \text{s.t.}\ (a,b)\in f}\\
-			&=\set{a\in A:\exists! b \in B\ \text{s.t.}\ b=f(a)}\ \text{by def. of a function}\\
-			&=\set{a\in A:f(a)=b\ \text{for exactly one}\ b\in B}.
-		\end{align*} ``Exactly one'' ensures a unique assignment for every element of $A$, while ``at most one'' allows no assignment. Simply we can express it as $f^{-1}[B]=\set{a\in A:f(a)\in B}$. Note that $f^{-1}[B]\subseteq A=\text{Dom}(f)$.
-	
-		Note that \begin{align*}
-		a\in f^{-1}[B]\iff f(a)\in B.
-\end{align*}
+		\item The \hl{\textbf{preimage}} \textbf{of $B_1\subseteq B$ under $f$} is the set \begin{align*}
+			f^{-1}[B_1]:&=\set{a\in A:\exists b \in B_1\ \text{s.t.}\ (a,b)\in f}\\
+			&=\set{a\in A:\exists! b \in B_1\ \text{s.t.}\ b=f(a)}\ \text{by def. of a function}\\
+			&=\set{a\in A:f(a)=b\ \text{for exactly one}\ b\in B_1}.
+		\end{align*} ``Exactly one'' ensures a unique assignment for every element of $A$, while ``at most one'' allows no assignment. Simply we can express it as $f^{-1}[B_1]=\set{a\in A:f(a)\in B_1}$.
+		\begin{figure}[h!]\centering
+			\input{../tikz/grad-math-tikz/grad-math-1-preimage}
+			\caption{Preimage of $B_1\subseteq B$ under $f$.}
+		\end{figure}\\
+		Note that $f^{-1}[B_1]\subseteq A=\text{Dom}(f)$ and that $a\in f^{-1}[B_1]\iff f(a)\in B_1.$
 	\end{itemize}
 \end{remark*}
 
-\newpage
+\vfill
 \probox{\begin{proposition}
 	Let $f:A\to B$ be a function from $A$ to $B$, and let $A_1,A_2\subseteq A$. \begin{enumerate}[(1)]
 		\item $f[A_1\cup A_2]=f[A_1]\cup f[A_2]$.
@@ -217,8 +221,7 @@
 		\end{enumerate} \underline{Therefore, $b=f(a)\in f[A_1]\cap f[A_2]$}.
 \end{enumerate}}
 \end{proof}
-
-\newpage
+\vfill
 \probox{\begin{proposition}
 	Let $f:A\to B$ be a function from $A$ to $B$, and let $B_1,B_2\subseteq B$. \begin{enumerate}[(1)]
 		\item $f^{-1}[B_1\cup B_2]=f^{-1}[B_1]\cup f^{-1}[B_2]$.
@@ -250,7 +253,6 @@
 			\item $f(a)\in B_2\implies a\in f^{-1}[B_2]$.
 		\end{enumerate}\ \\ \underline{Thus, $a\in f^{-1}[B_1]\cap f[B_2]$}.
 		\vspace{12pt}
-		\newpage
 		\item[($\supseteq$)] \underline{Let $a\in f^{-1}[B_1]\cap f^{-1}[B_2]$}. Then $a\in f^{-1}[B_1]$ and $a\in f^{-1}[B_2]$. Then \textit{both} of the following hold:\\ \begin{enumerate}[(i)]
 			\item $a\in f^{-1}[B_1]\implies f(a)\in B_1$.
 			\item $a\in f^{-1}[B_2]\implies f(a)\in B_2$.
@@ -323,11 +325,10 @@
 	\end{itemize}
 \end{remark*}
 
-\newpage
 \defbox[Composition of Functions]{\begin{definition*}
-	Let $f_1:A\to B$ and $f_2:B\to C$ be functions such that $\text{Cdm}(f_1)=B=\text{Dom}(f_2)$. The \hl{\textbf{composition}} $f_2\circ f_1$ is defined as: \[
-	(f_2\circ f_1)(a):= f_2(f_1(a)).
-	\] for all $a\in A$.
+		Let $f_1:A\to B$ and $f_2:B\to C$ be functions such that $\text{Cdm}(f_1)=B=\text{Dom}(f_2)$. The \hl{\textbf{composition}} $f_2\circ f_1$ is defined as: \[
+		(f_2\circ f_1)(a):= f_2(f_1(a)).
+		\] for all $a\in A$.
 \end{definition*}}
 %\begin{remark*}
 %\ \begin{itemize}
@@ -335,65 +336,29 @@
 %	\item $f_2\circ f_1=\set{(a,c)\in A\times C: \exists b\in f_2\ \text{s.t.}\ f_1(a)=b\land f_2(b)=c}$.
 %\end{itemize}
 %\end{remark*}
-\vfill
 \begin{note}[Diagram]
-\ \begin{figure}[h!]
-	\centering
-	\input{../tikz/grad-math-tikz/grad-math-1-composition-diagram}
-	\caption{Diagram of $f_2\circ f_1$}
-\end{figure}
+	\ \begin{figure}[h!]
+		\centering
+		\input{../tikz/grad-math-tikz/grad-math-1-composition-diagram}
+		\caption{Diagram of $f_2\circ f_1$.}
+	\end{figure}
 \end{note}
-\vfill
+\newpage
 \begin{note}[Illustration]
 	\ \begin{figure}[h!]\centering
-		\input{../tikz/grad-math-tikz/grad-math-1-composition-illustration}
+		\adjustbox{scale=.9}{\input{../tikz/grad-math-tikz/grad-math-1-composition-illustration}}
 		\caption{Illustration of $f_2\circ f_1$}
 	\end{figure}
 \end{note}
-%\begin{remark*}
-%	The composition is associative. For any \( f, g, h \in G \),
-%	\[
-%	(f \circ g) \circ h = f \circ (g \circ h)
-%	\]
-%	\adjustbox{scale=.8, center}{
-%		\begin{tikzpicture}
-%			% Draw the sets A and B
-%			\draw[thick] (-6,0) ellipse (1.5 and 2);
-%			\draw[thick] (-2,0) ellipse (1.5 and 2);
-%			\draw[thick] (2,0) ellipse (1.5 and 2);
-%			\draw[thick] (6,0) ellipse (1.5 and 2);
-%			
-%			% Labels for sets
-%			\node at (-6, 2.25) {$A$};
-%			\node at (-2, 2.25) {$B$};
-%			\node at (2, 2.25) {$C$};
-%			\node at (6, 2.25) {$D$};
-%			
-%			% Draw the arrows representing the function
-%			\draw[-Stealth] (-5.5, 2.25) -- (-2.5, 2.25) node[midway, above] {$f$};
-%			\draw[-Stealth] (-1.5, 2.25) -- (1.5, 2.25) node[midway, above] {$g$};
-%			\draw[-Stealth] (2.5, 2.25) -- (5.5, 2.25) node[midway, above] {$h$};
-%			\draw[|-Stealth, line width=.5mm] (-5.5, 0) -- (-2.5, 0);
-%			\draw[|-Stealth, line width=.5mm] (-1.5, 0) -- (1.5, 0);
-%			\draw[|-Stealth, line width=.5mm] (2.5, 0) -- (5.5, 0);
-%			
-%			% Labels for elements in Domain
-%			\node[fill, circle, inner sep=0.05cm] at (-6,0) (A) {};
-%			\node[fill, circle, inner sep=0.05cm] at (-2,0) (B) {};
-%			\node[fill, circle, inner sep=0.05cm] at (2,0) (C) {};
-%			\node[fill, circle, inner sep=0.05cm] at (6,0) (D) {};
-%			\node (A2) at (-6, 0.5) {$a$};
-%			\node (B2) at (-2, 0.5) {$f(a)$};
-%			\node (C2) at (2, 0.5) {$g(f(a))$};
-%			\node (D2) at (6, 0.5) {$h(g(f(a)))$};
-%			
-%			\draw[-Stealth, bend right=25pt, shorten <= 5pt, shorten >= 5pt] (A) to node[midway,below] {$g\circ f$} (C);
-%			\draw[-Stealth, bend right=25pt, shorten <= 5pt, shorten >= 5pt] (A) to node[midway,below] {$h\circ(g\circ f)$} (D);
-%			
-%			\draw[-Stealth, bend left=25pt, shorten <= 5pt, shorten >= 5pt] (A) to node[midway,above] {$(h\circ g)\circ f$} (D);
-%			\draw[-Stealth, bend left=25pt, shorten <= 5pt, shorten >= 5pt] (B) to node[midway,above] {$h\circ g$} (D);
-%	\end{tikzpicture}}
-%\end{remark*}
+\vfill
+\begin{remark*}
+	The composition is associative. For any \( f, g, h \in G \), $
+	(f \circ g) \circ h = f \circ (g \circ h) $.
+	\begin{figure}[h!]\centering
+		\adjustbox{scale=.9}{\input{../tikz/grad-math-tikz/grad-math-1-composition-associativity}}
+		\caption{Associativity of Composition.}
+	\end{figure}
+\end{remark*}
 \newpage
 \thmbox[]{\begin{theorem}
 	Let $A$ and $B$ are sets. Let $f:A\to B$ be a function.

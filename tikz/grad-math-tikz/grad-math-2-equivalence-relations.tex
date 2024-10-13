@@ -1,0 +1,59 @@
+\begin{tikzpicture}[>=Stealth, node distance=2.5cm, thick, main/.style = {draw, circle}]
+	% Define styles
+	\tikzset{
+		reflexive/.style={<->, loop, looseness=12, in=120, out=60, red},
+		symmetric/.style={->, blue, bend left},
+		transitive/.style={->, green!75!black}
+	}
+	
+	% Nodes
+	\node[main] (a) {a};
+	\node[main] (b) [right of=a] {b};
+	\node[main] (c) [below of=a] {c};
+	\node[main] (d) [right of=c] {d};
+	
+	% Edges
+	% Reflexivity
+	\draw[reflexive] (a) to (a);
+	\draw[reflexive] (b) to (b);
+	\draw[reflexive] (c) to (c);
+	\draw[reflexive] (d) to (d);
+	\begin{scope}[xshift=6cm]
+		% Nodes
+		\node[main] (a2) {a};
+		\node[main] (b2) [right of=a2] {b};
+		\node[main] (c2) [below of=a2] {c};
+		\node[main] (d2) [right of=c2] {d};
+		
+		% Symmetry
+		\draw[dotted,symmetric] (a2) to (b2);
+		\draw[symmetric] (b2) to (a2);
+		\draw[dotted,symmetric] (c2) to (d2);
+		\draw[symmetric] (d2) to (c2);
+	\end{scope}
+	
+	\begin{scope}[xshift=12cm]
+		% Nodes
+		\node[main] (a3) {a};
+		\node[main] (b3) [right of=a3] {b};
+		\node[main] (c3) [below of=a3] {c};
+		\node[main] (d3) [right of=c3] {d};
+		
+		% Transitivity
+		\draw[dotted, transitive] (a3) to (b3);
+		\draw[dotted, transitive] (b3) to (c3);
+		\draw[transitive] (a3) to (c3); % Transitivity implied by a -> d and d -> b
+	\end{scope}
+	
+	\node[align=center] at (1.25,-4) {\textcolor{red}{Reflexivity}\\ (each element is related to itself)};
+	\node[align=center] at (7.25,-4.25) {\textcolor{blue}{Symmetry}\\ (if \(a\) is related to \(b\),\\ then \(b\) is related to \(a\))};
+	\node[align=center] at (13.25,-4.25) {\textcolor{green!75!black}{Transitivity}\\ (if \(a\) is related to \(b\) and \(b\) is related to \(c\),\\ then \(a\) is related to \(c\))};
+	
+	% Annotations
+%	\node[align=left, below right= of c] {
+%		%		\textbf{Equivalence Relation Properties:}\\
+%		\textcolor{red}{Red arrows: Reflexivity}\\ (each element is related to itself).\\
+%		\textcolor{blue}{Blue arrows: Symmetry}\\ (if \(a\) is related to \(b\), then \(b\) is related to \(a\)).\\
+%		\textcolor{green}{Green arrows: Transitivity}\\ (if \(a\) is related to \(b\) and \(b\) is related to \(c\), then \(a\) is related to \(c\)).
+%	};
+\end{tikzpicture}

@@ -1,0 +1,38 @@
+\begin{tikzpicture}[>=Stealth, node distance=1cm and 2cm]
+	\tikzset{
+		set node/.style={rectangle, draw, thick, fill=orange!20, minimum size=5mm, align=center},
+		relation arrow/.style={-, thick, #1},
+		element node/.style={circle, draw, thick, fill=green!20, minimum size=5mm},
+		highlight/.style={draw, thick, dotted, inner sep=3pt}
+	}
+	
+	% Define nodes for elements
+	\node[] (a) {$A$};
+	\node[right=of a] (b) {$B$};
+	\node[element node, below=0.5cm of a] (1) {1};
+	\node[element node, below of=1] (2) {2};
+	\node[element node, below=0.5cm of b] (4) {4};
+	\node[element node, below of=4] (5) {5};
+	
+	\foreach \x in {1, 2} {
+		\draw[relation arrow=blue] (\x) -- (4);
+		\draw[relation arrow=blue] (\x) -- (5);
+	}
+
+	\node at (1.25,-3) {$A\times B$};
+	\begin{scope}[xshift=6cm]
+		\node[] (a) {$A$};
+		\node[right=of a] (b) {$B$};
+		\node[element node, below=0.5cm of a] (1) {1};
+		\node[element node, below of=1] (2) {2};
+		\node[element node, below=0.5cm of b] (4) {4};
+		\node[element node, below of=4] (5) {5};
+		
+		\draw[relation arrow=blue] (1) -- (4);
+		\draw[relation arrow=blue!10] (1) -- (5);
+		\draw[relation arrow=blue!10] (2) -- (4);
+		\draw[relation arrow=blue] (2) -- (5);
+		
+		\node at (1.25,-3) {$\mathcal{R}\subseteq A\times B$};
+	\end{scope}
+\end{tikzpicture}

@@ -102,7 +102,7 @@
 	\end{enumerate}
 \end{lemma}}
 \begin{proof}
-	\begin{enumerate}[(1)]
+	\textcolor{gray!30!white}{\begin{enumerate}[(1)]
 		\item Let $f$ and $g$ are both one-to-one. We must show that $(g\circ f):A\to C$ is one-to-one. Suppose that $(g\circ f)(a)=(g\circ f)(a')$. Then \begin{align*}
 			(g\circ f)(a)=(g\circ f)(a') &\implies g(f(a))=g(f(a')) &\text{by def. of composition} \\&\implies f(a)=f(a') &\because\text{$g$ is injective} \\
 			&\implies a=a'. &\because\text{$f$ is injective}
@@ -113,7 +113,7 @@
 			&= g[B] &\because\text{$f:A\to B$ is surjective, \ie, $f[A]=B$} \\
 			&= C. &\because\text{$g:B\to C$ is surjective, \ie, $g[B]=C$} \\
 		\end{align*}
-	\end{enumerate}
+	\end{enumerate}}
 \end{proof}
 \lembox{\begin{lemma}\hypertarget{lemma2}{}
 	Let $A,B$ and $C$ are sets, and let $f:A\to B$ and $g:B\to C$ are functions. \begin{enumerate}[(1)]
@@ -122,7 +122,7 @@
 	\end{enumerate}
 \end{lemma}}
 \begin{proof}
-\begin{enumerate}[(1)]
+\textcolor{gray!30!white}{\begin{enumerate}[(1)]
 	\item Let $g\circ f$ is one-to-one. We must show that $f$ is one-to-one. Suppose that $f(a)=f(a')$. Then \begin{align*}
 		f(a)=f(a') &\implies g(f(a))=g(f(a')) &\because\text{$g$ is a function} \\
 		&\implies(g\circ f)(a)=(g\circ f)(a')&\text{by the def. of composition} \\
@@ -133,7 +133,7 @@
 		\item[($\subseteq$)] $g[B]=\set{g(b)\in C: b\in B}\subseteq C$;
 		\item[($\supseteq$)] $C=(g\circ f)[A]=g[f[A]]=\set{g(b)\in C:b\in f[A]}\subseteq g[B]$.
 	\end{itemize}
-\end{enumerate}
+\end{enumerate}}
 \end{proof}
 \vfill
 \probox[Equivalence Relation on $2^A$ Based on Bijection]{\begin{proposition}
@@ -275,7 +275,7 @@ Then \begin{enumerate}[(i)]
 	\end{enumerate}
 \end{lemma}}
 \begin{proof}
-	\begin{enumerate}[(1)]
+	\textcolor{gray!30!white}{\begin{enumerate}[(1)]
 		\item Let $x\in S$. Since $\cR$ is reflexive, we have $x\relation x$, \ie, $x\in\eqclass{x}$.
 		\item \begin{itemize}
 			\item[$(\Rightarrow)$] Let $x\relation y$. We NTS that $[x]=[y]$: \begin{itemize}
@@ -290,9 +290,8 @@ Then \begin{enumerate}[(i)]
 					&\implies \beta\in[x].
 				\end{align*}
 			\end{itemize}
-			\item[$(\Leftarrow)$] Let $[x]=[y]$. Then \[
-			x\in S\overset{\text{by (1)}}{\implies} x\in[x]=[y]\implies x\in[y]\implies x\relation y.
-			\]
+			\item[$(\Leftarrow)$] Let $[x]=[y]$. Then $
+			x\in S\overset{\text{by (1)}}{\implies} x\in[x]=[y]\implies x\in[y]\implies x\relation y.$
 		\end{itemize}
 		\item \begin{itemize}
 			\item[$(\Rightarrow)$] Let $x\centernot\relation y$. Suppose that $\eqclass{x}\cap[y]\neq\varnothing$ then $\exists \gamma\in S$ such that $\gamma\in\eqclass{x}\cap[y]$. Then \begin{align*}
@@ -300,7 +299,7 @@ Then \begin{enumerate}[(i)]
 			\end{align*}
 			\item[$(\Leftarrow)$] Let $\eqclass{x}\cap[y]=\varnothing$. Suppose that $x\relation y$. By (1) and (2), we have $x\in[x]=[y]\ \text{\LARGE\lightning}$.
 		\end{itemize}
-	\end{enumerate}
+	\end{enumerate}}
 \end{proof}
 \thmbox[]{\begin{theorem}
 	Let $S$ be a set. Let $\mathcal{R}$ be an equivalence relation on $S$. The set of equivalence classes \[
@@ -331,7 +330,7 @@ Then \begin{enumerate}[(i)]
 	\] for all $x,y\in S$. That is, $x$ is related to $y$ under $\sim_{\mathcal{P}}$ if and only if $x$ and $y$ belong to the same subset $P_i$ in the partition. Then $\sim_\mathcal{P}$ is the equivalence relation induced by a partition $\mathcal{P}$.
 \end{theorem}}
 \begin{proof}
-	Let $\Gen{P_i}_{i\in I}$ be a partition of $S$. That is, \[
+	\textcolor{gray!30!white}{Let $\Gen{P_i}_{i\in I}$ be a partition of $S$. That is, \[
 	\text{(a)}\ P_i\neq\varnothing\ \text{for all}\ i\in I;\hspace{30pt}
 	\text{(b)}\ P_i\cap P_j=\varnothing\ \text{for}\ i\neq j;\hspace{30pt}
 	\text{(c)}\ \bigcup_{i\in I}P_i=S.
@@ -351,11 +350,11 @@ Then \begin{enumerate}[(i)]
 			x\sim_{\mathcal{P}} y \\
 			y\sim_{\mathcal{P}} z
 		\end{cases*}\implies \begin{cases*}
-		\exists i\in I\ \text{s.t.}\ x\in P_i\land \textcolor{red}{y\in P_i} \\
-		\exists j\in I\ \text{s.t.}\ \textcolor{red}{y\in P_j}\land z\in P_j
+		\exists i\in I\ \text{s.t.}\ x\in P_i\land \underline{y\in P_i} \\
+		\exists j\in I\ \text{s.t.}\ \underline{y\in P_j}\land z\in P_j
 	\end{cases*}\overset{\text{by (b), $i=j$}}{\implies}\exists i=j\in I\ \text{s.t.}\ x\in P_i\land z\in P_i\implies x\sim_{\mathcal{P}} z.
 		\]
-	\end{enumerate}
+	\end{enumerate}}
 \end{proof}
 
 %\thmbox[$\star\star\star$ Fundamental Theorem of Equivalence Relation $\star\star\star$]{\begin{theorem}

@@ -1,0 +1,51 @@
+\begin{tikzpicture}[>=Stealth, thick, node distance=2cm, auto]
+	% Styles
+	\tikzset{
+		main node/.style={circle, draw, fill=blue!20, minimum size=30pt, font=\sffamily\Large},
+		class node/.style={dashed, ellipse, draw, thick, blue, fill=cyan, minimum height=1cm, minimum width=1cm, align=center, opacity=.4}, % drop shadow
+		quotient node/.style={rectangle, draw, thick, fill=green!20, minimum size=30pt, font=\sffamily\Large, rounded corners},
+		path/.style={blue,-Stealth, thick, shorten <=2pt, shorten >=2pt, decorate},
+		%decoration={snake, amplitude=.4mm, segment length=2mm, post length=1mm}
+		label distance=2mm
+	}
+	
+	% Nodes representing elements of the set% Nodes representing elements
+	
+	\node[main node] (0) {0};
+	\node[main node] (1) [right of=0] {1};
+	\node[main node] (2) [right of=1] {2};
+	
+	\node[main node] (-3) [above of=0] {-3};
+	\node[main node] (-2) [above of=1] {1};
+	\node[main node] (-1) [above of=2] {-1};
+	
+	\node[main node] (3) [below of=0] {3};
+	\node[main node] (4) [below of=1] {4};
+	\node[main node] (5) [below of=2] {5};
+	
+	\node[main node] (6) [below of=3] {6};
+	\node[main node] (7) [below of=4] {7};
+	\node[main node] (8) [below of=5] {8};
+	
+	% Nodes for equivalence classes
+	\node[class node, fit=(-3) (0) (6)] (class0) {\Huge $\mathbf{[0]}$};
+	\node[class node, fit=(-2) (1) (7)] (class1) {\Huge $\mathbf{[1]}$};
+	\node[class node, fit=(-1) (2) (8)] (class2) {\Huge $\mathbf{[2]}$};
+	
+	% Quotient set nodes
+	\node[quotient node, below=4cm of $(6)!0.5!(8)$] (qset) {$\{[0], [1], [2]\}$};
+	
+	% Paths for quotient set formation
+	\draw[path] (class0) to[out=-90, in=90] (qset);
+	\draw[path] (class1) to[out=-90, in=90] (qset);
+	\draw[path] (class2) to[out=-90, in=90] (qset);
+	
+	% Annotations and decorative lines
+	\node[align=center, above=2cm of $(-3)!0.5!(-1)$, font=\sffamily\Large] {Set $\Z$};
+%	\node[align=center, below=0.5cm of qset, font=\sffamily\Large] {Quotient Set $\Z/5\Z$};
+	
+	% Background grid
+	\begin{scope}[on background layer]
+		\draw[style=help lines, step=2cm, gray, very thin] (0,3.9) grid (4,-6);
+	\end{scope}
+\end{tikzpicture}

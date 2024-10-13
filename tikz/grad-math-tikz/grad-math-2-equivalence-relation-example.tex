@@ -1,0 +1,26 @@
+\begin{tikzpicture}[>=Stealth, node distance=2.5cm, thick, main/.style = {draw, circle}]
+	% Define styles
+	\tikzset{
+		reflexive/.style={<->, loop, looseness=12, in=120, out=60, red},
+		symmetric/.style={->, blue, bend left},
+		transitive/.style={->, green!75!black}
+	}
+	
+%	\draw[rounded corners=25pt] (-1,2) rectangle (3.5,-3);
+	
+	% Nodes
+	\node[] (a) {1};
+	\node[] (b) [right of=a] {2};
+	\node[] (c) [below of=a] {3};
+	\node[] (d) [right of=c] {4};
+	
+	% Edges
+	% Reflexivity
+	\draw[reflexive] (a) to (a);
+	\draw[reflexive] (b) to (b);
+	\draw[reflexive] (c) to (c);
+	\draw[reflexive] (d) to (d);
+	
+	\draw[->, dashed, gray, bend left] (a) to (b);
+	\draw[->, dashed, gray, bend left] (b) to (a);
+\end{tikzpicture}
