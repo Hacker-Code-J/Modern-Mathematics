@@ -47,7 +47,7 @@
 \end{example*}
 
 \begin{example*}
-	Let $A$ and $B$ are sets, and let $f:A\to B$ be a function form $A$ to $B$. Then \[
+	Let $A$ and $B$ are sets, and let $f:A\to B$ be a function from $A$ to $B$. Then \[
 	(a,b)\in f\iff a\mathrel{f}b\iff b=f(a).
 	\]
 \end{example*}
@@ -140,17 +140,17 @@
 	X\sim_{\cR} Y\iff \exists f\in Y^X\ \text{such that $f$ is bijective},
 	\] for $X,Y\in 2^A$. In other words, \[
 	\mathcal{R}:=\set{(X,Y)\in 2^A\times 2^A:\exists\ \text{a bijection}\ f\in Y^X}.
-	\]
+	\] Then $\mathcal{R}$ is an equivalence relation on $2^A$.
 \end{proposition}}
 \begin{proof}
-	Let $X,Y,Z\in 2^A$. We must show that $\sim_{\mathcal{R}}$ is reflexive, symmetric and transitive: 
+	Let $X,Y,Z\in 2^A$. We must show that ${\mathcal{R}}$ is reflexive, symmetric and transitive: 
 	\begin{enumerate}[(i)]
 		\item (Reflexivity) We NTS\footnote{`NTS` means that ``need to show``.} that $X\sim_{\mathcal{R}} X$. In other words, we need to find a bijection from $X$ it self. 
 		\begin{center}\begin{tikzpicture}[scale=1, every node/.style={scale=1}]
 			% Reflexivity
 			\draw[thick] (0, 0) ellipse (1.2 and 0.7) node[text=black] (X) {$X$};
 			\draw[<->, loop, looseness=12, in=30, out=-30, line width=.5mm, red] (X) to (X);
-			\node at (1.75,0) {$\text{id}_X$};
+			\node[red] at (1.75,0) {$\text{id}_X$};
 		\end{tikzpicture}\end{center}
 		Consider the identity function \[
 		\fullfunction{\text{id}_X}{X}{X}{x}{x=\text{id}_X(x)}
@@ -187,9 +187,7 @@
 
 \newpage
 \defbox[Indexed Family]{\begin{definition*}
-	Let $I$ and $S$ are sets. Consider a function $A:I\to S$ defined by $i\mapsto A(i)=:A_i$. The image $\img{A}$ is called an \textbf{\hl{indexed family} of elements in $S$ indexed by $I$}. We write this indexed family as: \[
-	\Gen{A_i}_{i\in I}.
-	\] Note that \[
+	Let $I$ and $S$ are sets. Consider a function $A:I\to S$ defined by $i\mapsto A(i)=:A_i$. The image $\img{A}$ is called an \textbf{\hl{indexed family} of elements in $S$ indexed by $I$}. We write this indexed family as: $\Gen{A_i}_{i\in I}$. Note that \[
 	\img{A}=\set{A(i):i\in I}=\set{A_i:i\in I}=\Gen{A_i}_{i\in I}.
 	\]
 \end{definition*}}
@@ -197,16 +195,38 @@
 	Let $I=\N$ be an indexing set. Then \[
 	S:=\set{A_1,A_2,A_3,A_4,\cdots}=\set{A_i:i\in\N}=\gen{A_i}_{i\in\mathbb{N}}
 	\] is an indexed family of elements in $S$ indexed by $\mathbb{N}$.
+%	\begin{center}
+%	\input{../tikz/grad-math-tikz/grad-math-2-indexed-family}
+%	\end{center}
 \end{example*}
-\vspace{50pt}
+\vfill
 \defbox[Union and Intersection of an Indexed Family]{\begin{definition*}
 	Let $I$ and $S$ are sets, and let $\Gen{A_i}_{i\in}$ be an indexed family in $S$. \begin{itemize}
-		\item The \textbf{union of} $\Gen{A_i}_{i\in}$ is defined by \[
-		\bigcup_{i\in I}A_i:=\set{x\in S:\exists i\in I\ \text{such that}\ x\in A_i}.
-		\] 
-		\item The \textbf{intersection of} $\Gen{A_i}_{i\in}$ is defined by \[
-		\bigcap_{i\in I}A_i:=\set{x\in X:\forall i\in I,\ x\in A_i}.
-		\]
+		\item The \textbf{union of} $\Gen{A_i}_{i\in}$ is defined by $
+		\displaystyle\boxed{\bigcup_{i\in I}A_i:=\set{x\in S:\exists i\in I\ \text{such that}\ x\in A_i}}$. \begin{center}
+			\begin{tikzpicture}[scale=.65]
+				\draw[thick, fill=blue, fill opacity=0.2] (0,0) circle (1.5);
+				\draw[thick, fill=red, fill opacity=0.2] (1.5,0) circle (1.5);
+				\draw[thick, fill=green, fill opacity=0.2] (0.75,.75) circle (1.5);
+				\draw[thick, fill=yellow, fill opacity=0.2] (0.75,-.75) circle (1.5);
+				\foreach \points in {(-1,0), (.75,0), (1.75,0), (-.25,0), (2.5,0)}
+%				,(.75, 1) ,(.75, 1.75) , (.75, -1), (.75, -1.75), (-.25, 1),
+%				(1.75, 1), (-.25, -1), (1.75, -1)}
+				\fill[red] \points circle (3pt);
+			\end{tikzpicture}
+		\end{center}
+		\item The \textbf{intersection of} $\Gen{A_i}_{i\in}$ is defined by $
+		\displaystyle\boxed{\bigcap_{i\in I}A_i:=\set{x\in S:\forall i\in I,\ x\in A_i}}$. 
+		\begin{center}
+			\begin{tikzpicture}[scale=.65]
+				\draw[thick, fill=blue, fill opacity=0.2] (0,0) circle (1.5);
+				\draw[thick, fill=red, fill opacity=0.2] (1.5,0) circle (1.5);
+				\draw[thick, fill=green, fill opacity=0.2] (0.75,.75) circle (1.5);
+				\draw[thick, fill=yellow, fill opacity=0.2] (0.75,-.75) circle (1.5);
+				\foreach \points in {(.25,0), (.5,.25), (.75,-.1), (1,-.5), (1.25,.1)}
+			\fill[red] \points circle (3pt);
+		\end{tikzpicture}
+	\end{center}
 	\end{itemize}
 \end{definition*}}
 \begin{remark*}
@@ -218,17 +238,20 @@
 
 \newpage
 \defbox[$\star$ Partitions $\star$]{\begin{definition*}
-	Let $S$ be a set. Let $\gen{A_i}_{i\in I}$ be a family of subsets of $S$, where $A_i\subseteq S$ for each index $i\in I$. The family $\Gen{A_i}_{i\in I}$ is called a \textbf{\hl{partition} of $S$} if the following conditions hold:
+	Let $S$ be a set\textcolor{gray!20}{, and let the function $A:I\to 2^S$ as $i\mapsto A_i:=A(i)\subseteq S$, for all $i\in I$}. Consider a family of subsets $\gen{A_i}_{i\in I}$, where $A_i\subseteq S$ for every index $i\in I$. The family $\Gen{A_i}_{i\in I}$ is called a \textbf{\hl{partition} of $S$} if the following conditions are satisfied:
 	\begin{enumerate}[(i)]
-		\item (\textbf{Non-empty Subsets}) $A_i\neq\varnothing$ for all $i\in I$. Formally \[
-		\boxed{\forall i\in I,\ A_i\neq\varnothing}.
-		\]
-		\item (\textbf{Pairwise Disjoint}) For any $i,j\in I$, if $i\neq j$, then $A_i\cap A_j=\varnothing$. Formally \[
-		\boxed{\forall i,j\in I,\ \left[i\neq j\implies A_i\cap A_j=\varnothing\right]}.
-		\]
-		\item (\textbf{Union Covers the Whole Set}) The union of all sets $A_i$ is the whole set $S$. Formally \[
-		\boxed{\bigcup_{i\in A}A_i=S}.
-		\]
+		\item (\textbf{Non-empty Subsets}) Each subset $A_i$ is non-empty, \ie, $
+		\boxed{\forall i\in I,\ A_i\neq\varnothing}.$
+		\item (\textbf{Pairwise disjoint}) For all distinct \( i, j \in I \), the subsets \( A_i \) and \( A_j \) are disjoint, i.e.,
+		\[\boxed{\forall i, j \in I, \ i \neq j \implies A_i \cap A_j = \varnothing}.\]
+		\item (\textbf{Union covers the entire set}) The union of all subsets \( A_i \) covers the whole set \( S \), i.e.,
+		\[\boxed{\bigcup_{i \in I} A_i = S}.\]
+%		\item (\textbf{Pairwise Disjoint}) For any $i,j\in I$, if $i\neq j$, then $A_i\cap A_j=\varnothing$. Formally \[
+%		\boxed{\forall i,j\in I,\ \left[i\neq j\implies A_i\cap A_j=\varnothing\right]}.
+%		\]
+%		\item (\textbf{Union Covers the Whole Set}) The union of all sets $A_i$ is the whole set $S$. Formally \[
+%		\boxed{\bigcup_{i\in I}A_i=S}.
+%		\]
 	\end{enumerate}
 \end{definition*}}
 
@@ -265,6 +288,9 @@ Then \begin{enumerate}[(i)]
 \begin{note}
 	Note that $\alpha\relation x\iff \alpha\in[x]_{\mathcal{R}}\iff x\relation \alpha$.
 \end{note}
+\begin{center}
+\input{../tikz/grad-math-tikz/grad-math-2-equiv-class}
+\end{center}
 \lembox[]{\begin{lemma}
 	Let $\mathcal{R}$ be an equivalence relation on a set $S$. For any $x, y \in S$, let $\eqclass{x}$ and $[y]$ represent the equivalence classes of $x$ and $y$, respectively, under $\mathcal{R}$.
 	\begin{enumerate}[(1)]
@@ -301,11 +327,15 @@ Then \begin{enumerate}[(i)]
 		\end{itemize}
 	\end{enumerate}
 \end{proof}
-\thmbox[]{\begin{theorem}
+\thmbox[Fundamental Theorem on Equivalence Relations]{\begin{theorem}
 	Let $S$ be a set and let $\mathcal{R}$ be an equivalence relation on $S$. Define the set of equivalence classes \[
-	\mathcal{P}:=\set{[x]_{\mathcal{R}}:x\in S},
-	\] where $[x]_{\mathcal{R}}=\set{y\in S:x\relation y}$. Then $\mathcal{P}$ forms a partition of $S$.
+	\mathcal{P}:=\set{[x]_{\mathcal{R}}:x\in S},\ \text{where}\ [x]_{\mathcal{R}}=\set{y\in S:x\relation y}.
+	\] Then $\mathcal{P}$ forms the partition of $S$.
 \end{theorem}}
+\begin{center}
+\input{../tikz/grad-math-tikz/grad-math-2-FundThm-Equiv}
+\end{center}
+
 \begin{proof}
 	We must show that the set of equivalence classes $\set{[x]_{\mathcal{R}}:x\in S}$ satisfies the three conditions of a partition:
 	\begin{enumerate}[(i)]
@@ -324,7 +354,7 @@ Then \begin{enumerate}[(i)]
 \end{proof}
 
 \newpage
-\thmbox[]{\begin{theorem}
+\thmbox[Relation Induced by Partition is Equivalence]{\begin{theorem}
 	Let $S$ be a set and $\mathcal{P}=\Gen{P_i}_{i\in I}$ be a partition of $S$. We define a relation ${\mathcal{R}}$ on $S$: \[
 	x\sim_{\mathcal{R}}y \iff \exists i\in I\ \text{such that}\ x,y\in P_i
 	\] for all $x,y\in S$. That is, $x$ is related to $y$ under $\mathcal{R}$ if and only if $x$ and $y$ belong to the same subset $P_i$ in the partition. Then $\mathcal{R}$ is the equivalence relation induced by a partition $\mathcal{P}$.
@@ -337,7 +367,7 @@ Then \begin{enumerate}[(i)]
 	\]
 	Let $x,y\in S$. Note that \[
 	\cR:=\set{(x,y)\in S\times S: \exists i\in I\ \text{s.t.}\ x\in P_i\land y\in P_i}.
-	\] We NTS $\sim_{\mathcal{R}}$ is reflexive, symmetric and transitive:
+	\] We NTS that $\mathcal{R}$ is reflexive, symmetric and transitive:
 	\begin{enumerate}[(i)]
 		\item (Reflexivity) We NTS that $x\sim_{\mathcal{R}} x$: \[
 		x\in S\overset{\text{by (c)}}{\implies} x\in \bigcup_{i\in I}P_i\implies \exists i\in I\ \text{s.t.}\ x\in P_i\implies \exists i\in I\ \text{s.t.}\ x\in P_i\land x\in P_i\implies x\sim_{\mathcal{R}} x.
@@ -352,7 +382,7 @@ Then \begin{enumerate}[(i)]
 		\end{cases*}\implies \begin{cases*}
 		\exists i\in I\ \text{s.t.}\ x\in P_i\land \textcolor{red}{y\in P_i} \\
 		\exists j\in I\ \text{s.t.}\ \textcolor{red}{y\in P_j}\land z\in P_j
-	\end{cases*}\overset{\text{by (b), $i=j$}}{\implies}\exists i=j\in I\ \text{s.t.}\ x\in P_i\land z\in P_i\implies x\sim_{\mathcal{R}} z.
+	\end{cases*}\overset{\text{by (b), $i=j$}}{\implies}\exists i=j\in I\ \text{s.t.}\ x\in P_i\land z\in P_{j=i}\implies x\sim_{\mathcal{R}} z.
 		\]
 	\end{enumerate}
 \end{proof}
@@ -361,13 +391,28 @@ Then \begin{enumerate}[(i)]
 %	
 %\end{theorem}}
 
+%\newpage
+%\appendix
+%\section*{Several Relations}
+%\begin{table}[h]\centering\setstretch{1.5}
+%\resizebox{\textwidth}{!}{\begin{tabular}{|c|c|c|l|l|}\hline
+%	\textbf{Reflexive} & \textbf{Symmetric} & \textbf{Transitive} & \textbf{Example1} & \textbf{Example 2} \\ \hline
+%	\yes               & \yes               & \yes                & \( \cR = \{(a, b) \mid a = b\} \)              & \( \cR = \{(a, b) \mid a \equiv b \mod n\} \)     \\ \hline
+%	\yes               & \yes               & \no                 & \( \cR = \mathbb{R}^2 \)                       & \( \cR = \{(a, b) \mid a \leq b^2\} \)            \\ \hline
+%	\yes               & \no                & \yes                & \( \cR = \{(A, B) \mid A \subseteq B\} \)      & \( \cR = \{(a, b) \mid a \mid b\} \)              \\ \hline
+%	\yes               & \no                & \no                 & \( \cR = \{(a, b) \mid a \leq b + 3\} \)       & \( \cR = \{(x, y) \mid f(x) \leq f(y)\} \)        \\ \hline
+%	\no                & \yes               & \yes                & \( \cR = \{(a, b) \mid a - b \in 2\mathbb{Z}\} \) & \( \cR = \{(x, y) \mid |x| = |y|\} \)         \\ \hline
+%	\no                & \yes               & \no                 & \( \cR = \{(a, b) \mid a, b \in \{1,2\}\} \)   & \( \cR = \{(a, b) \mid a \neq b\} \)              \\ \hline
+%	\no                & \no                & \yes                & \( \cR = \{(a, b) \mid a^2 \leq b^3\} \)       & \( \cR = \{(x, y) \mid e^x \leq e^y\} \)          \\ \hline
+%	\no                & \no                & \no                 & \( \cR = \{(a, b) \mid a = 2, b \neq 2\} \)    & \( \cR = \{(x, y) \mid x \text{ is prime, } y \text{ is composite}\} \) \\ \hline
+%\end{tabular}}
+%\caption{Classification of Relations}
+%\end{table}
 
-
-\vfill
 \begin{thebibliography}{9}
 	\bibitem{set_thery_c}
 	수학의 즐거움, Enjoying Math. ``수학 공부, 기초부터 대학원 수학까지, 3. 집합론 기초 (c).'' YouTube Video, 35:04. Published 
-	September 07, 2019. URL: \url{https://www.youtube.com/watch?v=2gM-Vh8CY8I&list=PL4m4z_pFWq2pLwFsWf0KJX_uMNo-jktN5&index=136}.
+	September 07, 2019. URL: \url{https://www.youtube.com/watch?v=2gM-Vh8CY8I&t=1607s}.
 \end{thebibliography}
 
 \end{document}

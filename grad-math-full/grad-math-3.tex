@@ -1,0 +1,187 @@
+\documentclass[11pt,openany]{article}
+
+\input{grad-math-preamble}
+\input{tcolorbox}
+\input{theorem}
+\input{tikz}
+\input{grad-math-commands}
+
+\setstretch{1.25}
+\begin{document}
+\pagenumbering{arabic}
+\begin{center}
+	\huge\textbf{Advanced Calculus I}\\
+	\vspace{0.5em}
+	\large{Ji, Yong-hyeon}\\
+	\vspace{0.5em}
+	\normalsize{\today}\\
+\end{center}
+
+\noindent We cover the following topics in this note.
+\begin{itemize}
+	\item Least Upper Bound Property (Completeness Axiom)
+	\item Equivalence Relations
+	\item Equivalence Classes
+\end{itemize}
+\hrule\vspace{12pt}
+\thmbox[Intermediate Value Theorem]{\begin{theorem*}
+	Let $[a,b]\subseteq\mathbb{R}$ be a real interval, and let $f:[a,b]\to\mathbb{R}$ be a continuous function on $[a,b]$. Let $f(a)<f(b)$. If $\gamma\in\mathbb{R}$ satisfies $f(a)<\gamma<f(b)$, then \[
+	\exists c\in(a,b)\ \text{such that}\ f(c)=\gamma.
+	\] \begin{center}
+		\input{../tikz/grad-math-tikz/grad-math-3-IVT}
+	\end{center}
+\end{theorem*}}
+\begin{remark*}
+\ \begin{center}
+\input{../tikz/grad-math-tikz/grad-math-3-IVT2}
+\end{center}
+\end{remark*}
+
+\begin{center}
+	\begin{tikzpicture}
+		\begin{axis}[
+			axis lines = middle,
+			xlabel = $x$,
+			ylabel = {$f(x)$},
+			xmin=0, xmax=3,
+			ymin=0, ymax=4,
+			xtick={1,2},
+			xticklabels={$a$,$b$},
+			ytick=\empty,
+			clip=false,
+			domain=0:3 % Set the domain for all plots
+			]
+			
+			% Define the function f(x)
+			\addplot[blue, thick, smooth, samples=100] {x^2 - 2*x + 2};
+			\node at (axis cs:2.3,3.5) {$f(x) = x^2 - 2x + 2$};
+			
+			% Calculate derivative and define tangent line at c
+			% c = 1.5, f'(c) = 2*(1.5) - 2 = 1
+			% Tangent equation: y - f(c) = f'(c)(x - c)
+			% f(c) = (1.5)^2 - 2*(1.5) + 2 = 0.25
+			% y = 1*(x - 1.5) + 0.25 = x - 1.25
+			\addplot[red, thick, domain=0:3] {x - 1.25};
+			\node at (axis cs:0.5,0) {Tangent at $c$};
+			
+			% Points a, b, and c
+			\node[label={180:{$f(a)$}},circle,fill,inner sep=2pt] at (axis cs:1,1) {};
+			\node[label={0:{$f(b)$}},circle,fill,inner sep=2pt] at (axis cs:2,2) {};
+			\node[label={90:{$f(c)$}},circle,fill,inner sep=2pt] at (axis cs:1.5,0.25) {};
+			\draw[dashed, thin] (axis cs:1.5,0) -- (axis cs:1.5,0.25);
+			\node at (axis cs:1.5, -0.3) {$c$};
+			
+		\end{axis}
+	\end{tikzpicture}
+\end{center}
+
+%\begin{center}
+%	\begin{tikzpicture}
+%		\begin{axis}[
+%			axis lines=middle,
+%			xlabel=$x$,
+%			ylabel={$f(x)$},
+%			xmin=0, xmax=4,
+%			ymin=-1, ymax=1,
+%			xtick={1,3},
+%			xticklabels={$a$,$b$},
+%			ytick=\empty,
+%			clip=false,
+%			domain=0:4, % Set the domain for all plots
+%			samples=100,
+%			smooth
+%			]
+%			
+%			% Define the function f(x)
+%			\addplot[blue, thick] {x^2 - 4*x + 3}; % Polynomial f(x) = x^2 - 4x + 3
+%			\node at (axis cs:3.5,0.5) {$f(x) = x^2 - 4x + 3$};
+%			
+%			% Point where f(x) = 0, solving the equation x^2 - 4x + 3 = 0
+%			% Roots are at x = 1 (f(a)) and x = 3 (f(b)), f(c) = 0 at x = 2
+%			\node[label={270:{$f(a)$}},circle,fill,inner sep=2pt] at (axis cs:1,0) {};
+%			\node[label={270:{$f(b)$}},circle,fill,inner sep=2pt] at (axis cs:3,0) {};
+%			\draw[dashed, thin] (axis cs:2,0.5) -- (axis cs:2,-1); % Line at c to show crossing point
+%			\node at (axis cs:2, -1.2) {$c$};
+%			
+%		\end{axis}
+%	\end{tikzpicture}
+%\end{center}
+
+\section*{Least Upper Bound Property}
+\defbox[Bounded Above and Below]{\begin{definition*}
+	Let $S\subseteq\R$. We say $S$ is bounded above (below) if \[
+	\exists\beta\in\mathbb{R}\ \text{such that}\ x\leq\beta (x\geq\alpha)\ \text{for each}\ x\in S.
+	\]
+\end{definition*}}
+\begin{remark}
+	\ \begin{itemize}
+		\item $S=\varnothing$ is possible.
+		\item 
+	\end{itemize}
+\end{remark}
+
+\begin{exercise*}
+	Show that $A=\set{1-\frac{1}{n}:n\in\N}$ has an upper bound and a lower bound.
+
+\end{exercise*}
+
+\begin{exercise*}
+	Show that $\N$ has a lower bound, but do not have the upper bound.
+	
+	\begin{tikzpicture}[scale=10] % Scaling for better visualization
+		
+		% Draw axes
+		\draw[->] (0, -0.1) -- (0, 1.1) node[left] {$\mathbb{R}$};  % y-axis
+		\draw[->] (0, 0) -- (.505, 0) node[below] {$\mathbb{N}$};  % x-axis
+		
+		% Label for some x-axis values (representing natural numbers, scaled down)
+		\foreach \n in {10, 20, 30, 40, 50} {
+			\pgfmathsetmacro{\x}{\n/100} % Scaling the x-axis
+			\node at (\x, -0.03) {\n};
+		}
+		
+		% Plot points for n = 1, 2, ..., 100 with proper scaling
+		\foreach \n in {1, 2, ..., 50} {
+			\pgfmathsetmacro{\x}{\n/100}  % Scaling x-axis to fit 100 points
+			\pgfmathsetmacro{\y}{1 - 1/\n} % y-axis corresponds to 1 - 1/n
+			\filldraw[black] (\x, \y) circle (0.3pt);
+		}
+		
+		% Mark lower bound at y = 0
+		\filldraw[black] (0, 0) circle (0.3pt) node[below left] {$0$};
+		
+		% Mark upper bound at y = 1
+		\filldraw[red] (0, 1) circle (0.3pt) node[above left] {$1$};
+		
+		% Dotted line to show the upper bound being approached but not reached
+		\draw[dotted, thick] (0, 1) -- (.505, 1);
+		
+		% Label for upper bound
+		\node at (-0.03, 1) {Upper Bound};
+		
+		% Label for some y-axis values
+		\node at (-0.03, 0.5) {0.5};
+		\node at (-0.03, 0) {0};
+		
+	\end{tikzpicture}
+\end{exercise*}
+
+\begin{exercise*}
+	$B=\set{r\in\Q:r>0\land r^2<2}$. Then $B$ has a lower bound $\alpha=0$ but $B$ does not have the maximum element. To show it, it is enough to show if $p\in B$, then $\exists q\in B$ s.t. $p<q$.
+	Take any $p\in B$. Take \[
+	q=p+\frac{2-p^2}{p+2}>P.
+	\] Then $q\in Q$ because $Q$ is a field.
+\end{exercise*}
+
+\axiombox[Least Upper Bound Property (Completeness Axiom)]{\begin{axiom*}
+	
+\end{axiom*}}
+
+
+\begin{thebibliography}{9}
+	\bibitem{advanced_calc_a}
+	수학의 즐거움, Enjoying Math. ``수학 공부, 기초부터 대학원 수학까지, 4. 해석학 개론 (a) 완비성 공리.'' YouTube Video, 32:20. Published 
+	September 09, 2019. URL: \url{https://www.youtube.com/watch?v=pHIImTBdBRs}.
+\end{thebibliography}
+
+\end{document}

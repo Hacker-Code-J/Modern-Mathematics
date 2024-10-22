@@ -1,7 +1,7 @@
 \begin{tikzpicture}[>=Stealth, node distance=1cm and 2cm]
 	\tikzset{
 		set node/.style={rectangle, draw, thick, fill=orange!20, minimum size=5mm, align=center},
-		relation arrow/.style={-, thick, #1},
+		relation arrow/.style={<->, thick, #1},
 		element node/.style={circle, draw, thick, fill=green!20, minimum size=5mm},
 		highlight/.style={draw, thick, dotted, inner sep=3pt}
 	}
@@ -28,10 +28,12 @@
 		\node[element node, below=0.5cm of b] (4) {4};
 		\node[element node, below of=4] (5) {5};
 		
-		\draw[relation arrow=blue] (1) -- (4);
+		\draw[->, blue!10] (4) -- (1);
+		\draw[->, blue] (1) -- (4);
 		\draw[relation arrow=blue!10] (1) -- (5);
 		\draw[relation arrow=blue!10] (2) -- (4);
-		\draw[relation arrow=blue] (2) -- (5);
+		\draw[->, blue!10] (5) -- (2);
+		\draw[->, blue] (2) -- (5);
 		
 		\node at (1.25,-3) {$\mathcal{R}\subseteq A\times B$};
 	\end{scope}

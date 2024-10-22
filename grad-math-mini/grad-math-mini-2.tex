@@ -47,7 +47,7 @@
 \end{example*}
 
 \begin{example*}
-	Let $A$ and $B$ are sets, and let $f:A\to B$ be a function form $A$ to $B$. Then \[
+	Let $A$ and $B$ are sets, and let $f:A\to B$ be a function from $A$ to $B$. Then \[
 	(a,b)\in f\iff a\mathrel{f}b\iff b=f(a).
 	\]
 \end{example*}
@@ -134,26 +134,27 @@
 	\end{itemize}
 \end{enumerate}}
 \end{proof}
-\vfill
+%\vspace{7pt}
 \probox[Equivalence Relation on $2^A$ Based on Bijection]{\begin{proposition}
 	Let $A$ be a set, and $2^A$ be its power set. Define a relation $\mathcal{R}$ on $2^A$ as follows: \[
 	X\sim_{\mathcal{R}} Y\iff \exists (f:X\to Y)\ \text{such that $f$ is bijective},
 	\] for $X,Y\in 2^A$. In other words, \[
 	\mathcal{R}:=\set{(X,Y)\in 2^A\times 2^A:\exists\ \text{a bijection}\ (f:X\to Y)}.
-	\]
+	\] Then $\mathcal{R}$ is an equivalence relation on $2^A$.
 \end{proposition}}
 \begin{proof}
 	Let $X,Y,Z\in 2^A$. We must show that $\sim_{\mathcal{R}}$ is reflexive, symmetric and transitive: 
+	Then $\mathcal{R}$ is an equivalence relation on $2^A$.
 	\begin{enumerate}[(i)]
 		\item (Reflexivity) We NTS\footnote{`NTS` means that ``need to show``.} that $X\sim_{\mathcal{R}} X$. In other words, we need to find a bijection from $X$ it self. 
 		\begin{center}\begin{tikzpicture}[scale=1, every node/.style={scale=1}]
 			% Reflexivity
 			\draw[thick] (0, 0) ellipse (1.2 and 0.7) node[text=black] (X) {$X$};
 			\draw[<->, loop, looseness=12, in=30, out=-30, line width=.5mm, red] (X) to (X);
-			\node at (1.75,0) {$\text{id}_X$};
+			\node[red] at (1.75,0) {$\text{id}_X$};
 		\end{tikzpicture}\end{center}
 		Consider the identity function \[
-		\fullfunction{\text{id}_X}{X}{X}{x}{x=\text{id}_X(x)}
+		\text{id}_X:X\to X\quad\text{defined by}\quad x\mapsto x=\id_X
 		\] for all $x\in X$. Clearly, $\id_X$ is a bijection. Thus, $X\sim_{\mathcal{R}} X$.
 		\vfill
 		\item (Symmetry) We NTS that $X\sim_{\mathcal{R}} Y\implies Y\sim_{\mathcal{R}} X$. In other words, if there exists a bijection $f:X\to Y$, then there must exists a bijection $g:Y\to X$. 
@@ -205,7 +206,7 @@
 		\bigcup_{i\in I}A_i:=\set{x\in S:\exists i\in I\ \text{such that}\ x\in A_i}.
 		\] 
 		\item The \textbf{intersection} of $\Gen{A_i}_{i\in}$ is defined by \[
-		\bigcap_{i\in I}A_i:=\set{x\in X:\forall i\in I,\ x\in A_i}.
+		\bigcap_{i\in I}A_i:=\set{x\in S:\forall i\in I,\ x\in A_i}.
 		\]
 	\end{itemize}
 \end{definition*}}
@@ -303,7 +304,7 @@ Then \begin{enumerate}[(i)]
 \thmbox[]{\begin{theorem}
 	Let $S$ be a set and let $\mathcal{R}$ be an equivalence relation on $S$. Define the set of equivalence classes \[
 	\mathcal{P}:=\set{[x]_{\mathcal{R}}:x\in S},
-	\] where $[x]_{\mathcal{R}}=\set{y\in S:x\relation y}$. Then $\mathcal{P}$ forms a partition of $S$.
+	\] where $[x]_{\mathcal{R}}=\set{y\in S:x\relation y}$. Then $\mathcal{P}$ forms the partition of $S$.
 \end{theorem}}
 \begin{proof}
 	We must show that the set of equivalence classes $\set{[x]_{\mathcal{R}}:x\in S}$ satisfies the three conditions of a partition:
@@ -336,7 +337,7 @@ Then \begin{enumerate}[(i)]
 	\]
 	Let $x,y\in S$. Note that \[
 	\mathcal{R}:=\set{(x,y)\in S\times S: \exists i\in I\ \text{s.t.}\ x\in P_i\land y\in P_i}.
-	\]We NTS $\sim_{\mathcal{R}}$ is reflexive, symmetric and transitive:
+	\]We NTS $\mathcal{R}$ is reflexive, symmetric and transitive:
 	\begin{enumerate}[(i)]
 		\item (Reflexivity) We NTS that $x\sim_{\mathcal{R}} x$: \[
 		x\in S\overset{\text{by (c)}}{\implies} x\in \bigcup_{i\in I}P_i\implies \exists i\in I\ \text{s.t.}\ x\in P_i\implies \exists i\in I\ \text{s.t.}\ x\in P_i\land x\in P_i\implies x\sim_{\mathcal{R}} x.

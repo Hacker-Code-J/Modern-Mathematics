@@ -1,6 +1,7 @@
 \usepackage{tcolorbox}
 \tcbset{colback=white, arc=5pt}
 
+\definecolor{axiomcolor}{HTML}{a88bfa}
 \definecolor{defcolor}{RGB}{52, 152, 219}
 \definecolor{procolor}{RGB}{241, 196, 15}
 \definecolor{thmcolor}{RGB}{231, 76, 60}
@@ -9,6 +10,12 @@
 \definecolor{execolor}{RGB}{90, 128, 127}
 
 % Define a new command for the custom tcolorbox
+\newcommand{\axiombox}[2][]{%
+	\begin{tcolorbox}[colframe=axiomcolor, title={\color{white}\bfseries #1}]
+		#2
+	\end{tcolorbox}
+}
+
 \newcommand{\defbox}[2][]{%
 	\begin{tcolorbox}[colframe=defcolor, title={\color{white}\bfseries #1}]
 		#2
