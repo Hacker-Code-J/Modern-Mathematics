@@ -1,0 +1,31 @@
+\begin{tikzpicture}[>=Stealth, scale=1.5]
+	% Define colors for clarity
+	\definecolor{infcolor}{RGB}{244, 67, 54}       % Red for infimum
+	\definecolor{epsiloncolor}{RGB}{76, 175, 80}   % Green for epsilon interval
+	\definecolor{pointcolor}{RGB}{33, 150, 243}    % Blue for point in T
+	
+	% Draw the number line
+	\draw[->, thick] (0, 0) -- (8, 0) node[right] {$\R$};
+	
+	% Mark the infimum point gamma
+	\node[fill=infcolor, circle, inner sep=1.5pt, label=below:{\textcolor{infcolor}{\(\gamma\)}}] (inf) at (2, 0) {};
+	
+	% Draw the interval (gamma, gamma + epsilon) with arrow to mark epsilon distance
+	\node[fill=epsiloncolor!50, circle, inner sep=1.5pt, label=below:{\textcolor{epsiloncolor}{\(\gamma + \varepsilon\)}}] (epsilon) at (6, 0) {};
+	\draw[decorate, decoration={brace, amplitude=10pt}, thick, color=epsiloncolor] (2, 0.1) -- (6, 0.1)
+	node[midway, above=10pt, color=epsiloncolor!80!black] {\( \varepsilon \)};
+	
+	\node[fill=magenta!50, circle, inner sep=1.5pt, label=above:{\textcolor{magenta}{\(\gamma + 1/n\)}}] (epsilon) at (5, 0) {};
+	\draw[decorate, decoration={brace, amplitude=10pt}, thick, color=magenta] (5, -0.1) -- (2, -0.1)
+	node[midway, below=10pt, color=magenta!80!black] {\( 1/n \)};
+	
+	
+	% Draw a point within the interval and label as x_epsilon
+	\node[fill=pointcolor, circle, inner sep=1.5pt] (point) at (3, 0) {};
+	
+	% Arrow pointing to the existence of a point x_epsilon
+	\draw[->, color=pointcolor, thick] (point) -- ++(0, 0.5) node[anchor=south] {\( \exists x_n\in T \)};
+	
+%	\draw[<-, color=infcolor, thick] (inf) -- ++(0, 0.5) node[anchor=south] {\(\inf T\)};
+%	\draw[<-, color=epsiloncolor, thick] (epsilon) -- ++(0, 0.5) node[anchor=south] {\(\mu\)};
+\end{tikzpicture}

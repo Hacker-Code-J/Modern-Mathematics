@@ -1,0 +1,39 @@
+\begin{tikzpicture}[>=Stealth]
+	\definecolor{upperboundcolor}{RGB}{0, 123, 255}   % Light blue for upper bound
+	\definecolor{lowerboundcolor}{RGB}{255, 99, 71}   % Light coral for lower bound
+	\definecolor{setcolor}{RGB}{34, 139, 34}          % Forest green for elements in set S
+	
+	% Draw the number line
+	\draw[->, thick] (0, 0) -- (10, 0) node[right] {$\R$};
+	
+	% Diagonal patterned regions for lower and upper bounds
+	\fill[pattern=north west lines, pattern color=lowerboundcolor!50] (1, -.25) rectangle (4, 0.25);
+	\fill[pattern=north east lines, pattern color=upperboundcolor!50] (6, -.25) rectangle (9, 0.25);
+	
+	% Label and mark lower bound with a unique shape
+	\node[draw=lowerboundcolor, fill=lowerboundcolor, diamond, inner sep=1.5pt, label=below:{\textcolor{red}{Lower Bound}}] at (1, 0) {};
+	
+	% Label and mark upper bound with a unique shape
+	\node[draw=upperboundcolor, fill=upperboundcolor, star, star points=5, star point ratio=2.25, inner sep=1.5pt, label=below:{\textcolor{blue}{Upper Bound}}] at (9, 0) {};
+	
+	% Draw gradient elements within set S
+	\foreach \x in {1.25, 1.5, ..., 4} {
+		\shade[ball color=magenta!80!white] (\x, 0) circle (0.1);
+	}
+	\foreach \x in {6, 6.25, ..., 8.75} {
+		\shade[ball color=cyan!80!white] (\x, 0) circle (0.1);
+	}
+	
+	% Labels for the significance of bounds
+%	\node[align=center, color=lowerboundcolor] at (2, 0.8) {No element \\ to the left};
+%	\node[align=center, color=upperboundcolor] at (7, 0.8) {No element \\ to the right};
+	
+	% Curly braces to highlight bounds and elements of S
+	\draw[decorate, decoration={brace, amplitude=10pt}, thick, color=lowerboundcolor] 
+	(-1, 0.2) -- (1, 0.2) node[midway, above=10pt, color=lowerboundcolor!80!black] {\footnotesize Lower Bound Region};
+%	\draw[decorate, decoration={brace, amplitude=10pt}, thick, color=gray] (2, 0.1) -- (5, 0.1)
+%	node[midway, above=10pt, color=gray!80!black] {\( \varepsilon \)};
+	
+	\draw[decorate, decoration={brace, amplitude=10pt}, thick, color=upperboundcolor] 
+	(9, 0.2) -- (11, 0.2) node[midway, above=10pt, color=upperboundcolor!80!black] {\footnotesize Upper Bound Region};
+\end{tikzpicture}

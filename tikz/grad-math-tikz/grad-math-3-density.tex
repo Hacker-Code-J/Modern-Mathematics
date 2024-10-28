@@ -1,0 +1,23 @@
+\begin{tikzpicture}[>=Stealth, scale=1]
+	\draw[->, thick] (-2, 0) -- (2, 0) node[right] {$\R$};
+	
+	\node[fill=black, circle, inner sep=1.5pt, label=above:{$a$}] (a) at (0.5, 0) {};
+	\node[fill=black, circle, inner sep=1.5pt, label=above:{$b$}] (b) at (1, 0) {};
+	\draw (0,-.075) -- (0,.075) node[midway, below] {$0$};
+	
+	\begin{scope}[xshift=6cm]
+	\draw[->, thick] (-2, 0) -- (2, 0) node[right] {$\R$};
+	
+	\node[fill=black, circle, inner sep=1.5pt, label=above:{$a$}] (a) at (-.5, 0) {};
+	\node[fill=black, circle, inner sep=1.5pt, label=above:{$b$}] (b) at (1, 0) {};
+	\draw (0,-.075) -- (0,.075) node[midway, below] {$0$};
+	\end{scope}
+
+	\begin{scope}[xshift=12cm]
+		\draw[->, thick] (-2, 0) -- (2, 0) node[right] {$\R$};
+		
+		\node[fill=black, circle, inner sep=1.5pt, label=above:{$a$}] (a) at (-1, 0) {};
+		\node[fill=black, circle, inner sep=1.5pt, label=above:{$b$}] (b) at (-.5, 0) {};
+		\draw (0,-.075) -- (0,.075) node[midway, below] {$0$};
+	\end{scope}
+\end{tikzpicture}

@@ -22,6 +22,12 @@
 	\end{tcolorbox}
 }
 
+\newcommand{\lembox}[2][]{%
+	\begin{tcolorbox}[colframe=lemcolor, title={\color{white}\bfseries #1}]
+		#2
+	\end{tcolorbox}
+}
+
 \newcommand{\probox}[2][]{%
 	\begin{tcolorbox}[colframe=procolor, title={\color{white}\bfseries #1}]
 		#2
@@ -34,8 +40,10 @@
 	\end{tcolorbox}
 }
 
-\newcommand{\lembox}[2][]{%
-	\begin{tcolorbox}[colframe=lemcolor, title={\color{white}\bfseries #1}]
+\newcommand{\corbox}[2][]{%
+	\begin{tcolorbox}[colframe=corcolor, title={\color{white}\bfseries #1}]
 		#2
 	\end{tcolorbox}
 }
+
+

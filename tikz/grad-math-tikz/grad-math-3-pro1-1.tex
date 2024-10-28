@@ -1,0 +1,25 @@
+\begin{tikzpicture}[>=Stealth, scale=1.5]
+	\definecolor{supcolor}{RGB}{33, 150, 243}       % Blue for supremum
+	\definecolor{epsiloncolor}{RGB}{76, 175, 80}    % Green for epsilon interval
+	\definecolor{pointcolor}{RGB}{244, 67, 54}      % Red for point in S
+	
+	% Draw the number line
+	\draw[->, thick] (0, 0) -- (8, 0) node[right] {$\R$};
+	
+	% Mark the supremum point lambda
+	\node[fill=supcolor, circle, inner sep=1.5pt, label=above:{\(\lambda\)}] (sup) at (6, 0) {};
+	
+	% Draw the interval (lambda - epsilon, lambda) with arrow to mark epsilon distance
+	\node[fill=epsiloncolor!50, circle, inner sep=1.5pt, label=above:{\(\lambda - \varepsilon\)}] (epsilon) at (3, 0) {};
+	\draw[decorate, decoration={brace, amplitude=10pt}, thick, color=epsiloncolor] (6, -0.1) -- (3, -0.1)
+	node[midway, below=10pt, color=epsiloncolor!80!black] {\( \varepsilon \)};
+	
+	% Draw a point within the interval and label as x_epsilon
+	\node[fill=pointcolor, circle, inner sep=1.5pt] (point) at (5, 0) {};
+	
+	% Arrow pointing to the existence of a point x_epsilon
+	\draw[->, color=pointcolor, thick] (point) -- ++(0, 0.5) node[anchor=south] {\( \exists x_\varepsilon \in S \)};
+	
+	\draw[<-, color=supcolor, thick] (sup) -- ++(0, -0.5) node[anchor=north] {\(\sup S\)};
+	\draw[<-, color=epsiloncolor, thick] (epsilon) -- ++(0, -0.5) node[anchor=north] {\(\mu\)};
+\end{tikzpicture}

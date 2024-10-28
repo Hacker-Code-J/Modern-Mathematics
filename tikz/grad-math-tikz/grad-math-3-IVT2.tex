@@ -1,7 +1,7 @@
-\begin{tikzpicture}[scale=1.2,domain=0:6]
+\begin{tikzpicture}[scale=1,domain=0:6]
 	% Draw the axes
-	\draw[->] (-0.5,-1.75) -- (6.5,-1.75) node[right] {$f(x)=0$};
-	\draw[->] (0,-4.5) -- (0,0) node[above] {$y$};
+	\draw[->] (-0.5,-1.75) -- (6.5,-1.75) node[right] {$y=0$};
+%	\draw[->] (0,-4.5) -- (0,0) node[above] {$y$};
 	
 	% Define points a and b on the x-axis
 	\coordinate (A) at (1,-1.75);
@@ -13,7 +13,7 @@
 	\coordinate (GAMMA) at (0,2.5); % gamma horizontal line
 	
 	% Function graph
-	\draw[color=blue,thick,smooth] plot coordinates {(1,-4) (1.5,-2.4) (2,-2) (2.5,-2.5) (3,-1.2) (4,-1.5) (5,0)};
+	\draw[color=blue,thick,smooth] plot coordinates {(1,-4) (1.5,-2.4) (1.75,-2) (2.5,-2.5) (3,-1.2) (4,-1.5) (5,0)};
 	\node[blue] at (3,-.5) {$y=f(x)$};
 	
 	% Points on the graph
@@ -25,12 +25,12 @@
 	\draw[dashed] (B) -- (FB);
 	
 	% Labels for a and b
-	\node[below] at (A) {$a$};
+	\node[above] at (A) {$a$};
 	\node[below] at (B) {$b$};
 	
-	\filldraw[red] (1,-1.75) circle (2pt);
-	\filldraw[red] (5,-1.75) circle (2pt);
 	\draw[red, line width=.5mm] (A) -- (B);
+	\filldraw[black] (1,-1.75) circle (2pt);
+	\filldraw[black] (5,-1.75) circle (2pt);
 	
 	% Intersection point at c
 	\filldraw[red] (2.75,-1.75) circle (2pt) node[below] {$f(c) = 0$};

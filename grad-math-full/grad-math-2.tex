@@ -201,31 +201,29 @@
 \end{example*}
 \vfill
 \defbox[Union and Intersection of an Indexed Family]{\begin{definition*}
-	Let $I$ and $S$ are sets, and let $\Gen{A_i}_{i\in}$ be an indexed family in $S$. \begin{itemize}
-		\item The \textbf{union of} $\Gen{A_i}_{i\in}$ is defined by $
+	Let $I$ and $S$ are sets, and let $\Gen{A_i}_{i\in I}$ be an indexed family in $S$. \begin{itemize}
+		\item The \textbf{union of} $\Gen{A_i}_{i\in I}$ is defined by $
 		\displaystyle\boxed{\bigcup_{i\in I}A_i:=\set{x\in S:\exists i\in I\ \text{such that}\ x\in A_i}}$. \begin{center}
-			\begin{tikzpicture}[scale=.65]
-				\draw[thick, fill=blue, fill opacity=0.2] (0,0) circle (1.5);
-				\draw[thick, fill=red, fill opacity=0.2] (1.5,0) circle (1.5);
-				\draw[thick, fill=green, fill opacity=0.2] (0.75,.75) circle (1.5);
-				\draw[thick, fill=yellow, fill opacity=0.2] (0.75,-.75) circle (1.5);
-				\foreach \points in {(-1,0), (.75,0), (1.75,0), (-.25,0), (2.5,0)}
-%				,(.75, 1) ,(.75, 1.75) , (.75, -1), (.75, -1.75), (-.25, 1),
-%				(1.75, 1), (-.25, -1), (1.75, -1)}
-				\fill[red] \points circle (3pt);
+			\begin{tikzpicture}[scale=.55]
+				\draw[rotate=-45, thick, fill=blue, fill opacity=0.2] (-1.5,0) ellipse (2cm and 1.25cm);
+				\draw[rotate=45, thick, fill=red, fill opacity=0.2] (1.5,0) ellipse (2cm and 1.25cm);
+				\draw[rotate=-45, thick, fill=green, fill opacity=0.2] (-1.5,1.4) ellipse (2cm and 1.25cm);
+				\draw[rotate=45, thick, fill=yellow, fill opacity=0.2] (1.5,1.4) ellipse (2cm and 1.25cm);
+				\foreach \points in {(-1,0)}
+				\fill[red] \points circle (3pt) node[right] {$x\in A_i$ for some $i\in I$};
 			\end{tikzpicture}
 		\end{center}
-		\item The \textbf{intersection of} $\Gen{A_i}_{i\in}$ is defined by $
+		\item The \textbf{intersection of} $\Gen{A_i}_{i\in I}$ is defined by $
 		\displaystyle\boxed{\bigcap_{i\in I}A_i:=\set{x\in S:\forall i\in I,\ x\in A_i}}$. 
 		\begin{center}
-			\begin{tikzpicture}[scale=.65]
-				\draw[thick, fill=blue, fill opacity=0.2] (0,0) circle (1.5);
-				\draw[thick, fill=red, fill opacity=0.2] (1.5,0) circle (1.5);
-				\draw[thick, fill=green, fill opacity=0.2] (0.75,.75) circle (1.5);
-				\draw[thick, fill=yellow, fill opacity=0.2] (0.75,-.75) circle (1.5);
-				\foreach \points in {(.25,0), (.5,.25), (.75,-.1), (1,-.5), (1.25,.1)}
-			\fill[red] \points circle (3pt);
-		\end{tikzpicture}
+			\begin{tikzpicture}[scale=.55]
+				\draw[rotate=-45, thick, fill=blue, fill opacity=0.2] (-1.5,0) ellipse (2cm and 1.25cm);
+				\draw[rotate=45, thick, fill=red, fill opacity=0.2] (1.5,0) ellipse (2cm and 1.25cm);
+				\draw[rotate=-45, thick, fill=green, fill opacity=0.2] (-1.5,1.4) ellipse (2cm and 1.25cm);
+				\draw[rotate=45, thick, fill=yellow, fill opacity=0.2] (1.5,1.4) ellipse (2cm and 1.25cm);
+				\foreach \points in {(0,1.25)}
+				\fill[red] \points circle (3pt) node[right] {$x\in A_i$ for every $i\in I$};
+			\end{tikzpicture}
 	\end{center}
 	\end{itemize}
 \end{definition*}}
@@ -327,10 +325,10 @@ Then \begin{enumerate}[(i)]
 		\end{itemize}
 	\end{enumerate}
 \end{proof}
-\thmbox[Fundamental Theorem on Equivalence Relations]{\begin{theorem}
+\thmbox[$\star\star\star$ Fundamental Theorem on Equivalence Relations $\star\star\star$]{\begin{theorem}
 	Let $S$ be a set and let $\mathcal{R}$ be an equivalence relation on $S$. Define the set of equivalence classes \[
 	\mathcal{P}:=\set{[x]_{\mathcal{R}}:x\in S},\ \text{where}\ [x]_{\mathcal{R}}=\set{y\in S:x\relation y}.
-	\] Then $\mathcal{P}$ forms the partition of $S$.
+	\] Then $\mathcal{P}$ forms a partition of $S$.
 \end{theorem}}
 \begin{center}
 \input{../tikz/grad-math-tikz/grad-math-2-FundThm-Equiv}
@@ -352,9 +350,25 @@ Then \begin{enumerate}[(i)]
 		\end{itemize} By \hyperlink{lemma-4-1}{(1) of \textbf{Lemma 4}}, we obtain $\alpha\in[\alpha]$. Thus, for every $\alpha\in S$, $\displaystyle\alpha\in\bigcup_{x\in S}[x]_{\mathcal{R}}$.
 	\end{enumerate}
 \end{proof}
-
+%\begin{tikzpicture}
+%	
+%	% Draw the five ellipses (for 5 sets)
+%	\draw[rotate=0, thick, fill=blue, fill opacity=0.2] (0, 0) ellipse (2cm and 1cm); % First set
+%	\draw[rotate=72, thick, fill=red, fill opacity=0.2] (0, 0) ellipse (2cm and 1cm); % Second set
+%	\draw[rotate=144, thick, fill=green, fill opacity=0.2] (0, 0) ellipse (2cm and 1cm); % Third set
+%	\draw[rotate=216, thick, fill=yellow, fill opacity=0.2] (0, 0) ellipse (2cm and 1cm); % Fourth set
+%	\draw[rotate=288, thick, fill=purple, fill opacity=0.2] (0, 0) ellipse (2cm and 1cm); % Fifth set
+%	
+%	% Add labels for the sets
+%	\node at (2.5, 0) {A};
+%	\node at (-2.5, 0) {B};
+%	\node at (0, 2.5) {C};
+%	\node at (0, -2.5) {D};
+%	\node at (1.5, -2) {E};
+%	
+%\end{tikzpicture}
 \newpage
-\thmbox[Relation Induced by Partition is Equivalence]{\begin{theorem}
+\thmbox[$\star$ Relation Induced by Partition is Equivalence $\star$]{\begin{theorem}
 	Let $S$ be a set and $\mathcal{P}=\Gen{P_i}_{i\in I}$ be a partition of $S$. We define a relation ${\mathcal{R}}$ on $S$: \[
 	x\sim_{\mathcal{R}}y \iff \exists i\in I\ \text{such that}\ x,y\in P_i
 	\] for all $x,y\in S$. That is, $x$ is related to $y$ under $\mathcal{R}$ if and only if $x$ and $y$ belong to the same subset $P_i$ in the partition. Then $\mathcal{R}$ is the equivalence relation induced by a partition $\mathcal{P}$.
