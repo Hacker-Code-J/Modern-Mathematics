@@ -1,7 +1,7 @@
 \begin{tikzpicture}[scale=1,domain=0:6]
 	% Draw the axes
-	\draw[->] (-0.5,-1.75) -- (6.5,-1.75) node[right] {$y=0$};
-%	\draw[->] (0,-4.5) -- (0,0) node[above] {$y$};
+	\draw[->] (-0.5,-1.75) -- (6.5,-1.75) node[right] {$x$};
+%	\draw[->] (0,-4) -- (0,0) node[above] {$f(x)$};
 	
 	% Define points a and b on the x-axis
 	\coordinate (A) at (1,-1.75);
@@ -31,6 +31,9 @@
 	\draw[red, line width=.5mm] (A) -- (B);
 	\filldraw[black] (1,-1.75) circle (2pt);
 	\filldraw[black] (5,-1.75) circle (2pt);
+	
+4	\draw[red, line width = .25mm] (1,-1.75) circle (2pt);
+	\draw[red, line width = .25mm] (5,-1.75) circle (2pt);
 	
 	% Intersection point at c
 	\filldraw[red] (2.75,-1.75) circle (2pt) node[below] {$f(c) = 0$};
