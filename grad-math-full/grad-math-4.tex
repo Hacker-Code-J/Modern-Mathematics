@@ -1,0 +1,135 @@
+\documentclass[11pt,openany]{article}
+
+\input{grad-math-preamble}
+\input{tcolorbox}
+\input{theorem}
+\input{tikz}
+\input{grad-math-commands}
+
+\setstretch{1.25}
+\begin{document}
+\pagenumbering{arabic}
+\begin{center}
+	\huge\textbf{Advanced Calculus II}\\
+	\vspace{0.5em}
+	\large{Ji, Yong-hyeon}\\
+	\vspace{0.5em}
+	\normalsize{\today}\\
+\end{center}
+
+\noindent 
+We cover the following topics in this note.
+\begin{itemize}
+	\item Convergence of Real Sequences
+	\item Inequality Rule for Real Sequences
+	\item Limit Theorems for Real Sequences
+\end{itemize}
+\hrule\vspace{12pt}
+%Preliminaries:
+%\begin{itemize}
+%	\item Boundedness, Supremum and Infimum
+%	\item Least Upper Bound Property (Completeness Axiom)
+%	\item Well-Ordering Principle and Mathematical Induction
+%	\item Archimedean Property
+%\end{itemize}
+%\hrule\vspace{12pt}
+
+
+\newpage
+%\tableofcontents
+\vfill
+\defbox[Sequence]{\begin{definition*}
+	A \textbf{real sequence}(or a sequence in $\R$) is a function defined on the set N
+	whose range is contained in the set $\R$.
+\end{definition*}}
+\begin{remark*}
+A function $a$ is a real sequence if \[
+\fullfunction{a}{\N}{\R}{n}{a(n)=:a_n}
+\] for $n=1,2,\cdots$. We write $
+\set{a_n}_{n=1}^{\infty} (\text{or} \set{a_n})$.
+\end{remark*}
+\begin{tcolorbox}[colback=white]
+	\begin{definition}[\bf Convergence]
+		A real sequence $\set{a_n}$ is said to converge to $L\in\R $ or $L$ is said to be a limit of $\set{a_n}$,
+		if $\forall\varepsilon>0$, $\exists N(\varepsilon)\in\N$ such that \[
+		n\geq N(\varepsilon)\implies \abs{a_n-L}<\varepsilon.
+		\]
+		If a sequence has a limit, we say that the sequence is convergent; if it has no limit, we say that the
+		sequence is divergent.
+	\end{definition}
+\end{tcolorbox}
+\begin{remark}
+	\begin{align*}
+		\lim_{n\to\infty}a_n=L&\iff \forall\varepsilon>0,\ \exists N(\varepsilon)\in\N\ \text{such that}\ n\geq N(\varepsilon)\implies \abs{a_n-L}<\varepsilon\\
+		&\iff\forall\varepsilon>0,\ \#\set{n\in\N: a_n\not\in(x-\varepsilon,x+\varepsilon)}<\infty.
+	\end{align*}
+\end{remark}
+\begin{remark}
+	We can abbreviate $\lim\limits_{n\to\infty}a_n=L$ to $a_n\to L$.
+\end{remark}
+
+\begin{tcolorbox}[colback=white]
+	\begin{definition}[\bf Divergence]
+		Let $\set{a_n}$ be a real sequence. We say that \begin{itemize}
+			\item $\set{a_n}$ \textbf{diverges to infinity}(or \textbf{tends to infinity}) if $\forall M\in\R,\ \exists N\in\N$ such that \[
+			n\geq N\implies a_n>M
+			\] and write \[
+			\lim_{n\to\infty}a_n=+\infty.
+			\]
+			\item $\set{a_n}$ \textbf{diverges to minus infinity}(or \textbf{tends to minus infinity}) if $\forall M\in\R,\ \exists N\in\N$ such that \[
+			n\geq N\implies a_n<M
+			\] and write \[
+			\lim_{n\to\infty}a_n=-\infty.
+			\]
+			\item $\set{a_n}$ is \textbf{properly divergent} in case we have either \[
+			\lim_{n\to\infty}a_n=-\infty\ \text{or}\ \lim_{n\to\infty}a_n=-\infty.
+			\]
+		\end{itemize}
+	\end{definition}    
+\end{tcolorbox}
+\begin{remark}
+	\begin{align*}
+		\lim_{n\to\infty}a_n=+\infty&\iff \forall M\in\R,\ \exists N\in\N\ \text{such that}\ n\geq N\implies M<a_n\\
+		\lim_{n\to\infty}a_n=-\infty&\iff \forall M\in\R,\ \exists N\in\N\ \text{such that}\ n\geq N\implies a_n<M.
+	\end{align*}
+\end{remark}
+
+\subsection{Theorems 1}
+\begin{tcolorbox}[colback=white]
+	\begin{theorem}[\bf Uniqueness of Limits]
+		The limit of a real sequence is unique.
+	\end{theorem}
+\end{tcolorbox}\begin{proof}
+	Let a real sequence $\set{a_n}$ has limit $L_1$ and $L_2$, and let $\varepsilon>0$. Since $\lim\limits_{n\to\infty}a_n=L_1$, \[
+	\exists N_1\in\N: n\geq N_1\implies\abs{a_n-L_1}<\frac{\varepsilon}{2}.
+	\]Also we have \[
+	\exists N_2\in\N: n\geq N_2\implies\abs{a_n-L_2}<\frac{\varepsilon}{2}.
+	\] Let $N=\max\set{N_1,N_2}$, then if $n\geq N$, \begin{align*}
+		\abs{L_2-L_1}&=\abs{L_2-L_1+a_n-a_n}\\
+		&=\abs{(a_n-L_1)-(a_n-L_2)}\\
+		&\leq\abs{a_n-L_1}+\abs{a_n-L_2} \quad(\because \abs{a-b}\leq\abs{a}+\abs{b})\\
+		&<\frac{\varepsilon}{2}+\frac{\varepsilon}{2}=\varepsilon.
+	\end{align*}
+\end{proof}
+\begin{remark}
+	Let $\lim\limits_{n\to\infty}$ is a function as $\lim\limits_{n\to\infty}:F_{\text{Con}}\footnote{$F_{\text{Con}}:=\set{\text{Convergent sequences on $\R$}}$}\to\R$ given by \[
+	\set{a_n}\mapsto\lim_{n\to\infty}a_n.
+	\] Then \[
+	\set{a_n}=\set{b_n}\implies \lim_{n\to\infty}a_n=\lim_{n\to\infty}b_n,
+	\] that is, $\lim\limits_{n\to\infty}$ preserves ``equality($=$)''.
+\end{remark}
+
+
+\vfill
+\begin{thebibliography}{9}
+	\bibitem{advanced_calc_c}
+	수학의 즐거움, Enjoying Math. ``수학 공부, 기초부터 대학원 수학까지, 6. 해석학 개론 (c) 수열의 수렴성.'' YouTube Video, 26:29. Published 
+	September 20, 2019. URL: \url{https://www.youtube.com/watch?v=jwLfzJyIxmU}.
+	\bibitem{advanced_calc_d}
+	수학의 즐거움, Enjoying Math. ``수학 공부, 기초부터 대학원 수학까지, 7. 해석학 개론 (d) 극한 정리'' YouTube Video, 26:46. Published 
+	September 26, 2019. URL: \url{https://www.youtube.com/watch?v=1TRD34QbIaw}.
+\end{thebibliography}
+
+%\newpage
+%\appendix
+\end{document}

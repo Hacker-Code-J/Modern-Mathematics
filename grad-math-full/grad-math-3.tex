@@ -47,11 +47,11 @@
 \section{Numbers}
 \begin{center}
 \begin{tabular}{ll}
-	$\N:=\set{1,2,3,4,\dots}$ & \textbf{N}atural Numbers \\ \\
-	$\Z:=\set{0,\pm1,\pm2,\pm3,\pm4,\dots}$ & Integers (\textbf{Z}ahlen\footnotemark[1]) \\ \\
-	$\Q:=\set{\frac{q}{p}:p,q\in\Z,p\neq 0}$ & Rationals (\textbf{Q}uotient\footnotemark[2]) \\ \\
-	$\R:=\set{\text{Limit of sequences of rational numbers}}$ & \mathcolorbox{-red}{\text{\textbf{R}eal Numbers}} \\ \\
-	$\C:=\set{p+q\sqrt{-1}:p,q\in\R}$ & \textbf{C}omplex numbers
+	$\N=\set{1,2,3,4,\dots}$ & \textbf{N}atural Numbers \\ \\
+	$\Z=\set{0,\pm1,\pm2,\pm3,\pm4,\dots}$ & Integers (\textbf{Z}ahlen\footnotemark[1]) \\ \\
+	$\Q=\set{\frac{q}{p}:p,q\in\Z,p\neq 0}$ & Rationals (\textbf{Q}uotient\footnotemark[2]) \\ \\
+	$\R=\set{\text{Limit of sequences of rational numbers}}$ & \mathcolorbox{-red}{\text{\textbf{R}eal Numbers}} \\ \\
+	$\C=\set{p+q\sqrt{-1}:p,q\in\R}$ & \textbf{C}omplex numbers
 \end{tabular}
 \addtocounter{footnote}{2}
 \footnotetext[1]{The integer set is denoted by $\Z$ because it comes from the German word ``Zahlen'', meaning ``numbers''.}
@@ -72,8 +72,8 @@
 	Let $S$ be a non-empty subset of $\R$.
 	\begin{enumerate}[(1)]
 		\item A set $S$ is said to be \hl{\textbf{bounded above}} if $
-		\boxed{\exists \beta\in\mathbb{R}\ \text{such that for all}\ x\in S,\ x\leq \beta}$.\\ A number $\beta$ is called an \hl{\textbf{upper bound}} of $S$.
-		\item A set $S$ is said to be \hl{\textbf{bounded below}} if $\boxed{\exists \alpha\in\mathbb{R}\ \text{such that for all}\ x\in S,\ \alpha\leq x}$.\\ A number $\alpha$ is called an \hl{\textbf{lower bound}} of $S$.
+		\boxed{\exists \beta\in\mathbb{R}\ \text{such that for all}\ x\in S,\ x\leq \beta}$.\\ A real number $\beta\in\R$ is called an \hl{\textbf{upper bound}} of $S$.
+		\item A set $S$ is said to be \hl{\textbf{bounded below}} if $\boxed{\exists \alpha\in\mathbb{R}\ \text{such that for all}\ x\in S,\ \alpha\leq x}$.\\ A real number $\alpha\in\R$ is called an \hl{\textbf{lower bound}} of $S$.
 		\item A set $S$ is \hl{\textbf{bounded}} if it is bounded above and below.
 	\end{enumerate}
 \end{definition*}}
@@ -86,14 +86,14 @@
 \end{remark*}
 \vfill
 \begin{remark*}
-	Let $\varnothing\neq S\subseteq\R$.
+	Let $\varnothing\neq S\subseteq\R$, and let $\alpha,\beta\in\R$.
 	\begin{align*}
 		S\ \text{is bounded above}\ (\text{by}\ \beta) &\iff S\ \text{has an upper bound}\ \beta\\
-		\beta\in\R\ \text{is an upper bound of}\ S &\iff \forall x\in S,\ x\leq \beta
+		\beta\ \text{is an upper bound of}\ S &\iff \forall x\in S,\ x\leq \beta
 	\end{align*}
 	\begin{align*}
 		S\ \text{is bounded below}\ (\text{by}\ \alpha) &\iff S\ \text{has an lower bound}\ \alpha\\
-		\alpha\in\R\ \text{is an lower bound of}\ S &\iff \forall x\in S,\ \alpha\leq x
+		\alpha\ \text{is an lower bound of}\ S &\iff \forall x\in S,\ \alpha\leq x
 	\end{align*}
 \end{remark*}
 \vfill
@@ -104,7 +104,7 @@
 		\item ($\varnothing$ is bounded above) We need to find a real number $\beta\in\R$ s.t. for all $x\in\varnothing,\ x\leq\beta$. Since ``$\forall x\in\varnothing, x\leq\beta$'' is vacuously true, we can choose any real number as $\beta$.
 		\item ($\varnothing$ is bounded below) Similarly, we can choose any $\alpha\in\R$ s.t. for all $x\in\varnothing$, $\alpha\leq x$.
 	\end{enumerate}
-	\item Upper bound and lower bound are \underline{not unique}. A set \( S(\neq\varnothing)\subseteq\R \) may have multiple upper bounds and multiple lower bounds.
+	\item An upper bound and a lower bound may \underline{not be unique}. A set \( S(\neq\varnothing)\subseteq\R \) may have multiple upper bounds and multiple lower bounds.
 \end{enumerate}
 \end{remark*}
 \newpage
@@ -129,10 +129,10 @@ Show that $A=\set{1-\frac{1}{n}:n\in\N}$ has an upper bound and a lower bound.
 	Show that $\N$ has a lower bound but does not have an upper bound.
 	\begin{proof}[\sol]
 		Let $\N$ is the set of natural numbers. \begin{enumerate}[(i)]
-			\item For each $n\in\N$, we have $n\geq 1$, since the smallest element of $\N$ is 1. Therefore, $1$ is a lower bound of $\N$.
-			\item Assume that \[
+			\item For each $n\in\N$, we have $n\geq 1$. Therefore, $1$ is a lower bound of $\N$.
+			\item Assume that $\N$ is bounded above by $\beta\in\R$, \ie, \[
 			\exists \beta\in\R\ \text{such that}\ \forall n\in\N,\ n\leq\beta.
-			\]  However, for any $M\in\R$, we can always find a natural number $n\in\N$ such that $\beta\leq n$, by choosing $n=\floor{\beta} + 1 > \beta$. It is a contradiction. Thus $\N$ does not have an upper bound.
+			\]  However, for any $\beta\in\R$, we can always find $n\in\N$ s.t. $\beta < n$, by choosing $n=\floor{\beta} + 1 > \beta.$\\ It contradicts to the our assumption. Thus $\N$ does not have an upper bound.
 		\end{enumerate}
 	\end{proof}
 \end{exercise*}
@@ -172,7 +172,7 @@ Show that $A=\set{1-\frac{1}{n}:n\in\N}$ has an upper bound and a lower bound.
 	There exists $x\in\R$ such that $x^2=2$. We write $x=\sqrt{2}>0$.
 	\begin{proof}
 		\textcolor{gray!50}{Consider a set \[
-		A=\set{x\in\R:x>0,\ x^2<2}\subseteq\R.
+		A=\set{x\in\Q:x>0,\ x^2<2}\subseteq\R.
 		\] Since $1\in A$, we know $A\neq\varnothing$. Clearly, $A$ is bounded above (by 2). \underline{By the completeness axiom}, $A$ has the supremum $\lambda=\sup A\in\R$.
 %		By trichotomy, \[
 %		\lambda^2=2,\quad \lambda^2>2\quad \text{or}\quad \lambda^2<2.
@@ -192,7 +192,7 @@ Show that $A=\set{1-\frac{1}{n}:n\in\N}$ has an upper bound and a lower bound.
 \end{note}
 \newpage
 \defbox[Supremum and Infimum]{\begin{definition*}
-	Let $\varnothing\neq S\subseteq X$.
+	Let $\varnothing\neq S\subseteq\R$.
 	\begin{enumerate}[(1)]
 		\item Let $S$ is bounded above. The number $\beta\in\R$ is the \hl{\textbf{supremum}} (or the \hl{\textbf{least upper bound}}) of $S$ if and only if \begin{enumerate}[(i)]
 			\item $\beta$ is an upper bound of $S$, \ie, $\forall x\in S,\ x\leq\beta$;
@@ -221,36 +221,39 @@ Show that $A=\set{1-\frac{1}{n}:n\in\N}$ has an upper bound and a lower bound.
 \end{remark*}
 \begin{remark*}
 	\begin{align*}
-		[u\ \text{is any upper bound of}\ S\implies \beta\leq u]&\iff [u<\beta\implies\beta\ \text{is NOT an upper bound of}\ S]\\
+		[u\ \text{is any upper bound of}\ S\implies \beta\leq u]&\iff [u<\beta\implies u\ \text{is NOT an upper bound of}\ S]\\
 		&\iff \beta\leq u\ \text{for all upper bound $u$ of $S$}.
 	\end{align*}
 	\begin{align*}
-		[\ell\ \text{is any lower bound of}\ S\implies \ell\leq\alpha]&\iff [\alpha<\ell\implies\alpha\ \text{is NOT an lower bound of}\ S]\\
+		[\ell\ \text{is any lower bound of}\ S\implies \ell\leq\alpha]&\iff [\alpha<\ell\implies\ell\ \text{is NOT an lower bound of}\ S]\\
 		&\iff \ell\leq \alpha\ \text{for all lower bound $\ell$ of $S$}.
 	\end{align*}
 \end{remark*}
+\newpage
 \begin{remark*}[\bf Uniqueness of Supremum and Infimum]
 	\ \vspace{12pt} \\
-	(\textit{Proof by \hyperlink{trichotomy}{Trichotomy}}) Let $\varnothing\neq T\subseteq\mathbb{R}$ and $T$ is bounded above. Suppose that $\sup T=a$ and $\sup T=b$ also. By trichotomy, exactly one of the following holds: \[
+	(\textit{Proof by \hyperlink{trichotomy}{Trichotomy}}) Let $\varnothing\neq S\subseteq\mathbb{R}$ and $S$ is bounded above. Suppose that $\sup S=a$ and that $\sup S=b$ also. By trichotomy, exactly one of the following holds: \[
 	a=b,\ a<b,\ \text{or}\ b<a.  
 	\] However, $a<b$ and $b<a$ are impossible, as $a$ and $b$ are upper bounds, respectively. Hence $a=b$. Similarly, infimum also is unique.\qed\vspace{12pt} \\
 	(\textit{Proof by Anti-symmetry}\footnotemark[3]\textit{ of $\leq$})
 	\addtocounter{footnote}{1}
 	\footnotetext[3]{A relation $\mathcal{R}$ on a set $S$ is anti-symmetric if, for $a,b\in\mathcal{R}$, $a\relation b\land b\relation a\implies a=b$.}
-	Let $\varnothing\neq S\subseteq\mathbb{R}$ and $S$ is bounded. Suppose that $\sup S=a$ and that $\sup S=b$ also. Then \begin{center}\setstretch{1.5}
+	Let $\varnothing\neq T\subseteq\mathbb{R}$ and $T$ is bounded above. Suppose that $\sup T=a$ and that $\sup T=b$ also. Then \begin{center}\setstretch{1.5}
 		\begin{tabular*}{\textwidth}{ll}
-			(a) $a$ is an upper bound of $S$ in $\R$;
-			& (b) $a$ is a supremum of $S$ in $\R$; \\
-			(c) $b$ is an upper bound of $S$ in $\R$;
-			& (d) $b$ is a supremum of $S$ in $\R$.
+			(a) $a$ is an upper bound of $T$ in $\R$;
+			& (b) $a$ is a supremum of $T$ in $\R$; \\
+			(c) $b$ is an upper bound of $T$ in $\R$;
+			& (d) $b$ is a supremum of $T$ in $\R$.
 		\end{tabular*}
-	\end{center} By (a) and (d), we have $b\leq a$, and by (b) and (c), we have $a\leq b$. Thus by the anti-symmetry of $\leq$: $a=b$. Similarly, infimum also is unique.\qed
+	\end{center} Then \[
+	\text{(a) and (d)} \implies b\leq a,\quad\quad\quad\text{(b) and (c)} \implies a\leq b.
+	\] By the anti-symmetry of $\leq$, we obtain $a=b$. Similarly, infimum also is unique.\qed
 \end{remark*}
 \vfill
 \defbox[Unbounded Sets]{\begin{definition*}
 Let $\varnothing\neq S\subseteq\R$. \begin{enumerate}[(1)]
-	\item If $S$ is NOT bounded above, then we write $\boxed{\sup S=\infty}$.
-	\item If $S$ is NOT bounded below, then we write $\boxed{\inf S=-\infty}$.
+	\item If $S$ is unbounded above, then we write $\boxed{\sup S=\infty}$.
+	\item If $S$ is unbounded below, then we write $\boxed{\inf S=-\infty}$.
 	\item $\sup\varnothing:=-\infty$ and $\inf\varnothing:=\infty$.
 \end{enumerate}
 \end{definition*}}
@@ -258,10 +261,10 @@ Let $\varnothing\neq S\subseteq\R$. \begin{enumerate}[(1)]
 	$\sup \N=\infty$ and $\inf\Z=-\infty$.
 \end{example*}
 \begin{remark*}
-	Suppose that $\varnothing\neq S\subseteq\R$ is not bounded above. Then \[
-	\lnot[\exists\beta\in\R\ \text{s.t.}\ \forall x\in S,\ x\leq\beta]\equiv[\forall\beta\in\R,\ \exists x_{\beta}\in S\ \text{s.t.}\ \beta <x_\beta].
-	\] Suppose that $\varnothing\neq T\subseteq\R$ is not bounded below. Then \[
-	\lnot[\exists\alpha\in\R\ \text{s.t.}\ \forall x\in S,\ \alpha\leq x]\equiv[\forall\alpha\in\R,\ \exists x_{\alpha}\in S\ \text{s.t.}\ x_\alpha < \alpha].
+	Suppose that $\varnothing\neq S\subseteq\R$ is unbounded above. Then \[
+	\lnot[\exists\beta\in\R\ \text{s.t.}\ \forall x\in S,\ x\leq\beta],\quad \ie,\quad [\forall\beta\in\R,\ \exists x\in S\ \text{s.t.}\ \beta <x].
+	\] Suppose that $\varnothing\neq T\subseteq\R$ is unbounded below. Then \[
+	\lnot[\exists\alpha\in\R\ \text{s.t.}\ \forall x\in T,\ \alpha\leq x],\quad \ie,\quad [\forall\alpha\in\R,\ \exists x\in T\ \text{s.t.}\ x < \alpha].
 	\]
 \end{remark*}
 
@@ -279,10 +282,11 @@ Let $\varnothing\neq S\subseteq\R$. \begin{enumerate}[(1)]
 \begin{proof}
 	\begin{enumerate}[(1)]
 		\item \begin{itemize}
-			\item[($\Rightarrow$)] Let $\lambda=\sup S$. Since $\lambda$ is an upper bound, $\forall x\in S,\ x\leq\lambda$. That is, $x_\varepsilon\leq\lambda$ holds.\par
-			Let $\varepsilon>0$. Suppose that \[
-			\lnot[\exists x_\varepsilon\in S\ \text{s.t.}\ \lambda-\varepsilon<x_\varepsilon]\equiv[\forall x_\varepsilon\in S,\ x_\varepsilon\leq\lambda-\varepsilon].
-			\] Then $\lambda-\varepsilon$ be an upper bound. Then $\lambda-\varepsilon<\lambda$ but $\lambda$ is the \textit{least} upper bound. It is a contradiction. Therefore $\exists x_\varepsilon\in S\ \text{s.t.}\ \lambda-\varepsilon< x_\varepsilon$.
+			\item[($\Rightarrow$)] Let $\lambda=\sup S$. Let $\varepsilon>0$. Suppose that \[
+			\lnot[\exists x_\varepsilon\in S\ \text{s.t.}\ \lambda-\varepsilon<x_\varepsilon],\quad\ie,\quad[\forall x_\varepsilon\in S,\ x_\varepsilon\leq\lambda-\varepsilon].
+			\] Then $\lambda-\varepsilon$ be an upper bound of $S$. Since $\varepsilon>0$, we have $\lambda-\varepsilon<\lambda$. It contradicts to the assumption that $\lambda$ is the \textit{least} upper bound of $S$. Thus \[
+			\exists x_\varepsilon\in S\ \text{s.t.}\ \lambda-\varepsilon< x_\varepsilon.
+			\] Since $x_\varepsilon\in S$ and $\lambda$ is an upper bound of $S$,  $x_\varepsilon\leq\lambda$ holds.
 			\vspace{20pt}
 			\item[($\Leftarrow$)] Let the RHS holds. We claim that $\lambda$ is the \textit{least} upper bound of $S$:\par
 				\begin{center}
@@ -297,10 +301,12 @@ Let $\varnothing\neq S\subseteq\R$. \begin{enumerate}[(1)]
 		\end{itemize}
 		\newpage
 		\item \begin{itemize}
-			\item[($\Rightarrow$)] Let $\gamma=\inf T$. Since $\gamma$ is a lower bound, $\forall x\in S,\ \gamma\leq x$. That is, $\gamma\leq x_\varepsilon$ holds.\par
-			Let $\varepsilon>0$. Suppose that \[
-			\lnot[\exists x\in T\ \text{s.t.}\ x<\gamma+\varepsilon]\equiv[\forall x\in T,\ \gamma+\varepsilon\leq x].
-			\] Then $\gamma+\varepsilon$ be a lower bound. Then $\gamma<\gamma+\varepsilon$ but $\gamma$ is the \textit{greatest} lower bound. It is a contradiction. Therefore $\exists x_\varepsilon\in T\ \text{s.t.}\ x_\varepsilon<\gamma+\varepsilon$. 
+			\item[($\Rightarrow$)] Let $\gamma=\inf T$. Let $\varepsilon>0$. Suppose that \[
+			\lnot[\exists x\in T\ \text{s.t.}\ x<\gamma+\varepsilon],\quad\ie,\quad[\forall x\in T,\ \gamma+\varepsilon\leq x].
+			\] Then $\gamma+\varepsilon$ be a lower bound of $T$. Since $\varepsilon>0$,  we have $\gamma<\gamma+\varepsilon$. It contradicts to the assumption that $\gamma$ is the \textit{greatest} lower bound of $T$. Thus, \[
+			\exists x_\varepsilon\in T\ \text{s.t.}\ x_\varepsilon<\gamma+\varepsilon.
+			\]
+			Since $x_\varepsilon\in T$ and $\gamma$ is a lower bound of $T$, $\gamma\leq x_\varepsilon$ holds.
 			\vspace{10pt}
 			\item[($\Leftarrow$)] Let the RHS holds. We claim that $\gamma$ is the \textit{greatest} lower bound of $T$:\par
 				\begin{center}
