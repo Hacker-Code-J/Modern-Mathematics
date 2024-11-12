@@ -20,9 +20,9 @@
 \noindent 
 We cover the following topics in this note.
 \begin{itemize}
-	\item Convergence of Real Sequences
-	\item Inequality Rule for Real Sequences
-	\item Limit Theorems for Real Sequences
+	\item Convergence of Sequences
+	\item Inequality Rule for Reals
+	\item \st{Algebraic Property of Limit of Sequence}
 \end{itemize}
 \hrule\vspace{12pt}
 %Preliminaries:
@@ -34,90 +34,142 @@ We cover the following topics in this note.
 %\end{itemize}
 %\hrule\vspace{12pt}
 
-
-\newpage
-%\tableofcontents
 \vfill
 \defbox[Sequence]{\begin{definition*}
-	A \textbf{real sequence}(or a sequence in $\R$) is a function defined on the set N
-	whose range is contained in the set $\R$.
+	Let $A\subseteq\N$ and $X\subseteq\R$. 
+	A \textbf{sequence} is a function\[
+	a:A\to X,
+	\] with domain $A$ and range in $X$.
 \end{definition*}}
 \begin{remark*}
 A function $a$ is a real sequence if \[
 \fullfunction{a}{\N}{\R}{n}{a(n)=:a_n}
-\] for $n=1,2,\cdots$. We write $
-\set{a_n}_{n=1}^{\infty} (\text{or} \set{a_n})$.
+\] for $n=1,2,\cdots$. We write \[
+\set{a_n}_{n=1}^\infty,\quad \set{a_n}_{n\in\N},\quad (a_n)_{n\in\N},\quad\ \text{or}\quad \gen{a_n}_{n\in\N}.
+\]
 \end{remark*}
-\begin{tcolorbox}[colback=white]
-	\begin{definition}[\bf Convergence]
-		A real sequence $\set{a_n}$ is said to converge to $L\in\R $ or $L$ is said to be a limit of $\set{a_n}$,
-		if $\forall\varepsilon>0$, $\exists N(\varepsilon)\in\N$ such that \[
-		n\geq N(\varepsilon)\implies \abs{a_n-L}<\varepsilon.
+\defbox[Convergence of Sequence]{\begin{definition*}
+	A real sequence $\set{a_n}_{n=1}^\infty(\subseteq\R)$ is said to \textbf{converge} to $L\in\R$ if and only if \[
+\forall\varepsilon>0,\ \exists N_\epsilon\in\N\ \text{such that}\ \left[ n\geq N_\epsilon\implies \abs{a_n-L}<\varepsilon\right].
+\]	
+\end{definition*}}
+\begin{remark*}
+	A real number $L\in\R$ is called \textbf{the limit}. When a sequence $\set{a_n}_{n=1}^\infty$ has the limit $L$, we will use the notation \[
+	\lim_{n\to\infty}a_n=L\quad\text{or}\quad a_n\to L\ \text{as}\ n\to\infty.
+	\]  That is, \[
+		\lim_{n\to\infty}a_n=L\iff \forall\varepsilon>0:\exists N\in\N:\left[ n\geq N\implies \abs{a_n-L}<\varepsilon\right].
+	\]
+\end{remark*}
+%\begin{remark*}
+%		\\
+%		&\iff\forall\varepsilon>0:\exists N(\varepsilon)\in\N:\left[ n\in[N(\varepsilon),\infty)\implies a(n)\in B_{\varepsilon}(L)\right] \\
+%		&\iff \forall\varepsilon>0:\exists N(\varepsilon)\in\N:\left[ \set{a(n):n\in[N(\varepsilon),\infty)}\subseteq B_{\varepsilon}(L) \right]\\
+%		&\iff\forall\varepsilon>0,\ \#\set{n\in\N: a_n\not\in(L-\varepsilon,L+\varepsilon)}<\infty.\\
+%		&\iff \forall\varepsilon>0, a_n\in B_{\varepsilon}(L)\ \text{except some finite term.}
+%	\end{align*}
+%\end{remark*}
+
+\newpage
+\begin{note}
+	If a sequence has a limit, we say that the sequence is \textbf{convergent}; if it has no limit, we say that the sequence is \textbf{divergent}.
+\end{note}
+
+\begin{example*}
+	Consider the sequence defined by $a_n=1/n$ for each $n\in\N$. Prove that \[
+	\lim\limits_{n\to\infty}a_n=\lim\limits_{n\to\infty}\frac{1}{n}=0.
+	\]
+	\begin{center}
+		\input{../tikz/grad-math-tikz/grad-math-4-exam1}
+	\end{center}
+	\begin{proof}
+		\textcolor{blue}{Let $\varepsilon>0$}. By the Archimedean property, we obtain \[
+		\textcolor{blue}{\exists N_\epsilon\in\N}\quad \text{s.t.}\quad 1<\varepsilon\cdot N_\epsilon,\ \ie,\ \frac{1}{N_\epsilon}<\varepsilon.
+		\] \textcolor{blue}{Assume that $n\geq N_\epsilon$ then} \[
+		\textcolor{blue}{\abs{a_n-0}}=\abs{\frac{1}{n}}=\frac{1}{n}\leq\frac{1}{N_\epsilon}
+		\textcolor{blue}{<\varepsilon}.
+		\] Hence $\displaystyle\lim\limits_{n\to\infty}\frac{1}{n}=0$.
+	\end{proof}
+\end{example*}
+
+\begin{example*}
+	Consider the sequence defined by $b_n=1-(-1)^n$ for all $n\in\N$. Prove that $b_n$ does not converge. 
+	\begin{center}
+		\input{../tikz/grad-math-tikz/grad-math-4-exam2}
+	\end{center}
+	\begin{proof}
+		Suppose that $\set{b_n}_{n=1}^\infty$ converges to $\beta\in\R$. \textcolor{blue}{Let $\varepsilon\in\intoo{0,2}$}. Then if $n\geq N_\varepsilon$, \begin{align*}
+			\abs{b_n-\beta}&=\abs{b_n-b_{n+1}+b_{n+1}-\beta} \\
+			&\leq\abs{b_n-b_{n+1}}+\abs{b_{n+1}-\beta} \\
+			&=2+\abs{b_{n+1}-\beta}
+		\end{align*}
+	\end{proof}
+\end{example*}
+
+\newpage
+
+\defbox[Absolute Value in Reals]{\begin{definition*}
+	Let $x\in\R$. A \textbf{absolute value} $\abs{x}$ of $x$ is defined by \[
+	\abs{x}:=\begin{cases}
+		x &:x\geq 0\\
+		-x &:x<0
+	\end{cases}
+	\]
+\end{definition*}}
+\probox{\begin{proposition*}
+	Let $x,y\in\R$. \begin{enumerate}[\normalfont(a)]
+		\item $\abs{x}=\abs{-x}=\sqrt{x^2}$
+		\item $\abs{xy}=\abs{x}\abs{y}$
+		\item For each $r>0$, \[
+		\abs{x}<r\iff -r<x<r
 		\]
-		If a sequence has a limit, we say that the sequence is convergent; if it has no limit, we say that the
-		sequence is divergent.
-	\end{definition}
-\end{tcolorbox}
-\begin{remark}
-	\begin{align*}
-		\lim_{n\to\infty}a_n=L&\iff \forall\varepsilon>0,\ \exists N(\varepsilon)\in\N\ \text{such that}\ n\geq N(\varepsilon)\implies \abs{a_n-L}<\varepsilon\\
-		&\iff\forall\varepsilon>0,\ \#\set{n\in\N: a_n\not\in(x-\varepsilon,x+\varepsilon)}<\infty.
-	\end{align*}
-\end{remark}
-\begin{remark}
-	We can abbreviate $\lim\limits_{n\to\infty}a_n=L$ to $a_n\to L$.
-\end{remark}
-
-\begin{tcolorbox}[colback=white]
-	\begin{definition}[\bf Divergence]
-		Let $\set{a_n}$ be a real sequence. We say that \begin{itemize}
-			\item $\set{a_n}$ \textbf{diverges to infinity}(or \textbf{tends to infinity}) if $\forall M\in\R,\ \exists N\in\N$ such that \[
-			n\geq N\implies a_n>M
-			\] and write \[
-			\lim_{n\to\infty}a_n=+\infty.
-			\]
-			\item $\set{a_n}$ \textbf{diverges to minus infinity}(or \textbf{tends to minus infinity}) if $\forall M\in\R,\ \exists N\in\N$ such that \[
-			n\geq N\implies a_n<M
-			\] and write \[
-			\lim_{n\to\infty}a_n=-\infty.
-			\]
-			\item $\set{a_n}$ is \textbf{properly divergent} in case we have either \[
-			\lim_{n\to\infty}a_n=-\infty\ \text{or}\ \lim_{n\to\infty}a_n=-\infty.
-			\]
-		\end{itemize}
-	\end{definition}    
-\end{tcolorbox}
-\begin{remark}
-	\begin{align*}
-		\lim_{n\to\infty}a_n=+\infty&\iff \forall M\in\R,\ \exists N\in\N\ \text{such that}\ n\geq N\implies M<a_n\\
-		\lim_{n\to\infty}a_n=-\infty&\iff \forall M\in\R,\ \exists N\in\N\ \text{such that}\ n\geq N\implies a_n<M.
-	\end{align*}
-\end{remark}
-
-\subsection{Theorems 1}
-\begin{tcolorbox}[colback=white]
-	\begin{theorem}[\bf Uniqueness of Limits]
-		The limit of a real sequence is unique.
-	\end{theorem}
-\end{tcolorbox}\begin{proof}
-	Let a real sequence $\set{a_n}$ has limit $L_1$ and $L_2$, and let $\varepsilon>0$. Since $\lim\limits_{n\to\infty}a_n=L_1$, \[
-	\exists N_1\in\N: n\geq N_1\implies\abs{a_n-L_1}<\frac{\varepsilon}{2}.
-	\]Also we have \[
-	\exists N_2\in\N: n\geq N_2\implies\abs{a_n-L_2}<\frac{\varepsilon}{2}.
-	\] Let $N=\max\set{N_1,N_2}$, then if $n\geq N$, \begin{align*}
-		\abs{L_2-L_1}&=\abs{L_2-L_1+a_n-a_n}\\
-		&=\abs{(a_n-L_1)-(a_n-L_2)}\\
-		&\leq\abs{a_n-L_1}+\abs{a_n-L_2} \quad(\because \abs{a-b}\leq\abs{a}+\abs{b})\\
-		&<\frac{\varepsilon}{2}+\frac{\varepsilon}{2}=\varepsilon.
-	\end{align*}
+		\item  \[
+		\delta<\abs{x}\iff \delta<x\ \text{or}\ x<-\delta
+		\]
+		\item $-\abs{x}\leq x\leq \abs{x}$
+		\item (Triangle Inequality) \[
+		\abs{x+y}\leq\abs{x}+\abs{y}
+		\]
+	\end{enumerate}
+\end{proposition*}}
+\begin{proof}
+	\begin{enumerate}[(a)]
+		\item 
+	\end{enumerate}
 \end{proof}
-\begin{remark}
-	Let $\lim\limits_{n\to\infty}$ is a function as $\lim\limits_{n\to\infty}:F_{\text{Con}}\footnote{$F_{\text{Con}}:=\set{\text{Convergent sequences on $\R$}}$}\to\R$ given by \[
-	\set{a_n}\mapsto\lim_{n\to\infty}a_n.
-	\] Then \[
-	\set{a_n}=\set{b_n}\implies \lim_{n\to\infty}a_n=\lim_{n\to\infty}b_n,
-	\] that is, $\lim\limits_{n\to\infty}$ preserves ``equality($=$)''.
-\end{remark}
+
+\defbox[Boundedness of Sequence]{\begin{definition*}
+	Let $\set{a_n}$ is a real sequence. $\set{a_n}$ is said to be \textbf{bounded} when \[
+		\exists M\in\R\ \text{such that}\ \forall n\in\N,\ \abs{a_n}\leq M.
+		\]
+\end{definition*}}
+
+\probox[]{\begin{proposition*}
+	A convergent sequence is bounded.
+\end{proposition*}}
+\begin{proof}
+	Let $\lim\limits_{n\to\infty}a_n=L$. For $\varepsilon=1$, $\exists N\in\N$ such that $n\geq N\implies\abs{a_n-L}<1$. Then we see that \[
+	\abs{a_n}=\abs{a_n-L+L}\leq\abs{a_n-L}+\abs{L}<1+\abs{L}.
+	\] Let $M:=\max\set{\abs{a_1},\abs{a_2},\dots,\abs{a_{N-1}},1+\abs{L}}$. Then \[
+	\abs{a_n}\leq M
+	\] for all $n\in\N$. That is, $\set{a_n}$ is bounded.
+\end{proof}
+%\begin{tikzpicture}[scale=2]
+%	\begin{axis}[
+%		title=Example using the mesh parameter,
+%		hide axis,
+%		colormap/cool,
+%		]
+%		\addplot3[
+%		mesh,
+%		samples=50,
+%		domain=-8:8,
+%		]
+%		{sin(deg(sqrt(x^2+y^2)))/sqrt(x^2+y^2)};
+%		\addlegendentry{\(\frac{sin(r)}{r}\)}
+%	\end{axis}
+%\end{tikzpicture}
+\newpage
+
 
 
 \vfill
