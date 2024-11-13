@@ -22,7 +22,7 @@ We cover the following topics in this note.
 \begin{itemize}
 	\item Convergence of Sequences
 	\item Inequality Rule for Reals
-	\item \st{Algebraic Property of Limit of Sequence}
+	\item \st{Limit Theorem (Algebraic Property of Limit of Sequence)}
 \end{itemize}
 \hrule\vspace{12pt}
 %Preliminaries:
@@ -38,14 +38,14 @@ We cover the following topics in this note.
 \defbox[Sequence]{\begin{definition*}
 	Let $A\subseteq\N$ and $X\subseteq\R$. 
 	A \textbf{sequence} is a function\[
-	a:A\to X,
+	a:A\to X
 	\] with domain $A$ and range in $X$.
 \end{definition*}}
 \begin{remark*}
 A function $a$ is a real sequence if \[
 \fullfunction{a}{\N}{\R}{n}{a(n)=:a_n}
 \] for $n=1,2,\cdots$. We write \[
-\set{a_n}_{n=1}^\infty,\quad \set{a_n}_{n\in\N},\quad (a_n)_{n\in\N},\quad\ \text{or}\quad \gen{a_n}_{n\in\N}.
+\set{a_n}_{n=1}^\infty,\quad \set{a_n}_{n\in\N},\quad\set{a_n},\quad (a_n)_{n\in\N},\quad\ \text{or}\quad \gen{a_n}_{n\in\N}.
 \]
 \end{remark*}
 \defbox[Convergence of Sequence]{\begin{definition*}
@@ -116,7 +116,7 @@ A function $a$ is a real sequence if \[
 	\]
 \end{definition*}}
 \probox{\begin{proposition*}
-	Let $x,y\in\R$. \begin{enumerate}[\normalfont(a)]
+	Let $x,y\in\R$. \begin{enumerate}[\normalfont(1)]
 		\item $\abs{x}=\abs{-x}=\sqrt{x^2}$
 		\item $\abs{xy}=\abs{x}\abs{y}$
 		\item For each $r>0$, \[
@@ -138,11 +138,12 @@ A function $a$ is a real sequence if \[
 \end{proof}
 
 \defbox[Boundedness of Sequence]{\begin{definition*}
-	Let $\set{a_n}$ is a real sequence. $\set{a_n}$ is said to be \textbf{bounded} when \[
+	Let $\set{a_n}_{n=1}^\infty(\subseteq\R)$ is a sequence. $\set{a_n}$ is said to be \textbf{bounded} if \[
 		\exists M\in\R\ \text{such that}\ \forall n\in\N,\ \abs{a_n}\leq M.
 		\]
 \end{definition*}}
 
+\newpage
 \probox[]{\begin{proposition*}
 	A convergent sequence is bounded.
 \end{proposition*}}
@@ -153,6 +154,34 @@ A function $a$ is a real sequence if \[
 	\abs{a_n}\leq M
 	\] for all $n\in\N$. That is, $\set{a_n}$ is bounded.
 \end{proof}
+\begin{center}
+	\input{../tikz/grad-math-tikz/grad-math-4-conv-seq-bound}
+\end{center}
+\begin{note}
+	We have established that if the limit of a sequence \(a_n\) exists as \(n\) approaches infinity, then there exists a real number \(M\) such that \(\lvert a_n \rvert \leq M\) for all \(n\). However, the converse is not necessarily true. To illustrate, consider the sequence \(\{a_n\} = 1 - (-1)^n\). This sequence is bounded, yet it does not converge, serving as a counterexample.
+	
+	Furthermore, we note the following important theorems:
+	\begin{enumerate}
+		\item \textbf{Monotone Convergence Theorem}:
+		\begin{enumerate}[(i)]
+			\item If a sequence \(\{a_n\}\) is bounded above and monotone increasing, then it converges.
+			\item If a sequence \(\{a_n\}\) is bounded below and monotone decreasing, then it converges.
+		\end{enumerate}
+		\item \textbf{Bolzano-Weierstrass Theorem}: If there exists a real number \(M\) such that \(\lvert a_n \rvert < M\) for all \(n\), then there exists a convergent subsequence \(\{a_{n_k}\}\) of \(\{a_n\}\).
+	\end{enumerate}
+\end{note}
+
+We confirmed that \[
+\exists\lim_{n\to\infty}a_n\implies\exists M\in\R: \abs{a_n}\leq M.
+\] However, \[
+\exists\lim_{n\to\infty}a_n\centernot\impliedby\exists M\in\R: \abs{a_n}\leq M
+\] because there is a counterexample: $\set{a_n}=1-(-1)^n$ is bounded sequence but not convergent. Note that \begin{enumerate}
+	\item (Monotone Convergent Theorem) \begin{enumerate}[(i)]
+		\item if $\set{a_n}$ is bounded above and monotone increasing, then is convergent.
+		\item if $\set{a_n}$ is bounded below and monotone decreasing, then is convergent.
+	\end{enumerate}
+	\item (Bolzano-Weierstrass Theorem) $\exists M\in\R:\abs{a_n}<M\implies\exists\lim\limits_{k\to\infty}\set{a_{n_k}}$.
+\end{enumerate}
 %\begin{tikzpicture}[scale=2]
 %	\begin{axis}[
 %		title=Example using the mesh parameter,
@@ -169,7 +198,20 @@ A function $a$ is a real sequence if \[
 %	\end{axis}
 %\end{tikzpicture}
 \newpage
-
+\probox[Limit Theorem (Algebraic Property of Limit of Sequence)]{
+\begin{theorem*} Let $\lim\limits_{n\to\infty}a_n=A$, $\lim\limits_{n\to\infty}b_n=B$, and $\alpha\in\R$. Then \begin{enumerate}[(1)]
+		\item $\lim\limits_{n\to\infty}\alpha a_n=\alpha\lim\limits_{n\to\infty}a_n=\alpha A$.
+		\item $\lim\limits_{n\to\infty}a_n\pm b_n=\lim\limits_{n\to\infty}a_n\pm\lim\limits_{n\to\infty}b_n=A\pm B$.
+		\item $\lim\limits_{n\to\infty}a_n b_n=\lim\limits_{n\to\infty}a_n\lim\limits_{n\to\infty}b_n=AB$.
+		\item $\displaystyle\lim\limits_{n\to\infty}\frac{a_n}{b_n}=\frac{\lim\limits_{n\to\infty}a_n}{\lim\limits_{n\to\infty}b_n}=\frac{A}{B}$. (Here, $B\neq 0$ and $b_n\neq 0$)
+		\item $\lim\limits_{n\to\infty}\abs{a_n}=\abs{\lim\limits_{n\to\infty}a_n}=\abs{A}$.
+		\item $\lim\limits_{n\to\infty}(a_n)^p=A^p$. (Here, $p\in\N$).
+		\item $[\exists K:n\geq K\implies a_n\leq b_n]\implies A\leq B$.
+	\end{enumerate}
+\end{theorem*}}
+\begin{proof}
+	To be continue...
+\end{proof}
 
 
 \vfill
