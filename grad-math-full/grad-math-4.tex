@@ -21,7 +21,7 @@
 We cover the following topics in this note.
 \begin{itemize}
 	\item Convergence of Sequences
-	\item Inequality Rule for Reals
+	\item Inequality Rule for Absolute Values
 	\item \st{Limit Theorem (Algebraic Property of Limit of Sequence)}
 \end{itemize}
 \hrule\vspace{12pt}
@@ -36,16 +36,15 @@ We cover the following topics in this note.
 
 \vfill
 \defbox[Sequence]{\begin{definition*}
-	Let $A\subseteq\N$ and $X\subseteq\R$. 
-	A \textbf{sequence} is a function\[
-	a:A\to X
-	\] with domain $A$ and range in $X$.
+	Let $X\subseteq\R$. A \textbf{sequence} is a function \[
+	f:\N\to X(\subseteq\R),\quad n\mapsto f(n):=a_n.
+	\] Instead of using function notation $f(n)$, the values of the sequence are denoted by $\set{a_n}_{n=1}^\infty$, where $a_n=f(n)$ is called $n$-th term of the sequence.
 \end{definition*}}
 \begin{remark*}
-A function $a$ is a real sequence if \[
-\fullfunction{a}{\N}{\R}{n}{a(n)=:a_n}
-\] for $n=1,2,\cdots$. We write \[
-\set{a_n}_{n=1}^\infty,\quad \set{a_n}_{n\in\N},\quad\set{a_n},\quad (a_n)_{n\in\N},\quad\ \text{or}\quad \gen{a_n}_{n\in\N}.
+A sequence in $X\subseteq\R$ is a function \[
+a:\N\to X,\quad n\mapsto a_n,
+\] where $a_n\in X$ for all $n\in\N$. We sometimes write \[
+\set{a_n},\quad\set{a_n}_{n=1}^\infty,\quad \set{a_n}_{n\in\N},\quad (a_n)_{n\in\N},\quad\ \text{or}\quad \gen{a_n}_{n\in\N}.
 \]
 \end{remark*}
 \defbox[Convergence of Sequence]{\begin{definition*}
@@ -54,7 +53,7 @@ A function $a$ is a real sequence if \[
 \]	
 \end{definition*}}
 \begin{remark*}
-	A real number $L\in\R$ is called \textbf{the limit}. When a sequence $\set{a_n}_{n=1}^\infty$ has the limit $L$, we will use the notation \[
+	The real number $L\in\R$ is called \textbf{the limit}\footnote{The limit of a sequence is unique.}. When a sequence $\set{a_n}_{n=1}^\infty$ has the limit $L$, we will use the notation \[
 	\lim_{n\to\infty}a_n=L\quad\text{or}\quad a_n\to L\ \text{as}\ n\to\infty.
 	\]  That is, \[
 		\lim_{n\to\infty}a_n=L\iff \forall\varepsilon>0:\exists N\in\N:\left[ n\geq N\implies \abs{a_n-L}<\varepsilon\right].
@@ -73,7 +72,7 @@ A function $a$ is a real sequence if \[
 \begin{note}
 	If a sequence has a limit, we say that the sequence is \textbf{convergent}; if it has no limit, we say that the sequence is \textbf{divergent}.
 \end{note}
-
+\vfill
 \begin{example*}
 	Consider the sequence defined by $a_n=1/n$ for each $n\in\N$. Prove that \[
 	\lim\limits_{n\to\infty}a_n=\lim\limits_{n\to\infty}\frac{1}{n}=0.
@@ -84,59 +83,190 @@ A function $a$ is a real sequence if \[
 	\begin{proof}
 		\textcolor{blue}{Let $\varepsilon>0$}. By the Archimedean property, we obtain \[
 		\textcolor{blue}{\exists N_\epsilon\in\N}\quad \text{s.t.}\quad 1<\varepsilon\cdot N_\epsilon,\ \ie,\ \frac{1}{N_\epsilon}<\varepsilon.
-		\] \textcolor{blue}{Assume that $n\geq N_\epsilon$ then} \[
-		\textcolor{blue}{\abs{a_n-0}}=\abs{\frac{1}{n}}=\frac{1}{n}\leq\frac{1}{N_\epsilon}
+		\] \textcolor{blue}{Assume that $n\geq N_\varepsilon$ then} \[
+		\textcolor{blue}{\abs{a_n-0}}=\abs{\frac{1}{n}}=\frac{1}{n}\leq\frac{1}{N_\varepsilon}
 		\textcolor{blue}{<\varepsilon}.
 		\] Hence $\displaystyle\lim\limits_{n\to\infty}\frac{1}{n}=0$.
 	\end{proof}
 \end{example*}
-
+\vfill
 \begin{example*}
 	Consider the sequence defined by $b_n=1-(-1)^n$ for all $n\in\N$. Prove that $b_n$ does not converge. 
 	\begin{center}
 		\input{../tikz/grad-math-tikz/grad-math-4-exam2}
 	\end{center}
 	\begin{proof}
-		Suppose that $\set{b_n}_{n=1}^\infty$ converges to $\beta\in\R$. \textcolor{blue}{Let $\varepsilon\in\intoo{0,2}$}. Then if $n\geq N_\varepsilon$, \begin{align*}
-			\abs{b_n-\beta}&=\abs{b_n-b_{n+1}+b_{n+1}-\beta} \\
-			&\leq\abs{b_n-b_{n+1}}+\abs{b_{n+1}-\beta} \\
-			&=2+\abs{b_{n+1}-\beta}
-		\end{align*}
+		The sequence $\set{b_n}$ alternates between $0$ and $2$: \[
+		b_n=\begin{cases}
+			0 &:n=2k \\
+			2 &:n=2k+1
+		\end{cases}
+		\] with $k\in\N$.
+		Suppose that $\set{b_n}_{n=1}^\infty$ converges to some limit $B\in\R$ and set
+		$\varepsilon=1$. Then, by the definition of convergence:\[
+		\exists N_\varepsilon\in\N\ \text{s.t.}\ n\geq N_\varepsilon\implies\abs{b_n-B}<1.
+		\] \begin{enumerate}[(\text{Case} 1)]
+			\item  For all even $n\geq N$, we have $b_n=0$.  Then the inequality $\abs{b_n-B}<1$ becomes \begin{equation}
+				\abs{0-B}=\abs{B}<1,\ \ie, B\in(-1,1).
+			\end{equation}
+			\item For all odd $n\geq N$, we have $b_n=2$.  Then the inequality $\abs{b_n-B}<1$ becomes \begin{equation}
+				\abs{2-B}<1,\ \ie,\ B\in\intoo{1,3}
+			\end{equation}
+		\end{enumerate}
+		By (1) and (2), there is no intersection between these ranges; \[
+		B\in(-1,1)\cap(1,3)=\varnothing
+		\] which proves that $b_n$ does not converge.
+		\begin{center}
+			\input{../tikz/grad-math-tikz/grad-math-4-exam2-2}
+		\end{center}
 	\end{proof}
 \end{example*}
 
+%\begin{tikzpicture}[scale=1.5]
+%	% Define constants for visualization
+%	\def\N{5} % Example N_epsilon value
+%	\def\yMax{3} % Max value for y-axis
+%	\def\yMin{-1} % Min value for y-axis
+%	
+%	% Draw axes
+%	\draw[thick,->] (0,0) -- (10,0) node[anchor=north] {$n$};
+%	\draw[thick,->] (0,\yMin) -- (0,\yMax) node[anchor=east] {$b_n$};
+%	
+%	% Draw B regions
+%	\draw[thick, blue] (0,1) -- (10,1) node[right] {$1$};
+%	\draw[thick, blue] (0,-1) -- (10,-1) node[right] {$-1$};
+%	\draw[thick, red] (0,3) -- (10,3) node[right] {$3$};
+%	\draw[thick, red] (0,2) -- (10,2) node[right] {$2$};
+%	
+%	% Sequence points
+%	\foreach \x in {1,...,9} {
+%		\pgfmathsetmacro{\parity}{mod(\x,2) == 0 ? 0 : 2}
+%		\filldraw (\x,\parity) circle (2pt);
+%	}
+%	
+%	% Highlight the interval areas
+%	\fill[blue, opacity=0.2] (0,-1) rectangle (10,1) node[pos=0.5, black, opacity=1] {$B \in (-1, 1)$};
+%	\fill[red, opacity=0.2] (0,2) rectangle (10,3) node[pos=0.5, black, opacity=1] {$B \in (1, 3)$};
+%	
+%	% Annotations to explain the issue
+%	\node at (5,0.5) [blue] {$B$ range for even $n$};
+%	\node at (5,2.5) [red] {$B$ range for odd $n$};
+%	\node at (5,\yMax) [black] {No intersection $\varnothing$};
+%	
+%\end{tikzpicture}
 \newpage
 
 \defbox[Absolute Value in Reals]{\begin{definition*}
 	Let $x\in\R$. A \textbf{absolute value} $\abs{x}$ of $x$ is defined by \[
 	\abs{x}:=\begin{cases}
-		x &:x\geq 0\\
-		-x &:x<0
+		x &\text{if}\ x\geq 0\\
+		-x &\text{if}\ x<0
 	\end{cases}
 	\]
 \end{definition*}}
-\probox{\begin{proposition*}
-	Let $x,y\in\R$. \begin{enumerate}[\normalfont(1)]
-		\item $\abs{x}=\abs{-x}=\sqrt{x^2}$
-		\item $\abs{xy}=\abs{x}\abs{y}$
-		\item For each $r>0$, \[
-		\abs{x}<r\iff -r<x<r
-		\]
-		\item  \[
-		\delta<\abs{x}\iff \delta<x\ \text{or}\ x<-\delta
-		\]
-		\item $-\abs{x}\leq x\leq \abs{x}$
-		\item (Triangle Inequality) \[
-		\abs{x+y}\leq\abs{x}+\abs{y}
-		\]
-	\end{enumerate}
-\end{proposition*}}
+\begin{remark*}
+	For $x\in\R$, \[
+	\abs{x}=\begin{cases}
+		x &:x>0 \\
+		0 &:x=0\\
+		-x &:x<0
+	\end{cases}
+	\]
+\end{remark*}
+\vfill
+\probox[]{\begin{proposition}
+Let $x,y\in\R$. \begin{enumerate}[\normalfont(1)]
+	\item $\abs{x}=+\sqrt{x^2}$
+	\item $\abs{x}\geq 0$
+	\item $\abs{x}=0\Leftrightarrow x=0$
+	\item $\abs{x}=\abs{-x}$
+	\item $\abs{xy}=\abs{x}\abs{y}$
+	\item (Fundamental Theorem of Absolute Values) For $c\geq 0$, we have \[
+	\abs{x}\leq c\iff -c\leq x\leq c
+	\]
+	\item $-\abs{x}\leq x\leq\abs{x}$
+\end{enumerate}
+\end{proposition}}
 \begin{proof}
-	\begin{enumerate}[(a)]
-		\item 
-	\end{enumerate}
+\begin{enumerate}[(1)]
+	\item If ($x\geq 0$) then $\abs{x}=x=\sqrt{x^2}$. Similarly if $x< 0$ then $\abs{x}=-x=\sqrt{x^2}$.
+	\item $\abs{x}=\begin{cases}
+		x\geq 0 &:x\geq 0\\
+		-x>0 &:x<0
+	\end{cases}\quad\geq 0$.
+	\item[]
+	\item \begin{itemize}
+		\item[($\Leftarrow$)] If $x=0$ then $\abs{x}=x=0$.
+		\item[($\Rightarrow$)] Let $\abs{x}=0$. Suppose that $x\neq0$. \begin{enumerate}[(i)]
+			\item $x>0\implies \abs{x}=x>0\ \text{\Large\lightning}$
+			\item $x<0\implies \abs{x}=-x>0\ \text{\Large\lightning}$
+		\end{enumerate} Thus $x$ must be zero.
+	\end{itemize}
+	\newpage
+	\item $\abs{-x}=\begin{cases}
+		-x &: -x\geq 0\ (\ie, x\leq 0) \\
+		-(-x)=x &: -x< 0\ (\ie, x> 0)
+	\end{cases}=\begin{cases}
+	x &\text{if}\ x\geq 0\\
+	-x &\text{if}\ x<0
+\end{cases}=\abs{x}$.
+	\item $\abs{xy}=\begin{cases}
+		xy=\abs{x}\abs{y} &:x\geq0,y\geq 0\\
+		-xy=x(-y)=\abs{x}\abs{y} &:x\geq0,y< 0\\
+		-xy=(-x)y=\abs{x}\abs{y} &:x<0,y\geq 0\\
+		xy=(-x)(-y)=\abs{x}\abs{y} &:x<0,y< 0
+	\end{cases}$
+	\vspace{1cm}
+	\item[\textcolor{red}{(6)}] 
+	\begin{itemize}
+		\item[($\Rightarrow$)] Let $\abs{x}\leq c$. \begin{enumerate}[(i)]
+			\item $x\geq 0\implies x=\abs{x}\leq c$, \ie, $-c\leq 0\leq x\leq c$.
+			\item $x<0\implies -x=\abs{x}\leq c$, \ie, $-c\leq x< 0\leq c$.
+		\end{enumerate} Thus, $-c\leq x\leq c$.
+		\vspace{.5cm}
+		\item[($\Leftarrow$)] Let $-c\leq x\leq c$. \begin{enumerate}[(i)]
+			\item $x\geq 0\implies \abs{x}=x\leq c$.
+			\item $x<0\implies \abs{x}=-x\leq c$.
+		\end{enumerate} Thus, $\abs{x}\leq c$.
+	\end{itemize}
+	\item[(7)] Let $c=\abs{x}$, where $c\geq 0$. By (6), thus, the result follows.
+\end{enumerate}
 \end{proof}
-
+\vfill
+\probox[Triangle Inequality]{\begin{proposition}
+Let $x,y\in\R$. \begin{enumerate}[\normalfont(1)]
+	\item $\abs{x+y}\leq\abs{x}+\abs{y}$
+	\item $\abs{\abs{x}-\abs{y}}\leq\abs{x-y}$.
+\end{enumerate}
+\end{proposition}}
+\begin{proof}
+\begin{enumerate}[(1)]
+	\item By (7) of \textbf{Proposition 1}, we have \[
+	-\abs{x}\leq x\leq\abs{x},\quad-\abs{y}\leq y\leq\abs{y}.
+	\] \newpage
+	Then \begin{table}[h!]\centering\setstretch{1.5}
+		\begin{tabular}{cccccc}
+			&$-\abs{x}$ & $\leq$ & $x$ & $\leq$ & $\abs{x}$ \\
+			+&$-\abs{y}$ & $\leq$ & $y$ & $\leq$ & $\abs{y}$ \\ \cline{2-6}
+			&$-(\abs{x}+\abs{y})$& $\leq$& $x+y$&$\leq$& $\abs{x}+\abs{y}$ \\
+		\end{tabular}
+	\end{table}\\ Thus, we have $\abs{x+y}\leq\abs{x}+\abs{y}$.
+	\item \ \begin{enumerate}[(i)]
+		\item Note that \begin{align*}
+			\abs{x} &=\abs{x-y+y} \\
+			&\leq\abs{x-y}+\abs{y}\quad\text{by (1) of \textbf{Proposition 2}}
+		\end{align*} Thus $\abs{x}-\abs{y}\leq\abs{x-y}$. 
+		\item Note that \begin{align*}
+			\abs{y}&=\abs{x-(x-y)}\\
+			&\leq\abs{x}+\abs{-(x-y)}\quad\text{by (1) of \textbf{Proposition 2}} \\
+			&=\abs{x}+\abs{x-y}\quad\text{by (4) of \textbf{Proposition 1}}
+		\end{align*} Therefore $-\abs{x-y}\leq\abs{x}-\abs{y}$.
+	\end{enumerate} By (i) and (ii), we know \[
+	-\abs{x-y}\leq\abs{x}-\abs{y}\leq\abs{x-y},\quad\ie,\quad\abs{\abs{x}-\abs{y}}\leq\abs{x-y}.
+	\]
+\end{enumerate}
+\end{proof}
+\vfill
 \defbox[Boundedness of Sequence]{\begin{definition*}
 	Let $\set{a_n}_{n=1}^\infty(\subseteq\R)$ is a sequence. $\set{a_n}$ is said to be \textbf{bounded} if \[
 		\exists M\in\R\ \text{such that}\ \forall n\in\N,\ \abs{a_n}\leq M.
@@ -144,22 +274,29 @@ A function $a$ is a real sequence if \[
 \end{definition*}}
 
 \newpage
-\probox[]{\begin{proposition*}
+\probox[]{\begin{proposition}
 	A convergent sequence is bounded.
-\end{proposition*}}
+\end{proposition}}
 \begin{proof}
-	Let $\lim\limits_{n\to\infty}a_n=L$. For $\varepsilon=1$, $\exists N\in\N$ such that $n\geq N\implies\abs{a_n-L}<1$. Then we see that \[
+	Let $\lim\limits_{n\to\infty}a_n=L$. By the definition of convergence, for $\varepsilon=1$,  \[
+	\exists N\in\N\ \text{such that}\ n\geq N\implies\abs{a_n-L}<1.
+	\] By triangle inequality, we have \[
 	\abs{a_n}=\abs{a_n-L+L}\leq\abs{a_n-L}+\abs{L}<1+\abs{L}.
 	\] Let $M:=\max\set{\abs{a_1},\abs{a_2},\dots,\abs{a_{N-1}},1+\abs{L}}$. Then \[
 	\abs{a_n}\leq M
-	\] for all $n\in\N$. That is, $\set{a_n}$ is bounded.
-\end{proof}
+	\] for all $n\in\N$. Therefore $\set{a_n}$ is bounded.
 \begin{center}
 	\input{../tikz/grad-math-tikz/grad-math-4-conv-seq-bound}
 \end{center}
+\end{proof}
+\vfill
 \begin{note}
-	We have established that if the limit of a sequence \(a_n\) exists as \(n\) approaches infinity, then there exists a real number \(M\) such that \(\lvert a_n \rvert \leq M\) for all \(n\). However, the converse is not necessarily true. To illustrate, consider the sequence \(\{a_n\} = 1 - (-1)^n\). This sequence is bounded, yet it does not converge, serving as a counterexample.
-	
+	We have established that if the limit of a sequence \(a_n\) exists as \(n\) approaches infinity, then there exists a real number \(M\) such that \(\lvert a_n \rvert \leq M\) for all \(n\): \[
+	\exists A\in\R\ \text{s.t.}\ A=\lim_{n\to\infty}a_n\implies\exists M\in\R\ \text{s.t.}\ \forall n\in\N,\ \abs{a_n}\leq M.
+	\]However, the converse is not necessarily true: \[
+	\exists A\in\R\ \text{s.t.}\ A=\lim_{n\to\infty}a_n\centernot\impliedby\exists M\in\R\ \text{s.t.}\ \forall n\in\N,\ \abs{a_n}\leq M.
+	\] To illustrate, consider the sequence \(\{a_n\} = 1 - (-1)^n\). This sequence is bounded, yet it does not converge, serving as a counterexample.
+	\newpage
 	Furthermore, we note the following important theorems:
 	\begin{enumerate}
 		\item \textbf{Monotone Convergence Theorem}:
@@ -167,21 +304,10 @@ A function $a$ is a real sequence if \[
 			\item If a sequence \(\{a_n\}\) is bounded above and monotone increasing, then it converges.
 			\item If a sequence \(\{a_n\}\) is bounded below and monotone decreasing, then it converges.
 		\end{enumerate}
-		\item \textbf{Bolzano-Weierstrass Theorem}: If there exists a real number \(M\) such that \(\lvert a_n \rvert < M\) for all \(n\), then there exists a convergent subsequence \(\{a_{n_k}\}\) of \(\{a_n\}\).
+		\item \textbf{Bolzano-Weierstrass Theorem}: Every bounded sequence of real numbers has a convergent subsequence. That is, if there exists a real number \(M\) such that \(\lvert a_n \rvert < M\) for all \(n\), then there exists a convergent subsequence \(\{a_{n_k}\}\) of \(\{a_n\}\).
 	\end{enumerate}
 \end{note}
 
-We confirmed that \[
-\exists\lim_{n\to\infty}a_n\implies\exists M\in\R: \abs{a_n}\leq M.
-\] However, \[
-\exists\lim_{n\to\infty}a_n\centernot\impliedby\exists M\in\R: \abs{a_n}\leq M
-\] because there is a counterexample: $\set{a_n}=1-(-1)^n$ is bounded sequence but not convergent. Note that \begin{enumerate}
-	\item (Monotone Convergent Theorem) \begin{enumerate}[(i)]
-		\item if $\set{a_n}$ is bounded above and monotone increasing, then is convergent.
-		\item if $\set{a_n}$ is bounded below and monotone decreasing, then is convergent.
-	\end{enumerate}
-	\item (Bolzano-Weierstrass Theorem) $\exists M\in\R:\abs{a_n}<M\implies\exists\lim\limits_{k\to\infty}\set{a_{n_k}}$.
-\end{enumerate}
 %\begin{tikzpicture}[scale=2]
 %	\begin{axis}[
 %		title=Example using the mesh parameter,
@@ -197,16 +323,17 @@ We confirmed that \[
 %		\addlegendentry{\(\frac{sin(r)}{r}\)}
 %	\end{axis}
 %\end{tikzpicture}
-\newpage
-\probox[Limit Theorem (Algebraic Property of Limit of Sequence)]{
-\begin{theorem*} Let $\lim\limits_{n\to\infty}a_n=A$, $\lim\limits_{n\to\infty}b_n=B$, and $\alpha\in\R$. Then \begin{enumerate}[(1)]
-		\item $\lim\limits_{n\to\infty}\alpha a_n=\alpha\lim\limits_{n\to\infty}a_n=\alpha A$.
-		\item $\lim\limits_{n\to\infty}a_n\pm b_n=\lim\limits_{n\to\infty}a_n\pm\lim\limits_{n\to\infty}b_n=A\pm B$.
-		\item $\lim\limits_{n\to\infty}a_n b_n=\lim\limits_{n\to\infty}a_n\lim\limits_{n\to\infty}b_n=AB$.
-		\item $\displaystyle\lim\limits_{n\to\infty}\frac{a_n}{b_n}=\frac{\lim\limits_{n\to\infty}a_n}{\lim\limits_{n\to\infty}b_n}=\frac{A}{B}$. (Here, $B\neq 0$ and $b_n\neq 0$)
-		\item $\lim\limits_{n\to\infty}\abs{a_n}=\abs{\lim\limits_{n\to\infty}a_n}=\abs{A}$.
-		\item $\lim\limits_{n\to\infty}(a_n)^p=A^p$. (Here, $p\in\N$).
-		\item $[\exists K:n\geq K\implies a_n\leq b_n]\implies A\leq B$.
+%\newpage
+\vfill
+\thmbox[Limit Theorem (Algebraic Property of Limit of Sequence)]{
+\begin{theorem*} Let $\lim\limits_{n\to\infty}a_n=\alpha$, $\lim\limits_{n\to\infty}b_n=\beta$, and $k\in\R$. Then \begin{enumerate}[(1)]
+		\item $\lim\limits_{n\to\infty}k a_n=k\lim\limits_{n\to\infty}a_n=k\alpha$.
+		\item $\lim\limits_{n\to\infty}a_n\pm b_n=\lim\limits_{n\to\infty}a_n\pm\lim\limits_{n\to\infty}b_n=\alpha\pm\beta$.
+		\item $\lim\limits_{n\to\infty}a_n b_n=\lim\limits_{n\to\infty}a_n\lim\limits_{n\to\infty}b_n=\alpha\beta$.
+		\item $\displaystyle\lim\limits_{n\to\infty}\frac{a_n}{b_n}=\frac{\lim\limits_{n\to\infty}a_n}{\lim\limits_{n\to\infty}b_n}=\frac{\alpha}{\beta}$. (Here, $\beta\neq 0$ and $b_n\neq 0$)
+%		\item $\lim\limits_{n\to\infty}\abs{a_n}=\abs{\lim\limits_{n\to\infty}a_n}=\abs{A}$.
+%		\item $\lim\limits_{n\to\infty}(a_n)^p=A^p$. (Here, $p\in\N$).
+%		\item $[\exists K:n\geq K\implies a_n\leq b_n]\implies A\leq B$.
 	\end{enumerate}
 \end{theorem*}}
 \begin{proof}

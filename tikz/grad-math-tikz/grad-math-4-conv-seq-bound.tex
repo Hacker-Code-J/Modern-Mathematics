@@ -2,7 +2,7 @@
 	% Define the coordinates for L and the bounding lines
 	\def\L{3} % Set L at 3 for visualization
 	\def\epsilon{1} % Epsilon value
-	\def\N{12} % Example N value
+	\def\N{14} % Example N value
 	\def\xMax{25}
 	\def\yMax{6} % Max value for y-axis
 	
@@ -19,8 +19,8 @@
 	\draw[dashed, blue] (\N,0) -- (\N,\yMax) node[at start, below] {$N$};
 	
 	% Points of a_n for n < N and n >= N
-	\foreach \x in {1,2,3,5,6,...,11} {
-		\pgfmathsetmacro{\y}{rand*1.25+\L}
+	\foreach \x in {1,2,3,5,6,...,13} {
+		\pgfmathsetmacro{\y}{rand*1.5+\L}
 		\filldraw[red] (\x,\y) circle (3pt);
 	}
 	\filldraw[red] (4,4.5) circle (3pt);
