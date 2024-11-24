@@ -22,7 +22,7 @@ We cover the following topics in this note.
 \begin{itemize}
 	\item Convergence of Sequences
 	\item Inequality Rule for Absolute Values
-	\item \st{Limit Theorem (Algebraic Property of Limit of Sequence)}
+	\item Limit Theorem (Algebraic Property of Limit of Sequence)
 \end{itemize}
 \hrule\vspace{12pt}
 %Preliminaries:
@@ -53,7 +53,7 @@ a:\N\to X,\quad n\mapsto a_n,
 \]	
 \end{definition*}}
 \begin{remark*}
-	The real number $L\in\R$ is called \textbf{the limit}\footnote{The limit of a sequence is unique.}. When a sequence $\set{a_n}_{n=1}^\infty$ has the limit $L$, we will use the notation \[
+	The real number $L\in\R$ is called \textbf{the limit}\footnote{The limit of a sequence is unique. See \hyperlink{thm4}{\textbf{Theorem 4}}}. When a sequence $\set{a_n}_{n=1}^\infty$ has the limit $L$, we will use the notation \[
 	\lim_{n\to\infty}a_n=L\quad\text{or}\quad a_n\to L\ \text{as}\ n\to\infty.
 	\]  That is, \[
 		\lim_{n\to\infty}a_n=L\iff \forall\varepsilon>0:\exists N\in\N:\left[ n\geq N\implies \abs{a_n-L}<\varepsilon\right].
@@ -210,12 +210,69 @@ Let $x,y\in\R$. \begin{enumerate}[\normalfont(1)]
 	x &\text{if}\ x\geq 0\\
 	-x &\text{if}\ x<0
 \end{cases}=\abs{x}$.
+	\begin{center}
+		\begin{tikzpicture}[scale=1.5, >=stealth]
+			% Draw axes
+			\draw[<->, thick] (-2,0) -- (2,0) node[below right] {$x$};
+			\draw[<->, thick] (0,-0.5) -- (0,2) node[left] {$y$};	
+			% Plot |x|
+			\draw[thick, domain=-2:0, samples=100, blue] plot (\x,{-\x}) node[pos=0.25, left, black] {$y = \abs{x}$};
+			\draw[thick, domain=0:2, samples=100, blue] plot (\x,\x);
+			% Mark points to illustrate symmetry
+			\foreach \x in {-1.5, -1, -0.5, 0.5, 1, 1.5} {
+				\draw[dashed, gray] (\x,0) -- (\x, {abs(\x)}) -- (-\x, {abs(\x)}) -- (-\x, 0);
+				\fill[red] (\x, {abs(\x)}) circle (1pt);
+				\fill[red] (-\x, {abs(\x)}) circle (1pt);
+			}
+			% Annotation for |x| = |-x|
+%			\node at (1.5, 1.5) [above right, black] {$\abs{x} = \abs{-x}$};
+%			\node at (-1.5, 1.5) [above left, black] {$\abs{x} = \abs{-x}$};
+			% Symmetry arrows
+			\draw[<->, thick, red] (1,1) to[out=60, in=120] (-1,1);
+			\node[above] at (0,1.4) {\textbf{Symmetry}};
+		\end{tikzpicture}
+	\end{center}
 	\item $\abs{xy}=\begin{cases}
 		xy=\abs{x}\abs{y} &:x\geq0,y\geq 0\\
 		-xy=x(-y)=\abs{x}\abs{y} &:x\geq0,y< 0\\
 		-xy=(-x)y=\abs{x}\abs{y} &:x<0,y\geq 0\\
 		xy=(-x)(-y)=\abs{x}\abs{y} &:x<0,y< 0
 	\end{cases}$
+%	\begin{center}
+%	\begin{tikzpicture}
+%		\begin{axis}[
+%			width=12cm,
+%			view={15}{45}, % 3D view angles
+%			axis lines=center,
+%			xlabel={$x$},
+%			ylabel={$y$},
+%			zlabel={$z$},
+%			xtick={-5,-4,-3,-2,-1,0,1,2,3,4,5},
+%			ytick={-5,-4,-3,-2,-1,0,1,2,3,4,5},
+%			ztick={-5,-4,-3,-2,-1,0,1,2,3,4,5},
+%			domain=-10:10,
+%			samples=50,
+%			samples y=50,
+%			colormap/viridis,
+%			zmax=10,
+%			zmin=0
+%			]
+%%			% Plot z = xy
+%%			\addplot3[surf, opacity=0.5, mesh, domain=-2:2, samples=30, samples y=30] 
+%%			{x * y};
+%%			\addlegendentry{$z = xy$};
+%			
+%			% Plot z = |xy|
+%%			\addplot3[surf, opacity=0.7, colormap/hot, domain=-5:5, samples=50, samples y=50] 
+%%			{abs(x * y)};
+%%			\addlegendentry{$z = \abs{xy}$};
+%			\addplot3[surf, opacity=0.7, mesh, domain=-6:6, samples=50, samples y=50] 
+%			{abs(x * y)};
+%			\addlegendentry{$z = \abs{xy}$};
+%			
+%		\end{axis}
+%	\end{tikzpicture}
+%	\end{center}
 	\vspace{1cm}
 	\item[\textcolor{red}{(6)}] 
 	\begin{itemize}
@@ -229,6 +286,33 @@ Let $x,y\in\R$. \begin{enumerate}[\normalfont(1)]
 			\item $x<0\implies \abs{x}=-x\leq c$.
 		\end{enumerate} Thus, $\abs{x}\leq c$.
 	\end{itemize}
+	\begin{center}
+	\begin{tikzpicture}[scale=1.5, >=stealth]
+		
+		% Number line
+		\draw[<->, thick] (-4,0) -- (4,0) node[below right] {$x$};
+		
+		% Points and labels for -c, c
+		\fill[red] (-2,0) circle (2pt) node[below] {$-c$};
+		\fill[red] (2,0) circle (2pt) node[below] {$c$};
+		
+		% Shading for interval -c to c
+		\draw[red, ultra thick] (-2,0) -- (2,0);
+		
+		% Dashes to show bounds
+		\draw[dashed, thick, gray] (-2,-0.5) -- (-2,1) node[above, black] {};
+		\draw[dashed, thick, gray] (2,-0.5) -- (2,1);
+		
+		% Annotation for interval
+		\node[above] at (0, 0.5) {\textbf{Interval:} $-c \leq x \leq c$};
+		\node[below] at (0, -0.5) {\textbf{Absolute:} $\abs{x} \leq c$};
+		
+		% Equivalence explanation
+		\node at (0, 1.5) [align=center, black] 
+		{\textbf{Key equivalence:} \\[3pt] 
+			$\abs{x} \leq c \iff -c \leq x \leq c$};
+	\end{tikzpicture}
+\end{center}
 	\item[(7)] Let $c=\abs{x}$, where $c\geq 0$. By (6), thus, the result follows.
 \end{enumerate}
 \end{proof}
@@ -239,11 +323,46 @@ Let $x,y\in\R$. \begin{enumerate}[\normalfont(1)]
 	\item $\abs{\abs{x}-\abs{y}}\leq\abs{x-y}$.
 \end{enumerate}
 \end{proposition}}
+\begin{center}
+\begin{tikzpicture}[scale=1.5, >=stealth]
+	
+	% Axes
+	\draw[->, thick] (-1.5,0) -- (2.5,0) node[below right] {$x$};
+	\draw[->, thick] (0,-0.5) -- (0,2.5) node[left] {$y$};
+	
+	% Points
+	\coordinate (A) at (0,0); % Origin
+	\coordinate (B) at (2,0); % x
+	\coordinate (C) at (0,2); % y
+	\coordinate (D) at (2,2); % x+y
+	
+	% Vectors
+	\draw[thick, blue, ->] (A) -- (B) node[midway, below] {$\abs{x}$};
+	\draw[thick, green!50!black, ->] (A) -- (C) node[midway, left] {$\abs{y}$};
+	\draw[thick, red, ->] (A) -- (D) node[midway, below right] {$\abs{x + y}$};
+	
+	% Dashed lines to form triangle
+	\draw[dashed, gray] (B) -- (D);
+	\draw[dashed, gray] (C) -- (D);
+	
+	% Labels for points
+	\node[below left] at (A) {$0$};
+	\node[below] at (B) {$x$};
+	\node[left] at (C) {$y$};
+	\node[above right] at (D) {$x + y$};
+	
+	% Inequality explanation
+%	\node[align=center] at (1, 2.5) 
+%	{\textbf{Triangle Inequality:} \\[3pt] 
+%		$\abs{x + y} \leq \abs{x} + \abs{y}$ \\[3pt]
+%		\textit{(Red vector is shorter than or equal to the sum of blue and green vectors)}};
+\end{tikzpicture}
+\end{center}
 \begin{proof}
 \begin{enumerate}[(1)]
 	\item By (7) of \textbf{Proposition 1}, we have \[
 	-\abs{x}\leq x\leq\abs{x},\quad-\abs{y}\leq y\leq\abs{y}.
-	\] \newpage
+	\]
 	Then \begin{table}[h!]\centering\setstretch{1.5}
 		\begin{tabular}{cccccc}
 			&$-\abs{x}$ & $\leq$ & $x$ & $\leq$ & $\abs{x}$ \\
@@ -272,9 +391,8 @@ Let $x,y\in\R$. \begin{enumerate}[\normalfont(1)]
 		\exists M\in\R\ \text{such that}\ \forall n\in\N,\ \abs{a_n}\leq M.
 		\]
 \end{definition*}}
-
-\newpage
-\probox[]{\begin{proposition}
+\vfill
+\probox[]{\begin{proposition}\hypertarget{pro3}{}
 	A convergent sequence is bounded.
 \end{proposition}}
 \begin{proof}
@@ -296,8 +414,8 @@ Let $x,y\in\R$. \begin{enumerate}[\normalfont(1)]
 	\]However, the converse is not necessarily true: \[
 	\exists A\in\R\ \text{s.t.}\ A=\lim_{n\to\infty}a_n\centernot\impliedby\exists M\in\R\ \text{s.t.}\ \forall n\in\N,\ \abs{a_n}\leq M.
 	\] To illustrate, consider the sequence \(\{a_n\} = 1 - (-1)^n\). This sequence is bounded, yet it does not converge, serving as a counterexample.
-	\newpage
-	Furthermore, we note the following important theorems:
+	\vfill
+	\noindent Furthermore, we note the following important theorems:
 	\begin{enumerate}
 		\item \textbf{Monotone Convergence Theorem}:
 		\begin{enumerate}[(i)]
@@ -326,18 +444,127 @@ Let $x,y\in\R$. \begin{enumerate}[\normalfont(1)]
 %\newpage
 \vfill
 \thmbox[Limit Theorem (Algebraic Property of Limit of Sequence)]{
-\begin{theorem*} Let $\lim\limits_{n\to\infty}a_n=\alpha$, $\lim\limits_{n\to\infty}b_n=\beta$, and $k\in\R$. Then \begin{enumerate}[(1)]
-		\item $\lim\limits_{n\to\infty}k a_n=k\lim\limits_{n\to\infty}a_n=k\alpha$.
-		\item $\lim\limits_{n\to\infty}a_n\pm b_n=\lim\limits_{n\to\infty}a_n\pm\lim\limits_{n\to\infty}b_n=\alpha\pm\beta$.
-		\item $\lim\limits_{n\to\infty}a_n b_n=\lim\limits_{n\to\infty}a_n\lim\limits_{n\to\infty}b_n=\alpha\beta$.
-		\item $\displaystyle\lim\limits_{n\to\infty}\frac{a_n}{b_n}=\frac{\lim\limits_{n\to\infty}a_n}{\lim\limits_{n\to\infty}b_n}=\frac{\alpha}{\beta}$. (Here, $\beta\neq 0$ and $b_n\neq 0$)
-%		\item $\lim\limits_{n\to\infty}\abs{a_n}=\abs{\lim\limits_{n\to\infty}a_n}=\abs{A}$.
-%		\item $\lim\limits_{n\to\infty}(a_n)^p=A^p$. (Here, $p\in\N$).
-%		\item $[\exists K:n\geq K\implies a_n\leq b_n]\implies A\leq B$.
-	\end{enumerate}
+\begin{theorem*} Let $\lim\limits_{n\to\infty}a_n=\alpha$, $\lim\limits_{n\to\infty}b_n=\beta$, and $k\in\R$. Then 
+\begin{enumerate}[(1)]
+	\item $\lim\limits_{n\to\infty}k a_n=k\alpha=k\lim\limits_{n\to\infty}a_n$.
+	\item $\lim\limits_{n\to\infty}a_n\pm b_n=\alpha\pm\beta=\lim\limits_{n\to\infty}a_n\pm\lim\limits_{n\to\infty}b_n$.
+	\item $\lim\limits_{n\to\infty}a_n b_n=\alpha\beta=\lim\limits_{n\to\infty}a_n\lim\limits_{n\to\infty}b_n$.
+	\item $\displaystyle\lim\limits_{n\to\infty}\frac{a_n}{b_n}=\frac{\alpha}{\beta}=\frac{\lim\limits_{n\to\infty}a_n}{\lim\limits_{n\to\infty}b_n}$. \normalfont (Here, $\beta\neq 0$ and $b_n\neq 0$)
+%	\item $\lim\limits_{n\to\infty}\abs{a_n}=\abs{\lim\limits_{n\to\infty}a_n}=\abs{A}$.
+%	\item $\lim\limits_{n\to\infty}(a_n)^p=A^p$. (Here, $p\in\N$).
+%	\item $[\exists K:n\geq K\implies a_n\leq b_n]\implies A\leq B$.
+\end{enumerate}
 \end{theorem*}}
 \begin{proof}
-	To be continue...
+\textcolor{blue}{Let $\varepsilon>0$}. \begin{enumerate}[(1)]
+	\item If $k=0$, it is trivial. Let $k\neq 0$. Since $\lim\limits_{n\to\infty}a_n=\alpha$, we know \[
+	\textcolor{blue}{\exists N\in\N}\ \text{such that}\ \left[n\geq N\implies\abs{a_n-\alpha}<\textcolor{red}{\frac{\varepsilon}{\abs{k}}}\right]\label{eq:eq1} \tag{*}
+	\] Thus, \textcolor{blue}{if $n\geq N$ then} \begin{align*}
+	\textcolor{blue}{\abs{ka_n-k\alpha}}&=\abs{k(a_n-\alpha)}\\
+	&=\abs{k}\abs{a_n-\alpha}\quad\because \abs{xy}=\abs{x}\abs{y}\\
+	&\textcolor{blue}{<}\abs{k}\cdot\textcolor{red}{\frac{\varepsilon}{\abs{k}}}\quad\text{by (*)}\\
+	&=\textcolor{blue}{\varepsilon}.
+	\end{align*}
+	\begin{center}
+	\begin{tikzpicture}[scale=1, >=stealth]
+		
+		% Axes
+		\draw[->, thick] (-0.5, 0) -- (7, 0) node[right] {$n$};
+		\draw[->, thick] (0, -1) -- (0, 6) node[above] {$a_n$};
+		
+		% Original limit A
+		\draw[dashed, red] (0, 2) -- (7, 2) node[right] {$\alpha$};
+		
+		% Scaled limit alpha A
+		\draw[dashed, blue] (0, 4) -- (7, 4) node[right] {$k\alpha$};
+		
+		% Epsilon bounds around A
+		\draw[dotted, red] (0, 2.5) -- (7, 2.5) node[right] {$\alpha + \frac{\varepsilon}{\abs{k}}$};
+		\draw[dotted, red] (0, 1.5) -- (7, 1.5) node[right] {$\alpha - \frac{\varepsilon}{\abs{k}}$};
+		
+		% Epsilon bounds around alpha A
+		\draw[dotted, blue] (0, 4.5) -- (7, 4.5) node[right] {$k\alpha + \varepsilon$};
+		\draw[dotted, blue] (0, 3.5) -- (7, 3.5) node[right] {$k\alpha - \varepsilon$};
+		
+		% Sequence points a_n
+		\foreach \x in {1.2, 1.7, 2.2, 2.7, 3.2, 3.7, 4.2, 4.7, 5.2} {
+			\draw[fill=black] (\x, {2 + (0.3 / \x)}) circle (0.05); % Points near A
+		}
+		
+		% Sequence points alpha a_n
+		\foreach \x in {1.2, 1.7, 2.2, 2.7, 3.2, 3.7, 4.2, 4.7, 5.2} {
+			\draw[fill=black] (\x, {4 + (0.6 / \x)}) circle (0.05); % Points near alpha A
+		}
+		
+		% N marker
+		\draw[dashed, gray] (2.5, 6) -- (2.5, -0.5) node[below] {$N$};
+%		\node[below] at (2.5, -0.5) {$n = N$};
+		
+		% Overlap annotation for scaled sequence
+		\fill[blue, opacity=0.1] (0, 3.5) rectangle (7, 4.5);
+		\node[align=center] at (4, 5) {\textbf{\small Scaled bounds:} \\ $\abs{ka_n - k\alpha} < \varepsilon$};
+		
+		% Original bounds annotation
+		\fill[red, opacity=0.1] (0, 1.5) rectangle (7, 2.5);
+		\node[align=center] at (4, 1) {\textbf{\small Original bounds:} \\ $\abs{a_n - \alpha} < \frac{\varepsilon}{\abs{k}}$};
+		
+		% Explanation of scaling
+%		\node[align=center] at (4, -0.8) 
+%		{\textbf{Scaling property:} \\[5pt] 
+%			$\abs{\alpha a_n - \alpha A} = \abs{\alpha} \abs{a_n - A}$.};
+	\end{tikzpicture}
+	\end{center}
+	\item Since $\lim\limits_{n\to\infty}a_n=\alpha$ and $\lim\limits_{n\to\infty}b_n=\beta$, we know that \begin{align*}
+		\exists N_1\in\N\ \text{such that}\ \left[n\geq N_1\implies\abs{a_n-\alpha}<\textcolor{red}{\frac{\varepsilon}{2}}\right]\label{eq:eq2} \tag{**}\\
+		\exists N_2\in\N\ \text{such that}\ \left[n\geq N_2\implies\abs{b_n-\beta}<\textcolor{red}{\frac{\varepsilon}{2}}\right]\label{eq:eq3} \tag{***}
+	\end{align*} Let $\textcolor{blue}{N=\max\set{N_1,N_2}}$. \textcolor{blue}{If $n\geq N$ then} \begin{align*}
+	\textcolor{blue}{\abs{(a_n+ b_n)-(\alpha+ \beta)}}&=\abs{(a_n-\alpha)+(b_n-\beta)}\\
+	&\leq\abs{a_n-\alpha}+\abs{b_n-\beta}\quad\text{by Triangle Inequality}\\
+	&\textcolor{blue}{<}\textcolor{red}{\frac{\varepsilon}{2}}+\textcolor{red}{\frac{\varepsilon}{2}}\quad\text{by (**) and (***)}\\
+	&=\textcolor{blue}{\varepsilon}.
+\end{align*} and \[
+	\textcolor{blue}{\abs{(a_n- b_n)-(\alpha- \beta)}}=\abs{(a_n-\alpha)+(-b_n+\beta)}\leq\abs{a_n-\alpha}+\abs{b_n-\beta}\textcolor{blue}{<}\textcolor{red}{\frac{\varepsilon}{2}}+\textcolor{red}{\frac{\varepsilon}{2}}=\textcolor{blue}{\varepsilon}.
+	\]
+	\vfill
+	\item  By \hyperlink{pro3}{\textbf{Proposition 3}}, $\set{a_n}$ is bounded and so \[
+	\exists M>0\ \text{such that}\ \forall n\in N,\ \abs{a_n}\leq M.
+	\] Note that \begin{align*}
+		\lim\limits_{n\to\infty}a_n=\alpha\implies\exists N_1\in\N:&\left[n\geq N_1\implies\abs{a_n-\alpha}<\textcolor{red}{\frac{\varepsilon}{2\abs{\beta}+1}}\right],\\ \lim\limits_{n\to\infty}b_n=\beta\implies\exists N_2\in\N:&\left[n\geq N_2\implies\abs{b_n-\beta}<\textcolor{red}{\frac{\varepsilon}{2M}}\right].
+	\end{align*} Let $\textcolor{blue}{N=\max\set{N_1,N_2}}$. \textcolor{blue}{If $n\geq N$ then} \begin{align*}
+		\textcolor{blue}{\abs{a_nb_n-\alpha\beta}}=\abs{a_nb_n-\alpha\beta\ \textcolor{green!50!black}{+\ a_n\beta\ -\ a_n\beta}}&=\abs{a_n(b_n-\beta)+\beta(a_n-\alpha)}\\
+		&\leq\abs{a_n}\abs{b_n-\beta}+\abs{\beta}\abs{a_n-\alpha}\\
+		&<M\cdot\textcolor{red}{\frac{\varepsilon}{2M}}+\textcolor{red}{\frac{\abs{\beta}}{2\abs{\beta}+1}}\cdot\varepsilon\\
+		&\textcolor{blue}{<}\frac{\varepsilon}{2}+\frac{\varepsilon}{2}=\textcolor{blue}{\varepsilon}.
+	\end{align*} \textcolor{gray!50}{Note that $2\abs{\beta}<2\abs{\beta}+1\Leftrightarrow\frac{\abs{\beta}}{2\abs{\beta}+1}<\frac{1}{2}$.}
+	\item It is enough to prove that $\displaystyle\lim\limits_{n\to\infty}\frac{1}{b_n}=\frac{1}{\beta}$ with $b_n\neq 0$ and $\beta\neq 0$. Note that Triangle Inequality implies that \[
+	\abs{y}=\abs{y-x+x}\leq\abs{y-x}+\abs{x}\iff\abs{y}-\abs{x}\leq\abs{y-x}
+	\] for any $x,y\in\R$. Since $\lim\limits_{n\to\infty}b_n=\beta$, for $\displaystyle\textcolor{red}{\frac{1}{2}\abs{\beta}}\textcolor{blue}{>0}$, $\exists N_1\in\N$ such that if $n\geq N_1$ \[
+	\abs{\beta}-\abs{b_n}\leq\abs{\beta-b_n}=\abs{b_n-\beta}<\textcolor{red}{\frac{1}{2}\abs{\beta}}.
+	\] Thus, we obtain that \[
+	\abs{\beta}-\abs{b_n}<\frac{1}{2}\abs{\beta}\implies\frac{1}{2}\abs{\beta}<\abs{b_n}\implies\textcolor{teal}{\frac{1}{b_n}<\frac{2}{\abs{\beta}}}
+	\] And \[
+	\exists N_2\in\N:\left[n\geq N_2\implies\textcolor{orange}{\abs{b_n-\beta}<\frac{\beta^2}{2}\varepsilon}\right].
+	\] Let \textcolor{blue}{$N=\max\set{N_1,N_2}$}. \textcolor{blue}{If $n\geq N$ then} \[
+	\textcolor{blue}{\abs{\frac{1}{b_n}-\frac{1}{\beta}}}=\abs{\frac{\beta-b_n}{\beta b_n}}=\frac{\textcolor{orange}{\abs{b_n-\beta}}}{\abs{\beta}\textcolor{teal}{\abs{b_n}}}\textcolor{blue}{<}\textcolor{orange}{\varepsilon\cdot\frac{\beta^2}{2}}\cdot\frac{1}{\abs{\beta}}\textcolor{teal}{\cdot\frac{2}{\abs{\beta}}}=\textcolor{blue}{\varepsilon}.
+	\]
+\end{enumerate}
+\end{proof}
+\thmbox[Uniqueness of Limits]{\begin{theorem}\hypertarget{thm4}{}
+	The limit of a sequence is unique.
+\end{theorem}}
+\begin{proof}
+We want to show that \[
+\lim\limits_{n\to\infty}a_n=\alpha\ \text{and}\ \lim\limits_{n\to\infty}a_n=\beta\implies\alpha=\beta.
+\] Let a sequence $\set{a_n}$ has limit $\alpha$ and $\beta$, and \textcolor{blue}{let $\varepsilon>0$}. Since $\lim\limits_{n\to\infty}a_n=\alpha$ and $\lim\limits_{n\to\infty}a_n=\beta$, we have \begin{align*}
+	\exists N_1\in\N\ \text{such that}\ n\geq N_1\implies\abs{a_n-\alpha}<\frac{\varepsilon}{2}.\\
+	\exists N_2\in\N\ \text{such that}\ n\geq N_2\implies\abs{a_n-\beta}<\frac{\varepsilon}{2}.
+\end{align*}
+Let \textcolor{blue}{$N=\max\set{N_1,N_2}$}. \textcolor{blue}{If $n\geq N$, then} \[
+	\textcolor{blue}{\abs{\beta-\alpha}}=\abs{\beta-\alpha\textcolor{green!50!black}{\ +\ a_n\ -\ a_n}}
+	=\abs{(a_n-\alpha)+(-a_n+\beta)}
+	\leq\abs{a_n-\alpha}+\abs{a_n-\beta}
+	\textcolor{blue}{<}\frac{\varepsilon}{2}+\frac{\varepsilon}{2}=\textcolor{blue}{\varepsilon}.
+\]
 \end{proof}
 
 
@@ -350,7 +577,6 @@ Let $x,y\in\R$. \begin{enumerate}[\normalfont(1)]
 	수학의 즐거움, Enjoying Math. ``수학 공부, 기초부터 대학원 수학까지, 7. 해석학 개론 (d) 극한 정리'' YouTube Video, 26:46. Published 
 	September 26, 2019. URL: \url{https://www.youtube.com/watch?v=1TRD34QbIaw}.
 \end{thebibliography}
-
 %\newpage
 %\appendix
 \end{document}

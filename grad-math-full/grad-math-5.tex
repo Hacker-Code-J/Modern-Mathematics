@@ -1,0 +1,100 @@
+\documentclass[11pt,openany]{article}
+
+\input{grad-math-preamble}
+\input{tcolorbox}
+\input{theorem}
+\input{tikz}
+\input{grad-math-commands}
+
+\setstretch{1.25}
+\begin{document}
+\pagenumbering{arabic}
+\begin{center}
+	\huge\textbf{Topology I}\\
+	\vspace{0.5em}
+	\large{Ji, Yong-hyeon}\\
+	\vspace{0.5em}
+	\normalsize{\today}\\
+\end{center}
+
+\noindent 
+We cover the following topics in this note.
+\begin{itemize}
+	\item Topology
+	
+\end{itemize}
+\hrule\vspace{12pt}
+%Preliminaries:
+%\begin{itemize}
+%	\item Boundedness, Supremum and Infimum
+%	\item Least Upper Bound Property (Completeness Axiom)
+%	\item Well-Ordering Principle and Mathematical Induction
+%	\item Archimedean Property
+%\end{itemize}
+%\hrule\vspace{12pt}
+\begin{center}
+\begin{minipage}{.45\textwidth}\centering
+\includegraphics[scale=1.2]{../tikz/grad-math-tikz-pdf/sphere.pdf}
+\end{minipage}
+\begin{minipage}{.45\textwidth}\centering
+\includegraphics[scale=.7]{../tikz/grad-math-tikz-pdf/torus.pdf}
+\end{minipage}
+\end{center}
+
+
+
+\vfill
+
+
+\defbox[Topology]{\begin{definition*}
+Let $S=\varnothing$ be a non-empty set. A \textbf{topology} on $S$ is a subset $\topology=\set{H:H\subseteq S}\subseteq 2^S$ that satisfies the open set axioms: \begin{itemize}
+	\item[(O1)\footnote{\hl{Complete  Set is Element of Topology}: (O1) follows from (O2) and (O3), but (O1) is usually included for clarity.}] $\varnothing\in\topology$ and $S\in\topology$;
+	\item[(O2)\footnote{\hl{Union of Open Sets}:$\topology$ is closed under \textit{arbitrary} unions}] $\sequence{H_\alpha}_{\alpha\in\Lambda}\subseteq\topology\implies\bigcup_{\alpha\in\Lambda}H_\alpha\in\topology$;
+	\item[(O3)\footnote{\hl{Intersection of Open Sets}:$\topology$ is closed under \textit{finite} intersection}] $\sequence{H_i}_{i=1}^n\subseteq\topology\implies\bigcap_{i=1}^n H_i\in\topology$.
+\end{itemize} A topological spaces $\of{S,\topology}$ is a non-empty set $S\neq\varnothing$ with a topology $\topology$.
+\end{definition*}}
+
+\begin{example}[Cofinite Topology]
+	Let $X$ be a set. Define $\topology_C\subseteq 2^X$ by \[
+	\topology_C:=\set{T\subseteq S:T^C\subseteq S\ \text{is a finite set}}\cup\set{\varnothing}
+	\] We claim that $\topology_C$ be a topology on $X$:
+	\begin{enumerate}[(i)]
+		\item 
+		\item
+		\item 
+	\end{enumerate}
+\end{example}
+
+\newpage
+
+\begin{tikzpicture}[thick] 
+	\node[ellipse,draw,minimum width=2cm,minimum height=4cm,label=below:$X$] (X) {};
+	\node[ellipse,draw,minimum width=2cm,minimum height=4cm,right=3cm of X,label=below:$Y$]
+	(Y){};
+	\node[dashed,draw] (f) at (X.center) {$f^{-1}(U)$};
+	\node[circle,dashed,draw,minimum size=1cm] (U) at (Y.center) {$U$};
+	\draw[-latex] (X) -- (Y) node[midway,above]{$f$};
+	\draw[-latex] (U) to[bend left] (f);
+\end{tikzpicture}
+\vfill
+\begin{thebibliography}{9}
+	\bibitem{advanced_topo_a}
+	수학의 즐거움, Enjoying Math. ``수학 공부, 기초부터 대학원 수학까지, 8. 위상수학 (a) 위상공간의 정의.'' YouTube Video, 41:25. Published 
+	September 27, 2019. URL: \url{https://www.youtube.com/watch?v=q8BtXIFzo2Q}.
+%	\bibitem{advanced_calc_d}
+%	수학의 즐거움, Enjoying Math. ``수학 공부, 기초부터 대학원 수학까지, 7. 해석학 개론 (d) 극한 정리'' YouTube Video, 26:46. Published 
+%	September 26, 2019. URL: \url{https://www.youtube.com/watch?v=1TRD34QbIaw}.
+\end{thebibliography}
+%\newpage
+\appendix
+\section{Complement of Family}
+\begin{note}
+	\[
+	\left(\bigcup_{i\in\Lambda}E_i\right)^C=
+	\bigcap_{i\in\Lambda}\left(E_i\right)^C
+	\]
+	\begin{proof}
+		content...
+	\end{proof}
+\end{note}
+\end{document}
