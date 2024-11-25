@@ -47,24 +47,102 @@ We cover the following topics in this note.
 
 
 \defbox[Topology]{\begin{definition*}
-Let $S=\varnothing$ be a non-empty set. A \textbf{topology} on $S$ is a subset $\topology=\set{H:H\subseteq S}\subseteq 2^S$ that satisfies the open set axioms: \begin{itemize}
-	\item[(O1)\footnote{\hl{Complete  Set is Element of Topology}: (O1) follows from (O2) and (O3), but (O1) is usually included for clarity.}] $\varnothing\in\topology$ and $S\in\topology$;
-	\item[(O2)\footnote{\hl{Union of Open Sets}:$\topology$ is closed under \textit{arbitrary} unions}] $\sequence{H_\alpha}_{\alpha\in\Lambda}\subseteq\topology\implies\bigcup_{\alpha\in\Lambda}H_\alpha\in\topology$;
-	\item[(O3)\footnote{\hl{Intersection of Open Sets}:$\topology$ is closed under \textit{finite} intersection}] $\sequence{H_i}_{i=1}^n\subseteq\topology\implies\bigcap_{i=1}^n H_i\in\topology$.
-\end{itemize} A topological spaces $\of{S,\topology}$ is a non-empty set $S\neq\varnothing$ with a topology $\topology$.
+Let $S$ be a non-empty set. A \textbf{topology} on $S$ is a subset \[
+\topology=\set{E:E\subseteq S}\subseteq 2^S
+\] that satisfies the open set axioms: \begin{itemize}
+	\item[(O1)] $\varnothing$ and $S$ are elements of $\topology$: $\set{\varnothing, S}\subseteq\topology$.
+	\item[(O2)\footnote{$\topology$ is closed under \textit{arbitrary} unions}] 	The union of an arbitrary subset of $\topology$
+	is an element of $\topology$: \[
+	\set{E_\alpha}_{\alpha\in\Lambda}\subseteq\topology\implies\bigcup_{\alpha\in\Lambda}E_\alpha\in\topology.
+	\]
+	\item[(O3)\footnote{$\topology$ is closed under \textit{finite} intersection}] The intersection of any finite subset of $\topology$
+	is an element of $\topology$: \[
+	\set{E_i}_{i=1}^n\subseteq\topology\implies\bigcap_{i=1}^n E_i\in\topology.
+	\]
+\end{itemize}
 \end{definition*}}
+\begin{remark*}
+	By mathematical induction, we have \[
+	\text{O3}\iff [\set{E_1,E_2}\subseteq\topology\Rightarrow E_1\cap E_2\in\topology].
+	\]
+\end{remark*}
+
+%\begin{example}
+%	Consider a set $S=\set{a,b,c,d,e}$. \begin{center}
+%\begin{tikzpicture}[scale=.75]
+%%	\def \x{3}
+%%	\def \y{3}
+%%	\draw[very thin,color=gray!15,step=.5] (-\x,-\y) grid (\x,\y);
+%%	
+%%	\foreach \i in {-\x,...,-2,-1,1,2,...,\x}
+%%	\draw[gray] (\i,.1)--(\i,-.1) node[below] {$\i$};%x-axis
+%%	\foreach \i in {-\y,-1,1,1,\y}
+%%	\draw[gray] (.1,\i)--(-.1,\i) node[left] {$\i$};%y-axis
+%	
+%	\draw[rounded corners=8pt] (0, 3) -- (-1.5, 2.5) -- (-3, 1) -- (-2, .9) -- (-1.9, 0) -- (-2.5, -1) -- (-3, -2.5) -- (-2, -2) -- (0,-3) -- (2, -1.5) -- (3,-.5) -- (3,.5) -- (2, 1) -- (1.5, 1.5) -- (1.75, 2.5) -- cycle;
+%	
+%	\filldraw (0,1.5) circle (2pt) node[above] {$a$};
+%	\filldraw (-1,.5) circle (2pt) node[above] {$c$};
+%	\filldraw (1,0) circle (2pt) node[above] {$d$};
+%	\filldraw (-.5,-2) circle (2pt) node[above] {$b$};
+%	\filldraw (.5,-1) circle (2pt) node[above] {$e$};
+%\end{tikzpicture}
+%	\end{center}
+%\begin{center}
+%\begin{minipage}{.32\textwidth}
+%\begin{tikzpicture}[scale=.75]
+%%	\def \x{3}
+%%	\def \y{3}
+%%	\draw[very thin,color=gray!15,step=.5] (-\x,-\y) grid (\x,\y);
+%%	
+%%	\foreach \i in {-\x,...,-2,-1,1,2,...,\x}
+%%	\draw[gray] (\i,.1)--(\i,-.1) node[below] {$\i$};%x-axis
+%%	\foreach \i in {-\y,-1,1,1,\y}
+%%	\draw[gray] (.1,\i)--(-.1,\i) node[left] {$\i$};%y-axis
+%	
+%	\draw[rounded corners=8pt] (0, 3) -- (-1.5, 2.5) -- (-3, 1) -- (-2, .9) -- (-1.9, 0) -- (-2.5, -1) -- (-3, -2.5) -- (-2, -2) -- (0,-3) -- (2, -1.5) -- (3,-.5) -- (3,.5) -- (2, 1) -- (1.5, 1.5) -- (1.75, 2.5) -- cycle;
+%	
+%	\filldraw (0,1.5) circle (2pt) node[above] {$a$};
+%	\filldraw (-1,.5) circle (2pt) node[above] {$c$};
+%	\filldraw (.5,0) circle (2pt) node[above] {$d$};
+%	\filldraw (-.5,-1.5) circle (2pt) node[above] {$b$};
+%	\filldraw (1,-1.5) circle (2pt) node[above] {$e$};
+%	
+%	\draw[line width=.5mm, opacity=.5, magenta] (0, 1.5) circle (10pt);
+%	\draw[line width=.5mm, opacity=.5, orange, rotate=-20, xshift=-.15cm, yshift=.15cm] (0,0) ellipse (1.25cm and .5cm);
+%	\draw[line width=.5mm, opacity=.5, green!50!black, yshift=.5cm] (0, 0) circle (40pt);
+%	\draw[line width=.5mm, opacity=.5, cyan=-20, rotate=-20, xshift=0cm, yshift=-.5cm] (0,0) ellipse (1.75cm and 1.5cm);
+%\end{tikzpicture}
+%\end{minipage}
+%\end{center}
+%\end{example}
 
 \begin{example}[Cofinite Topology]
-	Let $X$ be a set. Define $\topology_C\subseteq 2^X$ by \[
+	Let $S$ be a set. Define a subset $\topology_C\subseteq 2^S$ by \[
 	\topology_C:=\set{T\subseteq S:T^C\subseteq S\ \text{is a finite set}}\cup\set{\varnothing}
-	\] We claim that $\topology_C$ be a topology on $X$:
+	\] We claim that $\topology_C$ be a topology on $S$:
 	\begin{enumerate}[(i)]
-		\item 
-		\item
+		\item Clearly $\subseteq\in\topology_C$. Since $S^C=\varnothing$ and $\varnothing$ is finite, $S\in\topology$.
+		\item Let $\set{E_\alpha}_{\alpha\in\Lambda}\subseteq\topology_C$. Then \[
+		\of{\bigcup_{\alpha\in\Lambda} E_\alpha}^C=\bigcap_{\alpha\in\Lambda}E_\alpha^C
+		\] and so
 		\item 
 	\end{enumerate}
 \end{example}
 
+\defbox[Topological Space]{\begin{definition*}
+	Let $S$ be a set. Let $\topology$ be a topology on $S$. Then the ordered pair $(S,\topology)$ is called a \textbf{topological space}.
+\end{definition*}}
+\defbox[Open Set]{\begin{definition*}
+	Let $(S,\topology)$ be a topological space. $E\subseteq S$ is an \textbf{open set}, or \textbf{open} (in $S$) iff $E\in\topology$.
+\end{definition*}}
+\begin{remark*}
+A subset $\topology\subseteq 2^S$ is a topology on $S$ if and only if \begin{enumerate}
+	\item[(i)] $\varnothing$ and $S$ are open;
+	\item[(ii)] Let $\set{E_\alpha}_{\alpha\in\Lambda}\subseteq\topology$. Then $\displaystyle\bigcup_{\alpha\in\Lambda}E_\alpha$ is open.
+	\item[(iii)] Let $\set{E_i}_{i=1}^n\subseteq\topology$. Then $\displaystyle\bigcap_{i=1}^n E_i$ is open.
+\end{enumerate}
+\end{remark*}
 \newpage
 
 \begin{tikzpicture}[thick] 
