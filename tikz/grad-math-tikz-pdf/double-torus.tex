@@ -1,0 +1,80 @@
+\documentclass[tikz,border=3.14mm]{standalone}
+% based on 
+% https://tex.stackexchange.com/a/199715
+% https://tex.stackexchange.com/a/485833
+% https://tex.stackexchange.com/a/485494
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.16,width=16cm}
+\tikzset{declare function={torusx(\u,\v,\R,\r)=cos(\u)*(\R + \r*cos(\v)); 
+		torusy(\u,\v,\R,\r)=(\R + \r*cos(\v))*sin(\u);
+		torusz(\u,\v,\R,\r)=\r*sin(\v);
+		vcrit1(\u,\th)=atan(tan(\th)*sin(\u));% first critical v value
+		vcrit2(\u,\th)=180+atan(tan(\th)*sin(\u));% second critical v value
+		vtest(\u,\v,\az,\el)=sin(-vcrit1(\u-\az,\el)+\v);
+		disc(\th,\R,\r)=((pow(\r,2)-pow(\R,2))*pow(cot(\th),2)+% 
+		pow(\r,2)*(2+pow(tan(\th),2)))/pow(\R,2);% discriminant
+		umax(\th,\R,\r)=ifthenelse(disc(\th,\R,\r)>0,asin(sqrt(abs(disc(\th,\R,\r)))),0);
+}}
+\pgfplotsset{visible stretch/.style={restrict expr to domain={vtest(atan2(rawy,rawx),%
+			ifthenelse(veclen(rawx,rawy)>\R,asin(rawz/\r),180-asin(rawz/\r)),\pgfkeysvalueof{/pgfplots/view/az},\pgfkeysvalueof{/pgfplots/view/el})}{-0.05:1.1}},
+	hidden stretch/.style={restrict expr to 
+		domain={vtest(atan2(rawy,rawx),%
+			ifthenelse(veclen(rawx,rawy)>\R,asin(rawz/\r),180-asin(rawz/\r)),\pgfkeysvalueof{/pgfplots/view/az},\pgfkeysvalueof{/pgfplots/view/el})}{-1.1:0.05}}}
+\begin{document}
+	\begin{tikzpicture}
+		\pgfmathsetmacro{\R}{4}
+		\pgfmathsetmacro{\r}{1.2}
+		\pgfplotsset{view={35}{60},axis lines=none,}
+			\begin{axis}[colormap/cool]
+				\pgfplotsinvokeforeach{0,10,...,350}  
+				{\addplot3[samples y=0,domain=0:361,smooth,samples=71,thin,mesh]  
+					({torusx(x,#1+x/12,\R,\r)}, 
+					{torusy(x,#1+x/12,\R,\r)}, 
+					{torusz(x,#1+x/12,\R,\r)});
+					\addplot3[samples y=0,domain=0:360,smooth,samples=71,thin,mesh]  
+					({torusx(#1,x,\R,\r)}, 
+					{torusy(#1,x,\R,\r)}, 
+					{torusz(#1,x,\R,\r)});
+				}
+				\pgfplotsinvokeforeach{0,10,...,350}  
+				{\addplot3[samples y=0,domain=0:361,smooth,samples=71,visible stretch,
+					thin,mesh]  
+					({torusx(x,#1+x/12,\R,\r)}, 
+					{torusy(x,#1+x/12,\R,\r)}, 
+					{torusz(x,#1+x/12,\R,\r)});
+					\addplot3[samples y=0,domain=0:360,smooth,samples=71,visible stretch,
+					thin,mesh]  
+					({torusx(#1,x,\R,\r)}, 
+					{torusy(#1,x,\R,\r)}, 
+					{torusz(#1,x,\R,\r)});}   
+			\end{axis}
+			\begin{scope}[shift={(8.1,0)}]
+			\pgfmathsetmacro{\R}{4}
+			\pgfmathsetmacro{\r}{1.2}
+			\pgfplotsset{view={35}{-60},axis lines=none,}
+			\begin{axis}[colormap/cool]
+				\pgfplotsinvokeforeach{0,10,...,350}  
+				{\addplot3[samples y=0,domain=0:361,smooth,samples=71,thin,mesh]  
+					({torusx(x,#1+x/12,\R,\r)}, 
+					{torusy(x,#1+x/12,\R,\r)}, 
+					{torusz(x,#1+x/12,\R,\r)});
+					\addplot3[samples y=0,domain=0:360,smooth,samples=71,thin,mesh]  
+					({torusx(#1,x,\R,\r)}, 
+					{torusy(#1,x,\R,\r)}, 
+					{torusz(#1,x,\R,\r)});
+				}
+				\pgfplotsinvokeforeach{0,10,...,350}  
+				{\addplot3[samples y=0,domain=0:361,smooth,samples=71,visible stretch,
+					thin,mesh]  
+					({torusx(x,#1+x/12,\R,\r)}, 
+					{torusy(x,#1+x/12,\R,\r)}, 
+					{torusz(x,#1+x/12,\R,\r)});
+					\addplot3[samples y=0,domain=0:360,smooth,samples=71,visible stretch,
+					thin,mesh]  
+					({torusx(#1,x,\R,\r)}, 
+					{torusy(#1,x,\R,\r)}, 
+					{torusz(#1,x,\R,\r)});}   
+			\end{axis}
+			\end{scope}
+	\end{tikzpicture}
+\end{document}

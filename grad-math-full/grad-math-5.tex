@@ -35,29 +35,38 @@ We cover the following topics in this note.
 %\end{itemize}
 %\hrule\vspace{12pt}
 \begin{center}
-\begin{minipage}{.45\textwidth}\centering
-\includegraphics[scale=.85]{../tikz/grad-math-tikz-pdf/sphere.pdf}
-\end{minipage}
-\begin{minipage}{.45\textwidth}\centering
+\begin{minipage}{.32\textwidth}\centering
+\includegraphics[scale=.8]{../tikz/grad-math-tikz-pdf/sphere.pdf}
+\end{minipage}\hfill
+\begin{minipage}{.32\textwidth}\centering
 \includegraphics[scale=.45]{../tikz/grad-math-tikz-pdf/torus.pdf}
+\end{minipage}\hfill
+\begin{minipage}{.32\textwidth}\centering
+\includegraphics[scale=.3]{../tikz/grad-math-tikz-pdf/double-torus.pdf}
 \end{minipage}
 \end{center}
 \vfill
 \begin{center}
-\begin{minipage}{.45\textwidth}\centering
-	\includegraphics[scale=.9]{../tikz/grad-math-tikz-pdf/sphere2.pdf}
-\end{minipage}
-\begin{minipage}{.45\textwidth}\centering
-	\includegraphics[scale=.5]{../tikz/grad-math-tikz-pdf/torus2.pdf}
+\begin{minipage}{.32\textwidth}\centering
+	\includegraphics[scale=.8]{../tikz/grad-math-tikz-pdf/sphere2.pdf}
+\end{minipage}\hfill
+\begin{minipage}{.32\textwidth}\centering
+	\includegraphics[scale=.45]{../tikz/grad-math-tikz-pdf/torus2.pdf}
+\end{minipage}\hfill
+\begin{minipage}{.32\textwidth}\centering
+	\includegraphics[scale=.35]{../tikz/grad-math-tikz-pdf/double-torus2.pdf}
 \end{minipage}
 \end{center}
 \vfill
 \begin{center}
-\begin{minipage}{.45\textwidth}\centering
-	\includegraphics[scale=.9]{../tikz/grad-math-tikz-pdf/sphere3.pdf}
-\end{minipage}
-\begin{minipage}{.45\textwidth}\centering
-	\includegraphics[scale=.5]{../tikz/grad-math-tikz-pdf/torus3.pdf}
+\begin{minipage}{.32\textwidth}\centering
+	\includegraphics[scale=.8]{../tikz/grad-math-tikz-pdf/sphere3.pdf}
+\end{minipage}\hfill
+\begin{minipage}{.32\textwidth}\centering
+	\includegraphics[scale=.45]{../tikz/grad-math-tikz-pdf/torus3.pdf}
+\end{minipage}\hfill
+\begin{minipage}{.32\textwidth}\centering
+	\includegraphics[scale=.35]{../tikz/grad-math-tikz-pdf/double-torus3.pdf}
 \end{minipage}
 \end{center}
 \vfill
@@ -196,9 +205,76 @@ A subset $\topology\subseteq 2^S$ is a topology on $S$ if and only if \begin{enu
 	\end{enumerate}
 \end{definition*}}
 \newpage
+\lembox{\begin{lemma}
+	\begin{enumerate}[(1)]
+		\item The Intersection of Finite Sets is Finite or Empty
+		
+		Let \( \{A_i\}_{i \in I} \) be a collection of finite sets. Then:
+		\[
+		\bigcap_{i \in I} A_i
+		\]
+		is finite if \( I \) is finite, or empty otherwise.
+		\item The Union of Finitely Many Finite Sets is Finite
+		
+		 Let \( \{A_i\}_{i=1}^n \) be a finite collection of finite sets. Then:
+		\[
+		\bigcup_{i=1}^n A_i
+		\]
+		is finite.
+	\end{enumerate}
+\end{lemma}}
+\newtheorem{proofpart}{Part}
+\begin{proof}
+	Each \( A_i \) is finite, meaning \( |A_i| < \infty \) for all \( i \in I \). The intersection is defined as:
+	\[
+	\bigcap_{i \in I} A_i = \{x \in X \mid x \in A_i \text{ for all } i \in I\}.
+	\]
+	
+	\begin{proofpart}[Case 1: \( I \) is finite]
+		Suppose \( I = \{i_1, i_2, \dots, i_n\} \) is finite. Then:
+		\[
+		\bigcap_{i \in I} A_i = A_{i_1} \cap A_{i_2} \cap \cdots \cap A_{i_n}.
+		\]
+		Since each \( A_{i_k} \) is finite, the intersection cannot introduce new elements:
+		\[
+		\bigcap_{k=1}^n A_{i_k} \subseteq A_{i_k} \quad \text{for all } k.
+		\]
+		Therefore, \( \bigcap_{i \in I} A_i \) is a subset of the smallest \( A_{i_k} \) and is finite.
+		
+	\end{proofpart}
+	
+	\begin{proofpart}[Case 2: \( I \) is infinite]
+		If \( I \) is infinite, the intersection may be empty. For any \( x \in \bigcap_{i \in I} A_i \), \( x \) must belong to all \( A_i \). If the \( A_i \)'s shrink (e.g., \( A_i = \{1, 2, \dots, i\} \)), then for large \( i \), \( A_i \cap A_j = \emptyset \). Hence:
+		\[
+		\bigcap_{i \in I} A_i = \emptyset.
+		\]
+	\end{proofpart}
+	
+	Thus, the intersection of finite sets is finite if \( I \) is finite, or empty otherwise.
+\end{proof}
+
+\begin{proof}
+	Each \( A_i \) is finite, meaning \( |A_i| < \infty \) for \( i = 1, 2, \dots, n \). The union satisfies:
+	\[
+	\bigcup_{i=1}^n A_i = A_1 \cup A_2 \cup \cdots \cup A_n.
+	\]
+	
+	To compute the size of the union, we use the inclusion-exclusion principle:
+	\[
+	\left| \bigcup_{i=1}^n A_i \right| = \sum_{i=1}^n |A_i| - \sum_{1 \leq i < j \leq n} |A_i \cap A_j| + \cdots + (-1)^{n+1} |A_1 \cap A_2 \cap \cdots \cap A_n|.
+	\]
+	- Each term in this expansion represents the size of overlaps between the \( A_i \), all of which are finite because the \( A_i \)'s are finite.
+	
+	Since a finite sum of finite numbers is finite, we conclude that:
+	\[
+	\bigcup_{i=1}^n A_i
+	\]
+	is finite.
+\end{proof}
+
 \begin{example}[Cofinite Topology]
 	Let $S$ be a set. Define a subset $\topology_C\subseteq 2^S$ by \[
-	\topology_C:=\set{T\subseteq S:T^C\subseteq S\ \text{is a finite set}}\cup\set{\varnothing}
+	\topology_C:=\set{T\subseteq S:T^C\ \text{is a finite set}}\cup\set{\varnothing}
 	\] We claim that $\topology_C$ be a topology on $S$:
 	\begin{enumerate}[(i)]
 		\item Clearly $\subseteq\in\topology_C$. Since $S^C=\varnothing$ and $\varnothing$ is finite, $S\in\topology$.
