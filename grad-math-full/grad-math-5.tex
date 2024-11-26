@@ -206,26 +206,22 @@ A subset $\topology\subseteq 2^S$ is a topology on $S$ if and only if \begin{enu
 \end{definition*}}
 \newpage
 \lembox{\begin{lemma}
-	\begin{enumerate}[(1)]
-		\item The Intersection of Finite Sets is Finite or Empty
-		
-		Let \( \{A_i\}_{i \in I} \) be a collection of finite sets. Then:
-		\[
-		\bigcap_{i \in I} A_i
-		\]
-		is finite if \( I \) is finite, or empty otherwise.
-		\item The Union of Finitely Many Finite Sets is Finite
-		
-		 Let \( \{A_i\}_{i=1}^n \) be a finite collection of finite sets. Then:
-		\[
-		\bigcup_{i=1}^n A_i
-		\]
-		is finite.
-	\end{enumerate}
+Let $X$ be a set. \begin{enumerate}[(1)]
+	\item (\textbf{The Intersection of Finite Sets is Finite or Empty}) Let \( \{A_i\}_{i \in I} \) be a collection of finite sets. Then
+	\[
+	\bigcap_{i \in I} A_i
+	\]
+	is finite if \( I \) is finite, or empty otherwise.
+	\item (\textbf{The Union of Finitely Many Finite Sets is Finite}) Let \( \{A_i\}_{i=1}^n \) be a finite collection of finite sets. Then
+	\[
+	\bigcup_{i=1}^n A_i
+	\]
+	is finite.
+\end{enumerate}
 \end{lemma}}
 \newtheorem{proofpart}{Part}
 \begin{proof}
-	Each \( A_i \) is finite, meaning \( |A_i| < \infty \) for all \( i \in I \). The intersection is defined as:
+	Let \( |A_i| < \infty \) for all \( i \in I \). The intersection is defined as:
 	\[
 	\bigcap_{i \in I} A_i = \{x \in X \mid x \in A_i \text{ for all } i \in I\}.
 	\]
