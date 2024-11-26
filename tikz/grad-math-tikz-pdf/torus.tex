@@ -28,11 +28,11 @@
 %		\matrix{
 			\begin{axis}[colormap/cool]
 				\pgfplotsinvokeforeach{0,10,...,350}  
-				{\addplot3[samples y=0,domain=0:361,smooth,samples=71,ultra thin,mesh]  
+				{\addplot3[samples y=0,domain=0:361,smooth,samples=71,thin,mesh]  
 					({torusx(x,#1+x/12,\R,\r)}, 
 					{torusy(x,#1+x/12,\R,\r)}, 
 					{torusz(x,#1+x/12,\R,\r)});
-					\addplot3[samples y=0,domain=0:360,smooth,samples=71,ultra thin,mesh]  
+					\addplot3[samples y=0,domain=0:360,smooth,samples=71,thin,mesh]  
 					({torusx(#1,x,\R,\r)}, 
 					{torusy(#1,x,\R,\r)}, 
 					{torusz(#1,x,\R,\r)});
@@ -43,12 +43,12 @@
 %				{torusy(2*x,x,\R,\r)}, 
 %				{torusz(2*x,x,\R,\r)}); 
 				\pgfplotsinvokeforeach{0,10,...,350}  
-				{\addplot3[samples y=0,domain=0:361,smooth,samples=71,visible stretch,very
+				{\addplot3[samples y=0,domain=0:361,smooth,samples=71,visible stretch,
 					thin,mesh]  
 					({torusx(x,#1+x/12,\R,\r)}, 
 					{torusy(x,#1+x/12,\R,\r)}, 
 					{torusz(x,#1+x/12,\R,\r)});
-					\addplot3[samples y=0,domain=0:360,smooth,samples=71,visible stretch,very
+					\addplot3[samples y=0,domain=0:360,smooth,samples=71,visible stretch,
 					thin,mesh]  
 					({torusx(#1,x,\R,\r)}, 
 					{torusy(#1,x,\R,\r)}, 

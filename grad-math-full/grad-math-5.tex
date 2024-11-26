@@ -20,8 +20,10 @@
 \noindent 
 We cover the following topics in this note.
 \begin{itemize}
-	\item Topology
-	
+	\item Topology; Topological Space
+	\item Open Set
+	\item Continuous Mapping
+	\item \st{Distance Function; Metric Topology}
 \end{itemize}
 \hrule\vspace{12pt}
 %Preliminaries:
@@ -34,36 +36,77 @@ We cover the following topics in this note.
 %\hrule\vspace{12pt}
 \begin{center}
 \begin{minipage}{.45\textwidth}\centering
-\includegraphics[scale=1.2]{../tikz/grad-math-tikz-pdf/sphere.pdf}
+\includegraphics[scale=.85]{../tikz/grad-math-tikz-pdf/sphere.pdf}
 \end{minipage}
 \begin{minipage}{.45\textwidth}\centering
-\includegraphics[scale=.7]{../tikz/grad-math-tikz-pdf/torus.pdf}
+\includegraphics[scale=.45]{../tikz/grad-math-tikz-pdf/torus.pdf}
 \end{minipage}
 \end{center}
-
-
-
 \vfill
-
+\begin{center}
+\begin{minipage}{.45\textwidth}\centering
+	\includegraphics[scale=.9]{../tikz/grad-math-tikz-pdf/sphere2.pdf}
+\end{minipage}
+\begin{minipage}{.45\textwidth}\centering
+	\includegraphics[scale=.5]{../tikz/grad-math-tikz-pdf/torus2.pdf}
+\end{minipage}
+\end{center}
+\vfill
+\begin{center}
+\begin{minipage}{.45\textwidth}\centering
+	\includegraphics[scale=.9]{../tikz/grad-math-tikz-pdf/sphere3.pdf}
+\end{minipage}
+\begin{minipage}{.45\textwidth}\centering
+	\includegraphics[scale=.5]{../tikz/grad-math-tikz-pdf/torus3.pdf}
+\end{minipage}
+\end{center}
+\vfill
+%\definecolor{mypurple}{HTML}{4C9FFF}
+%\begin{center}
+%\begin{tikzpicture}
+%%	\def \x{3}
+%%	\def \y{3.5}
+%%	\draw[very thin,color=gray!15,step=.5] (-\x,-\y) grid (\x,\y);
+%%	
+%%	\foreach \i in {-\x,...,-2,-1,1,2,...,\x}
+%%	\draw[gray] (\i,.1)--(\i,-.1) node[below] {$\i$};%x-axis
+%%	\foreach \i in {-\y,-1,1,1,\y}
+%%	\draw[gray] (.1,\i)--(-.1,\i) node[left] {$\i$};%y-axis
+%	\begin{scope}[yshift=.5cm]
+%	\node[mypurple] at (-4,2.75) {\LARGE\bf Length};
+%	\draw[mypurple, line width=1mm] (-1,3) -- (1,3);
+%	\draw[mypurple, line width=1mm] (-2,2.5) -- (2,2.5);
+%	\end{scope}
+%	\node[mypurple] at (-4,.5) {\LARGE\bf Area};
+%	\filldraw[mypurple] (-2,0) rectangle (-1,1);
+%	\filldraw[mypurple] (0,-1) rectangle (3,2);
+%	\begin{scope}[yshift=-.5cm]	
+%	\node[mypurple] at (-4,-2) {\LARGE\bf Angle};
+%	\draw[mypurple, fill=mypurple, line width=.5mm] (-1.5,-1.5) -- (-2.5,-3) -- (-.5,-3) -- cycle;
+%	\draw[mypurple, fill=mypurple, line width=.5mm] (.5,-3) -- (2.5,-3) -- (2.5, -1.5) -- cycle;
+%	\end{scope}
+%\end{tikzpicture}
+%\end{center}
+\vfill
 
 \defbox[Topology]{\begin{definition*}
 Let $S$ be a non-empty set. A \textbf{topology} on $S$ is a subset \[
-\topology=\set{E:E\subseteq S}\subseteq 2^S
-\] that satisfies the open set axioms: \begin{itemize}
-	\item[(O1)] $\varnothing$ and $S$ are elements of $\topology$: $\set{\varnothing, S}\subseteq\topology$.
-	\item[(O2)\footnote{$\topology$ is closed under \textit{arbitrary} unions}] 	The union of an arbitrary subset of $\topology$
+\topology=\set{U:U\subseteq S}\subseteq 2^S
+\] that satisfies the axioms: \begin{itemize}
+	\item[(O1)] $S$ and $\varnothing$ are elements of $\topology$:\quad $S\in\topology$ and $\varnothing\in\topology$.
+	\item[(O2)\footnote{$\topology$ is closed under \textit{arbitrary} unions}] The union of an arbitrary subset of $\topology$
 	is an element of $\topology$: \[
-	\set{E_\alpha}_{\alpha\in\Lambda}\subseteq\topology\implies\bigcup_{\alpha\in\Lambda}E_\alpha\in\topology.
+	\set{U_\alpha}_{\alpha\in\Lambda}\subseteq\topology\implies\bigcup_{\alpha\in\Lambda}U_\alpha\in\topology.
 	\]
 	\item[(O3)\footnote{$\topology$ is closed under \textit{finite} intersection}] The intersection of any finite subset of $\topology$
 	is an element of $\topology$: \[
-	\set{E_i}_{i=1}^n\subseteq\topology\implies\bigcap_{i=1}^n E_i\in\topology.
+	\set{U_i}_{i=1}^n\subseteq\topology\implies\bigcap_{i=1}^n U_i\in\topology.
 	\]
 \end{itemize}
 \end{definition*}}
 \begin{remark*}
 	By mathematical induction, we have \[
-	\text{O3}\iff [\set{E_1,E_2}\subseteq\topology\Rightarrow E_1\cap E_2\in\topology].
+	\text{O3}\iff [\set{U_1,U_2}\subseteq\topology\Rightarrow U_1\cap U_2\in\topology].
 	\]
 \end{remark*}
 
@@ -117,19 +160,6 @@ Let $S$ be a non-empty set. A \textbf{topology} on $S$ is a subset \[
 %\end{center}
 %\end{example}
 
-\begin{example}[Cofinite Topology]
-	Let $S$ be a set. Define a subset $\topology_C\subseteq 2^S$ by \[
-	\topology_C:=\set{T\subseteq S:T^C\subseteq S\ \text{is a finite set}}\cup\set{\varnothing}
-	\] We claim that $\topology_C$ be a topology on $S$:
-	\begin{enumerate}[(i)]
-		\item Clearly $\subseteq\in\topology_C$. Since $S^C=\varnothing$ and $\varnothing$ is finite, $S\in\topology$.
-		\item Let $\set{E_\alpha}_{\alpha\in\Lambda}\subseteq\topology_C$. Then \[
-		\of{\bigcup_{\alpha\in\Lambda} E_\alpha}^C=\bigcap_{\alpha\in\Lambda}E_\alpha^C
-		\] and so
-		\item 
-	\end{enumerate}
-\end{example}
-
 \defbox[Topological Space]{\begin{definition*}
 	Let $S$ be a set. Let $\topology$ be a topology on $S$. Then the ordered pair $(S,\topology)$ is called a \textbf{topological space}.
 \end{definition*}}
@@ -143,25 +173,71 @@ A subset $\topology\subseteq 2^S$ is a topology on $S$ if and only if \begin{enu
 	\item[(iii)] Let $\set{E_i}_{i=1}^n\subseteq\topology$. Then $\displaystyle\bigcap_{i=1}^n E_i$ is open.
 \end{enumerate}
 \end{remark*}
+\defbox[Continuous Mapping]{\begin{definition*}
+	Let $(X,\topology_X)$ and $(Y,\topology_Y)$ are topological spaces. Let $f:X\to Y$ be a mapping from $X$ to $Y$. \begin{enumerate}[(1)]
+		\item (Continuous at a Point) Let $x\in X$. The mapping $f$ is \textbf{continuous at} $\boldsymbol{x}$ if and only if \[
+		\forall U_Y\in\topology_Y,\ (f(x)\in U_Y\implies\exists U_X\in\topology_X\ \text{such that}\ x\in U_X\land f[U_X]\subseteq U_Y.)
+		\]
+		\item (Continuous on a Set) Let $S\subseteq X$. The mapping $f$ is \textbf{continuous on} $\boldsymbol{S}$ if and only if $f$ is continuous at every point $x\in S$.
+		\item (Continuous Everywhere) The mapping $f$ is \textbf{continuous on} $\boldsymbol{X}$ if and only if \[
+		U_Y\in\topology_Y\implies f^{-1}[U_Y]\in\topology_X,
+		\] where $f^{-1}[U_Y]=\set{x\in X:f(x)\in U_Y}$ is the preimage of $U_Y$ under $f$.
+		\begin{center}
+		\begin{tikzpicture}[thick] 
+			\node[ellipse,draw,minimum width=2cm,minimum height=4cm,label=above:$X$] (X) {};
+			\node[ellipse,draw,minimum width=2cm,minimum height=4cm,right=3cm of X,label=above:$Y$]
+			(Y){};
+			\node[dashed,draw] (f) at (X.center) {$f^{-1}[U_Y]$};
+			\node[circle,dashed,draw,minimum size=1cm] (U) at (Y.center) {$U_Y$};
+			\draw[-latex] (0.5,2.25) -- (4.5,2.25) node[midway,above]{$f$};
+			\draw[-latex] (U) to[bend left] (f);
+		\end{tikzpicture}
+		\end{center}
+	\end{enumerate}
+\end{definition*}}
 \newpage
+\begin{example}[Cofinite Topology]
+	Let $S$ be a set. Define a subset $\topology_C\subseteq 2^S$ by \[
+	\topology_C:=\set{T\subseteq S:T^C\subseteq S\ \text{is a finite set}}\cup\set{\varnothing}
+	\] We claim that $\topology_C$ be a topology on $S$:
+	\begin{enumerate}[(i)]
+		\item Clearly $\subseteq\in\topology_C$. Since $S^C=\varnothing$ and $\varnothing$ is finite, $S\in\topology$.
+		\item Let $\set{E_\alpha}_{\alpha\in\Lambda}\subseteq\topology_C$. Then \[
+		\of{\bigcup_{\alpha\in\Lambda} E_\alpha}^C=\bigcap_{\alpha\in\Lambda}E_\alpha^C
+		\] and so
+		\item 
+	\end{enumerate}
+\end{example}
 
-\begin{tikzpicture}[thick] 
-	\node[ellipse,draw,minimum width=2cm,minimum height=4cm,label=below:$X$] (X) {};
-	\node[ellipse,draw,minimum width=2cm,minimum height=4cm,right=3cm of X,label=below:$Y$]
-	(Y){};
-	\node[dashed,draw] (f) at (X.center) {$f^{-1}(U)$};
-	\node[circle,dashed,draw,minimum size=1cm] (U) at (Y.center) {$U$};
-	\draw[-latex] (X) -- (Y) node[midway,above]{$f$};
-	\draw[-latex] (U) to[bend left] (f);
-\end{tikzpicture}
+\begin{example}[Discrete Topology]
+	
+\end{example}
+
+\begin{example}[Indiscrete Topology]
+	
+\end{example}
+
+\defbox[Finer and Coarser]{\begin{definition*}
+	
+\end{definition*}}
+
+\newpage
+\defbox[Distance Function]{\begin{definition*}
+	TBA
+\end{definition*}}
+\defbox[Metric Topology]{\begin{definition*}
+	TBA
+\end{definition*}}
+
+
 \vfill
 \begin{thebibliography}{9}
 	\bibitem{advanced_topo_a}
 	수학의 즐거움, Enjoying Math. ``수학 공부, 기초부터 대학원 수학까지, 8. 위상수학 (a) 위상공간의 정의.'' YouTube Video, 41:25. Published 
 	September 27, 2019. URL: \url{https://www.youtube.com/watch?v=q8BtXIFzo2Q}.
-%	\bibitem{advanced_calc_d}
-%	수학의 즐거움, Enjoying Math. ``수학 공부, 기초부터 대학원 수학까지, 7. 해석학 개론 (d) 극한 정리'' YouTube Video, 26:46. Published 
-%	September 26, 2019. URL: \url{https://www.youtube.com/watch?v=1TRD34QbIaw}.
+	\bibitem{advanced_topo_b}
+	수학의 즐거움, Enjoying Math. ``수학 공부, 기초부터 대학원 수학까지, 9. 위상수학 (b) 해석학개론과 거리위상'' YouTube Video, 33:43. Published 
+	September 29, 2019. URL: \url{https://www.youtube.com/watch?v=uJOGw7Yxk7c&t=242s}.
 \end{thebibliography}
 %\newpage
 \appendix
