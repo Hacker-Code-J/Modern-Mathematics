@@ -3,21 +3,15 @@
 \pgfplotsset{compat=1.16,width=16cm}
 \tikzset{
 	declare function={
-		fluctuating_r(\u,\v,\r)=\r + 0.5*sin(2*\u)*cos(2*\v); % Fluctuating radius
+		fluctuating_r(\u,\v,\r)=\r + 0.3*sin(5*\u)*cos(5*\v); % Fluctuating radius
 		torusx(\u,\v,\R,\r)=cos(\u)*(\R + fluctuating_r(\u,\v,\r)*cos(\v));
 		torusy(\u,\v,\R,\r)=(\R + fluctuating_r(\u,\v,\r)*cos(\v))*sin(\u);
 		torusz(\u,\v,\R,\r)=fluctuating_r(\u,\v,\r)*sin(\v);
-},
-declare function={
-		fluctuating_r2(\u,\v,\r)=\r + 0.2*sin(4*\u)*cos(1*\v); % Fluctuating radius
-		torusx2(\u,\v,\R,\r)=cos(\u)*(\R + fluctuating_r2(\u,\v,\r)*cos(\v));
-		torusy2(\u,\v,\R,\r)=(\R + fluctuating_r2(\u,\v,\r)*cos(\v))*sin(\u);
-		torusz2(\u,\v,\R,\r)=fluctuating_r2(\u,\v,\r)*sin(\v);
 }}
 \begin{document}
 	\begin{tikzpicture}
-		\pgfmathsetmacro{\R}{1.75} % Major radius
-		\pgfmathsetmacro{\r}{1} % Minor radius
+		\pgfmathsetmacro{\R}{10} % Major radius
+		\pgfmathsetmacro{\r}{.5} % Minor radius
 		\pgfplotsset{view={35}{60},axis lines=none,}
 		\begin{axis}[colormap/cool]
 			% Generate the fluctuating torus mesh
@@ -50,11 +44,8 @@ declare function={
 				);
 			}
 		\end{axis}
-		\begin{scope}[shift={(7.1,0)}]
-		\pgfmathsetmacro{\R}{1.75} % Major radius
-		\pgfmathsetmacro{\r}{1} % Minor radius
-		\pgfplotsset{view={35}{60},axis lines=none,}
-		\begin{axis}[colormap/cool]
+        \begin{scope}[shift={(9.5,0)}]
+        \begin{axis}[colormap/cool]
 			% Generate the fluctuating torus mesh
 			\pgfplotsinvokeforeach{0,10,...,360} {
 				\addplot3[
@@ -66,9 +57,9 @@ declare function={
 				mesh
 				]  
 				(
-				{torusx2(x,#1+x/12,\R,\r)}, 
-				{torusy2(x,#1+x/12,\R,\r)}, 
-				{torusz2(x,#1+x/12,\R,\r)}
+				{torusx(x,#1+x/12,\R,\r)}, 
+				{torusy(x,#1+x/12,\R,\r)}, 
+				{torusz(x,#1+x/12,\R,\r)}
 				);
 				\addplot3[
 				samples y=0,
@@ -79,12 +70,12 @@ declare function={
 				mesh
 				]  
 				(
-				{torusx2(#1,x,\R,\r)}, 
-				{torusy2(#1,x,\R,\r)}, 
-				{torusz2(#1,x,\R,\r)}
+				{torusx(#1,x,\R,\r)}, 
+				{torusy(#1,x,\R,\r)}, 
+				{torusz(#1,x,\R,\r)}
 				);
 			}
 		\end{axis}
-		\end{scope}
+        \end{scope}
 	\end{tikzpicture}
 \end{document}

@@ -1,0 +1,48 @@
+\documentclass[tikz,border=3.14mm]{standalone}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.16,width=16cm}
+\tikzset{
+	declare function={
+		fluctuating_r(\u,\v,\r)=\r + 0.3*sin(5*\u)*cos(5*\v); % Fluctuating radius
+		torusx(\u,\v,\R,\r)=cos(\u)*(\R + fluctuating_r(\u,\v,\r)*cos(\v));
+		torusy(\u,\v,\R,\r)=(\R + fluctuating_r(\u,\v,\r)*cos(\v))*sin(\u);
+		torusz(\u,\v,\R,\r)=fluctuating_r(\u,\v,\r)*sin(\v);
+}}
+\begin{document}
+	\begin{tikzpicture}
+		\pgfmathsetmacro{\R}{10} % Major radius
+		\pgfmathsetmacro{\r}{.5} % Minor radius
+		\pgfplotsset{view={35}{60},axis lines=none,}
+		\begin{axis}[colormap/cool]
+			% Generate the fluctuating torus mesh
+			\pgfplotsinvokeforeach{0,10,...,360} {
+				\addplot3[
+				samples y=0,
+				domain=0:360,
+				smooth,
+				samples=120,
+				thin,
+				mesh
+				]  
+				(
+				{torusx(x,#1+x/12,\R,\r)}, 
+				{torusy(x,#1+x/12,\R,\r)}, 
+				{torusz(x,#1+x/12,\R,\r)}
+				);
+				\addplot3[
+				samples y=0,
+				domain=0:360,
+				smooth,
+				samples=71,
+				thin,
+				mesh
+				]  
+				(
+				{torusx(#1,x,\R,\r)}, 
+				{torusy(#1,x,\R,\r)}, 
+				{torusz(#1,x,\R,\r)}
+				);
+			}
+		\end{axis}
+	\end{tikzpicture}
+\end{document}
