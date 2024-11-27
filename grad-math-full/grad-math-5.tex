@@ -99,7 +99,7 @@ We cover the following topics in this note.
 \vfill
 
 \defbox[Topology]{\begin{definition*}
-Let $S$ be a non-empty set. A \textbf{topology} on $S$ is a subset \[
+Let $S$ be a non-empty set. A \textbf{topology}\footnote{The word ``topology'' comes from the Greek roots ``topos'' meaning ``place'' and ``logos'' meaning ``study''.} on $S$ is a subset \[
 \topology=\set{U:U\subseteq S}\subseteq 2^S
 \] that satisfies the axioms: \begin{itemize}
 	\item[(O1)] $S$ and $\varnothing$ are elements of $\topology$:\quad $S\in\topology$ and $\varnothing\in\topology$.
@@ -170,28 +170,28 @@ Let $S$ be a non-empty set. A \textbf{topology} on $S$ is a subset \[
 %\end{example}
 
 \defbox[Topological Space]{\begin{definition*}
-	Let $S$ be a set. Let $\topology$ be a topology on $S$. Then the ordered pair $(S,\topology)$ is called a \textbf{topological space}.
+	Let $S\neq\varnothing$ be a set. Let $\topology$ be a topology on $S$. Then the ordered pair $(S,\topology)$ is called a \textbf{topological space}.
 \end{definition*}}
 \defbox[Open Set]{\begin{definition*}
-	Let $(S,\topology)$ be a topological space. $E\subseteq S$ is an \textbf{open set}, or \textbf{open} (in $S$) iff $E\in\topology$.
+	Let $(S,\topology)$ be a topological space. $U\subseteq S$ is an \textbf{open set}, or \textbf{open} (in $S$) iff $U\in\topology$.
 \end{definition*}}
 \begin{remark*}
 A subset $\topology\subseteq 2^S$ is a topology on $S$ if and only if \begin{enumerate}
 	\item[(i)] $\varnothing$ and $S$ are open;
-	\item[(ii)] Let $\set{E_\alpha}_{\alpha\in\Lambda}\subseteq\topology$. Then $\displaystyle\bigcup_{\alpha\in\Lambda}E_\alpha$ is open.
-	\item[(iii)] Let $\set{E_i}_{i=1}^n\subseteq\topology$. Then $\displaystyle\bigcap_{i=1}^n E_i$ is open.
+	\item[(ii)] Let $\set{U_\alpha}_{\alpha\in\Lambda}\subseteq\topology$. Then $\displaystyle\bigcup_{\alpha\in\Lambda}U_\alpha$ is open.
+	\item[(iii)] Let $\set{U_i}_{i=1}^n\subseteq\topology$. Then $\displaystyle\bigcap_{i=1}^n U_i$ is open.
 \end{enumerate}
 \end{remark*}
-\defbox[Continuous Mapping]{\begin{definition*}
+\defbox[Continuous Mapping by Open Sets]{\begin{definition*}
 	Let $(X,\topology_X)$ and $(Y,\topology_Y)$ are topological spaces. Let $f:X\to Y$ be a mapping from $X$ to $Y$. \begin{enumerate}[(1)]
-		\item (Continuous at a Point) Let $x\in X$. The mapping $f$ is \textbf{continuous at} $\boldsymbol{x}$ if and only if \[
-		\forall U_Y\in\topology_Y,\ (f(x)\in U_Y\implies\exists U_X\in\topology_X\ \text{such that}\ x\in U_X\land f[U_X]\subseteq U_Y.)
-		\]
-		\item (Continuous on a Set) Let $S\subseteq X$. The mapping $f$ is \textbf{continuous on} $\boldsymbol{S}$ if and only if $f$ is continuous at every point $x\in S$.
+%		\item (Continuous at a Point) Let $x\in X$. The mapping $f$ is \textbf{continuous at} $\boldsymbol{x}$ if and only if \[
+%		\forall U_Y\in\topology_Y,f(x)\in U_Y,\ \exists U_X\in\topology_X\ \text{such that}\ x\in U_X\land f[U_X]\subseteq U_Y.
+%		\]
+%		\item (Continuous on a Set) Let $S\subseteq X$. The mapping $f$ is \textbf{continuous on} $\boldsymbol{S}$ if and only if $f$ is continuous at every point $x\in S$.
 		\item (Continuous Everywhere) The mapping $f$ is \textbf{continuous on} $\boldsymbol{X}$ if and only if \[
 		U_Y\in\topology_Y\implies f^{-1}[U_Y]\in\topology_X,
 		\] where $f^{-1}[U_Y]=\set{x\in X:f(x)\in U_Y}$ is the preimage of $U_Y$ under $f$.
-		\begin{center}
+		\begin{center}\adjustbox{scale=.95}{
 		\begin{tikzpicture}[thick] 
 			\node[ellipse,draw,minimum width=2cm,minimum height=4cm,label=above:$X$] (X) {};
 			\node[ellipse,draw,minimum width=2cm,minimum height=4cm,right=3cm of X,label=above:$Y$]
@@ -200,107 +200,275 @@ A subset $\topology\subseteq 2^S$ is a topology on $S$ if and only if \begin{enu
 			\node[circle,dashed,draw,minimum size=1cm] (U) at (Y.center) {$U_Y$};
 			\draw[-latex] (0.5,2.25) -- (4.5,2.25) node[midway,above]{$f$};
 			\draw[-latex] (U) to[bend left] (f);
-		\end{tikzpicture}
+		\end{tikzpicture}}
 		\end{center}
 	\end{enumerate}
 \end{definition*}}
-\newpage
-\lembox{\begin{lemma}
-Let $X$ be a set. \begin{enumerate}[(1)]
-	\item (\textbf{The Intersection of Finite Sets is Finite or Empty}) Let \( \{A_i\}_{i \in I} \) be a collection of finite sets. Then
-	\[
-	\bigcap_{i \in I} A_i
-	\]
-	is finite if \( I \) is finite, or empty otherwise.
-	\item (\textbf{The Union of Finitely Many Finite Sets is Finite}) Let \( \{A_i\}_{i=1}^n \) be a finite collection of finite sets. Then
-	\[
-	\bigcup_{i=1}^n A_i
-	\]
-	is finite.
+\vfill
+\begin{note}[Preparation for \textbf{Example 1}]
+	Let $S\neq\varnothing$ be a set, and let $\set{A_\alpha}_{\alpha\in\Lambda}\subseteq S$. Then
+	\begin{align*}
+		S\setminus\bigcup_{\alpha\in\Lambda}A_\alpha=S\setminus\set{x\in S:\exists \alpha\in\Lambda\ \text{s.t.}\ x\in A_\alpha}
+		&=\set{x\in S:\lnot [\exists \alpha\in\Lambda\ \text{s.t.}\ x\in A_\alpha]}\\
+		&=\set{x\in S:\forall \alpha\in\Lambda,\ x\notin A_\alpha}\\
+		&=\set{x\in S:\forall \alpha\in\Lambda,\ x\in S\setminus A_\alpha}\\
+		&=\bigcap_{\alpha\in\Lambda}(S\setminus A_\alpha).
+	\end{align*}
+	\begin{align*}
+		S\setminus\bigcap_{\alpha\in\Lambda}A_\alpha=S\setminus\set{x\in S:\forall\alpha\in\Lambda,\ x\in A_\alpha}
+		&=\set{x\in S:\lnot [\forall\alpha\in\Lambda,\ x\in A_\alpha]}\\
+		&=\set{x\in S:\exists \alpha\in\Lambda\ \text{s.t.}\ x\notin A_\alpha}\\
+		&=\set{x\in S:\exists \alpha\in\Lambda\ \text{s.t.}\ x\in S\setminus A_\alpha}\\
+		&=\bigcup_{\alpha\in\Lambda}(S\setminus A_\alpha).
+	\end{align*}
+\end{note}
+\vfill
+\begin{note}[Preparation for \textbf{Example 1}]
+\ \begin{enumerate}[(1)]
+	\item A Subset of a Finite Set is Finite.
+	\item The Intersection of Finite Sets is Finite.
 \end{enumerate}
-\end{lemma}}
-\newtheorem{proofpart}{Part}
-\begin{proof}
-	Let \( |A_i| < \infty \) for all \( i \in I \). The intersection is defined as:
-	\[
-	\bigcap_{i \in I} A_i = \{x \in X \mid x \in A_i \text{ for all } i \in I\}.
-	\]
-	
-	\begin{proofpart}[Case 1: \( I \) is finite]
-		Suppose \( I = \{i_1, i_2, \dots, i_n\} \) is finite. Then:
-		\[
-		\bigcap_{i \in I} A_i = A_{i_1} \cap A_{i_2} \cap \cdots \cap A_{i_n}.
-		\]
-		Since each \( A_{i_k} \) is finite, the intersection cannot introduce new elements:
-		\[
-		\bigcap_{k=1}^n A_{i_k} \subseteq A_{i_k} \quad \text{for all } k.
-		\]
-		Therefore, \( \bigcap_{i \in I} A_i \) is a subset of the smallest \( A_{i_k} \) and is finite.
-		
-	\end{proofpart}
-	
-	\begin{proofpart}[Case 2: \( I \) is infinite]
-		If \( I \) is infinite, the intersection may be empty. For any \( x \in \bigcap_{i \in I} A_i \), \( x \) must belong to all \( A_i \). If the \( A_i \)'s shrink (e.g., \( A_i = \{1, 2, \dots, i\} \)), then for large \( i \), \( A_i \cap A_j = \emptyset \). Hence:
-		\[
-		\bigcap_{i \in I} A_i = \emptyset.
-		\]
-	\end{proofpart}
-	
-	Thus, the intersection of finite sets is finite if \( I \) is finite, or empty otherwise.
-\end{proof}
-
-\begin{proof}
-	Each \( A_i \) is finite, meaning \( |A_i| < \infty \) for \( i = 1, 2, \dots, n \). The union satisfies:
-	\[
-	\bigcup_{i=1}^n A_i = A_1 \cup A_2 \cup \cdots \cup A_n.
-	\]
-	
-	To compute the size of the union, we use the inclusion-exclusion principle:
-	\[
-	\left| \bigcup_{i=1}^n A_i \right| = \sum_{i=1}^n |A_i| - \sum_{1 \leq i < j \leq n} |A_i \cap A_j| + \cdots + (-1)^{n+1} |A_1 \cap A_2 \cap \cdots \cap A_n|.
-	\]
-	- Each term in this expansion represents the size of overlaps between the \( A_i \), all of which are finite because the \( A_i \)'s are finite.
-	
-	Since a finite sum of finite numbers is finite, we conclude that:
-	\[
-	\bigcup_{i=1}^n A_i
-	\]
-	is finite.
-\end{proof}
-
+\end{note}
+\vfill
 \begin{example}[Cofinite Topology]
-	Let $S$ be a set. Define a subset $\topology_C\subseteq 2^S$ by \[
-	\topology_C:=\set{T\subseteq S:T^C\ \text{is a finite set}}\cup\set{\varnothing}
-	\] We claim that $\topology_C$ be a topology on $S$:
-	\begin{enumerate}[(i)]
-		\item Clearly $\subseteq\in\topology_C$. Since $S^C=\varnothing$ and $\varnothing$ is finite, $S\in\topology$.
-		\item Let $\set{E_\alpha}_{\alpha\in\Lambda}\subseteq\topology_C$. Then \[
-		\of{\bigcup_{\alpha\in\Lambda} E_\alpha}^C=\bigcap_{\alpha\in\Lambda}E_\alpha^C
-		\] and so
-		\item 
+	Let $S\neq\varnothing$ be a set. Define the cofinite topology $\topology_C\subseteq 2^S$ by \begin{align*}
+	\topology_C:&=\set{U\subseteq S:S\setminus U\ \text{is finite}}\cup\set{\varnothing}\\
+	&=\set{U\subseteq S:U=\varnothing\ \text{or}\ S\setminus U\ \text{is finite}}.
+	\end{align*} In other words, $U$ is open in the cofinite topology if $U$ is the empty, or if the complement $S\setminus U$ is a finite set. We claim that $\topology_C$ be a topology on $S$:
+	\begin{enumerate}[(O1)]
+		\item By definition, $\varnothing\in\topology_C$. For $U=S$, the complement $S\setminus S=\varnothing$, which is finite, so $S\in\topology_C$. Hence, both $\varnothing$ and $S$ are elements of $\topology_C$.
+		\item Let $\set{U_\alpha}_{\alpha\in\Lambda}\subseteq\topology_C$. 
+		\begin{itemize}
+			\item[(Case 1)] If $U_\alpha=\varnothing$ for all $\alpha\in \Lambda$, then $\bigcup_{\alpha\in\Lambda}U_\alpha=\varnothing\in\topology_C$. 
+			\item[(Case 2)] Suppose that there exists $\alpha_0\in\Lambda$ such that $U_{\alpha_0}\neq\varnothing$. Then \[
+			S\setminus\bigcup_{\alpha\in\Lambda}U_\alpha=\bigcap_{\alpha\in\Lambda}\left(S\setminus U_\alpha\right)\subseteq S\setminus U_{\alpha_0}.
+			\]
+			Since $S\setminus U_{\alpha_0}$ is finite, $S\setminus\bigcup_{\alpha\in\Lambda}U_\alpha$ if finite, so $\bigcup_{\alpha\in\Lambda} U_\alpha\in\topology_C$.
+		\end{itemize}
+		\item Let $U_1\in\topology_C$ and $U_2\in\topology_C$. 
+		\begin{itemize}
+			\item[(Case 1)] If $U_1=\varnothing$ or $U_2=\varnothing$, then $U_1\cap U_2=\varnothing\in\topology_C$. 
+			\item[(Case 2)] Suppose that $U_1\neq\varnothing$ and $U_2\neq\varnothing$. Then $S\setminus U_1$ and $S\setminus U_2$ are finite. By the De Morgan law, we have \[
+			S\setminus(U_1\cap U_2)=(S\setminus U_1)\cup (S\setminus U_2),
+			\] which is a finite set. Thus, $U_1\cap U_2\in\topology_C$.
+		\end{itemize}
 	\end{enumerate}
 \end{example}
-
+\vfill
 \begin{example}[Discrete Topology]
-	
+	Let $S\neq\varnothing$ be a set, and let $\topology=2^S$ be the power set of $S$. Then $\topology$ is called the \textbf{discrete topology} on $S$ and $(S,\topology)=(S,2^S)$ the \textbf{discrete (topological) space} on $S$.
 \end{example}
-
+\vfill
 \begin{example}[Indiscrete Topology]
-	
+	Let $S\neq\varnothing$ be a set, and let $\topology=\set{S,\varnothing}$. Then $\topology$ is called the \textbf{indiscrete topology} on $S$ and $(S,\topology)=(S,\set{S,\varnothing})$ the \textbf{indiscrete (topological) space} on $S$.
 \end{example}
-
-\defbox[Finer and Coarser]{\begin{definition*}
-	
-\end{definition*}}
+\vfill
+\begin{note}
+\ \begin{enumerate}[(1)]
+	\item Discrete Topology is Finest Topology.
+	\item Indiscrete Topology is Coarsest Topology.
+\end{enumerate}
+\end{note}
 
 \newpage
+\defbox[Coarser Topology and Finer Topology]{\begin{definition*}
+	Let $S\neq\varnothing$ be a set. Let $\topology_1$ and $\topology_2$ be topologies on $S$.
+	\begin{enumerate}[(1)]
+		\item $\topology_1$ is said to be \textbf{coarser} than $\topology_2$ if $\topology_1\subseteq \topology_2$.
+		\item $\topology_1$ is said to be \textbf{finer} than $\topology_2$ if $\topology_2\subseteq \topology_1$.
+	\end{enumerate}
+\end{definition*}}
+\begin{tikzpicture}[scale=.7]
+	
+	% Coarser Topology on the left
+	\begin{scope}[shift={(-6,0)}]
+		% Axes
+		\draw[->] (-4.5,0) -- (4.5,0) node[right] {$x$};
+		\draw[->] (0,-4.5) -- (0,4.5) node[above] {$y$};
+		\node at (0,-5) {Coarser Topology};
+		
+		% Randomly placed large dashed open balls using modular arithmetic
+		\foreach \i in {1,2,...,20} {
+			\pgfmathsetmacro{\randx}{rand*3.3} % Random value
+			\pgfmathsetmacro{\randy}{rand*3.3} % Random value
+			\pgfmathsetmacro{\x}{mod(\randx, 3)} % Map to [-4, 4]
+			\pgfmathsetmacro{\y}{mod(\randy, 3)} % Map to [-4, 4]
+			\pgfmathsetmacro{\r}{1.5} % Random radius between 1.5 and 2.5
+			\draw[blue, dashed, thick] (\x,\y) circle (\r);
+		}
+		\foreach \i in {1,2,...,20} {
+			\pgfmathsetmacro{\randx}{rand*3.3} % Random value
+			\pgfmathsetmacro{\randy}{rand*3.3} % Random value
+			\pgfmathsetmacro{\x}{mod(\randx, 3)} % Map to [-4, 4]
+			\pgfmathsetmacro{\y}{mod(\randy, 3)} % Map to [-4, 4]
+			\pgfmathsetmacro{\r}{1.5} % Random radius between 1.5 and 2.5
+			\draw[blue, dashed, thick] (\x,\y) circle (\r);
+		}
+		\foreach \i in {1,2,...,20} {
+			\pgfmathsetmacro{\randx}{rand*3.3} % Random value
+			\pgfmathsetmacro{\randy}{rand*3.3} % Random value
+			\pgfmathsetmacro{\x}{mod(\randx, 3)} % Map to [-4, 4]
+			\pgfmathsetmacro{\y}{mod(\randy, 3)} % Map to [-4, 4]
+			\pgfmathsetmacro{\r}{1.5} % Random radius between 1.5 and 2.5
+			\draw[blue, dashed, thick] (\x,\y) circle (\r);
+		}
+	\end{scope}
+	
+	% Finer Topology on the right
+	\begin{scope}[shift={(6,0)}]
+		% Axes
+		\draw[->] (-4.5,0) -- (4.5,0) node[right] {$x$};
+		\draw[->] (0,-4.5) -- (0,4.5) node[above] {$y$};
+		\node at (0,-5) {Finer Topology};
+		
+		% Randomly placed smaller dashed open balls using modular arithmetic
+		\foreach \i in {1,2,...,75} {
+			\pgfmathsetmacro{\randx}{rand*6.5} % Random value
+			\pgfmathsetmacro{\randy}{rand*6.5} % Random value
+			\pgfmathsetmacro{\x}{mod(\randx, 4)} % Map to [-4, 4]
+			\pgfmathsetmacro{\y}{mod(\randy, 4)} % Map to [-4, 4]
+			\pgfmathsetmacro{\r}{0.5} % Random radius between 0.5 and 1
+			\draw[red, dashed, thick] (\x,\y) circle (\r);
+		}
+		\foreach \i in {1,2,...,75} {
+			\pgfmathsetmacro{\randx}{rand*6.5} % Random value
+			\pgfmathsetmacro{\randy}{rand*6.5} % Random value
+			\pgfmathsetmacro{\x}{mod(\randx, 4)} % Map to [-4, 4]
+			\pgfmathsetmacro{\y}{mod(\randy, 4)} % Map to [-4, 4]
+			\pgfmathsetmacro{\r}{0.5} % Random radius between 0.5 and 1
+			\draw[red, dashed, thick] (\x,\y) circle (\r);
+		}
+		\foreach \i in {1,2,...,75} {
+			\pgfmathsetmacro{\randx}{rand*6.5} % Random value
+			\pgfmathsetmacro{\randy}{rand*6.5} % Random value
+			\pgfmathsetmacro{\x}{mod(\randx, 4)} % Map to [-4, 4]
+			\pgfmathsetmacro{\y}{mod(\randy, 4)} % Map to [-4, 4]
+			\pgfmathsetmacro{\r}{0.5} % Random radius between 0.5 and 1
+			\draw[red, dashed, thick] (\x,\y) circle (\r);
+		}
+	\end{scope}
+\end{tikzpicture}
+%\begin{tikzpicture}[scale=1.5]
+%	
+%	% Coarser Topology
+%	\draw[thick] (-3,0) circle (1.5) node[above=1.7cm, align=center] {Coarser Topology\\(Fewer Open Sets)};
+%	\draw[thick, dashed, blue] (-3,0) circle (1);
+%	\draw[thick, dashed, red] (-3,0) circle (0.5);
+%	
+%	% Finer Topology
+%	\draw[thick] (3,0) circle (1.5) node[above=1.7cm, align=center] {Finer Topology\\(More Open Sets)};
+%	\draw[thick, dashed, blue] (3,0) circle (1.25);
+%	\draw[thick, dashed, red] (3,0) circle (1);
+%	\draw[thick, dashed, green] (3,0) circle (0.75);
+%	\draw[thick, dashed, orange] (3,0) circle (0.5);
+%	\draw[thick, dashed, purple] (3,0) circle (0.25);
+%	
+%	% Annotations
+%%	\node[below=2cm, align=center] at (0,-2.2) {Visualization: Coarser topologies have larger,\\ less refined open sets. Finer topologies\\ have smaller, more nested open sets.};
+%	
+%	% Arrow between topologies
+%%	\draw[thick, ->, >=stealth] (-1.2,0) -- (1.2,0) node[midway, above] {Finer};
+%	
+%\end{tikzpicture}
+
+%\begin{tikzpicture}[scale=.7]
+%	
+%	% Coarser Topology on the left
+%	\begin{scope}[shift={(-6,0)}]
+%		% Axes
+%		\draw[->] (-4,0) -- (4,0) node[right] {$x$};
+%		\draw[->] (0,-4) -- (0,4) node[above] {$y$};
+%		\node at (0,-4.5) {Coarser Topology};
+%		
+%		% Large dashed open balls covering the entire space
+%		\foreach \x in {-3, 0, 3} {
+%			\foreach \y in {-3, 0, 3} {
+%				\draw[blue, dashed, thick] (\x,\y) circle (2);
+%			}
+%		}
+%	\end{scope}
+%	
+%	% Finer Topology on the right
+%	\begin{scope}[shift={(6,0)}]
+%		% Axes
+%		\draw[->] (-4,0) -- (4,0) node[right] {$x$};
+%		\draw[->] (0,-4) -- (0,4) node[above] {$y$};
+%		\node at (0,-4.5) {Finer Topology};
+%		
+%		% Smaller dashed open balls covering the entire space
+%		\foreach \x in {-3, -2, -1, 0, 1, 2, 3} {
+%			\foreach \y in {-3, -2, -1, 0, 1, 2, 3} {
+%				\draw[red, dashed, thick] (\x,\y) circle (0.8);
+%			}
+%		}
+%	\end{scope}
+%	
+%\end{tikzpicture}
+%\begin{tikzpicture}[scale=1]
+%	
+%	% Coarser Topology
+%	\node at (-4.5, 3.2) {\textbf{Coarser Topology}};
+%	\draw[thick, blue] (-6, 3) -- (-3, 3); % Entire real line representation
+%	\node at (-4.5, 2.8) {\(\mathbb{R}\) (entire space)};
+%	\draw[thick, blue, dashed] (-6, 2) -- (-4.5, 2) -- (-4.5, 2.3); % (-∞, 0)
+%	\node[blue] at (-5.5, 1.8) {\((- \infty, 0)\)};
+%	\draw[thick, blue] (-4.5, 2) -- (-3, 2); % [0, ∞)
+%	\node[blue] at (-3.5, 1.8) {\([0, \infty)\)};
+%	
+%	% Finer Topology
+%	\node at (4.5, 3.2) {\textbf{Finer Topology}};
+%	\draw[thick, red] (2, 3) -- (7, 3); % Entire real line representation
+%	\node at (4.5, 2.8) {\(\mathbb{R}\)};
+%	\draw[thick, red] (3.5, 2) -- (5.5, 2); % Interval (0, 2)
+%	\node[red] at (4.5, 1.8) {\((0, 2)\)};
+%	\draw[thick, red] (2.8, 1) -- (6.2, 1); % Interval (-1, 1)
+%	\node[red] at (4.5, 0.8) {\((-1, 1)\)};
+%	
+%	% Labels
+%	\node at (-4.5, 1) {\textbf{Fewer Open Sets}};
+%	\node at (4.5, 0) {\textbf{More Open Sets}};
+%	
+%	% Arrows to show refinement
+%	\draw[->, thick] (-1, 2) -- (1, 2) node[midway, above] {\textit{Refinement}};
+%	\draw[->, thick] (1, 1) -- (-1, 1) node[midway, below] {\textit{Coarsening}};
+%	
+%\end{tikzpicture}
+%\begin{tikzpicture}[scale=1.5]
+%	
+%	% Coarser Topology
+%	\node at (-3, 2.5) {\textbf{Coarser Topology}};
+%	\draw[thick, blue] (-4, 1) rectangle (-2, 3);
+%	\draw[thick, dashed, blue] (-4.5, 0.5) rectangle (-1.5, 3.5);
+%	
+%	% Labels for Coarser Topology
+%	\node[blue] at (-4.5, 0.2) {\small Larger Open Sets};
+%	\node[blue] at (-3, 3.3) {\small Fewer Subsets};
+%	
+%	% Finer Topology
+%	\node at (3, 2.5) {\textbf{Finer Topology}};
+%	\draw[thick, red] (1, 1) rectangle (3, 3);
+%	\draw[thick, dashed, red] (0.5, 0.5) rectangle (3.5, 3.5);
+%	
+%	% Subdivisions within Finer Topology
+%	\draw[thick, red] (2, 1) -- (2, 3); % Vertical division
+%	\draw[thick, red] (1, 2) -- (3, 2); % Horizontal division
+%	
+%	% Labels for Finer Topology
+%	\node[red] at (0.5, 0.2) {\small More Open Sets};
+%	\node[red] at (3, 3.3) {\small More Subsets};
+%	
+%	% Arrows showing finer to coarser
+%	\draw[->, thick] (-1, 2) -- (1, 2) node[midway, above] {\textit{Refinement}};
+%	\draw[->, thick] (1, 1) -- (-1, 1) node[midway, below] {\textit{Coarsening}};
+%	
+%\end{tikzpicture}
+\vfill
 \defbox[Distance Function]{\begin{definition*}
 	TBA
 \end{definition*}}
 \defbox[Metric Topology]{\begin{definition*}
 	TBA
 \end{definition*}}
-
 
 \vfill
 \begin{thebibliography}{9}
@@ -312,15 +480,15 @@ Let $X$ be a set. \begin{enumerate}[(1)]
 	September 29, 2019. URL: \url{https://www.youtube.com/watch?v=uJOGw7Yxk7c&t=242s}.
 \end{thebibliography}
 %\newpage
-\appendix
-\section{Complement of Family}
-\begin{note}
-	\[
-	\left(\bigcup_{i\in\Lambda}E_i\right)^C=
-	\bigcap_{i\in\Lambda}\left(E_i\right)^C
-	\]
-	\begin{proof}
-		content...
-	\end{proof}
-\end{note}
+%\appendix
+%\section{Complement of Family}
+%\begin{note}
+%	\[
+%	\left(\bigcup_{i\in\Lambda}E_i\right)^C=
+%	\bigcap_{i\in\Lambda}\left(E_i\right)^C
+%	\]
+%	\begin{proof}
+%		content...
+%	\end{proof}
+%\end{note}
 \end{document}
