@@ -100,14 +100,14 @@ We cover the following topics in this note.
 
 \defbox[Topology]{\begin{definition*}
 Let $S$ be a non-empty set. A \textbf{topology}\footnote{The word ``topology'' comes from the Greek roots ``topos'' meaning ``place'' and ``logos'' meaning ``study''.} on $S$ is a subset \[
-\topology=\set{U:U\subseteq S}\subseteq 2^S
+\topology\subseteq 2^S=\set{U:U\subseteq S}
 \] that satisfies the axioms: \begin{itemize}
 	\item[(O1)] $S$ and $\varnothing$ are elements of $\topology$:\quad $S\in\topology$ and $\varnothing\in\topology$.
-	\item[(O2)\footnote{$\topology$ is closed under \textit{arbitrary} unions}] The union of an arbitrary subset of $\topology$
+	\item[(O2)\footnote{$\topology$ is closed under \textit{arbitrary} unions}] The union of an arbitrary collection in $\topology$
 	is an element of $\topology$: \[
 	\set{U_\alpha}_{\alpha\in\Lambda}\subseteq\topology\implies\bigcup_{\alpha\in\Lambda}U_\alpha\in\topology.
 	\]
-	\item[(O3)\footnote{$\topology$ is closed under \textit{finite} intersection}] The intersection of any finite subset of $\topology$
+	\item[(O3)\footnote{$\topology$ is closed under \textit{finite} intersection}] The intersection of any finite collection in $\topology$
 	is an element of $\topology$: \[
 	\set{U_i}_{i=1}^n\subseteq\topology\implies\bigcap_{i=1}^n U_i\in\topology.
 	\]
