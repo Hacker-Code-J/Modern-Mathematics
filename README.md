@@ -4,7 +4,7 @@
 
 This repository contains comprehensive course materials for graduate-level mathematics, including topics like set theory, real analysis, topology, linear algebra and abstract algebra. The content is structured in TeX documents, which include detailed notes, diagrams, and proofs.
 
-## Repository Structure
+## Structure
 
 ### Core Materials (`grad-math-full`)
 This directory is the core of the repository, featuring detailed documents for various topics in graduate-level mathematics:
