@@ -23,7 +23,7 @@ We cover the following topics in this note.
 	\item Topology; Topological Space
 	\item Open Set
 	\item Continuous Mapping
-	\item \st{Distance Function; Metric Topology}
+	\item Distance Function and Metric Space
 \end{itemize}
 \hrule\vspace{12pt}
 %Preliminaries:
@@ -172,7 +172,7 @@ Let $S$ be a non-empty set. A \textbf{topology}\footnote{The word ``topology'' c
 \defbox[Topological Space]{\begin{definition*}
 	Let $S\neq\varnothing$ be a set. Let $\topology$ be a topology on $S$. Then the ordered pair $(S,\topology)$ is called a \textbf{topological space}.
 \end{definition*}}
-\defbox[Open Set]{\begin{definition*}
+\defbox[Open Set (Topology)]{\begin{definition*}
 	Let $(S,\topology)$ be a topological space. $U\subseteq S$ is an \textbf{open set}, or \textbf{open} (in $S$) iff $U\in\topology$.
 \end{definition*}}
 \begin{remark*}
@@ -463,12 +463,167 @@ A subset $\topology\subseteq 2^S$ is a topology on $S$ if and only if \begin{enu
 %	
 %\end{tikzpicture}
 \vfill
+\newpage
 \defbox[Distance Function]{\begin{definition*}
-	TBA
+	Let $S$ be a set. The function $d:S\times S\to\R$ is called a \textbf{distance function} (or \textbf{metric}) if it satisfies the following properties:
+	\begin{enumerate}[(i)]
+		\item[(i)\footnote{Non-negativity and Zero only for identical points}]$\forall x,y\in S,\ d(x,y)\geq 0\quad\text{and}\quad d(x,y)=0\Leftrightarrow x=y.$
+		\item[(ii)\footnote{Symmetry}] $\forall x,y\in S,\ d(x,y)=d(y,x).$
+		\item[(iii)\footnote{Triangle inequality}] $\forall x,y,z\in S,\ d(x,z)\leq d(x,y)+d(y,z).$
+	\end{enumerate} The pair $(S,d)$ is called a \textbf{metric space}.
 \end{definition*}}
-\defbox[Metric Topology]{\begin{definition*}
-	TBA
+\begin{remark*}
+\ \begin{center}
+\begin{tikzpicture}[>=Stealth, scale=2, every node/.style={font=\small}]
+	% Points in the space
+	\node[draw, circle, fill=black, inner sep=1.5pt, label=above:$x$] (x) at (0, 0) {};
+	\node[draw, circle, fill=black, inner sep=1.5pt, label=above:$y$] (y) at (2, 0.5) {};
+	\node[draw, circle, fill=black, inner sep=1.5pt, label=below:$z$] (z) at (1, -1) {};
+	
+	% Edges for distances
+	\draw[->, thick] (x) -- (y) node[midway, above] {$d(x,y)$};
+	\draw[->, thick] (y) -- (z) node[midway, right] {$d(y,z)$};
+	\draw[->, thick] (x) -- (z) node[midway, left] {$d(x,z)$};
+	
+%	% Non-negativity and zero for identical points
+%	\node at (0, -1.5) [text width=5cm, align=center] 
+%	{\footnotesize (i) Non-negativity: $d(x,y) \geq 0$ \\
+%		Zero if $x=y$: $d(x,y) = 0 \Leftrightarrow x = y$};
+%	
+%	% Symmetry illustration
+%	\draw[<->, dashed, thick, color=blue] (0.5, 0.25) arc[start angle=30, end angle=180, radius=0.5];
+%	\draw[<->, dashed, thick, color=blue] (1.5, 0.25) arc[start angle=150, end angle=330, radius=0.5];
+%	\node[blue] at (1, 0.8) {\footnotesize (ii) Symmetry: $d(x,y) = d(y,x)$};
+%	
+%	% Triangle inequality illustration
+%	\draw[dotted, thick, color=red] (0.5, 0) -- (1.5, -0.25);
+%	\node[red, align=center] at (1.5, -0.7) 
+%	{\footnotesize (iii) Triangle inequality: \\ $d(x,z) \leq d(x,y) + d(y,z)$};
+%	
+%	% Optional labels for the set
+%	\node at (-0.3, 0) {\small $S$};
+%	\draw[rounded corners, dashed] (-1, -1.5) rectangle (2.5, 1.5) {};
+	
+\end{tikzpicture}
+\end{center}
+\end{remark*}
+\begin{example}
+\ \begin{itemize}
+	\item Let $S=\R$, the set of real numbers. Define the function $d:\R\times\R\to\R$ by \[d(x,y)=\abs{x-y}\] for $x,y\in\R$.
+	\item Let $S=\R^n$, the $n$-dimensional Euclidean space. Define the function $d:\R^n\times\R^n\to\R$ by \[
+	d(\textbf{x},\textbf{y})=\norm{\textbf{x}-\textbf{y}}=\sqrt{\sum_{i=0}^{n-1}\abs{x_i-y_i}^2},
+	\] where $\textbf{x}=(x_0,x_1,\dots x_{n-1})$ and $\textbf{y}=(y_0,\dots, y_{n-1})$ are vectors in $\R^n$.
+\end{itemize}
+\end{example}
+\newpage
+\defbox[Neighborhood]{\begin{definition*}
+ Let $(S,d)$ be a metric space, where $S$ is a set and $d:S\times S\to\R$ is a metric. For $x\in S$ and $\varepsilon>0$, the \textbf{$\boldsymbol{\varepsilon}$-neighborhood of $x$} , denoted by $\nbhd_\varepsilon(x)$, is defined as \[
+ \nbhd_\varepsilon(x):=\set{y\in S:d(x,y)<\varepsilon}.
+ \]
 \end{definition*}}
+\begin{remark*}
+\ \begin{center}\begin{tikzpicture}
+	% Draw the main set S as a large circle
+	\draw[thick, dashed, gray] (0,0) circle [radius=3] node[below left=3cm, black] {Set $S$};
+	
+	% Draw the epsilon-neighborhood
+	\draw[dotted, thick, blue] (0,0) circle [radius=2];
+	\node[above right=0.3cm] at (1.25,1) {\textcolor{blue}{$\nbhd_\varepsilon(x)$}};
+	
+	% Add some sample points within the epsilon-neighborhood
+	\filldraw[blue] (0.7,1) circle (2pt) node[right] {$y_1$};
+	\filldraw[blue] (-1.5,-.5) circle (2pt) node[below] {$y_2$};
+	
+	% Add a sample point outside the epsilon-neighborhood
+	\filldraw[black] (2.5,-1) circle (2pt) node[below] {$z$};
+	
+	% Add arrows to indicate distances
+	\draw[blue, ->, thick] (0,0) -- (0.7,1) node[midway, right] {\scriptsize $d(x,y_1)<\varepsilon$};
+	\draw[blue, ->, thick] (0,0) -- (-1.5,-.5) node[midway, above left] {\scriptsize $d(x,y_2)<\varepsilon$};
+	\draw[red, ->, thick, red] (0,0) -- (2.5,-1) node[midway, below left] {\scriptsize \textcolor{red}{$d(x,z)>\varepsilon$}};
+	
+	% Mark the point x
+	\filldraw[black] (0,0) circle (2pt) node[right] {$x$};
+\end{tikzpicture}\end{center}
+\end{remark*}
+
+\defbox[Open Set (Metric Space)]{\begin{definition*}
+	Let $(S,d)$ be a metric space, where $S$ is a set and $d:S\times S\to\R$ is a metric.
+	Let $U\subseteq S$. Then $U$ is an \textbf{open set} in $S$ (as metric space) if and only if it is a neighborhood of each of its elements, \ie, \[
+	U\ \text{is open in}\ S\overset{\textnormal{def}}{\iff}\forall p\in U,\ \exists\varepsilon>0\ \text{such that}\ \nbhd_\varepsilon(p)\subseteq U.
+	\]
+\end{definition*}}
+\begin{remark*}
+\ \begin{center}
+\begin{tikzpicture}[scale=.7]
+	
+	% Draw the main set S
+	\draw[thick, dashed, gray] (0,0) circle [radius=4] node[below left=3.5cm, black] {Set $S$};
+	
+	% Draw the subset U
+	\fill[blue!20] (0,0) circle [radius=2.5];
+	\draw[thick, blue] (0,0) circle [radius=2.5] node[below right=2cm, black] {$U$};
+	
+	% Mark a point p in U
+	\filldraw[black] (1,1) circle (2pt) node[above right] {$p$};
+	
+	% Draw the epsilon-neighborhood around p
+	\draw[thick, red] (1,1) circle [radius=1.2];
+	\node[above right=0.5cm] at (1,1) {\textcolor{red}{$\nbhd_\varepsilon(p)$}};
+	
+	% Add a sample point inside the epsilon-neighborhood
+	\filldraw[black] (1.8,1.5) circle (2pt) node[right] {$q \in \nbhd_\varepsilon(p)$};
+	
+	% Add text labels
+	\node[below right=0.5cm] at (1,1) {
+		\begin{minipage}{3cm}
+			\small
+			\textbf{Every point $p \in U$ has an $\varepsilon$-neighborhood $\nbhd_\varepsilon(p)$ contained in $U$.}
+		\end{minipage}
+	};
+	
+	% Arrow showing that epsilon-neighborhood is within U
+	\draw[->, thick, blue] (2.5,0.5) -- (1.2,1) node[midway, above, blue] {$\nbhd_\varepsilon(p) \subseteq U$};
+	
+\end{tikzpicture}
+\end{center}
+\end{remark*}
+
+\newpage
+\begin{exercise*}[Metric Topology]
+	Let $(S,d)$ be a metric space, where $S$ is a set and $d:S\times S\to\R$ is a metric. Consider the set $\tau$ of all open sets of $S$: \begin{align*}
+	\tau:&=\set{U\subseteq S:U\ \text{is open in}\ S} \\
+	&=\set{U\subseteq S:\forall p\in U,\ \exists\varepsilon>0\ \text{such that}\ \nbhd_\varepsilon(p)\subseteq U}.
+	\end{align*} We claim that $\tau$ is the topology on the metric space $(S,d)$: \begin{enumerate}[(\text{O}1)]
+	\item 
+	\item 
+	\item 
+\end{enumerate}
+\end{exercise*}
+
+
+%\newpage
+%\begin{tcolorbox}
+%For a positive integer $n$, let \[
+%S=\set{0,1,2,\dots, 2^n-1}=\set{\texttt{0},\texttt{01}, \texttt{10},\dots, \underbrace{\texttt{11$\cdots$ 1}}_{n\ \text{times}} }
+%\] represent all integers $0$ to $2^n-1$. Define $\abs{k}$ as the Hamming weight of $k\in S$, \ie, the number of $1$'s in the binary representation of $k$. We claim that
+%\begin{center}
+%``For all $n\geq 1$, $\displaystyle\binom{n}{i}$ is even for $0<i<n$''.
+%\end{center}
+%Equivalently, \begin{center}
+%``The least significant bit (LSB) of $\displaystyle\binom{n}{i}$ in its binary representation is $\texttt{0}$ for all $0<i<n$.''\end{center}
+%\end{tcolorbox}
+%\begin{proof}
+%%The Hamming weight $\abs{k}$ of $k\in S$ is defined as \[
+%%\abs{k}=\sum_{i=0}^{n-1}b_i,\quad b_i\in\set{0,1}.
+%%\]
+%The binomial coefficient $\binom{n}{i}$ is defined as: \[
+%\binom{n}{i}=\frac{n!}{i!(n-i)!}.
+%\] For any positive integer 
+%$k$, the number of factors of 2 in $k!$, is given by:
+%$$\sum_{j\geq 1}\floor*{\frac{k}{2^j}},$$
+%where $\floor*{\frac{k}{2^j}}$ counts how many multiples of $2^j$ appear in $k$. For example, $5!=$
+%\end{proof}
 
 \vfill
 \begin{thebibliography}{9}
