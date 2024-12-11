@@ -13,6 +13,7 @@
 	\huge\textbf{Topology I}\\
 	\vspace{0.5em}
 	\large{Ji, Yong-hyeon}\\
+%	\large{\ttfamily \url{https://github.com/Hacker-Code-J}}\\
 	\vspace{0.5em}
 	\normalsize{\today}\\
 \end{center}
@@ -20,10 +21,11 @@
 \noindent 
 We cover the following topics in this note.
 \begin{itemize}
-	\item Topology; Topological Space
+	\item Topology and Topological Space
 	\item Open Set
 	\item Continuous Mapping
 	\item Distance Function and Metric Space
+	\item Continuity of Function
 \end{itemize}
 \hrule\vspace{12pt}
 %Preliminaries:
@@ -524,7 +526,7 @@ A subset $\topology\subseteq 2^S$ is a topology on $S$ if and only if \begin{enu
 \begin{remark*}
 \ \begin{center}\begin{tikzpicture}
 	% Draw the main set S as a large circle
-	\draw[thick, dashed, gray] (0,0) circle [radius=3] node[below left=3cm, black] {Set $S$};
+%	\draw[thick, dashed, gray] (0,0) circle [radius=3] node[below left=3cm, black] {Set $S$};
 	
 	% Draw the epsilon-neighborhood
 	\draw[dotted, thick, blue] (0,0) circle [radius=2];
@@ -535,9 +537,10 @@ A subset $\topology\subseteq 2^S$ is a topology on $S$ if and only if \begin{enu
 	\filldraw[blue] (-1.5,-.5) circle (2pt) node[below] {$y_2$};
 	
 	% Add a sample point outside the epsilon-neighborhood
-	\filldraw[black] (2.5,-1) circle (2pt) node[below] {$z$};
+	\filldraw[red] (2.5,-1) circle (2pt) node[right] {$y'\notin\nbhd_\varepsilon(x)$};
 	
 	% Add arrows to indicate distances
+	\draw[dashed, green!50!black] (0,0) -- (-1.4,1.4) node[midway, right] {\scriptsize $\varepsilon$};
 	\draw[blue, ->, thick] (0,0) -- (0.7,1) node[midway, right] {\scriptsize $d(x,y_1)<\varepsilon$};
 	\draw[blue, ->, thick] (0,0) -- (-1.5,-.5) node[midway, above left] {\scriptsize $d(x,y_2)<\varepsilon$};
 	\draw[red, ->, thick, red] (0,0) -- (2.5,-1) node[midway, below left] {\scriptsize \textcolor{red}{$d(x,z)>\varepsilon$}};
@@ -601,7 +604,64 @@ A subset $\topology\subseteq 2^S$ is a topology on $S$ if and only if \begin{enu
 \end{enumerate}
 \end{exercise*}
 
+\begin{note}[Convergence of Sequences]
+	A sequence $\set{a_n}_{n=1}^\infty(\subseteq\R)$ is \textbf{converge} to $L\in\R$ if and only if 
+	\begin{align*}
+	&\forall\varepsilon>0,\ \exists N\in\N\ \text{such that}\ \left[ n\geq N\implies \abs{a_n-L}<\varepsilon\right]\\
+	\iff&\forall\varepsilon>0,\ \exists N\in\N\ \text{such that}\ \left[ n\geq N\implies d(a_n,L)<\varepsilon\right]\\
+	\iff&\forall\varepsilon>0,\ \exists N\in\N\ \text{such that}\ \left[ n\geq N\implies a_n\in\nbhd_\varepsilon (L)\right]
+	\end{align*}	
+\end{note}
 
+\newpage
+\defbox[Continuity of Functions]{\begin{definition*}
+	Let $S\subseteq$ be a non-empty subset of $\R$. Let $f:S\to\R$ be a real-valued function, and let $a\in S$. We say that $f$ is \textbf{continuous at $a$} if and only if \[
+	\lim\limits_{x\to a}f(x)=f(a).
+	\] That is, \[
+	\forall\varepsilon>0,\ \exists\delta>0\quad\text{such that }\quad \abs{x-a}<\delta\implies|f(x)-f(a)|<\varepsilon.
+	\] If $f$ is continuous on every point of $S$, then $f$ is called a \textbf{continuous function on $S$}.
+\end{definition*}}
+\begin{remark*}
+\ \begin{align*}
+	&\forall\varepsilon>0,\ \exists\delta>0\quad\text{such that }\quad \abs{x-a}<\delta\implies|f(x)-f(a)|<\varepsilon \\
+	\iff&\forall\varepsilon>0,\ \exists\delta>0\quad\text{such that }\quad x\in\nbhd_\delta(a)\implies f(x)\in\nbhd_\varepsilon(f(a))\\
+	\color{gray!50}\iff&\color{gray!50}\forall\varepsilon>0,\ \exists\delta>0\quad\text{such that }\quad f(x)\in f[\nbhd_\delta(a)]\implies f(x)\in\nbhd_\varepsilon(f(a))&\color{gray!50}\because f[\nbhd_\delta(a)]=\set{f(x):x\in\nbhd_\delta(a)}\\
+	\iff&\forall\varepsilon>0,\ \exists\delta>0\quad\text{such that }\quad f[\nbhd_\delta(a)]\subseteq\nbhd_\varepsilon\left(f(a)\right).
+\end{align*}
+\begin{center}
+\begin{tikzpicture}[scale=1.25]
+	\draw[thick] (-2,0) ellipse (1.2 and 2);
+	\draw[blue, dotted, thick] (-2,0) ellipse (1 and 1);
+	\node[above] at (-2,1) {$\nbhd_\delta(a)$};
+	\draw[thick] (2,0) ellipse (1.2 and 2);
+	\node[red, above] at (2,1) {$\nbhd_\epsilon(f(a))$};
+	\draw[red, dotted, thick] (2,0) ellipse (1 and 1.2);
+	\draw[blue, dotted, thick] (2,0) ellipse (.75 and .75);
+	\node[blue, right] at (2.5,.5) {$f[\nbhd_\delta (a)]$};
+	
+	% Labels for sets
+	\node at (-2, 2.25) {$S$};
+	\node at (2, 2.25) {$\R$};
+	
+	% Draw the arrows representing the function
+	\draw[-Stealth, thick] (-1.5, 2.25) -- (1.5,2.25) node[midway, above] {$f$};
+	
+%	\node at (2, 1.25) {$f[A]$};
+	\draw[blue, dotted, thick] (-2, 1) -- (1.75, .75);
+	\draw[blue, dotted, thick] (-2, -1) -- (1.75, -.75);
+	
+	\filldraw (-2,0) circle (1pt) node[below] {$a$};
+	\filldraw (2,0) circle (1pt) node[below] {$f(a)$};
+	\draw[|->, thick] (-1.75, 0) -- (1.75, 0);
+\end{tikzpicture}
+\end{center}
+\end{remark*}
+\begin{remark*}
+	$f$ is discontinuous at $a$ if and only if \begin{align*}
+		&\exists\varepsilon>0\quad\text{such that}\quad\forall\delta>0,\ \abs{x-\alpha}<\delta\ \text{but}\ |{f(x)-f(a)}|\geq\varepsilon\\
+		\iff &\exists\varepsilon>0\quad\text{such that}\quad\forall\delta>0,\ \nbhd_\varepsilon\left(f(a)\right)\subset f\left[\nbhd_\delta(a)\right].
+	\end{align*}
+\end{remark*}
 %\newpage
 %\begin{tcolorbox}
 %For a positive integer $n$, let \[
