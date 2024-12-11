@@ -55,10 +55,11 @@ The `grad-math-full` directory contains detailed documents for graduate-level ma
 <details>
 <summary><strong>grad-math-5.tex/pdf</strong>: Topology I</summary>
 <ul>
-<li>Topology; Topological Space</li>
+<li>Topology and Topological Space</li>
 <li>Open Set</li>
 <li>Continuous Mapping</li>
-<li>Distance Function; Metric Topology</li>
+<li>Distance Function and Metric Space</li>
+<li>Convergence of Sequences; Continuity of Functions</li>
 </ul>
 </details>
 

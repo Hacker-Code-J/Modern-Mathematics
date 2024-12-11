@@ -25,7 +25,8 @@ We cover the following topics in this note.
 	\item Open Set
 	\item Continuous Mapping
 	\item Distance Function and Metric Space
-	\item Continuity of Function
+	\item Convergence of Sequences; Continuity of Functions
+	\item TBA
 \end{itemize}
 \hrule\vspace{12pt}
 %Preliminaries:
@@ -38,38 +39,26 @@ We cover the following topics in this note.
 %\hrule\vspace{12pt}
 \begin{center}
 \begin{minipage}{.32\textwidth}\centering
-\includegraphics[scale=.8]{../tikz/grad-math-tikz-pdf/sphere.pdf}
+	\includegraphics[scale=1]{../tikz/grad-math-tikz-pdf/sphere.pdf}
 \end{minipage}\hfill
 \begin{minipage}{.32\textwidth}\centering
-\includegraphics[scale=.45]{../tikz/grad-math-tikz-pdf/torus.pdf}
+	\includegraphics[scale=1]{../tikz/grad-math-tikz-pdf/sphere2.pdf}
 \end{minipage}\hfill
 \begin{minipage}{.32\textwidth}\centering
-\includegraphics[scale=.3]{../tikz/grad-math-tikz-pdf/double-torus.pdf}
-\end{minipage}
+\includegraphics[scale=1]{../tikz/grad-math-tikz-pdf/sphere3.pdf}
+\end{minipage}\hfill
 \end{center}
 \vfill
 \begin{center}
 \begin{minipage}{.32\textwidth}\centering
-	\includegraphics[scale=.8]{../tikz/grad-math-tikz-pdf/sphere2.pdf}
+	\includegraphics[scale=.525]{../tikz/grad-math-tikz-pdf/torus4.pdf}
 \end{minipage}\hfill
 \begin{minipage}{.32\textwidth}\centering
-	\includegraphics[scale=.45]{../tikz/grad-math-tikz-pdf/torus4.pdf}
+	\includegraphics[scale=.525]{../tikz/grad-math-tikz-pdf/torus.pdf}
 \end{minipage}\hfill
 \begin{minipage}{.32\textwidth}\centering
-	\includegraphics[scale=.325]{../tikz/grad-math-tikz-pdf/double-torus5.pdf}
-\end{minipage}
-\end{center}
-\vfill
-\begin{center}
-\begin{minipage}{.32\textwidth}\centering
-	\includegraphics[scale=.8]{../tikz/grad-math-tikz-pdf/sphere3.pdf}
+	\includegraphics[scale=.525]{../tikz/grad-math-tikz-pdf/torus5.pdf}
 \end{minipage}\hfill
-\begin{minipage}{.32\textwidth}\centering
-	\includegraphics[scale=.45]{../tikz/grad-math-tikz-pdf/torus5.pdf}
-\end{minipage}\hfill
-\begin{minipage}{.32\textwidth}\centering
-	\includegraphics[scale=.3]{../tikz/grad-math-tikz-pdf/double-torus4.pdf}
-\end{minipage}
 \end{center}
 \vfill
 %\definecolor{mypurple}{HTML}{4C9FFF}
@@ -98,22 +87,21 @@ We cover the following topics in this note.
 %	\end{scope}
 %\end{tikzpicture}
 %\end{center}
-\vfill
 
-\defbox[Topology]{\begin{definition*}
-Let $S$ be a non-empty set. A \textbf{topology}\footnote{The word ``topology'' comes from the Greek roots ``topos'' meaning ``place'' and ``logos'' meaning ``study''.} on $S$ is a subset \[
-\topology\subseteq 2^S=\set{U:U\subseteq S}
-\] that satisfies the axioms: \begin{itemize}
-	\item[(O1)] $S$ and $\varnothing$ are elements of $\topology$:\quad $S\in\topology$ and $\varnothing\in\topology$.
-	\item[(O2)\footnote{$\topology$ is closed under \textit{arbitrary} unions}] The union of an arbitrary collection in $\topology$
-	is an element of $\topology$: \[
-	\set{U_\alpha}_{\alpha\in\Lambda}\subseteq\topology\implies\bigcup_{\alpha\in\Lambda}U_\alpha\in\topology.
+\newpage
+
+\defbox[Topology; Topological Space]{\begin{definition*}
+Let $S$ be a non-empty set. A \hl{\textbf{topology}}\footnote{The word ``topology'' comes from the Greek roots ``topos'' meaning ``place'' and ``logos'' meaning ``study''.} on $S$ is a subset $
+\topology\subseteq 2^S$, where $2^S$ denotes the power set of $S$, that satisfies the following axioms: \begin{itemize}
+	\item[(O1)\footnote{Empty set and Whole space}] The empty set and the entire set $S$ belong to $\topology$:\ $\boxed{S\in\topology\ \text{and}\ \varnothing\in\topology}$.
+	\item[(O2)\footnote{Closure under \textit{arbitrary} unions}] The union of any collection of elements in $\topology$ is also an element of $\topology$: \[
+	\boxed{\set{U_i}_{i\in I}\subseteq\topology\implies\bigcup_{i\in I}U_i\in\topology}.
 	\]
-	\item[(O3)\footnote{$\topology$ is closed under \textit{finite} intersection}] The intersection of any finite collection in $\topology$
-	is an element of $\topology$: \[
-	\set{U_i}_{i=1}^n\subseteq\topology\implies\bigcap_{i=1}^n U_i\in\topology.
+	\item[(O3)\footnote{Closure under \textit{finite} intersections}] The intersection of any finite number of elements in $\topology$ is also an element of $\topology$: \[
+	\boxed{\set{U_i}_{i=1}^n\subseteq\topology\implies\bigcap_{i=1}^n U_i\in\topology}.
 	\]
 \end{itemize}
+The pair $(S,\topology)$ is called a \textbf{topological space}.
 \end{definition*}}
 \begin{remark*}
 	By mathematical induction, we have \[
@@ -170,18 +158,15 @@ Let $S$ be a non-empty set. A \textbf{topology}\footnote{The word ``topology'' c
 %\end{minipage}
 %\end{center}
 %\end{example}
-
-\defbox[Topological Space]{\begin{definition*}
-	Let $S\neq\varnothing$ be a set. Let $\topology$ be a topology on $S$. Then the ordered pair $(S,\topology)$ is called a \textbf{topological space}.
-\end{definition*}}
+\vfill
 \defbox[Open Set (Topology)]{\begin{definition*}
-	Let $(S,\topology)$ be a topological space. $U\subseteq S$ is an \textbf{open set}, or \textbf{open} (in $S$) iff $U\in\topology$.
+	Let $(S,\topology)$ be a topological space. $U\subseteq S$ is an \hl{\textbf{open set}}, or \textbf{open} (in $S$) iff $U\in\topology$.
 \end{definition*}}
 \begin{remark*}
-A subset $\topology\subseteq 2^S$ is a topology on $S$ if and only if \begin{enumerate}
+A subset $\topology$ of power set $2^S$ is a topology on $S$ if and only if \begin{enumerate}
 	\item[(i)] $\varnothing$ and $S$ are open;
-	\item[(ii)] Let $\set{U_\alpha}_{\alpha\in\Lambda}\subseteq\topology$. Then $\displaystyle\bigcup_{\alpha\in\Lambda}U_\alpha$ is open.
-	\item[(iii)] Let $\set{U_i}_{i=1}^n\subseteq\topology$. Then $\displaystyle\bigcap_{i=1}^n U_i$ is open.
+	\item[(ii)] Let $U_1,U_2,\dots\in\topology$, \ie, $\set{U_i}_{i\in I}\subseteq\topology$. Then $\displaystyle\bigcup_{i\in I}U_i$ is open.
+	\item[(iii)] Let $U_1,U_2,\dots, U_n\in\topology$, \ie, $\set{U_i}_{i=1}^n\subseteq\topology$. Then $\displaystyle\bigcap_{i=1}^n U_i$ is open.
 \end{enumerate}
 \end{remark*}
 \defbox[Continuous Mapping by Open Sets]{\begin{definition*}
@@ -239,13 +224,13 @@ A subset $\topology\subseteq 2^S$ is a topology on $S$ if and only if \begin{enu
 	\end{align*} In other words, $U$ is open in the cofinite topology if $U$ is the empty, or if the complement $S\setminus U$ is a finite set. We claim that $\topology_C$ be a topology on $S$:
 	\begin{enumerate}[(O1)]
 		\item By definition, $\varnothing\in\topology_C$. For $U=S$, the complement $S\setminus S=\varnothing$, which is finite, so $S\in\topology_C$. Hence, both $\varnothing$ and $S$ are elements of $\topology_C$.
-		\item Let $\set{U_\alpha}_{\alpha\in\Lambda}\subseteq\topology_C$. 
+		\item Let $\set{U_i}_{i\in I}\subseteq\topology_C$. 
 		\begin{itemize}
-			\item[(Case 1)] If $U_\alpha=\varnothing$ for all $\alpha\in \Lambda$, then $\bigcup_{\alpha\in\Lambda}U_\alpha=\varnothing\in\topology_C$. 
-			\item[(Case 2)] Suppose that there exists $\alpha_0\in\Lambda$ such that $U_{\alpha_0}\neq\varnothing$. Then \[
-			S\setminus\bigcup_{\alpha\in\Lambda}U_\alpha=\bigcap_{\alpha\in\Lambda}\left(S\setminus U_\alpha\right)\subseteq S\setminus U_{\alpha_0}.
+			\item[(Case 1)] If $U_i=\varnothing$ for all $i\in I$, then $\bigcup_{i\in I}U_i=\varnothing\in\topology_C$. 
+			\item[(Case 2)] Suppose that there exists $i_0\in I$ such that $U_{i_0}\neq\varnothing$. Then \[
+			S\setminus\bigcup_{i\in I}U_i=\bigcap_{i\in I}\left(S\setminus U_i\right)\subseteq (S\setminus U_{i_0}).
 			\]
-			Since $S\setminus U_{\alpha_0}$ is finite, $S\setminus\bigcup_{\alpha\in\Lambda}U_\alpha$ if finite, so $\bigcup_{\alpha\in\Lambda} U_\alpha\in\topology_C$.
+			Since $S\setminus U_{i_0}$ is finite, $S\setminus\bigcup_{i\in I}U_i$ if finite, so $\bigcup_{i\in I} U_i\in\topology_C$.
 		\end{itemize}
 		\item Let $U_1\in\topology_C$ and $U_2\in\topology_C$. 
 		\begin{itemize}
@@ -256,7 +241,8 @@ A subset $\topology\subseteq 2^S$ is a topology on $S$ if and only if \begin{enu
 		\end{itemize}
 	\end{enumerate}
 \end{example}
-\vfill
+
+\newpage
 \begin{example}[Discrete Topology]
 	Let $S\neq\varnothing$ be a set, and let $\topology=2^S$ be the power set of $S$. Then $\topology$ is called the \textbf{discrete topology} on $S$ and $(S,\topology)=(S,2^S)$ the \textbf{discrete (topological) space} on $S$.
 \end{example}
@@ -271,8 +257,7 @@ A subset $\topology\subseteq 2^S$ is a topology on $S$ if and only if \begin{enu
 	\item Indiscrete Topology is Coarsest Topology.
 \end{enumerate}
 \end{note}
-
-\newpage
+\vfill
 \defbox[Coarser Topology and Finer Topology]{\begin{definition*}
 	Let $S\neq\varnothing$ be a set. Let $\topology_1$ and $\topology_2$ be topologies on $S$.
 	\begin{enumerate}[(1)]
@@ -467,7 +452,9 @@ A subset $\topology\subseteq 2^S$ is a topology on $S$ if and only if \begin{enu
 \vfill
 \newpage
 \defbox[Distance Function]{\begin{definition*}
-	Let $S$ be a set. The function $d:S\times S\to\R$ is called a \textbf{distance function} (or \textbf{metric}) if it satisfies the following properties:
+	Let $S$ be a set. The real-valued function of two variable \[
+	d:S\times S\to\R
+	\] is called a \textbf{distance function} (or \hl{\textbf{metric}}) if it satisfies the following properties:
 	\begin{enumerate}[(i)]
 		\item[(i)\footnote{Non-negativity and Zero only for identical points}]$\forall x,y\in S,\ d(x,y)\geq 0\quad\text{and}\quad d(x,y)=0\Leftrightarrow x=y.$
 		\item[(ii)\footnote{Symmetry}] $\forall x,y\in S,\ d(x,y)=d(y,x).$
@@ -518,13 +505,13 @@ A subset $\topology\subseteq 2^S$ is a topology on $S$ if and only if \begin{enu
 \end{itemize}
 \end{example}
 \newpage
-\defbox[Neighborhood]{\begin{definition*}
- Let $(S,d)$ be a metric space, where $S$ is a set and $d:S\times S\to\R$ is a metric. For $x\in S$ and $\varepsilon>0$, the \textbf{$\boldsymbol{\varepsilon}$-neighborhood of $x$} , denoted by $\nbhd_\varepsilon(x)$, is defined as \[
+\defbox[Neighborhood (Metric Space)]{\begin{definition*}
+ Let $(S,d)$ be a metric space, where $S$ is a set and $d:S\times S\to\R$ is a metric. For $x\in S$ and $\varepsilon>0$, the \hl{\textbf{$\boldsymbol{\varepsilon}$-neighborhood of $x$}} , denoted by $\nbhd_\varepsilon(x)$, is defined as \[
  \nbhd_\varepsilon(x):=\set{y\in S:d(x,y)<\varepsilon}.
  \]
 \end{definition*}}
 \begin{remark*}
-\ \begin{center}\begin{tikzpicture}
+\ \begin{center}\begin{tikzpicture}[scale=1]
 	% Draw the main set S as a large circle
 %	\draw[thick, dashed, gray] (0,0) circle [radius=3] node[below left=3cm, black] {Set $S$};
 	
@@ -540,7 +527,7 @@ A subset $\topology\subseteq 2^S$ is a topology on $S$ if and only if \begin{enu
 	\filldraw[red] (2.5,-1) circle (2pt) node[right] {$y'\notin\nbhd_\varepsilon(x)$};
 	
 	% Add arrows to indicate distances
-	\draw[dashed, green!50!black] (0,0) -- (-1.4,1.4) node[midway, right] {\scriptsize $\varepsilon$};
+	\draw[>=Stealth, <->, dashed, green!50!black] (0,0) -- (-1.4,1.4) node[midway, right] {\scriptsize $\varepsilon$};
 	\draw[blue, ->, thick] (0,0) -- (0.7,1) node[midway, right] {\scriptsize $d(x,y_1)<\varepsilon$};
 	\draw[blue, ->, thick] (0,0) -- (-1.5,-.5) node[midway, above left] {\scriptsize $d(x,y_2)<\varepsilon$};
 	\draw[red, ->, thick, red] (0,0) -- (2.5,-1) node[midway, below left] {\scriptsize \textcolor{red}{$d(x,z)>\varepsilon$}};
@@ -552,55 +539,87 @@ A subset $\topology\subseteq 2^S$ is a topology on $S$ if and only if \begin{enu
 
 \defbox[Open Set (Metric Space)]{\begin{definition*}
 	Let $(S,d)$ be a metric space, where $S$ is a set and $d:S\times S\to\R$ is a metric.
-	Let $U\subseteq S$. Then $U$ is an \textbf{open set} in $S$ (as metric space) if and only if it is a neighborhood of each of its elements, \ie, \[
-	U\ \text{is open in}\ S\overset{\textnormal{def}}{\iff}\forall p\in U,\ \exists\varepsilon>0\ \text{such that}\ \nbhd_\varepsilon(p)\subseteq U.
+ 	Then
+%	$U$ is an \textbf{open set} in $S$ (as metric space) if and only if 
+	\[
+	U\subseteq S\ \text{is \textbf{open} in}\ S\overset{\textnormal{def}}{\iff}\forall p\in U,\ \exists\varepsilon>0\ \text{such that}\ \nbhd_\varepsilon(p)\subseteq U.
 	\]
 \end{definition*}}
 \begin{remark*}
 \ \begin{center}
-\begin{tikzpicture}[scale=.7]
-	
+\begin{tikzpicture}[scale=1]
 	% Draw the main set S
-	\draw[thick, dashed, gray] (0,0) circle [radius=4] node[below left=3.5cm, black] {Set $S$};
+	\draw[thick, dashed, gray] (-6,-4.5) rectangle (10,4.25) node[black, above left] {Metric Space $S$};
+%	\draw[thick, dashed, gray] (0,0) circle [radius=5] node[above right=4cm, black] {Metric Space $S$};
 	
 	% Draw the subset U
-	\fill[blue!20] (0,0) circle [radius=2.5];
-	\draw[thick, blue] (0,0) circle [radius=2.5] node[below right=2cm, black] {$U$};
+	\fill[blue!10] (0,0) circle [radius=4];
+	\draw[dashed, thick, blue] (0,0) circle [radius=4] node[above right=4cm, blue] {$U$};
 	
 	% Mark a point p in U
-	\filldraw[black] (1,1) circle (2pt) node[above right] {$p$};
+	\filldraw[red] (1,1) circle (2pt) node[above right] {$p_1$};
+	\filldraw[red] (-3.5,0) circle (2pt) node[below] {$p_2$};
+	\filldraw[red] (2,-2) circle (2pt) node[below] {$p_3$};
 	
 	% Draw the epsilon-neighborhood around p
-	\draw[thick, red] (1,1) circle [radius=1.2];
-	\node[above right=0.5cm] at (1,1) {\textcolor{red}{$\nbhd_\varepsilon(p)$}};
+	\draw[dashed, thick, red] (1,1) circle [radius=1.2];
+	\node[above=1.2cm] at (1,1) {\textcolor{red}{ $\nbhd_{\varepsilon_1}(p_1)\subseteq U$}};
+	\draw[<->, dotted, thick, green!50!black] (1,1) to (2.2,1) node[below left] {\scriptsize $\exists\varepsilon_1>0$};
+	
+	\draw[dashed, thick, red] (-3.5,0) circle [radius=.4];
+	\node[above=0.3cm] at (-3.5,0) {\textcolor{red}{$\nbhd_{\varepsilon_2}(p_2)\subseteq U$}};
+	\draw[<->, dotted, thick, green!50!black] (-3.5,0) to (-3.1,0) node[right] {\scriptsize $\exists\varepsilon_2>0$};
+	
+	\draw[dashed, thick, red] (2,-2) circle [radius=.75];
+	\node[above=0.75cm] at (2,-2) {\textcolor{red}{$\nbhd_{\varepsilon_3}(p_3)\subseteq U$}};
+	\draw[<->, dotted, thick, green!50!black] (2,-2) to (1.25,-2) node[left] {\scriptsize $\exists\varepsilon_3>0$};
 	
 	% Add a sample point inside the epsilon-neighborhood
-	\filldraw[black] (1.8,1.5) circle (2pt) node[right] {$q \in \nbhd_\varepsilon(p)$};
+%	\filldraw[black] (1.8,1.5) circle (2pt) node[right] {$q \in \nbhd_\varepsilon(p)$};
 	
 	% Add text labels
-	\node[below right=0.5cm] at (1,1) {
-		\begin{minipage}{3cm}
+	\node[] at (7,-4) {
+		\begin{minipage}{7cm}
 			\small
-			\textbf{Every point $p \in U$ has an $\varepsilon$-neighborhood $\nbhd_\varepsilon(p)$ contained in $U$.}
+			\textbf{Every point $p \in U$ has an}\\ \textbf{$\varepsilon$-neighborhood $\nbhd_\varepsilon(p)$ contained in $U$.}
 		\end{minipage}
 	};
-	
 	% Arrow showing that epsilon-neighborhood is within U
-	\draw[->, thick, blue] (2.5,0.5) -- (1.2,1) node[midway, above, blue] {$\nbhd_\varepsilon(p) \subseteq U$};
-	
+%	\draw[->, thick, blue] (2.5,0.5) -- (1.2,1) node[midway, above, blue] {$\nbhd_\varepsilon(p) \subseteq U$};
 \end{tikzpicture}
 \end{center}
 \end{remark*}
-
 \newpage
 \begin{exercise*}[Metric Topology]
 	Let $(S,d)$ be a metric space, where $S$ is a set and $d:S\times S\to\R$ is a metric. Consider the set $\tau$ of all open sets of $S$: \begin{align*}
 	\tau:&=\set{U\subseteq S:U\ \text{is open in}\ S} \\
 	&=\set{U\subseteq S:\forall p\in U,\ \exists\varepsilon>0\ \text{such that}\ \nbhd_\varepsilon(p)\subseteq U}.
 	\end{align*} We claim that $\tau$ is the topology on the metric space $(S,d)$: \begin{enumerate}[(\text{O}1)]
-	\item 
-	\item 
-	\item 
+	\item $S\in\tau$ and $\varnothing\in\tau$:
+	
+	($\varnothing\in\tau$)\ The condition \begin{center}
+		``$\forall p\in U,\ \exists\varepsilon>0\ \text{such that}\ \nbhd_\varepsilon(p)\subseteq U$''
+	\end{center} is vacuously true for $U=\varnothing$. Therefore $\varnothing\in\tau$.
+	
+	($S\in\tau$)\ For $p\in S$, the $\varepsilon$-neighborhhod of $p$ is defined as\[
+	\nbhd_\varepsilon(p)=\set{q\in S: d(p,q)<\varepsilon}\subseteq S.
+	\] Since $S$ is the entire space, $\nbhd_\varepsilon(p)\subseteq S$ for any 
+	$\varepsilon>0$.
+	\item $\tau$ is closed under arbitrary unions:
+	
+	Let $\set{U_i}_{i\in I}$ be an arbitrary collection of sets in $\tau$. Let $p\in\bigcup_{i\in I}U_i$. Then \[
+	\exists i_0\in I\quad\text{such that}\quad p\in U_{i_0}.
+	\] Since $U_{i_0}\in\tau$, there exists $\varepsilon>0$ such that $\nbhd_\epsilon(p)\subseteq U_{i_0}$. Then \[
+	\nbhd_\epsilon(p)\subseteq U_{i_0}\subseteq\bigcup_{i\in I}U_i.
+	\] Thus, $\bigcup_{i\in I}U_i\in\tau$.
+	\item $\tau$ is closed under finite intersections:
+	
+	Let $U_1,U_2\in\tau$, and let $p\in (U_1\cap U_2)$. Then \begin{align*}
+		\exists\varepsilon_1>0\quad\text{such that}\quad \nbhd_{\varepsilon_1}(p)\subseteq U_1,\\
+		\exists\varepsilon_2>0\quad\text{such that}\quad \nbhd_{\varepsilon_2}(p)\subseteq U_2.
+	\end{align*} Define $\varepsilon:=\min(\varepsilon_1,\varepsilon_2)$. Then \[
+		\nbhd_\varepsilon(p)\subseteq\nbhd_{\varepsilon_i}(p)\subseteq U_i\quad\text{for }\quad i=1,2.
+	\] Thus $\nbhd_{\varepsilon}(p)\subset U_1\cap U_2$, and so $U_1\cap U_2\in\tau$.
 \end{enumerate}
 \end{exercise*}
 
@@ -610,7 +629,162 @@ A subset $\topology\subseteq 2^S$ is a topology on $S$ if and only if \begin{enu
 	&\forall\varepsilon>0,\ \exists N\in\N\ \text{such that}\ \left[ n\geq N\implies \abs{a_n-L}<\varepsilon\right]\\
 	\iff&\forall\varepsilon>0,\ \exists N\in\N\ \text{such that}\ \left[ n\geq N\implies d(a_n,L)<\varepsilon\right]\\
 	\iff&\forall\varepsilon>0,\ \exists N\in\N\ \text{such that}\ \left[ n\geq N\implies a_n\in\nbhd_\varepsilon (L)\right]
-	\end{align*}	
+	\end{align*}
+\begin{center}
+\begin{tikzpicture}[scale=.6]
+	% Define the coordinates for L and the bounding lines
+	\def\L{3} % Set L at 3 for visualization
+	\def\epsilon{1} % Epsilon value
+	\def\N{14} % Example N value
+	\def\xMax{25}
+	\def\yMax{6} % Max value for y-axis
+	
+	% Draw axes
+	\draw[thick,-Stealth] (0,0) -- (\xMax+1,0) node[anchor=west] {$n$};
+	\draw[thick,-Stealth] (0,0) -- (0,\yMax) node[anchor=south] {$a_n$};
+	
+	% Draw L and epsilon lines
+	\draw[dashed, magenta, opacity=.3] (0,\L) -- (\xMax+1,\L) node[right] {$L$};
+	\draw[dashed, opacity=.3] (0,\L+\epsilon) -- (\xMax+1,\L+\epsilon) node[right] {$L+1$};
+	\draw[dashed, opacity=.3] (0,\L-\epsilon) -- (\xMax+1,\L-\epsilon) node[right] {$L-1$};
+	
+	% Mark the N line
+	\draw[dashed, green!50!black] (\N,0) -- (\N,\yMax) node[at start, below] {$N$};
+	
+	% Points of a_n for n < N and n >= N
+	\foreach \x in {1,2,3,5,6,...,13} {
+		\pgfmathsetmacro{\y}{rand*1.5+\L}
+		\filldraw[black] (\x,\y) circle (3pt);
+	}
+%	\filldraw[red] (4,4.5) circle (3pt);
+	\foreach \x in {\N,...,\xMax} {
+		\pgfmathsetmacro{\y}{rand*0.25+\L}
+		\filldraw[blue] (\x,\y) circle (3pt);
+	}
+	
+	% Draw M line
+%	\def\M{4.5} % example M value
+%	\draw[dashed, green!50!black] (0,\M) -- (\xMax+1,\M) node[right] {$M$};
+	
+	% Labeling M
+%	\draw[<-, green!50!black] (20.5,4.75) -- (20.5,5.25) node[above] {Maximum of $\{\lvert a_1 \rvert, \dots, \lvert a_{N-1} \rvert, \abs{L}+1\}$};
+\end{tikzpicture}
+
+\begin{tikzpicture}[>=Stealth]
+	% Draw the metric space boundary
+%	\draw[thick, dashed, gray] (0,0) circle [radius=4] node[below left=3.5cm, black] {Metric Space};
+	\draw[thick, dashed, gray] (-4,-4) rectangle (12,4) node[above left=.25cm, black] {Metric Space};
+	
+	% Mark the convergence point
+	\filldraw[red] (0,0) circle (2.5pt) node[below left] {$L$};
+	
+	% Draw the epsilon neighborhood around the convergence point
+	\draw[dotted, thick, blue] (0,0) circle [radius=2];
+	\node[above right] at (2,1.5) {\textcolor{blue}{$\nbhd_\varepsilon(L)$}};
+	
+	% Add sequence points (outside the epsilon-neighborhood initially)
+	\filldraw[black] (-3,-0.5) circle (2pt) node[below] {$a_1$};
+	\filldraw[black] (-2.5,1) circle (2pt) node[left] {$a_2$};
+	\filldraw[black] (-2,2) circle (2pt) node[left] {$a_3$};
+	\filldraw[black] (-1.5,3.5) circle (2pt) node[left] {$a_4$};
+	\filldraw[black] (1,3) circle (2pt) node[below] {$a_5$};
+	\filldraw[black] (4,2) circle (2pt) node[below] {$a_6$};
+	\filldraw[black] (4.5,2.5) circle (2pt) node[right] {$a_7$};
+	\filldraw[black] (7.5,1) circle (2pt) node[right] {$a_8$};
+	\filldraw[black] (4,0) circle (2pt) node[below] {$a_9$};
+	\filldraw[black] (2,-2) circle (2pt) node[right] {$a_{10}$};
+	
+	% Add sequence points converging within the epsilon-neighborhood
+	\filldraw[green!50!black] (1.5,-.5) circle (2pt) node[right] {$a_{11}$};
+	\filldraw[blue] (1,0) circle (2pt) node[right] {$a_{12}$};
+	\filldraw[blue] (0,-1.5) circle (2pt) node[right] {$a_{13}$};
+	\filldraw[blue] (-1,-1.5) circle (2pt) node[below] {$a_{14}$};
+	\filldraw[blue] (-.5,-1) circle (2pt) node[left] {$a_{15}$};
+	\filldraw[blue] (-1.5,.5) circle (2pt) node[left] {$a_{16}$};
+	\filldraw[blue] (-1,1) circle (2pt) node[right] {$a_{i}$};
+	
+	% Add arrows showing progression of the sequence
+	\draw[dashed, ->, thick] (-3,-0.5) to (-2.5,1);
+	\draw[dashed, ->, thick] (-2.5,1) -- (-2,2);
+	\draw[dashed, ->, thick] (-2,2) -- (-1.5,3.5);
+	\draw[dashed, ->, thick] (-1.5,3.5) -- (1,3);
+	\draw[dashed, ->, thick] (1,3) -- (4,2);
+	\draw[dashed, ->, thick] (4,2) -- (4.5,2.5);
+	\draw[dashed, ->, thick] (4.5,2.5) -- (7.5,1);
+	\draw[dashed, ->, thick] (7.5,1) -- (4,0);
+	\draw[dashed, ->, thick] (4,0) -- (2,-2);
+	\draw[dashed, ->, thick] (2,-2) -- (1.5,-.5);
+	\draw[blue, dashed, ->, thick] (1.5,-.5) -- (1,0); % 10-11
+	\draw[blue, dashed, ->, thick] (1,0) -- (0,-1.5); % 11-12
+	\draw[blue, dashed, ->, thick] (0,-1.5) -- (-1,-1.5); % 12-13
+	\draw[blue, dashed, ->, thick] (-1,-1.5) -- (-.5,-1); % 13-14
+	\draw[blue, dashed, ->, thick] (-.5,-1) -- (-1.5,.5); % 14-15
+	\draw[blue, dashed, ->, thick] (-1.5,.5) -- (-1,1); %15-16
+	\draw[blue, dashed, ->, thick] (-1,1) -- (-.5,1.5) node[right] {$\cdots$};
+	
+	% Annotation for sequence behavior
+	\node[right=1cm] at (3.5,-3.5) {
+		\begin{minipage}{10cm}
+			\small
+			After a certain index, all points of the sequence \\
+			lie within the radius $\varepsilon$ of the limit $L$.
+		\end{minipage}
+	};
+	
+\end{tikzpicture}
+\end{center}	
+
+%\begin{tikzpicture}
+	
+%	% Draw the metric space boundary
+%	\draw[thick, dashed, gray] (0,0) circle [radius=4] node[below left=3.5cm, black] {Metric Space};
+%	
+%	% Mark the convergence point
+%	\filldraw[red] (0,0) circle (2.5pt) node[below left] {$p$};
+%	
+%	% Draw the epsilon neighborhood around the convergence point
+%	\draw[thick, blue] (0,0) circle [radius=2.5];
+%	\node[above left=0.5cm] at (2,1.5) {\textcolor{blue}{$\nbhd_\varepsilon(p)$}};
+	
+	% Random sequence points
+%	\pgfmathsetseed{12345} % Fix the random seed for reproducibility
+%	\coordinate (prev) at (4, 0); % Initial point for the sequence
+%	\foreach \i in {1,...,100} {
+%		% Generate random points
+%		\pgfmathsetmacro{\radius}{4 + (5 * \i / 100) + (\i > 50 ? 0.05 * (rnd - 0.5) : 0)} % Decreasing radius, within bounds after \i > 50
+%		\pgfmathsetmacro{\angle}{(\i > 50 ? rnd - 2.5 : rnd * 10 - 10)} % Constrain angle tighter after \i > 50
+%		\pgfmathsetmacro{\x}{\radius * cos(\angle) * 2}
+%		\pgfmathsetmacro{\y}{\radius * sin(\angle) * 4}
+%		
+%		% Draw the point
+%		\filldraw[black] (\x,\y) circle (1pt);
+%		
+%		% Draw a line connecting to the previous point
+%		\draw[thick] (prev) -- (\x,\y);
+%		
+%		% Update the previous point
+%		\coordinate (prev) at (\x,\y);
+		
+		% Label a few points
+%		\ifnum\i<5
+%		\node[below right] at (\x,\y) {$x_{\i}$};
+%		\else\ifnum\i=50
+%		\node[below right] at (\x,\y) {$x_{50}$};
+%		\else\ifnum\i=100
+%		\node[below right] at (\x,\y) {$x_{100}$};
+%		\fi\fi\fi
+%	}
+	
+	% Annotation for sequence behavior
+%	\node[right=0.5cm] at (3,-1) {
+%		\begin{minipage}{4cm}
+%			\small
+%			After a certain point, all dots are contained within the $\varepsilon$-radius around $p$.
+%		\end{minipage}
+%	};
+	
+%\end{tikzpicture}
+
 \end{note}
 
 \newpage
@@ -630,12 +804,12 @@ A subset $\topology\subseteq 2^S$ is a topology on $S$ if and only if \begin{enu
 \end{align*}
 \begin{center}
 \begin{tikzpicture}[scale=1.25]
-	\draw[thick] (-2,0) ellipse (1.2 and 2);
+	\draw[thick] (-2,0) ellipse (1.5 and 2);
 	\draw[blue, dotted, thick] (-2,0) ellipse (1 and 1);
 	\node[above] at (-2,1) {$\nbhd_\delta(a)$};
-	\draw[thick] (2,0) ellipse (1.2 and 2);
-	\node[red, above] at (2,1) {$\nbhd_\epsilon(f(a))$};
-	\draw[red, dotted, thick] (2,0) ellipse (1 and 1.2);
+	\draw[thick] (2,0) ellipse (1.5 and 2);
+	\node[red, above] at (2,1.25) {$\nbhd_\varepsilon(f(a))$};
+	\draw[red, dotted, thick] (2,0) ellipse (1.25 and 1.25);
 	\draw[blue, dotted, thick] (2,0) ellipse (.75 and .75);
 	\node[blue, right] at (2.5,.5) {$f[\nbhd_\delta (a)]$};
 	
@@ -646,19 +820,22 @@ A subset $\topology\subseteq 2^S$ is a topology on $S$ if and only if \begin{enu
 	% Draw the arrows representing the function
 	\draw[-Stealth, thick] (-1.5, 2.25) -- (1.5,2.25) node[midway, above] {$f$};
 	
-%	\node at (2, 1.25) {$f[A]$};
+	%	\node at (2, 1.25) {$f[A]$};
 	\draw[blue, dotted, thick] (-2, 1) -- (1.75, .75);
 	\draw[blue, dotted, thick] (-2, -1) -- (1.75, -.75);
 	
 	\filldraw (-2,0) circle (1pt) node[below] {$a$};
 	\filldraw (2,0) circle (1pt) node[below] {$f(a)$};
-	\draw[|->, thick] (-1.75, 0) -- (1.75, 0);
+	\draw[|->] (-1.85, 0) -- (1.85, 0);
+	
+	\draw[>=Stealth, <->, dashed, red] (2, 0) -- (3,-.75) node[midway, above] {\scriptsize $\varepsilon$};
+	\draw[>=Stealth, <->, dashed, blue] (-2, 0) -- (-3,0) node[midway, above] {\scriptsize $\delta$};
 \end{tikzpicture}
 \end{center}
 \end{remark*}
 \begin{remark*}
 	$f$ is discontinuous at $a$ if and only if \begin{align*}
-		&\exists\varepsilon>0\quad\text{such that}\quad\forall\delta>0,\ \abs{x-\alpha}<\delta\ \text{but}\ |{f(x)-f(a)}|\geq\varepsilon\\
+		&\exists\varepsilon>0\quad\text{such that}\quad\forall\delta>0,\ \abs{x-a}<\delta\ \text{but}\ |{f(x)-f(a)}|\geq\varepsilon\\
 		\iff &\exists\varepsilon>0\quad\text{such that}\quad\forall\delta>0,\ \nbhd_\varepsilon\left(f(a)\right)\subset f\left[\nbhd_\delta(a)\right].
 	\end{align*}
 \end{remark*}
@@ -685,7 +862,15 @@ A subset $\topology\subseteq 2^S$ is a topology on $S$ if and only if \begin{enu
 %where $\floor*{\frac{k}{2^j}}$ counts how many multiples of $2^j$ appear in $k$. For example, $5!=$
 %\end{proof}
 
+\newpage
+\begin{note}
+	TBA
+\end{note}
+\begin{note}
+	TBA
+\end{note}
 \vfill
+
 \begin{thebibliography}{9}
 	\bibitem{advanced_topo_a}
 	수학의 즐거움, Enjoying Math. ``수학 공부, 기초부터 대학원 수학까지, 8. 위상수학 (a) 위상공간의 정의.'' YouTube Video, 41:25. Published 
