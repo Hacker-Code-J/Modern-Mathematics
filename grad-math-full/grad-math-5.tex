@@ -505,38 +505,57 @@ A subset $\topology$ of power set $2^S$ is a topology on $S$ if and only if \beg
 \end{itemize}
 \end{example}
 \newpage
-\defbox[Neighborhood (Metric Space)]{\begin{definition*}
- Let $(S,d)$ be a metric space, where $S$ is a set and $d:S\times S\to\R$ is a metric. For $x\in S$ and $\varepsilon>0$, the \hl{\textbf{$\boldsymbol{\varepsilon}$-neighborhood of $x$}} , denoted by $\nbhd_\varepsilon(x)$, is defined as \[
- \nbhd_\varepsilon(x):=\set{y\in S:d(x,y)<\varepsilon}.
+\defbox[Open Epsilon-Ball]{\begin{definition*}
+ Let $(S,d)$ be a metric space, where $S$ is a set and $d:S\times S\to\R$ is a metric. For $x\in S$ and $\varepsilon\in\R_{>0}$, the \textbf{open $\boldsymbol{\varepsilon}$-ball of $x$ in $S$}, denoted by $B_\varepsilon(x)$, is defined as \[
+ B_\varepsilon(x):=\set{y\in S:d(x,y)<\varepsilon}.
  \]
 \end{definition*}}
 \begin{remark*}
-\ \begin{center}\begin{tikzpicture}[scale=1]
+\ \begin{center}\begin{tikzpicture}[scale=1.5]
 	% Draw the main set S as a large circle
 %	\draw[thick, dashed, gray] (0,0) circle [radius=3] node[below left=3cm, black] {Set $S$};
 	
 	% Draw the epsilon-neighborhood
 	\draw[dotted, thick, blue] (0,0) circle [radius=2];
-	\node[above right=0.3cm] at (1.25,1) {\textcolor{blue}{$\nbhd_\varepsilon(x)$}};
+	\node[above right=0.3cm] at (1.35,1) {\textcolor{blue}{$B_\varepsilon(x)$}};
 	
 	% Add some sample points within the epsilon-neighborhood
 	\filldraw[blue] (0.7,1) circle (2pt) node[right] {$y_1$};
 	\filldraw[blue] (-1.5,-.5) circle (2pt) node[below] {$y_2$};
 	
 	% Add a sample point outside the epsilon-neighborhood
-	\filldraw[red] (2.5,-1) circle (2pt) node[right] {$y'\notin\nbhd_\varepsilon(x)$};
+	\filldraw[red] (2.5,-1) circle (2pt) node[right] {$y'\notin B_\varepsilon(x)$};
 	
 	% Add arrows to indicate distances
 	\draw[>=Stealth, <->, dashed, green!50!black] (0,0) -- (-1.4,1.4) node[midway, right] {\scriptsize $\varepsilon$};
-	\draw[blue, ->, thick] (0,0) -- (0.7,1) node[midway, right] {\scriptsize $d(x,y_1)<\varepsilon$};
-	\draw[blue, ->, thick] (0,0) -- (-1.5,-.5) node[midway, above left] {\scriptsize $d(x,y_2)<\varepsilon$};
-	\draw[red, ->, thick, red] (0,0) -- (2.5,-1) node[midway, below left] {\scriptsize \textcolor{red}{$d(x,z)>\varepsilon$}};
+	\draw[blue, ->, thick] (0,0) -- (0.7,1) node[midway, right] {\small $d(x,y_1)<\varepsilon$};
+	\draw[blue, ->, thick] (0,0) -- (-1.5,-.5) node[midway, above left=-1mm] {\small $d(x,y_2)<\varepsilon$};
+	\draw[red, ->, thick, red] (0,0) -- (2.5,-1) node[midway, below left] {\small \textcolor{red}{$d(x,y')>\varepsilon$}};
 	
 	% Mark the point x
 	\filldraw[black] (0,0) circle (2pt) node[right] {$x$};
 \end{tikzpicture}\end{center}
 \end{remark*}
+\vfill
+\defbox[Epsilon-Neighborhood (Real Analysis)]{\begin{definition*}
+	Consider the Euclidean space $(\R^1,d)$. The \textbf{$\boldsymbol{\varepsilon}$-neighborhood of $\alpha\in\R$} is defined as the open interval: \[
+	\nbhd_\varepsilon(\alpha):=\set{x\in\R:\abs{x-\alpha}<\varepsilon}=(\alpha-\varepsilon,\alpha+\varepsilon)
+	\] where $\varepsilon\in\R_{>0}$.
+\end{definition*}}
+\vfill
+\defbox[Neighborhood (Topology)]{\begin{definition*}
+	Let $(S,\tau)$ be a topological space. 
+	\begin{enumerate}[(1)]
+		\item (Neighborhood of a Set) Let $A\subseteq S$. A \textbf{neighborhood of $A$} is \[
+		\nbhd_A\quad\text{satisfying}\quad \exists U\in\tau\ \text{such that}\ A\subseteq U\subseteq\nbhd_A\subseteq S.
+		\]
+		\item (Neighborhood of a Point) Consider a singleton $\set{a}=A\subseteq S$, that is, $a\in S$ be a point in $S$. Then $\nbhd_{a}$ is a \textbf{neighborhood} of $a\in S$ if \[
+		\exists U\in\tau\ \text{such that}\ a\in U\subseteq\nbhd_a\subseteq S.
+		\]
+	\end{enumerate}
+\end{definition*}}
 
+\newpage
 \defbox[Open Set (Metric Space)]{\begin{definition*}
 	Let $(S,d)$ be a metric space, where $S$ is a set and $d:S\times S\to\R$ is a metric.
  	Then
@@ -625,11 +644,18 @@ A subset $\topology$ of power set $2^S$ is a topology on $S$ if and only if \beg
 \end{exercise*}
 
 \begin{note}[Convergence of Sequences]
+	We consider the topological space 
+	$(\R,\tau)$ where \[
+	\tau=\set{U\subseteq\R:U=\bigcup_{i\in I}(a_i,b_i)}
+	\] where each $(a_i,b_i)$ is an open interval with $a_i,b_i\in\R$ and $a_i<b_i$, that is, $\tau$ consists of all open intervals (and unions of such intervals).\par
 	A sequence $\set{a_n}_{n=1}^\infty(\subseteq\R)$ is \textbf{converge} to $L\in\R$ if and only if 
 	\begin{align*}
 	&\forall\varepsilon>0,\ \exists N\in\N\ \text{such that}\ \left[ n\geq N\implies \abs{a_n-L}<\varepsilon\right]\\
 	\iff&\forall\varepsilon>0,\ \exists N\in\N\ \text{such that}\ \left[ n\geq N\implies d(a_n,L)<\varepsilon\right]\\
-	\iff&\forall\varepsilon>0,\ \exists N\in\N\ \text{such that}\ \left[ n\geq N\implies a_n\in\nbhd_\varepsilon (L)\right]
+	\iff&\forall\varepsilon>0,\ \exists N\in\N\ \text{such that}\ \left[ n\geq N\implies a_n\in\nbhd_\varepsilon (L)\right]\\
+	\color{blue}\iff&\color{blue}\forall\varepsilon>0,\ \exists N\in\N\ \text{such that}\ \left[ n\geq N\implies a_n\in(L-\varepsilon,L+\varepsilon)\right]\\
+	\iff&\forall\varepsilon>0,\ \exists N\in\N\ \text{such that}\ \left[ n\geq N\implies a_n\in U_\varepsilon\right] \\
+	\iff&\forall U\in\tau\ \text{with}\ L\in U,\ \exists N\in\N\ \text{such that}\ \left[ n\geq N\implies a_n\in U\right]
 	\end{align*}
 \begin{center}
 \begin{tikzpicture}[scale=.6]
@@ -674,7 +700,7 @@ A subset $\topology$ of power set $2^S$ is a topology on $S$ if and only if \beg
 \begin{tikzpicture}[>=Stealth]
 	% Draw the metric space boundary
 %	\draw[thick, dashed, gray] (0,0) circle [radius=4] node[below left=3.5cm, black] {Metric Space};
-	\draw[thick, dashed, gray] (-4,-4) rectangle (12,4) node[above left=.25cm, black] {Metric Space};
+	\draw[thick, dashed, gray] (-4,-3) rectangle (12,4) node[above left=.1cm, black] {Metric Space};
 	
 	% Mark the convergence point
 	\filldraw[red] (0,0) circle (2.5pt) node[below left] {$L$};
@@ -726,7 +752,7 @@ A subset $\topology$ of power set $2^S$ is a topology on $S$ if and only if \beg
 	\filldraw[green!50!black] (1.5,-.5) circle (2pt) node[right] {$a_{11}$};
 	
 	% Annotation for sequence behavior
-	\node[right=.75cm] at (3.5,-3.5) {
+	\node[right=.75cm] at (3.5,-2.5) {
 		\begin{minipage}{10cm}
 			\small\bfseries
 			After a certain index, all points of the sequence \\
@@ -795,26 +821,27 @@ A subset $\topology$ of power set $2^S$ is a topology on $S$ if and only if \beg
 	Let $S\subseteq$ be a non-empty subset of $\R$. Let $f:S\to\R$ be a real-valued function, and let $a\in S$. We say that $f$ is \textbf{continuous at $a$} if and only if \[
 	\lim\limits_{x\to a}f(x)=f(a).
 	\] That is, \[
-	\forall\varepsilon>0,\ \exists\delta>0\quad\text{such that }\quad \abs{x-a}<\delta\implies|f(x)-f(a)|<\varepsilon.
+	\forall\varepsilon>0,\ \exists\delta>0\quad\text{such that }\quad 0<\abs{x-a}<\delta\implies|f(x)-f(a)|<\varepsilon.
 	\] If $f$ is continuous on every point of $S$, then $f$ is called a \textbf{continuous function on $S$}.
 \end{definition*}}
 \begin{remark*}
 \ \begin{align*}
-	&\forall\varepsilon>0,\ \exists\delta>0\quad\text{such that }\quad \abs{x-a}<\delta\implies|f(x)-f(a)|<\varepsilon \\
-	\iff&\forall\varepsilon>0,\ \exists\delta>0\quad\text{such that }\quad x\in\nbhd_\delta(a)\implies f(x)\in\nbhd_\varepsilon(f(a))\\
-	\color{gray!50}\iff&\color{gray!50}\forall\varepsilon>0,\ \exists\delta>0\quad\text{such that }\quad f(x)\in f[\nbhd_\delta(a)]\implies f(x)\in\nbhd_\varepsilon(f(a))&\color{gray!50}\because f[\nbhd_\delta(a)]=\set{f(x):x\in\nbhd_\delta(a)}\\
-	\iff&\forall\varepsilon>0,\ \exists\delta>0\quad\text{such that }\quad f[\nbhd_\delta(a)]\subseteq\nbhd_\varepsilon\left(f(a)\right).
+	&\forall\varepsilon>0,\ \exists\delta>0\quad\text{such that }\quad 0<\abs{x-a}<\delta\implies|f(x)-f(a)|<\varepsilon \\
+	\color{blue}\iff&\color{blue}\forall\varepsilon>0,\ \exists\delta>0\quad \text{such that }\quad x\in(a-\delta,a)\cup(a,a+\delta)\implies f(x)\in(f(a)-\varepsilon,f(a)+\varepsilon)\\
+	\iff&\forall\varepsilon>0,\ \exists\delta>0\quad\text{such that }\quad x\in\nbhd_\delta(a)\setminus\set{a}\implies f(x)\in\nbhd_\varepsilon(f(a))\\
+	\color{gray!50}\iff&\color{gray!50}\forall\varepsilon>0,\ \exists\delta>0\quad\text{such that }\quad f(x)\in f[\nbhd_\delta^*(a)]\implies f(x)\in\nbhd_\varepsilon(f(a))\quad\quad\color{gray!50}\because f[\nbhd_\delta^*(a)]=\set{f(x):x\in\nbhd_\delta^*(a)}\\
+	\iff&\forall\varepsilon>0,\ \exists\delta>0\quad\text{such that }\quad f[\nbhd_\delta^*(a)]\subseteq\nbhd_\varepsilon\left(f(a)\right).
 \end{align*}
 \begin{center}
 \begin{tikzpicture}[scale=1.25]
 	\draw[thick] (-2,0) ellipse (1.5 and 2);
 	\draw[blue, dotted, thick] (-2,0) ellipse (1 and 1);
-	\node[above] at (-2,1) {$\nbhd_\delta(a)$};
+	\node[above, blue] at (-2,1) {$\nbhd_\delta(a)^*$};
 	\draw[thick] (2,0) ellipse (1.5 and 2);
 	\node[red, above] at (2,1.25) {$\nbhd_\varepsilon(f(a))$};
 	\draw[red, dotted, thick] (2,0) ellipse (1.25 and 1.25);
 	\draw[blue, dotted, thick] (2,0) ellipse (.75 and .75);
-	\node[blue, right] at (2.5,.5) {$f[\nbhd_\delta (a)]$};
+	\node[blue, right, align=left] at (2.5,.5) {$f[\nbhd_\delta^* (a)]$};
 	
 	% Labels for sets
 	\node at (-2, 2.25) {$S$};
@@ -828,6 +855,7 @@ A subset $\topology$ of power set $2^S$ is a topology on $S$ if and only if \beg
 	\draw[blue, dotted, thick] (-2, -1) -- (1.75, -.75);
 	
 	\filldraw (-2,0) circle (1pt) node[below] {$a$};
+	\draw[blue] (-2,0) circle (2pt);
 	\filldraw (2,0) circle (1pt) node[below] {$f(a)$};
 	\draw[|->] (-1.85, 0) -- (1.85, 0);
 	
@@ -839,7 +867,7 @@ A subset $\topology$ of power set $2^S$ is a topology on $S$ if and only if \beg
 \begin{remark*}
 	$f$ is discontinuous at $a$ if and only if \begin{align*}
 		&\exists\varepsilon>0\quad\text{such that}\quad\forall\delta>0,\ \abs{x-a}<\delta\ \text{but}\ |{f(x)-f(a)}|\geq\varepsilon\\
-		\iff &\exists\varepsilon>0\quad\text{such that}\quad\forall\delta>0,\ \nbhd_\varepsilon\left(f(a)\right)\subset f\left[\nbhd_\delta(a)\right].
+		\iff &\exists\varepsilon>0\quad\text{such that}\quad\forall\delta>0,\ \nbhd_\varepsilon\left(f(a)\right)\subset f\left[\nbhd_\delta^*(a)\right].
 	\end{align*}
 \end{remark*}
 %\newpage
@@ -866,8 +894,103 @@ A subset $\topology$ of power set $2^S$ is a topology on $S$ if and only if \beg
 %\end{proof}
 
 \newpage
-\begin{note}
-	TBA
+\begin{note}[]
+Consider a metric space $(\R,\tau_d)$, where a sequence $\set{a_n}_{i=1}^\infty\subseteq \R$ converges to a point $L\in \R$. A sequence $\set{a_n}_{i=1}^\infty\subseteq \R$ converges to $L\in\R$ if and only if 
+\begin{align*}
+&\forall U\in\tau_d\ \text{with}\ L\in U,\ \exists N\in\N\ \text{such that}\ \left[ n\geq N\implies a_n\in U\right]\\
+\iff&\forall\varepsilon>0,\ \exists N\in\N\ \text{such that}\ \left[ n\geq N\implies \abs{a_n-L}<\varepsilon\right].
+\end{align*}
+
+\thmbox[Limit Theorem (Topology)]{
+\begin{theorem*} 
+	Let $\set{a_n}\subseteq\R$ and $\set{b_n}\subseteq\R$. Let $\lim\limits_{n\to\infty}a_n=\alpha\in\R$, $\lim\limits_{n\to\infty}b_n=\beta\in\R$, and $k\in\R$. Then 
+	\begin{enumerate}[(1)]
+		\item $\lim\limits_{n\to\infty}k a_n=k\alpha=k\lim\limits_{n\to\infty}a_n$.
+		\item $\lim\limits_{n\to\infty}a_n\pm b_n=\alpha\pm\beta=\lim\limits_{n\to\infty}a_n\pm\lim\limits_{n\to\infty}b_n$.
+		\item $\lim\limits_{n\to\infty}a_n b_n=\alpha\beta=\lim\limits_{n\to\infty}a_n\lim\limits_{n\to\infty}b_n$.
+		\item $\displaystyle\lim\limits_{n\to\infty}\frac{a_n}{b_n}=\frac{\alpha}{\beta}=\frac{\lim\limits_{n\to\infty}a_n}{\lim\limits_{n\to\infty}b_n}$. \normalfont (Here, $\beta\neq 0$ and $b_n\neq 0$)
+		%	\item $\lim\limits_{n\to\infty}\abs{a_n}=\abs{\lim\limits_{n\to\infty}a_n}=\abs{A}$.
+		%	\item $\lim\limits_{n\to\infty}(a_n)^p=A^p$. (Here, $p\in\N$).
+		%	\item $[\exists K:n\geq K\implies a_n\leq b_n]\implies A\leq B$.
+	\end{enumerate}
+\end{theorem*}}
+\begin{proof}	
+\ \begin{flushleft}
+\begin{minipage}[t]{0.495\textwidth}
+\begin{enumerate}[(1)]
+	\item \textcolor{blue}{Let $\varepsilon>0$}. If $k=0$, it is trivial. Let $k\neq 0$. Since $\lim\limits_{n\to\infty}a_n=\alpha$, we know \[
+	\textcolor{blue}{\exists N\in\N}\ \text{s.t.}\ \left[n\geq N\implies\abs{a_n-\alpha}<\textcolor{red}{\frac{\varepsilon}{\abs{k}}}\right]
+	\] Thus, \textcolor{blue}{if $n\geq N$ then} \begin{align*}
+		\textcolor{blue}{\abs{ka_n-k\alpha}}&=\abs{k(a_n-\alpha)}\\
+		&=\abs{k}\abs{a_n-\alpha}\quad\because \abs{xy}=\abs{x}\abs{y}\\
+		&\textcolor{blue}{<}\abs{k}\cdot\textcolor{red}{\frac{\varepsilon}{\abs{k}}}\\
+		&=\textcolor{blue}{\varepsilon}.
+	\end{align*}
+\end{enumerate}
+\end{minipage}%
+\hfill\vline
+\begin{minipage}[t]{0.49\textwidth}
+\begin{enumerate}[(1)]
+	\item \textcolor{blue}{Let $U$ be a neighborhood of $k\alpha$}. Then $\exists\varepsilon>0$ s.t. $\nbhd_{\varepsilon}(k\alpha)\subseteq U$. Let $k\neq 0$. Since $\lim\limits_{n\to\infty}a_n=\alpha$, we know \[
+	\textcolor{blue}{\exists N\in\N}\ \text{s.t.}\ \left[n\geq N\implies a_n\in \textcolor{red}{\intoo{\alpha-\frac{\varepsilon}{\abs{k}},\alpha+\frac{\varepsilon}{\abs{k}}}}\right]
+	\] Thus, \textcolor{blue}{if $n\geq N$ then} \begin{align*}
+		\textcolor{blue}{k\alpha_n\in}\intoo{k\alpha-\varepsilon,k\alpha+\varepsilon}\subseteq \textcolor{blue}{U}.
+	\end{align*}
+\end{enumerate}
+\end{minipage}
+\end{flushleft}
+
+\newpage
+\textcolor{blue}{Let $\varepsilon>0$}. \begin{enumerate}[(1)]
+	\item If $k=0$, it is trivial. Let $k\neq 0$. Since $\lim\limits_{n\to\infty}a_n=\alpha$, we know \[
+	\textcolor{blue}{\exists N\in\N}\ \text{such that}\ \left[n\geq N\implies\abs{a_n-\alpha}<\textcolor{red}{\frac{\varepsilon}{\abs{k}}}\right]\label{eq:eq1} \tag{*}
+	\] Thus, \textcolor{blue}{if $n\geq N$ then} \begin{align*}
+		\textcolor{blue}{\abs{ka_n-k\alpha}}&=\abs{k(a_n-\alpha)}\\
+		&=\abs{k}\abs{a_n-\alpha}\quad\because \abs{xy}=\abs{x}\abs{y}\\
+		&\textcolor{blue}{<}\abs{k}\cdot\textcolor{red}{\frac{\varepsilon}{\abs{k}}}\quad\text{by (*)}\\
+		&=\textcolor{blue}{\varepsilon}.
+	\end{align*}
+	\item Since $\lim\limits_{n\to\infty}a_n=\alpha$ and $\lim\limits_{n\to\infty}b_n=\beta$, we know that \begin{align*}
+		\exists N_1\in\N\ \text{such that}\ \left[n\geq N_1\implies\abs{a_n-\alpha}<\textcolor{red}{\frac{\varepsilon}{2}}\right]\label{eq:eq2} \tag{**}\\
+		\exists N_2\in\N\ \text{such that}\ \left[n\geq N_2\implies\abs{b_n-\beta}<\textcolor{red}{\frac{\varepsilon}{2}}\right]\label{eq:eq3} \tag{***}
+	\end{align*} Let $\textcolor{blue}{N=\max\set{N_1,N_2}}$. \textcolor{blue}{If $n\geq N$ then} \begin{align*}
+		\textcolor{blue}{\abs{(a_n+ b_n)-(\alpha+ \beta)}}&=\abs{(a_n-\alpha)+(b_n-\beta)}\\
+		&\leq\abs{a_n-\alpha}+\abs{b_n-\beta}\quad\text{by Triangle Inequality}\\
+		&\textcolor{blue}{<}\textcolor{red}{\frac{\varepsilon}{2}}+\textcolor{red}{\frac{\varepsilon}{2}}\quad\text{by (**) and (***)}\\
+		&=\textcolor{blue}{\varepsilon}.
+	\end{align*} and \[
+	\textcolor{blue}{\abs{(a_n- b_n)-(\alpha- \beta)}}=\abs{(a_n-\alpha)+(-b_n+\beta)}\leq\abs{a_n-\alpha}+\abs{b_n-\beta}\textcolor{blue}{<}\textcolor{red}{\frac{\varepsilon}{2}}+\textcolor{red}{\frac{\varepsilon}{2}}=\textcolor{blue}{\varepsilon}.
+	\]
+	\vfill
+	\item  By \hyperlink{pro3}{\textbf{Proposition 3}}, $\set{a_n}$ is bounded and so \[
+	\exists M>0\ \text{such that}\ \forall n\in N,\ \abs{a_n}\leq M.
+	\] Note that \begin{align*}
+		\lim\limits_{n\to\infty}a_n=\alpha\implies\exists N_1\in\N:&\left[n\geq N_1\implies\abs{a_n-\alpha}<\textcolor{red}{\frac{\varepsilon}{2\abs{\beta}+1}}\right],\\ \lim\limits_{n\to\infty}b_n=\beta\implies\exists N_2\in\N:&\left[n\geq N_2\implies\abs{b_n-\beta}<\textcolor{red}{\frac{\varepsilon}{2M}}\right].
+	\end{align*} Let $\textcolor{blue}{N=\max\set{N_1,N_2}}$. \textcolor{blue}{If $n\geq N$ then} \begin{align*}
+		\textcolor{blue}{\abs{a_nb_n-\alpha\beta}}=\abs{a_nb_n-\alpha\beta\ \textcolor{green!50!black}{+\ a_n\beta\ -\ a_n\beta}}&=\abs{a_n(b_n-\beta)+\beta(a_n-\alpha)}\\
+		&\leq\abs{a_n}\abs{b_n-\beta}+\abs{\beta}\abs{a_n-\alpha}\\
+		&<M\cdot\textcolor{red}{\frac{\varepsilon}{2M}}+\textcolor{red}{\frac{\abs{\beta}}{2\abs{\beta}+1}}\cdot\varepsilon\\
+		&\textcolor{blue}{<}\frac{\varepsilon}{2}+\frac{\varepsilon}{2}=\textcolor{blue}{\varepsilon}.
+	\end{align*} \textcolor{gray!50}{Note that $2\abs{\beta}<2\abs{\beta}+1\Leftrightarrow\frac{\abs{\beta}}{2\abs{\beta}+1}<\frac{1}{2}$.}
+	\item It is enough to prove that $\displaystyle\lim\limits_{n\to\infty}\frac{1}{b_n}=\frac{1}{\beta}$ with $b_n\neq 0$ and $\beta\neq 0$. Note that Triangle Inequality implies that \[
+	\abs{y}=\abs{y-x+x}\leq\abs{y-x}+\abs{x}\iff\abs{y}-\abs{x}\leq\abs{y-x}
+	\] for any $x,y\in\R$. Since $\lim\limits_{n\to\infty}b_n=\beta$, for $\displaystyle\textcolor{red}{\frac{1}{2}\abs{\beta}}\textcolor{blue}{>0}$, $\exists N_1\in\N$ such that if $n\geq N_1$ \[
+	\abs{\beta}-\abs{b_n}\leq\abs{\beta-b_n}=\abs{b_n-\beta}<\textcolor{red}{\frac{1}{2}\abs{\beta}}.
+	\] Thus, we obtain that \[
+	\abs{\beta}-\abs{b_n}<\frac{1}{2}\abs{\beta}\implies\frac{1}{2}\abs{\beta}<\abs{b_n}\implies\textcolor{teal}{\frac{1}{b_n}<\frac{2}{\abs{\beta}}}
+	\] And \[
+	\exists N_2\in\N:\left[n\geq N_2\implies\textcolor{orange}{\abs{b_n-\beta}<\frac{\beta^2}{2}\varepsilon}\right].
+	\] Let \textcolor{blue}{$N=\max\set{N_1,N_2}$}. \textcolor{blue}{If $n\geq N$ then} \[
+	\textcolor{blue}{\abs{\frac{1}{b_n}-\frac{1}{\beta}}}=\abs{\frac{\beta-b_n}{\beta b_n}}=\frac{\textcolor{orange}{\abs{b_n-\beta}}}{\abs{\beta}\textcolor{teal}{\abs{b_n}}}\textcolor{blue}{<}\textcolor{orange}{\varepsilon\cdot\frac{\beta^2}{2}}\cdot\frac{1}{\abs{\beta}}\textcolor{teal}{\cdot\frac{2}{\abs{\beta}}}=\textcolor{blue}{\varepsilon}.
+	\]
+\end{enumerate}
+\end{proof}
+%Let $(X,\tau_X)$ and $(Y,\tau_Y)$ be topological spaces with the standard topology (generated by open intervals/disks). A function $f:X\to Y$ is said to converge to $L\in Y$ at $x_0\in X$ if \begin{align*}
+%	&\forall\varepsilon>0,\ \exists\delta>0\ \text{such that }\ 0<\abs{x-x_0}<\delta\implies|f(x)-L|<\varepsilon\\
+%	\iff&\forall\varepsilon>0,\ \exists\delta>0\ \text{such that }\ x\in\nbhd_\delta(x_0)\setminus\set{x_0}\implies f(x)\in\nbhd_{\varepsilon}(L)\\
+%	\color{blue}\iff&\color{blue}\forall\varepsilon>0,\ \exists\delta>0\ \text{such that }\ x\in(x_0-\varepsilon,x_0)\cup(x_0,x_0+\delta)\implies f(x)\in(L-\varepsilon,L+\varepsilon)\\
+%	\iff&\forall\varepsilon>0,\ \exists\delta>0\ \text{such that }\ x\in\nbhd_\delta(x_0)\setminus\set{x_0}\implies f(x)\in\nbhd_{\varepsilon}(L).
+%\end{align*}
 \end{note}
 \begin{note}
 	TBA
