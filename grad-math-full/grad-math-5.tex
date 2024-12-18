@@ -506,7 +506,7 @@ A subset $\topology$ of power set $2^S$ is a topology on $S$ if and only if \beg
 \end{example}
 \newpage
 \defbox[Open Epsilon-Ball]{\begin{definition*}
- Let $(S,d)$ be a metric space, where $S$ is a set and $d:S\times S\to\R$ is a metric. For $x\in S$ and $\varepsilon\in\R_{>0}$, the \textbf{open $\boldsymbol{\varepsilon}$-ball of $x$ in $S$}, denoted by $B_\varepsilon(x)$, is defined as \[
+ Let $(S,d)$ be a metric space, where $S$ is a set and $d:S\times S\to\R$ is a metric. For $x\in S$ and $\varepsilon\in\R_{>0}$, the \textbf{open $\boldsymbol{\varepsilon}$-ball}\footnote{Open ball with center $x$ and radius $\varepsilon$} \textbf{of $x$ in $S$}, denoted by $B_\varepsilon(x)$, is defined as \[
  B_\varepsilon(x):=\set{y\in S:d(x,y)<\varepsilon}.
  \]
 \end{definition*}}
@@ -546,15 +546,54 @@ A subset $\topology$ of power set $2^S$ is a topology on $S$ if and only if \beg
 \defbox[Neighborhood (Topology)]{\begin{definition*}
 	Let $(S,\tau)$ be a topological space. 
 	\begin{enumerate}[(1)]
-		\item (Neighborhood of a Set) Let $A\subseteq S$. A \textbf{neighborhood of $A$} is \[
-		\nbhd_A\quad\text{satisfying}\quad \exists U\in\tau\ \text{such that}\ A\subseteq U\subseteq\nbhd_A\subseteq S.
+		\item (Neighborhood of a Set) Let $A\subseteq S$. $\nbhd_A$ is a \textbf{neighborhood of $A$} if \[
+		\exists U\in\tau\ \text{such that}\ A\subseteq U\subseteq\nbhd_A\subseteq S.
 		\]
 		\item (Neighborhood of a Point) Consider a singleton $\set{a}=A\subseteq S$, that is, $a\in S$ be a point in $S$. Then $\nbhd_{a}$ is a \textbf{neighborhood} of $a\in S$ if \[
 		\exists U\in\tau\ \text{such that}\ a\in U\subseteq\nbhd_a\subseteq S.
 		\]
 	\end{enumerate}
 \end{definition*}}
-
+%\begin{center}
+%\begin{tikzpicture}
+%	% Topological space S
+%	\draw[thick, rounded corners=20pt, blue!50, fill=blue!10] (0, 0) rectangle (8, 6) node[above left] {\Large $S$};
+%	
+%	% Neighborhood of a set (A)
+%	\node[draw, thick, ellipse, fill=orange!20, label=below:{\Large $\nbhd_A$}] 
+%	(neighborhoodA) at (3.5, 4.5) [minimum width=4.5cm, minimum height=2.5cm] {};
+%	
+%	% Open set containing A
+%	\node[draw, thick, ellipse, fill=green!20, label=below:{\Large $U$}] 
+%	(openSet) at (3.5, 4.5) [minimum width=3.5cm, minimum height=2cm] {};
+%	
+%	% Subset A
+%	\node[draw, thick, ellipse, fill=red!30, label=below:{\Large $A$}] 
+%	(subsetA) at (3.5, 4.5) [minimum width=2cm, minimum height=1cm] {};
+%	
+%	% Explanation for neighborhood of a set
+%	\node at (3.5, 5.7) {\textbf{Neighborhood of a Set}};
+%	\node[align=center] at (3.5, 3.2) 
+%	{\small $A \subseteq U \subseteq \nbhd_A \subseteq S$};
+%	
+%	% Neighborhood of a point (a)
+%	% Point a
+%	\node[circle, draw=thick, blue, minimum size=6pt, fill=blue, label=below:{\Large $a$}] 
+%	(point) at (6.5, 2) {};
+%	
+%	% Neighborhood of the point
+%	\draw[thick, dashed, red!50] (6.5, 2) circle (1.5) node[below right] {\Large $\nbhd_a$};
+%	
+%	% Open set containing the point
+%	\draw[thick, green!50, dotted] (6.5, 2) circle (1) node[above right] {\Large $U$};
+%	
+%	% Explanation for neighborhood of a point
+%	\node at (6.5, 4) {\textbf{Neighborhood of a Point}};
+%	\node[align=center] at (6.5, 0.5) 
+%	{\small $a \in U \subseteq \nbhd_a \subseteq S$};
+%	
+%\end{tikzpicture}
+%\end{center}
 \newpage
 \defbox[Open Set (Metric Space)]{\begin{definition*}
 	Let $(S,d)$ be a metric space, where $S$ is a set and $d:S\times S\to\R$ is a metric.
@@ -566,9 +605,9 @@ A subset $\topology$ of power set $2^S$ is a topology on $S$ if and only if \beg
 \end{definition*}}
 \begin{remark*}
 \ \begin{center}
-\begin{tikzpicture}[scale=1]
+\begin{tikzpicture}[scale=.85]
 	% Draw the main set S
-	\draw[thick, dashed, gray] (-6,-4.5) rectangle (10,4.25) node[black, above left] {Metric Space $S$};
+	\draw[thick, dashed, gray] (-6,-4.5) rectangle (10,4.25) node[black, above left] {Metric Space $(S,d)$};
 %	\draw[thick, dashed, gray] (0,0) circle [radius=5] node[above right=4cm, black] {Metric Space $S$};
 	
 	% Draw the subset U
@@ -598,7 +637,7 @@ A subset $\topology$ of power set $2^S$ is a topology on $S$ if and only if \beg
 %	\filldraw[black] (1.8,1.5) circle (2pt) node[right] {$q \in \nbhd_\varepsilon(p)$};
 	
 	% Add text labels
-	\node[] at (7,-4) {
+	\node[] at (6.75,-4) {
 		\begin{minipage}{7cm}
 			\small
 			\textbf{Every point $p \in U$ has an}\\ \textbf{$\varepsilon$-neighborhood $\nbhd_\varepsilon(p)$ contained in $U$.}
@@ -607,6 +646,44 @@ A subset $\topology$ of power set $2^S$ is a topology on $S$ if and only if \beg
 	% Arrow showing that epsilon-neighborhood is within U
 %	\draw[->, thick, blue] (2.5,0.5) -- (1.2,1) node[midway, above, blue] {$\nbhd_\varepsilon(p) \subseteq U$};
 \end{tikzpicture}
+\begin{remark*}
+	Let $(S,\tau)$ be a topological space. Then \[
+	U\subseteq S\ \text{is \textbf{open} in $S$}\overset{\text{def}}{\iff}\forall p\in U,\exists V\in\tau\ \text{such that}\ p\in V\subseteq U.
+	\]\begin{center}
+	\begin{tikzpicture}[scale=.85]
+		\draw[thick, dashed, gray] (-6,-4.5) rectangle (10,4.25) node[black, above left] {Topological Space $(S,\tau)$};
+		
+%		\fill[pattern=north west lines, pattern color=blue!10] (0,0) circle [radius=4];
+		\node[right=3.5cm, blue] at (0,0) {$U$};
+		\draw[blue, thick, dashed, smooth] plot coordinates {(-4.5,0) (-4.5,-2) (-3, -3) (-2, -4) (-1, -3.5) (1, -4) (3,-3.25) (4, -3) (5, -2) (5, -1) (4, 0) (4, 1) (3.5, 2) (3.5, 3) (2, 4) (0,3.5) (-1, 3.75) (-2, 4) (-3, 2) (-4, 1) (-4.5,0)};
+		\fill[pattern=north west lines, pattern color=blue!10, smooth] plot coordinates {(-4.5,0) (-4.5,-2) (-3, -3) (-2, -4) (-1, -3.5) (1, -4) (3,-3.25) (4, -3) (5, -2) (5, -1) (4, 0) (4, 1) (3.5, 2) (3.5, 3) (2, 4) (0,3.5) (-1, 3.75) (-2, 4) (-3, 2) (-4, 1) (-4.5,0)};
+		
+		% Draw the epsilon-neighborhood around p
+		\node[above=1.25cm] at (1,1) {\textcolor{green!50!black}{$\exists V_1\in\tau$}};
+		\draw[green!50!black, thick, dashed, smooth] plot coordinates {(0,1) (.5,.8) (1,0) (2.5,1.5) (2.5,2.2) (2, 2.5) (1, 2) (.5, 2) (0,1)};
+		\fill[pattern=north east lines, pattern color=green!50, smooth] plot coordinates {(0,1) (.5,.8) (1,0) (2.5,1.5) (2.5,2.2) (2, 2.5) (1, 2) (.5, 2) (0,1)};
+		
+		\node[right=.5cm] at (-3.5,0) {\textcolor{green!50!black}{$\exists V_2\in\tau$}};
+		\draw[green!50!black, thick, dashed, smooth] plot coordinates {(-3.75,0) (-3.5,1) (-3.25,1) (-3,0) (-3,-1) (-2,-2) (-3,-2) (-3.5,-1) (-3.9, -.5) (-3.75,0)};
+		\fill[pattern=north east lines, pattern color=green!50, smooth] plot coordinates {(-3.75,0) (-3.5,1) (-3.25,1) (-3,0) (-3,-1) (-2,-2) (-3,-2) (-3.5,-1) (-3.9, -.5) (-3.75,0)};
+		
+		\node[above=0.75cm] at (2,-2) {\textcolor{green!50!black}{$\exists V_3\in\tau$}};
+		\draw[green!50!black, thick, dashed, smooth] plot coordinates {(1,-2) (1.5,-1.5) (1.5, -1) (3, -1.5) (2.5, -2) (2.75,-2.5) (2, -3) (1.5, -3.5) (1,-2)};
+		\fill[pattern=north east lines, pattern color=green!50, smooth] plot coordinates {(1,-2) (1.5,-1.5) (1.5, -1) (3, -1.5) (2.5, -2) (2.75,-2.5) (2, -3) (1.5, -3.5) (1,-2)};
+		
+		% Mark a point p in U
+		\filldraw[red] (1,1) circle (2pt) node[above right] {$p_1$};
+		\filldraw[red] (-3.5,0) circle (2pt) node[below] {$p_2$};
+		\filldraw[red] (2,-2) circle (2pt) node[below] {$p_3$};
+		
+		\node[] at (7,-4) {
+			\begin{minipage}{7cm}
+				\small
+				\textbf{Every point $p \in U$ has an}\\ \textbf{open set $V\in\tau$ such that $p\in V\subseteq U$.}
+			\end{minipage}
+		};
+	\end{tikzpicture}\end{center}
+\end{remark*}
 \end{center}
 \end{remark*}
 \newpage
