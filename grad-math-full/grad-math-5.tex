@@ -749,8 +749,8 @@ A subset $\topology$ of power set $2^S$ is a topology on $S$ if and only if \beg
 	
 	% Draw L and epsilon lines
 	\draw[dashed, magenta, opacity=.3] (0,\L) -- (\xMax+1,\L) node[right] {$L$};
-	\draw[dashed, opacity=.3] (0,\L+\epsilon) -- (\xMax+1,\L+\epsilon) node[right] {$L+1$};
-	\draw[dashed, opacity=.3] (0,\L-\epsilon) -- (\xMax+1,\L-\epsilon) node[right] {$L-1$};
+	\draw[dashed, opacity=.3] (0,\L+\epsilon) -- (\xMax+1,\L+\epsilon) node[right] {$L+\varepsilon$};
+	\draw[dashed, opacity=.3] (0,\L-\epsilon) -- (\xMax+1,\L-\epsilon) node[right] {$L-\varepsilon$};
 	
 	% Mark the N line
 	\draw[dashed, green!50!black] (\N,0) -- (\N,\yMax) node[at start, below] {$N$};
@@ -972,15 +972,23 @@ A subset $\topology$ of power set $2^S$ is a topology on $S$ if and only if \beg
 
 \newpage
 \begin{note}[]
-Consider a metric space $(\R,\tau_d)$, where a sequence $\set{a_n}_{i=1}^\infty\subseteq \R$ converges to a point $L\in \R$. A sequence $\set{a_n}_{i=1}^\infty\subseteq \R$ converges to $L\in\R$ if and only if 
+Consider a topological space $(\R,\tau_d)$, where \begin{align*}
+	\tau_d:&=\set{U\subseteq\R:\forall p\in U,\ \exists\varepsilon>0\ \text{such that}\ \nbhd_\varepsilon(p)\subseteq U}.
+\end{align*}
+A sequence $\set{a_n}_{i=1}^\infty\subseteq \R$ converges to $L\in\R$ if and only if 
 \begin{align*}
-&\forall U\in\tau_d\ \text{with}\ L\in U,\ \exists N\in\N\ \text{such that}\ \left[ n\geq N\implies a_n\in U\right]\\
-\iff&\forall\varepsilon>0,\ \exists N\in\N\ \text{such that}\ \left[ n\geq N\implies \abs{a_n-L}<\varepsilon\right].
+&\forall\varepsilon>0,\ \exists N\in\N\ \text{such that}\ \left[ n\geq N\implies \abs{a_n-L}<\varepsilon\right]\\
+\iff&\forall\varepsilon>0,\ \exists N\in\N\ \text{such that}\ \left[ n\geq N\implies a_n\in(L-\varepsilon,L+\varepsilon)\right]\\
+\iff&\forall\varepsilon>0,\ \exists N\in\N\ \text{such that}\ \left[ n\geq N\implies a_n\in\nbhd_{\varepsilon}(L)\right]\\
+\iff&\forall U\in\tau_d\ \text{with}\ L\in U,\ \exists N\in\N\ \text{such that}\ \left[ n\geq N\implies a_n\in U\right].
 \end{align*}
 
+\newpage
 \thmbox[Limit Theorem (Topology)]{
 \begin{theorem*} 
-	Let $\set{a_n}\subseteq\R$ and $\set{b_n}\subseteq\R$. Let $\lim\limits_{n\to\infty}a_n=\alpha\in\R$, $\lim\limits_{n\to\infty}b_n=\beta\in\R$, and $k\in\R$. Then 
+	Consider a topological space $(\R,\tau_d)$, where \begin{align*}
+		\tau_d:&=\set{U\subseteq\R:\forall p\in U,\ \exists\varepsilon>0\ \text{such that}\ \nbhd_\varepsilon(p)\subseteq U}.
+	\end{align*} Let $\set{a_n}\subseteq\R$ and $\set{b_n}\subseteq\R$. Let $\lim\limits_{n\to\infty}a_n=\alpha\in\R$, $\lim\limits_{n\to\infty}b_n=\beta\in\R$, and $k\in\R$. Then 
 	\begin{enumerate}[(1)]
 		\item $\lim\limits_{n\to\infty}k a_n=k\alpha=k\lim\limits_{n\to\infty}a_n$.
 		\item $\lim\limits_{n\to\infty}a_n\pm b_n=\alpha\pm\beta=\lim\limits_{n\to\infty}a_n\pm\lim\limits_{n\to\infty}b_n$.
@@ -993,62 +1001,123 @@ Consider a metric space $(\R,\tau_d)$, where a sequence $\set{a_n}_{i=1}^\infty\
 \end{theorem*}}
 \begin{proof}	
 \ \begin{flushleft}
-\begin{minipage}[t]{0.495\textwidth}
+\begin{minipage}[t]{0.475\textwidth}
 \begin{enumerate}[(1)]
-	\item \textcolor{blue}{Let $\varepsilon>0$}. If $k=0$, it is trivial. Let $k\neq 0$. Since $\lim\limits_{n\to\infty}a_n=\alpha$, we know \[
-	\textcolor{blue}{\exists N\in\N}\ \text{s.t.}\ \left[n\geq N\implies\abs{a_n-\alpha}<\textcolor{red}{\frac{\varepsilon}{\abs{k}}}\right]
+	\item \textcolor{blue}{Let $\varepsilon>0$}. Since $\lim\limits_{n\to\infty}a_n=\alpha$, we know \[
+	\textcolor{blue}{\exists N\in\N}\ \text{s.t.}\ n\geq N\implies\abs{a_n-\alpha}<\textcolor{red}{\frac{\varepsilon}{\abs{k}+1}}
 	\] Thus, \textcolor{blue}{if $n\geq N$ then} \begin{align*}
 		\textcolor{blue}{\abs{ka_n-k\alpha}}&=\abs{k(a_n-\alpha)}\\
 		&=\abs{k}\abs{a_n-\alpha}\quad\because \abs{xy}=\abs{x}\abs{y}\\
-		&\textcolor{blue}{<}\abs{k}\cdot\textcolor{red}{\frac{\varepsilon}{\abs{k}}}\\
-		&=\textcolor{blue}{\varepsilon}.
+		&<\abs{k}\cdot\textcolor{red}{\frac{\varepsilon}{\abs{k}+1}}\\
+		&\textcolor{blue}{<}\textcolor{blue}{\varepsilon}.
 	\end{align*}
 \end{enumerate}
 \end{minipage}%
 \hfill\vline
 \begin{minipage}[t]{0.49\textwidth}
 \begin{enumerate}[(1)]
-	\item \textcolor{blue}{Let $U$ be a neighborhood of $k\alpha$}. Then $\exists\varepsilon>0$ s.t. $\nbhd_{\varepsilon}(k\alpha)\subseteq U$. Let $k\neq 0$. Since $\lim\limits_{n\to\infty}a_n=\alpha$, we know \[
-	\textcolor{blue}{\exists N\in\N}\ \text{s.t.}\ \left[n\geq N\implies a_n\in \textcolor{red}{\intoo{\alpha-\frac{\varepsilon}{\abs{k}},\alpha+\frac{\varepsilon}{\abs{k}}}}\right]
+	\item \textcolor{blue}{Let $U\in\tau_d$ with $k\alpha\in U$}. Since $k\alpha\in U$, by definition of $\tau_d$, we have \[
+	\exists\varepsilon>0\ \text{such that}\ \nbhd_{\varepsilon}(k\alpha)\subseteq U.
+	\] Since $\lim\limits_{n\to\infty}a_n=\alpha$, we know \[
+	\textcolor{blue}{\exists N\in\N}\ \text{s.t.}\ n\geq N\Rightarrow a_n\in {\intoo{\alpha-\textcolor{red}{\frac{\varepsilon}{\abs{k}+1}},\alpha+\textcolor{red}{\frac{\varepsilon}{\abs{k}+1}}}}.
 	\] Thus, \textcolor{blue}{if $n\geq N$ then} \begin{align*}
-		\textcolor{blue}{k\alpha_n\in}\intoo{k\alpha-\varepsilon,k\alpha+\varepsilon}\subseteq \textcolor{blue}{U}.
+		\textcolor{blue}{k\alpha_n}&\ \textcolor{blue}{\in}\intoo{k\alpha-k\cdot\textcolor{red}{\frac{\varepsilon}{\abs{k}+1}},k\alpha+k\cdot\textcolor{red}{\frac{\varepsilon}{\abs{k}+1}}}\\
+		&\subseteq\intoo{k\alpha-\varepsilon,k\alpha+\varepsilon}\\
+		&=\nbhd_\varepsilon(k\alpha)\subseteq\textcolor{blue}{U}.
 	\end{align*}
 \end{enumerate}
 \end{minipage}
 \end{flushleft}
-
 \newpage
-\textcolor{blue}{Let $\varepsilon>0$}. \begin{enumerate}[(1)]
-	\item If $k=0$, it is trivial. Let $k\neq 0$. Since $\lim\limits_{n\to\infty}a_n=\alpha$, we know \[
-	\textcolor{blue}{\exists N\in\N}\ \text{such that}\ \left[n\geq N\implies\abs{a_n-\alpha}<\textcolor{red}{\frac{\varepsilon}{\abs{k}}}\right]\label{eq:eq1} \tag{*}
-	\] Thus, \textcolor{blue}{if $n\geq N$ then} \begin{align*}
-		\textcolor{blue}{\abs{ka_n-k\alpha}}&=\abs{k(a_n-\alpha)}\\
-		&=\abs{k}\abs{a_n-\alpha}\quad\because \abs{xy}=\abs{x}\abs{y}\\
-		&\textcolor{blue}{<}\abs{k}\cdot\textcolor{red}{\frac{\varepsilon}{\abs{k}}}\quad\text{by (*)}\\
-		&=\textcolor{blue}{\varepsilon}.
-	\end{align*}
-	\item Since $\lim\limits_{n\to\infty}a_n=\alpha$ and $\lim\limits_{n\to\infty}b_n=\beta$, we know that \begin{align*}
-		\exists N_1\in\N\ \text{such that}\ \left[n\geq N_1\implies\abs{a_n-\alpha}<\textcolor{red}{\frac{\varepsilon}{2}}\right]\label{eq:eq2} \tag{**}\\
-		\exists N_2\in\N\ \text{such that}\ \left[n\geq N_2\implies\abs{b_n-\beta}<\textcolor{red}{\frac{\varepsilon}{2}}\right]\label{eq:eq3} \tag{***}
+\begin{flushleft}
+\begin{minipage}[t]{0.475\textwidth}
+\begin{enumerate}
+	\item[(2)] \textcolor{blue}{Let $\varepsilon>0$}. Since $\lim\limits_{n\to\infty}a_n=\alpha$ and $\lim\limits_{n\to\infty}b_n=\beta$, we know \begin{align*}
+		\exists N_1\in\N\ \text{s.t.}\ n\geq N_1\Rightarrow\abs{a_n-\alpha}<\textcolor{red}{\frac{\varepsilon}{2}},\\
+		\exists N_2\in\N\ \text{s.t.}\ n\geq N_2\Rightarrow\abs{b_n-\beta}<\textcolor{red}{\frac{\varepsilon}{2}}.
 	\end{align*} Let $\textcolor{blue}{N=\max\set{N_1,N_2}}$. \textcolor{blue}{If $n\geq N$ then} \begin{align*}
 		\textcolor{blue}{\abs{(a_n+ b_n)-(\alpha+ \beta)}}&=\abs{(a_n-\alpha)+(b_n-\beta)}\\
-		&\leq\abs{a_n-\alpha}+\abs{b_n-\beta}\quad\text{by Triangle Inequality}\\
-		&\textcolor{blue}{<}\textcolor{red}{\frac{\varepsilon}{2}}+\textcolor{red}{\frac{\varepsilon}{2}}\quad\text{by (**) and (***)}\\
+		&\leq\abs{a_n-\alpha}+\abs{b_n-\beta}\\
+		&\textcolor{blue}{<}\textcolor{red}{\frac{\varepsilon}{2}}+\textcolor{red}{\frac{\varepsilon}{2}}\\
 		&=\textcolor{blue}{\varepsilon}.
-	\end{align*} and \[
-	\textcolor{blue}{\abs{(a_n- b_n)-(\alpha- \beta)}}=\abs{(a_n-\alpha)+(-b_n+\beta)}\leq\abs{a_n-\alpha}+\abs{b_n-\beta}\textcolor{blue}{<}\textcolor{red}{\frac{\varepsilon}{2}}+\textcolor{red}{\frac{\varepsilon}{2}}=\textcolor{blue}{\varepsilon}.
-	\]
-	\vfill
-	\item  By \hyperlink{pro3}{\textbf{Proposition 3}}, $\set{a_n}$ is bounded and so \[
+	\end{align*} and \begin{align*}
+	\textcolor{blue}{\abs{(a_n- b_n)-(\alpha- \beta)}}&=\abs{(a_n-\alpha)+(-b_n+\beta)}\\
+	&\leq\abs{a_n-\alpha}+\abs{b_n-\beta}\\
+	&\textcolor{blue}{<}\textcolor{red}{\frac{\varepsilon}{2}}+\textcolor{red}{\frac{\varepsilon}{2}}=\textcolor{blue}{\varepsilon}.
+\end{align*}
+\end{enumerate}
+\end{minipage}%
+\hfill\vline
+\begin{minipage}[t]{0.485\textwidth}
+\begin{enumerate}
+	\item[(2)] \textcolor{blue}{Let $U\in\tau_d$ with $\alpha\pm\beta\in U$}. Since $\alpha\pm\beta\in U$, by definition of $\tau_d$, we have \[
+	\exists\varepsilon>0\ \text{such that}\ \nbhd_{\varepsilon}(\alpha\pm\beta)\subseteq U.
+	\] Since $\lim\limits_{n\to\infty}a_n=\alpha$ and $\lim\limits_{n\to\infty}b_n=\beta$, \begin{align*}
+	\textcolor{blue}{\exists N_1\in\N}\ \text{s.t.}\ n\geq N_1\Rightarrow a_n\in {\intoo{\alpha-\textcolor{red}{\frac{\varepsilon}{2}},\alpha+\textcolor{red}{\frac{\varepsilon}{2}}}},\\
+	\textcolor{blue}{\exists N_2\in\N}\ \text{s.t.}\ n\geq N_2\Rightarrow b_n\in {\intoo{\beta-\textcolor{red}{\frac{\varepsilon}{2}},\beta+\textcolor{red}{\frac{\varepsilon}{2}}}}.
+	\end{align*} Let $\textcolor{blue}{N=\max\set{N_1,N_2}}$. \textcolor{blue}{if $n\geq N$ then} \begin{align*}
+		\color{blue}a_n+b_n
+		&\ \textcolor{blue}{\in}\intoo{\alpha-\textcolor{red}{\frac{\varepsilon}{2}}+\beta-\textcolor{red}{\frac{\varepsilon}{2}},\alpha+\textcolor{red}{\frac{\varepsilon}{2}}+\beta+\textcolor{red}{\frac{\varepsilon}{2}}}\\
+		&=\intoo{\alpha+\beta-\varepsilon,\alpha+\beta+\varepsilon}\\
+		&=\nbhd_\varepsilon(\alpha+\beta)\subseteq\textcolor{blue}{U}
+	\end{align*}
+	and \begin{align*}
+		\color{blue} a_n+(-b_n)
+		&\ \textcolor{blue}{\in}\intoo{\alpha-\textcolor{red}{\frac{\varepsilon}{2}}-\beta-\textcolor{red}{\frac{\varepsilon}{2}},\alpha+\textcolor{red}{\frac{\varepsilon}{2}}-\beta+\textcolor{red}{\frac{\varepsilon}{2}}}\\
+		&=\intoo{\alpha-\beta-\varepsilon,\alpha-\beta+\varepsilon}\\
+		&=\nbhd_\varepsilon(\alpha-\beta)\subseteq\textcolor{blue}{U}.
+	\end{align*}
+\end{enumerate}
+\end{minipage}
+\end{flushleft}
+\begin{flushleft}
+\begin{minipage}[t]{0.45\textwidth}
+\begin{enumerate}
+	\item[(3)] \textcolor{blue}{Let $\varepsilon>0$}. Since $\set{a_n}$ is bounded, \[
 	\exists M>0\ \text{such that}\ \forall n\in N,\ \abs{a_n}\leq M.
-	\] Note that \begin{align*}
-		\lim\limits_{n\to\infty}a_n=\alpha\implies\exists N_1\in\N:&\left[n\geq N_1\implies\abs{a_n-\alpha}<\textcolor{red}{\frac{\varepsilon}{2\abs{\beta}+1}}\right],\\ \lim\limits_{n\to\infty}b_n=\beta\implies\exists N_2\in\N:&\left[n\geq N_2\implies\abs{b_n-\beta}<\textcolor{red}{\frac{\varepsilon}{2M}}\right].
+	\] Since $\lim\limits_{n\to\infty}a_n=\alpha$ and $\lim\limits_{n\to\infty}b_n=\beta$, \begin{align*}
+	&\exists N_1\in\N\ \text{s.t.}\ n\geq N_1\Rightarrow\abs{a_n-\alpha}<\textcolor{red}{\frac{\varepsilon}{2\abs{\beta}+1}},\\ 
+	&\exists N_2\in\N\ \text{s.t.}\ n\geq N_2\Rightarrow\abs{b_n-\beta}<\textcolor{red}{\frac{\varepsilon}{2M}}.
 	\end{align*} Let $\textcolor{blue}{N=\max\set{N_1,N_2}}$. \textcolor{blue}{If $n\geq N$ then} \begin{align*}
-		\textcolor{blue}{\abs{a_nb_n-\alpha\beta}}=\abs{a_nb_n-\alpha\beta\ \textcolor{green!50!black}{+\ a_n\beta\ -\ a_n\beta}}&=\abs{a_n(b_n-\beta)+\beta(a_n-\alpha)}\\
+		\textcolor{blue}{\abs{a_nb_n-\alpha\beta}}
+		&=\abs{a_nb_n-\alpha\beta\ \textcolor{green!50!black}{+\ a_n\beta\ -\ a_n\beta}}\\
+		&=\abs{a_n(b_n-\beta)+\beta(a_n-\alpha)}\\
 		&\leq\abs{a_n}\abs{b_n-\beta}+\abs{\beta}\abs{a_n-\alpha}\\
-		&<M\cdot\textcolor{red}{\frac{\varepsilon}{2M}}+\textcolor{red}{\frac{\abs{\beta}}{2\abs{\beta}+1}}\cdot\varepsilon\\
+		&<M\cdot\textcolor{red}{\frac{\varepsilon}{2M}}+\textcolor{red}{\frac{\textcolor{black}{\abs{\beta}}\cdot\varepsilon}{2\abs{\beta}+1}}\\
 		&\textcolor{blue}{<}\frac{\varepsilon}{2}+\frac{\varepsilon}{2}=\textcolor{blue}{\varepsilon}.
 	\end{align*} \textcolor{gray!50}{Note that $2\abs{\beta}<2\abs{\beta}+1\Leftrightarrow\frac{\abs{\beta}}{2\abs{\beta}+1}<\frac{1}{2}$.}
+\end{enumerate}
+\end{minipage}%
+%\hfill\vline
+\vline
+\begin{minipage}[t]{0.495\textwidth}
+\begin{enumerate}
+	\item[(3)] \textcolor{blue}{Let $U\in\tau_d$ with $\alpha\beta\in U$}. Since $\alpha\beta\in U$, by definition of $\tau_d$, we have \[
+	\exists\varepsilon>0\ \text{such that}\ \nbhd_{\varepsilon}(\alpha\beta)\subseteq U.
+	\] Since $\set{a_n}$ is bounded, \[
+	\exists M>0\ \text{such that}\ \forall n\in N,\ \abs{a_n}\leq M.
+	\] Since $\lim\limits_{n\to\infty}a_n=\alpha$ and $\lim\limits_{n\to\infty}b_n=\beta$, \begin{align*}
+		&\textcolor{blue}{\exists N_1\in\N}\ \text{s.t.}\ n\geq N_1\Rightarrow a_n\in {\intoo{\alpha-\textcolor{red}{\frac{\varepsilon}{2\abs{\beta}+1}},\alpha+\textcolor{red}{\frac{\varepsilon}{2\abs{\beta}+1}}}},\\
+		&\textcolor{blue}{\exists N_2\in\N}\ \text{s.t.}\ n\geq N_2\Rightarrow b_n\in {\intoo{\beta-\textcolor{red}{\frac{\varepsilon}{2M}},\beta+\textcolor{red}{\frac{\varepsilon}{2M}}}}.
+	\end{align*} Let $\textcolor{blue}{N=\max\set{N_1,N_2}}$, and \textcolor{blue}{let $n\geq N$}. Then \[
+	a_nb_n-\alpha\beta=a_nb_n-a_n\beta+a_n\beta=\underbrace{a_n(b_n-\beta)}_{\text{(i)}}+\underbrace{\beta(a_n-\alpha)}_{\text{(ii)}}.
+	\]\begin{align*}
+		&\text{(i)}\ b_n\in\intoo{\beta-\frac{\varepsilon}{2M},\beta+\frac{\varepsilon}{2M}}\\&\implies b_n-\beta\in\intoo{-\frac{\varepsilon}{2M},\frac{\varepsilon}{2M}}\\
+		&\implies a_n(b_n-\beta)\in\intoo{-M\cdot\frac{\varepsilon}{2M}, M\cdot\frac{\varepsilon}{2M}}=\intoo{-\frac{\varepsilon}{2},\frac{\varepsilon}{2}}.
+	\end{align*}
+	\begin{align*}
+		&\text{(ii)}\ a_n\in\intoo{\alpha-\frac{\varepsilon}{2\abs{\beta}+1},\alpha+\frac{\varepsilon}{2\abs{\beta}+1}}\\&\implies a_n-\alpha\in\intoo{-\frac{\varepsilon}{2\abs{\beta}+1},\frac{\varepsilon}{2\abs{\beta}+1}}\\
+		&\implies \beta(a_n-\alpha)\in\intoo{-\frac{\abs{\beta}\cdot\varepsilon}{2\abs{\beta}+1},\frac{\abs{\beta}\cdot\varepsilon}{2\abs{\beta}+1}}\subseteq\intoo{-\frac{\varepsilon}{2},\frac{\varepsilon}{2}}.
+	\end{align*}
+	Thus, \begin{align*}
+		&a_nb_n-\alpha\beta=a_n(b_n-\beta)+\beta(a_n-\alpha)\in\intoo{-\varepsilon,\varepsilon}\\
+		&\implies \textcolor{blue}{a_nb_n\in}\intoo{\alpha\beta-\varepsilon,\alpha\beta+\varepsilon}=\nbhd_{\varepsilon}(\alpha\beta)\subseteq \textcolor{blue}{U}.
+	\end{align*}
+\end{enumerate}
+\end{minipage}
+\end{flushleft}
+\newpage
+\textcolor{blue}{Let $\varepsilon>0$}. \begin{enumerate}[(1)]
 	\item It is enough to prove that $\displaystyle\lim\limits_{n\to\infty}\frac{1}{b_n}=\frac{1}{\beta}$ with $b_n\neq 0$ and $\beta\neq 0$. Note that Triangle Inequality implies that \[
 	\abs{y}=\abs{y-x+x}\leq\abs{y-x}+\abs{x}\iff\abs{y}-\abs{x}\leq\abs{y-x}
 	\] for any $x,y\in\R$. Since $\lim\limits_{n\to\infty}b_n=\beta$, for $\displaystyle\textcolor{red}{\frac{1}{2}\abs{\beta}}\textcolor{blue}{>0}$, $\exists N_1\in\N$ such that if $n\geq N_1$ \[
