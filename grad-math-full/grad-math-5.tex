@@ -729,8 +729,8 @@ A subset $\topology$ of power set $2^S$ is a topology on $S$ if and only if \beg
 	\begin{align*}
 	&\forall\varepsilon>0,\ \exists N\in\N\ \text{such that}\ \left[ n\geq N\implies \abs{a_n-L}<\varepsilon\right]\\
 	\iff&\forall\varepsilon>0,\ \exists N\in\N\ \text{such that}\ \left[ n\geq N\implies d(a_n,L)<\varepsilon\right]\\
-	\iff&\forall\varepsilon>0,\ \exists N\in\N\ \text{such that}\ \left[ n\geq N\implies a_n\in\nbhd_\varepsilon (L)\right]\\
 	\color{blue}\iff&\color{blue}\forall\varepsilon>0,\ \exists N\in\N\ \text{such that}\ \left[ n\geq N\implies a_n\in(L-\varepsilon,L+\varepsilon)\right]\\
+	\iff&\forall\varepsilon>0,\ \exists N\in\N\ \text{such that}\ \left[ n\geq N\implies a_n\in\nbhd_\varepsilon (L)\right]\\
 	\iff&\forall\varepsilon>0,\ \exists N\in\N\ \text{such that}\ \left[ n\geq N\implies a_n\in U_\varepsilon\right] \\
 	\iff&\forall U\in\tau\ \text{with}\ L\in U,\ \exists N\in\N\ \text{such that}\ \left[ n\geq N\implies a_n\in U\right]
 	\end{align*}
@@ -1117,19 +1117,46 @@ A sequence $\set{a_n}_{i=1}^\infty\subseteq \R$ converges to $L\in\R$ if and onl
 \end{minipage}
 \end{flushleft}
 \newpage
-\textcolor{blue}{Let $\varepsilon>0$}. \begin{enumerate}[(1)]
-	\item It is enough to prove that $\displaystyle\lim\limits_{n\to\infty}\frac{1}{b_n}=\frac{1}{\beta}$ with $b_n\neq 0$ and $\beta\neq 0$. Note that Triangle Inequality implies that \[
-	\abs{y}=\abs{y-x+x}\leq\abs{y-x}+\abs{x}\iff\abs{y}-\abs{x}\leq\abs{y-x}
-	\] for any $x,y\in\R$. Since $\lim\limits_{n\to\infty}b_n=\beta$, for $\displaystyle\textcolor{red}{\frac{1}{2}\abs{\beta}}\textcolor{blue}{>0}$, $\exists N_1\in\N$ such that if $n\geq N_1$ \[
-	\abs{\beta}-\abs{b_n}\leq\abs{\beta-b_n}=\abs{b_n-\beta}<\textcolor{red}{\frac{1}{2}\abs{\beta}}.
-	\] Thus, we obtain that \[
-	\abs{\beta}-\abs{b_n}<\frac{1}{2}\abs{\beta}\implies\frac{1}{2}\abs{\beta}<\abs{b_n}\implies\textcolor{teal}{\frac{1}{b_n}<\frac{2}{\abs{\beta}}}
-	\] And \[
-	\exists N_2\in\N:\left[n\geq N_2\implies\textcolor{orange}{\abs{b_n-\beta}<\frac{\beta^2}{2}\varepsilon}\right].
-	\] Let \textcolor{blue}{$N=\max\set{N_1,N_2}$}. \textcolor{blue}{If $n\geq N$ then} \[
-	\textcolor{blue}{\abs{\frac{1}{b_n}-\frac{1}{\beta}}}=\abs{\frac{\beta-b_n}{\beta b_n}}=\frac{\textcolor{orange}{\abs{b_n-\beta}}}{\abs{\beta}\textcolor{teal}{\abs{b_n}}}\textcolor{blue}{<}\textcolor{orange}{\varepsilon\cdot\frac{\beta^2}{2}}\cdot\frac{1}{\abs{\beta}}\textcolor{teal}{\cdot\frac{2}{\abs{\beta}}}=\textcolor{blue}{\varepsilon}.
-	\]
+\begin{flushleft}
+\begin{minipage}[t]{0.475\textwidth}
+\begin{enumerate}[(4)]
+\item \textcolor{blue}{Let $\varepsilon>0$}. Note that \[
+\abs{y}-\abs{x}\leq\abs{y-x}
+\] for any $x,y\in\R$. Since $\lim\limits_{n\to\infty}b_n=\beta$, for $\displaystyle\textcolor{red}{\frac{1}{2}\abs{\beta}}\textcolor{blue}{>0}$, $\exists N_1\in\N$ such that if $n\geq N_1$ \[
+\abs{\beta}-\abs{b_n}\leq\abs{\beta-b_n}=\abs{b_n-\beta}<\textcolor{red}{\frac{1}{2}\abs{\beta}}.
+\] Thus, we obtain that \[
+\abs{\beta}-\abs{b_n}<\frac{1}{2}\abs{\beta}\implies\frac{1}{2}\abs{\beta}<\abs{b_n}\implies\textcolor{teal}{\frac{1}{b_n}<\frac{2}{\abs{\beta}}}
+\] And \[
+\exists N_2\in\N:\left[n\geq N_2\implies\textcolor{orange}{\abs{b_n-\beta}<\frac{\beta^2}{2}\varepsilon}\right].
+\] Let \textcolor{blue}{$N=\max\set{N_1,N_2}$}. \textcolor{blue}{If $n\geq N$ then} 
+\begin{align*}
+\textcolor{blue}{\abs{\frac{1}{b_n}-\frac{1}{\beta}}}&=\abs{\frac{\beta-b_n}{\beta b_n}}\\
+&=\frac{\textcolor{orange}{\abs{b_n-\beta}}}{\abs{\beta}\textcolor{teal}{\abs{b_n}}}\\
+&\textcolor{blue}{<}\ \textcolor{orange}{\varepsilon\cdot\frac{\beta^2}{2}}\cdot\frac{1}{\abs{\beta}}\textcolor{teal}{\cdot\frac{2}{\abs{\beta}}}=\textcolor{blue}{\varepsilon}.
+\end{align*}
 \end{enumerate}
+\end{minipage}%
+\hfill\vline
+\begin{minipage}[t]{0.49\textwidth}
+\begin{enumerate}[(4)]
+\item \textcolor{blue}{Let $U\in\tau_d$ with $1/\beta\in U$}. Since $1/\beta\in U$, by definition of $\tau_d$, we have \[
+\exists\varepsilon>0\ \text{such that}\ \nbhd_{\varepsilon}(1/\beta)\subseteq U.
+\] Since $\lim\limits_{n\to\infty}b_n=\beta$, for $\abs{\beta}/2$, we know that \[
+\exists N_1\in\N\ \text{s.t.}\ n\geq N_1\Rightarrow b_n\in {\intoo{\beta-\textcolor{red}{\frac{\abs{\beta}}{2}},\beta+\textcolor{red}{\frac{\abs{\beta}}{2}}}},
+\] \[
+\exists N_2\in\N\ \text{s.t.}\ n\geq N_2\Rightarrow b_n\in {\intoo{\beta-\textcolor{orange}{\frac{\beta^2\cdot\varepsilon}{2}},\beta+\textcolor{orange}{\frac{\beta^2\cdot\varepsilon}{2}}}}.
+\] Let \textcolor{blue}{$N=\max\set{N_1,N_2}$}. \textcolor{blue}{If $n\geq N$ then}
+\begin{align*}
+\frac{1}{b_n}-\frac{1}{\beta}=\frac{\beta-b_n}{\beta\cdot b_n}
+\end{align*}
+and that Thus, \textcolor{blue}{if $n\geq N$ then} \begin{align*}
+	\textcolor{blue}{k\alpha_n}&\ \textcolor{blue}{\in}\intoo{k\alpha-k\cdot\textcolor{red}{\frac{\varepsilon}{\abs{k}+1}},k\alpha+k\cdot\textcolor{red}{\frac{\varepsilon}{\abs{k}+1}}}\\
+	&\subseteq\intoo{k\alpha-\varepsilon,k\alpha+\varepsilon}\\
+	&=\nbhd_\varepsilon(k\alpha)\subseteq\textcolor{blue}{U}.
+\end{align*}
+\end{enumerate}
+\end{minipage}
+\end{flushleft}
 \end{proof}
 %Let $(X,\tau_X)$ and $(Y,\tau_Y)$ be topological spaces with the standard topology (generated by open intervals/disks). A function $f:X\to Y$ is said to converge to $L\in Y$ at $x_0\in X$ if \begin{align*}
 %	&\forall\varepsilon>0,\ \exists\delta>0\ \text{such that }\ 0<\abs{x-x_0}<\delta\implies|f(x)-L|<\varepsilon\\
