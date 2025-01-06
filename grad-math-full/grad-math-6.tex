@@ -1,0 +1,135 @@
+\documentclass[11pt,openany]{article}
+
+\input{grad-math-preamble}
+\input{tcolorbox}
+\input{theorem}
+\input{tikz}
+\input{grad-math-commands}
+
+\setstretch{1.25}
+\begin{document}
+\pagenumbering{arabic}
+\begin{center}
+	\huge\textbf{Advanced Calculus III}\\
+	\vspace{0.5em}
+	\large{Ji, Yong-hyeon}\\
+%	\large{\ttfamily \url{https://github.com/Hacker-Code-J}}\\
+	\vspace{0.5em}
+	\normalsize{\today}\\
+\end{center}
+
+\noindent 
+We cover the following topics in this note.
+\begin{itemize}
+	\item Limit of a Function
+	\item TBA
+\end{itemize}
+\hrule\vspace{12pt}
+
+\newpage
+
+\defbox[Limit Point (Metric Space)]{\begin{definition*}
+	Let $(X,d)$ be a metric space. Let $S\subseteq X$ and $\alpha\in X$. A point $p\in X$ is a \textbf{limit point} of $S$ if and only if 
+	\[
+	\forall\varepsilon>0,\ B_{\varepsilon}(\alpha)\cap (S\setminus\set{p})\neq\varnothing.
+	\] That is, \[
+	\forall\varepsilon>0,\ \set{x\in S:0< d(x,p)<\varepsilon}\neq\varnothing.
+	\]
+\end{definition*}}
+\begin{remark}
+	Note that $\alpha$ does not have to be an element of $A$ to be a limit point.
+\end{remark}
+\begin{note}
+	Let $(X,\tau)$ be a topological space. For a subset $S\subseteq X$. A point $p\in X$ is a limit point of $S$ if and only if \[
+	\forall U\in\tau\ \text{with}\ p\in U,\ U\cap (S\setminus\set{p})\neq\varnothing.
+	\]
+\end{note}
+%\begin{center}
+%\begin{tikzpicture}[scale=3]
+%	% Draw the coordinate axes
+%%	\draw[->] (-2, 0) -- (4, 0) node[right] {x};
+%%	\draw[->] (0, -2) -- (0, 4) node[above] {y};
+%	% Define the set of points
+%	\foreach \x/\y in {0.5/1, 1.5/0.5, 2/1.5, 2.5/2.2, 1.8/2.5, 1.2/2.3, 0.8/1.8} {
+%		\fill[blue] (\x, \y) circle[radius=2pt];
+%	}
+%	% Highlight the limit point
+%	\fill[red] (2, 1) circle[radius=2.5pt] node[below right] {$\alpha$};
+%	% Draw the open ball
+%	\draw[green!60!black, thick, dashed] (2, 1) circle (1);
+%	\node[green!60!black] at (3, 2) {$B_\varepsilon(\alpha)$};
+%	% Annotate nearby points in the open ball
+%	\foreach \x/\y in {1.5/0.5, 2/1.5, 2.5/2.2} {
+%		\draw[->, orange, thick] (\x, \y) -- (2, 1);
+%	}
+%	
+%	% Explanation of other points
+%	\node[blue] at (0.5, 0.5) {Other points in the set};
+%	\node[red] at (2.8, 0.8) {Limit point $p$};
+%\end{tikzpicture}
+%\end{center}
+\defbox[$\star$ Limit of a Function ($\epsilon-\delta$) $\star$]{\begin{definition*}
+	Let $f:X\to\R$ be a function defined on a subset $X$ of a topological space, and let $p\in X$ be a limit point of $X$. We say that $L\in\R$ is the \textbf{limit of the function $f$ as $x$ approaches $p$} if
+	\[
+	\boxed{\forall\varepsilon>0,\ \exists\delta>0\ \text{such that}\ \forall x\in X,\ 0<\abs[0]{x-p}<\delta\implies\abs[0]{f(x)-L}<\varepsilon}.
+	\] We write \[
+	\boxed{\lim\limits_{x\to p} f(x)=L}.
+	\]
+\end{definition*}}
+\begin{remark}
+\[
+\lim\limits_{x\to p} f(x)\neq L\iff \exists\varepsilon>0:[\forall\delta>0:\exists x\in X: 0<\abs[0]{x-p}<\delta\ \text{but}\ \abs[0]{f(x)-L}>0].
+\]
+\end{remark}
+
+\defbox[Continuity of a Function]{\begin{definition*}
+	Let $f:X\to\R$ be a function defined on a subset $X$ of a topological space, and let $p\in X$. The function $f$ is said to be $f$ is \textbf{continuous at $p$} if and only if \[
+	\lim\limits_{x\to p}f(x)=f(p).
+	\] That is, \[
+	\forall\varepsilon>0,\ \exists\delta>0\ \text{such that}\ 0<\abs{x-p}<\delta\implies|f(x)-f(p)|<\varepsilon.
+	\]
+\end{definition*}}
+\begin{remark}[Continuity of a Set]
+	The function $f$ is continuous on subset $S\subseteq X$ if it it continuous at every point $p\in S$.
+\end{remark}
+\begin{remark}[Continuity in a Topological Space]
+	Let $(X,\tau_X)$ and $(Y,\tau_Y)$ are topological spaces. $f:X\to Y$ is \textbf{continuous} if and only if $$U_Y\in\tau_Y\implies f^{-1}[U_Y]\in\tau_X,$$ where $f^{-1}[U_Y]=\set{x\in X:f(x)\in U_Y}$ is the preimage of $U_Y$ under $f$.
+\end{remark}
+
+\begin{note}[Subsequence]
+	Let $\set{a_n}$ be a sequence of real numbers, and let $n_1<n_2<\cdots<n_k<\cdots$ be a strictly increasing of natural numbers. Then $\set{a_{n_k}}$ is called \textbf{subsequence} of $\set{a_n}$.
+\end{note}
+\probox{\begin{proposition*}
+A sequence ${a_n}$ of real numbers converges to $L\in\R$ if and only if any
+subsequence $\set{a_{n_k}}$ of $\set{a_n}$ converges to $L\in\R$. Formally, \[
+\lim\limits_{n\to\infty}a_n=L\iff  \lim\limits_{k\to\infty} a_{n_k}=L.
+\]
+\end{proposition*}}
+
+\thmbox[Sandwitch Theorem; Squeeze Theorem]{\begin{theorem*}
+	
+\end{theorem*}}
+
+\begin{note}
+	TBA
+\end{note}
+\vfill
+
+\begin{thebibliography}{9}
+	\bibitem{advanced_calc_e}
+	수학의 즐거움, Enjoying Math. ``수학 공부, 기초부터 대학원 수학까지, 10. 해석학 개론 (e) 엡실론-델타와 수열의 수렴성'' YouTube Video, 25:57. Published 
+	September 29, 2019. URL: \url{https://www.youtube.com/watch?v=2Ml3G_Duffk&t=899s}.
+\end{thebibliography}
+%\newpage
+%\appendix
+%\section{Complement of Family}
+%\begin{note}
+%	\[
+%	\left(\bigcup_{i\in\Lambda}E_i\right)^C=
+%	\bigcap_{i\in\Lambda}\left(E_i\right)^C
+%	\]
+%	\begin{proof}
+%		content...
+%	\end{proof}
+%\end{note}
+\end{document}
