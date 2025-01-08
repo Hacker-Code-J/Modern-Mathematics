@@ -63,6 +63,14 @@ The `grad-math-full` directory contains detailed documents for graduate-level ma
 </ul>
 </details>
 
+<details>
+<summary><strong>grad-math-6.tex/pdf</strong>: Advanced Calculus III</summary>
+<ul>
+<li>Limit of a Function</li>
+<li>Continuity of a Function</li>
+</ul>
+</details>
+
 Each `.tex` file is accompanied by a `.pdf` version which is the compiled and formatted version of the LaTeX document. These documents provide an in-depth look at the fundamental and advanced topics necessary for graduate-level studies in mathematics.
 
 <!--
