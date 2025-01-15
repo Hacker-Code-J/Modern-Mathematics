@@ -68,6 +68,28 @@ The `grad-math-full` directory contains detailed documents for graduate-level ma
 <ul>
 <li>Limit of a Function</li>
 <li>Continuity of a Function</li>
+<li>Monotone Convergent Theorem (MCT)</li>
+<li>Nested Interval Property (NIP)</li>
+<li>TBA</li>
+</ul>
+</details>
+
+<details>
+<summary><strong>grad-math-7.tex/pdf</strong>: Abstract Algebra I (TBA) </summary>
+<ul>
+<li>Group</li>
+<li>Ring</li>
+<li>Field</li>
+<li>Module</li>
+<li>Vector Space</li>
+<li>TBA</li>
+</ul>
+</details>
+
+<details>
+<summary><strong>grad-math-8.tex/pdf</strong>: Linear Algebra I (TBA) </summary>
+<ul>
+<li>TBA</li>
 </ul>
 </details>
 

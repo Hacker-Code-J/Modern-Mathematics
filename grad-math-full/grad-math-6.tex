@@ -23,14 +23,18 @@ We cover the following topics in this note.
 \begin{itemize}
 	\item Limit of a Function
 	\item Continuity of a Function
+	\item Monotone Convergent Theorem (MCT)
+	\item Nested Interval Property (NIP)
 	\item TBA
 \end{itemize}
 \hrule\vspace{12pt}
+%\tableofcontents
+%\newpage
 What is $\textcolor{red}{0}$ for the set $\textcolor{blue}{S=\set{\frac{1}{n}:n\in\N}}$?
 \begin{center}
 \begin{tikzpicture}[scale=12]
 \draw[->] (-0.1, 0) -- (1.1, 0) node[below] {$x$};
-\draw[->] (0, -0.01) -- (0, 0.1) node[left] {$y$};
+\draw[->] (0, -0.01) -- (0, .25) node[left] {$y$};
 \foreach \n in {1, 2, 3, 4, 5, 6, 7, 8, 9} {
 %	\filldraw[blue] ({1/\n}, 0) circle (0.15pt) node[above] {$\frac{1}{\n}$};
 \filldraw[blue] ({1/\n-.0025},-.02) rectangle ({1/\n+.0025}, .02);
@@ -73,12 +77,11 @@ What is $\textcolor{red}{0}$ for the set $\textcolor{blue}{S=\set{\frac{1}{n}:n\
 \begin{remark*}
 	Note that a limit point $p$ may NOT belong to $S$.
 \end{remark*}
-\begin{note}[Limit Point (Topology)]
+{\color{gray!50}\begin{note}[Limit Point (Topology)]
 	Let $(X,\tau)$ be a topological space. For a subset $S\subseteq X$. A point $p\in X$ is a limit point of $S$ if and only if \[
 	\forall U\in\tau\ \text{with}\ p\in U,\ U\cap (S\setminus\set{p})\neq\varnothing.
 	\]
-\end{note}
-\newpage
+\end{note}}
 \begin{example*}
 	Let $S=(a,b)\subseteq\R$:
 	\begin{center}
@@ -90,7 +93,7 @@ What is $\textcolor{red}{0}$ for the set $\textcolor{blue}{S=\set{\frac{1}{n}:n\
 	\end{tikzpicture}
 	\end{center}
 \begin{itemize}
-	\item Consider $p$ with $p<a$:
+	\item[(i)] Consider $p$ with $p<a$:
 	\begin{center}
 	\begin{tikzpicture}
 		\draw[Latex-Latex] (-4,0) to (4,0);
@@ -99,13 +102,13 @@ What is $\textcolor{red}{0}$ for the set $\textcolor{blue}{S=\set{\frac{1}{n}:n\
 		\draw[line width=.5mm, blue, fill=white] (2,0) circle (2pt) node[below] {$b$};
 		\draw[line width=.5mm, red, fill=white] (-3,0) circle (2pt) node[below] {$p$};
 		\fill[pattern=north west lines, pattern color=magenta!50, opacity=.5] (-3.5, -.25) rectangle (-2.5, 0.25);
-		\node[above=.25cm, magenta!50, opacity=.5] at (-3,0) {$B_\varepsilon(p)\setminus\set{p}$};
+		\node[above=.25cm, magenta!50, opacity=.5] at (-3,0) {\scriptsize $B_\varepsilon(p)\setminus\set{p}$};
 %		\draw[decorate, decoration={brace, amplitude=5pt}, thick, color=magenta] (-3, .1) -- (-2.5, .1)
 %		node[midway, above=5pt, color=magenta] {\( \varepsilon \)};
 	\end{tikzpicture}
 	\end{center}
 	Let $\varepsilon:=\frac{a-p}{2}>0$. Then $B_\varepsilon(p)\cap (S\setminus\set{p})=\varnothing$. Thus, $p<a$ is NOT a limit point.
-	\item Consider $p=a$:
+	\item[(ii)] Consider $p=a$:
 	\begin{center}
 	\begin{tikzpicture}
 		\draw[Latex-Latex] (-4,0) to (4,0);
@@ -114,12 +117,12 @@ What is $\textcolor{red}{0}$ for the set $\textcolor{blue}{S=\set{\frac{1}{n}:n\
 		\draw[line width=.5mm, blue, fill=white] (2,0) circle (2pt) node[below] {$b$};
 		\draw[line width=.5mm, red, fill=white] (-2,0) circle (2pt) node[below] {$p$};
 		\fill[pattern=north west lines, pattern color=magenta!50, opacity=.5] (-2.5, -.25) rectangle (-1.5, 0.25);
-		\node[above=.25cm, magenta!50, opacity=.5] at (-2,0) {$B_\varepsilon(p)\setminus\set{p}$};
+		\node[above=.25cm, magenta!50, opacity=.5] at (-2,0) {\scriptsize $B_\varepsilon(p)\setminus\set{p}$};
 	\end{tikzpicture}
 	\end{center}
 	Let $\varepsilon>0$. Then $B_\varepsilon(p)\cap (S\setminus\set{p})\neq\varnothing$. Thus, $p=a$ is a limit point of $S=(a,b)$.
 \end{itemize}
-Hence the set of all limit points of $\intoo{a,b}$ is $\intcc{a,b}$.
+By (i) and (ii), the set of all limit points of $\intoo{a,b}$ is $\intcc{a,b}$.
 \end{example*}
 \vfill
 \begin{example*}
@@ -153,9 +156,8 @@ Hence the set of all limit points of $\intoo{a,b}$ is $\intcc{a,b}$.
 			\filldraw[red] (0, 0) circle (0.2pt) node[above] {$0$};
 		\end{tikzpicture}
 		\end{center}
-		Let $\varepsilon>0$. By Archimedian property, \[
-		\exists n\in\N\ \text{such that}\ n>\frac{1}{\varepsilon},
-		\] and so $1/n\in B_\varepsilon(0)\cap S$. Thus, $p=0$ is a limit point of $S=\set{1/n:n\in\N}$.
+		Let $\varepsilon>0$. By Archimedian property, $
+		\exists n\in\N\ \text{such that}\ n>\frac{1}{\varepsilon},$ and so $1/n\in B_\varepsilon(0)\cap S$. Thus, $p=0$ is a limit point of $S=\set{1/n:n\in\N}$.
 	\end{itemize}
 \end{example*}
 
@@ -201,7 +203,7 @@ Let $S=\Q$.
 	\] We write \[
 	\boxed{\lim\limits_{x\to p} f(x)=L}.
 	\]
-\end{definition*}}
+\end{definition*}}\vfill
 \begin{center}
 \begin{minipage}{.49\textwidth}
 \begin{tikzpicture}
@@ -324,7 +326,7 @@ samples=100
 %	\draw[>=Stealth, <->, dashed, blue] (-2.05, 0) -- (-3,0) node[midway, above] {\scriptsize $\delta$};
 %\end{tikzpicture}
 %\end{center}
-\begin{remark*}
+\vfill\begin{remark*}
 \[
 \lim\limits_{x\to p} f(x)\neq L\iff \exists\varepsilon>0:[\forall\delta>0:\exists x\in X: 0<\abs[0]{x-p}<\delta\ \text{but}\ \abs[0]{f(x)-L}>0].
 \]
@@ -337,17 +339,18 @@ samples=100
 	\]
 \end{definition*}}
 \begin{remark*}[Continuity of a Set]
-	The function $f$ is continuous on subset $S\subseteq X$ if it it continuous at every point $p\in S$.
+	The function $f$ is continuous on subset $S\subseteq X$ if it is continuous at every point $p\in S$.
 \end{remark*}
-\begin{remark*}[Continuity in a Topological Space]
+
+{\color{gray!50}\begin{remark*}[Continuity in a Topological Space]
 	Let $(X,\tau_X)$ and $(Y,\tau_Y)$ are topological spaces. $f:X\to Y$ is \textbf{continuous} if and only if $$U_Y\in\tau_Y\implies f^{-1}[U_Y]\in\tau_X,$$ where $f^{-1}[U_Y]=\set{x\in X:f(x)\in U_Y}$ is the preimage of $U_Y$ under $f$.
-\end{remark*}
+\end{remark*}}
 \vfill
 \begin{note}
 	$[p\Rightarrow(q\Rightarrow r)]\equiv [p\Rightarrow(\lnot q\lor r)]\equiv[\lnot p\lor (\lnot q\lor r)]\equiv [\lnot (p\land q)\lor r]\equiv [(p\land q)\Rightarrow r]$.
 \end{note}
 \thmbox[Limit of Function by Convergent Sequences]{\begin{theorem*}
-Let $f:X\to\R$ be a function defined on a subset $\varnothing\neq X\subseteq\R$ of a topological space, and let $p$ is a limit point of $X$. Then \[
+Let $f:X\to\R$ be a function defined on a subset $\varnothing\neq X\subseteq\R$ of a metric space, and let $p$ is a limit point of $X$. Then \[
 \lim\limits_{x\to p}f(x)=L\iff\left[\forall\set{x_n}\subseteq X\setminus\set{p},\left(\lim\limits_{n\to\infty}x_n=p\implies\lim\limits_{n\to\infty}f(x_n)=L\right)\right].
 \]
 \end{theorem*}}
@@ -423,7 +426,7 @@ Let $f:X\to\R$ be a function defined on a subset $\varnothing\neq X\subseteq\R$ 
 	\item[($\Leftarrow$)] Let the RHS holds. Assume, for the contradiction, that $\lim\limits_{x\to p} f(x)\neq L$, \ie, \[
 	\textcolor{green!50!black}{\exists\varepsilon>0}:\forall\delta>0:\exists x_\delta\in X:0<\abs[0]{x_\delta-p}<\delta\ \text{but}\ \textcolor{magenta}{\abs[0]{f(x_\delta)-L}\geq\varepsilon}.
 	\] Take $\delta=1/n$ for $n\in\N$. Then \[
-	\exists x_n\in X\ \text{such that}\ 0<\abs[0]{x_n-p}<\delta\ \text{but}\ \abs[0]{f(x_n)-L}\geq \varepsilon.
+	\exists x_n\in X\ \text{such that}\ 0<\abs[0]{x_n-p}<\frac{1}{n}\ \text{but}\ \abs[0]{f(x_n)-L}\geq \varepsilon.
 	\] \textcolor{gray!50}{\st{(Axiom of Countable Choice)}}\ This means that \[
 	\forall n\in\N:\exists\set{x_n}\subseteq X\setminus\set{p}\ \text{such that}\ 0<\abs[0]{x_n-p}<\frac{1}{n}\ \text{but}\ \textcolor{magenta}{\abs[0]{f(x_n)-L}\geq \varepsilon}.
 	\] By Squeeze Theorem, we have $\lim\limits_{n\to\infty}x_n=p$ since $0<\abs[0]{x_n-p}<1/n$. Since the RHS holds, we obtain $\lim\limits_{n\to\infty}f(x_n)=L$. Then, for some $\textcolor{green!50!black}{\varepsilon>0}$, \[
@@ -432,7 +435,7 @@ Let $f:X\to\R$ be a function defined on a subset $\varnothing\neq X\subseteq\R$ 
 \end{itemize}
 \end{proof}
 \corbox[Continuity of Function by Convergent Sequences]{\begin{corollary*}
-Let $f:X\to\R$ be a function defined on a subset $\varnothing\neq X\subseteq\R$ of a topological space, and let $p$ is a limit point of $X$. Then \[
+Let $f:X\to\R$ be a function defined on a subset $\varnothing\neq X\subseteq\R$ of a metric space, and let $p$ is a limit point of $X$. Then \[
 \lim\limits_{x\to p}f(x)=f(p)\iff\left[\forall\set{x_n}\subseteq X,\left(\lim\limits_{n\to\infty}x_n=p\implies\lim\limits_{n\to\infty}f(x_n)=f(p)\right)\right].
 \]
 \end{corollary*}}
@@ -553,19 +556,292 @@ L-\varepsilon<a_n\leq c_n\leq b_n<L_+\varepsilon,
 %\end{example*}
 
 \newpage
-\thmbox[Monotone Convergence Theorem (MCT)]{\begin{theorem*}
-	TBA
+\begin{note}
+	Recall that
+	\begin{center}
+		``A convergent sequence is bounded.''
+	\end{center}
+Formally, \[
+\exists A\in\R\ \text{s.t.}\ A=\lim_{n\to\infty}a_n\implies\exists M\in\R\ \text{s.t.}\ \forall n\in\N,\ \abs{a_n}\leq M.
+\]However, the converse is not necessarily true: \[
+\exists A\in\R\ \text{s.t.}\ A=\lim_{n\to\infty}a_n\centernot\impliedby\exists M\in\R\ \text{s.t.}\ \forall n\in\N,\ \abs{a_n}\leq M.
+\] To illustrate, consider the sequence \(\{a_n\} = 1 - (-1)^n\) that is bounded, yet it does not converge.
+\vfill
+\defbox[Monotone Sequence]{\begin{definition*}
+	A sequence $\set{a_n}_{n=1}^\infty$ is said to be \textbf{monotone} if it is either \textbf{monotonically increasing} or \textbf{monotonically decreasing}.
+	\begin{enumerate}[(1)]
+		\item A sequence $\set{a_n}_{n=1}^\infty$ is \textbf{monotonically increasing} if $
+		a_n\leq a_{n+1}$ for all $n\in\N$.\par Alternatively, it is \textbf{strictly increasing} if $a_n<a_{n+1}$ for all $n\in\N$.
+		\item A sequence $\set{a_n}_{n=1}^\infty$ is \textbf{monotonically decreasing} if $
+		a_{n+1}\leq a_{n}$ for all $n\in\N$.\par Alternatively, it is \textbf{strictly decreasing} if $a_{n+1}<a_{n}$ for all $n\in\N$.
+	\end{enumerate}
+\end{definition*}}
+\begin{remark*}
+A sequence $\set{a_n}$ is monotone if $\begin{cases*}
+	a_n\leq a_{n+1} & (monotonically increasing) \\
+	a_{n+1}\leq a_n & (monotonically decreasing)
+\end{cases*}$.
+\end{remark*}
+\begin{example*}
+\ \begin{itemize}
+	\item $\set{n}_{n=1}^\infty$ is monotonically increasing.
+	\item $\set{1/n}_{n=1}^\infty$ is monotonically decreasing.
+\end{itemize}
+\end{example*}
+\begin{example*}
+Let $0<x<1$.\\ \adjustbox{scale=1,center}{\begin{tikzpicture}[scale=1]
+	% Axes
+	\draw[->,thick] (0,0) -- (7.25,0) node[right] {$n$};
+	\draw[->,thick] (0,0) -- (0,3.5) node[above] {$x^n$};
+	
+	% Ticks and labels for x-axis
+	\foreach \x [count=\n from 1] in {.5,1,...,7} {
+		\draw[thick] (\x,0.05) -- (\x,-0.05) node[below] {\small $\n$};
+	}
+
+	% Ticks and labels for y-axis
+	\foreach \y in {3} {
+		\draw[thick] (0.1,\y) -- (-0.1,\y);
+		\ifnum\y=3
+		\node[left] at (0,\y) {\small 1};
+		\fi
+	}
+	
+	% Sequence points for x = 0.8
+	\foreach \n in {.5,1,...,7} {
+		\pgfmathsetmacro{\yn}{0.7^\n}
+		\draw[fill=pink,draw=red] (\n,3*\yn) circle (2pt);
+		\draw[dashed,magenta] (\n,3*\yn) -- (\n,0);
+	}
+	
+	% Convergence arrow and explanation
+	\draw[->,ultra thick,red!80] (2.5,3) -- (5.5,3) node[right] {\large\textcolor{red!80}{$\lim\limits_{n \to \infty} x^n = 0$}};
+	
+	% Additional visual enhancement for the curve
+	\draw[very thick,red,smooth] plot[domain=-.15:7.25,samples=100] (\x,{3*0.7^(\x)});
+	\draw[very thick,orange, smooth, opacity=0.25] plot[domain=-.15:7.25,samples=100] (\x,{3*0.95^(\x)}) node[right] {$x=0.95$};
+	\draw[very thick,brown, smooth, opacity=0.25] plot[domain=-.15:7.25,samples=100] (\x,{3*0.9^(\x)}) node[right] {$x=0.9$};
+	\draw[very thick,green!50!black, smooth, opacity=0.25] plot[domain=-.15:7.25,samples=100] (\x,{3*0.85^(\x)}) node[right] {$x=0.85$};
+	\draw[very thick,lime!50!black, smooth, opacity=0.25] plot[domain=-.15:7.25,samples=100] (\x,{3*0.8^(\x)}) node[right] {$x=0.8$};
+	\draw[very thick,blue, smooth, opacity=0.25] plot[domain=-.15:7.25,samples=100] (\x,{3*0.6^(\x)}) node[right] {$x=0.6$};
+	\draw[very thick,cyan, smooth, opacity=0.25] plot[domain=-.15:7.25,samples=100] (\x,{3*0.5^(\x)});
+	\draw[very thick,purple, smooth, opacity=0.25] plot[domain=-.15:7.25,samples=100] (\x,{3*0.4^(\x)});
+	\draw[very thick,magenta, smooth, opacity=0.25] plot[domain=-.15:7.25,samples=100] (\x,{3*0.3^(\x)});
+	
+%	\node[below right,blue!70!black] at (3.5,0.25) {\textbf{Illustration for} $x = 0.8$};
+	
+	% Labels and additional details
+	\node[below left] at (0,0) {0};
+%	\node[right,align=left] at (1,0.8) {\textbf{Monotone\ Convergence}};
+%	\node[align=left,right] at (1.5,4.75) {\textit{The sequence $x^n$ is monotone\ and converges to zero.}};
+\end{tikzpicture}}
+\end{example*}
+\newpage
+\end{note}
+\thmbox[Monotone Convergence Theorem (MCT)]{\begin{theorem*}\hypertarget{mct}{}
+A monotone sequence of real numbers $\set{a_n}$ is convergent if and only if it is bounded.
+\begin{enumerate}[(1)]
+	\item Let $\set{a_n}$ be an \underline{monotonically increasing} sequence of real numbers that is \underline{bounded above}. Then \[
+	\lim\limits_{n\to\infty}a_n=\sup\set{a_n:n\in\N}.
+	\]
+	\item Let $\set{b_n}$ be an \underline{monotonically decreasing} sequence of real numbers that is \underline{bounded below}. Then \[
+	\lim\limits_{n\to\infty}b_n=\inf\set{b_n:n\in\N}.
+	\]
+\end{enumerate}
 \end{theorem*}}
 \begin{proof}
-	TBA
+\ \begin{enumerate}[(1)]
+	\item Suppose that a sequence $\set{a_n}$ is monotonically increasing and bounded above. Consider the set $\set{a_n:n\in\N}\subseteq\R$, which is non-empty and bounded above by assumption. By \textbf{Least Upper Bound Property}\footnote{Every non-empty subset of $\R$ that is bounded above has the supremum in $\R$.}, \[
+	\exists\alpha\in\R\ \text{such that}\ \alpha=\sup\set{a_n:n\in\N}.
+	\] We claim that: \[
+	\lim\limits_{n\to\infty}a_n=\alpha=\sup\set{a_n:n\in\N}.
+	\] \textcolor{blue}{Let $\varepsilon>0$}. Since $\alpha$ is the supremum (\textit{least} upper bound) of $\set{a_n:n\in\N}$,  it follows that $\alpha-\varepsilon$ is not an upper bound of $\set{a_n:n\in\N}$. Thus, $\lnot[\forall N\in\N,\ a_N\leq\alpha-\varepsilon]$, \ie, \[
+	\textcolor{blue}{\exists N\in\N}\ \text{such that}\ \alpha-\varepsilon<a_N.
+	\] Since $\set{a_n}$ is monotonically increasing, \[
+	\alpha-\varepsilon<a_N\leq a_n
+	\] for all $n\geq N$. Therefore, \[
+	\alpha-\varepsilon\overset{\alpha=\sup\set{a_n}}{\underset{\varepsilon>0}{<}}a_N
+	\overset{\set{a_n}\ \text{is monotonically increasing}}{\underset{n\geq N}{\leq}}a_n\overset{\alpha\ \text{is an upper bound}}{\leq}\alpha\overset{\varepsilon>0}{<}\alpha+\varepsilon.
+	\] This implies that \textcolor{blue}{$\abs[0]{a_n-\alpha}<\varepsilon$ for all $n\geq N$}.
+	\newpage
+	\item Suppose that a sequence $\set{b_n}$ is monotonically decreasing and bounded below. Consider the set $\set{b_n:n\in\N}\subseteq\R$, which is non-empty and bounded below by assumption. By \textbf{Greatest Lower Bound Property}\footnote{Every non-empty subset of $\R$ that is bounded below has the infimum in $\R$.}, \[
+	\exists\beta\in\R\ \text{such that}\ \beta=\inf\set{b_n:n\in\N}.
+	\] We claim that: \[
+	\lim\limits_{n\to\infty}b_n=\beta=\inf\set{b_n:n\in\N}.
+	\] \textcolor{blue}{Let $\varepsilon>0$}. Since $\beta$ is the infimum (\textit{greatest} lower bound) of $\set{b_n:n\in\N}$,  it follows that $\beta+\varepsilon$ is not a lower bound of $\set{b_n:n\in\N}$. Thus, $\lnot[\forall N\in\N,\ \beta+\varepsilon\leq b_N]$, \ie, \[
+	\textcolor{blue}{\exists N\in\N}\ \text{such that}\ b_N<\beta+\varepsilon.
+	\] Since $\set{b_n}$ is monotonically decreasing, \[
+	b_n\leq b_N<\beta+\varepsilon
+	\] for all $n\geq N$. Therefore, \[
+	\beta-\varepsilon\overset{\varepsilon>0}{<}\beta\overset{\beta\ \text{is a lower bound}}{\leq}b_n\overset{\set{b_n}\ \text{is monotonically decreasing}}{\underset{n\geq N}{\leq}} b_N\overset{\beta=\inf\set{b_n}}{\underset{\varepsilon>0}{<}}\beta+\varepsilon
+	\]
+	This implies that \textcolor{blue}{$\abs[0]{b_n-\beta}<\varepsilon$ for all $n\geq N$}.
+\end{enumerate}
 \end{proof}
 
-\thmbox[Nested Interval Property (NIP)]{\begin{theorem*}
-	TBA
-\end{theorem*}}
+\defbox[Divergence of Sequence]{\begin{definition*}
+	Let $\set{a_n}$ be a sequence of real numbers. \begin{enumerate}[(1)]
+		\item We say that the sequence $\set{a_n}$ \textbf{diverges to infinity} (or \textbf{tends to infinity}) if \[
+		\forall M\in\R,\ \exists N\in\N\ \text{such that}\ n\geq N\implies M < a_n,
+		\] and write $\lim\limits_{n\to\infty}a_n=+\infty.$
+		\item We say that the sequence $\set{a_n}$ \textbf{diverges to minus infinity} (or \textbf{tends to infinity}) if \[
+		\forall M\in\R,\ \exists N\in\N\ \text{such that}\ n\geq N\implies a_n < M,
+		\] and write $\lim\limits_{n\to\infty}a_n=-\infty.$
+		\item[\color{gray!50} (3)] 
+		\text{\color{gray!50} We say that $\set{a_n}$ is properly divergent in case we have either $\lim\limits_{n\to\infty}a_n=+\infty$ or $\lim\limits_{n\to\infty}=-\infty$.}
+	\end{enumerate}
+\end{definition*}}
+\begin{note}
+	Recall that \begin{enumerate}[]
+	\item \textbf{[Monotonicity]} A sequence $\set{a_n}$ is monotonically increasing if $a_n\leq a_{n+1}$ for all $n\in\N$;
+	\item \textbf{[Not Bounded Above]} The sequence $\set{a_n}$ is not bounded above if \[
+	\lnot[\exists M\in\R,\ \forall n\in\N,\ a_n\leq M]\equiv [\forall M\in\R,\ \exists n\in\N\ \text{such that}\ a_n>M].
+	\] We claim that a sequence $\set{a_n}$ that is monotonically increasing and not bounded above diverges to infinity:\par
+	\begin{proof}
+		\textcolor{blue}{Let $M\in\R$}. Since $\set{a_n}$ is not bounded above, \[
+		\textcolor{blue}{\exists n_0\in\N}\ \text{such that}\ a_{n_0}>M.
+		\] Since $\set{a_n}$ is monotonic increasing, it fllows that \[
+		a_{n_0}\leq a_n,\ \forall n\geq n_0.
+		\] Thus \[
+		\textcolor{blue}{n\geq n_0}\overset{\text{monotonically increasing}}{\implies} a_{n_0}\leq a_n\overset{\text{Not Bounded Above}}{\textcolor{blue}{\implies}}\textcolor{blue}{M}<a_{n_0}\textcolor{blue}{<a_n}.
+		\] Hence it is proved.
+	\end{proof}
+\end{enumerate}
+\end{note}
+
+
+\newpage
+\lembox[Comparison Theorem]{\begin{lemma*}
+		Let $\set{a_n}$ and $\set{b_n}$ be sequences of real numbers. Then \[
+		\left[\forall n\in\N,\ a_n\leq b_n\right]\implies\lim\limits_{n\to\infty}a_n\leq \lim\limits_{n\to\infty}b_n.
+		\] 
+\end{lemma*}}
 \begin{proof}
-	TBA
+	Let $a=\lim\limits_{n\to\infty}a_n$ and $b=\lim\limits_{n\to\infty}b_n$. Suppose that $a>b$. Let $\varepsilon=a-b>0$. Then \begin{align*}
+		\exists N_1\in\N\ \text{such that}\ &n\geq N_1\implies\abs{a_n-a}<\varepsilon,\\
+		\exists N_2\in\N\ \text{such that}\ &n\geq N_2\implies\abs{b_n-b}<\varepsilon.
+	\end{align*} Let $N:=\max\set{N_1,N_2}$. Then $b_N<b+\varepsilon<a+\varepsilon<a_N$\ \text{\Large\lightning}. Hence $a\leq b$, \ie, $\lim\limits_{n\to\infty}a_n\leq\lim\limits_{n\to\infty} b_n$.
 \end{proof}
+\vfill
+\begin{note}
+Let $I_n=\intoo{0,\frac{1}{n}}\subseteq\R$ for all $n\in\N$.
+\begin{center}
+\begin{tikzpicture}[scale=1.5]
+\draw[thick, Stealth-Stealth] (0, 0) -- (4, 0);
+\draw[line width=.5mm, blue] (1, 0) -- (3, 0);
+\draw[line width=.5mm, fill=white, draw=blue] (1,0) circle (2pt) node[blue, below, yshift=-.1cm] {$0$};
+\draw[line width=.5mm, fill=white, draw=blue] (3,0) circle (2pt) node[blue, below, yshift=-.1cm] {$1/n$};
+\end{tikzpicture}
+\end{center}
+Suppose that $x\in\bigcap_{n=1}^\infty I_n$ then $x\in I_n$ for all $n\geq 1$. That is, \[
+0< x<\frac{1}{n}\quad\text{for all}\quad n\geq 1.
+\] By Archimedian property, $\exists n_0\in\N$ s.t. $n_0x > 1$\ \text{\Large\lightning}. Hence $\bigcap_{n=1}^\infty I_n=\varnothing$.
+\end{note}
+\vfill
+\begin{note}
+Let $I_n=\intco{n,\infty}\subseteq\R$ for all $n\in\N$.
+\begin{center}
+\begin{tikzpicture}[scale=1.5]
+	\draw[thick, -Stealth] (0, 0) -- (4, 0) node[right, blue] {$\infty$};
+	\draw[line width=.5mm, blue, -Stealth] (1, 0) -- (4, 0);
+	\draw[line width=.5mm, fill=white, draw=blue] (1,0) circle (2pt) node[blue, below, yshift=-.1cm] {$n$};
+\end{tikzpicture}
+\end{center}
+Suppose that $x\in\bigcap_{n=1}^\infty I_n$ then $x\in I_n$ for all $n\geq 1$. That is, \[
+n\leq x\quad\text{for all}\quad n\geq 1.
+\] By Archimedian property, $\exists n_0\in\N$ s.t. $x > n$\ \text{\Large\lightning}. Hence $\bigcap_{n=1}^\infty I_n=\varnothing$.
+\end{note}
+\newpage
+\thmbox[Nested Interval Property (NIP)]{\begin{theorem*}\hypertarget{nip}{}
+	Let $a_n\leq b_n$ for all $n\in\N$, and let $\set{\intcc{a_n,b_n}}_{i=1}^\infty\subseteq\R$​
+	be a sequence of bounded and closed intervals satisfying $\intcc{a_{n+1},b_{n+1}}\subseteq \intcc{a_n,b_n}$ for all $n\in\N$. Then \[
+	\bigcap_{n=1}^\infty\intcc{a_n,b_n}:=\set{x\in\R: x\in\intcc{a_n,b_n}\ \text{for all}\ n\in\N}\neq\varnothing.
+	\] 
+%	In other word, $\exists x\in\R$ such that $x\in\intcc{a_n,b_n}$ for all $n\in\N$.
+\end{theorem*}
+\tcblower
+If $\lim\limits_{n\to\infty}(b_n-a_n)=0$, then $\abs{\bigcap_{n=1}^\infty\intcc{a_n,b_n}}=1$.}
+\begin{center}
+\begin{tikzpicture}[scale=1.5]
+	
+	% Draw the number line
+	\draw[thick, -Stealth] (-0.5, 0) -- (6, 0);
+	
+	% Labels for endpoints
+	\node[below] at (0, 0) {$a_1$};
+	\node[below] at (5, 0) {$b_1$};
+	
+	% First interval
+	\fill[pattern=north west lines, pattern color=red] (0, 0.1) rectangle (5, 0.3);
+	\draw[red, thick] (0, 0.2) -- (5, 0.2);
+	\draw[red, thick] (0, 0.2) -- (0, 0);
+	\draw[red, thick] (5, 0.2) -- (5, 0);
+	\node[red, above] at (2.5, 0.2) {$[a_1, b_1]$};
+	\filldraw[red] (5,0) circle (1pt);
+	\filldraw[red] (0,0) circle (1pt);
+	
+	% Second interval
+	\fill[pattern=north west lines, pattern color=orange] (.5, -.1) rectangle (4.5, -0.3);
+	\draw[orange, thick] (0.5, -0.2) -- (4.5, -0.2);
+	\draw[orange, thick] (0.5, -0.2) -- (0.5, 0);
+	\draw[orange, thick] (4.5, -0.2) -- (4.5, 0);
+	\node[orange, below] at (2.5, -0.2) {$[a_2, b_2]$};
+	\filldraw[orange] (4.5,0) circle (1pt);
+	\filldraw[orange] (0.5,0) circle (1pt);
+	
+	% Third interval
+	\fill[pattern=north west lines, pattern color=green!80!black] (1, .65) rectangle (4, .85);
+	\draw[green!80!black, thick] (1, .75) -- (4, .75);
+	\draw[green!80!black, thick] (1, .75) -- (1, 0);
+	\draw[green!80!black, thick] (4, .75) -- (4, 0);
+	\node[green!80!black, above] at (2.5, .75) {$[a_3, b_3]$};
+	\filldraw[green!80!black] (4,0) circle (1pt);
+	\filldraw[green!80!black] (1,0) circle (1pt);
+	
+	% Fourth interval
+	\fill[pattern=north west lines, pattern color=blue] (1.5, -.65) rectangle (3.5, -.85);
+	\draw[blue, thick] (1.5, -.75) -- (3.5, -.75);
+	\draw[blue, thick] (1.5, -.75) -- (1.5, 0);
+	\draw[blue, thick] (3.5, -.75) -- (3.5, 0);
+	\node[blue, below] at (2.5, -.75) {$[a_4, b_4]$};
+	\filldraw[blue] (3.5,0) circle (1pt);
+	\filldraw[blue] (1.5,0) circle (1pt);
+	
+	% Convergence point
+	\node[cyan] at (2.5, 0) {\LARGE $\star$};
+	% Brace for nested intervals
+%	\draw[decorate, decoration={brace, amplitude=10pt, mirror}] (1.75, 1.2) -- (3.25, 1.2)
+%	node[midway, below=10pt] {Nested intervals converging to $c$};
+\end{tikzpicture}
+\end{center}
+\begin{proof}
+	Since $\intcc{a_{n+1},b_{n+1}}\subseteq\intcc{a_n,b_n}$ for all $n\in\N$, we know  the sequence $\set{a_n}$ is monotonically increasing, and the sequence $\set{b_n}$ is monotonically decreasing. In other words, \[
+	a_1\leq a_2\leq\cdots\leq a_n\leq \cdots\leq b_n\leq\cdots b_2\leq b_1.
+	\] By Monotone Convergence Theorem, we obtain \[
+	\lim\limits_{n\to\infty}a_n=\sup_{n\in\N} a_n\quad\text{and}\quad\lim\limits_{n\to\infty}b_n=\inf\limits_{n\in\N}b_n.
+	\] 
+%	and so $\left(\sup\limits_{n\in\N}a_n\right)\leq b_n$ for all $n\geq 1$. Similarly, we have $a_n\leq\left(\inf\limits_{n\in\N}b_n\right)$ for all $n\geq 1$. 
+	Thus, \[
+	[\forall n\in\N,\ a_n\leq b_n]\implies \lim\limits_{n\to\infty}a_n\leq\lim\limits_{n\to\infty}b_n\\
+	\implies\sup\limits_{n\in\N} a_n\leq\inf\limits_{n\in\N} b_n.
+	\]
+Then \begin{align*}
+x\in\bigcap_{n=1}^\infty[a_n,b_n]\iff \forall n\in\N,\ a_n\leq x\leq b_n
+&\iff \sup\limits_{n\in\N} a_n\leq x\leq \inf\limits_{n\in\N} b_n\\
+&\iff x\in\intcc[0]{\sup\limits_{n\in\N} a_n, \inf\limits_{n\in\N} b_n}.
+\end{align*} By Set Equality, we have \[
+\bigcap_{n=1}^\infty[a_n,b_n]=\intcc[0]{\sup\limits_{n\in\N} a_n, \inf\limits_{n\in\N} b_n},
+\] and so $\intcc[0]{\sup\limits_{n\in\N} a_n, \inf\limits_{n\in\N} b_n}\neq\varnothing$ by Least Upper Bound Property.
+\end{proof}
+
+\vfill
+%\section*{Limit Superior and Limit Inferior}
+\defbox[Limit Superior]{\begin{definition*}
+TBA
+\end{definition*}}
+\defbox[Limit Inferior]{\begin{definition*}
+TBA
+\end{definition*}}
 
 %\begin{tikzpicture}
 %	
@@ -636,20 +912,53 @@ L-\varepsilon<a_n\leq c_n\leq b_n<L_+\varepsilon,
 	\bibitem{advanced_calc_f}
 	수학의 즐거움, Enjoying Math. ``수학 공부, 기초부터 대학원 수학까지, 11. 해석학 개론 (f) MCT and NIP'' YouTube Video, 20:17. Published 
 	October 1, 2019. URL: \url{https://youtu.be/YdnBQaY5eDk?si=BNe0Ue4iq2P9Fxsd}.
-%	\bibitem{advanced_calc_g}
-%	수학의 즐거움, Enjoying Math. ``수학 공부, 기초부터 대학원 수학까지, 12. 해석학 개론 (g) Limsup, Liminf'' YouTube Video, 34:31. Published 
-%	October 2, 2019. URL: \url{https://youtu.be/4Q1cm3VQPUE?si=phAhKwnOxdnRAiRR}.
+	\bibitem{advanced_calc_g}
+	수학의 즐거움, Enjoying Math. ``수학 공부, 기초부터 대학원 수학까지, 12. 해석학 개론 (g) Limsup, Liminf'' YouTube Video, 34:31. Published 
+	October 2, 2019. URL: \url{https://youtu.be/4Q1cm3VQPUE?si=phAhKwnOxdnRAiRR}.
 \end{thebibliography}
-%\newpage
-%\appendix
-%\section{Complement of Family}
-%\begin{note}
-%	\[
-%	\left(\bigcup_{i\in\Lambda}E_i\right)^C=
-%	\bigcap_{i\in\Lambda}\left(E_i\right)^C
+
+\newpage
+\appendix
+%\section{Application of Monotone Convergence Theorem (Euler Number $e$)}
+%\paragraph{Problem.} Prove that \[
+%\lim\limits_{n\to\infty}\left(1+\frac{1}{n}\right)^n
+%\] exists.
+%\begin{proof}[\sol]
+%Recall that Binomial Theorem: \[
+%(x+y)^n=\sum_{k=0}^{n}\binom{n}{k}x^ky^{n-k}.
+%\]
+%\end{proof}
+\section{Equivalent Statements of the Least Upper Bound Property}
+\begin{align*}
+\text{Least Upper Bound Property}&\iff\text{Monotone Convergence Theorem}\\
+&\iff\text{Nested Interval Property}
+\end{align*}
+
+\thmbox[]{\begin{theorem*}
+Monotone Convergence Theorem $\iff$ Nested Interval Property
+\end{theorem*}}
+\begin{proof}
+\begin{enumerate}
+\item[($\Rightarrow$)] See \hyperlink{nip}{\textbf{Nested Interval Property}}.
+\item[($\Leftarrow$)] TBA
+%Let $\set{a_n}_{n=1}^\infty$ is a bounded monotone sequence.
+%\begin{enumerate}[]
+%	\item
+%	(Case 1) Let $\set{a_n}$ is monotone increasing. Since $\set{a_n}$ is bounded above, let $M$ be an upper bound. Construct a nested interval sequence: \[
+%	\intcc{a_n,M}.
+%	\] Clearly, $a_n\leq M$ and $\intcc{a_{n+1},M}\subseteq\intcc{a_n,M}$. By NIP, \[
+%	\exists L\in\R\ \text{such that}\ L\in\intcc{a_n,M}\ \text{for all}\ n\in\N.
 %	\]
-%	\begin{proof}
-%		content...
-%	\end{proof}
-%\end{note}
+%\end{enumerate}
+\end{enumerate}
+\end{proof}
+\thmbox[]{\begin{theorem*}
+Least Upper Bound Property $\iff$ Monotone Convergence Theorem
+\end{theorem*}}
+\begin{proof}
+\begin{enumerate}
+\item[($\Rightarrow$)] See \hyperlink{mct}{\textbf{Monotone Convergence Theorem}}.
+\item[($\Leftarrow$)] TBA
+\end{enumerate}
+\end{proof}
 \end{document}
