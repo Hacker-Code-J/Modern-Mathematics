@@ -568,24 +568,24 @@ Formally, \[
 \] To illustrate, consider the sequence \(\{a_n\} = 1 - (-1)^n\) that is bounded, yet it does not converge.
 \vfill
 \defbox[Monotone Sequence]{\begin{definition*}
-	A sequence $\set{a_n}_{n=1}^\infty$ is said to be \textbf{monotone} if it is either \textbf{monotonically increasing} or \textbf{monotonically decreasing}.
+	A sequence $\set{a_n}_{n=1}^\infty$ is said to be \textbf{monotone} if it is either \textbf{monotone increasing} or \textbf{monotone decreasing}.
 	\begin{enumerate}[(1)]
-		\item A sequence $\set{a_n}_{n=1}^\infty$ is \textbf{monotonically increasing} if $
+		\item A sequence $\set{a_n}_{n=1}^\infty$ is \textbf{monotone increasing} if $
 		a_n\leq a_{n+1}$ for all $n\in\N$.\par Alternatively, it is \textbf{strictly increasing} if $a_n<a_{n+1}$ for all $n\in\N$.
-		\item A sequence $\set{a_n}_{n=1}^\infty$ is \textbf{monotonically decreasing} if $
+		\item A sequence $\set{a_n}_{n=1}^\infty$ is \textbf{monotone decreasing} if $
 		a_{n+1}\leq a_{n}$ for all $n\in\N$.\par Alternatively, it is \textbf{strictly decreasing} if $a_{n+1}<a_{n}$ for all $n\in\N$.
 	\end{enumerate}
 \end{definition*}}
 \begin{remark*}
 A sequence $\set{a_n}$ is monotone if $\begin{cases*}
-	a_n\leq a_{n+1} & (monotonically increasing) \\
-	a_{n+1}\leq a_n & (monotonically decreasing)
+	a_n\leq a_{n+1} & (monotone increasing) \\
+	a_{n+1}\leq a_n & (monotone decreasing)
 \end{cases*}$.
 \end{remark*}
 \begin{example*}
 \ \begin{itemize}
-	\item $\set{n}_{n=1}^\infty$ is monotonically increasing.
-	\item $\set{1/n}_{n=1}^\infty$ is monotonically decreasing.
+	\item $\set{n}_{n=1}^\infty$ is monotone increasing.
+	\item $\set{1/n}_{n=1}^\infty$ is monotone decreasing.
 \end{itemize}
 \end{example*}
 \begin{example*}
@@ -641,39 +641,39 @@ Let $0<x<1$.\\ \adjustbox{scale=1,center}{\begin{tikzpicture}[scale=1]
 \thmbox[Monotone Convergence Theorem (MCT)]{\begin{theorem*}\hypertarget{mct}{}
 A monotone sequence of real numbers $\set{a_n}$ is convergent if and only if it is bounded.
 \begin{enumerate}[(1)]
-	\item Let $\set{a_n}$ be an \underline{monotonically increasing} sequence of real numbers that is \underline{bounded above}. Then \[
+	\item Let $\set{a_n}$ be an \underline{monotone increasing} sequence of real numbers that is \underline{bounded above}. Then \[
 	\lim\limits_{n\to\infty}a_n=\sup\set{a_n:n\in\N}.
 	\]
-	\item Let $\set{b_n}$ be an \underline{monotonically decreasing} sequence of real numbers that is \underline{bounded below}. Then \[
+	\item Let $\set{b_n}$ be an \underline{monotone decreasing} sequence of real numbers that is \underline{bounded below}. Then \[
 	\lim\limits_{n\to\infty}b_n=\inf\set{b_n:n\in\N}.
 	\]
 \end{enumerate}
 \end{theorem*}}
 \begin{proof}
 \ \begin{enumerate}[(1)]
-	\item Suppose that a sequence $\set{a_n}$ is monotonically increasing and bounded above. Consider the set $\set{a_n:n\in\N}\subseteq\R$, which is non-empty and bounded above by assumption. By \textbf{Least Upper Bound Property}\footnote{Every non-empty subset of $\R$ that is bounded above has the supremum in $\R$.}, \[
+	\item Suppose that a sequence $\set{a_n}$ is monotone increasing and bounded above. Consider the set $\set{a_n:n\in\N}\subseteq\R$, which is non-empty and bounded above by assumption. By \textbf{Least Upper Bound Property}\footnote{Every non-empty subset of $\R$ that is bounded above has the supremum in $\R$.}, \[
 	\exists\alpha\in\R\ \text{such that}\ \alpha=\sup\set{a_n:n\in\N}.
 	\] We claim that: \[
 	\lim\limits_{n\to\infty}a_n=\alpha=\sup\set{a_n:n\in\N}.
 	\] \textcolor{blue}{Let $\varepsilon>0$}. Since $\alpha$ is the supremum (\textit{least} upper bound) of $\set{a_n:n\in\N}$,  it follows that $\alpha-\varepsilon$ is not an upper bound of $\set{a_n:n\in\N}$. Thus, $\lnot[\forall N\in\N,\ a_N\leq\alpha-\varepsilon]$, \ie, \[
 	\textcolor{blue}{\exists N\in\N}\ \text{such that}\ \alpha-\varepsilon<a_N.
-	\] Since $\set{a_n}$ is monotonically increasing, \[
+	\] Since $\set{a_n}$ is monotone increasing, \[
 	\alpha-\varepsilon<a_N\leq a_n
 	\] for all $n\geq N$. Therefore, \[
 	\alpha-\varepsilon\overset{\alpha=\sup\set{a_n}}{\underset{\varepsilon>0}{<}}a_N
-	\overset{\set{a_n}\ \text{is monotonically increasing}}{\underset{n\geq N}{\leq}}a_n\overset{\alpha\ \text{is an upper bound}}{\leq}\alpha\overset{\varepsilon>0}{<}\alpha+\varepsilon.
+	\overset{\set{a_n}\ \text{is monotone increasing}}{\underset{n\geq N}{\leq}}a_n\overset{\alpha\ \text{is an upper bound}}{\leq}\alpha\overset{\varepsilon>0}{<}\alpha+\varepsilon.
 	\] This implies that \textcolor{blue}{$\abs[0]{a_n-\alpha}<\varepsilon$ for all $n\geq N$}.
 	\newpage
-	\item Suppose that a sequence $\set{b_n}$ is monotonically decreasing and bounded below. Consider the set $\set{b_n:n\in\N}\subseteq\R$, which is non-empty and bounded below by assumption. By \textbf{Greatest Lower Bound Property}\footnote{Every non-empty subset of $\R$ that is bounded below has the infimum in $\R$.}, \[
+	\item Suppose that a sequence $\set{b_n}$ is monotone decreasing and bounded below. Consider the set $\set{b_n:n\in\N}\subseteq\R$, which is non-empty and bounded below by assumption. By \textbf{Greatest Lower Bound Property}\footnote{Every non-empty subset of $\R$ that is bounded below has the infimum in $\R$.}, \[
 	\exists\beta\in\R\ \text{such that}\ \beta=\inf\set{b_n:n\in\N}.
 	\] We claim that: \[
 	\lim\limits_{n\to\infty}b_n=\beta=\inf\set{b_n:n\in\N}.
 	\] \textcolor{blue}{Let $\varepsilon>0$}. Since $\beta$ is the infimum (\textit{greatest} lower bound) of $\set{b_n:n\in\N}$,  it follows that $\beta+\varepsilon$ is not a lower bound of $\set{b_n:n\in\N}$. Thus, $\lnot[\forall N\in\N,\ \beta+\varepsilon\leq b_N]$, \ie, \[
 	\textcolor{blue}{\exists N\in\N}\ \text{such that}\ b_N<\beta+\varepsilon.
-	\] Since $\set{b_n}$ is monotonically decreasing, \[
+	\] Since $\set{b_n}$ is monotone decreasing, \[
 	b_n\leq b_N<\beta+\varepsilon
 	\] for all $n\geq N$. Therefore, \[
-	\beta-\varepsilon\overset{\varepsilon>0}{<}\beta\overset{\beta\ \text{is a lower bound}}{\leq}b_n\overset{\set{b_n}\ \text{is monotonically decreasing}}{\underset{n\geq N}{\leq}} b_N\overset{\beta=\inf\set{b_n}}{\underset{\varepsilon>0}{<}}\beta+\varepsilon
+	\beta-\varepsilon\overset{\varepsilon>0}{<}\beta\overset{\beta\ \text{is a lower bound}}{\leq}b_n\overset{\set{b_n}\ \text{is monotone decreasing}}{\underset{n\geq N}{\leq}} b_N\overset{\beta=\inf\set{b_n}}{\underset{\varepsilon>0}{<}}\beta+\varepsilon
 	\]
 	This implies that \textcolor{blue}{$\abs[0]{b_n-\beta}<\varepsilon$ for all $n\geq N$}.
 \end{enumerate}
@@ -693,17 +693,17 @@ A monotone sequence of real numbers $\set{a_n}$ is convergent if and only if it 
 \end{definition*}}
 \begin{note}
 	Recall that \begin{enumerate}[]
-	\item \textbf{[Monotonicity]} A sequence $\set{a_n}$ is monotonically increasing if $a_n\leq a_{n+1}$ for all $n\in\N$;
+	\item \textbf{[Monotonicity]} A sequence $\set{a_n}$ is monotone increasing if $a_n\leq a_{n+1}$ for all $n\in\N$;
 	\item \textbf{[Not Bounded Above]} The sequence $\set{a_n}$ is not bounded above if \[
 	\lnot[\exists M\in\R,\ \forall n\in\N,\ a_n\leq M]\equiv [\forall M\in\R,\ \exists n\in\N\ \text{such that}\ a_n>M].
-	\] We claim that a sequence $\set{a_n}$ that is monotonically increasing and not bounded above diverges to infinity:\par
+	\] We claim that a sequence $\set{a_n}$ that is monotone increasing and not bounded above diverges to infinity:\par
 	\begin{proof}
 		\textcolor{blue}{Let $M\in\R$}. Since $\set{a_n}$ is not bounded above, \[
 		\textcolor{blue}{\exists n_0\in\N}\ \text{such that}\ a_{n_0}>M.
 		\] Since $\set{a_n}$ is monotonic increasing, it fllows that \[
 		a_{n_0}\leq a_n,\ \forall n\geq n_0.
 		\] Thus \[
-		\textcolor{blue}{n\geq n_0}\overset{\text{monotonically increasing}}{\implies} a_{n_0}\leq a_n\overset{\text{Not Bounded Above}}{\textcolor{blue}{\implies}}\textcolor{blue}{M}<a_{n_0}\textcolor{blue}{<a_n}.
+		\textcolor{blue}{n\geq n_0}\overset{\text{monotone increasing}}{\implies} a_{n_0}\leq a_n\overset{\text{Not Bounded Above}}{\textcolor{blue}{\implies}}\textcolor{blue}{M}<a_{n_0}\textcolor{blue}{<a_n}.
 		\] Hence it is proved.
 	\end{proof}
 \end{enumerate}
@@ -815,7 +815,7 @@ If $\lim\limits_{n\to\infty}(b_n-a_n)=0$, then $\abs{\bigcap_{n=1}^\infty\intcc{
 \end{tikzpicture}
 \end{center}
 \begin{proof}
-	Since $\intcc{a_{n+1},b_{n+1}}\subseteq\intcc{a_n,b_n}$ for all $n\in\N$, we know  the sequence $\set{a_n}$ is monotonically increasing, and the sequence $\set{b_n}$ is monotonically decreasing. In other words, \[
+	Since $\intcc{a_{n+1},b_{n+1}}\subseteq\intcc{a_n,b_n}$ for all $n\in\N$, we know  the sequence $\set{a_n}$ is monotone increasing, and the sequence $\set{b_n}$ is monotone decreasing. In other words, \[
 	a_1\leq a_2\leq\cdots\leq a_n\leq \cdots\leq b_n\leq\cdots b_2\leq b_1.
 	\] By Monotone Convergence Theorem, we obtain \[
 	\lim\limits_{n\to\infty}a_n=\sup_{n\in\N} a_n\quad\text{and}\quad\lim\limits_{n\to\infty}b_n=\inf\limits_{n\in\N}b_n.
@@ -883,10 +883,15 @@ Let $\set{x_n}_{i=1}^\infty$ be a sequence in $\R$. Define \begin{align*}
 	s_1 &=\sup\set{x_1,x_2,x_3,x_4,\dots}, \\
 	s_1 &=\sup\set{\hspace{.5cm} x_2,x_3,x_4,\dots}, \\
 	\vdots &\\
-	s_1 &=\sup\set{\hspace{1cm} x_n,x_{n+1},\dots}.
+	s_n &=\sup\set{\hspace{1cm} x_n,x_{n+1},\dots}.
 \end{align*}
-
-
+\begin{note}[Extended Real Number Line]
+The \textbf{extended real number line} $\overline{\R}$ is defined as \[
+\overline{\R}:=\R\cup\set{\pm\infty}.
+\] That is, the set of real numbers together with two auxiliary symbols $+\infty,-\infty$ such that \[
+\forall x\in\R,\ -\infty<x<+\infty.
+\]
+\end{note}
 \defbox[Limit Superior and Limit Inferior]{\begin{definition*}
 Let $\set{x_n}$ be a sequence of real numbers.
 \begin{enumerate}[(1)]
@@ -898,6 +903,25 @@ Let $\set{x_n}$ be a sequence of real numbers.
 \defbox[Limit Inferior]{\begin{definition*}
 TBA
 \end{definition*}}
+
+\thmbox[Bolzano-Weierstrass Theorem]{\begin{theorem*}
+	A bounded sequence of real numbers has a convergent subsequence.
+\end{theorem*}}
+
+
+\begin{remark*}
+	$\liminf s_n\leq \limsup s_n$
+	\begin{proof}
+		content...
+	\end{proof}
+\end{remark*}
+
+\probox{\begin{proposition*}
+	$\limsup s_n=\beta\iff\begin{cases}
+		\forall\varepsilon>0,\ \exists n_0\in\N\ \text{s.t.}\ n\geq n_0\Rightarrow s_n<\beta+\varepsilon \\
+		\forall\varepsilon>0,\ \forall n\in\N\ \exists k\in\N\ \text{s.t.}\ k\geq n\land \beta-\varepsilon< s_k.
+	\end{cases}$
+\end{proposition*}}
 
 %\begin{tikzpicture}
 %	
