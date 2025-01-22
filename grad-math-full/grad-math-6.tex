@@ -744,12 +744,12 @@ Let $I_n=\intco{n,\infty}\subseteq\R$ for all $n\in\N$.
 \begin{tikzpicture}[scale=1.5]
 	\draw[thick, -Stealth] (0, 0) -- (4, 0) node[right, blue] {$\infty$};
 	\draw[line width=.5mm, blue, -Stealth] (1, 0) -- (4, 0);
-	\draw[line width=.5mm, fill=white, draw=blue] (1,0) circle (2pt) node[blue, below, yshift=-.1cm] {$n$};
+	\draw[line width=.5mm, fill=blue, draw=blue] (1,0) circle (2pt) node[blue, below, yshift=-.1cm] {$n$};
 \end{tikzpicture}
 \end{center}
 Suppose that $x\in\bigcap_{n=1}^\infty I_n$ then $x\in I_n$ for all $n\geq 1$. That is, \[
 n\leq x\quad\text{for all}\quad n\geq 1.
-\] By Archimedian property, $\exists n_0\in\N$ s.t. $x > n$\ \text{\Large\lightning}. Hence $\bigcap_{n=1}^\infty I_n=\varnothing$.
+\] By Archimedian property, $\exists n_0\in\N$ s.t. $x < n_0$\ \text{\Large\lightning}. Hence $\bigcap_{n=1}^\infty I_n=\varnothing$.
 \end{note}
 \newpage
 \thmbox[Nested Interval Property (NIP)]{\begin{theorem*}\hypertarget{nip}{}
@@ -834,10 +834,66 @@ x\in\bigcap_{n=1}^\infty[a_n,b_n]\iff \forall n\in\N,\ a_n\leq x\leq b_n
 \] and so $\intcc[0]{\sup\limits_{n\in\N} a_n, \inf\limits_{n\in\N} b_n}\neq\varnothing$ by Least Upper Bound Property.
 \end{proof}
 
-\vfill
-%\section*{Limit Superior and Limit Inferior}
-\defbox[Limit Superior]{\begin{definition*}
-TBA
+\newpage\noindent
+What is $\textcolor{red}{\pm1}$ for the set $\textcolor{blue}{S=\set{(-1)^n:n\in\N}}$?
+\begin{center}
+\begin{tikzpicture}[scale=.75]
+\begin{axis}[
+xlabel={$n$},
+ylabel={$(-1)^n$},
+ymin=-1.2, ymax=1.2,
+xmin=0, xmax=20,
+xtick={1,2,...,20},
+ytick={-1,0,1},
+grid=major,
+width=\textwidth,
+height=6cm,
+domain=1:20,
+samples=20,
+legend pos=north east,
+]
+\addplot[red, mark=*, dotted, mark options={fill=red}] {(-1)^x};
+\addlegendentry{$(-1)^n$};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+What is $\textcolor{red}{\pm1}$ for the set $\textcolor{blue}{S=\set{(-1)^n+\frac{1}{n}:n\in\N}}$?
+\begin{center}
+\begin{tikzpicture}[scale=.75]
+	\begin{axis}[
+		xlabel={$n$},
+		ylabel={$(-1)^n+\frac{1}{n}$},
+		ymin=-1.75, ymax=1.75,
+		xmin=0, xmax=20,
+		xtick={1,2,...,20},
+		ytick={-1,0,1},
+		grid=major,
+		width=\textwidth,
+		height=6cm,
+		domain=1:20,
+		samples=20,
+		legend pos=north east,
+		]
+		\addplot[red, mark=*, dotted, mark options={fill=red}] {(-1)^x+(1/x)};
+		\addlegendentry{$(-1)^n+\frac{1}{n}$};
+	\end{axis}
+\end{tikzpicture}
+\end{center}
+Let $\set{x_n}_{i=1}^\infty$ be a sequence in $\R$. Define \begin{align*}
+	s_1 &=\sup\set{x_1,x_2,x_3,x_4,\dots}, \\
+	s_1 &=\sup\set{\hspace{.5cm} x_2,x_3,x_4,\dots}, \\
+	\vdots &\\
+	s_1 &=\sup\set{\hspace{1cm} x_n,x_{n+1},\dots}.
+\end{align*}
+
+
+\defbox[Limit Superior and Limit Inferior]{\begin{definition*}
+Let $\set{x_n}$ be a sequence of real numbers.
+\begin{enumerate}[(1)]
+	\item The \textbf{limit superior} of the sequence, denoted by $\limsup\limits_{n \to \infty} x_n$ is defined as \[
+	\limsup\limits_{n \to \infty} x_n:=\lim\limits_{n\to\infty}\sup_{k\geq n}x_k,
+	\] where $\sup_{k\geq n}x_k$ represents the supremum of the subsequence $\set{x_k:k\geq n}$.
+\end{enumerate}
 \end{definition*}}
 \defbox[Limit Inferior]{\begin{definition*}
 TBA
