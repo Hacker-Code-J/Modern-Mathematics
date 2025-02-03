@@ -70,7 +70,7 @@ The `grad-math-full` directory contains detailed documents for graduate-level ma
 <li>Continuity of a Function</li>
 <li>Monotone Convergent Theorem (MCT)</li>
 <li>Nested Interval Property (NIP)</li>
-<li>TBA</li>
+<li>Limit Superior and Limit Inferior</li>
 </ul>
 </details>
 
