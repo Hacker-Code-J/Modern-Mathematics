@@ -693,8 +693,8 @@ A monotone sequence of real numbers $\set{a_n}$ is convergent if and only if it 
 \end{definition*}}
 \begin{note}
 	Recall that \begin{enumerate}[]
-	\item \textbf{[Monotonicity]} A sequence $\set{a_n}$ is monotone increasing if $a_n\leq a_{n+1}$ for all $n\in\N$;
-	\item \textbf{[Not Bounded Above]} The sequence $\set{a_n}$ is not bounded above if \[
+	\item \textbf{(Monotonicity)} A sequence $\set{a_n}$ is monotone increasing if $a_n\leq a_{n+1}$ for all $n\in\N$;
+	\item \textbf{(Not Bounded Above)} The sequence $\set{a_n}$ is not bounded above if \[
 	\lnot[\exists M\in\R,\ \forall n\in\N,\ a_n\leq M]\equiv [\forall M\in\R,\ \exists n\in\N\ \text{such that}\ a_n>M].
 	\] We claim that a sequence $\set{a_n}$ that is monotone increasing and not bounded above diverges to infinity:\par
 	\begin{proof}
@@ -707,11 +707,11 @@ A monotone sequence of real numbers $\set{a_n}$ is convergent if and only if it 
 		\] Hence it is proved.
 	\end{proof}
 \end{enumerate}
+Note that
 \end{note}
 
-
 \newpage
-\lembox[Comparison Theorem]{\begin{lemma*}
+\lembox[]{\begin{lemma*}
 		Let $\set{a_n}$ and $\set{b_n}$ be sequences of real numbers. Then \[
 		\left[\forall n\in\N,\ a_n\leq b_n\right]\implies\lim\limits_{n\to\infty}a_n\leq \lim\limits_{n\to\infty}b_n.
 		\] 
@@ -835,56 +835,260 @@ x\in\bigcap_{n=1}^\infty[a_n,b_n]\iff \forall n\in\N,\ a_n\leq x\leq b_n
 \end{proof}
 
 \newpage\noindent
-What is $\textcolor{red}{\pm1}$ for the set $\textcolor{blue}{S=\set{(-1)^n:n\in\N}}$?
+\probox[Monotonicity of Supremum and Infimum]{\begin{proposition*}
+Let $A,B\subseteq\R$ be non-empty sets. Let $B\subseteq A$. Then\begin{enumerate}[\normalfont (1)]
+	\item $\sup B\leq \sup A$;
+	\item $\inf A\leq \inf B$.
+\end{enumerate}
+\end{proposition*}}
+\begin{proof}
+\begin{enumerate}[(1)]
+	\item Since \[
+	b\in B\overset{B\subseteq A}{\implies}b\in A\overset{\sup A}{\implies}b\leq \sup A,
+	\] $\sup A$ be an upper bound of $B$. Since $\sup B$ is the \textit{least} upper bound of $B$, we have $\sup B\leq\sup A$.
+	\item Since \[
+	b\in B\overset{B\subseteq A}{\implies}b\in A\overset{\inf A}{\implies}\inf A\leq b,
+	\] $\inf A$ be a lower bound of $B$. Since $\inf B$ is the \textit{greatest} lower bound of $B$, we have $\inf A\leq\inf B$.
+\end{enumerate}
+\end{proof}
+
+\begin{observation}
+\ \begin{itemize}
+\item What is $\textcolor{red}{\pm1}$ for the set $\textcolor{blue}{S=\set{(-1)^n:n\in\N}}$?
 \begin{center}
 \begin{tikzpicture}[scale=.75]
 \begin{axis}[
-xlabel={$n$},
-ylabel={$(-1)^n$},
-ymin=-1.2, ymax=1.2,
-xmin=0, xmax=20,
-xtick={1,2,...,20},
-ytick={-1,0,1},
-grid=major,
-width=\textwidth,
-height=6cm,
-domain=1:20,
-samples=20,
-legend pos=north east,
-]
-\addplot[red, mark=*, dotted, mark options={fill=red}] {(-1)^x};
-\addlegendentry{$(-1)^n$};
+	xlabel={$n$},
+	ylabel={$(-1)^n$},
+	ymin=-1.2, ymax=1.2,
+	xmin=0, xmax=20,
+	xtick={1,2,...,20},
+	ytick={-1,0,1},
+	grid=major,
+	width=\textwidth,
+	height=6cm,
+	domain=1:20,
+	samples=20,
+	legend pos=north east,
+	]
+	\addplot[red, mark=*, dotted, mark options={fill=red}] {(-1)^x};
+	\addplot[blue, line width=.5mm, opacity=.5] {1};
+	\addplot[blue, line width=.5mm, opacity=.5] {-1};
+	\addlegendentry{$(-1)^n$};
 \end{axis}
 \end{tikzpicture}
 \end{center}
-What is $\textcolor{red}{\pm1}$ for the set $\textcolor{blue}{S=\set{(-1)^n+\frac{1}{n}:n\in\N}}$?
+\item What is $\textcolor{red}{\pm1}$ for the set $\textcolor{blue}{S=\set{(-1)^n+\frac{1}{n}:n\in\N}}$?
 \begin{center}
 \begin{tikzpicture}[scale=.75]
-	\begin{axis}[
-		xlabel={$n$},
-		ylabel={$(-1)^n+\frac{1}{n}$},
-		ymin=-1.75, ymax=1.75,
-		xmin=0, xmax=20,
-		xtick={1,2,...,20},
-		ytick={-1,0,1},
-		grid=major,
-		width=\textwidth,
-		height=6cm,
-		domain=1:20,
-		samples=20,
-		legend pos=north east,
-		]
-		\addplot[red, mark=*, dotted, mark options={fill=red}] {(-1)^x+(1/x)};
-		\addlegendentry{$(-1)^n+\frac{1}{n}$};
-	\end{axis}
+\begin{axis}[
+	xlabel={$n$},
+	ylabel={$(-1)^n+\frac{1}{n}$},
+	ymin=-1.75, ymax=1.75,
+	xmin=0, xmax=20,
+	xtick={1,2,...,20},
+	ytick={-1,0,1},
+	grid=major,
+	width=\textwidth,
+	height=6cm,
+	domain=1:20,
+	samples=20,
+	legend pos=north east,
+	]
+	\addplot[red, mark=*, dotted, mark options={fill=red}] {(-1)^x+(1/x)};
+	\addplot[blue, line width=.5mm, opacity=.5] {1+(1/x)};
+	\addplot[blue, line width=.5mm, opacity=.5] {-1+(1/x)};
+	\addlegendentry{$(-1)^n+\frac{1}{n}$};
+\end{axis}
 \end{tikzpicture}
 \end{center}
+\end{itemize}
 Let $\set{x_n}_{i=1}^\infty$ be a sequence in $\R$. Define \begin{align*}
-	s_1 &=\sup\set{x_1,x_2,x_3,x_4,\dots}, \\
-	s_1 &=\sup\set{\hspace{.5cm} x_2,x_3,x_4,\dots}, \\
-	\vdots &\\
-	s_n &=\sup\set{\hspace{1cm} x_n,x_{n+1},\dots}.
+	s_1 &=\sup\set{x_1,x_2,x_3,\dots}=\sup\set{x_k:k\geq 1}, \\
+	s_1 &=\sup\set{x_2,x_3,x_4,\dots}=\sup\set{x_k:k\geq 2}, \\
+	&\vdots \\
+	s_n &=\sup\set{x_k,x_{k+1},\dots}=\sup\set{x_k:k\geq n}.
 \end{align*}
+By monotonicity of supremum, $$
+s_1\geq s_2\geq\cdots\geq s_n\geq s_{n+1}\geq\cdots.$$
+That is, $\set{s_n}_{n=1}^\infty$ be a monotone decreasing sequence. Similarly, for $t_n=\inf\set{x_k,x_{k+1},\dots}=\inf\set{x_k:k\geq n}$, we have a monotone increasing sequence $\set{t_n}_{n=1}^\infty$.
+Consider the followings:
+\begin{table}[h]
+\centering\setstretch{1.25}
+\begin{tabular}{c|cc|c||cc}
+	\toprule
+	\(n\) & \((-1)^n\) & \(\frac{1}{n}\) & \(x_n=(-1)^n + \frac{1}{n}\) & $\sup\set{x_k:k\geq n}$ & $\inf\set{x_k:k\geq n}$ \\
+	\midrule
+	1  & \(-1\)   & \(1\)       & \(0\) & 1.5 & $-1$ \\
+	2  & \(1\)    & \(\tfrac{1}{2}=0.5\)  & \(\tfrac{3}{2}=1.5\) & 1.5 & $-1$   \\
+	3  & \(-1\)   & \(\tfrac{1}{3}=0.\dot{3}\)  & \(-\tfrac{2}{3}=-0.\dot{6}\) & 1.5 & $-1$  \\
+	4  & \(1\)    & \(\tfrac{1}{4}=0.25\)  & \(\tfrac{5}{4}=1.25\) & 1.5 & $-1$   \\
+	5  & \(-1\)   & \(\tfrac{1}{5}=0.2\)  & \(-\tfrac{4}{5}=-0.8\) & 1.5 & $-1$  \\
+	6  & \(1\)    & \(\tfrac{1}{6}=0.1\dot{6}\)  & \(\tfrac{7}{6}=1.1\dot{6}\) & 1.5 & $-1$   \\
+	7  & \(-1\)   & \(\tfrac{1}{7}\approx 0.14\)  & \(-\tfrac{6}{7}\approx -0.86\) & 1.5 & $-1$  \\
+	8  & \(1\)    & \(\tfrac{1}{8}=0.125\)  & \(\tfrac{9}{8}=1.125\) & 1.5 & $-1$   \\
+	9  & \(-1\)   & \(\tfrac{1}{9}=0.\dot{1}\)  & \(-\tfrac{8}{9}=-0.\dot{8}\) & 1.5 & $-1$  \\
+	10 & \(1\)    & \(\tfrac{1}{10}=0.1\) & \(\tfrac{11}{10}=1.1\) & 1.5 & $-1$ \\
+	\bottomrule
+\end{tabular}
+%\caption{Values of \(\displaystyle a_n = (-1)^n + \frac{1}{n}\) for \(n = 1,2,\dots,10\).}
+%\label{tab:sequence-(-1)^n+1/n}
+\end{table}
+
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[
+xmin=1, xmax=15,
+ymin=-1.5, ymax=1.5,
+grid=both,
+axis lines=middle,
+samples at={1,...,15}, % Plot points for n=1 to 15
+clip=false,
+legend style={at={(.75,.6)}}
+]
+% Plot the sequence points (even n in blue, odd n in red)
+\addplot[
+only marks,
+mark=*,
+mark options={fill=red},
+] coordinates {
+(1, -1 + 1/1)
+(2, 1 + 1/2)
+(3, -1 + 1/3)
+(4, 1 + 1/4)
+(5, -1 + 1/5)
+(6, 1 + 1/6)
+(7, -1 + 1/7)
+(8, 1 + 1/8)
+(9, -1 + 1/9)
+(10, 1 + 1/10)
+(11, -1 + 1/11)
+(12, 1 + 1/12)
+(13, -1 + 1/13)
+(14, 1 + 1/14)
+(15, -1 + 1/15)
+};
+\addlegendentry{\( x_n \) (odd \( n \))}
+
+\addplot[
+only marks,
+mark=*,
+mark options={fill=blue},
+] coordinates {
+(2, 1 + 1/2)
+(4, 1 + 1/4)
+(6, 1 + 1/6)
+(8, 1 + 1/8)
+(10, 1 + 1/10)
+(12, 1 + 1/12)
+(14, 1 + 1/14)
+};
+\addlegendentry{\( x_n \) (even \( n \))}
+
+% Draw lim sup and lim inf as dashed lines
+\addplot[dashed, gray, thick, no marks] coordinates {(1,1) (15,1)};
+\addplot[dashed, gray, thick, no marks] coordinates {(1,-1) (15,-1)};
+\end{axis}
+\end{tikzpicture}\hfill
+\begin{tikzpicture}
+\begin{axis}[
+xmin=1, xmax=15,
+ymin=-1.5, ymax=1.5,
+grid=both,
+axis lines=middle,
+clip=false,
+legend style={at={(1,.75)}}
+]
+
+% Original sequence (odd n: red, even n: blue)
+\addplot[only marks, mark=*, mark options={fill=red}] coordinates {
+	(1, 0)    % x_1 = -1 + 1/1 = 0
+	(3, -1 + 1/3)
+	(5, -1 + 1/5)
+	(7, -1 + 1/7)
+	(9, -1 + 1/9)
+	(11, -1 + 1/11)
+	(13, -1 + 1/13)
+	(15, -1 + 1/15)
+};
+\addlegendentry{Odd \(n\)}
+
+\addplot[only marks, mark=*, mark options={fill=blue}] coordinates {
+	(2, 1 + 1/2)
+	(4, 1 + 1/4)
+	(6, 1 + 1/6)
+	(8, 1 + 1/8)
+	(10, 1 + 1/10)
+	(12, 1 + 1/12)
+	(14, 1 + 1/14)
+};
+\addlegendentry{Even \(n\)}
+
+% Monotone decreasing lim sup sequence (s_n)
+\addplot[thick, green!50!black, mark=*, mark size=2pt, opacity=.5] coordinates {
+	(1, 1.5)   % s_1 = sup{x_1, x_2, ...} = 1.5
+	(2, 1.5)   % s_2 = sup{x_2, x_3, ...} = 1.5
+	(3, 1.25)  % s_3 = sup{x_3, x_4, ...} = 1.25
+	(4, 1.25)  % s_4 = sup{x_4, x_5, ...} = 1.25
+	(5, 1.1667)% s_5 = sup{x_5, x_6, ...} ≈ 1.1667
+	(6, 1.1667)
+	(7, 1.125) % s_7 = sup{x_7, x_8, ...} = 1.125
+	(8, 1.125)
+	(9, 1.1)   % s_9 = sup{x_9, x_{10}, ...} = 1.1
+	(10, 1.1)
+	(11, 1.0833)
+	(12, 1.0833)
+	(13, 1.0714)
+	(14, 1.0714)
+	(15, 1.0625)
+};
+\addlegendentry{\(s_n=\sup\set{x_k\mid k\geq n}\)}
+
+% Monotone increasing lim inf sequence (i_n)
+\addplot[thick, orange, mark=*, mark size=2pt, opacity=.5] coordinates {
+%	(1, 0)     % i_1 = inf{x_1, x_2, ...} = 0
+%	(2, -0.6667) % i_2 = inf{x_2, x_3, ...} ≈ -0.6667
+%	(3, -0.6667)
+%	(4, -0.8)  % i_4 = inf{x_4, x_5, ...} = -0.8
+%	(5, -0.8)
+%	(6, -0.8571) % i_6 = inf{x_6, x_7, ...} ≈ -0.8571
+%	(7, -0.8571)
+%	(8, -0.8889) % i_8 = inf{x_8, x_9, ...} ≈ -0.8889
+%	(9, -0.8889)
+%	(10, -0.9091) % i_{10} = inf{x_{10}, x_{11}, ...} ≈ -0.9091
+%	(11, -0.9091)
+%	(12, -0.9231)
+%	(13, -0.9231)
+%	(14, -0.9333)
+%	(15, -0.9333)
+(1, -1)
+(2, -1)
+(3, -1)
+(4, -1)
+(5, -1)
+(6, -1)
+(7, -1)
+(8, -1)
+(9, -1)
+(10, -1)
+(11, -1)
+(12, -1)
+(13, -1)
+(14, -1)
+(15, -1)
+};
+\addlegendentry{\(t_n=\inf\set{x_k\mid k\geq n}\)}
+
+% Asymptotic limits (dashed lines)
+\addplot[dashed, gray, thick] coordinates {(1,1) (15,1)};
+\addplot[dashed, gray, thick] coordinates {(1,-1) (15,-1)};
+\node[gray, below] at (axis cs:13,1) {\(\limsup x_n = 1\)};
+\node[gray, below] at (axis cs:13,-1) {\(\liminf x_n = -1\)};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+\end{observation}
+
 \begin{note}[Extended Real Number Line]
 The \textbf{extended real number line} $\overline{\R}$ is defined as \[
 \overline{\R}:=\R\cup\set{\pm\infty}.
@@ -896,12 +1100,9 @@ The \textbf{extended real number line} $\overline{\R}$ is defined as \[
 Let $\set{x_n}$ be a sequence of real numbers.
 \begin{enumerate}[(1)]
 	\item The \textbf{limit superior} of the sequence, denoted by $\limsup\limits_{n \to \infty} x_n$ is defined as \[
-	\limsup\limits_{n \to \infty} x_n:=\lim\limits_{n\to\infty}\sup_{k\geq n}x_k,
+		\limsup\limits_{n \to \infty} x_n=\lim\limits_{n\to\infty}\left(\sup_{k\geq n}x_k\right):=\inf_{n\in\N}\left(\sup_{k\geq n}x_k\right),
 	\] where $\sup_{k\geq n}x_k$ represents the supremum of the subsequence $\set{x_k:k\geq n}$.
 \end{enumerate}
-\end{definition*}}
-\defbox[Limit Inferior]{\begin{definition*}
-TBA
 \end{definition*}}
 
 \thmbox[Bolzano-Weierstrass Theorem]{\begin{theorem*}

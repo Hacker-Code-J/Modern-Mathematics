@@ -194,11 +194,11 @@ Show that $A=\set{1-\frac{1}{n}:n\in\N}$ has an upper bound and a lower bound.
 \defbox[Supremum and Infimum]{\begin{definition*}
 	Let $\varnothing\neq S\subseteq\R$.
 	\begin{enumerate}[(1)]
-		\item Let $S$ is bounded above. The number $\beta\in\R$ is the \hl{\textbf{supremum}} (or the \hl{\textbf{least upper bound}}) of $S$ if and only if \begin{enumerate}[(i)]
+		\item The number $\beta\in\R$ is the \hl{\textbf{supremum}} (or the \hl{\textbf{least upper bound}}) of $S$ if and only if \begin{enumerate}[(i)]
 			\item $\beta$ is an upper bound of $S$, \ie, $\forall x\in S,\ x\leq\beta$;
 			\item $u$ is any upper bound of $S\implies \beta\leq u$.
 		\end{enumerate} We write $\mathcolorbox{-red}{\beta=\sup S}\in\R$.
-		\item Let $S$ is bounded below. The number $\alpha\in\R$ is the \hl{\textbf{infimum}} (or the \hl{\textbf{greatest lower bound}}) of $S$ if and only if \begin{enumerate}[(i)]
+		\item The number $\alpha\in\R$ is the \hl{\textbf{infimum}} (or the \hl{\textbf{greatest lower bound}}) of $S$ if and only if \begin{enumerate}[(i)]
 			\item $\alpha$ is an lower bound of $S$, \ie, $\forall x\in S,\ \alpha\leq x$;
 			\item if $\ell$ is any lower bound of $S$ then $\ell\leq\alpha$.
 		\end{enumerate} We write $\mathcolorbox{-red}{\alpha=\inf S}\in\R$.
@@ -209,14 +209,14 @@ Show that $A=\set{1-\frac{1}{n}:n\in\N}$ has an upper bound and a lower bound.
 \end{remark*}
 \begin{remark*}
 	Let $\varnothing\neq S\subseteq\mathbb{R}$. \begin{enumerate}[(1)]
-		\item Suppose $S$ is bounded above. Then \begin{align*}
-			\beta=\sup S \iff&\text{(i)}\ \forall x\in S, x\leq\beta;\\
-			&\text{(ii)}\ \forall\text{upper bound}\ u\in S,\ \beta\leq u.
-		\end{align*}
-		\item Suppose $S$ is bounded below. Then \begin{align*}
-			\alpha=\inf S \iff&\text{(i)}\ \forall x\in S, \alpha\leq x;\\
-			&\text{(ii)}\ \forall \text{lower bound}\ \ell\in S,\ \ell\leq \alpha.
-		\end{align*}
+		\item $\beta=\sup S \iff\begin{cases}
+			\text{(i)}\ \forall x\in S, x\leq\beta;\\
+			\text{(ii)}\ \forall u\in\R,\ [(\forall x\in S,\ x\leq u)\implies \beta\leq u].
+		\end{cases}$
+		\item $\alpha=\inf S \iff\begin{cases}
+			\text{(i)}\ \forall x\in S, \alpha\leq x;\\
+			\text{(ii)}\ \forall \ell\in\R,\ [(\forall x\in S,\ \ell\leq x)\implies \ell\leq \alpha].
+		\end{cases}$
 	\end{enumerate} 
 \end{remark*}
 \begin{remark*}
