@@ -567,7 +567,7 @@ Formally, \[
 \]However, the converse is not necessarily true: \[
 \exists A\in\R\ \text{s.t.}\ A=\lim_{n\to\infty}a_n\centernot\impliedby\exists M\in\R\ \text{s.t.}\ \forall n\in\N,\ \abs{a_n}\leq M.
 \] To illustrate, consider the sequence \(\{a_n\} = 1 - (-1)^n\) that is bounded, yet it does not converge.
-\vfill
+\vspace{40pt}
 \defbox[Monotone Sequence]{\begin{definition*}
 	A sequence $\set{a_n}_{n=1}^\infty$ is said to be \textbf{monotone} if it is either \textbf{monotone increasing} or \textbf{monotone decreasing}.
 	\begin{enumerate}[(1)]
@@ -589,54 +589,54 @@ A sequence $\set{a_n}$ is monotone if $\begin{cases*}
 	\item $\set{1/n}_{n=1}^\infty$ is monotone decreasing.
 \end{itemize}
 \end{example*}
-\begin{example*}
-Let $0<x<1$.\\ \adjustbox{scale=1,center}{\begin{tikzpicture}[scale=1]
-	% Axes
-	\draw[->,thick] (0,0) -- (7.25,0) node[right] {$n$};
-	\draw[->,thick] (0,0) -- (0,3.5) node[above] {$x^n$};
-	
-	% Ticks and labels for x-axis
-	\foreach \x [count=\n from 1] in {.5,1,...,7} {
-		\draw[thick] (\x,0.05) -- (\x,-0.05) node[below] {\small $\n$};
-	}
-
-	% Ticks and labels for y-axis
-	\foreach \y in {3} {
-		\draw[thick] (0.1,\y) -- (-0.1,\y);
-		\ifnum\y=3
-		\node[left] at (0,\y) {\small 1};
-		\fi
-	}
-	
-	% Sequence points for x = 0.8
-	\foreach \n in {.5,1,...,7} {
-		\pgfmathsetmacro{\yn}{0.7^\n}
-		\draw[fill=pink,draw=red] (\n,3*\yn) circle (2pt);
-		\draw[dashed,magenta] (\n,3*\yn) -- (\n,0);
-	}
-	
-	% Convergence arrow and explanation
-	\draw[->,ultra thick,red!80] (2.5,3) -- (5.5,3) node[right] {\large\textcolor{red!80}{$\lim\limits_{n \to \infty} x^n = 0$}};
-	
-	% Additional visual enhancement for the curve
-	\draw[very thick,red,smooth] plot[domain=-.15:7.25,samples=100] (\x,{3*0.7^(\x)});
-	\draw[very thick,orange, smooth, opacity=0.25] plot[domain=-.15:7.25,samples=100] (\x,{3*0.95^(\x)}) node[right] {$x=0.95$};
-	\draw[very thick,brown, smooth, opacity=0.25] plot[domain=-.15:7.25,samples=100] (\x,{3*0.9^(\x)}) node[right] {$x=0.9$};
-	\draw[very thick,green!50!black, smooth, opacity=0.25] plot[domain=-.15:7.25,samples=100] (\x,{3*0.85^(\x)}) node[right] {$x=0.85$};
-	\draw[very thick,lime!50!black, smooth, opacity=0.25] plot[domain=-.15:7.25,samples=100] (\x,{3*0.8^(\x)}) node[right] {$x=0.8$};
-	\draw[very thick,blue, smooth, opacity=0.25] plot[domain=-.15:7.25,samples=100] (\x,{3*0.6^(\x)}) node[right] {$x=0.6$};
-	\draw[very thick,cyan, smooth, opacity=0.25] plot[domain=-.15:7.25,samples=100] (\x,{3*0.5^(\x)});
-	\draw[very thick,purple, smooth, opacity=0.25] plot[domain=-.15:7.25,samples=100] (\x,{3*0.4^(\x)});
-	\draw[very thick,magenta, smooth, opacity=0.25] plot[domain=-.15:7.25,samples=100] (\x,{3*0.3^(\x)});
-	
-%	\node[below right,blue!70!black] at (3.5,0.25) {\textbf{Illustration for} $x = 0.8$};
-	
-	% Labels and additional details
-	\node[below left] at (0,0) {0};
-%	\node[right,align=left] at (1,0.8) {\textbf{Monotone\ Convergence}};
-%	\node[align=left,right] at (1.5,4.75) {\textit{The sequence $x^n$ is monotone\ and converges to zero.}};
-\end{tikzpicture}}
-\end{example*}
+%\begin{example*}
+%Let $0<x<1$.\\ \adjustbox{scale=1,center}{\begin{tikzpicture}[scale=1]
+%	% Axes
+%	\draw[->,thick] (0,0) -- (7.25,0) node[right] {$n$};
+%	\draw[->,thick] (0,0) -- (0,3.5) node[above] {$x^n$};
+%	
+%	% Ticks and labels for x-axis
+%	\foreach \x [count=\n from 1] in {.5,1,...,7} {
+%		\draw[thick] (\x,0.05) -- (\x,-0.05) node[below] {\small $\n$};
+%	}
+%
+%	% Ticks and labels for y-axis
+%	\foreach \y in {3} {
+%		\draw[thick] (0.1,\y) -- (-0.1,\y);
+%		\ifnum\y=3
+%		\node[left] at (0,\y) {\small 1};
+%		\fi
+%	}
+%	
+%	% Sequence points for x = 0.8
+%	\foreach \n in {.5,1,...,7} {
+%		\pgfmathsetmacro{\yn}{0.7^\n}
+%		\draw[fill=pink,draw=red] (\n,3*\yn) circle (2pt);
+%		\draw[dashed,magenta] (\n,3*\yn) -- (\n,0);
+%	}
+%	
+%	% Convergence arrow and explanation
+%	\draw[->,ultra thick,red!80] (2.5,3) -- (5.5,3) node[right] {\large\textcolor{red!80}{$\lim\limits_{n \to \infty} x^n = 0$}};
+%	
+%	% Additional visual enhancement for the curve
+%	\draw[very thick,red,smooth] plot[domain=-.15:7.25,samples=100] (\x,{3*0.7^(\x)});
+%	\draw[very thick,orange, smooth, opacity=0.25] plot[domain=-.15:7.25,samples=100] (\x,{3*0.95^(\x)}) node[right] {$x=0.95$};
+%	\draw[very thick,brown, smooth, opacity=0.25] plot[domain=-.15:7.25,samples=100] (\x,{3*0.9^(\x)}) node[right] {$x=0.9$};
+%	\draw[very thick,green!50!black, smooth, opacity=0.25] plot[domain=-.15:7.25,samples=100] (\x,{3*0.85^(\x)}) node[right] {$x=0.85$};
+%	\draw[very thick,lime!50!black, smooth, opacity=0.25] plot[domain=-.15:7.25,samples=100] (\x,{3*0.8^(\x)}) node[right] {$x=0.8$};
+%	\draw[very thick,blue, smooth, opacity=0.25] plot[domain=-.15:7.25,samples=100] (\x,{3*0.6^(\x)}) node[right] {$x=0.6$};
+%	\draw[very thick,cyan, smooth, opacity=0.25] plot[domain=-.15:7.25,samples=100] (\x,{3*0.5^(\x)});
+%	\draw[very thick,purple, smooth, opacity=0.25] plot[domain=-.15:7.25,samples=100] (\x,{3*0.4^(\x)});
+%	\draw[very thick,magenta, smooth, opacity=0.25] plot[domain=-.15:7.25,samples=100] (\x,{3*0.3^(\x)});
+%	
+%%	\node[below right,blue!70!black] at (3.5,0.25) {\textbf{Illustration for} $x = 0.8$};
+%	
+%	% Labels and additional details
+%	\node[below left] at (0,0) {0};
+%%	\node[right,align=left] at (1,0.8) {\textbf{Monotone\ Convergence}};
+%%	\node[align=left,right] at (1.5,4.75) {\textit{The sequence $x^n$ is monotone\ and converges to zero.}};
+%\end{tikzpicture}}
+%\end{example*}
 \newpage
 \end{note}
 \thmbox[Monotone Convergence Theorem (MCT)]{\begin{theorem*}\hypertarget{mct}{}
@@ -819,16 +819,16 @@ If $\lim\limits_{n\to\infty}(b_n-a_n)=0$, then $\abs{\bigcap_{n=1}^\infty\intcc{
 	Since $\intcc{a_{n+1},b_{n+1}}\subseteq\intcc{a_n,b_n}$ for all $n\in\N$, we know  the sequence $\set{a_n}$ is monotone increasing, and the sequence $\set{b_n}$ is monotone decreasing. In other words, \[
 	a_1\leq a_2\leq\cdots\leq a_n\leq \cdots\leq b_n\leq\cdots b_2\leq b_1.
 	\] By Monotone Convergence Theorem, we obtain \[
-	\lim\limits_{n\to\infty}a_n=\sup_{n\in\N} a_n\quad\text{and}\quad\lim\limits_{n\to\infty}b_n=\inf\limits_{n\in\N}b_n.
-	\] 
-%	and so $\left(\sup\limits_{n\in\N}a_n\right)\leq b_n$ for all $n\geq 1$. Similarly, we have $a_n\leq\left(\inf\limits_{n\in\N}b_n\right)$ for all $n\geq 1$. 
-	Thus, \[
-	[\forall n\in\N,\ a_n\leq b_n]\implies \lim\limits_{n\to\infty}a_n\leq\lim\limits_{n\to\infty}b_n\\
-	\implies\sup\limits_{n\in\N} a_n\leq\inf\limits_{n\in\N} b_n.
+	\lim\limits_{n\to\infty}a_n=\sup_{n\in\N} a_n\quad\text{and}\quad\lim\limits_{n\to\infty}b_n=\inf\limits_{n\in\N}b_n
 	\]
+%	and so $\left(\sup\limits_{n\in\N}a_n\right)\leq b_n$ for all $n\geq 1$. Similarly, we have $a_n\leq\left(\inf\limits_{n\in\N}b_n\right)$ for all $n\geq 1$. 
+	Thus, \begin{equation*}
+	[\forall n\in\N,\ a_n\leq b_n]\implies \lim\limits_{n\to\infty}a_n\leq\lim\limits_{n\to\infty}b_n\\
+	\implies\sup\limits_{n\in\N} a_n\leq\inf\limits_{n\in\N} b_n\tag{*}
+\end{equation*}
 Then \begin{align*}
 x\in\bigcap_{n=1}^\infty[a_n,b_n]\iff \forall n\in\N,\ a_n\leq x\leq b_n
-&\iff \sup\limits_{n\in\N} a_n\leq x\leq \inf\limits_{n\in\N} b_n\\
+&\overset{\text{by (*) for $\Rightarrow$}}{\iff} \sup\limits_{n\in\N} a_n\leq x\leq \inf\limits_{n\in\N} b_n\\
 &\iff x\in\intcc[0]{\sup\limits_{n\in\N} a_n, \inf\limits_{n\in\N} b_n}.
 \end{align*} By Set Equality, we have \[
 \bigcap_{n=1}^\infty[a_n,b_n]=\intcc[0]{\sup\limits_{n\in\N} a_n, \inf\limits_{n\in\N} b_n},
@@ -913,12 +913,12 @@ Let $\set{x_n}_{i=1}^\infty$ be a sequence in $\R$. Define \begin{align*}
 By monotonicity of supremum, $$
 s_1\geq s_2\geq\cdots\geq s_n\geq s_{n+1}\geq\cdots.$$
 That is, $\set{s_n}_{n=1}^\infty$ be a monotone decreasing sequence. Similarly, for $t_n=\inf\set{x_k,x_{k+1},\dots}=\inf\set{x_k:k\geq n}$, we have a monotone increasing sequence $\set{t_n}_{n=1}^\infty$.
-Consider the followings:
+For example,
 \begin{table}[h]
 \centering\setstretch{1.25}
 \begin{tabular}{c|cc|c||cc}
 	\toprule
-	\(n\) & \((-1)^n\) & \(\frac{1}{n}\) & \(x_n=(-1)^n + \frac{1}{n}\) & $\sup\set{x_k:k\geq n}$ & $\inf\set{x_k:k\geq n}$ \\
+	\(n\) & \((-1)^n\) & \(\frac{1}{n}\) & \(x_n=(-1)^n + \frac{1}{n}\) & $\sup\set{x_k:k\geq n}(=:s_n)$ & $\inf\set{x_k:k\geq n}(=:t_n)$ \\
 	\midrule
 	1  & \(-1\)   & \(1\)       & \(0\) & 1.5 & $-1$ \\
 	2  & \(1\)    & \(\tfrac{1}{2}=0.5\)  & \(\tfrac{3}{2}=1.5\) & 1.5 & $-1$   \\
@@ -926,16 +926,28 @@ Consider the followings:
 	4  & \(1\)    & \(\tfrac{1}{4}=0.25\)  & \(\tfrac{5}{4}=1.25\) & 1.25 & $-1$   \\
 	5  & \(-1\)   & \(\tfrac{1}{5}=0.2\)  & \(-\tfrac{4}{5}=-0.8\) & 1.17 & $-1$  \\
 	6  & \(1\)    & \(\tfrac{1}{6}\approx 0.17\)  & \(\tfrac{7}{6}\approx 1.17\) & 1.17 & $-1$   \\
-	7  & \(-1\)   & \(\tfrac{1}{7}\approx 0.14\)  & \(-\tfrac{6}{7}\approx -0.86\) & 1.125 & $-1$  \\
-	8  & \(1\)    & \(\tfrac{1}{8}=0.125\)  & \(\tfrac{9}{8}=1.125\) & 1.125 & $-1$   \\
-	9  & \(-1\)   & \(\tfrac{1}{9}\approx 0.11\)  & \(-\tfrac{8}{9}\approx -0.89\) & 1.1 & $-1$  \\
-	10 & \(1\)    & \(\tfrac{1}{10}=0.1\) & \(\tfrac{11}{10}=1.1\) & 1.1 & $-1$ \\
+%	7  & \(-1\)   & \(\tfrac{1}{7}\approx 0.14\)  & \(-\tfrac{6}{7}\approx -0.86\) & 1.125 & $-1$  \\
+%	8  & \(1\)    & \(\tfrac{1}{8}=0.125\)  & \(\tfrac{9}{8}=1.125\) & 1.125 & $-1$   \\
+%	9  & \(-1\)   & \(\tfrac{1}{9}\approx 0.11\)  & \(-\tfrac{8}{9}\approx -0.89\) & 1.1 & $-1$  \\
+%	10 & \(1\)    & \(\tfrac{1}{10}=0.1\) & \(\tfrac{11}{10}=1.1\) & 1.1 & $-1$ \\
 	\bottomrule
 \end{tabular}
 %\caption{Values of \(\displaystyle a_n = (-1)^n + \frac{1}{n}\) for \(n = 1,2,\dots,10\).}
 %\label{tab:sequence-(-1)^n+1/n}
-\end{table}
-
+\end{table}\\ 
+By Monotone Convergent Theorem, $\set{s_n}$ and $\set{t_n}$ are converges, and so \begin{align*}
+	\lim\limits_{n \to \infty}s_n\tikzmarknode{a1}{=}\inf s_n\tikzmarknode{a2}{=}\inf\left(\sup_{k\geq n}x_k\right),\quad \lim\limits_{n \to \infty}t_n\tikzmarknode{b1}{=}\sup t_n\tikzmarknode{b2}{=}\sup\left(\inf_{k\geq n}x_k\right).
+\end{align*}
+\begin{tikzpicture}[remember picture, overlay, font=\sffamily]
+	\node[draw=blue, thick, fit=(a1), inner xsep=1pt, opacity=.4](box){};
+	\draw[thick, blue, opacity=.4] (box)--++(0,.5)node[above, scale=.75]{$\set{s_n}$ is monotone decreasing};
+	\node[draw=green!70!black, thick, fit=(a2), inner xsep=1pt, opacity=.4](box2){};
+	\draw[thick, green!70!black, opacity=.4] (box2)--++(0,-.5)node[below, scale=.75]{definition of $s_n$};
+	\node[draw=red, thick, fit=(b1), inner xsep=1pt, opacity=.4](box3){};
+	\draw[thick, red, opacity=.4] (box3)--++(0,.5)node[above, scale=.75]{$\set{t_n}$ is monotone increasing};
+	\node[draw=orange, thick, fit=(b2), inner xsep=1pt, opacity=.4](box4){};
+	\draw[thick, orange, opacity=.4] (box4)--++(0,-.5)node[below, scale=.75]{definition of $t_n$};
+\end{tikzpicture}
 \begin{center}
 \begin{tikzpicture}
 \begin{axis}[
@@ -1255,22 +1267,119 @@ Let $\set{x_n}$ be a sequence of real numbers. \st{Suppose that $\set{x_n}$ is b
 \thmbox[Bolzano-Weierstrass Theorem]{\begin{theorem*}
 	A bounded sequence of real numbers has a convergent subsequence.
 \end{theorem*}}
-
-
-\begin{remark*}
-	$\liminf s_n\leq \limsup s_n$
-	\begin{proof}
-		content...
-	\end{proof}
-\end{remark*}
+\begin{proof}
+	
+\end{proof}
 
 \probox{\begin{proposition*}
-	$\limsup s_n=\beta\iff\begin{cases}
-		\forall\varepsilon>0,\ \exists n_0\in\N\ \text{s.t.}\ n\geq n_0\Rightarrow s_n<\beta+\varepsilon \\
-		\forall\varepsilon>0,\ \forall n\in\N\ \exists k\in\N\ \text{s.t.}\ k\geq n\land \beta-\varepsilon< s_k.
-	\end{cases}$
+Let $\set{x_n},\set{y_n}$ be \st{bounded} sequences of real numbers. Then \begin{enumerate}[(1)]
+	\item $\liminf\ (x_n)\leq\limsup\ (x_n)$.
+	\item $\limsup\ (x_n)=L=\liminf\ (x_n)\iff\exists\lim\limits_{n \to \infty} x_n=L$.
+\end{enumerate}
 \end{proposition*}}
+\begin{proof}
+Let $s_n:=\sup\limits_{k\geq n}x_k$ and $t_n:=\inf\limits_{k\geq n}x_k$ for each $n\geq 1$. Then $\set{s_n}$ is monotone decreasing and $\set{t_n}$ is monotone increasing. And so \[
+\limsup\limits_{n \to \infty} x_n=\lim\limits_{n \to \infty} \left(\sup\limits_{k\geq n}x_k\right)=\lim\limits_{n\to\infty}s_n\quad\text{and}\quad\liminf\limits_{n \to \infty} x_n=\lim\limits_{n \to \infty} \left(\inf\limits_{k\geq n}x_k\right)=\lim\limits_{n \to \infty} t_n.
+\]\begin{enumerate}[(1)]
+	\item $[\forall n\in\N,\ t_n\leq s_n]\implies\lim\limits_{n \to \infty}t_n\leq \lim\limits_{n \to \infty}s_n\implies\liminf\ (x_n)\leq\limsup\ (x_n)$.
+	\item \begin{itemize}
+		\item[($\Rightarrow$)] Note that \[
+		t_n=\inf\limits_{k\geq n} x_k\leq x_n\leq\sup\limits_{k\geq n} x_k=s_n.
+		\] By Squeeze Theorem, we have $\lim\limits_{n\to\infty}x_n=L$.
+		\item[($\Leftarrow$)] Let $\varepsilon>0$. Since $\lim\limits_{n\to\infty}x_n=L$, \[
+		\exists n\in\N\ \text{such that}\ n\geq N\implies\abs{x_n-L}<\frac{\varepsilon}{2}.
+		\] Since $\set{s_n}$ is monotone decreasing and $\set{t_n}$ is monotone increasing, we have \begin{align*}
+			L-\varepsilon \;<\; L-\frac{\varepsilon}{2} \;\tikzmarknode{a1}{\leq}\; t_N \;\tikzmarknode{a2}{\leq}\; t_n \;{\leq}\; s_n \;\tikzmarknode{a4}{\leq}\; s_N \;\tikzmarknode{a3}{\leq}\; L+\frac{\varepsilon}{2} \;<\; L+\varepsilon.
+		\end{align*}
+		\begin{tikzpicture}[remember picture, overlay, font=\sffamily]
+			\node[draw=blue, thick, fit=(a1), inner xsep=1pt, opacity=.5](box){};
+			\draw[thick, blue, opacity=.5] (box)--++(0,.5)--++(-1,0) node[left, scale=.75]{Each $t_i$ is the ``greatest'' lower bound};
+			\node[draw=green!70!black, thick, fit=(a2), inner xsep=1pt, opacity=.5](box2){};
+			\draw[thick, green!70!black, opacity=.5] (box2)--++(0,-.6)--++(-1,0) node[left, scale=.75]{$\set{t_n}$ is monotone increasing and $n\geq N$};
+			\node[draw=red, thick, fit=(a3), inner xsep=1pt, opacity=.5](box3){};
+			\draw[thick, red, opacity=.5] (box3)--++(0,.5)--++(1,0) node[right, scale=.75]{Each $s_i$ is the ``least'' upper bound};
+			\node[draw=orange, thick, fit=(a4), inner xsep=1pt, opacity=.5](box4){};
+			\draw[thick, orange, opacity=.5] (box4)--++(0,-.6)--++(1,0) node[right, scale=.75]{$\set{s_n}$ is monotone decreasing and $n\geq N$};
+		\end{tikzpicture}
+		Therefore, $\limsup\ (x_n)=\lim\limits_{n\to\infty}s_n=L$ and $\liminf\ (x_n)=\lim\limits_{n\to\infty} t_n=L$.
+	\end{itemize}
+\end{enumerate}
+\end{proof}
 
+\thmbox{\begin{theorem*}
+Let $\set{x_n}$ be bounded sequences of real numbers. Then \begin{enumerate}[(1)]
+	\item $\limsup\ (x_n)=s\iff\forall\varepsilon>0,\ \begin{cases}
+		\text{\normalfont (i)}\ \exists n_0\in\N\ \text{such that}\ \forall n\geq n_0,\ x_n<s+\varepsilon\\
+		\text{\normalfont (ii)}\ \forall n\in\N,\ \exists k\in\N\ \text{with}\ k\geq n\ \text{such that}\ s-\varepsilon<x_k
+	\end{cases}$.
+	\item $\liminf\ (x_n)=t\iff\forall\varepsilon>0,\ \begin{cases}
+		\text{\normalfont (i)}\ \exists n_0\in\N\ \text{such that}\ \forall n\geq n_0,\ t-\varepsilon<x_n\\
+		\text{\normalfont (ii)}\ \forall n\in\N,\ \exists k\in\N\ \text{with}\ k\geq n\ \text{such that}\ x_k<t+\varepsilon
+	\end{cases}$.
+\end{enumerate}
+\end{theorem*}}
+%\begin{remark*}
+%\begin{align*}
+%\text{sufficiently large} &\implies\hspace{-.7cm}\bigcirc\hspace{.5cm} \text{infinitely many}\\
+%\text{infinitely many} &\centernot{\implies} \text{sufficiently large}
+%\end{align*}
+%\end{remark*}
+\begin{proof}
+\begin{enumerate}[(1)]
+\item \begin{itemize}
+	\item[($\Rightarrow$)] Assume that $\limsup\ (x_n)=s$. Let $\varepsilon>0$. 
+	\begin{enumerate}[(i)]
+		\item Since $s=\limsup\ (x_n)=\lim\limits_{n\to\infty}\left(\sup\limits_{k\geq n}x_k\right)$, \[
+		\exists n_0\in\N\ \text{such that}\ n\geq n_0\implies -\varepsilon< \sup\limits_{k\geq n} x_k-s<+\varepsilon.
+		\] Thus, if $n\geq n_0$ then $x_n\leq\sup\limits_{k\geq n} x_k<s+\varepsilon$.
+		\item Let $k\in\N$. Recall that, for $S\subseteq\R$, \[
+		\boxed{\lambda=\sup S\iff\forall\varepsilon>0,\ \exists x_\varepsilon\in S\ \text{s.t.}\ \lambda-\varepsilon<x_\varepsilon\leq\lambda}.
+		\] This guarantee the following: \[
+		\exists x\in\set{x_k:k\geq n}\ \text{s.t.}\ \sup\limits_{k\geq n}x_k-\varepsilon < x\leq\sup\limits_{k\geq n}x_k.
+		\] In other words, $\exists k\in\N$ with $k\geq n$ s.t. $\sup\limits_{k\geq n}x_k-\varepsilon<x_k$, and so \[
+		\underbrace{\inf\limits_{n\geq 1}\left(\sup_{k\geq n}x_k\right)}_{=s}-\varepsilon\leq\sup\limits_{k\geq n}x_k-\varepsilon<x_k.
+		\]
+	\end{enumerate}
+	\item[($\Leftarrow$)] Let $\varepsilon>0$. Assume that $s$ satisfies (i) and (ii). By (i), we know that \[
+	\exists n_0\in\N\ \text{s.t.}\ \forall n\geq n_0,\ x_n<s+\varepsilon,
+	\] and this implies that \[
+	\sup\limits_{n\geq n_0}x_n\leq s+\varepsilon.
+	\] If $k\geq n_0$, then \[
+	\sup\limits_{n_0\geq k}x_{n_0}\leq
+	\sup\limits_{n\geq n_0}x_n\leq s+\varepsilon.
+	\]
+\end{itemize}
+\item \begin{itemize}
+	\item[($\Rightarrow$)]
+	\item[($\Leftarrow$)]
+\end{itemize}
+\end{enumerate}
+\end{proof}
+
+\probox{\begin{proposition*}
+Let $\set{x_n},\set{y_n}$ be bounded sequences of real numbers. Then \begin{enumerate}[(1)]
+	\item $\liminf\ (x_n)+\liminf\ (y_n)\leq \liminf\ (x_n+y_n)$.
+	\item $\limsup\ (x_n+y_n)\leq\limsup\ (x_n)+\limsup\ (y_n)$.
+	\item For $a\geq0$, \[
+	\limsup\ (ax_n)=a\limsup\ (x_n)\quad\text{and}\quad\liminf\ (ax_n)=a\liminf\ (x_n).
+	\]
+	\item For $a<0$, \[
+	\limsup\ (ax_n)=a\liminf\ (x_n)\quad\text{and}\quad\liminf\ (ax_n)=a\limsup\ (x_n).
+	\]
+\end{enumerate}
+\end{proposition*}}
+\begin{proof}
+\begin{enumerate}[(1)]
+	\item 
+	\item 
+	\item 
+	\item 
+	\item 
+	\item 
+	\item 
+	\item 
+\end{enumerate}
+\end{proof}
 %\begin{tikzpicture}
 %	
 %	% Create a pgfplots environment
@@ -1332,7 +1441,22 @@ Let $\set{x_n}$ be a sequence of real numbers. \st{Suppose that $\set{x_n}$ is b
 
 
 \vfill
-
+%\[
+%\tikzmarknode{a1}{\frac{4}{2}}+\tikzmarknode{a2}{\frac{6}{3}}=
+%\frac{\tikzmarknode{b1}{(3\times 4)}+\tikzmarknode{b2}{(2\times 6)}}{\tikzmarknode{b3}{2\times 3}}=\tikzmarknode{c1}{\frac{12+12}{6}}=\tikzmarknode{c2}{\frac{24}{6}}=\tikzmarknode{d1}{4}
+%\]
+%
+%\begin{tikzpicture}[remember picture, overlay, font=\sffamily]
+%	\draw[red, thick, ->, shorten <=1em, , shorten >=1em](a2.south east)--node[below, pos=.45, scale=.4]{1}(a1.north west);
+%	\node[draw=red, thick, ellipse, fit=(b1), inner ysep=0, inner xsep=-1mm](ell){};
+%	\draw[thick, red] (ell)--++(0,.5)node[above, red, scale=.4]{This is important!};
+%	\draw[red, thick] (b2.south west)--node[above=2mm, red, scale=.5]{\bfseries WRONG!}(b2.north east);
+%	\draw[green!70!black, thick] (b3.east)--node[below]{$\uparrow$}node[below=5mm, align=left, green!70!black, scale=.5]{This multiplication is not\\necessary Try to simplify.}(b3.west) ([yshift=2pt]b3.east)--([yshift=2pt]b3.west);
+%	\node[draw=blue, thick, fit=(c1), inner xsep=1pt](box){};
+%	\draw[blue, thick, ->, shorten >=3pt] (box) to[out=90, in=90] (c2.north);
+%	\node[draw=yellow!70!orange, thick, circle, fit=(d1), inner sep=1pt](cir){};
+%	\node[draw=yellow!70!orange, thick, text=yellow!70!orange, single arrow, shape border rotate=180, anchor=west, scale=.4, single arrow tip angle=40, minimum height=30mm] at (cir.east){\quad RESULT};
+%\end{tikzpicture}
 \begin{thebibliography}{9}
 	\bibitem{advanced_calc_e}
 	수학의 즐거움, Enjoying Math. ``수학 공부, 기초부터 대학원 수학까지, 10. 해석학 개론 (e) 엡실론-델타와 수열의 수렴성'' YouTube Video, 25:57. Published 
