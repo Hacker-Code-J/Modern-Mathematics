@@ -414,13 +414,13 @@ Let $f:X\to\R$ be a function defined on a subset $\varnothing\neq X\subseteq\R$ 
 %\end{tikzpicture}
 \begin{proof}
 \begin{itemize}
-	\item[($\Rightarrow$)] Suppose that $\lim\limits_{x\to p}f(x)=L$. Let $\set{x_n}\subseteq X\setminus\set{p}$ be a sequence, and let $\lim\limits_{n\to\infty}x_n=p$. We NTS that \[
+	\item[($\Rightarrow$)] Let $\lim\limits_{x\to p}f(x)=L$. Let $\set{x_n}\subseteq X\setminus\set{p}$ be a sequence, and let $\lim\limits_{n\to\infty}x_n=p$. We NTS that \[
 	\lim\limits_{n\to\infty}f(x_n)=L,\quad\ie,\color{blue}\quad\forall\varepsilon>0:\exists N\in\N:n\geq N\Rightarrow\abs[0]{f(x_n)-L}<\varepsilon.
 	\] \textcolor{blue}{Let $\varepsilon>0$}. Since $\lim\limits_{x\to p}f(x)=L$, we know \begin{equation*}
 		\exists\delta>0\ \text{such that}\ 0<\abs[0]{x-p}<\delta\implies\abs[0]{f(x)-L}<\varepsilon.\tag{*}
-	\end{equation*} Since $\lim\limits_{n\to\infty}x_n=p$, we obtain \[
-	\textcolor{blue}{\exists N\in\N}\ \text{such that}\ n\geq N\implies\abs[0]{x_n-p}<\delta.
-	\] Thus, \textcolor{blue}{if $n\geq N$ then}, \begin{align*}
+	\end{equation*} Since $\lim\limits_{n\to\infty}x_n=p$, we obtain $
+	\textcolor{blue}{\exists N\in\N}\ \text{s.t.}\ n\geq N\Rightarrow\abs[0]{x_n-p}<\delta.
+	$ Thus, \textcolor{blue}{if $n\geq N$ then}, \begin{align*}
 		\abs[0]{x_n-p}<\delta&\implies 0<\abs[0]{x_n-p}<\delta\quad\because x_n\neq p \\
 		&\implies\textcolor{blue}{\abs[0]{f(x_n)-L}<\varepsilon}\quad\text{by (*)}
 	\end{align*} Thus, $\lim\limits_{n\to\infty}f(x_n)=L$.
@@ -432,7 +432,7 @@ Let $f:X\to\R$ be a function defined on a subset $\varnothing\neq X\subseteq\R$ 
 	\forall n\in\N:\exists\set{x_n}\subseteq X\setminus\set{p}\ \text{such that}\ 0<\abs[0]{x_n-p}<\frac{1}{n}\ \text{but}\ \textcolor{magenta}{\abs[0]{f(x_n)-L}\geq \varepsilon}.
 	\] By Squeeze Theorem, we have $\lim\limits_{n\to\infty}x_n=p$ since $0<\abs[0]{x_n-p}<1/n$. Since the RHS holds, we obtain $\lim\limits_{n\to\infty}f(x_n)=L$. Then, for some $\textcolor{green!50!black}{\varepsilon>0}$, \[
 	\exists N\in\N\ \text{such that}\ n\geq N\implies\textcolor{magenta}{\abs{f(x_n)-L}<\varepsilon}\ \text{\Large\lightning}.
-	\] Hence it is proved.
+	\]
 \end{itemize}
 \end{proof}
 \corbox[Continuity of Function by Convergent Sequences]{\begin{corollary*}
@@ -440,7 +440,7 @@ Let $f:X\to\R$ be a function defined on a subset $\varnothing\neq X\subseteq\R$ 
 \lim\limits_{x\to p}f(x)=f(p)\iff\left[\forall\set{x_n}\subseteq X,\left(\lim\limits_{n\to\infty}x_n=p\implies\lim\limits_{n\to\infty}f(x_n)=f(p)\right)\right].
 \]
 \end{corollary*}}
-\vfill
+\newpage
 \thmbox[Squeeze Theorem; Sandwich Theorem]{\begin{theorem*}
 	Let \begin{enumerate}[(i)]
 		\item $\lim\limits_{n\to\infty}a_n=L=\lim\limits_{n\to\infty}b_n$;
@@ -1248,17 +1248,17 @@ legend style={at={(1,.7)}}
 Let $\set{x_n}$ be a sequence of real numbers. \st{Suppose that $\set{x_n}$ is bounded.}
 \begin{enumerate}[(1)]
 	\item The \textbf{limit superior} of $\set{x_n}$, denoted by $\limsup\limits_{n \to \infty} x_n$ (or $\overline{\lim\limits_{n \to \infty}}x_n$) is defined as \[
-		\limsup\limits_{n \to \infty} x_n=\lim\limits_{n\to\infty}\left(\sup_{k\geq n}x_k\right):=\inf_{n\in\N}\left(\sup_{k\geq n}x_k\right),
+		\limsup\limits_{n \to \infty} x_n:=\lim\limits_{n\to\infty}\left(\sup_{k\geq n}x_k\right)=\inf_{n\in\N}\left(\sup_{k\geq n}x_k\right),
 	\] where $\sup_{k\geq n}x_k$ represents the supremum of the subsequence $\set{x_k:k\geq n}$.
 	\item The \textbf{limit inferior} of $\set{x_n}$, denoted by $\liminf\limits_{n \to \infty} x_n$ (or $\underline{\lim\limits_{n \to \infty}}x_n$) is defined as \[
-	\liminf\limits_{n \to \infty} x_n=\lim\limits_{n\to\infty}\left(\inf_{k\geq n}x_k\right):=\sup_{n\in\N}\left(\inf_{k\geq n}x_k\right),
+	\liminf\limits_{n \to \infty} x_n:=\lim\limits_{n\to\infty}\left(\inf_{k\geq n}x_k\right)=\sup_{n\in\N}\left(\inf_{k\geq n}x_k\right),
 	\] where $\inf_{k\geq n}x_k$ represents the infimum of the subsequence $\set{x_k:k\geq n}$.
 \end{enumerate}
 \end{definition*}}
 \begin{note}[Extended Real Number Line]
 	The \textbf{extended real number line} $\overline{\R}$ is defined as \[
 	\overline{\R}:=\R\cup\set{\pm\infty}.
-	\] That is, the set of real numbers together with two auxiliary symbols $+\infty,-\infty$ such that \[
+	\] That is, the set of real numbers together with two symbols $+\infty,-\infty$ such that \[
 	\forall x\in\R,\ -\infty<x<+\infty.
 	\]
 \end{note}
@@ -1268,15 +1268,18 @@ Let $\set{x_n}$ be a sequence of real numbers. \st{Suppose that $\set{x_n}$ is b
 	A bounded sequence of real numbers has a convergent subsequence.
 \end{theorem*}}
 \begin{proof}
-	
+	TBA
 \end{proof}
 
 \probox{\begin{proposition*}
 Let $\set{x_n},\set{y_n}$ be \st{bounded} sequences of real numbers. Then \begin{enumerate}[(1)]
-	\item $\liminf\ (x_n)\leq\limsup\ (x_n)$.
-	\item $\limsup\ (x_n)=L=\liminf\ (x_n)\iff\exists\lim\limits_{n \to \infty} x_n=L$.
+	\item $\liminf\limits_{n\to\infty} x_n\leq\limsup\limits_{n\to\infty} x_n$.
+	\item $\limsup\limits_{n\to\infty} x_n=L=\liminf\limits_{n\to\infty} x_n\iff\exists\lim\limits_{n \to \infty} x_n=L$.
 \end{enumerate}
 \end{proposition*}}
+\begin{remark*}
+$\limsup x_n=\liminf x_n\iff\exists\lim\limits_{n\to\infty}x_n\in\R\cup\set{\pm\infty}$.
+\end{remark*}
 \begin{proof}
 Let $s_n:=\sup\limits_{k\geq n}x_k$ and $t_n:=\inf\limits_{k\geq n}x_k$ for each $n\geq 1$. Then $\set{s_n}$ is monotone decreasing and $\set{t_n}$ is monotone increasing. And so \[
 \limsup\limits_{n \to \infty} x_n=\lim\limits_{n \to \infty} \left(\sup\limits_{k\geq n}x_k\right)=\lim\limits_{n\to\infty}s_n\quad\text{and}\quad\liminf\limits_{n \to \infty} x_n=\lim\limits_{n \to \infty} \left(\inf\limits_{k\geq n}x_k\right)=\lim\limits_{n \to \infty} t_n.
@@ -1307,14 +1310,16 @@ Let $s_n:=\sup\limits_{k\geq n}x_k$ and $t_n:=\inf\limits_{k\geq n}x_k$ for each
 \end{proof}
 
 \thmbox{\begin{theorem*}
-Let $\set{x_n}$ be bounded sequences of real numbers. Then \begin{enumerate}[(1)]
-	\item $\limsup\ (x_n)=s\iff\forall\varepsilon>0,\ \begin{cases}
+%Let $\set{x_n}$ be bounded sequences of real numbers. Then 
+Let $\limsup\limits_{n\to\infty}x_n\in\R$ and $\liminf\limits_{n\to\infty}x_n\in\R$.
+\begin{enumerate}[(1)]
+	\item $\limsup\ x_n=s\iff\forall\varepsilon>0,\ \begin{cases}
 		\text{\normalfont (i)}\ \exists n_0\in\N\ \text{such that}\ \forall n\geq n_0,\ x_n<s+\varepsilon\\
-		\text{\normalfont (ii)}\ \forall n\in\N,\ \exists k\in\N\ \text{with}\ k\geq n\ \text{such that}\ s-\varepsilon<x_k
+		\text{\normalfont (ii)}\ \forall n\in\N,\ \exists k\geq n\ \text{such that}\ s-\varepsilon<x_k
 	\end{cases}$.
-	\item $\liminf\ (x_n)=t\iff\forall\varepsilon>0,\ \begin{cases}
+	\item $\liminf\ x_n=t\iff\forall\varepsilon>0,\ \begin{cases}
 		\text{\normalfont (i)}\ \exists n_0\in\N\ \text{such that}\ \forall n\geq n_0,\ t-\varepsilon<x_n\\
-		\text{\normalfont (ii)}\ \forall n\in\N,\ \exists k\in\N\ \text{with}\ k\geq n\ \text{such that}\ x_k<t+\varepsilon
+		\text{\normalfont (ii)}\ \forall n\in\N,\ \exists k\geq n\ \text{such that}\ x_k<t+\varepsilon
 	\end{cases}$.
 \end{enumerate}
 \end{theorem*}}
@@ -1326,32 +1331,153 @@ Let $\set{x_n}$ be bounded sequences of real numbers. Then \begin{enumerate}[(1)
 %\end{remark*}
 \begin{proof}
 \begin{enumerate}[(1)]
-\item \begin{itemize}
-	\item[($\Rightarrow$)] Assume that $\limsup\ (x_n)=s$. Let $\varepsilon>0$. 
+\item 
+\ \begin{center}
+\begin{tikzpicture}
+%%Draw Plaid
+%\draw[very thin,color=gray!15,step=.5] (-5,-5) grid (5,5);
+%
+%%Take Coordinates
+%\foreach \i in {-4,...,-2,-1,1,2,...,4}
+%\draw[gray] (\i,.1)--(\i,-.1) node[below] {$\i$};%x-axis
+%\foreach \i in {-4,...,-1,1,...,4}
+%\draw[gray] (.1,\i)--(-.1,\i) node[left] {$\i$};%y-axis
+
+\draw[pattern=north east lines,pattern color=teal, draw=white, opacity=.5] (-1,-2) rectangle (0,1.5);
+\draw[-Stealth] (0,1.5) -- ++(-1,0) -- ++(0,-4);
+\draw[pattern=north east lines,pattern color=orange, draw=white, opacity=.5] (0,-1.5) rectangle (1,2);
+\draw[-Stealth] (0,-1.5) -- ++(1,0) -- ++(0,4);
+%pattern=north east lines,pattern color=orange, opacity=.5
+\draw[line width=.5mm, -Stealth] (0,-3) to (0,3);
+\draw[fill=red] (0,0) circle (3pt);
+\draw[fill=magenta, opacity=.5] (0,1.5) circle (3pt);
+\draw[fill=magenta, opacity=.5] (0,-1.5) circle (3pt);
+
+\node[teal, left] at (-.25,1.75) {sufficiently large $n$};
+\node[orange, right] at (.25,-1.75) {infinitely many $n$};
+
+\node[red] (s) at (5,0) {$s=\inf\limits_{n\in\N}(\sup\limits_{k\geq n}x_k)=\limsup\limits_{n \to \infty}x_n$};
+%\node[magenta] (se1) at (5,1) {$s+\varepsilon$};
+%\node[magenta] (se2) at (5,-1) {$s-\varepsilon$};
+
+%\draw[-Latex, magenta, out=0, in=180] (0,1.5) to (se1);
+%\draw[-Latex, magenta, out=0, in=180] (0,-1.5) to (se2);
+\draw[-Latex, red, out=0, in=180] (0,0) to (s);
+
+\draw[magenta, out=0, in=0] (0,1.5) to node[right] {$\varepsilon$} (0,0);
+\draw[magenta, out=0, in=0] (0,-1.5) to node[right] {$\varepsilon$} (0,0);
+\end{tikzpicture}
+\end{center}
+\begin{itemize}
+	\item[($\Rightarrow$)] Assume that $\limsup\limits_{n \to \infty} x_n=s$. Let $\varepsilon>0$. 
 	\begin{enumerate}[(i)]
-		\item Since $s=\limsup\ (x_n)=\lim\limits_{n\to\infty}\left(\sup\limits_{k\geq n}x_k\right)$, \[
-		\exists n_0\in\N\ \text{such that}\ n\geq n_0\implies -\varepsilon< \sup\limits_{k\geq n} x_k-s<+\varepsilon.
-		\] Thus, if $n\geq n_0$ then $x_n\leq\sup\limits_{k\geq n} x_k<s+\varepsilon$.
-		\item Let $k\in\N$. Recall that, for $S\subseteq\R$, \[
+		\item Since $s=\lim\limits_{n\to\infty}\left(\sup\limits_{k\geq n}x_k\right)$, 
+		\begin{align*}
+		\exists n_0\in\N\ \text{such that}\ n\geq n_0&\implies\abs[1]{\sup\limits_{k\geq n}x_k-s}<\varepsilon \\
+		& \implies s-\varepsilon< \sup\limits_{k\geq n} x_k<s+\varepsilon\\
+		& \implies x_n\leq\sup\limits_{k\geq n} x_k<s+\varepsilon \\
+		& \implies x_n < s+\varepsilon.
+		\end{align*}
+		Thus, there exits $n_0\in\N$ such that if $n\geq n_0$ then $x_n<s+\varepsilon$.
+		\newpage
+		\item Let $n\in\N$. Recall that, for $S\subseteq\R$, \[
 		\boxed{\lambda=\sup S\iff\forall\varepsilon>0,\ \exists x_\varepsilon\in S\ \text{s.t.}\ \lambda-\varepsilon<x_\varepsilon\leq\lambda}.
 		\] This guarantee the following: \[
 		\exists x\in\set{x_k:k\geq n}\ \text{s.t.}\ \sup\limits_{k\geq n}x_k-\varepsilon < x\leq\sup\limits_{k\geq n}x_k.
-		\] In other words, $\exists k\in\N$ with $k\geq n$ s.t. $\sup\limits_{k\geq n}x_k-\varepsilon<x_k$, and so \[
+		\] In other words, $\exists k\geq n$ s.t. $\sup\limits_{k\geq n}x_k-\varepsilon<x_k$, and so \[
 		\underbrace{\inf\limits_{n\geq 1}\left(\sup_{k\geq n}x_k\right)}_{=s}-\varepsilon\leq\sup\limits_{k\geq n}x_k-\varepsilon<x_k.
 		\]
+%		{\color{gray}(Method 2) Assume, for contradiction, that \[
+%		\exists n\in\N\ \text{s.t.}\ \forall k\geq n,\ x_k\leq s-\varepsilon.
+%		\] Then \begin{align*}
+%			\sup\set{x_k:k\geq n}&\leq s-\varepsilon<s,\\
+%			\lim\limits_{n \to \infty}\sup\limits_{k\geq n}x_k&\leq s-\varepsilon<s,\\
+%			s&\leq s-\varepsilon<s\ \text{\Large\lightning}
+%		\end{align*} Thus, we have $\forall n\in\N,\ \exists k\geq n\ \text{s.t.}\ s-\varepsilon<x_k$.}
 	\end{enumerate}
-	\item[($\Leftarrow$)] Let $\varepsilon>0$. Assume that $s$ satisfies (i) and (ii). By (i), we know that \[
-	\exists n_0\in\N\ \text{s.t.}\ \forall n\geq n_0,\ x_n<s+\varepsilon,
-	\] and this implies that \[
-	\sup\limits_{n\geq n_0}x_n\leq s+\varepsilon.
-	\] If $k\geq n_0$, then \[
-	\sup\limits_{n_0\geq k}x_{n_0}\leq
-	\sup\limits_{n\geq n_0}x_n\leq s+\varepsilon.
+	\item[($\Leftarrow$)] Let $\varepsilon>0$. Assume that $s\in\R$ satisfies (i) and (ii). By (i), we know that \[
+	\exists n_0(\varepsilon)\in\N\ \text{s.t.}\ \forall n\geq n_0(\varepsilon),\ x_n<s+\varepsilon.
+	\] Then if $k\geq n\geq n_0$, we also have $k\geq n_0$. This means that $x_k<s+\varepsilon.$ Thus, \[
+	\sup\limits_{k\geq n}x_k\leq x_k<s+\varepsilon\ \text{for all}\ n\geq n_0.
+	\]
+	Form (ii), we have \[
+	\forall n\in\N,\ \exists k\geq n\ \text{s.t.}\ s-\varepsilon < x_k.
+	\] By the definition of supremum, $s-\varepsilon<x_k\leq \sup\limits_{k\geq n} x_k$ and so \[
+	s-\varepsilon<\sup\limits_{k\geq n} x_k\ \text{for all}\ n\in\N.
+	\] Here, we get two inequalities: \begin{itemize}
+		\item Upper bound for large $n$: $
+		\forall n\geq n_0(\varepsilon),\ \sup\limits_{k\geq n} x_k< s+\varepsilon.$
+		\item Lower bound for all $n$: $\forall n\in\N,\ s-\varepsilon<\sup\limits_{k\geq n} x_k.$
+	\end{itemize}
+	Then, for all $n\geq n_0(\varepsilon)$, \[
+	s-\varepsilon<\sup\limits_{k\geq n} x_k<s+\varepsilon.
+	\] Hence, \[
+	\lim\limits_{n\to\infty}\left(\sup_{k\geq n} x_k\right)=s,\quad\ie\quad,\limsup\limits_{n \to \infty}x_n=s.
 	\]
 \end{itemize}
-\item \begin{itemize}
-	\item[($\Rightarrow$)]
-	\item[($\Leftarrow$)]
+\vfill
+\item 
+\ \begin{center}
+\begin{tikzpicture}
+	\draw[pattern=north east lines,pattern color=teal, draw=white, opacity=.5] (-1,-1.5) rectangle (0,2);
+	\draw[-Stealth] (0,-1.5) -- ++(-1,0) -- ++(0,4);
+	\draw[pattern=north east lines,pattern color=orange, draw=white, opacity=.5] (0,-2) rectangle (1,1.5);
+	\draw[-Stealth] (0,1.5) -- ++(1,0) -- ++(0,-4);
+	%pattern=north east lines,pattern color=orange, opacity=.5
+	\draw[line width=.5mm, -Stealth] (0,-3) to (0,3);
+	
+	\node[teal, left] at (-.25,-1.75) {sufficiently large $n$};
+	\node[orange, right] at (.25,1.75) {infinitely many $n$};
+	
+	\node[blue] (s) at (5,0) {$t=\sup\limits_{n\in\N}(\inf\limits_{k\geq n}x_k)=\liminf\limits_{n \to \infty}x_n$};
+	\draw[-Latex, blue, out=0, in=180] (0,0) to (s);
+	
+	\draw[cyan, out=0, in=0] (0,1.5) to node[right] {$\varepsilon$} (0,0);
+	\draw[cyan, out=0, in=0] (0,-1.5) to node[right] {$\varepsilon$} (0,0);
+	
+	\draw[fill=blue] (0,0) circle (3pt);
+	\draw[fill=cyan, opacity=.5] (0,1.5) circle (3pt);
+	\draw[fill=cyan, opacity=.5] (0,-1.5) circle (3pt);
+\end{tikzpicture}
+\end{center}
+\begin{itemize}
+	\item[($\Rightarrow$)] Assume that $\liminf\limits_{n \to \infty} x_n=t$. Let $\varepsilon>0$. 
+	\begin{enumerate}[(i)]
+		\item Since $t=\lim\limits_{n\to\infty}\left(\inf\limits_{k\geq n}x_k\right)$, 
+		\begin{align*}
+			\exists n_0\in\N\ \text{such that}\ n\geq n_0&\implies\abs[1]{\inf\limits_{k\geq n}x_k-t}<\varepsilon \\
+			& \implies t-\varepsilon< \inf\limits_{k\geq n} x_k<t+\varepsilon\\
+			& \implies t-\varepsilon<\inf\limits_{k\geq n} x_k\leq x_n \\
+			& \implies t-\varepsilon<x_n.
+		\end{align*}
+		Thus, there exits $n_0\in\N$ such that if $n\geq n_0$ then $s-\varepsilon<x_n$.
+		\item Let $n\in\N$. Recall that, for $T\subseteq\R$, \[
+		\boxed{\gamma=\inf T\iff\forall\varepsilon>0,\ \exists x_\varepsilon\in T\ \text{s.t.}\ \gamma\leq x_\varepsilon<\gamma+\varepsilon}.
+		\] This guarantee the following: \[
+		\exists x\in\set{x_k:k\geq n}\ \text{s.t.}\ \inf\limits_{k\geq n}x_k\leq x<\inf\limits_{k\geq n}x_k+\varepsilon.
+		\] In other words, $\exists k\geq n$ s.t. $x_k<\inf\limits_{k\geq n}x_k+\varepsilon$, and so \[
+		x_k<\inf\limits_{k\geq n}x_k+\varepsilon\leq\underbrace{\sup\limits_{n\geq 1}\left(\inf_{k\geq n}x_k\right)}_{=t}+\varepsilon.
+		\]
+		\end{enumerate}
+	\item[($\Leftarrow$)] Let $\varepsilon>0$. Assume that $t\in\R$ satisfies (i) and (ii). By (i), we know that \[
+	\exists n_0(\varepsilon)\in\N\ \text{s.t.}\ \forall n\geq n_0(\varepsilon),\ t-\varepsilon<x_n.
+	\] Then if $k\geq n\geq n_0$, we also have $k\geq n_0$. This means that $t-\varepsilon<x_k$. Thus, \[
+	t-\varepsilon< x_k\leq \inf\limits_{k\geq n}x_k\; \text{for all}\; n\geq n_0.
+	\]
+	Form (ii), we have \[
+	\forall n\in\N,\ \exists k\geq n\ \text{s.t.}\ x_k<t+\varepsilon.
+	\] By the definition of infimum, $\inf\limits_{k\geq n} x_k\leq x_k<t+\varepsilon$ and so \[
+	\inf\limits_{k\geq n} x_k < t+\varepsilon\; \text{for all}\; n\in\N.
+	\] Here, we get two inequalities: \begin{itemize}
+		\item Upper bound for large $n$: $
+		\forall n\geq n_0(\varepsilon),\ t-\varepsilon < \inf\limits_{k\geq n}x_k.$
+		\item Lower bound for all $n$: $\forall n\in\N,\ \inf\limits_{k\geq n} x_k<t+\varepsilon.$
+	\end{itemize}
+	Then, for all $n\geq n_0(\varepsilon)$, \[
+	t-\varepsilon<\inf\limits_{k\geq n} x_k<t+\varepsilon.
+	\] Hence, \[
+	\lim\limits_{n\to\infty}\left(\inf_{k\geq n} x_k\right)=t,\quad\ie\quad,\liminf\limits_{n \to \infty}x_n=t.
+	\]
 \end{itemize}
 \end{enumerate}
 \end{proof}
@@ -1360,24 +1486,40 @@ Let $\set{x_n}$ be bounded sequences of real numbers. Then \begin{enumerate}[(1)
 Let $\set{x_n},\set{y_n}$ be bounded sequences of real numbers. Then \begin{enumerate}[(1)]
 	\item $\liminf\ (x_n)+\liminf\ (y_n)\leq \liminf\ (x_n+y_n)$.
 	\item $\limsup\ (x_n+y_n)\leq\limsup\ (x_n)+\limsup\ (y_n)$.
-	\item For $a\geq0$, \[
-	\limsup\ (ax_n)=a\limsup\ (x_n)\quad\text{and}\quad\liminf\ (ax_n)=a\liminf\ (x_n).
-	\]
-	\item For $a<0$, \[
-	\limsup\ (ax_n)=a\liminf\ (x_n)\quad\text{and}\quad\liminf\ (ax_n)=a\limsup\ (x_n).
-	\]
+%	\item For $a\geq0$, \[
+%	\limsup\ (ax_n)=a\limsup\ (x_n)\quad\text{and}\quad\liminf\ (ax_n)=a\liminf\ (x_n).
+%	\]
+%	\item For $a<0$, \[
+%	\limsup\ (ax_n)=a\liminf\ (x_n)\quad\text{and}\quad\liminf\ (ax_n)=a\limsup\ (x_n).
+%	\]
 \end{enumerate}
 \end{proposition*}}
 \begin{proof}
 \begin{enumerate}[(1)]
-	\item 
-	\item 
-	\item 
-	\item 
-	\item 
-	\item 
-	\item 
-	\item 
+	\item Since \[
+	\inf\limits_{k\geq n}x_k\leq x_k\ \text{and}\ \inf\limits_{k\geq n}y_k\leq y_k\implies
+	\inf\limits_{k\geq n}x_k+\inf\limits_{k\geq n}y_k\leq x_k+ y_k
+	\] for each $k\geq n$, we have \[
+	\forall n\in\N,\ \inf\limits_{k\geq n}x_k+\inf\limits_{k\geq n}y_k \;\leq\; \inf\limits_{k\geq n}(x_k+y_k).
+	\] This implies that \begin{align*}
+		\lim\limits_{n \to \infty}\left(\inf\limits_{k\geq n}x_k+\inf\limits_{k\geq n}y_k\right) \;&\leq\; \lim\limits_{n \to \infty}\left(\inf\limits_{k\geq n}(x_k+y_k)\right),\\
+		\lim\limits_{n \to \infty}\left(\inf\limits_{k\geq n}x_k\right)+\lim\limits_{n \to \infty}\left(\inf\limits_{k\geq n}y_k\right) \;&\leq\; \lim\limits_{n \to \infty}\left(\inf\limits_{k\geq n}(x_k+y_k)\right),\\
+%		\sup\limits_{n\in\N}\left(\inf\limits_{k\geq n}x_k\right)+\sup\limits_{n\in\N}\left(\inf\limits_{k\geq n}y_k\right) \;&\leq\; \sup\limits_{n\in\N}\left(\inf\limits_{k\geq n}(x_k+y_k)\right),\\
+		\liminf\limits_{n \to \infty}x_n+\liminf\limits_{n \to \infty}y_n \;&\leq\; \liminf\limits_{n \to \infty}\ (x_n+y_n).
+	\end{align*}
+	\item Since \[
+	x_k\leq \sup\limits_{k\geq n}x_k\ \text{and}\ y_k\leq \sup\limits_{k\geq n}y_k\implies
+	x_k+ y_k\leq\sup\limits_{k\geq n}x_k+\sup\limits_{k\geq n}y_k 
+	\] for each $k\geq n$, we have \[
+	\forall n\in\N,\ \sup\limits_{k\geq n}(x_k+y_k) \;\leq\; \sup\limits_{k\geq n}x_k+\sup\limits_{k\geq n}y_k.
+	\] This implies that \begin{align*}
+		\lim\limits_{n \to \infty}\left(\sup\limits_{k\geq n}(x_k+y_k)\right) \;&\leq\; \lim\limits_{n \to \infty}\left(\sup\limits_{k\geq n}x_k+\sup\limits_{k\geq n}y_k\right),\\
+		\lim\limits_{n \to \infty}\left(\sup\limits_{k\geq n}(x_k+y_k)\right) \;&\leq\; \lim\limits_{n \to \infty}\left(\sup\limits_{k\geq n}x_k\right)+\lim\limits_{n \to \infty}\left(\sup\limits_{k\geq n}y_k\right),\\
+%		\inf\limits_{n\in\N}\left(\sup\limits_{k\geq n}(x_k+y_k)\right) \;&\leq\; \inf\limits_{n\in\N}\left(\sup\limits_{k\geq n}x_k\right)+\inf\limits_{n\in\N}\left(\sup\limits_{k\geq n}y_k\right),\\
+		\limsup\limits_{n \to \infty}\ (x_n+y_n) \;&\leq\; \limsup\limits_{n \to \infty} x_n + \limsup\limits_{n \to \infty} y_n.
+	\end{align*}
+%	\item 
+%	\item 
 \end{enumerate}
 \end{proof}
 %\begin{tikzpicture}
