@@ -25,6 +25,7 @@ We cover the following topics in this note.
 	\item Continuity of a Function
 	\item Monotone Convergent Theorem (MCT)
 	\item Nested Interval Property (NIP)
+	\item Bolzano-Weierstrass Theorem
 	\item Limit Superior and Limit Inferior
 \end{itemize}
 \hrule\vspace{12pt}
@@ -448,38 +449,6 @@ Let $f:X\to\R$ be a function defined on a subset $\varnothing\neq X\subseteq\R$ 
 	\end{enumerate} Then $
 	\lim\limits_{n\to\infty}c_n=L.$
 \end{theorem*}}
-\begin{center}
-\begin{tikzpicture}
-	\begin{axis}[
-		width=16cm, height=8cm, % Size of the plot
-		axis lines=middle,
-%		xlabel={$n$},
-%		ylabel={$a_n, b_n, c_n$},
-		xmin=0, xmax=35, % n range
-		ymin=-0.2, ymax=0.2, % y range
-		xtick={0,5,10,15,20,25,30}, % n ticks
-		ytick={-0.2,-0.1,0,0.1,0.2}, % y ticks
-		legend style={draw=none, fill=none, font=\small},
-		legend pos=north east,
-		every axis x label/.style={at={(current axis.right of origin)}, anchor=north},
-		every axis y label/.style={at={(current axis.above origin)}, anchor=east},
-		tick label style={font=\small}
-		]
-		
-		% Plot a_n = 1/n
-		\addplot[domain=1:35, thick, orange, mark=o] {1/x};
-		\addlegendentry{$a_n = \frac{1}{n}$}
-		
-		% Plot b_n = -1/n
-		\addplot[domain=1:35, thick, teal, mark=square] {-(1/x)};
-		\addlegendentry{$b_n = -\frac{1}{n}$}
-		
-		% Plot c_n = sin(n)/n
-		\addplot[domain=1:35, thick, red, mark=*] {sin(deg(x))/x};
-		\addlegendentry{$c_n = \frac{\sin n}{n}$}
-	\end{axis}
-\end{tikzpicture}
-\end{center}
 \begin{proof}
 \textcolor{blue}{Let $\varepsilon>0$}. Since $\lim\limits_{n\to\infty}a_n=L$ and $\lim\limits_{n\to\infty}a_n=L$, we have \begin{align*}
 \exists n_1\in\N\ \text{such that}\ n\geq n_1&\implies L-\varepsilon<a_n\textcolor{gray}{<L+\varepsilon},\\
@@ -488,6 +457,41 @@ Let $f:X\to\R$ be a function defined on a subset $\varnothing\neq X\subseteq\R$ 
 L-\varepsilon<a_n\leq c_n\leq b_n<L_+\varepsilon,
 \] and so \textcolor{blue}{$\abs[0]{c_n-L}<\varepsilon$}.
 \end{proof}
+\vfill
+\begin{example*}
+$\displaystyle\lim\limits_{n \to \infty}\frac{\sin n}{n}=0$. \begin{center}
+\begin{tikzpicture}
+\begin{axis}[
+	width=16cm, height=8cm, % Size of the plot
+	axis lines=middle,
+	%		xlabel={$n$},
+	%		ylabel={$a_n, b_n, c_n$},
+	xmin=0, xmax=35, % n range
+	ymin=-0.2, ymax=0.2, % y range
+	xtick={0,5,10,15,20,25,30}, % n ticks
+	ytick={-0.2,-0.1,0,0.1,0.2}, % y ticks
+	legend style={draw=none, fill=none, font=\small},
+	legend pos=north east,
+	every axis x label/.style={at={(current axis.right of origin)}, anchor=north},
+	every axis y label/.style={at={(current axis.above origin)}, anchor=east},
+	tick label style={font=\small}
+	]
+	
+	% Plot a_n = 1/n
+	\addplot[domain=1:35, thick, orange, mark=o] {1/x};
+	\addlegendentry{$a_n = \frac{1}{n}$}
+	
+	% Plot b_n = -1/n
+	\addplot[domain=1:35, thick, teal, mark=square] {-(1/x)};
+	\addlegendentry{$b_n = -\frac{1}{n}$}
+	
+	% Plot c_n = sin(n)/n
+	\addplot[domain=1:35, thick, red, mark=*] {sin(deg(x))/x};
+	\addlegendentry{$c_n = \frac{\sin n}{n}$}
+\end{axis}
+\end{tikzpicture}
+\end{center}
+\end{example*}
 %\newpage
 %\begin{example*} Prove that \[
 %\lim\limits_{n\to\infty}n^{\frac{1}{n}} = 1.	
@@ -1396,21 +1400,20 @@ Let $\limsup\limits_{n\to\infty}x_n\in\R$ and $\liminf\limits_{n\to\infty}x_n\in
 %		\end{align*} Thus, we have $\forall n\in\N,\ \exists k\geq n\ \text{s.t.}\ s-\varepsilon<x_k$.}
 	\end{enumerate}
 	\item[($\Leftarrow$)] Let $\varepsilon>0$. Assume that $s\in\R$ satisfies (i) and (ii). By (i), we know that \[
-	\exists n_0(\varepsilon)\in\N\ \text{s.t.}\ \forall n\geq n_0(\varepsilon),\ x_n<s+\varepsilon.
-	\] Then if $k\geq n\geq n_0$, we also have $k\geq n_0$. This means that $x_k<s+\varepsilon.$ Thus, \[
-	\sup\limits_{k\geq n}x_k\leq x_k<s+\varepsilon\ \text{for all}\ n\geq n_0.
-	\]
-	Form (ii), we have \[
-	\forall n\in\N,\ \exists k\geq n\ \text{s.t.}\ s-\varepsilon < x_k.
-	\] By the definition of supremum, $s-\varepsilon<x_k\leq \sup\limits_{k\geq n} x_k$ and so \[
-	s-\varepsilon<\sup\limits_{k\geq n} x_k\ \text{for all}\ n\in\N.
-	\] Here, we get two inequalities: \begin{itemize}
+	\exists n_0(\varepsilon)\in\N\ \text{s.t.}\ \forall n\geq n_0(\varepsilon),\ x_n<s+\varepsilon/2.
+	\] Then if $k\geq n\geq n_0$, we also have $k\geq n_0$. This means that $x_k<s+\varepsilon/2.$ Thus, \[
+	\sup\limits_{k\geq n}x_k \;\leq\; s+\varepsilon/2 \;<\; s+\varepsilon.
+	\] for all $n\geq n_0$. Form (ii), we have \[
+	\forall n\in\N,\ \exists k\geq n\ \text{s.t.}\ s-\varepsilon/2 < x_k.
+	\] By the definition of supremum, $s-\varepsilon/2<x_k\leq \sup\limits_{k\geq n} x_k$ and so \[
+	s-\varepsilon \;<\; s-\varepsilon/2 \;<\; \sup\limits_{k\geq n} x_k.
+	\] for all $n\in\N$. Here, we get two inequalities: \begin{itemize}
 		\item Upper bound for large $n$: $
 		\forall n\geq n_0(\varepsilon),\ \sup\limits_{k\geq n} x_k< s+\varepsilon.$
 		\item Lower bound for all $n$: $\forall n\in\N,\ s-\varepsilon<\sup\limits_{k\geq n} x_k.$
 	\end{itemize}
 	Then, for all $n\geq n_0(\varepsilon)$, \[
-	s-\varepsilon<\sup\limits_{k\geq n} x_k<s+\varepsilon.
+	s-\varepsilon \;<\; \sup\limits_{k\geq n} x_k \;<\; s+\varepsilon.
 	\] Hence, \[
 	\lim\limits_{n\to\infty}\left(\sup_{k\geq n} x_k\right)=s,\quad\ie\quad,\limsup\limits_{n \to \infty}x_n=s.
 	\]
@@ -1460,21 +1463,21 @@ Let $\limsup\limits_{n\to\infty}x_n\in\R$ and $\liminf\limits_{n\to\infty}x_n\in
 		\]
 		\end{enumerate}
 	\item[($\Leftarrow$)] Let $\varepsilon>0$. Assume that $t\in\R$ satisfies (i) and (ii). By (i), we know that \[
-	\exists n_0(\varepsilon)\in\N\ \text{s.t.}\ \forall n\geq n_0(\varepsilon),\ t-\varepsilon<x_n.
-	\] Then if $k\geq n\geq n_0$, we also have $k\geq n_0$. This means that $t-\varepsilon<x_k$. Thus, \[
-	t-\varepsilon< x_k\leq \inf\limits_{k\geq n}x_k\; \text{for all}\; n\geq n_0.
-	\]
+	\exists n_0(\varepsilon)\in\N\ \text{s.t.}\ \forall n\geq n_0(\varepsilon),\ t-\varepsilon/2<x_n.
+	\] Then if $k\geq n\geq n_0$, we also have $k\geq n_0$. This means that $t-\varepsilon/2<x_k$. Thus, \[
+	t-\varepsilon \;<\; t-\varepsilon/2 \;\leq\; \inf\limits_{k\geq n}x_k
+	\] for all $n\geq n_0$.
 	Form (ii), we have \[
-	\forall n\in\N,\ \exists k\geq n\ \text{s.t.}\ x_k<t+\varepsilon.
-	\] By the definition of infimum, $\inf\limits_{k\geq n} x_k\leq x_k<t+\varepsilon$ and so \[
-	\inf\limits_{k\geq n} x_k < t+\varepsilon\; \text{for all}\; n\in\N.
-	\] Here, we get two inequalities: \begin{itemize}
-		\item Upper bound for large $n$: $
+	\forall n\in\N,\ \exists k\geq n\ \text{s.t.}\ x_k<t+\varepsilon/2.
+	\] By the definition of infimum, $\inf\limits_{k\geq n} x_k\leq x_k<t+\varepsilon/2$ and so \[
+	\inf\limits_{k\geq n} x_k \;<\; t+\varepsilon/2 \;<\; t+\varepsilon.
+	\] for all $n\in\N$. Here, we get two inequalities: \begin{itemize}
+		\item Lower bound for large $n$: $
 		\forall n\geq n_0(\varepsilon),\ t-\varepsilon < \inf\limits_{k\geq n}x_k.$
-		\item Lower bound for all $n$: $\forall n\in\N,\ \inf\limits_{k\geq n} x_k<t+\varepsilon.$
+		\item Upper bound for all $n$: $\forall n\in\N,\ \inf\limits_{k\geq n} x_k<t+\varepsilon.$
 	\end{itemize}
 	Then, for all $n\geq n_0(\varepsilon)$, \[
-	t-\varepsilon<\inf\limits_{k\geq n} x_k<t+\varepsilon.
+	t-\varepsilon \;<\; \inf\limits_{k\geq n} x_k \;<\; t+\varepsilon.
 	\] Hence, \[
 	\lim\limits_{n\to\infty}\left(\inf_{k\geq n} x_k\right)=t,\quad\ie\quad,\liminf\limits_{n \to \infty}x_n=t.
 	\]

@@ -1,0 +1,570 @@
+\documentclass[11pt,openany]{article}
+
+\input{grad-math-preamble}
+\input{tcolorbox}
+\input{theorem}
+\input{tikz}
+\input{grad-math-commands}
+
+\setstretch{1.25}
+\begin{document}
+\pagenumbering{arabic}
+\begin{center}
+	\huge\textbf{Algebraic Structures}\\
+	\vspace{0.5em}
+	\large{Ji, Yong-hyeon}\\
+%	\large{\ttfamily \url{https://github.com/Hacker-Code-J}}\\
+	\vspace{0.5em}
+	\normalsize{\today}\\
+\end{center}
+
+\noindent 
+We cover the following topics in this note.
+\begin{itemize}
+	\item Group, Ring, Field
+	\item Vector Space, Module
+\end{itemize}
+\hrule\vspace{12pt}
+%\tableofcontents
+%\newpage
+
+\defbox[Binary Operation]{\begin{definition*}
+Let \( S \) be a nonempty set. A \emph{binary operation} on \( S \) is a function
+\[
+\ast : S \times S \to S,
+\]
+which satisfies
+\[
+\forall\, a, b \in S,\quad \ast(a,b) \in S.
+\]
+In other words, for every ordered pair \((a,b) \in S \times S\), the element \(\ast(a,b)\) is uniquely determined and belongs to \( S \).
+\end{definition*}}
+
+\defbox[Semi-group]{\begin{definition*}
+An algebraic structure \((S,\ast)\) is called a \emph{semigroup} if and only if:
+\begin{enumerate}[(i)]
+	\item \( S \neq \varnothing \),
+	\item \(\ast : S \times S \to S\) is a binary operation on \( S \),
+	\item \(\ast\) is \emph{associative}, i.e.,
+	\[
+	\forall\, x,y,z \in S,\quad (x \ast y) \ast z = x \ast (y \ast z).
+	\]
+\end{enumerate}
+Formally, one may write:
+\[
+(S,\ast) \text{ is a semigroup} \iff \Bigl[ S \neq \varnothing \wedge \bigl( \ast : S \times S \to S \bigr) \wedge \Bigl( \forall\, x,y,z \in S,\; (x \ast y) \ast z = x \ast (y \ast z) \Bigr) \Bigr].
+\]
+\end{definition*}}
+\defbox[Monoid]{\begin{definition*}
+A \emph{monoid} is a semigroup \((S,\ast)\) that contains an \emph{identity element}. That is,
+\[
+(S,\ast) \text{ is a monoid} \iff \Bigl[ (S,\ast) \text{ is a semigroup} \wedge \Bigl( \exists\, e \in S:\; \forall\, x \in S,\; e \ast x = x \wedge x \ast e = x \Bigr) \Bigr].
+\]
+The element \( e \in S \) is called the \emph{identity element} with respect to the operation \(\ast\).
+\end{definition*}}
+
+\defbox[Group]{\begin{definition*}
+A \emph{group} is a monoid \((S,\ast)\) in which every element has an \emph{inverse}. Formally,
+\[
+(S,\ast) \text{ is a group} \iff \Bigl[ (S,\ast) \text{ is a monoid} \wedge \Bigl( \forall\, x \in S,\; \exists\, y \in S:\; x \ast y = e \wedge y \ast x = e \Bigr) \Bigr],
+\]
+where \( e \) denotes the identity element of the monoid \((S,\ast)\). For each \( x \in S \), any element \( y \in S \) satisfying
+\[
+x \ast y = e \quad \text{and} \quad y \ast x = e
+\]
+is called an \emph{inverse} of \( x \), and is commonly denoted \( x^{-1} \).
+\end{definition*}}
+
+
+\defbox[Module]{\begin{definition*}
+Let \( R \) be a ring with unity and \( M \) be a set. A \emph{module} over \( R \) is a structure \((M, +, \cdot)\) satisfying:
+\begin{enumerate}[(*)]
+	\item \( M \neq \varnothing \).
+	\item \((M, +)\) is an abelian group with identity element \( 0 \in M \).
+	\item \(\cdot : R \times M \to M\) is a function called \emph{scalar multiplication}.
+	\item The following axioms hold:
+	\[
+	\forall\, r \in R,\ \forall\, m, n \in M:\quad r \cdot (m+n) = r \cdot m + r \cdot n,
+	\]
+	\[
+	\forall\, r,s \in R,\ \forall\, m \in M:\quad (r+s) \cdot m = r \cdot m + s \cdot m,
+	\]
+	\[
+	\forall\, r,s \in R,\ \forall\, m \in M:\quad (rs) \cdot m = r \cdot (s \cdot m),
+	\]
+	\[
+	\forall\, m \in M:\quad 1_R \cdot m = m,
+	\]
+	where \(1_R\) denotes the multiplicative identity in \( R \).
+\end{enumerate}
+Thus, formally,
+\[
+(M, +, \cdot) \text{ is a module over } R \iff
+\]
+\[
+\left[
+\begin{array}{l}
+	M \neq \varnothing, \\
+	(M, +) \text{ is an abelian group with identity } 0, \\
+	\cdot : R \times M \to M, \\
+	\forall\, r \in R,\ \forall\, m, n \in M:\quad r \cdot (m+n) = r \cdot m + r \cdot n,\\[1mm]
+	\forall\, r,s \in R,\ \forall\, m \in M:\quad (r+s) \cdot m = r \cdot m + s \cdot m,\\[1mm]
+	\forall\, r,s \in R,\ \forall\, m \in M:\quad (rs) \cdot m = r \cdot (s \cdot m),\\[1mm]
+	\forall\, m \in M:\quad 1_R \cdot m = m.
+\end{array}
+\right]
+\]		
+\end{definition*}}
+
+
+\defbox[Vector Space]{\begin{definition*}
+Let \( F \) be a field. A \emph{vector space} over \( F \) is a structure \((V, +, \cdot)\) satisfying:
+\begin{enumerate}[(i)]
+	\item \( V \neq \varnothing \).
+	\item \((V, +)\) is an abelian group with identity element \( 0 \in V \).
+	\item \(\cdot : F \times V \to V\) is a function called \emph{scalar multiplication}.
+	\item The following axioms hold:
+	\[
+	\forall\, a,b \in F,\ \forall\, u,v \in V: \quad a \cdot (u+v) = a \cdot u + a \cdot v,
+	\]
+	\[
+	\forall\, a,b \in F,\ \forall\, v \in V: \quad (a+b) \cdot v = a \cdot v + b \cdot v,
+	\]
+	\[
+	\forall\, a,b \in F,\ \forall\, v \in V: \quad a \cdot (b \cdot v) = (a b) \cdot v,
+	\]
+	\[
+	\forall\, v \in V: \quad 1_F \cdot v = v,
+	\]
+	where \(1_F\) denotes the multiplicative identity in \( F \).
+\end{enumerate}
+Thus, formally,
+\[
+(V, +, \cdot) \text{ is a vector space over } F \iff
+\]
+\[
+\left[
+\begin{array}{l}
+	V \neq \varnothing, \\
+	(V, +) \text{ is an abelian group with identity } 0, \\
+	\cdot : F \times V \to V, \\
+	\forall\, a,b\in F,\ \forall\, u,v\in V:\quad a \cdot (u+v) = a \cdot u + a \cdot v,\\[1mm]
+	\forall\, a,b\in F,\ \forall\, v\in V:\quad (a+b) \cdot v = a \cdot v + b \cdot v,\\[1mm]
+	\forall\, a,b\in F,\ \forall\, v\in V:\quad a \cdot (b \cdot v) = (ab) \cdot v,\\[1mm]
+	\forall\, v\in V:\quad 1_F \cdot v = v.
+\end{array}
+\right]
+\]		
+\end{definition*}}
+
+\newpage
+
+\section{Introduction}
+Algebraic structures are defined by sets equipped with one or more operations that satisfy specified axioms. These axioms guarantee, for example, that equations involving the operations behave in predictable ways. In this article we examine how the equation
+\[
+a\ast b = c
+\]
+(or its suitable variant) is interpreted in each context. We provide examples showing:
+\begin{itemize}
+	\item In a \emph{semigroup} the operation is associative and closed,
+	\item In a \emph{monoid} an identity element exists,
+	\item In a \emph{group} every element has an inverse (yielding unique solutions),
+	\item In a \emph{module} equations can involve both the additive structure and scalar multiplication over a ring,
+	\item In a \emph{vector space} (a module over a field) the additional invertibility of nonzero scalars facilitates solving linear equations.
+\end{itemize}
+
+\section{Semigroups}
+\begin{definition}[Semigroup]
+	A \emph{semigroup} is a pair \((S,\ast)\) where \(S\) is a nonempty set and
+	\[
+	\ast: S \times S \to S
+	\]
+	is a binary operation satisfying the associativity axiom:
+	\[
+	\forall\, a,b,c \in S,\quad (a\ast b)\ast c = a\ast (b\ast c).
+	\]
+\end{definition}
+
+In a semigroup the equation
+\[
+a\ast b = c
+\]
+illustrates that the result is always an element of \(S\) (closure), and the grouping of operations is unambiguous (associativity). However, since there is no guarantee of an identity or inverses, solving for one variable given the others may not be possible or unique.
+
+\subsection*{Example 1 (Addition on \(\mathbb{N}\))} 
+Let \(S=\mathbb{N}=\{1,2,3,\dots\}\) and define \(\ast\) as addition. Then:
+\[
+3+ b = 7 \quad \Longrightarrow \quad b=4,
+\]
+provided that \(7\ge 3\). Note that if we choose \(a=5\) and \(c=3\), no solution exists in \(\mathbb{N}\).
+
+\subsection*{Example 2 (String Concatenation)}
+Let \(S\) be the set of all nonempty strings over a fixed alphabet and define \(\ast\) as concatenation. For instance, with
+\[
+a = \text{``Hello''}, \quad b = \text{``World''},
+\]
+we have
+\[
+a \ast b = \text{``HelloWorld''}.
+\]
+In this semigroup, while concatenation is associative and closed, an equation like
+\[
+a \ast x = c,
+\]
+may have multiple or no solutions because the decomposition of \(c\) is not necessarily unique.
+
+\section{Monoids}
+\begin{definition}[Monoid]
+	A \emph{monoid} is a semigroup \((M,\ast)\) that contains an \emph{identity element} \(e\) satisfying:
+	\[
+	\forall\, a \in M,\quad a\ast e = e\ast a = a.
+	\]
+\end{definition}
+
+In a monoid the equation
+\[
+a\ast b = c
+\]
+may be interpreted using the identity. However, without the existence of inverses, “solving” such equations (i.e., undoing the operation) is not always possible.
+
+\subsection*{Example 1 (Nonnegative Integers \(\mathbb{N}_0\) Under Addition)}
+Let \(M=\mathbb{N}_0 = \{0,1,2,\dots\}\) with addition and \(0\) as the identity. Then:
+\[
+3+b=7 \quad \Longrightarrow \quad b=4.
+\]
+Conversely, if \(a=8\) and \(c=5\), there is no \(b\in \mathbb{N}_0\) satisfying
+\[
+8+b=5,
+\]
+since subtraction may lead out of \(\mathbb{N}_0\).
+
+\subsection*{Example 2 (Strings Including the Empty String)}
+Let \(M\) be the set of all finite strings over an alphabet including the empty string \(\varepsilon\), with concatenation as the operation. The empty string acts as the identity:
+\[
+\varepsilon \ast s = s \ast \varepsilon = s.
+\]
+For the equation
+\[
+\text{``Hi''} \ast x = \text{``HiThere''},
+\]
+one solution is
+\[
+x = \text{``There''}.
+\]
+Again, note that the lack of invertibility means that not every such equation is guaranteed to have a solution.
+
+\section{Groups}
+\begin{definition}[Group]
+	A \emph{group} is a monoid \((G,\ast)\) in which every element has an inverse. That is,
+	\[
+	\forall\, a \in G,\quad \exists\, a^{-1} \in G \text{ such that } a\ast a^{-1} = a^{-1}\ast a = e.
+	\]
+\end{definition}
+
+In a group the equation
+\[
+a\ast b = c
+\]
+has the additional property that a unique solution exists for any one of the variables. This is because the existence of inverses allows us to “undo” the operation.
+
+\subsection*{Example 1 (Integers Under Addition)}
+Let \(G=\mathbb{Z}\) with addition. Given
+\[
+a+b = c,
+\]
+for any \(a,c\in \mathbb{Z}\) the unique solution for \(b\) is
+\[
+b=c-a.
+\]
+For example, if \(3+b=7\), then \(b=7-3=4\).
+
+\subsection*{Example 2 (Nonzero Real Numbers Under Multiplication)}
+Consider the group \(G=\mathbb{R}^*=\mathbb{R}\setminus\{0\}\) with multiplication. The equation
+\[
+a\cdot b = c,
+\]
+has the unique solution
+\[
+b = \frac{c}{a},
+\]
+since every nonzero real number \(a\) has an inverse \(a^{-1}=\frac{1}{a}\). For instance, if \(2\cdot b=8\), then \(b=\frac{8}{2}=4\).
+
+\section{Modules}
+\begin{definition}[Module]
+	Let \(R\) be a ring with unity. A \emph{module} over \(R\) is a triple \((M, +, \cdot)\) where:
+	\begin{enumerate}[(i)]
+		\item \((M,+)\) is an abelian group (with identity \(0\)),
+		\item \(\cdot : R \times M \to M\) is scalar multiplication,
+		\item The following axioms hold for all \(r,s \in R\) and \(m,n \in M\):
+		\[
+		r\cdot(m+n)=r\cdot m + r\cdot n,
+		\]
+		\[
+		(r+s)\cdot m = r\cdot m + s\cdot m,
+		\]
+		\[
+		(rs)\cdot m = r\cdot(s\cdot m),
+		\]
+		\[
+		1_R\cdot m = m.
+		\]
+	\end{enumerate}
+\end{definition}
+
+In a module, equations may involve both the additive structure and scalar multiplication. For example, the equation
+\[
+r\cdot x = m
+\]
+asks for an element \(x\in M\) such that when scaled by \(r\in R\) the result is \(m\).
+
+\subsection*{Example 1 (The \(\mathbb{Z}\)-Module \(\mathbb{Z}\))}
+View \(\mathbb{Z}\) as a module over itself. Consider:
+\[
+2\cdot x = 6.
+\]
+Since scalar multiplication in a \(\mathbb{Z}\)-module is just ordinary multiplication, the solution is \(x=3\). In contrast, the equation
+\[
+2\cdot x = 5
+\]
+has no solution in \(\mathbb{Z}\) because \(5\) is not an even number.
+
+\subsection*{Example 2 (A Linear Equation in \(\mathbb{Z}^2\))}
+Let \(M=\mathbb{Z}^2\) be a \(\mathbb{Z}\)-module and consider the equation
+\[
+2\cdot (x_1,x_2) + 3\cdot (y_1,y_2) = (8,11).
+\]
+This expands to the system of linear Diophantine equations:
+\[
+2x_1+3y_1 = 8, \quad 2x_2+3y_2 = 11.
+\]
+Solutions exist if and only if each coordinate equation is consistent in \(\mathbb{Z}\).
+
+\section{Vector Spaces}
+\begin{definition}[Vector Space]
+	Let \(F\) be a field. A \emph{vector space} over \(F\) is a module \((V,+,\cdot)\) satisfying the module axioms (with \(F\) replacing \(R\)) and, importantly, where every nonzero scalar in \(F\) is invertible.
+\end{definition}
+
+Equations in a vector space benefit from both the additive structure and the rich scalar multiplication properties provided by the field.
+
+\subsection*{Example 1 (Vector Addition in \(\mathbb{R}^2\))}
+Let \(V=\mathbb{R}^2\). Consider the equation
+\[
+v + w = z.
+\]
+If
+\[
+v = (1,2) \quad \text{and} \quad z = (4,7),
+\]
+then solving for \(w\) gives
+\[
+w = z - v = (4-1,7-2) = (3,5).
+\]
+
+\subsection*{Example 2 (Scalar Multiplication in \(\mathbb{R}^2\))}
+In the vector space \(V=\mathbb{R}^2\), consider the equation
+\[
+c \cdot v = w,
+\]
+with \(v=(2,3)\) and \(w=(4,6)\). Since scalar multiplication is defined coordinate-wise and \(c\) is a scalar from \(\mathbb{R}\), we obtain
+\[
+c = \frac{4}{2} = 2,
+\]
+which is unique because nonzero scalars in a field are invertible.
+
+\section{Conclusion}
+The equation \(a\ast b = c\) (or its variants) encapsulates different aspects of algebraic structures:
+\begin{itemize}
+	\item In a \textbf{semigroup}, closure and associativity guarantee that the operation is well-defined.
+	\item In a \textbf{monoid}, the presence of an identity element allows for the natural “do-nothing” solution.
+	\item In a \textbf{group}, every equation has a unique solution thanks to the existence of inverses.
+	\item In a \textbf{module} and a \textbf{vector space}, additional structure from scalar multiplication enables the formulation and solution of linear equations.
+\end{itemize}
+These examples highlight how the abstract axioms influence the process of solving equations in each setting, providing a concrete interpretation of the algebraic structures.
+
+\newpage
+
+\section{Semigroups}
+\begin{definition}[Semigroup]
+	A \emph{semigroup} is a set \(S\) together with a binary operation 
+	\[
+	\ast: S\times S \to S,
+	\]
+	which is associative:
+	\[
+	\forall\, a,b,c\in S,\quad (a\ast b)\ast c = a\ast (b\ast c).
+	\]
+\end{definition}
+
+In a semigroup, the equation
+\[
+a\ast b = c
+\]
+always yields an element \(c\in S\) (closure), and the grouping of operations is unambiguous (associativity). However, there is no requirement for an identity or inverses, so solving such equations (i.e., “undoing” the operation) may not be feasible or unique.
+
+\begin{example}[Non-empty Strings under Concatenation]
+	Let \(S\) be the set of all non-empty finite strings over a fixed alphabet (e.g., \(\{a,b,c,\dots\}\)), and define the operation \(\ast\) as concatenation. For any strings \(s,t\in S\), the concatenation \(s\ast t\) is again a non-empty string, and concatenation is associative:
+	\[
+	(s\ast t)\ast u = s\ast (t\ast u).
+	\]
+	Since the empty string is excluded, there is no identity element. Thus, \((S,\ast)\) is a semigroup.
+\end{example}
+
+\begin{example}[Positive Integers (Excluding 1) under Multiplication]
+	Define 
+	\[
+	S = \{n\in \mathbb{N} : n \ge 2\},
+	\]
+	and let the operation \(\ast\) be ordinary multiplication. Since
+	\[
+	a\ast b = ab \in S \quad \text{for all } a,b \ge 2,
+	\]
+	and multiplication is associative, \((S, \times)\) is a semigroup. Note that the multiplicative identity \(1\) is not in \(S\), so no identity element exists.
+\end{example}
+
+\section{Monoids}
+\begin{definition}[Monoid]
+	A \emph{monoid} is a semigroup \((M, \ast)\) that contains an identity element \(e\) such that
+	\[
+	\forall\, a \in M,\quad e\ast a = a\ast e = a.
+	\]
+\end{definition}
+
+In a monoid the equation
+\[
+a\ast b = c
+\]
+can sometimes be “undone” by using the identity element—but without inverses, one cannot generally solve for an unknown.
+
+\begin{example}[Natural Numbers with Zero under Addition]
+	Let
+	\[
+	M = \mathbb{N}_0 = \{0,1,2,\dots\},
+	\]
+	with the operation \(+\). Since addition is associative, and \(0\) serves as the identity element (because \(0+a=a+0=a\)), \((\mathbb{N}_0, +)\) is a monoid. Notice that aside from \(0\), no element has an additive inverse in \(\mathbb{N}_0\).
+\end{example}
+
+\begin{example}[All Finite Strings (Including the Empty String) under Concatenation]
+	Let \(M\) be the set of all finite strings over a fixed alphabet, \emph{including} the empty string \(\varepsilon\). Define the operation as concatenation. The empty string \(\varepsilon\) acts as the identity since
+	\[
+	\varepsilon \ast s = s \ast \varepsilon = s,
+	\]
+	for every string \(s\). Thus, \((M,\ast)\) is a monoid. This example is non-trivial because the set \(M\) is infinite and diverse in structure.
+\end{example}
+
+\section{Groups}
+\begin{definition}[Group]
+	A \emph{group} is a monoid \((G, \ast)\) in which every element has an inverse. That is,
+	\[
+	\forall\, a \in G,\quad \exists\, a^{-1} \in G \text{ such that } a\ast a^{-1} = a^{-1}\ast a = e.
+	\]
+\end{definition}
+
+In a group every equation of the form
+\[
+a\ast b = c
+\]
+can be uniquely solved for any one variable by “canceling” with the inverse.
+
+\begin{example}[Integers under Addition]
+	Let
+	\[
+	G = \mathbb{Z},
+	\]
+	with the operation \(+\). The identity element is \(0\) (since \(a+0=0+a=a\) for all \(a\in\mathbb{Z}\)), and every integer \(a\) has the inverse \(-a\) (because \(a+(-a)=0\)). Hence, \((\mathbb{Z},+)\) is a group. For example, the equation
+	\[
+	3 + b = 7
+	\]
+	has the unique solution \(b=7-3=4\).
+\end{example}
+
+\begin{example}[The Symmetric Group \(S_3\)]
+	The symmetric group \(S_3\) is the set of all permutations of three objects, with the operation being composition of functions. The identity permutation (which leaves all elements fixed) serves as the identity element. Every permutation in \(S_3\) has an inverse (its inverse permutation), and composition is associative. Since \(S_3\) is non-abelian (the order of composition matters), it provides a non-trivial example of a finite group.
+\end{example}
+
+\section{Modules}
+\begin{definition}[Module]
+	Let \(R\) be a ring with unity. An \emph{\(R\)-module} \(M\) is an abelian group \((M, +)\) equipped with a scalar multiplication
+	\[
+	\cdot: R \times M \to M,
+	\]
+	satisfying, for all \(r,s\in R\) and \(m,n\in M\):
+	\[
+	r\cdot (m+n)=r\cdot m + r\cdot n, \quad (r+s)\cdot m = r\cdot m + s\cdot m,
+	\]
+	\[
+	(rs)\cdot m = r\cdot (s\cdot m), \quad 1_R\cdot m = m.
+	\]
+\end{definition}
+
+In modules, equations may involve both the additive structure and the action of scalars from the ring \(R\).
+
+\begin{example}[\(\mathbb{Z}^2\) as a \(\mathbb{Z}\)-Module]
+	Let
+	\[
+	M=\mathbb{Z}^2 = \{ (a,b) \mid a,b\in \mathbb{Z} \},
+	\]
+	with vector addition defined componentwise and scalar multiplication by an integer \(k\) given by
+	\[
+	k\cdot (a,b) = (ka, kb).
+	\]
+	Since \(\mathbb{Z}^2\) is an abelian group under addition and the scalar multiplication satisfies the module axioms over the ring \(\mathbb{Z}\), it forms a non-trivial \(\mathbb{Z}\)-module.
+\end{example}
+
+\begin{example}[\(\mathbb{Z}_6\) as a \(\mathbb{Z}\)-Module]
+	Let
+	\[
+	M=\mathbb{Z}_6 = \{\, [0], [1], [2], [3], [4], [5] \,\},
+	\]
+	the integers modulo 6, with addition modulo 6. Every abelian group is naturally a \(\mathbb{Z}\)-module via the operation
+	\[
+	k\cdot [a] = [ka],
+	\]
+	with the usual multiplication of integers followed by reduction modulo 6. Thus, \(\mathbb{Z}_6\) is a non-trivial, finite \(\mathbb{Z}\)-module.
+\end{example}
+
+\section{Vector Spaces}
+\begin{definition}[Vector Space]
+	Let \(F\) be a field. A \emph{vector space} \(V\) over \(F\) is an \(F\)-module (i.e., an abelian group \((V, +)\) with a scalar multiplication \(\cdot: F\times V \to V\)) satisfying all the module axioms, where every nonzero scalar has a multiplicative inverse.
+\end{definition}
+
+In vector spaces the availability of multiplicative inverses for scalars (when nonzero) ensures that linear equations have unique solutions.
+
+\begin{example}[\(\mathbb{R}^3\)]
+	Let
+	\[
+	V = \mathbb{R}^3 = \{ (x,y,z) \mid x,y,z\in\mathbb{R} \},
+	\]
+	with the usual vector addition and scalar multiplication. This three-dimensional vector space over \(\mathbb{R}\) is a classic example where the equation
+	\[
+	v + w = u
+	\]
+	has a unique solution for any one of the vectors when the other two are known.
+\end{example}
+
+\begin{example}[The Space of Polynomials \(P_2(\mathbb{R})\)]
+	Let
+	\[
+	V = P_2(\mathbb{R}) = \{\, a_0 + a_1 x + a_2 x^2 \mid a_0,a_1,a_2 \in \mathbb{R} \,\},
+	\]
+	the set of all real polynomials of degree at most 2. With polynomial addition and scalar multiplication defined in the usual way, \(P_2(\mathbb{R})\) forms a vector space over \(\mathbb{R}\). This space is non-trivial and is widely used in approximation theory and other applications.
+\end{example}
+
+\section{Conclusion}
+We have presented two non-trivial, concrete examples for each of the algebraic structures considered:
+\begin{itemize}
+	\item \textbf{Semigroups:} non-empty strings under concatenation and positive integers (excluding 1) under multiplication.
+	\item \textbf{Monoids:} natural numbers (including zero) under addition and all finite strings (including the empty string) under concatenation.
+	\item \textbf{Groups:} the group of integers under addition and the symmetric group \(S_3\).
+	\item \textbf{Modules:} \(\mathbb{Z}^2\) and \(\mathbb{Z}_6\) as \(\mathbb{Z}\)-modules.
+	\item \textbf{Vector Spaces:} the three-dimensional real space \(\mathbb{R}^3\) and the space of polynomials \(P_2(\mathbb{R})\).
+\end{itemize}
+In each case, the underlying operation ensures that equations such as \(a\ast b = c\) are well defined, and the additional axioms (e.g., existence of an identity or inverses) dictate the nature of solution methods within that structure.
+
+
+\begin{thebibliography}{9}
+	\bibitem{algebra_0}
+	수학의 즐거움, Enjoying Math. ``수학 공부, 기초부터 대학원 수학까지, 13. 대수학 : 군, 환, 체, 가군, 벡터공간, 대수의 정의'' YouTube Video, 25:57. Published 
+	October 7, 2019. URL: \url{https://www.youtube.com/watch?v=6DP6UQ2sPus}.
+\end{thebibliography}
+
+\end{document}

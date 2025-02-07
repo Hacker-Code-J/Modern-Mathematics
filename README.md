@@ -70,19 +70,19 @@ The `grad-math-full` directory contains detailed documents for graduate-level ma
 <li>Continuity of a Function</li>
 <li>Monotone Convergent Theorem (MCT)</li>
 <li>Nested Interval Property (NIP)</li>
+<li>Bolzano-Weierstrass Theorem</li>
 <li>Limit Superior and Limit Inferior</li>
 </ul>
 </details>
 
 <details>
-<summary><strong>grad-math-7.tex/pdf</strong>: Abstract Algebra I (TBA) </summary>
+<summary><strong>grad-math-7.tex/pdf</strong>: Algebraic Structures </summary>
 <ul>
 <li>Group</li>
 <li>Ring</li>
 <li>Field</li>
 <li>Module</li>
 <li>Vector Space</li>
-<li>TBA</li>
 </ul>
 </details>
 
