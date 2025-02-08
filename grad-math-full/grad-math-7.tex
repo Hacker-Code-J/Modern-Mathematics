@@ -29,19 +29,14 @@ We cover the following topics in this note.
 %\newpage
 
 \defbox[Binary Operation]{\begin{definition*}
-Let \( S \) be a nonempty set. A \emph{binary operation} on \( S \) is a function
-\[
-\ast : S \times S \to S,
-\]
-which satisfies
-\[
-\forall\, a, b \in S,\quad \ast(a,b) \in S.
-\]
+Let \( S \) be a nonempty set. A \textbf{binary operation on} \( S \) is a function \[
+* : S \times S \to S,
+\] which satisfies $*\ (a,b)\in S$ for all $a,b\in S$.
 In other words, for every ordered pair \((a,b) \in S \times S\), the element \(\ast(a,b)\) is uniquely determined and belongs to \( S \).
 \end{definition*}}
 
 \defbox[Semi-group]{\begin{definition*}
-An algebraic structure \((S,\ast)\) is called a \emph{semigroup} if and only if:
+An algebraic structure \((S,\ast)\) is called a \textbf{semigroup} if and only if:
 \begin{enumerate}[(i)]
 	\item \( S \neq \varnothing \),
 	\item \(\ast : S \times S \to S\) is a binary operation on \( S \),
@@ -50,29 +45,37 @@ An algebraic structure \((S,\ast)\) is called a \emph{semigroup} if and only if:
 	\forall\, x,y,z \in S,\quad (x \ast y) \ast z = x \ast (y \ast z).
 	\]
 \end{enumerate}
-Formally, one may write:
-\[
-(S,\ast) \text{ is a semigroup} \iff \Bigl[ S \neq \varnothing \wedge \bigl( \ast : S \times S \to S \bigr) \wedge \Bigl( \forall\, x,y,z \in S,\; (x \ast y) \ast z = x \ast (y \ast z) \Bigr) \Bigr].
-\]
+%Formally, one may write:
+%\[
+%(S,\ast) \text{ is a semigroup} \iff \Bigl[ S \neq \varnothing \wedge \bigl( \ast : S \times S \to S \bigr) \wedge \Bigl( \forall\, x,y,z \in S,\; (x \ast y) \ast z = x \ast (y \ast z) \Bigr) \Bigr].
+%\]
 \end{definition*}}
 \defbox[Monoid]{\begin{definition*}
-A \emph{monoid} is a semigroup \((S,\ast)\) that contains an \emph{identity element}. That is,
-\[
-(S,\ast) \text{ is a monoid} \iff \Bigl[ (S,\ast) \text{ is a semigroup} \wedge \Bigl( \exists\, e \in S:\; \forall\, x \in S,\; e \ast x = x \wedge x \ast e = x \Bigr) \Bigr].
+A \textbf{monoid} is a semigroup \((S,\ast)\) such that \[
+\exists\, e \in S:\; \forall\, x \in S,\; e \ast x = x = x \ast e.
 \]
+
+%That is,
+%\[
+%(S,\ast) \text{ is a monoid} \iff \Bigl[ (S,\ast) \text{ is a semigroup} \wedge \Bigl( \exists\, e \in S:\; \forall\, x \in S,\; e \ast x = x \wedge x \ast e = x \Bigr) \Bigr].
+%\]
 The element \( e \in S \) is called the \emph{identity element} with respect to the operation \(\ast\).
 \end{definition*}}
 
 \defbox[Group]{\begin{definition*}
-A \emph{group} is a monoid \((S,\ast)\) in which every element has an \emph{inverse}. Formally,
+A \emph{group} is a monoid \((S,\ast)\) in which every element has an \emph{inverse}:
 \[
-(S,\ast) \text{ is a group} \iff \Bigl[ (S,\ast) \text{ is a monoid} \wedge \Bigl( \forall\, x \in S,\; \exists\, y \in S:\; x \ast y = e \wedge y \ast x = e \Bigr) \Bigr],
-\]
-where \( e \) denotes the identity element of the monoid \((S,\ast)\). For each \( x \in S \), any element \( y \in S \) satisfying
-\[
-x \ast y = e \quad \text{and} \quad y \ast x = e
-\]
-is called an \emph{inverse} of \( x \), and is commonly denoted \( x^{-1} \).
+\forall\, x \in S,\; \exists\, y \in S:\; x \ast y = e \wedge y \ast x = e.
+\] For each \( x \in S \), any element \( y \in S \) is called an \emph{inverse} of \( x \), and is commonly denoted \( y=x^{-1} \).
+%Formally,
+%\[
+%(S,\ast) \text{ is a group} \iff \Bigl[ (S,\ast) \text{ is a monoid} \wedge \Bigl( \forall\, x \in S,\; \exists\, y \in S:\; x \ast y = e \wedge y \ast x = e \Bigr) \Bigr],
+%\]
+%where \( e \) denotes the identity element of the monoid \((S,\ast)\). For each \( x \in S \), any element \( y \in S \) satisfying
+%\[
+%x \ast y = e \quad \text{and} \quad y \ast x = e
+%\]
+%is called an \emph{inverse} of \( x \), and is commonly denoted \( x^{-1} \).
 \end{definition*}}
 
 
