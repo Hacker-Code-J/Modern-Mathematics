@@ -28,95 +28,263 @@ We cover the following topics in this note.
 %\tableofcontents
 %\newpage
 
+\begin{figure}[h!]\centering
+\includegraphics[width=\textwidth]{../tikz/grad-math-tikz-algebra/magamaTogroup.pdf}
+\end{figure}
+\vspace{20pt}
+Algebraic structures are defined by sets equipped with one or more operations that satisfy specified axioms. These axioms guarantee, for example, that equations involving the operations behave in predictable ways. In this article we examine how the equation
+\[
+a\ast b = c
+\]
+(or its suitable variant) is interpreted in each context. We provide examples showing:
+\begin{itemize}
+	\item In a \emph{semigroup} the operation is associative and closed,
+	\item In a \emph{monoid} an identity element exists,
+	\item In a \emph{group} every element has an inverse (yielding unique solutions),
+	\item In a \emph{module} equations can involve both the additive structure and scalar multiplication over a ring,
+	\item In a \emph{vector space} (a module over a field) the additional invertibility of nonzero scalars facilitates solving linear equations.
+\end{itemize}
 \defbox[Binary Operation]{\begin{definition*}
 Let \( S \) be a nonempty set. A \textbf{binary operation on} \( S \) is a function \[
 * : S \times S \to S,
-\] which satisfies $*\ (a,b)\in S$ for all $a,b\in S$.
-In other words, for every ordered pair \((a,b) \in S \times S\), the element \(\ast(a,b)\) is uniquely determined and belongs to \( S \).
+\] which assigns to each ordered pair $(a,b)\in S\times S$ an element $
+*(a,b) = a*b\in S.$
 \end{definition*}}
-
+\begin{example}
+A binary operation on a set $S$ is a rule that assigns to every ordered pair 
+$(a,b)\in S$ an element $a*b\in S$. \begin{itemize}
+	\item (Addition on Integers) Let $S=\Z$ and define \[
+	+:\Z\times\Z\to\Z,\quad (a,b)\mapsto +(a,b)=a+b.
+	\] This rule is a binary operation because the sum of any two integers is an integer.
+	\item (Maximum of Two Real Numbers) Let $S=\R$ and define \[
+	\fullfunction{\max}{\R\times\R}{\R}{(a,b)}{\max\set{a,b}}.
+	\] For any two real numbers, their maximum is again a real number, so this is a valid binary operation.
+\end{itemize}
+\end{example}
+\newpage
 \defbox[Semi-group]{\begin{definition*}
-An algebraic structure \((S,\ast)\) is called a \textbf{semigroup} if and only if:
+A \textbf{semigroup} is an algebraic structure $(S,*)$ where:
 \begin{enumerate}[(i)]
-	\item \( S \neq \varnothing \),
-	\item \(\ast : S \times S \to S\) is a binary operation on \( S \),
-	\item \(\ast\) is \emph{associative}, i.e.,
-	\[
-	\forall\, x,y,z \in S,\quad (x \ast y) \ast z = x \ast (y \ast z).
+	\item $S\neq\varnothing$;
+	\item $*:S\times S\to S$ is a binary operation that is \textit{associative} that is, for all $a,b,c\in S$, \[
+	(a*b)*c\;=\; a*(b*c).
 	\]
 \end{enumerate}
-%Formally, one may write:
-%\[
-%(S,\ast) \text{ is a semigroup} \iff \Bigl[ S \neq \varnothing \wedge \bigl( \ast : S \times S \to S \bigr) \wedge \Bigl( \forall\, x,y,z \in S,\; (x \ast y) \ast z = x \ast (y \ast z) \Bigr) \Bigr].
-%\]
 \end{definition*}}
-\defbox[Monoid]{\begin{definition*}
-A \textbf{monoid} is a semigroup \((S,\ast)\) such that \[
-\exists\, e \in S:\; \forall\, x \in S,\; e \ast x = x = x \ast e.
-\]
 
-%That is,
-%\[
-%(S,\ast) \text{ is a monoid} \iff \Bigl[ (S,\ast) \text{ is a semigroup} \wedge \Bigl( \exists\, e \in S:\; \forall\, x \in S,\; e \ast x = x \wedge x \ast e = x \Bigr) \Bigr].
-%\]
-The element \( e \in S \) is called the \emph{identity element} with respect to the operation \(\ast\).
+\begin{example}
+A semigroup $(S,*)$ is a set $S$ together with a binary operation $*$ that is associative. \begin{itemize}
+	\item (Positive Integers under Addition) Let $S=\Z^+=\set{1,2,3,\dots}$ and define addition as the operation. For $a,b,c\in\Z^+$, \[
+	(a+b)+c=a+(b+c).
+	\] and the sum of two positive integers is again a positive integer.
+	\item (Singular Matrices under Multiplication) Let \[
+	S:=\set{A\in M_{n\times n}(\R):\det(A)=0},\ \text{the set of all $n\times n$ singular matrices over $\R$},
+	\] the set of all $n\times n$ singular matrices over $\R$, and define the operation as matrix multiplication.
+	\begin{itemize}
+		\item Associativity: Matrix multiplication is associative.
+		\item Closure: If $A$ and $B$ are singular, then $\det(AB)=\det(A)\det(B)=0$; hence, $AB$ is singular.
+	\end{itemize}
+	Since the identity matrix (which is non-singular) is not in $S$, this semigroup does not have an identity element.
+%	\item $(\set{0,1},\times)$ be a semigroup: \begin{table}[h!]\centering
+%		\begin{tabular}{c||c|c}
+%			& 0 & 1 \\ \hline\hline
+%			0 & 0 & 0 \\ \hline
+%			1 & 0 & 1 \\
+%		\end{tabular}
+%	\end{table}
+\end{itemize}
+\end{example}
+
+\defbox[Monoid]{\begin{definition*}
+A \textbf{monoid} is a semigroup \((S,\ast)\) that contains the \textit{identity element}. That is, there exists the element $e\in S$ such that for all $a\in S$. \[
+e \ast a \;=\; a \;=\; a \ast e.
+\]
 \end{definition*}}
+\begin{example}
+A monoid is a semigroup that also has an identity element. \begin{itemize}
+	\item (Nonnegative Integers under Addition) Let $S=\Z_{\geq 0}=\set{0,1,2,\dots}$ and define addition on $\Z_{\geq 0}$. \begin{itemize}
+		\item Associativity: Addition is associative.
+		\item Identity: The element $0\in\Z_{\geq 0}$ is the identity since \[
+		0+a=a+0=a\quad \text{for each}\ a\in\Z_{\geq 0}.
+		\]
+	\end{itemize}
+	\item (All Square Matrices under Multiplication) Let $S=M_n(\R)$, the set of all $n\times n$ matrices with real entries, and define the operation as matrix multiplication. \begin{itemize}
+		\item Associativity: Matrix multiplication is associative.
+		\item Identity: The identity matrix $I_n$ (with ones on the diagonal and zeros elsewhere) satisfies \[
+		I_nA=A=AI_n\quad\text{for all}\ A\in M_n(\R).
+		\]
+	\end{itemize}
+\end{itemize}
+\end{example}
+
 
 \defbox[Group]{\begin{definition*}
-A \emph{group} is a monoid \((S,\ast)\) in which every element has an \emph{inverse}:
+A \textbf{group} is a monoid \((S,\ast)\) in which every element has the \textit{inverse}. That is, for all $a\in S$, there exists the element $b\in S$ such that
 \[
-\forall\, x \in S,\; \exists\, y \in S:\; x \ast y = e \wedge y \ast x = e.
-\] For each \( x \in S \), any element \( y \in S \) is called an \emph{inverse} of \( x \), and is commonly denoted \( y=x^{-1} \).
-%Formally,
-%\[
-%(S,\ast) \text{ is a group} \iff \Bigl[ (S,\ast) \text{ is a monoid} \wedge \Bigl( \forall\, x \in S,\; \exists\, y \in S:\; x \ast y = e \wedge y \ast x = e \Bigr) \Bigr],
-%\]
-%where \( e \) denotes the identity element of the monoid \((S,\ast)\). For each \( x \in S \), any element \( y \in S \) satisfying
-%\[
-%x \ast y = e \quad \text{and} \quad y \ast x = e
-%\]
-%is called an \emph{inverse} of \( x \), and is commonly denoted \( x^{-1} \).
+a \ast b \;=\; e \;=\; b\ast a.
+\] Such \( b \in S \) is called an \emph{inverse} of \( a \), and is commonly denoted \( b=a^{-1} \).
 \end{definition*}}
+\begin{remark}
+A \textbf{group} is an algebraic structure $(G,*)$ satisfying the following axioms:
+\begin{enumerate}[(G1)]
+	\item[\textcolor{gray}{(G0)}] \textcolor{gray}{(Closure) $\forall a,b\in G,\ a*b\in G$;}
+	\item (Associativitiy) $\forall a,b,c\in G,\ (a*b)*c=a*(b*c)$;
+	\item (Identity) $\exists e\in G:\forall a\in G,\ a*e=a=e*a$;
+	\item (Inverse) $\forall a\in G,\ \exists\inv{a}\in G:\inv{a}*a=e=a*\inv{a}$.
+\end{enumerate}
+\end{remark}
+\begin{example}
+A group $(G,*)$ is a monoid in which every element has the inverse. \begin{itemize}
+	\item (Integers under Addition) Let $G=\Z$ and define addition on $\Z$. \begin{itemize}
+		\item Associativity: Addition is associative;
+		\item Identity: The integer $0$ is the identity;
+		\item Inverse: For every $a\in\Z$, the element $-a\in\Z$ is its inverse since $a+(-a)=0=(-a)+a$. 
+	\end{itemize}
+	This group is abelian because addition is commutative.
+	\item (General Linear Group) Let \[
+	G=GL(n,\R)=\set{A\in M_n(\R):\det(A)\neq 0},
+	\] with the operation of matrix multiplication. \begin{itemize}
+		\item Associativity: Matrix multiplication is associative.
+		\item Identity: The identity matrix $I_n$ is the identity.
+		\item Inverse: Every matrix in $GL(n,\R)$ is invertible. This group is generally non-abelian.
+	\end{itemize}
+\end{itemize}
+\end{example}
 
+
+\begin{remark}
+Let \(G\) be a set equipped with a binary operation \(*\). In particular, if
+\[
+\forall\, a,b\in G,\quad a * b = b * a,
+\]
+then the group \(G\) is said to be \textbf{commutative} (or \textbf{abelian}). That is, an algebraic structure $(G,*)$ is an abelian group if and only if:
+\begin{enumerate}[(G1)]
+	\item[\textbf{(G0)}] \textbf{Closure:} $
+	\forall\, a,b\in G:\quad a+b\in G.$
+	\item[\textbf{(G1)}] \textbf{Associativity:} \(\forall a,b,c\in G\), $
+	(a+b)+c = a+(b+c).$
+	\item[\textbf{(G2)}] \textbf{Identity:} \(\exists 0\in G\) such that \(\forall a\in G\),\ $a+0 = a = 0+a.$
+	\item[\textbf{(G3)}] $\forall a\in G$,\ $\exists -a\in G$ such that
+	$(-a)+a = 0 = a+(-a).$
+	\item[\textbf{(C)}] \textbf{Commutativity:} \(\forall a,b\in G\),\ $
+	a+b = b+a.$
+\end{enumerate}
+\end{remark}
+\begin{example}
+\ \begin{itemize}
+	\item $(\N,+)$ is a semigroup but is not monoid.
+	\item $(\N,\times)$ is a monoid but is not group.
+	\item $(\Z,+)$ is a group.
+	\item $(\Q,+)$ is a group.
+	\item $(\R,+)$ is a group.
+	\item $(\Z\setminus\set{0},\times)$ is a semigroup.
+	\item $(\Q\setminus\set{0},\times)$ is a group.
+	\item $(\R\setminus\set{0},\times)$ is a group.
+	\item $(GL_n(\R),*)$ is a group, where \[
+	GL_n(\R):=\set{A\in M_n(\R):\det A\neq 0}
+	\] and $*$ is the matrix multiplication.
+	\item $(\mathcal{F},\circ)$ is a group, where \[
+	\mathcal{F}:=\set{f\in A^A:\ \text{$f$ is one-to-one and onto}}
+	\] and $\circ$ is the composition of functions.
+\end{itemize}
+\end{example}
+\begin{example}[Lie-bracket]
+	content...
+\end{example}
+
+\probox{\begin{proposition}
+Let $G$ be a group with $*$ (normally omitted). Then \begin{enumerate}[(1)]
+	\item $\exists! e\in G$;
+	\item $\exists!\inv{a}$
+	\item $\forall a\in G:\inv{\of{\inv{a}}}=a$
+	\item $\forall a,b\in G:\inv{ab}=\inv{b}\inv{a}$
+	\item (Generalized Associative Law) for any $a_1,a_2,\dots, a_n\in G$, the value of $a_1*a_2*\cdots*a_n$ is independent of how the expression is bracketed.
+\end{enumerate}
+\end{proposition}}
+\begin{proof}
+	content...
+\end{proof}
+
+\defbox[Ring]{\begin{definition*}
+A \textbf{ring} is an algebraic structure $(R,+,\cdot)$ where: \begin{enumerate}[(i)]
+	\item $(R,+)$ is an abelian group with identity element $0$: that is, for all $a,b,c\in R$: \begin{itemize}
+		\item Associativity: $(a+b)+c=a+(b+c)$;
+		\item Commutativity: $a+b=b+a$;
+		\item Identity: There exists $0\in R$ such that $a+0=a$;
+		\item Inverse: For every $a\in R$, there exits an element $-a\in R$ with $a+(-a)=0$.
+	\end{itemize}
+	\item $(R,\cdot)$ is a semigroup; that is, multiplication is \textit{associative}: \[
+	(a\cdot b)\cdot c=a\cdot (b\cdot c)\quad\text{for all}\ a,b,c\in R.
+	\]
+	\item Distributivity: Multiplication is distributive over addition: \begin{align*}
+		a\cdot (b+c)&=a\cdot b+a\cdot c\quad\text{and} \\
+		(a+b)\cdot c&=a\cdot c+b\cdot c
+	\end{align*} for all $a,b,c\in R$.
+\end{enumerate}
+\end{definition*}\tcblower
+\color{gray!50} Some authors require the existence of a multiplicative identity (an element $1\in R$ such that $1\cdot a=a=a\cdot 1$ for all $a\in R$); if so, the ring is called a ring with unity.}
+\begin{example}
+\ \begin{itemize}
+	\item (The Integers $\Z$) Consider $R=\Z$ with the usual addition and multiplication.
+	\begin{itemize}
+		\item $(\Z,+)$ is an abelian group (with identity $0$).
+		\item Multiplication is associative.
+		\item The distributive laws hold, \ie, $a(b+c)=ab+ac$ and $(a+b)c=ac+bc$ for all $a,b,c\in\Z$.
+	\end{itemize}
+	This ring is also commutative and has a multiplicative identity $1$.
+	\item (Polynomial Ring $\C[x]$) Let $R=\C[x]$, the set of all polynomials in $x$ with complex coefficients. \begin{itemize}
+		\item $(\C[x],+)$ is an abelian group (with the zero polynomial $0$ as the identity).
+		\item Polynomial multiplication is associative.
+		\item The distributive laws hold, \ie, $f(x)(g(x)+h(x))=f(x)g(x)+f(x)h(x)$ and $(f(x)+g(x))h(x)=f(x)h(x)+g(x)h(x)$ for all $f(x),g(x),h(x)\in\C[x]$.
+	\end{itemize}
+	This ring is also commutative and has a multiplicative identity $1$ (the constant polynomial $1$).
+\end{itemize}
+\end{example}
+
+\defbox[Field]{\begin{definition*}
+A \textbf{field} an algebraic structure $(F,+,\cdot)$ such that \begin{enumerate}[(i)]
+	\item $(F,+)$ is an abelian group with additive identity element $0$;
+	\item $(F\setminus\set{0},\cdot)$ is an abelian group with multiplicative identity element $1$, where $0\neq 1$;
+	\item Distributivity: Multiplication is distributive over addition; that is, for all $a,b,c\in F$, \[
+	a\cdot (b+c)=a\cdot b+a\cdot c.
+	\]
+\end{enumerate} 
+\end{definition*}}
+\begin{example}
+A field is a commutative ring with unity in which every nonzero element is invertible under multiplication. \begin{itemize}
+	\item (The Real Numbers $\R$) Let $F=\R$ with the usual addition and multiplication. \begin{itemize}
+		\item $(\R,+)$ is an abelian group (with $0$ as the additive identity)
+		\item $(\R\setminus\set{0},\cdot)$ is an abelian group (with $1$ as the multiplicative identity)
+		\item Multiplicative distributes over addition.
+	\end{itemize}
+	\item (Finite Field $\Z_p$) Let $p$ be a prime number and define \[
+	\Z_p:=\set{0,1,\dots, p-1},
+	\] with addition and multiplication defined modulo $p$. \begin{itemize}
+		\item $(\Z_p,+)$ is an abelian group with the additive identity $0$.
+		\item $(\Z_p\setminus\set{0},\cdot)$ is an abelian group with the multiplicative identity $1$ since every nonzero element has a unique inverse module $p$\footnote{By Bézout's identity, for $a,b\in\Z$, $\exists x,y\in\Z$ s.t. $ax+by=\gcd(a,b)$. Let $p$ be a prime. Then for any integer $a\in\Z$, $\exists x,y$ s.t. $ax+py=\gcd(a,p)=1$, and so $ax\equiv 1\pmod{p}$.}.
+		\item The distributive laws hold modulo $p$.
+	\end{itemize}
+\end{itemize}
+\end{example}
 
 \defbox[Module]{\begin{definition*}
-Let \( R \) be a ring with unity and \( M \) be a set. A \emph{module} over \( R \) is a structure \((M, +, \cdot)\) satisfying:
-\begin{enumerate}[(*)]
-	\item \( M \neq \varnothing \).
-	\item \((M, +)\) is an abelian group with identity element \( 0 \in M \).
-	\item \(\cdot : R \times M \to M\) is a function called \emph{scalar multiplication}.
-	\item The following axioms hold:
-	\[
-	\forall\, r \in R,\ \forall\, m, n \in M:\quad r \cdot (m+n) = r \cdot m + r \cdot n,
+Let \( R \) be a ring with unity $1_R$. An $R$-\textbf{module} is an structure $(M,+,\cdot)$ consisting of an abelian group $(M,+)$ together with a scalar multiplication \[
+\cdot:R\times M\to M
+\] that satisfies the following axioms for all $r,s\in R$ and $m,n\in M$:
+\begin{enumerate}[(i)]
+	\item Distributivity over Module Addition: \[
+	r \cdot (m+n) = r \cdot m + r \cdot n,
 	\]
-	\[
-	\forall\, r,s \in R,\ \forall\, m \in M:\quad (r+s) \cdot m = r \cdot m + s \cdot m,
+	\item Distributivity over Ring Addition: \[
+	(r+s) \cdot m = r \cdot m + s \cdot m,
 	\]
-	\[
-	\forall\, r,s \in R,\ \forall\, m \in M:\quad (rs) \cdot m = r \cdot (s \cdot m),
+	\item Associativity of Scalar Multiplication: \[
+	(rs) \cdot m = r \cdot (s \cdot m),
 	\]
-	\[
-	\forall\, m \in M:\quad 1_R \cdot m = m,
+	\item Unital Property (if $R$ is unital): \[
+	1_R \cdot m = m.
 	\]
-	where \(1_R\) denotes the multiplicative identity in \( R \).
 \end{enumerate}
-Thus, formally,
-\[
-(M, +, \cdot) \text{ is a module over } R \iff
-\]
-\[
-\left[
-\begin{array}{l}
-	M \neq \varnothing, \\
-	(M, +) \text{ is an abelian group with identity } 0, \\
-	\cdot : R \times M \to M, \\
-	\forall\, r \in R,\ \forall\, m, n \in M:\quad r \cdot (m+n) = r \cdot m + r \cdot n,\\[1mm]
-	\forall\, r,s \in R,\ \forall\, m \in M:\quad (r+s) \cdot m = r \cdot m + s \cdot m,\\[1mm]
-	\forall\, r,s \in R,\ \forall\, m \in M:\quad (rs) \cdot m = r \cdot (s \cdot m),\\[1mm]
-	\forall\, m \in M:\quad 1_R \cdot m = m.
-\end{array}
-\right]
-\]		
 \end{definition*}}
 
 
@@ -140,41 +308,34 @@ Let \( F \) be a field. A \emph{vector space} over \( F \) is a structure \((V, 
 	\forall\, v \in V: \quad 1_F \cdot v = v,
 	\]
 	where \(1_F\) denotes the multiplicative identity in \( F \).
-\end{enumerate}
-Thus, formally,
-\[
-(V, +, \cdot) \text{ is a vector space over } F \iff
-\]
-\[
-\left[
-\begin{array}{l}
-	V \neq \varnothing, \\
-	(V, +) \text{ is an abelian group with identity } 0, \\
-	\cdot : F \times V \to V, \\
-	\forall\, a,b\in F,\ \forall\, u,v\in V:\quad a \cdot (u+v) = a \cdot u + a \cdot v,\\[1mm]
-	\forall\, a,b\in F,\ \forall\, v\in V:\quad (a+b) \cdot v = a \cdot v + b \cdot v,\\[1mm]
-	\forall\, a,b\in F,\ \forall\, v\in V:\quad a \cdot (b \cdot v) = (ab) \cdot v,\\[1mm]
-	\forall\, v\in V:\quad 1_F \cdot v = v.
-\end{array}
-\right]
-\]		
+\end{enumerate} This is, given a field $F$, we say $V$ is a vector space over $F$ if $V$ is a $F$-module
+%Thus, formally,
+%\[
+%(V, +, \cdot) \text{ is a vector space over } F \iff
+%\]
+%\[
+%\left[
+%\begin{array}{l}
+%	V \neq \varnothing, \\
+%	(V, +) \text{ is an abelian group with identity } 0, \\
+%	\cdot : F \times V \to V, \\
+%	\forall\, a,b\in F,\ \forall\, u,v\in V:\quad a \cdot (u+v) = a \cdot u + a \cdot v,\\[1mm]
+%	\forall\, a,b\in F,\ \forall\, v\in V:\quad (a+b) \cdot v = a \cdot v + b \cdot v,\\[1mm]
+%	\forall\, a,b\in F,\ \forall\, v\in V:\quad a \cdot (b \cdot v) = (ab) \cdot v,\\[1mm]
+%	\forall\, v\in V:\quad 1_F \cdot v = v.
+%\end{array}
+%\right]
+%\]		
+\end{definition*}}
+
+\defbox[Algebra]{\begin{definition*}
+	Given a ring $R$ and a set $A$, we say $A$ is the algebra if $A$ has three operators: with compatabilitiy
 \end{definition*}}
 
 \newpage
 
 \section{Introduction}
-Algebraic structures are defined by sets equipped with one or more operations that satisfy specified axioms. These axioms guarantee, for example, that equations involving the operations behave in predictable ways. In this article we examine how the equation
-\[
-a\ast b = c
-\]
-(or its suitable variant) is interpreted in each context. We provide examples showing:
-\begin{itemize}
-	\item In a \emph{semigroup} the operation is associative and closed,
-	\item In a \emph{monoid} an identity element exists,
-	\item In a \emph{group} every element has an inverse (yielding unique solutions),
-	\item In a \emph{module} equations can involve both the additive structure and scalar multiplication over a ring,
-	\item In a \emph{vector space} (a module over a field) the additional invertibility of nonzero scalars facilitates solving linear equations.
-\end{itemize}
+
 
 \section{Semigroups}
 \begin{definition}[Semigroup]
