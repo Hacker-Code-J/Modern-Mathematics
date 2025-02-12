@@ -83,6 +83,7 @@ The `grad-math-full` directory contains detailed documents for graduate-level ma
 <li>Field</li>
 <li>Module</li>
 <li>Vector Space</li>
+<li>Algebra</li>
 </ul>
 </details>
 
