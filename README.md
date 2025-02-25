@@ -88,9 +88,17 @@ The `grad-math-full` directory contains detailed documents for graduate-level ma
 </details>
 
 <details>
-<summary><strong>grad-math-8.tex/pdf</strong>: Linear Algebra I (TBA) </summary>
+<summary><strong>grad-math-8.tex/pdf</strong>: Linear Algebra I </summary>
 <ul>
-<li>TBA</li>
+<li>Linear Combination, Spanning Set</li>
+<li>Linearly Independent and Dependent</li>
+<li>(Hamel) Basis</li>
+<li>Partial Order, POSET</li>
+<li>Total Order (Linear Order), TOSET</li>
+<li>Maximal, Minimal, Hasse Diagram</li>
+<li>Chain, Zorn's Lemma</li>
+<li>Hamel Basis Theorem (Existence of Basis)</li>
+<li>Dimension of Vector Space</li>
 </ul>
 </details>
 
