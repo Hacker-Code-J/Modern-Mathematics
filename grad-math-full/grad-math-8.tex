@@ -324,13 +324,13 @@ Let $V$ be a vector space over a field $F$. A subset $\mathcal{B}\subseteq V$ is
 	\item (\textit{Linearly Independent}) The set $\mathcal{B}$ is linearly independent; that is, for any \textit{finite} collection of distinct elements $\vec{b}_1,\vec{b}_2,\dots,\vec{b}_n\in\mathcal{B}$ and scalars $a_1,a_2,\dots, a_n\in F$, \[
 	a_1\vec{b}_1+a_2\vec{b}_2+\cdots +a_n\vec{b}_n=0\implies a_1=a_2=\cdots=a_n=0.
 	\] 
-	\item (\textit{Spanning Property}) The set $\mathcal{B}$ spans $V$ ($\Span(\mathcal{B})=V$); that is, every vector $\vec{v}\in V$, there exist a positive integer $n\in\Z^+$, scalars $a_1,a_2,\dots, a_n\in F$, and distinct elements $\vec{b}_1,\vec{b}_2,\dots,\vec{b}_n\in\mathcal{B}$ such that \[
+	\item (\textit{Spanning Property}) The set $\mathcal{B}$ spans $V$ ($\Span\mathcal{B}=V$); that is, every vector $\vec{v}\in V$, there exist a positive integer $n\in\Z^+$, scalars $a_1,a_2,\dots, a_n\in F$, and distinct elements $\vec{b}_1,\vec{b}_2,\dots,\vec{b}_n\in\mathcal{B}$ such that \[
 	\vec{v}=a_1\vec{b}_1+a_2\vec{b}_2+\cdots+a_n\vec{b}_n,
 	\] 
 \end{enumerate}
 \end{definition*}}
 {\color{gray!30}\begin{remark*}[Schauder Basis]
-Let $X$ be a Banach space (or more generally, a complete normed vector space) over the field $F$. A sequence $\set{x_n}_{n=1}^\infty\subseteq X$ is called a \textbf{Schauder basis} for $X$ it if satisfies the following condition: \\
+Let $X$ be a Banach space (or more generally, a complete normed vector space) over the field $F$. A sequence $\set{x_n}_{n=1}^\infty\subseteq X$ is called a \textbf{Schauder basis} for $X$ if it satisfies the following condition: \\
 \noindent For every vector $x\in X$, there exits a unique sequence of scalars $\set{a_n}_{n=1}^\infty\subseteq F$ such that \[
 x=\sum_{i=1}^\infty (a_n\cdot x_n),
 \] where the series converges in the norm topology of $X$, \ie, $\lim\limits_{N\to\infty}\norm{x-\sum_{n=1}^N(a_n\cdot x_n)}=0$.
@@ -352,7 +352,7 @@ A Hamel basis is unique in the sense that every vector in $V$ has a unique repre
 \end{note}
 \begin{example*}[Poset of the Power Set with Set Inclusion]
 	Let $S$ be any set. Consider the power set of $S$: \[
-	2^S=\set{A:A\subseteq S}\quad\text{with}\quad\text{binary operation $\subseteq$ on $2^S$}.
+	2^S=\set{A:A\subseteq S}\quad\text{with}\quad\text{binary relation $\subseteq$ on $2^S$}.
 	\] We claim that $(2^S,\subseteq)$ is partially ordered set: for any $A,B,C\in 2^S$,\begin{enumerate}[(i)]
 		\item Reflexivity: $A\subseteq A$;
 		\item Anti-symmetry: $A\subseteq B$ and $B\subseteq A\implies A=B$;
@@ -473,8 +473,8 @@ Consider the power set of $\set{a,b}$ with the usual subset relation $\subseteq$
 
 \newpage
 \defbox[Chain]{\begin{definition*}
-	Let $(P,\preceq)$ be a poset. A subset $C\subseteq P$ is called a \hl{\textbf{chain}} if \[
-	\forall a,b\in C,\quad\text{either}\ a\preceq b\ \text{or}\ b\preceq a.
+	Let $(P,\preceq)$ be a poset. A subset $\mathcal{C}\subseteq P$ is called a \hl{\textbf{chain}} if \[
+	\forall a,b\in \mathcal{C},\quad\text{either}\ a\preceq b\ \text{or}\ b\preceq a.
 	\] In other words, a chain in a poset is a subset in which every two elements are comparable (\ie the subset is totally ordered).
 \end{definition*}}
 \begin{example*}
@@ -520,7 +520,7 @@ P=\set{1,2,3,4,5,6,8,15}\subseteq\N
 	\draw[color=blue,thick,smooth] plot coordinates {(-1,1) (-.75,0) (-.25,-1) (0,-1.75) (-.5, -1.75) (-.75,-1.5) (-1,-1) (-1.25,-.5) (-1.5, .5) (-1.5,1.5) (-1.25, 2) (-1,1.75) (-1,1)};
 \end{tikzpicture}
 \end{center}
-Here, $C=\set{1,2,4,8,16}$ is a \textit{chain} under divisibility.
+Here, $\mathcal{C}=\set{1,2,4,8}$ is a \textit{chain} under divisibility.
 \end{example*}
 \hfill
 \begin{example*}
@@ -574,7 +574,7 @@ A\preceq B\iff A\subseteq B.
 	\draw[color=blue,thick,smooth] plot coordinates {(-.5,1) (-.75,.5) (-1,0) (-.75,-.5) (.25, -1.5) (.25,-2) (-.5,-2) (-2,-1) (-2, 0) (-2, 1) (-1, 2) (1,2) (1,1.25) (0,1.25) (-.25,1.2) (-.5,1)};
 \end{tikzpicture}
 \end{center}
-Here, $C=\set{\varnothing,\set{a},\set{a,b},\set{a,b,c}}$ is a \textit{chain} in $2^S$.
+Here, $\mathcal{C}=\set{\varnothing,\set{a},\set{a,b},\set{a,b,c}}$ is a \textit{chain} in $2^S$.
 \end{example*}
 
 \newpage
@@ -656,7 +656,7 @@ Here, $C=\set{\varnothing,\set{a},\set{a,b},\set{a,b,c}}$ is a \textit{chain} in
 	\draw[gray!50] (A-3-2)--(A-2-1);
 	\draw[gray!50] (A-3-2)--(A-2-3);
 	\draw[gray!50] (A-3-3)--(A-2-2);
-	\draw (A-3-3)--(A-2-3);
+	\draw[gray!50] (A-3-3)--(A-2-3);
 	\draw[gray!50] (A-2-1)--(A-1-2);
 	\draw (A-2-2)--(A-1-2);
 	\draw[gray!50] (A-2-3)--(A-1-2);
@@ -679,7 +679,7 @@ Here, $C=\set{\varnothing,\set{a},\set{a,b},\set{a,b,c}}$ is a \textit{chain} in
 	\draw[gray!50] (A-3-2)--(A-2-1);
 	\draw[gray!50] (A-3-2)--(A-2-3);
 	\draw[gray!50] (A-3-3)--(A-2-2);
-	\draw (A-3-3)--(A-2-3);
+	\draw[gray!50] (A-3-3)--(A-2-3);
 	\draw[gray!50] (A-2-1)--(A-1-2);
 	\draw (A-2-2)--(A-1-2);
 	\draw[gray!50] (A-2-3)--(A-1-2);
@@ -715,7 +715,7 @@ Here, $C=\set{\varnothing,\set{a},\set{a,b},\set{a,b,c}}$ is a \textit{chain} in
 		\item[] (\textit{Proof of $U\in\mathcal{L}$})\quad Let $n\in\N$ and suppose \[
 		a_1\vec{u}_1+a_2\vec{u}_2+\cdots+a_n\vec{u}_n=0\quad\text{with}\ a_i\in F, \vec{u}_i\in U\ \text{for}\ i=1,2,\dots,n.
 		\] Since $U=\bigcup_{S\in\mathcal{C}}S$, \[
-		\vec{u}_i\in U\iff \exists S_i\in\mathcal{C}\ \text{such that}\ \vec{u}_i\in S_i.
+		\vec{u}_i\in U\iff \exists S_i\in\mathcal{C}\ \text{such that}\ \vec{u}_i\in S_i
 		\] for each $i\in\set{1,2,\dots,n}$. Since $\mathcal{C}$ is a chain (totally ordered by inclusion), the sets $S_1,S_2,\dots,S_n$ are comparable. Therefore, there exists at least one set $S^*\in\mathcal{C}$ such that \[
 		(\forall i\in\set{1,2,\dots,n},\ \vec{u}_i\in S^*)\quad\ie,\quad\set{\vec{u}_1,\vec{u}_2,\dots,\vec{u}_n}\subseteq S^*.
 		\] Since $S^*$ is an element of $\mathcal{C}$ (and $\mathcal{C}\subseteq\mathcal{L}$, where every element is linearly independent), the linear independence of $S^*$ implies that \[
