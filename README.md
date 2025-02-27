@@ -98,7 +98,14 @@ The `grad-math-full` directory contains detailed documents for graduate-level ma
 <li>Maximal, Minimal, Hasse Diagram</li>
 <li>Chain, Zorn's Lemma</li>
 <li>Hamel Basis Theorem (Existence of Basis)</li>
-<li>Dimension of Vector Space</li>
+<li>Invariance of Basis Cardinality; Dimension of Vector Space</li>
+</ul>
+</details>
+
+<details>
+<summary><strong>grad-math-9.tex/pdf</strong>: Linear Algebra II </summary>
+<ul>
+<li>TBA</li>
 </ul>
 </details>
 

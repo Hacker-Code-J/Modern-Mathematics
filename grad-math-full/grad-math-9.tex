@@ -1,0 +1,123 @@
+\documentclass[11pt,openany]{article}
+
+\input{grad-math-preamble}
+\input{tcolorbox}
+\input{theorem}
+\input{tikz}
+\input{grad-math-commands}
+\renewcommand{\vec}[1]{\mathbf{#1}}
+\setstretch{1.25}
+
+%\usepackage{background}
+%\backgroundsetup{
+%	scale=3,
+%	color=gray!20,
+%	opacity=0.3,
+%	angle=45,
+%	contents={\Huge \sffamily Ji, Yong-hyeon}
+%}
+\begin{document}
+\pagenumbering{arabic}
+\begin{center}
+	\huge\textbf{Linear Algebra II}\\
+	\vspace{0.5em}
+	\large{Ji, Yong-hyeon}\\
+%	\large{\ttfamily \url{https://github.com/Hacker-Code-J}}\\
+	\vspace{0.5em}
+	\normalsize{\today}\\
+\end{center}
+
+\noindent 
+We cover the following topics in this note.
+\begin{itemize}
+	\item Unique representation as a finite linear combination of the elements of Basis.
+\end{itemize}
+\hrule\vspace{12pt}
+%\tableofcontents
+%\newpage
+
+\probox{\begin{proposition*}
+	Let $V$ be a vector space over a field $F$, and let $\dim V<\infty$, say, $\dim V=n$.
+	Fix a basis $\basis$. Then every vector $\vec{v}\in V$ has a unique expression of linear combination by $\basis$.
+\end{proposition*}}
+\begin{proof}
+	Let $\basis=\set{\vec{v}_1,\vec{v}_2,\dots,\vec{v}_n}$ be a basis of $V$. Take any $\vec{v}\in V(=\Span\basis)$. Then \[
+	\exists a_1,a_2,\dots,a_n\in F\quad\text{such that}\quad a_1\vec{v}_1+\cdots+a_n\vec{v}_n=\vec{v}.
+	\] Suppose that $\exists b_1,b_2,\dots, b_n\in F$ such that $\sum_{i=1}^{n}b_i\vec{v}_i=\vec{v}$. Then \begin{align*}
+		a_1\vec{v}_1+a_2\vec{v}_2+\cdots a_n\vec{v}_n&=b_1\vec{v}_1+b_2\vec{v}_2+\cdots+b_n\vec{v}_n,\\
+		(a_1-b_1)\vec{v}_1+(a_2-b_2)\vec{v}_2+\cdots (a_n-b_n)\vec{v}_n&=\vec{0},
+	\end{align*} and so $a_i=b_i$ for all $i=1,2,\dots,n$ since a basis $\basis=\set{\vec{v}_1,\vec{v}_2,\cdots,\vec{v}_n}$ is linearly independent.
+\end{proof}
+
+\defbox[Coordinate]{\begin{definition*}
+	Write \[
+	[\vec{v}]_{\basis}=(a_1,a_2,\dots,a_n).
+	\] is called the coordinate of $\vec{v}$ with respect to $\basis$.
+\end{definition*}}
+
+\defbox[Linear Transformation]{\begin{definition*}
+	We say $\Phi:V\to W$ is a linear transformation if $\Phi$ preserves a linearity, \ie, \[
+	\Phi(a\cdot \vec{v}+b\cdot \vec{w})=a\cdot\Phi(\vec{v})+b\cdot\Phi(\vec{w})
+	\] for any $a,b\in F$ and $\vec{v},\vec{w}\in V$. Here, if $\Phi:W\to V$ is also a linear transformation the we say $\Phi$ is the vector-space isomorphism.
+\end{definition*}}
+
+\probox{\begin{definition*}
+	finite-dimensional vector space $V,W/F$. Then \[
+	\dim V=\dim W\iff\exists\text{a vector-space isomorphism}\ \Phi:V\to W,\ie, V\simeq W.
+	\]
+\end{definition*}}
+\begin{proof}
+\begin{itemize}
+	\item[($\Rightarrow$)] Suppose that $\dim V=\dim W=n\in\N$. Take basis $\basis_V=\set{\vec{v}_1,\vec{v}_2,\dots,\vec{v}_n}$ and $\basis_W=\set{\vec{w}_1,\vec{w}_2,\dots,\vec{w}_n}$ of $W$. Define \[
+	\fullfunction{\Phi}{V}{W}{\vec{v}}{a_1\vec{w}_1+\cdots+a_n\vec{w}_n}.
+	\] We claim that $\Phi$ is one-to-one and onto linear transformation.
+	\item[($\Leftarrow$)] Suppose there exists $\Phi:V\to W$. Take any basis $\basis_V=\set{\vec{v}_1,\vec{v}_2,\dots,\vec{v}_n}$ of $V$. Define \[
+	\basis_W:=\set{\Phi(\vec{v}_1),\Phi(\vec{v}_2),\dots,\Phi(\vec{v}_n)}.
+	\]  We claim that $\basis_W$ be a basis of $W$: \begin{enumerate}[]
+		\item (Linearly Independent) Suppose that $a_1\Phi(\vec{v}_1)+\cdots a_n\Phi(\vec{v}_n)=0$. Since $\Phi$ is a linear transformation, we have \[
+		\Phi(a_1\vec{v}_1+\cdots+a_n\vec{v}_n)=0.
+		\] Since $\Phi$ is one-to-one, and $0=\Phi(0)$, $a_1\vec{v}_1+a_n\vec{v}_n=0$, $a_1=a_n=0$ since $\basis_V$ is a basis.
+		\item (Spanning Property) Take $\vec{w}\in W$. Since $\Phi$ is onto, $\exists \vec{v}\in V$ s.t. $\Phi(\vec{v})=\vec{w}$. Since $\basis_V$ is a basis, $\exists!a_1,a_2,\dots,a_n$ s.t. $a_1\vec{v}_1+\cdots+a_n\vec{v_n}=\vec{v}1$, and so \[
+		\vec{w}=\Phi(a_1\vec{v}_1+\cdots+a_n\vec{v}_n)=a_1\Phi(\vec{v}_1)+\cdots+a_n\Phi(\vec{v}_n)
+		\]
+	\end{enumerate}
+\end{itemize}
+\end{proof}
+
+\vfill
+\begin{thebibliography}{9}
+	\bibitem{linear_algebra_c}
+	수학의 즐거움, Enjoying Math. ``수학 공부, 기초부터 대학원 수학까지, 16. 선형대수학 (c) 차원과 벡터공간의 분류'' YouTube Video, 29:08. Published 
+	October 11, 2019. URL: \url{https://www.youtube.com/watch?v=rOKN645fRPs&t=399s}.
+	\bibitem{linear_algebra_d}
+	수학의 즐거움, Enjoying Math. ``수학 공부, 기초부터 대학원 수학까지, 17. 선형대수학 (d) 선형함수의 행렬 표현'' YouTube Video, 29:14. Published 
+	October 12, 2019. URL: \url{https://www.youtube.com/watch?v=Fsy-9KW9-PA}.
+\end{thebibliography}
+
+%\newpage
+%\appendix
+%\section{Proof of Zorn's Lemma from Axiom of Choice}
+%\thmbox{\begin{theorem*}\hypertarget{zorn}{}
+%The following statements are equivalent: \begin{enumerate}
+%	\item \textbf{Axiom of Choice (AC)}:\quad For every indexed family $\set{S_i}_{i\in I}$ of nonempty sets, there exists a choice function $f:I\to\bigcup_{i\in I}S_i$ such that $f(i)\in X_i$ for all $i\in I$.
+%	\item \textbf{Zorn's Lemma}:\quad If $(P,\preceq)$ is a nonempty partially ordered set in which every chains has an upper bound in $P$, then $P$ contains at least one maximal element.
+%\end{enumerate}
+%\end{theorem*}}
+%\begin{proof}
+%\begin{itemize}
+%	\item[($\Rightarrow$)] $(\textbf{AC}\implies \textbf{ZL})$ Assume that the Axiom of Choice holds.
+%	\begin{enumerate}
+%		\item \textbf{Definition of Poset}
+%		
+%		Let $(P,\preceq)$ be a nonempty partially ordered set with the property that every chain in $P$ has an upper bound in  $P$.
+%		
+%		\item \textbf{Construction of an Extending Function}
+%		
+%		Define the family $\set{\mathcal{C}_i}_{i\in I}$ of chains in $P$. For any chain $\mathcal{C}_i$ that is not maximal with respect to inclusion (\ie, $\exists $), AC guarantees that we can elect an element \[
+%		f(C)
+%		\] 
+%	\end{enumerate}
+%	\item[($\Leftarrow$)] $(\textbf{ZL}\implies \textbf{AC})$ 
+%\end{itemize}
+%\end{proof}
+\end{document}
