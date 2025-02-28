@@ -1,0 +1,46 @@
+\documentclass[11pt, tikz]{standalone}
+\usepackage{kotex}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+%\usepackage{textcomp}
+%\renewcommand{\ttdefault}{lmtt} % 
+\usepackage{amsmath}
+\usetikzlibrary{arrows.meta, decorations.pathmorphing, positioning, calc}
+\usepackage{xcolor}
+\usepackage{pdfrender}
+\usepackage[outline]{contour}
+
+\usepackage{calrsfs}
+\DeclareMathAlphabet{\pazocal}{OMS}{zplm}{m}{n}
+
+\usepackage{mathtools, amssymb, amsthm}
+\usepackage[scr=boondox, cal=esstix]{mathalpha}
+
+\begin{document}
+\definecolor{namegold}{HTML}{fdb515}
+\definecolor{namegold2}{HTML}{f78708}
+	\begin{tikzpicture}
+	\node at (0,0) {
+	\textpdfrender{
+		%		TextRenderingMode=FillStroke,
+		%		LineWidth=.05pt,
+		%		FillColor=namegold,
+		TextRenderingMode=FillStrokeClip,
+		LineWidth=.5pt,
+		FillColor=namegold,
+		StrokeColor=namegold2,
+	}{\textbf{\Large\selectfont  $\pazocal{J}$$\mathcal{i}$, $\pazocal{Y}\mathcal{ong}$-$\mathcal{hyeon}$ / 지용현}}
+};
+%	\node at (0,0) {mmmnnn};
+	\end{tikzpicture}
+%    \begin{tikzpicture} \node at (0,0) {%
+%		\textpdfrender{
+%			TextRenderingMode=FillStrokeClip,
+%			LineWidth=.1mm,
+%			FillColor=white,
+%			StrokeColor=black,
+%		}{mmmnnn}%
+%	};
+%%	\node at (0,0) {mmmnnn};
+%\end{tikzpicture}
+\end{document}

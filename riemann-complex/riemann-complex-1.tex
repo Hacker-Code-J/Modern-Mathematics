@@ -30,68 +30,131 @@
 \noindent 
 We cover the following topics in this note.
 \begin{itemize}
-	\item Unique representation as a finite linear combination of the elements of Basis.
+	\item TBA.
 \end{itemize}
 \hrule\vspace{12pt}
 %\tableofcontents
 %\newpage
 
-\probox{\begin{proposition*}
-	Let $V$ be a vector space over a field $F$, and let $\dim V<\infty$, say, $\dim V=n$.
-	Fix a basis $\basis$. Then every vector $\vec{v}\in V$ has a unique expression of linear combination by $\basis$.
-\end{proposition*}}
-\begin{proof}
-	Let $\basis=\set{\vec{v}_1,\vec{v}_2,\dots,\vec{v}_n}$ be a basis of $V$. Take any $\vec{v}\in V(=\Span\basis)$. Then \[
-	\exists a_1,a_2,\dots,a_n\in F\quad\text{such that}\quad a_1\vec{v}_1+\cdots+a_n\vec{v}_n=\vec{v}.
-	\] Suppose that $\exists b_1,b_2,\dots, b_n\in F$ such that $\sum_{i=1}^{n}b_i\vec{v}_i=\vec{v}$. Then \begin{align*}
-		a_1\vec{v}_1+a_2\vec{v}_2+\cdots a_n\vec{v}_n&=b_1\vec{v}_1+b_2\vec{v}_2+\cdots+b_n\vec{v}_n,\\
-		(a_1-b_1)\vec{v}_1+(a_2-b_2)\vec{v}_2+\cdots (a_n-b_n)\vec{v}_n&=\vec{0},
-	\end{align*} and so $a_i=b_i$ for all $i=1,2,\dots,n$ since a basis $\basis=\set{\vec{v}_1,\vec{v}_2,\cdots,\vec{v}_n}$ is linearly independent.
-\end{proof}
+\section*{Preliminaries}
+Let \( I = [a,b] \subset \mathbb{R} \) and let 
+\[
+\gamma : I \to \mathbb{R}^n
+\]
+be a piecewise \( C^1 \) mapping whose image \( \gamma(I) \) is the curve along which integration is performed. For any partition 
+\[
+\mathcal{P} = \{t_0, t_1, \ldots, t_N\} \quad \text{with} \quad a = t_0 < t_1 < \cdots < t_N = b,
+\]
+define the mesh of the partition by
+\[
+\|\mathcal{P}\| := \max_{1 \le i \le N} (t_i - t_{i-1}).
+\]
+For each subinterval \([t_{i-1}, t_i]\), choose a sample point \(\xi_i \in [t_{i-1}, t_i]\).
 
-\defbox[Coordinate]{\begin{definition*}
-	Write \[
-	[\vec{v}]_{\basis}=(a_1,a_2,\dots,a_n).
-	\] is called the coordinate of $\vec{v}$ with respect to $\basis$.
-\end{definition*}}
+\section*{Line Integral of a Scalar Function}
+Let 
+\[
+f : \gamma(I) \to \mathbb{R}
+\]
+be a continuous function. Define the Riemann sum by
+\[
+S(\mathcal{P}, \{\xi_i\}) := \sum_{i=1}^N f\bigl(\gamma(\xi_i)\bigr) \, \|\gamma(t_i)-\gamma(t_{i-1})\|.
+\]
+Then the \emph{line integral of \(f\) along \(\gamma\) with respect to arc length} is defined by
+\[
+\int_{\gamma} f \, ds := \lim_{\|\mathcal{P}\| \to 0} S(\mathcal{P}, \{\xi_i\}),
+\]
+provided that the limit exists and is independent of the choice of partition \(\mathcal{P}\) and sample points \(\{\xi_i\}\).
 
-\defbox[Linear Transformation]{\begin{definition*}
-	We say $\Phi:V\to W$ is a linear transformation if $\Phi$ preserves a linearity, \ie, \[
-	\Phi(a\cdot \vec{v}+b\cdot \vec{w})=a\cdot\Phi(\vec{v})+b\cdot\Phi(\vec{w})
-	\] for any $a,b\in F$ and $\vec{v},\vec{w}\in V$. Here, if $\Phi:W\to V$ is also a linear transformation the we say $\Phi$ is the vector-space isomorphism.
-\end{definition*}}
+In the case that \(\gamma\) is continuously differentiable, the definition is equivalent to
+\[
+\int_{\gamma} f \, ds = \int_a^b f\bigl(\gamma(t)\bigr) \, \|\gamma'(t)\|\,dt.
+\]
 
-\probox{\begin{definition*}
-	finite-dimensional vector space $V,W/F$. Then \[
-	\dim V=\dim W\iff\exists\text{a vector-space isomorphism}\ \Phi:V\to W,\ie, V\simeq W.
-	\]
-\end{definition*}}
-\begin{proof}
-\begin{itemize}
-	\item[($\Rightarrow$)] Suppose that $\dim V=\dim W=n\in\N$. Take basis $\basis_V=\set{\vec{v}_1,\vec{v}_2,\dots,\vec{v}_n}$ and $\basis_W=\set{\vec{w}_1,\vec{w}_2,\dots,\vec{w}_n}$ of $W$. Define \[
-	\fullfunction{\Phi}{V}{W}{\vec{v}}{a_1\vec{w}_1+\cdots+a_n\vec{w}_n}.
-	\] We claim that $\Phi$ is one-to-one and onto linear transformation.
-	\item[($\Leftarrow$)] Suppose there exists $\Phi:V\to W$. Take any basis $\basis_V=\set{\vec{v}_1,\vec{v}_2,\dots,\vec{v}_n}$ of $V$. Define \[
-	\basis_W:=\set{\Phi(\vec{v}_1),\Phi(\vec{v}_2),\dots,\Phi(\vec{v}_n)}.
-	\]  We claim that $\basis_W$ be a basis of $W$: \begin{enumerate}[]
-		\item (Linearly Independent) Suppose that $a_1\Phi(\vec{v}_1)+\cdots a_n\Phi(\vec{v}_n)=0$. Since $\Phi$ is a linear transformation, we have \[
-		\Phi(a_1\vec{v}_1+\cdots+a_n\vec{v}_n)=0.
-		\] Since $\Phi$ is one-to-one, and $0=\Phi(0)$, $a_1\vec{v}_1+a_n\vec{v}_n=0$, $a_1=a_n=0$ since $\basis_V$ is a basis.
-		\item (Spanning Property) Take $\vec{w}\in W$. Since $\Phi$ is onto, $\exists \vec{v}\in V$ s.t. $\Phi(\vec{v})=\vec{w}$. Since $\basis_V$ is a basis, $\exists!a_1,a_2,\dots,a_n$ s.t. $a_1\vec{v}_1+\cdots+a_n\vec{v_n}=\vec{v}1$, and so \[
-		\vec{w}=\Phi(a_1\vec{v}_1+\cdots+a_n\vec{v}_n)=a_1\Phi(\vec{v}_1)+\cdots+a_n\Phi(\vec{v}_n)
-		\]
-	\end{enumerate}
-\end{itemize}
-\end{proof}
+\section*{Line Integral of a Vector Field}
+Let 
+\[
+\mathbf{F} : \gamma(I) \to \mathbb{R}^n
+\]
+be a continuous vector field. Using the same partition \(\mathcal{P}\) and sample points \(\{\xi_i\}\) as above, define the Riemann sum
+\[
+S(\mathcal{P}, \{\xi_i\}) := \sum_{i=1}^N \mathbf{F}\bigl(\gamma(\xi_i)\bigr) \cdot \bigl(\gamma(t_i)-\gamma(t_{i-1})\bigr),
+\]
+where ``\(\cdot\)'' denotes the standard Euclidean dot product. The \emph{line integral of \(\mathbf{F}\) along \(\gamma\)} is then defined by
+\[
+\int_{\gamma} \mathbf{F} \cdot d\mathbf{r} := \lim_{\|\mathcal{P}\| \to 0} S(\mathcal{P}, \{\xi_i\}),
+\]
+provided that the limit exists independently of the partition and the choice of sample points.
 
+If \(\gamma\) is continuously differentiable, this definition is equivalent to
+\[
+\int_{\gamma} \mathbf{F} \cdot d\mathbf{r} = \int_a^b \mathbf{F}\bigl(\gamma(t)\bigr) \cdot \gamma'(t)\,dt.
+\]
+
+\newpage
+Formal Definition (Scalar Line Integral):
+
+Let 
+\[
+\gamma : [a,b] \longrightarrow \mathbb{R}^n
+\]
+be a piecewise continuously differentiable (and hence rectifiable) parameterization of a curve \( C \subset \mathbb{R}^n \), and let 
+\[
+f : C \to \mathbb{R}
+\]
+be a continuous function. Denote by \(\|\gamma'(t)\|\) the norm of the derivative of \(\gamma\) at \(t\). Then the *line integral* (or *integral of \(f\) with respect to arc length*) is defined by
+
+\[
+\int_C f\, ds \; := \; \lim_{\|\Delta\|\to 0} \sum_{i=1}^{N} f\Bigl(\gamma(t_i^*)\Bigr)\,\Bigl\|\gamma(t_i)-\gamma(t_{i-1})\Bigr\|,
+\]
+where \(\{t_0, t_1, \dots, t_N\}\) is an arbitrary partition of \([a,b]\) with mesh \(\|\Delta\| = \max_{1 \le i \le N}(t_i-t_{i-1})\) and \(t_i^* \in [t_{i-1}, t_i]\). Under the hypothesis that \(\gamma\) is continuously differentiable, one may equivalently express the line integral as
+\[
+\int_C f\, ds \; = \; \int_a^b f\bigl(\gamma(t)\bigr)\,\|\gamma'(t)\|\,dt.
+\]
+
+A similar construction yields the definition of the line integral of a vector field \(\mathbf{F} : U \subset \mathbb{R}^n \to \mathbb{R}^n\) along \(C\):
+\[
+\int_C \mathbf{F} \cdot d\mathbf{s} \; := \; \int_a^b \mathbf{F}\bigl(\gamma(t)\bigr) \cdot \gamma'(t)\,dt.
+\]
+
+	\begin{tikzpicture}[scale=1.5]
+		% Axes
+		\draw[->] (-0.5,0) -- (4,0) node[right] {$x$};
+		\draw[->] (0,-0.5) -- (0,3) node[above] {$y$};
+		
+		% Parameterized curve gamma: example curve in R^2
+		\draw[thick, blue, domain=0:3, smooth, variable=\t] 
+		plot ({\t}, {1.5*sin(30*\t r) + 1});
+		\node at (2.5,2.5) {$C$};
+		
+		% Endpoints of the curve
+		\node at (0, {1.5*sin(0 r)+1}) [left] {$\gamma(a)$};
+		\node at (3, {1.5*sin(90 r)+1}) [right] {$\gamma(b)$};
+		
+		% Mark a sample point gamma(t_0)
+		\pgfmathsetmacro{\tzero}{1.5}
+		\pgfmathsetmacro{\x}{\tzero}
+		\pgfmathsetmacro{\y}{1.5*sin(30*\tzero r)+1}
+		\fill[red] (\x, \y) circle (2pt) node[above right] {$\gamma(t_0)$};
+		
+		% Draw tangent vector at gamma(t_0)
+		% (Here the vector is chosen illustratively.)
+		\pgfmathsetmacro{\dx}{0.8}
+		\pgfmathsetmacro{\dy}{0.8}
+		\draw[->, very thick, red] (\x, \y) -- ++({\dx}, {\dy}) node[midway, above] {$\gamma'(t_0)$};
+		
+		% Indicate differential arc-length element ds
+		\draw[dashed] (\x, \y) -- ++({0.5}, {0});
+		\node at (\x+0.25, \y-0.2) {$ds$};
+	\end{tikzpicture}
 \vfill
 \begin{thebibliography}{9}
-	\bibitem{linear_algebra_c}
-	수학의 즐거움, Enjoying Math. ``수학 공부, 기초부터 대학원 수학까지, 16. 선형대수학 (c) 차원과 벡터공간의 분류'' YouTube Video, 29:08. Published 
-	October 11, 2019. URL: \url{https://www.youtube.com/watch?v=rOKN645fRPs&t=399s}.
-	\bibitem{linear_algebra_d}
-	수학의 즐거움, Enjoying Math. ``수학 공부, 기초부터 대학원 수학까지, 17. 선형대수학 (d) 선형함수의 행렬 표현'' YouTube Video, 29:14. Published 
-	October 12, 2019. URL: \url{https://www.youtube.com/watch?v=Fsy-9KW9-PA}.
+	\bibitem{riemann_0}
+	수학의 즐거움, Enjoying Math. ``[리만의 복소해석을 토대로 얻는 내 수학적 시야] 0. 오리엔테이션'' YouTube Video, 1:49:27. Published 
+	September 4, 2023. URL: \url{https://www.youtube.com/watch?v=EovxcF_DG_k&list=PL4m4z_pFWq2ob-P9m3SQZPyHTaJbbkvdz}.
+	\bibitem{riemann_1}
+	수학의 즐거움, Enjoying Math. ``[리만의 복소해석을 토대로 얻는 내 수학적 시야] 1. 선적분의 정의에 대한 디스커션'' YouTube Video, 1:58:19. Published 
+	September 11, 2023. URL: \url{https://www.youtube.com/watch?v=zoalSFi1RKo&list=PL4m4z_pFWq2ob-P9m3SQZPyHTaJbbkvdz&index=2}.
 \end{thebibliography}
 
 %\newpage

@@ -30,59 +30,444 @@
 \noindent 
 We cover the following topics in this note.
 \begin{itemize}
-	\item Unique representation as a finite linear combination of the elements of Basis.
+	\item Uniqueness of Representation with respect to a Basis; Coordinate
+	\item Linear Transformation
+	\item Vector Space Isomorphism (Linear Isomorphism)
+	\item Classification of Vector Space (up to Isomorphism)
+	\item \st{Matrix Representation of a Linear Transformation}
+	\item TBA
 \end{itemize}
 \hrule\vspace{12pt}
 %\tableofcontents
 %\newpage
-
-\probox{\begin{proposition*}
-	Let $V$ be a vector space over a field $F$, and let $\dim V<\infty$, say, $\dim V=n$.
-	Fix a basis $\basis$. Then every vector $\vec{v}\in V$ has a unique expression of linear combination by $\basis$.
+%\begin{tikzpicture}[scale=1, every node/.style={font=\small}]
+%	
+%	% Draw a faint grid for orientation (optional)
+%	\draw[gray, very thin] (-1,-1) grid (7,6);
+%	
+%	% Draw coordinate axes
+%	\draw[->] (-0.5,0) -- (7,0) node[right] {$x$};
+%	\draw[->] (0,-0.5) -- (0,6) node[above] {$y$};
+%	
+%	% Define basis vectors (for example purposes, we choose b1=(3,1) and b2=(1,2.5))
+%	\coordinate (b1) at (3,1);
+%	\coordinate (b2) at (1,2.5);
+%	
+%	% Draw basis vectors starting at the origin
+%	\draw[->, thick, blue] (0,0) -- (b1) node[midway, below right] {$\vec{b}_1$};
+%	\draw[->, thick, green!70!black] (0,0) -- (b2) node[midway, above left] {$\vec{b}_2$};
+%	
+%	% Choose scalar coefficients for illustration
+%	\def\alphaOne{1.5}
+%	\def\alphaTwo{1.0}
+%	
+%	% Compute scaled basis vectors: alpha1*b1 and alpha2*b2
+%	\coordinate (v1) at ($\alphaOne*(b1)$);   % alpha1 * b1
+%	\coordinate (v2) at ($\alphaTwo*(b2)$);     % alpha2 * b2
+%	
+%	% Draw the scaled vectors with dashed style to indicate the components
+%	\draw[->, dashed, blue] (0,0) -- (v1) node[midway, below] {$\alpha_1\vec{b}_1$};
+%	\draw[->, dashed, green!70!black] (0,0) -- (v2) node[midway, left] {$\alpha_2\vec{b}_2$};
+%	
+%	% The sum vector v = alpha1*b1 + alpha2*b2
+%	\coordinate (v) at ($ (v1) + (v2) $);
+%	\draw[->, ultra thick, red] (0,0) -- (v) node[midway, above right] {$\vec{v}$};
+%	
+%	% Illustrate the vector addition: draw from v1 to v to indicate adding the second component
+%	\draw[dotted] (v1) -- (v);
+%	
+%	% Optionally, add an annotation explaining the decomposition
+%	\node[align=left, right] at (7,4) {Every vector \(\vec{v} \in V\)\\ has a unique representation\\ \(\vec{v}=\alpha_1\vec{b}_1+\alpha_2\vec{b}_2\).};
+%	
+%\end{tikzpicture}
+\newpage
+\probox[Uniqueness of Representation with respect to a Basis]{\begin{proposition*}\hypertarget{unique-wrt-basis}{
+	Let \( V \) be a vector space over a field \( F \) and let $\dim V=n<\infty$. Let
+	\[
+	\basis=\set{\vec{b}_1, \vec{b}_2, \dots, \vec{b}_n }\subseteq V
+	\]
+	be a basis of \( V \). Then for every vector \( \vec{v} \in V \) there exists a unique scalars \(\alpha_1, \alpha_2, \dots, \alpha_n \in F\) such that
+	\[
+	\vec{v} = \alpha_1\vec{b}_1 + \alpha_2\vec{b}_2+\cdots+\alpha_n\vec{b}_n = \sum_{i=1}^{n} \alpha_i\, \vec{b}_i.
+	\]}
 \end{proposition*}}
+
 \begin{proof}
-	Let $\basis=\set{\vec{v}_1,\vec{v}_2,\dots,\vec{v}_n}$ be a basis of $V$. Take any $\vec{v}\in V(=\Span\basis)$. Then \[
-	\exists a_1,a_2,\dots,a_n\in F\quad\text{such that}\quad a_1\vec{v}_1+\cdots+a_n\vec{v}_n=\vec{v}.
-	\] Suppose that $\exists b_1,b_2,\dots, b_n\in F$ such that $\sum_{i=1}^{n}b_i\vec{v}_i=\vec{v}$. Then \begin{align*}
-		a_1\vec{v}_1+a_2\vec{v}_2+\cdots a_n\vec{v}_n&=b_1\vec{v}_1+b_2\vec{v}_2+\cdots+b_n\vec{v}_n,\\
-		(a_1-b_1)\vec{v}_1+(a_2-b_2)\vec{v}_2+\cdots (a_n-b_n)\vec{v}_n&=\vec{0},
-	\end{align*} and so $a_i=b_i$ for all $i=1,2,\dots,n$ since a basis $\basis=\set{\vec{v}_1,\vec{v}_2,\cdots,\vec{v}_n}$ is linearly independent.
+	Suppose, for contradiction, that there exist two distinct representations of some vector \( \vec{v} \in V \) in terms of the basis \( \basis=\set{\vec{b}_1,\vec{b}_2,\dots,\vec{b}_n} \):
+	\[
+	\vec{v} = \sum_{i=1}^{n} \alpha_i\, \vec{b}_i \quad \text{and} \quad \vec{v} = \sum_{j=1}^{n} \beta_j\, \vec{b}_j,
+	\]
+	where \(\alpha_i, \beta_j \in F\) for all \( i, j \). Then \begin{align*}
+		\sum_{i=1}^{n} \alpha_i\, \vec{b}_i - \sum_{j=1}^{n} \beta_j\, \vec{b}_j = \vec{0}\implies
+		\sum_{i=1}^{n} (\alpha_i-\beta_i)\, \vec{b}_i= \vec{0}.
+	\end{align*} Since a basis $\basis=\set{\vec{b}_1,\vec{b}_2,\dots,\vec{b}_n}$ is linearly independent, we have \[
+	\alpha_i-\beta_i=0,\quad\ie,\quad \alpha_i=\beta_i
+	\] for all $i=1,2,\dots,n$. 
+	Therefore, the representation of any \( \vec{v} \in V \) as a finite linear combination of elements of the basis \( \basis \) is unique.
 \end{proof}
-
-\defbox[Coordinate]{\begin{definition*}
-	Write \[
-	[\vec{v}]_{\basis}=(a_1,a_2,\dots,a_n).
-	\] is called the coordinate of $\vec{v}$ with respect to $\basis$.
+\vfill
+\defbox[Coordinate in a Finite-Dimensional Vector Space]{\begin{definition*}
+Let \(V\) be a vector space over a field \(F\) with $\dim V=n<\infty$, and let  
+\[
+\basis = \{\vec{b}_i\}_{i=1}^n=\set{\vec{b}_1,\vec{b}_2,\dots,\vec{b}_n}
+\]
+be a basis of \(V\). The \hl{\textbf{coordinate of $\vec{v}\in V$ with respect to $\basis$}}, denoted by \([\vec{v}]_\basis\), is the \(n\)-tuple
+\[
+[\vec{v}]_\basis = (\alpha_1,\alpha_2,\dots,\alpha_n) \quad \text{where } \vec{v} = \alpha_1 \vec{b}_1 + \alpha_2 \vec{b}_2 + \cdots + \alpha_n \vec{b}_n.
+\]
 \end{definition*}}
-
+{\color{gray!30}\begin{remark*}[Coordinate Function]
+%In the general case (possibly infinite-dimensional), the coordinates are given by the unique function \( [\vec{v}]_\basis \) assigning to each basis vector \(\vec{b}\) the scalar coefficient in the unique representation of \(\vec{v}\).
+Let \( V \) be a vector space over a field \( F \) and let $\basis = \{ \vec{b}_i \}_{i \in I}$
+be a (Hamel) basis for \( V \). Then for every vector \( \vec{v} \in V \), there exists a unique function
+\[
+[\vec{v}]_\basis : \basis \to F
+\]
+with the finite set \( \{\, \vec{b} \in \basis : [\vec{v}]_\basis(\vec{b}) \neq 0 \,\} \) such that
+\[
+\vec{v} = \sum_{\vec{b} \in \basis} [\vec{v}]_\basis(\vec{b})\ \vec{b}.
+\]
+The function \([\vec{v}]_\basis\) is called the \textit{coordinates of \( \vec{v} \) with respect to the basis \( \basis \)}. In the finite-dimensional case where $\basis = \{\vec{b}_1, \vec{b}_2, \dots, \vec{b}_n\},$
+the coordinate function \([\vec{v}]_\basis\) is naturally identified with the \( n \)-tuple
+\[
+[\vec{v}]_\basis = (\alpha_1, \alpha_2, \dots, \alpha_n) \quad \text{where} \quad \vec{v} = \alpha_1 \vec{b}_1 + \alpha_2 \vec{b}_2 + \cdots + \alpha_n \vec{b}_n.
+\] 
+Furthermore, the mapping \[
+\Phi:V\to F^\basis,\quad \vec{v}\mapsto[\vec{v}]_\basis.
+\] is a vector space isomorphism, which assigns to each $\vec{v}\in V$ its coordinate vector w.r.t. the basis $\basis$.
+\end{remark*}}
+\vfill
 \defbox[Linear Transformation]{\begin{definition*}
-	We say $\Phi:V\to W$ is a linear transformation if $\Phi$ preserves a linearity, \ie, \[
-	\Phi(a\cdot \vec{v}+b\cdot \vec{w})=a\cdot\Phi(\vec{v})+b\cdot\Phi(\vec{w})
-	\] for any $a,b\in F$ and $\vec{v},\vec{w}\in V$. Here, if $\Phi:W\to V$ is also a linear transformation the we say $\Phi$ is the vector-space isomorphism.
-\end{definition*}}
-
-\probox{\begin{definition*}
-	finite-dimensional vector space $V,W/F$. Then \[
-	\dim V=\dim W\iff\exists\text{a vector-space isomorphism}\ \Phi:V\to W,\ie, V\simeq W.
+	Let $V$ and $W$ be vector spaces over a field $F$. A function \[
+	T:V\to W
+	\] is called a \textbf{linear transformation} if for all vectors $\vec{v},\vec{w}\in V$ and for all scalars $\alpha,\beta\in F$, the following condition holds: \[
+	T(\alpha\vec{v}+\beta\vec{w})=\alpha T(\vec{v})+\beta T(\vec{v}).
 	\]
 \end{definition*}}
-\begin{proof}
-\begin{itemize}
-	\item[($\Rightarrow$)] Suppose that $\dim V=\dim W=n\in\N$. Take basis $\basis_V=\set{\vec{v}_1,\vec{v}_2,\dots,\vec{v}_n}$ and $\basis_W=\set{\vec{w}_1,\vec{w}_2,\dots,\vec{w}_n}$ of $W$. Define \[
-	\fullfunction{\Phi}{V}{W}{\vec{v}}{a_1\vec{w}_1+\cdots+a_n\vec{w}_n}.
-	\] We claim that $\Phi$ is one-to-one and onto linear transformation.
-	\item[($\Leftarrow$)] Suppose there exists $\Phi:V\to W$. Take any basis $\basis_V=\set{\vec{v}_1,\vec{v}_2,\dots,\vec{v}_n}$ of $V$. Define \[
-	\basis_W:=\set{\Phi(\vec{v}_1),\Phi(\vec{v}_2),\dots,\Phi(\vec{v}_n)}.
-	\]  We claim that $\basis_W$ be a basis of $W$: \begin{enumerate}[]
-		\item (Linearly Independent) Suppose that $a_1\Phi(\vec{v}_1)+\cdots a_n\Phi(\vec{v}_n)=0$. Since $\Phi$ is a linear transformation, we have \[
-		\Phi(a_1\vec{v}_1+\cdots+a_n\vec{v}_n)=0.
-		\] Since $\Phi$ is one-to-one, and $0=\Phi(0)$, $a_1\vec{v}_1+a_n\vec{v}_n=0$, $a_1=a_n=0$ since $\basis_V$ is a basis.
-		\item (Spanning Property) Take $\vec{w}\in W$. Since $\Phi$ is onto, $\exists \vec{v}\in V$ s.t. $\Phi(\vec{v})=\vec{w}$. Since $\basis_V$ is a basis, $\exists!a_1,a_2,\dots,a_n$ s.t. $a_1\vec{v}_1+\cdots+a_n\vec{v_n}=\vec{v}1$, and so \[
-		\vec{w}=\Phi(a_1\vec{v}_1+\cdots+a_n\vec{v}_n)=a_1\Phi(\vec{v}_1)+\cdots+a_n\Phi(\vec{v}_n)
+\begin{remark*}
+	Equivalently, a function $T:V\to W$ is linear if it satisfies \begin{enumerate}[(i)]
+		\item (\textit{Additivity}) For all $\vec{v},\vec{w}\in V$, \[
+		T(\vec{v}+\vec{w})=T(\vec{v})+T(\vec{w});
 		\]
+		\item (\textit{Homogeneity}) For all $\alpha\in F$ and $\vec{v}\in V$, \[
+		T(\alpha\vec{v})=\alpha T(\vec{v}).
+		\]
+	\end{enumerate} 
+\end{remark*}
+\begin{remark*}
+	This definition ensures $T$ preserves the vector space structure of $V$ in its image in $W$.
+\end{remark*}
+
+\newpage
+\defbox[Vector Space Isomorphism]{\begin{definition*}
+	Let $V$ and $W$ be vector spaces over a field $F$. A mapping \[
+	T:V\to W
+	\] is called a \textbf{vector space isomorphism} if the followings are satisfied: \begin{enumerate}[(i)]
+		\item (\textit{Linearity}) For any vectors $\vec{v},\vec{w}\in V$ and any scalars $\alpha,\beta\in F$, \[
+		T(\alpha\vec{v}+\beta\vec{w})=\alpha T(\vec{v})+\beta T(\vec{w}).
+		\]
+		\item (\textit{Bijectivity})
+		\begin{itemize}
+			\item (\textit{Injectivity}) $\forall \vec{v},\vec{w}\in V$,\ $T(\vec{v})=T(\vec{w})\implies\vec{v}=\vec{w}$;
+			\item (\textit{Surjectivity}) $\forall \vec{w}\in W$,\ $\exists \vec{v}\in V$ such that $T(\vec{v})=\vec{w}$.
+		\end{itemize}
+	\end{enumerate} The bijectivity of $T$ guarantees the existence of an inverse mapping $T^{-1}:W\to V$, which satisfies \[
+	(\forall \vec{v}\in V,\ T^{-1}(T(\vec{v}))=\vec{v}),\quad\text{and}\quad (\forall \vec{w}\in W,\ T(T^{-1}(\vec{w}))=\vec{w}).
+	\]
+\end{definition*}}
+\begin{remark*}
+	The inverse mapping $T^{-1}:W\to V$ is also a linear transformation.
+	\begin{proof}
+		Let $\vec{w}_1,\vec{w}_2\in W$ and let $\alpha,\beta\in F$. Since $T$ is bijective, for each $\vec{w}\in W$, there exists a unique $\vec{v}\in V$ such that $\vec{w}=T(\vec{v})$. Define \[
+		\vec{v}_1=T^{-1}(\vec{w}_1)\in V\quad\text{and}\quad\vec{v}_2=T^{-1}(\vec{w}_2)\in V.
+		\] Since $T$ is linear, we have \[
+		T(\alpha\vec{v}_1+\beta\vec{v}_2)=\alpha T(\vec{v}_1)+\beta T(\vec{v}_2)=\alpha\vec{w}_1+\beta\vec{w}_2.
+		\] Thus, \begin{align*}
+			T^{-1}(\alpha\vec{w}_1+\beta\vec{w}_2)&=T^{-1}(T(\alpha\vec{v}_1+\beta\vec{v}_2))\\
+			&=\alpha\vec{v}_1+\beta\vec{v}_2\\
+			&=\alpha T^{-1}(\vec{w}_1) + \beta T^{-1}(\vec{w}_2). 
+		\end{align*}
+	\end{proof}
+\end{remark*}
+\begin{remark*}
+	When a vector space isomorphism $T:V\to W$ exists, the vector spaces $V$ and $W$ are said to be \textbf{isomorphic}, denoted by $V\simeq W$.
+\end{remark*}
+
+\newpage
+\probox{\begin{proposition*}\hypertarget{prop}{
+	Let $V$ and $W$ be vector spaces over a field $F$ with $\dim V<\infty$ and $\dim W<\infty$. The following are equivalent: \begin{enumerate}[(1)]
+		\item $\dim V=\dim W$
+		\item There exists a vector space isomorphism $T$ from $V$ to $W$
+	\end{enumerate}}
+\end{proposition*}}
+\begin{proof}
+\begin{enumerate}[]
+	\item $((2)\Rightarrow (1))$ Assume that there exists a vector space isomorphism $T:V\to W$. Let $\basis_V=\set{\vec{v}_1,\vec{v}_2,\dots,\vec{v}_n}$ be any basis of $V$. Consider the set \[
+	\img{\basis_V}=T[\basis_V]=\set{T(\vec{v}):\vec{v}\in \basis_V}=\set{T(\vec{v}_1),T(\vec{v}_2),\dots,T(\vec{v}_n)}\subseteq W.
+	\] We claim that $T[\basis_V]$ is a basis of $W$: \begin{itemize}
+		\item (\textit{Linear Independence}) Suppose that for some finite scalars $\set{\alpha_i}_{i=1}^n\subseteq F$ we have \[
+		\alpha_1T(\vec{v}_1)+\alpha_2T(\vec{v}_2)+\cdots+\alpha_nT(\vec{v}_n)=\vec{0}_W.
+		\] By the linearity of $T$, we obtain $T(\alpha_1\vec{v}_1+\alpha_2\vec{v}_2+\cdots+\alpha_n\vec{v}_n)=\vec{0}_W$. Note that $T(\vec{0}_V)=T(0\cdot\vec{v})=0\cdot T(\vec{v})=\vec{0}_W$ for any $\vec{v}\in V$. Since $T$ is injective, it follows that \[
+		\alpha_1\vec{v}_1+\alpha_2\vec{v}_2+\cdots+\alpha_n\vec{v}_n=\vec{0}_V.
+		\] As $\basis_V=\vec{v_1,\vec{v}_2,\dots,\vec{v}_n}$ is a basis (and hence linearly independent), $\alpha_1=\alpha_2=\cdots=\alpha_n=0$. Thus, $T[\basis_V]$ is linearly independent.
+		\item (\textit{Spanning Property}) Let $\vec{w}\in W$. Since $T$ is surjective, there exists $\vec{v}\in V$ such that \[
+		T(\vec{v})=\vec{w}.
+		\] By \hyperlink{unique-wrt-basis}{Uniqueness of Representation w.r.t. a Basis}, we know that there exists a unique scalars $\set{\alpha}_{i=1}^n\subseteq F$ such that \[
+		\vec{v}=\alpha_1\vec{v}_1+\alpha_2\vec{v}_2+\cdots\alpha_n\vec{v}_n.
+		\] Then \[
+		\vec{w}=T(\vec{v})=T(\alpha_1\vec{v}_1+\alpha_2\vec{v}_2+\cdots\alpha_n\vec{v}_n)\overset{\text{linearity}}{=}\alpha_1 T(\vec{v}_1)+\alpha_2 T(\vec{v}_2) + \cdots +\alpha_n T(\vec{v}_n)\in \Span T[\basis_V].
+		\] That is, $\vec{w}\in W$ is a linear combination of elements of $T[\basis_V]$. Therefore, $\Span T[\basis_V]=W$.
+	\end{itemize} Since $
+	\abs[1]{\basis_V}=\abs[1]{T[\basis_V]}=n$, thus, we have \[
+	\dim V=\dim W.
+	\]
+	\item $((1)\Rightarrow (2))$  Conversely, assume that $\dim V=\dim W =:n.$ Consider bases \[
+	\basis_V=\set{\vec{v}_1,\vec{v}_2,\dots,\vec{v}_n}\quad\text{and}\quad\basis_W=\set{\vec{w}_1,\vec{w}_2,\dots,\vec{w}_n}
+	\] for $V$ and $W$, respectively. By \hyperlink{unique-wrt-basis}{Uniqueness of Representation w.r.t. a Basis}, for each vector $\vec{v}\in V$, there exists a unique finite scalars $\set{\alpha_i}_{i=1}^n\subseteq F$ such that \[
+	\vec{v}=\alpha_1\vec{v}_1+\alpha_2\vec{v}_2+\cdots+\alpha_n\vec{v}_n.
+	\] Define a mapping $T:V\to W$ given by \[
+	T(\vec{v})=T\left(\sum_{i=1}^n\alpha_i\vec{v}_i\right):=\sum_{j=1}^n\alpha_j\vec{w}_j.
+	\] We NTS that $T$ be a one-to-one and onto linear transformation: \begin{enumerate}[(i)]
+		\item (\textit{Linearity}) Let $\vec{v},\vec{v}'\in V$ with $\vec{v}=\sum_{i=1}^n\alpha_i\vec{v}_i$ and $\vec{v}'=\sum_{j=1}^n\beta_j\vec{v}_j$. For any $\lambda,\mu\in F$, we have \begin{align*}
+		\lambda\vec{v}+\mu\vec{v}'=\lambda\sum_{i=1}^{n}\alpha_i\vec{v}_i+\mu\sum_{j=1}^{n}\beta_j\vec{v}_j
+		&=\lambda(\alpha_1\vec{v}_1+\alpha_2\vec{v}_2+\cdots+\alpha_n\vec{v}_n)+\mu(\beta_1\vec{v}_1+\beta_2\vec{v}_2+\cdots+\beta_n\vec{v}_n)\\
+		&=(\lambda\alpha_1+\mu\beta_1)\vec{v}_1+(\lambda\alpha_2+\mu\beta_2)\vec{v}_2+\cdots+(\lambda\alpha_n+\mu\beta_n)\vec{v}_n\\
+		&=\sum_{i=1}^{n}\gamma_k\vec{v}_k\quad\text{where}\quad\gamma_k=
+		\lambda\alpha_k+\mu\beta_k.
+		\end{align*} By definition of $T$, we have \[
+		T(\lambda\vec{v}+\mu\vec{v}')=\sum_{i=1}^{n}\gamma_k\vec{w}_k=\lambda\sum_{i=1}^{n}\alpha_i\vec{w}_i+\mu\sum_{j=1}^{n}\beta_j\vec{w}_j=\lambda T(\vec{v})+\mu T(\vec{v}').
+		\]\vspace{20pt}
+		\item (\textit{Injectivity}) Let $\vec{v},\vec{v}'\in V$ with $\vec{v}=\sum_{i=1}^n\alpha_i\vec{v}_i$ and $\vec{v}'=\sum_{j=1}^n\beta_j\vec{v}_j$. Suppose $T(\vec{v})=T(\vec{v}')$. Then \[
+		T(\vec{v})-T(\vec{v}')=\sum_{i=1}^{n}\gamma_k\vec{w}_k=\vec{0}_W,\quad\text{where}\ \gamma_k=\alpha_k-\beta_k.
+		\] Since $\basis_W=\set{\vec{w}_1,\vec{w}_2,\dots,\vec{w}_n}$ is a basis of $W$, the linear independence of $\basis_W$ implies that\[
+		\alpha_k=\beta_k
+		\] for all $k=1,2,\dots,n$. Thus $\vec{v}=\vec{v}'$, and so $T$ is injective. 
+		\newpage
+		\item (\textit{Surjectivity}) Let $\vec{w}\in W$. Since $\basis_W=\set{\vec{w}_1,\vec{w}_2,\dots,\vec{w}_n}$ is a basis of $W$, there exists a unique finite scalars $\set{\alpha_i}_{i=1}^n\subseteq F$ such that \[
+		\vec{w}=\alpha_1\vec{w}_1+\alpha_2\vec{w}_2+\cdots+\alpha_n\vec{w}_n.
+		\] Define a vector \[
+		\vec{v}:=\alpha_1\vec{v}_1+\alpha_2\vec{v}_2+\cdots+\alpha_n\vec{v}_n=\sum_{i=1}^n\alpha_i\vec{v}_i\in V.
+		\] Then $T(\vec{v})=\sum_{i=1}^n\alpha_i\vec{w}_i=\vec{w}$. Thus, $T$ is surjective.
 	\end{enumerate}
-\end{itemize}
+\end{enumerate}
 \end{proof}
+\thmbox[Classification of Vector Spaces up to Isomorphism]{\begin{theorem*}
+	Let \[
+	\mathcal{V}_F:=\set{V:\text{$V$ is a vector space over a field $F$}}.
+	\] Define a relation $\sim$ on $\mathcal{V}_F$ by \[
+	\forall V,W\in\mathcal{V}_F,\quad V\sim W\iff \exists T\in W^V\quad\text{such that}\quad\text{$T$ is a vector space isomorphism}.
+	\] Then \begin{enumerate}[(1)]
+		\item $\sim$ is an equivalence relation on $\mathcal{V}_F$;
+		\item For any vector spaces $V,W\in\mathcal{V}_F$, $
+		V\simeq W\iff \dim V=\dim W.$
+	\end{enumerate}
+	The isomorphism classes of vector spaces over $F$ are completely determined by their dimensions.
+\end{theorem*}}
+\begin{proof}
+\ \begin{enumerate}[(1)]
+	\item We NTS that the relation $\sim$ is reflexive, symmetric, and transitive: \begin{enumerate}[(i)]
+		\item (\textit{Reflexivity})\ For each $V\in\mathcal{V}_F$, the identity map $\id_V:V\to V$ is a linear isomorphism, so $V\sim V$.
+		\item (\textit{Symmetry})\ If $V\sim W$ via an isomorphism $T:V\to W$, then its inverse $T^{-1}:W\to V$ is also linear, implying $W\sim V$.
+		\item (\textit{Transitivity})\ If $V\sim W$ via $T:V\to W$ and $W\sim U$ via $S:W\to U$, then the composition $S\circ T:V\to U$ is a linear isomorphism, so $V\sim U$.
+	\end{enumerate}
+	\item See \hyperlink{prop}{previous proposition}.
+\end{enumerate}
+\end{proof}
+\corbox{\begin{corollary*}
+	Let $V$ be a vector space over a field $F$ with $\dim V=n\in\N$, and let \[
+	F^n=\set{(x_1,x_2,\dots,x_n):x_i\in F,\ 1\leq i\leq n}
+	\] is the space of $n$-tuples over $F$ equipped with the usual operations of vector addition and scalar multiplication. . Then there exists a vector space isomorphism \[
+	\Phi:V\to F^n,\quad \ie,\quad V\simeq F^n.
+	\]
+\end{corollary*}}
+\begin{example*}
+	Consider the vector space \[
+	\text{Mat}_{n\times m}(\R)=\set{\begin{bmatrix}
+			a_{11} & a_{12} & \cdots & a_{1m} \\
+			a_{21} & a_{22} & \cdots & a_{2m} \\
+			\vdots & \vdots & \ddots & \vdots \\
+			a_{n1} & a_{n2} & \cdots & a_{nm}
+		\end{bmatrix}: a_{ij}\in\R,\; 1\leq i\leq n,\; 1\leq j\leq m}
+	\] which consists of all \( n \times m \) matrices with entries in \(\mathbb{R}\) (and where the vector space structure is defined over the field \(\mathbb{R}\)). Also, let \[
+	\R^{nm}=\set{(x_1,x_2,\dots,x_{nm}):x_k\in \R,\; 1\leq k\leq nm}
+	\] the vector space of \( nm \)-tuples of real numbers, with the usual coordinate-wise addition and scalar multiplication (again, over the field \(\mathbb{R}\)). Then there exists a vector space isomorphism \[
+	\Phi : \operatorname{Mat}_{n \times m}(\mathbb{R}) \to \mathbb{R}^{nm},
+	\] \ie, $\text{Mat}_{n\times m}(\R)\simeq \R^{nm}$.
+%**Proof.**
+%
+%1. **Definition of the Mapping \(\Phi\).**
+%
+%For each matrix
+%\[
+%A = (a_{ij})_{1\le i\le n,\;1\le j\le m} \in \operatorname{Mat}_{n \times m}(\mathbb{R}),
+%\]
+%define the mapping
+%\[
+%\Phi(A) \coloneqq (a_{11},\, a_{12},\, \dots,\, a_{1m},\, a_{21},\, a_{22},\, \dots,\, a_{2m},\, \dots,\, a_{n1},\, a_{n2},\, \dots,\, a_{nm}) \in \mathbb{R}^{nm}.
+%\]
+%Here, the entries of \(A\) are arranged in a fixed order (e.g., row-major order).
+%
+%2. **Well-Definedness.**
+%
+%Since every matrix \(A \in \operatorname{Mat}_{n \times m}(\mathbb{R})\) has uniquely determined entries \(a_{ij} \in \mathbb{R}\), the ordered \(nm\)-tuple \(\Phi(A)\) is uniquely determined. Thus, \(\Phi\) is well-defined as a function from \(\operatorname{Mat}_{n \times m}(\mathbb{R})\) to \(\mathbb{R}^{nm}\).
+%
+%3. **Linearity of \(\Phi\).**
+%
+%We verify that \(\Phi\) preserves addition and scalar multiplication over \(\mathbb{R}\).
+%
+%- **Additivity:**  
+%Let \(A = (a_{ij})\) and \(B = (b_{ij})\) be arbitrary matrices in \(\operatorname{Mat}_{n \times m}(\mathbb{R})\). Then
+%\[
+%A + B = (a_{ij} + b_{ij}),
+%\]
+%so
+%\[
+%\Phi(A+B) = (a_{11}+b_{11},\, a_{12}+b_{12},\, \dots,\, a_{nm}+b_{nm}).
+%\]
+%On the other hand,
+%\[
+%\Phi(A) + \Phi(B) = (a_{11},\, a_{12},\, \dots,\, a_{nm}) + (b_{11},\, b_{12},\, \dots,\, b_{nm}) = (a_{11}+b_{11},\, a_{12}+b_{12},\, \dots,\, a_{nm}+b_{nm}).
+%\]
+%Therefore,
+%\[
+%\Phi(A+B) = \Phi(A) + \Phi(B).
+%\]
+%
+%- **Homogeneity:**  
+%Let \(\lambda \in \mathbb{R}\) and \(A = (a_{ij})\). Then
+%\[
+%\lambda A = (\lambda a_{ij}),
+%\]
+%and thus
+%\[
+%\Phi(\lambda A) = (\lambda a_{11},\, \lambda a_{12},\, \dots,\, \lambda a_{nm}) = \lambda (a_{11},\, a_{12},\, \dots,\, a_{nm}) = \lambda\, \Phi(A).
+%\]
+%
+%Consequently, \(\Phi\) is \(\mathbb{R}\)-linear:
+%\[
+%\forall\, A,B \in \operatorname{Mat}_{n \times m}(\mathbb{R}),\; \forall\, \lambda \in \mathbb{R},\quad \Phi(A+B) = \Phi(A) + \Phi(B) \quad \text{and} \quad \Phi(\lambda A) = \lambda\, \Phi(A).
+%\]
+%
+%4. **Injectivity of \(\Phi\).**
+%
+%Assume \(A, B \in \operatorname{Mat}_{n \times m}(\mathbb{R})\) such that
+%\[
+%\Phi(A) = \Phi(B).
+%\]
+%Then,
+%\[
+%(a_{11},\, a_{12},\, \dots,\, a_{nm}) = (b_{11},\, b_{12},\, \dots,\, b_{nm}).
+%\]
+%This equality implies that
+%\[
+%a_{ij} = b_{ij} \quad \text{for all } 1 \le i \le n \text{ and } 1 \le j \le m.
+%\]
+%Hence, \(A = B\), which shows that \(\Phi\) is injective.
+%
+%5. **Surjectivity of \(\Phi\).**
+%
+%Let
+%\[
+%x = (x_1,x_2,\dots,x_{nm}) \in \mathbb{R}^{nm}
+%\]
+%be arbitrary. We need to find a matrix \(A \in \operatorname{Mat}_{n \times m}(\mathbb{R})\) such that \(\Phi(A) = x\). Define the matrix \(A = (a_{ij})\) by
+%\[
+%a_{ij} \coloneqq x_{(i-1)m + j}, \quad \text{for } 1 \le i \le n \text{ and } 1 \le j \le m.
+%\]
+%With this definition, the entries of \(A\) arranged in row-major order are exactly the coordinates of \(x\); that is,
+%\[
+%\Phi(A) = (x_1,x_2,\dots,x_{nm}) = x.
+%\]
+%Therefore, \(\Phi\) is surjective.
+%
+%6. **Conclusion.**
+%
+%Since \(\Phi : \operatorname{Mat}_{n \times m}(\mathbb{R}) \to \mathbb{R}^{nm}\) is a linear transformation that is both injective and surjective, it is an isomorphism of \(\mathbb{R}\)-vector spaces. Thus,
+%\[
+%\operatorname{Mat}_{n \times m}(\mathbb{R}) \cong \mathbb{R}^{nm}.
+%\]
+%
+%\(\Box\)
+
+\end{example*}
+\vspace{20pt}
+\begin{note}
+We also denote the set of all $n\times m$ matrices with real entries, namely $\text{Mat}_{n\times m}(\R)$ by $\R^{n\times m}$.
+\end{note}
+
+\newpage
+\defbox[Matrix Representation of a Linear Transformation]{\begin{definition*}
+	TBA
+\end{definition*}}		
+
+\iffalse
+\section*{Matrix Representation}
+\begin{itemize}
+	\item Let $V,W$ be vector space $V,S/F$ with $\dim V=n$ and $\dim W=m$.
+	\item Let $T:V\to W$ be a linear transformation
+	\item Fix a basis \[
+	\basis_V=\set{\vec{v}_1,\vec{v}_2,\dots,\vec{v}_n}\subseteq V\quad\text{and}\quad\basis_W=\set{\vec{w}_1,\vec{w}_2,\dots,\vec{w}_m}\subseteq W.
+	\]
+	\item Then \begin{align*}
+		T(\vec{v}_1)&=a_{11}\vec{w}_1+a_{21}\vec{w}_2+\cdots+a_{m1}\vec{w}_m\\
+		T(\vec{v}_2)&=a_{12}\vec{w}_1+a_{22}\vec{w}_2+\cdots+a_{m2}\vec{w}_m\\
+		\vdots &\\
+		T(\vec{v}_k)&=a_{1k}\vec{w}_1+a_{2k}\vec{w}_2+\cdots+a_{mk}\vec{w}_m.
+	\end{align*}
+	\item \[
+	\begin{bmatrix}
+		\mid & & \mid \\
+		T(\vec{v}_1)& \cdots & T(\vec{v}_n)\\
+		\mid & & \mid
+	\end{bmatrix}=\begin{bmatrix}
+	a_{11} & a_{21} & \cdots & a_{1n}\\
+	a_{21} & a_{22} & \cdots & a_{2n}\\
+	\vdots & & &\vdots  \\
+	a_{m1} & a_{m1} & \cdots & a_{mn}\\
+\end{bmatrix}=:[T]_{\basis_V}^{\basis_W}
+	\] is called the matrix representation of $\basis_W$ w.r.t. $\basis_V$.
+	\item e.g. Given $n$-dim vector space $V$ over a field $F$. Let $\basis_V=\set{\vec{v}_1,\vec{v}_2,\dots,\vec{v}_n}$ be a basis of $V$. Define \[
+	\fullfunction{\Phi}{V}{F^n}{\sum_{i=1}^{n}a_i\vec{v}_i}{\sum_{j=1}^{n}a_j\vec{e}_j},
+	\] where $\mathcal{E}=\set{\vec{e}_1,\dots,\vec{e}_n}$ is the standard basis of $F^n$, \ie, $e_j=(0,\cdots,1,\cdots,0)$ Then \begin{align*}
+	\Phi(\vec{v}_1)&=\Phi(1\cdot\vec{v}_1)=\vec{e}_1=1\vec{e}_1+0\vec{e}_2+\cdots+0\vec{e}_n\\
+	\Phi(\vec{v}_2)&=\Phi(1\cdot\vec{v}_2)=\vec{e}_2=0\vec{e}_1+1\vec{e}_2+\cdots+0\vec{e}_n\\
+	\vdots &\\
+	\Phi(\vec{v}_n)&=\Phi(1\cdot\vec{v}_n)=\vec{e}_n=0\vec{e}_1+0\vec{e}_2+\cdots+1\vec{e}_n
+	\end{align*} Then \[
+\begin{bmatrix}
+\Phi(\vec{v}_1)& \cdots & \Phi(\vec{v}_n)
+\end{bmatrix}=\begin{bmatrix}
+1 & 0 & \cdots & 0\\
+0 & 1 & \cdots & 0\\
+\vdots & & &\vdots  \\
+0 & 0 & \cdots & 1\\
+\end{bmatrix}=:Id_{n\times n}.
+\]
+\item e.g. \[
+\fullfunction{T}{Mat_{2}(F)}{Mat_2(F)}{A}{A^T}
+\] Then $T$ is a linear transformation. (since $T(A+B)=(A+B)^T=A^T+B^T=T(A)+T(B)$ and $T(kA)=(kA)^T=kA^T$). Choose a basis \[
+\basis=\set{\begin{bmatrix}
+	1 & 0 \\ 0 & 0
+\end{bmatrix}, \begin{bmatrix}
+0 & 1 \\ 0 & 0
+\end{bmatrix}, \begin{bmatrix}
+0 & 0 \\ 1 & 0
+\end{bmatrix}, \begin{bmatrix}
+0 & 0 \\ 0 & 1
+\end{bmatrix}}
+\] Then \[
+[T]_\basis^\basis=\begin{bmatrix}
+	1 & 0 & 0 & 0 \\
+	0 & 0 & 1 & 0 \\
+	0 & 1 & 0 & 0 \\
+	0 & 0 & 0 & 1
+\end{bmatrix}
+\]
+\item (Rmk1) The matrix representation depends on choices of basis of $V$ and $W$.
+\item (Rmk2) Let $V,W$ vector spaces over a field $F$ with $\dim V=n$ and $\dim W=m$. Let $T:V\to W$.
+\end{itemize}
+\fi
+
 
 \vfill
 \begin{thebibliography}{9}

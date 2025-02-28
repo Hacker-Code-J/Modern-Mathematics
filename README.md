@@ -14,6 +14,9 @@ This directory is the core of the repository, featuring detailed documents for v
 #### Topics Covered in the `grad-math-full` Folder
 
 The `grad-math-full` directory contains detailed documents for graduate-level mathematics courses, organized by specific topics in each document:
+
+---
+##### Set Theory
 <details>
 <summary><strong>grad-math-1.tex/pdf</strong>: Set Theory I</summary>
 <ul>
@@ -32,6 +35,8 @@ The `grad-math-full` directory contains detailed documents for graduate-level ma
 <li>Equivalence Class, Partition</li>
 </ul>
 </details>
+
+##### Advanced Calculus and Topology
 
 <details>
 <summary><strong>grad-math-3.tex/pdf</strong>: Advanced Calculus I</summary>
@@ -75,6 +80,8 @@ The `grad-math-full` directory contains detailed documents for graduate-level ma
 </ul>
 </details>
 
+##### Linear Algebra and Abstract Algebra
+
 <details>
 <summary><strong>grad-math-7.tex/pdf</strong>: Algebraic Structures </summary>
 <ul>
@@ -105,9 +112,37 @@ The `grad-math-full` directory contains detailed documents for graduate-level ma
 <details>
 <summary><strong>grad-math-9.tex/pdf</strong>: Linear Algebra II </summary>
 <ul>
+<li>Uniqueness of Representation with respect to a Basis; Coordinate</li>
+<li>Linear Transformation</li>
+<li>Vector Space Isomorphism (Linear Isomorphism)</li>
+<li>Classification of Vector Space (up to Isomorphism)</li>
+<li>Matrix Representation of a Linear Transformation}</li>
 <li>TBA</li>
 </ul>
 </details>
+
+<details>
+<summary><strong>grad-math-10.tex/pdf</strong>: Linear Algebra to Abstract Algebra (TBA) </summary>
+<ul>
+<li>TBA</li>
+</ul>
+</details>
+
+<details>
+<summary><strong>grad-math-11.tex/pdf</strong>: Abstract Algebra I (TBA) </summary>
+<ul>
+<li>TBA</li>
+</ul>
+</details>
+
+<details>
+<summary><strong>grad-math-12.tex/pdf</strong>: Abstract Algebra II (TBA) </summary>
+<ul>
+<li>TBA</li>
+</ul>
+</details>
+
+---
 
 Each `.tex` file is accompanied by a `.pdf` version which is the compiled and formatted version of the LaTeX document. These documents provide an in-depth look at the fundamental and advanced topics necessary for graduate-level studies in mathematics.
 

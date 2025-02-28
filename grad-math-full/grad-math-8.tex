@@ -341,7 +341,7 @@ A Hamel basis is unique in the sense that every vector in $V$ has a unique repre
 
 \newpage
 \defbox[Partial Order]{\begin{definition*}
-	Let $S$ be a set. A binary relation $\preceq$ on $S$ (\ie, $\preceq\ \subseteq S\times S$) is called a \hl{\textbf{partial order}} if it satisfies the following three axioms for all $a,b,c\in X$, \begin{enumerate}[(i)]
+	Let $S$ be a nonempty set. A binary relation $\preceq$ on $S$ is called a \hl{\textbf{partial order}} if it satisfies the following three axioms for all $a,b,c\in X$, \begin{enumerate}[(i)]
 		\item (Reflexivity) $a\preceq a$;
 		\item (Anti-symmetry) $a\preceq b$ and $b\preceq a\implies a=b$;
 		\item (Transitivity) $a\preceq b$ and $b\preceq c\implies a\preceq c$.
@@ -579,7 +579,7 @@ Here, $\mathcal{C}=\set{\varnothing,\set{a},\set{a,b},\set{a,b,c}}$ is a \textit
 
 \newpage
 \axiombox[Zorn's Lemma]{\begin{axiom*}
-	Let $(P,\preceq)$ be a partially ordered set (poset) with property that every chain $C\subseteq P$ has an upper bound in $P$; that is, for every chain $C\subseteq P$, \[
+	Let $(P,\preceq)$ be a nonempty partially ordered set with property that every chain $C\subseteq P$ has an upper bound in $P$; that is, for every chain $C\subseteq P$, \[
 	\exists u\in P\quad \text{such that}\quad \forall c\in C,\quad c\preceq u.
 	\] Then $P$ contains at least one maximal element; that is, \[
 	\exists m\in P\quad\text{such that}\quad\forall a\in P,\quad (m\preceq a)\implies(m=a).

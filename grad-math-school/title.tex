@@ -1,0 +1,46 @@
+\documentclass[11pt, tikz]{standalone}
+\usepackage{kotex}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+%\usepackage{textcomp}
+%\renewcommand{\ttdefault}{lmtt} % 
+\usepackage{amsmath}
+\usetikzlibrary{arrows.meta, decorations.pathmorphing, positioning, calc}
+\usepackage{xcolor}
+\usepackage{pdfrender}
+\usepackage[outline]{contour}
+
+\usepackage{calrsfs}
+\DeclareMathAlphabet{\pazocal}{OMS}{zplm}{m}{n}
+
+\usepackage{mathtools, amssymb, amsthm}
+\usepackage[scr=boondox, cal=esstix]{mathalpha}
+
+\begin{document}
+\definecolor{namegold}{HTML}{98ced7}
+\definecolor{namegold2}{HTML}{ffffff}
+	\begin{tikzpicture}
+	\node at (0,0) {
+	\textpdfrender{
+		%		TextRenderingMode=FillStroke,
+		%		LineWidth=.05pt,
+		%		FillColor=namegold,
+		TextRenderingMode=FillStrokeClip,
+		LineWidth=.5pt,
+		FillColor=namegold,
+		StrokeColor=namegold2,
+	}{\textbf{\Huge\selectfont  $\pazocal{M}\mathcal{athematics}$ $\pazocal{S}\mathcal{eminar}$ / 전공수학 세미나}}
+};
+%	\node at (0,0) {mmmnnn};
+	\end{tikzpicture}
+%    \begin{tikzpicture} \node at (0,0) {%
+%		\textpdfrender{
+%			TextRenderingMode=FillStrokeClip,
+%			LineWidth=.1mm,
+%			FillColor=white,
+%			StrokeColor=black,
+%		}{mmmnnn}%
+%	};
+%%	\node at (0,0) {mmmnnn};
+%\end{tikzpicture}
+\end{document}
