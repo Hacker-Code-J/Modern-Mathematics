@@ -150,14 +150,14 @@ Furthermore, the mapping \[
 \defbox[$\star$ Linear Transformation $\star$]{\begin{definition*}
 	Let $V$ and $W$ be vector spaces over a field $\F$. A function \[
 	T:V\to W
-	\] is called a \textbf{linear transformation} if for all vectors $\vec{v},\vec{w}\in V$ and for all scalars $\alpha,\beta\in \F$, the following condition holds: \[
-	T(\alpha\vec{v}+\beta\vec{w})=\alpha T(\vec{v})+\beta T(\vec{v}).
+	\] is called a \textbf{linear transformation} if for all vectors $\vec{v}_1,\vec{v}_2\in V$ and for all scalars $\alpha,\beta\in \F$, the following condition holds: \[
+	T(\alpha\vec{v}_1+\beta\vec{v}_2)=\alpha T(\vec{v}_1)+\beta T(\vec{v}_2).
 	\]
 \end{definition*}}
 \begin{remark*}
 	Equivalently, a function $T:V\to W$ is linear if it satisfies \begin{enumerate}[(i)]
-		\item (\textit{Additivity}) For all $\vec{v},\vec{w}\in V$, \[
-		T(\vec{v}+\vec{w})=T(\vec{v})+T(\vec{w});
+		\item (\textit{Additivity}) For all $\vec{v}_1,\vec{v}_2\in V$, \[
+		T(\vec{v}_1+\vec{v}_2)=T(\vec{v}_1)+T(\vec{v}_2);
 		\]
 		\item (\textit{Homogeneity}) For all $\alpha\in \F$ and $\vec{v}\in V$, \[
 		T(\alpha\vec{v})=\alpha T(\vec{v}).
@@ -173,12 +173,12 @@ Furthermore, the mapping \[
 	Let $V$ and $W$ be vector spaces over a field $\F$. A mapping \[
 	T:V\to W
 	\] is called a \textbf{vector space isomorphism} if it satisfies the following conditions: \begin{enumerate}[(i)]
-		\item (\textit{Linearity}) For any vectors $\vec{v},\vec{w}\in V$ and any scalars $\alpha,\beta\in \F$, \[
-		T(\alpha\vec{v}+\beta\vec{w})=\alpha T(\vec{v})+\beta T(\vec{w}).
+		\item (\textit{Linearity}) For any vectors $\vec{v}_2,\vec{v}_2\in V$ and any scalars $\alpha,\beta\in \F$, \[
+		T(\alpha\vec{v}_1+\beta\vec{v}_2)=\alpha T(\vec{v}_1)+\beta T(\vec{v}_2).
 		\]
 		\item (\textit{Bijectivity})
 		\begin{itemize}
-			\item (\textit{Injectivity}) $\forall \vec{v},\vec{w}\in V$,\ $T(\vec{v})=T(\vec{w})\implies\vec{v}=\vec{w}$;
+			\item (\textit{Injectivity}) $\forall \vec{v}_1,\vec{v}_2\in V$,\ $T(\vec{v}_1)=T(\vec{v}_2)\implies\vec{v}_1=\vec{v}_2$;
 			\item (\textit{Surjectivity}) $\forall \vec{w}\in W$,\ $\exists \vec{v}\in V$ such that $T(\vec{v})=\vec{w}$.
 		\end{itemize}
 	\end{enumerate} The bijectivity of $T$ guarantees the existence of an inverse mapping $T^{-1}:W\to V$, which satisfies \[
