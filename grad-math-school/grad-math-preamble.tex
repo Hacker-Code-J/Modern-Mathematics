@@ -1,0 +1,101 @@
+\usepackage{mathtools, commath}
+% Packages for formatting
+\usepackage[margin=1in]{geometry}
+\usepackage{fancyhdr}
+\usepackage{enumerate}
+\usepackage{graphicx}
+\usepackage{kotex}
+\usepackage{arydshln} % Include this package
+\usepackage{bbding}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage[dvipsnames,table]{xcolor}
+\usepackage{amssymb, amsfonts}
+\usepackage{wasysym}
+\usepackage{footnote}
+\usepackage{tablefootnote}
+\usepackage{arydshln} % Include this package
+% Fonts
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{newpxtext,newpxmath}
+\usepackage{sectsty}
+
+% Define colors
+\definecolor{TealBlue1}{HTML}{0077c2}
+\definecolor{TealBlue2}{HTML}{00a5e6}
+\definecolor{TealBlue3}{HTML}{b3e0ff}
+\definecolor{TealBlue4}{HTML}{00293c}
+\definecolor{TealBlue5}{HTML}{e6f7ff}
+
+\definecolor{thmcolor}{RGB}{231, 76, 60}
+\definecolor{defcolor}{RGB}{52, 152, 219}
+\definecolor{lemcolor}{RGB}{155, 89, 182}
+\definecolor{corcolor}{RGB}{46, 204, 113}
+\definecolor{procolor}{RGB}{241, 196, 15}
+
+\usepackage{color,soul}
+\usepackage{soul}
+\newcommand{\mathcolorbox}[2]{\colorbox{#1}{$\displaystyle #2$}}
+\usepackage{cancel}
+\newcommand\crossout[3][black]{\renewcommand\CancelColor{\color{#1}}\cancelto{#2}{#3}}
+\newcommand\ncrossout[2][black]{\renewcommand\CancelColor{\color{#1}}\cancel{#2}}
+
+\usepackage{hyperref}
+\usepackage{booktabs}
+
+% Chapter formatting
+\definecolor{titleTealBlue}{RGB}{0,53,128}
+\usepackage{titlesec}
+\titleformat{\section}
+{\normalfont\sffamily\Large\bfseries\color{titleTealBlue!100!gray}}{\thesection}{1em}{}
+\titleformat{\subsection}
+{\normalfont\sffamily\large\bfseries\color{titleTealBlue!50!gray}}{\thesubsection}{1em}{}
+
+%Tcolorbox
+\usepackage[most]{tcolorbox}
+\usepackage{multirow}
+\usepackage{multicol}
+\usepackage{blindtext}
+
+\usepackage[linesnumbered,ruled]{algorithm2e}
+\usepackage{algpseudocode}
+\usepackage{setspace}
+\SetKwComment{Comment}{/* }{ */}
+\SetKwProg{Fn}{Function}{:}{end}
+\SetKw{End}{end}
+\SetKw{DownTo}{downto}
+
+% Define a new environment for algorithms without line numbers
+\newenvironment{algorithm2}[1][]{
+	% Save the current state of the algorithm counter
+	\newcounter{tempCounter}
+	\setcounter{tempCounter}{\value{algocf}}
+	% redefine the algorithm numbering (remove prefix)
+	\renewcommand{\thealgocf}{}
+	\begin{algorithm}
+	}{
+	\end{algorithm}
+	% Restore the algorithm counter state
+	\setcounter{algocf}{\value{tempCounter}}
+}
+
+\usepackage{adjustbox}
+% Header and footer formatting
+\pagestyle{fancy}
+\fancyhead{}
+\fancyhf{}
+\rhead{\textcolor{TealBlue2}{\large\textbf{Set Theory}}}%\rule{3cm}{0.4pt}}
+\lhead{\textcolor{TealBlue2}{\large\textbf{Mathematics Seminar}}}
+% Define footer
+%\newcommand{\footer}[1]{
+%\begin{flushright}
+%	\vspace{2em}
+%	\includegraphics[width=2.5cm]{school_logo.jpg} \\
+%	\vspace{1em}
+%	\textcolor{TealBlue2}{\small\textbf{#1}}
+%\end{flushright}
+%}
+%\rfoot{\large Department of Information Security, Cryptogrphy and Mathematics, Kookmin Uni.\includegraphics[height=1.5cm]{school_logo.jpg}}
+\fancyfoot{}
+\fancyfoot[C]{-\thepage-}

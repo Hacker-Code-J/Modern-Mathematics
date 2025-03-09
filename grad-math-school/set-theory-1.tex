@@ -1,0 +1,460 @@
+\documentclass[11pt,openany]{article}
+
+\input{grad-math-preamble}
+\input{tcolorbox}
+\input{theorem}
+\input{tikz}
+\input{grad-math-commands}
+
+\setstretch{1.25}
+\begin{document}
+\pagenumbering{arabic}
+\begin{center}
+	\huge\textbf{Set Theory I}\\
+	\vspace{0.5em}
+	\large{Ji, Yong-hyeon}\\
+	\vspace{0.5em}
+	\normalsize{\today}\\
+\end{center}
+
+\paragraph*{Terminology.}
+
+\begin{itemize}
+	\item Set; Collection; Family.
+	\item Tabular (or Roster) Form \[
+	A=\set{0,2,4,8}.
+	\]
+	\item Set-builder Form \[
+	A=\set{x:x\ \text{is even and}\ x <10}.
+	\]
+\end{itemize}
+
+\begin{example*}
+	\ \begin{itemize}
+		\item $\mathbb{N}=\set{1,2,\dots}$
+		\item $\mathbb{Z}=\set{\dots,-2,-1,0,1,2,\dots}$
+		\item $\mathbb{Q}=\set{\frac{p}{q}:p\in\mathbb{Z},q\in\mathbb{Z}\setminus\set{0}, \gcd(p,q)=1}$
+		\item $\mathbb{R}=\set{x: x\ \text{is a real number}}$
+		\item $\mathbb{C}=\set{a+bi:a,b\in\R, i^2=-1}$
+	\end{itemize}
+\end{example*}
+\vfill
+\begin{exercise*}
+	Show that $\sqrt{2}$ is irrational.
+	\begin{proof}[\sol]
+		\textcolor{white}{Assume \( \sqrt{2} \in \mathbb{Q} \), i.e., \( \exists p, q \in \mathbb{Z} \) such that
+		$\sqrt{2}q = p, \quad g\neq 0$ and $\gcd(p, q) = 1.$
+		Then $2q^2 = p^2$. Since \( p^2 \) is even \( \Rightarrow p \) is even,
+		\[
+		p = 2k \quad \text{for some } k \in \mathbb{Z}
+		\]
+		By substituting \( p = 2k \) into \( 2q^2 = p^2 \), we have
+		\[
+		2q^2 = (2k)^2 \implies 2q^2 = 4k^2 \implies q^2 = 2k^2
+		\]
+		Since \( q^2 \) is even \( \Rightarrow q \) is even,
+		\[
+		q = 2m \quad \text{for some } m \in \mathbb{Z}
+		\]
+		Thus, \( p \) and \( q \) are both even \( \implies \gcd(p, q) \geq 2 \), which contradicts the assumption \( \gcd(p, q) = 1 \).}
+	\end{proof}
+\end{exercise*}
+
+\newpage
+\defbox[Subset and Set Equality]{\begin{definition*}
+		Let $A$ and $B$ are sets.
+		\begin{itemize}
+			\item Subset: $
+			B\subseteq A\overset{\text{def}}{\iff}(x\in B\Rightarrow x\in A).$
+			\item Set Equality: \begin{align*}
+				A=B&\overset{\text{def}}{\iff} A\subseteq B\land B\subseteq A\\
+				&\iff (x\in A\Rightarrow x\in B)\land(x\in B\Rightarrow x\in A).
+			\end{align*}
+		\end{itemize}
+\end{definition*}}
+%\vfill
+\defbox[Power Set]{\begin{definition*}
+	The \hl{\textbf{power set}} of a set $X$ is the set of all subsets of $X$.	
+	\[
+	\mathcal{P}(X)=2^X:=\set{S:S\subseteq X}.
+	\]
+\end{definition*}}
+%\vfill
+\defbox[Cartesian Product]{\begin{definition*}
+	Let $A$ and $B$ are sets. The \hl{\textbf{cartesian product}} of $A$ and $B$ is the set \[
+	A\times B=\set{(a,b):a\in A\land b\in B}.
+	\]
+\end{definition*}}
+%\vfill
+\defbox[Union, Intersection and Complement]{\begin{definition*}
+	Let $U$ is a universal set, and let $A,B\subseteq U$.
+	\begin{itemize}
+		\item The \hl{\textbf{union}} of $A$ and $B$ is the set \[
+		\boxed{A\cup B:=\set{x\in U:x\in A\lor x\in B}}.
+		\] Note that $x\in A\cup B\iff x\in A\lor x\in B$.
+		\item The \hl{\textbf{intersection}} of $A$ and $B$ is the set \[
+		\boxed{A\cap B:=\set{x\in U:x\in A\land x\in B}}.
+		\] Note that $x\in A\cap B\iff x\in A\land x\in B$.
+		\item The \hl{\textbf{complement}} of $A$ is the set \[
+		\boxed{A^C:=\set{x\in U:\lnot(x\in A)}=\set{x:x\notin A}}.
+		\] Note that $x\in A^C\iff x\notin A$.
+	\end{itemize}
+\end{definition*}}
+
+\newpage
+
+\probox[]{\begin{proposition}
+	Let $A,B,C\subseteq U$.
+	\begin{enumerate}[(1)]
+		\item $A\cap(B\cup C)=(A\cap B)\cup(A\cap C)$.
+		\item $A\cup(B\cap C)=(A\cup B)\cap(A\cup C)$.
+		\item $(A\cup B)^C=A^C\cap B^C$.
+		\item $(A\cap B)^C=A^C\cup B^C$.
+	\end{enumerate}
+\end{proposition}}
+\begin{proof}
+{\color{white}	\begin{enumerate}[(1)]
+		\item Refer to the Video.
+		\item Refer to the Video.
+		\item {$(A\cup B)^C=\set{x:\lnot\left[x\in A\lor x\in B\right]}=\set{x:x\notin A\land x\notin B}=A^C\cap B^C.$}
+		\item {$(A\cap B)^C=\set{x:\lnot\left[x\in A\land x\in B\right]}=\set{x:x\notin A\lor x\notin B}=A^C\cup B^C.$}
+	\end{enumerate}}
+\vspace{40pt}
+\end{proof}
+
+\vfill
+\begin{exercise*}
+	Let $A$ has $n$ elements. Show that $\mathcal{P}(A)$ has $2^n$ elements.
+	\begin{proof}[\sol] 
+		\textcolor{white}{\begin{itemize}
+			\item[(pf 1)] For each element of $A$, there are two choices:
+			\begin{enumerate}
+				\item Include the element in the subset.
+				\item Exclude the element from the subset.
+			\end{enumerate}
+			Since we have two independent choices (include or exclude), the total number of subsets is:
+			\[
+			\underbrace{2\times 2\times\cdots 2}_{n\ \text{times}}=2^n.
+			\]
+%			\item[(pf 2)] We use mathematical induction.
+%			\ \\
+%			(Basic Step) Let $A=\varnothing$ (so $\abs{A}=0$). Then $\mathcal{P}(A)=\set{\varnothing}$ and so $\abs{\mathcal{P}(A)}=\abs{\set{\varnothing}}=1$.
+%			\ \\
+%			(Inductive Step) Assume that $\abs{\mathcal{P}(A)}=2^k$ where $\abs{A}=k$ for some $k\in\mathbb{Z}_{\geq  0}$. Let $A'=A\cup\set{x}$ where $\abs{A}=k$ and $x\notin A$. That is, $\abs{A'}=k+1$. Then \[
+%			\mathcal{P}(A')=\mathcal{P}(A)\cup\set{S\cup \set{x}:S\in \mathcal{P}(A)}.
+%			\] This implies $\abs{\mathcal{P}(A')}=\abs{\mathcal{P}(A)} + \abs{\mathcal{P}(A)}.$ Therefore, by assumption, $\abs{\mathcal{P}(A')}=2^k + 2^k=2^{k+1}.$
+		\end{itemize}}
+	\end{proof}
+\end{exercise*}
+
+%\begin{note}[Mathematical Induction]
+%	\ \begin{tcolorbox}[colback=white]
+%		Let $S\subseteq\mathbb{N}$. If \begin{enumerate}[(1)]
+%			\item $\min S=1\in S$,
+%			\item $a\in S\implies a+1\in S$,
+%		\end{enumerate} then $S=\mathbb{N}$.
+%	\end{tcolorbox}
+%\end{note}
+
+\newpage
+\defbox[Function]{\begin{definition*}
+	Let $A$ and $B$ are sets. A \hl{\textbf{function}} $f\subseteq A\times B$ \textbf{from $\boldmath{A}$ to $\boldmath{B}$} is a relation on $A\times B$ satisfying as follows:
+	\begin{enumerate}[(i)]
+		\item Every element of $A$ relates to some element of $B$. \[\boxed{
+		\forall a\in A:\exists b\in B\ \text{such that}\ (a,b)\in f.}
+		\]
+		\item Every element of $A$ relates to \underline{no more than one} element of its $B$.\[\boxed{
+		\forall a\in A:\forall b_1,b_2\in B: (a,b_1),(a,b_2)\in f\implies b_1=b_2.}
+		\]
+	\end{enumerate}
+\end{definition*}}
+\begin{remark*}
+	A relation $f\subseteq A\times B$ is a function if $\boxed{\forall a\in A:\exists! b\in B:(a,b)\in f.}$
+	\begin{itemize}
+		\item The \hl{\textbf{domain}} of $f$ is $\text{Dom}(f)=A$.
+		\item The \hl{\textbf{codomain}} of $f$ is $\text{Cdm}(f)=B$.
+		\item The \hl{\textbf{image}} \textbf{of $A$ under $f$} is the set \begin{align*}\
+			\img{f}=f[A]:&=\set{b\in B:\exists a \in A\ \text{s.t.}\ (a,b)\in f}\\
+			&=\set{b\in B:\exists a \in A\ \text{s.t.}\ f(a)=b}\\
+			&=\set{b\in B: b = f(a)\ \text{for at least one}\ a\in A}.
+		\end{align*} Simply we can express it as $f[A]=\set{f(a)\in B:a\in A}$. 
+		\begin{figure}[h!]\centering
+			\input{../tikz/grad-math-tikz/grad-math-1-image}
+			\caption{Image of $A$ under $f$.}
+		\end{figure}\\
+		Note that $f[A]\subseteq B=\text{Cdm}(f)$ and that $$
+			b\in f[A]\iff b=f(a)\ \text{for some}\ a\in A.$$	\newpage
+		\item The \hl{\textbf{preimage}} \textbf{of $B_1\subseteq B$ under $f$} is the set \begin{align*}
+			f^{-1}[B_1]:&=\set{a\in A:\exists b \in B_1\ \text{s.t.}\ (a,b)\in f}\\
+			&=\set{a\in A:\exists! b \in B_1\ \text{s.t.}\ b=f(a)}\ \text{by def. of a function}\\
+			&=\set{a\in A:f(a)=b\ \text{for exactly one}\ b\in B_1}.
+		\end{align*} ``Exactly one'' ensures a unique assignment for every element of $A$, while ``at most one'' allows no assignment. Simply we can express it as $f^{-1}[B_1]=\set{a\in A:f(a)\in B_1}$.
+		\begin{figure}[h!]\centering
+				\input{../tikz/grad-math-tikz/grad-math-1-preimage}
+				\caption{Preimage of $B_1\subseteq B$ under $f$.}
+			\end{figure}\\
+		Note that $f^{-1}[B_1]\subseteq A=\text{Dom}(f)$ and that $a\in f^{-1}[B_1]\iff f(a)\in B_1.$
+	\end{itemize}
+\end{remark*}
+
+\newpage
+\probox{\begin{proposition}
+	Let $f:A\to B$ be a function from $A$ to $B$, and let $A_1,A_2\subseteq A$. \begin{enumerate}[(1)]
+		\item $f[A_1\cup A_2]=f[A_1]\cup f[A_2]$.
+		\item $f[A_1\cap A_2]\subseteq f[A_1]\cap f[A_2]$.
+	\end{enumerate}
+\end{proposition}}
+\begin{proof}
+\ \textcolor{white}
+%\ \textcolor{black}
+{Recall that \[
+	b\in f[A]\iff b=f(a)\ \text{for some}\ a\in A.
+	\]\begin{enumerate}[(1)]
+	\item \begin{itemize}
+		\item[($\subseteq$)] \underline{Let $b\in f[A_1\cup A_2]$}. By the definition of the image, $b=f(a)$ for some $a\in A_1\cup A_2$. Then, either $a\in A_1$ or $a\in A_2$. \\
+		\ \\ (Case 1) $a\in A_1\Rightarrow f(a)\in f[A_1]$.
+		\ \\ (Case 2) $a\in A_2\Rightarrow f(a)\in f[A_2]$.\\
+		\ \\ \underline{Thus, $b=f(a)\in f[A_1]\cup f[A_2]$}, and so $f[A_1\cup A_2]\subseteq f[A_1]\cup f[A_2]$.
+		\vspace{24pt}
+		\item[($\supseteq$)] \underline{Let $b\in f[A_1]\cup f[A_2]$}. Then either $b\in f[A_1]$ or $b\in f[A_2]$. \\
+		\ \\ (Case 1) $b\in f[A_1]\Rightarrow b=f(a_1)$ for some $a_1\in A_1$.
+		\ \\ (Case 2) $b\in f[A_1]\Rightarrow b=f(a_2)$ for some $a_2\in A_2$. \\
+		\ \\ That is, $\exists a\in A_1\cup A_2$ such that $f(a)=b$ and $a\in\set{a_1,a_2}$. \underline{Thus, $b\in f[A_1\cup A_2]$}.
+	\end{itemize}
+		\vspace{36pt}
+		\item \underline{Let $b\in f[A_1\cap A_2]$}. By the definition of the image, $b=f(a)$ for some $a\in A_1\cap A_2$. Since $a\in A_1\cap A_2$, we have $a\in A_1$ and $a\in A_2$. Then \textit{both} of the following hold: \begin{enumerate}[(i)]
+			\item $a\in A_1\implies f(a)\in f[A_1]$
+			\item $a\in A_2\implies f(a)\in f[A_2]$
+		\end{enumerate} \underline{Therefore, $b=f(a)\in f[A_1]\cap f[A_2]$}.
+\end{enumerate}}
+\end{proof}
+\vfill
+\probox{\begin{proposition}
+	Let $f:A\to B$ be a function from $A$ to $B$, and let $B_1,B_2\subseteq B$. \begin{enumerate}[(1)]
+		\item $f^{-1}[B_1\cup B_2]=f^{-1}[B_1]\cup f^{-1}[B_2]$.
+		\item $f^{-1}[B_1\cap B_2]=f^{-1}[B_1]\cap f^{-1}[B_2]$.
+		\item $f^{-1}[B_1^C]=(f^{-1}[B_1])^C$.
+	\end{enumerate}
+\end{proposition}}
+\begin{proof}
+\ \textcolor{white}
+%\textcolor{black}
+{Recall that \[ a\in f^{-1}[B]\iff f(a)\in B.\]
+	\begin{enumerate}[(1)]
+	\item \begin{itemize}
+		\item[($\subseteq$)] \underline{Let $a\in f^{-1}[B_1\cup B_2]$}. By the definition of the preimage, we have $f(a)\in B_1\cup B_2$. That is, either $f(a)\in B_1$ or $f(a)\in B_2$. \\
+		\ \\ (Case 1) $f(a)\in B_1\implies a\in f^{-1}[B_1]$.
+		\ \\ (Case 2) $f(a)\in B_2\implies a\in f^{-1}[B_2]$. \\
+		\ \\ \underline{Thus, $a\in f^{-1}[B_1]\cup f[B_2]$}.
+		\vspace{12pt}
+		\item[($\supseteq$)] \underline{Let $a\in f^{-1}[B_1]\cup f^{-1}[B_2]$}. Then either $a\in f^{-1}[B_1]$ or $a\in f^{-1}[B_2]$. \\
+		\ \\ (Case 1) $a\in f^{-1}[B_1]\implies f(a)\in B_1$.
+		\ \\ (Case 2) $a\in f^{-1}[B_2]\implies f(a)\in B_2$. \\
+		\ \\ That is, $f(a)\in B_1\cup B_2$. \underline{Thus, $a\in f^{-1}[B_1\cup B_2]$}.
+	\end{itemize}
+	\vspace{24pt}
+	\item \begin{itemize}
+		\item[($\subseteq$)] \underline{Let $a\in f^{-1}[B_1\cap B_2]$}. By the definition of the preimage, $
+		f(a)\in B_1\cap B_2$ and so $f(a)\in B_1$ and $f(a)\in B_2$. Then \textit{both} of the following hold:\\ \begin{enumerate}[(i)]
+			\item $f(a)\in B_1\implies a\in f^{-1}[B_1]$.
+			\item $f(a)\in B_2\implies a\in f^{-1}[B_2]$.
+		\end{enumerate}\ \\ \underline{Thus, $a\in f^{-1}[B_1]\cap f[B_2]$}.
+		\vspace{12pt}
+%		\item[($\supseteq$)] \underline{Let $a\in f^{-1}[B_1]\cap f^{-1}[B_2]$}. Then $a\in f^{-1}[B_1]$ and $a\in f^{-1}[B_2]$. Then \textit{both} of the following hold:\\ \begin{enumerate}[(i)]
+%			\item $a\in f^{-1}[B_1]\implies f(a)\in B_1$.
+%			\item $a\in f^{-1}[B_2]\implies f(a)\in B_2$.
+%		\end{enumerate} \ \\
+%		That is, $f(a)\in B_1\cap B_2$. \underline{Thus, $a\in f^{-1}[B_1\cap B_2]$}.
+	\end{itemize}
+%	\vspace{12pt}
+%	\item \begin{itemize}
+%		\item[($\subseteq$)] 
+%		\underline{Let $a\in f^{-1}[B_1^C]$}. By the definition of the preimage, \[
+%		f(a)\in B_1^C\implies f(a)\notin B_1\implies a\notin f^{-1}[B_1]\implies a\in(f^{-1}[B_1])^C.
+%		\]
+%		\item[($\supseteq$)] Let $a\in(f^{-1}[B_1])^C$. By the definition of the preimage, \[
+%		a\notin f^{-1}[B_1]\implies f(a)\notin B_1\implies f(a)\in B_1^C\implies a\in f^{-1}[B_1^C].
+%		\]
+%	\end{itemize}
+\end{enumerate}}
+\end{proof}
+\newpage
+\probox{\begin{proposition}
+	Let $f:A\to B$ be a function from $A$ to $B$. Let $A_1\subseteq A$ and $B_1\subseteq B$. \begin{enumerate}[(1)]
+		\item $f[f^{-1}[B_1]]\subseteq B_1$.
+		\item $A_1\subseteq f^{-1}[f[A_1]]$.
+	\end{enumerate}
+\end{proposition}}
+\begin{proof}
+\textcolor{white}{
+	Recall that \[\begin{array}{ll}
+		f^{-1}[B_1]:=\set{a\in A:f(a)\in B_1}, &\quad\quad f[A_1]:=\set{f(a)\in B:a\in A_1}, \\
+		f[f^{-1}[B_1]]:=\set{f(a)\in B:a \in f^{-1}[B_1]}, &\quad\quad f^{-1}[f[A_1]]:=\set{a\in A:f(a)\in f[A_1]}.
+	\end{array}\]\begin{enumerate}[(1)]
+		\item \underline{Let $b \in f[f^{-1}[B_1]]$}. By the definition of the image, \[
+		\exists a\in f^{-1}[B_1]\ \text{such that}\ b = f(a).
+		\] From the definition of the preimage, $a\in f^{-1}[B_1]\Rightarrow f(a)\in B_1$. \underline{Thus $b=f(a)\in B_1$.}
+		\vspace{12pt}
+		\item \underline{Let $a\in A_1$.} By the definition of the image, we know that $f(a)\in f[A_1]$. By the definition of the preimage, $f(a)\in f[A_1]\Rightarrow \underline{a\in f^{-1}[f[A_1]]}$.
+	\end{enumerate}}
+\end{proof}
+
+\begin{example*}[Counterexample]
+	Consider a function $f:A\to B$, where $A=\set{1,2}$ and $B=\set{a,b}$.
+	\begin{center}
+	\input{../tikz/grad-math-tikz/grad-math-1-counterexample}
+	\end{center}
+	\begin{enumerate}[(1)]
+		\item Let $B_1=\set{b}\subseteq B$. Then $f^{-1}[B_1]=\varnothing$ and so \[
+		f[f^{-1}[B]]=f[\varnothing]=\varnothing\neq \set{b}=B_1.
+		\]
+		\item Let $A_1=\set{1}\subseteq A$. Then $f[A_1]=f[\set{1}]=\set{a}$ and so \[
+		f^{-1}[f[A_1]]=f^{-1}[\set{a}]=\set{1,2}\neq \set{1}=A_1.
+		\]
+	\end{enumerate}
+\end{example*}
+\vfill
+\defbox[Injection and Surjection]{\begin{definition*}
+	Let $f:A\to B$ is a function from $A$ to $B$. \begin{itemize}
+		\item  A function $f$ is \hl{\textbf{an injection}} or \hl{\textbf{injective}} (or \hl{\textbf{one-to-one}}) if and only if \[
+		\boxed{\forall a_1,a_2\in A:[f(a_1)=f(a_2)\implies a_1=a_2].}
+		\] That is, an \textbf{injection} is a mapping such that the output uniquely determines its input.
+		\item A function $f$ is \hl{\textbf{a surjection}} or \hl{\textbf{surjective}} (or \hl{\textbf{onto}}) if and only if \[
+		\boxed{\forall b\in B:[\exists a \in A\ \text{such that}\ f(a)=b].}
+		\] That is, a \textbf{surjection} is a mapping such that every element of $B$ is related to by some element of $A$.
+	\end{itemize}
+\end{definition*}}
+\begin{remark*}
+	A function $f$ is \textbf{bijective} if and only if $f$ is both injective and surjective.
+	\begin{itemize}
+		\item $f$ is \hl{\textbf{a bijection}} (or \hl{\textbf{bijective}}).
+		\item $f$ is \hl{\textbf{one-to-one and onto}} (or \hl{\textbf{a one-to-one correspondence}}).
+	\end{itemize}
+\end{remark*}
+\vfill
+\defbox[Composition of Functions]{\begin{definition*}
+	Let $f_1:A\to B$ and $f_2:B\to C$ be functions such that $\text{Cdm}(f_1)=B=\text{Dom}(f_2)$. The \hl{\textbf{composition}} $f_2\circ f_1$ is defined as: \[
+	(f_2\circ f_1)(a):= f_2(f_1(a)).
+	\] for all $a\in A$.
+\end{definition*}}
+%\begin{remark*}
+%\ \begin{itemize}
+%	\item $f_2\circ f_1=\set{(a,c)\in A\times C: (f_1(a), c)\in f_2}=\set{(a,c)\in A\times C: c=f_2(f_1(a))}$.
+%	\item $f_2\circ f_1=\set{(a,c)\in A\times C: \exists b\in f_2\ \text{s.t.}\ f_1(a)=b\land f_2(b)=c}$.
+%\end{itemize}
+%\end{remark*}
+\begin{note}[Diagram]
+	\ \begin{figure}[h!]
+		\centering
+		\input{../tikz/grad-math-tikz/grad-math-1-composition-diagram}
+		\caption{Diagram of $f_2\circ f_1$.}
+	\end{figure}
+\end{note}
+\newpage
+\begin{note}[Illustration]
+	\ \begin{figure}[h!]\centering
+		\adjustbox{scale=.9}{\input{../tikz/grad-math-tikz/grad-math-1-composition-illustration}}
+		\caption{Illustration of $f_2\circ f_1$}
+	\end{figure}
+\end{note}
+\vfill
+\begin{remark*}
+	The composition is associative. For any \( f, g, h \in G \), $
+	(f \circ g) \circ h = f \circ (g \circ h) $.
+	\begin{figure}[h!]\centering
+	\adjustbox{scale=.9}{\input{../tikz/grad-math-tikz/grad-math-1-composition-associativity}}
+	\caption{Associativity of Composition.}
+\end{figure}
+\end{remark*}
+
+\newpage
+\thmbox[]{\begin{theorem}
+	Let $A$ and $B$ are sets. Let $f:A\to B$ be a function.
+	\begin{enumerate}[(1)]
+		\item $f$ is one-to-one if and only if there exists the function $g:B\to A$ such that $g\circ f =\textnormal{id}_A$.
+		\item $f$ is onto if and only if there exists the function $g:B\to A$ such that $f\circ g =\textnormal{id}_B$.
+	\end{enumerate}
+\end{theorem}}
+\begin{remark*}
+	\ \begin{center}
+		(1) % https://tikzcd.yichuanshen.de/#N4Igdg9gJgpgziAXAbVABwnAlgFyxMJZABgBpiBdUkANwEMAbAVxiRAEEQBfU9TXfIRQAmclVqMWbAELdeIDNjwEiAFjHV6zVog7dxMKAHN4RUADMAThAC2SMiBwQkARk2SdIc3IvW7iN0dnRFEJbTYjHy8-e2onJFCAIxgwKCQAWgBmBwY6ZIYABX5lIRBLLCMACxwQd3DdIwAdRoBjLEsWgAJzToBeTuacGAAPHEhLG0ZgLCguAH1OLgouIA
+		\begin{tikzcd}
+			A \arrow[rr, "\textcolor{red}{f}"] \arrow[rrrr, "\textcolor{green!50!black}{g}\circ \textcolor{red}{f} = \textnormal{id}_A"', bend right] &  & B \arrow[rr, "\exists\textcolor{green!50!black}{g}"] &  & A
+		\end{tikzcd}\hspace{50pt} (2) % https://tikzcd.yichuanshen.de/#N4Igdg9gJgpgziAXAbVABwnAlgFyxMJZABgBpiBdUkANwEMAbAVxiRACEQBfU9TXfIRQAmclVqMWbAILdeIDNjwEiAFjHV6zVog7dxMKAHN4RUADMAThAC2SMiBwQkARk2SdII3IvW7iN0dnRFEJbTZzHxArW3tqJyRQgCMYMCgkAFoAZgcGOhSGAAV+ZSEQSywjAAscEHdw3XMAHSaAYyxLVoACIy6AXi6WnBgADxxISxtGYCwoLgB9Ti4KLiA
+		\begin{tikzcd}
+			B \arrow[rr, "\exists\textcolor{green!50!black}{g}"] \arrow[rrrr, "\textcolor{red}{f}\circ\textcolor{green!50!black}{g} = \textnormal{id}_B"', bend right] &  & A \arrow[rr, "\textcolor{red}{f}"] &  & B
+		\end{tikzcd}
+	\end{center}
+\end{remark*}
+\begin{proof}
+\begin{enumerate}[(1)]
+	\item \
+%	\begin{itemize}
+%		\item[($\Rightarrow$)] \ 
+%		Assume that $f:A\to B$ is injective. We need to construct a function $g:B\to A$ such that $g\circ f=\textnormal{id}_A$.
+		\begin{figure}[h!]\centering
+			\input{../tikz/grad-math-tikz/grad-math-1-injective-iff}
+		\end{figure} \\
+%	We define a function $g:B\to A$ given by \[
+%	g(b)=\begin{cases}
+%			a &\text{if}\ \exists! a\in A\ \text{such that}\ f(a)=b \\
+%			a_0 &\text{if}\ b\notin f[A]
+%	\end{cases}
+%	\] for all $b\in B$, where $a_0\in A$ is an arbitrary element of $A$. Since $f$ is one-to-one, $g$ is well-defined.
+%	For any $a\in A$, we have $f(a)\in B$. By the definition of $g$, we obtain $g(f(a))=a. $ Thus, \[
+%	(g\circ f)(a)=g(f(a))=a=\text{id}_A(a)
+%	\] for all $a\in A$.
+%	\vfill
+%	\item[($\Leftarrow$)] Assume that there exists $g:B\to A$ such that $g\circ f=\text{id}_A$. Suppose that $f(a_1)=f(a_2)$ for any $a_1,a_2\in A$. Then \begin{align*}
+%		f(a_1)=f(a_2) &\implies g(f(a_1))=g(f(a_2))\quad\text{by def. of a function}\\
+%		&\implies a_1=a_2.\quad\because g\circ f=\text{id}_A
+%	\end{align*}
+%	\end{itemize}
+	\item \
+%	\begin{itemize}
+%		\item[($\Rightarrow$)] \
+%		 Assume $f:A\to B$ is surjective. Then, for every $b\in B$, there exists at least one $a\in A$ such that $f(a)=b$. We need to construct a function $g:B\to A$ such that $f\circ g=\textnormal{id}_B$, \ie, $f(g(b))=b$ for every $b\in B$.
+		\begin{figure}[h!]\centering
+			\input{../tikz/grad-math-tikz/grad-math-1-surjective-iff}
+		\end{figure} \\
+%		The \textbf{Axiom of Choice}\footnote{{Here, $\mathbb{S}=\set{f^{-1}[\set{b}]\subseteq A:b\in B}$ and $\bigcup\mathbb{S}=\bigcup_{b\in B}f^{-1}[\set{b}]=A$. That is, there is a choice function $F:\mathcal{P}(A)\setminus\set{\emptyset}\to A$.}} allows us to define $g:B\to A$ given by \[
+%		g(b)=a\in f^{-1}[\set{b}]
+%		\] for each $b\in B$. Thus, \begin{align*}
+%			(f\circ g)(b) &= f(g(b))&\text{by def. of composition} \\
+%			&=f(a) &\text{by def. of $g$} \\
+%			&=b &\text{by assumption} \\
+%			&=\text{id}_B(b)
+%		\end{align*} for all $b\in B$. That is, $f\circ g=\text{id}_B$. Without the Axiom of Choice, we cannot always guarantee the existence of such a selection function, especially when the sets $f^{-1}[\set{b}]$ are uncountable.
+%		\vspace{12pt}
+%		\item[($\Leftarrow$)] Assume that there exists $g:B\to A$ such that $f\circ g=\text{id}_B$. Let $b\in B$. Since $f\circ g=\text{id}_B$, we have $f(g(b))=\text{id}_B(b)=b$. Thus, for every $b\in B$, \[
+%		\exists a=g(b)\in A\quad\text{such that}\quad f(a)=f(g(b))=b.
+%		\]
+%	\end{itemize}
+\end{enumerate}
+\end{proof}
+
+\newpage
+\begin{note}[\color{red}\bfseries Axiom of Choice]
+	Let $\set{X_i}_{i\in I}$ be a family of non-empty sets. \begin{center}
+		``It is always possible to assert the existence of a choice function\\ that selects one element from each member of the set.''
+	\end{center} Formally, \[
+	\forall\set{X_i}_{i\in I}:\left[\varnothing\notin \set{X_i}_{i\in I}\implies\exists\left(f:\set{X_i}_{i\in I}\to\bigcup_{i\in I} X_i\right)\ \text{s.t.}\ \forall A\in\set{X_i}_{i\in I},\ f[A]\in A\right].
+	\] 
+	\vspace{24pt} \\
+	\noindent For example, let $\set{X_i}_{i\in I}=\set{A,B,C,\dots}$ and $\bigcup_{i\in I}X_i=A\cup B\cup C\cup\cdots$.
+	\begin{figure}[h!]\centering
+		\input{../tikz/grad-math-tikz/grad-math-1-axiom-of-choice}
+	\end{figure}
+\end{note}
+%\vfill
+%\begin{thebibliography}{9}
+%	\bibitem{set_thery_a}
+%	수학의 즐거움, Enjoying Math. ``수학 공부, 기초부터 대학원 수학까지, 1. 집합론 기초 (a).'' YouTube Video, 30:55. Published 
+%	September 05, 2019. URL: \url{https://www.youtube.com/watch?v=9HUk8zays2E&list=PL4m4z_pFWq2pLwFsWf0KJX_uMNo-jktN5&index=132}.
+%	
+%	\bibitem{set_thery_b}
+%	수학의 즐거움, Enjoying Math. ``수학 공부, 기초부터 대학원 수학까지, 2. 집합론 기초 (b).'' YouTube Video, 29:06. Published 
+%	September 05, 2019. URL: \url{https://www.youtube.com/watch?v=k53Sr9Q9NR8&list=PL4m4z_pFWq2pLwFsWf0KJX_uMNo-jktN5&index=133}.
+%\end{thebibliography}
+
+\end{document}

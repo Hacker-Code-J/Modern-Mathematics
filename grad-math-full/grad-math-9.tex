@@ -855,7 +855,24 @@ The matrix representation of a linear transformation $T:V\to W$ is not canonical
 \end{remark*}
 \newpage
 \begin{observation}
-	TBA
+Let $V$ and $W$ be vector spaces over a field $\F$ with $\dim V=n$ and $\dim W=m$. Let $T:V\to W$ be a linear transformation. Suppose that \[
+\basis_V=\set{\vec{v}_1,\vec{v}_2,\dots,\vec{v}_n}\quad\text{and}\quad\basis_W=\set{\vec{w}_1,\vec{w}_2,\dots,\vec{w}_n}
+\] are bases for $V$ and $W$, respectively. See the following diagram:
+\begin{center}
+	\adjustbox{scale=1.25}{% https://tikzcd.yichuanshen.de/#N4Igdg9gJgpgziAXAbVABwnAlgFyxMJZABgBpiBdUkANwEMAbAVxiRADUQBfU9TXfIRQAWclVqMWbAOrdeIDNjwEiZYePrNWiEAB1dAWzo4AFgCMzwAGJcAeoR58lgoqPXVNUnfqOmL1uwNucRgoAHN4IlAAMwAnCCDEMhAcCCQARg9JbRAAFQBefQAFEywAfTB9AGMsWKqAAgBlatqG4tKyg1tgAFp0rjkY+MTk1KQAJiytNnbywmoGOjMYBiL+ZSEQWKwwkxwQamWwKCRkuFLo-cQAZkcQOISM6jGbqa89XRLyoOpzrEukNcFksVmtnCodNtdvs7g9EpMUmlXhJpjpGoVPh0DC06vVcji2pi5t0+gNYcMJs8kWcLlcgSj3rMKiT+gcQItlqt1i5ITs9oN7hTkS9Mgyckyur1Wb9aYDgZywQIIVs+TCKFwgA
+		\begin{tikzcd}
+			V \arrow[rrrr, "T=\Phi_n\circ S\circ \Phi_m^{-1}"] \arrow[dddd, "\Phi_n"', shift right=3]                 &  &  &  & W \arrow[dddd, "\Phi_m"', shift right=3]                 \\
+			&  &  &  &                                                          \\
+			&  &  &  &                                                          \\
+			&  &  &  &                                                          \\
+			\mathbb{F}^n \arrow[rrrr, "S=\Phi_m\circ T\circ \Phi_n^{-1}"] \arrow[uuuu, "\Phi_n^{-1}"', shift right=3] &  &  &  & \mathbb{F}^m \arrow[uuuu, "\Phi_m^{-1}"', shift right=3]
+	\end{tikzcd}}
+\end{center} Here $S:=\Phi_m\circ T\circ \Phi_n^{-1}$ is a linear transformation from $\F^n$ to $\F^m$. Suppose that $\mathcal{E}_n$ and $\mathcal{E}_m$ are the standard bases of $\F^n$ and $\F^m$, respectively. Then \begin{align*}
+	[S]_{\mathcal{E}_n}^{\mathcal{E}_m} &= [\Phi_m\circ T\circ \Phi_n^{-1}]_{\mathcal{E}_n}^{\mathcal{E}_m}\\
+	&=[\Phi_m]_{\basis_W}^{\mathcal{E}_m}[T]_{\basis_V}^{\basis_W}[\Phi_n^{-1}]_{\mathcal{E}_n}^{\basis_V}\\
+	&=I_m[T]_{\basis_V}^{\basis_W}I_n\\
+	&=[T]_{\basis_V}^{\basis_W}.
+\end{align*}
 \end{observation}\vspace{10pt}
 \thmbox[Basis Change]{\begin{theorem*}
 	TBA

@@ -1,8 +1,8 @@
 \begin{tikzpicture}[>=Stealth, scale=.75]
 	\draw[thick] (-4.5,0) ellipse (3.5 and 5);
 	\draw[thick] (4.5,0) ellipse (3.5 and 5);
-	\node at (-4, 5.5) {$\mathbb{S}$};
-	\node at (4, 5.5) {$\bigcup\mathbb{S}$};
+	\node at (-4, 5.5) {$\set{X_i}_{i\in I}$};
+	\node at (4, 5.5) {$\bigcup_{i\in I}X_i$};
 	\draw[->] (-3.5, 5.5) -- (3, 5.5) node[midway, above] {Choice Function $f$};
 	
 	\draw[thick] (-4.5,3.5) ellipse (2 and 1.25); \node at (-6.75, 3.5) {$A$};
@@ -27,12 +27,12 @@
 	\filldraw[magenta] (-3, -2.5) circle (10pt);
 	
 	% Elements of Codomain
-	\filldraw[red] (5.5, .5) circle (7pt) node[below] {$f(A)\in A$};
+	\filldraw[red] (5.5, .5) circle (7pt) node[below] {$f[A]\in A$};
 	\filldraw[orange] (4.5, -2) circle (10pt);
 	\filldraw[yellow] (6.5, -3) circle (8pt);
 	\filldraw[blue] (5.5, 3.75) circle (6pt);
-	\filldraw[cyan] (3.5, -2.5) circle (10pt) node[below] {$f(B)\in B$};
-	\filldraw[green] (4.5, 4) circle (10pt) node[above] {$f(C)\in C$};
+	\filldraw[cyan] (3.5, -2.5) circle (10pt) node[below] {$f[B]\in B$};
+	\filldraw[green] (4.5, 4) circle (10pt) node[above] {$f[C]\in C$};
 	\filldraw[violet] (5, 3.5) circle (7pt);
 	\filldraw[magenta] (3, .75) circle (10pt);
 	\node at (4.5, -3.95) {$\cdot$};
@@ -40,7 +40,7 @@
 	\node at (4.5, -4.75) {$\cdot$};
 	
 	% Mapsto
-	\node at (-4.5, -6) {$X\in\mathbb{S}$};
-	\node at (4.5, -6) {$f(X)\in X$};
+	\node at (-4.5, -6) {$A\in\set{X_i}_{i\in I}$};
+	\node at (4.5, -6) {$f[A]\in A$};
 	\draw[|->] (-3.5, -6) -- (3, -6);
 \end{tikzpicture}
