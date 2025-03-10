@@ -119,10 +119,10 @@
 		\item {$(A\cup B)^C=\set{x:\lnot\left[x\in A\lor x\in B\right]}=\set{x:x\notin A\land x\notin B}=A^C\cap B^C.$}
 		\item {$(A\cap B)^C=\set{x:\lnot\left[x\in A\land x\in B\right]}=\set{x:x\notin A\lor x\notin B}=A^C\cup B^C.$}
 	\end{enumerate}}
-\vspace{40pt}
+\vspace{360pt}
 \end{proof}
 
-\vfill
+\newpage
 \begin{exercise*}
 	Let $A$ has $n$ elements. Show that $\mathcal{P}(A)$ has $2^n$ elements.
 	\begin{proof}[\sol] 
@@ -136,6 +136,7 @@
 			\[
 			\underbrace{2\times 2\times\cdots 2}_{n\ \text{times}}=2^n.
 			\]
+			\vspace{400pt}
 %			\item[(pf 2)] We use mathematical induction.
 %			\ \\
 %			(Basic Step) Let $A=\varnothing$ (so $\abs{A}=0$). Then $\mathcal{P}(A)=\set{\varnothing}$ and so $\abs{\mathcal{P}(A)}=\abs{\set{\varnothing}}=1$.
@@ -169,10 +170,22 @@
 	\end{enumerate}
 \end{definition*}}
 \begin{remark*}
+A \textbf{function} $f$ from a set $A$ to a set $B$, written as
+\[
+f: A \to B,
+\]
+is defined as a relation that assigns to each element $a \in A$ \emph{exactly one} element $b \in B$. More formally, $f$ is a subset of the Cartesian product $A \times B$ with the property that for every $a \in A$, there exists a unique $b \in B$ such that 
+\[
+(a,b) \in f.
+\]
+This uniqueness is essential: it means that an element in the domain cannot be assigned more than one output in the codomain.
+\end{remark*}\vspace{40pt}
+\begin{remark*}
 	A relation $f\subseteq A\times B$ is a function if $\boxed{\forall a\in A:\exists! b\in B:(a,b)\in f.}$
 	\begin{itemize}
 		\item The \hl{\textbf{domain}} of $f$ is $\text{Dom}(f)=A$.
 		\item The \hl{\textbf{codomain}} of $f$ is $\text{Cdm}(f)=B$.
+		\newpage
 		\item The \hl{\textbf{image}} \textbf{of $A$ under $f$} is the set \begin{align*}\
 			\img{f}=f[A]:&=\set{b\in B:\exists a \in A\ \text{s.t.}\ (a,b)\in f}\\
 			&=\set{b\in B:\exists a \in A\ \text{s.t.}\ f(a)=b}\\
@@ -182,8 +195,8 @@
 			\input{../tikz/grad-math-tikz/grad-math-1-image}
 			\caption{Image of $A$ under $f$.}
 		\end{figure}\\
-		Note that $f[A]\subseteq B=\text{Cdm}(f)$ and that $$
-			b\in f[A]\iff b=f(a)\ \text{for some}\ a\in A.$$	\newpage
+		Note that $f[A]\subseteq B=\text{Cdm}(f)$ and that $
+			b\in f[A]\iff b=f(a)\ \text{for some}\ a\in A.$\vfill
 		\item The \hl{\textbf{preimage}} \textbf{of $B_1\subseteq B$ under $f$} is the set \begin{align*}
 			f^{-1}[B_1]:&=\set{a\in A:\exists b \in B_1\ \text{s.t.}\ (a,b)\in f}\\
 			&=\set{a\in A:\exists! b \in B_1\ \text{s.t.}\ b=f(a)}\ \text{by def. of a function}\\
@@ -227,6 +240,7 @@
 			\item $a\in A_2\implies f(a)\in f[A_2]$
 		\end{enumerate} \underline{Therefore, $b=f(a)\in f[A_1]\cap f[A_2]$}.
 \end{enumerate}}
+\vspace{40pt}
 \end{proof}
 \vfill
 \probox{\begin{proposition}
@@ -317,11 +331,11 @@
 \defbox[Injection and Surjection]{\begin{definition*}
 	Let $f:A\to B$ is a function from $A$ to $B$. \begin{itemize}
 		\item  A function $f$ is \hl{\textbf{an injection}} or \hl{\textbf{injective}} (or \hl{\textbf{one-to-one}}) if and only if \[
-		\boxed{\forall a_1,a_2\in A:[f(a_1)=f(a_2)\implies a_1=a_2].}
-		\] That is, an \textbf{injection} is a mapping such that the output uniquely determines its input.
+		\boxed{\forall a_1,a_2\in A,\ f(a_1)=f(a_2)\implies a_1=a_2.}
+		\] An \textbf{injection} is a function s.t. the output uniquely determines its input.
 		\item A function $f$ is \hl{\textbf{a surjection}} or \hl{\textbf{surjective}} (or \hl{\textbf{onto}}) if and only if \[
-		\boxed{\forall b\in B:[\exists a \in A\ \text{such that}\ f(a)=b].}
-		\] That is, a \textbf{surjection} is a mapping such that every element of $B$ is related to by some element of $A$.
+		\boxed{\forall b\in B,\ \exists a \in A\ \text{such that}\ f(a)=b.}
+		\] A \textbf{surjection} is a function s.t. every element of $B$ is related to by some element of $A$.
 	\end{itemize}
 \end{definition*}}
 \begin{remark*}
@@ -331,11 +345,17 @@
 		\item $f$ is \hl{\textbf{one-to-one and onto}} (or \hl{\textbf{a one-to-one correspondence}}).
 	\end{itemize}
 \end{remark*}
+\begin{remark*}
+Let $f:A\to B$ be a function from a set $A$ to a set $B$. \begin{itemize}
+	\item (Distinct Images) $f$ is injective $\iff$ $\forall a\in A,\ \Img{\set{a}}\cap\Img{A\setminus\set{a}}=\varnothing$.
+	\item (Every Codomain Element has a Preimage) $f$ is surjective $\iff$ $\forall b\in B,\ \Preimg{\set{b}}\neq\varnothing$.
+\end{itemize}
+\end{remark*}
 \vfill
 \defbox[Composition of Functions]{\begin{definition*}
 	Let $f_1:A\to B$ and $f_2:B\to C$ be functions such that $\text{Cdm}(f_1)=B=\text{Dom}(f_2)$. The \hl{\textbf{composition}} $f_2\circ f_1$ is defined as: \[
-	(f_2\circ f_1)(a):= f_2(f_1(a)).
-	\] for all $a\in A$.
+	(f_2\circ f_1)(a):= f_2(f_1(a))\quad\text{for all $a\in A$.}
+	\]
 \end{definition*}}
 %\begin{remark*}
 %\ \begin{itemize}
@@ -385,7 +405,7 @@
 			B \arrow[rr, "\exists\textcolor{green!50!black}{g}"] \arrow[rrrr, "\textcolor{red}{f}\circ\textcolor{green!50!black}{g} = \textnormal{id}_B"', bend right] &  & A \arrow[rr, "\textcolor{red}{f}"] &  & B
 		\end{tikzcd}
 	\end{center}
-\end{remark*}
+\end{remark*}\vspace{20pt}
 \begin{proof}
 \begin{enumerate}[(1)]
 	\item \
@@ -410,6 +430,8 @@
 %		&\implies a_1=a_2.\quad\because g\circ f=\text{id}_A
 %	\end{align*}
 %	\end{itemize}
+\vfill
+\newpage
 	\item \
 %	\begin{itemize}
 %		\item[($\Rightarrow$)] \
@@ -431,6 +453,7 @@
 %		\]
 %	\end{itemize}
 \end{enumerate}
+\vspace{400pt}
 \end{proof}
 
 \newpage
