@@ -855,20 +855,168 @@ The matrix representation of a linear transformation $T:V\to W$ is not canonical
 \end{remark*}
 \newpage
 \begin{observation}
-Let $V$ and $W$ be vector spaces over a field $\F$ with $\dim V=n$ and $\dim W=m$. Let $T:V\to W$ be a linear transformation. Suppose that \[
+Let $V$ and $W$ be vector spaces over a field $\F$ with $\dim V=n$ and $\dim W=m$. Let $\Phi_n:V\to\F^n$ and $\Phi_m:W\to F^m$ be coordinate isomorphisms induced by the bases \[
 \basis_V=\set{\vec{v}_1,\vec{v}_2,\dots,\vec{v}_n}\quad\text{and}\quad\basis_W=\set{\vec{w}_1,\vec{w}_2,\dots,\vec{w}_n}
-\] are bases for $V$ and $W$, respectively. See the following diagram:
+\] of $V$ and $W$, respectively. Let $T:V\to W$ be a linear transformation. Then there exists a unique matrix $A\in\operatorname{Mat}_{m\times n}(\F)$ such that the following diagram commutes:
 \begin{center}
-	\adjustbox{scale=1.25}{% https://tikzcd.yichuanshen.de/#N4Igdg9gJgpgziAXAbVABwnAlgFyxMJZABgBpiBdUkANwEMAbAVxiRADUQBfU9TXfIRQAWclVqMWbAOrdeIDNjwEiZYePrNWiEAB1dAWzo4AFgCMzwAGJcAeoR58lgoqPXVNUnfqOmL1uwNucRgoAHN4IlAAMwAnCCDEMhAcCCQARg9JbRAAFQBefQAFEywAfTB9AGMsWKqAAgBlatqG4tKyg1tgAFp0rjkY+MTk1KQAJiytNnbywmoGOjMYBiL+ZSEQWKwwkxwQamWwKCRkuFLo-cQAZkcQOISM6jGbqa89XRLyoOpzrEukNcFksVmtnCodNtdvs7g9EpMUmlXhJpjpGoVPh0DC06vVcji2pi5t0+gNYcMJs8kWcLlcgSj3rMKiT+gcQItlqt1i5ITs9oN7hTkS9Mgyckyur1Wb9aYDgZywQIIVs+TCKFwgA
-		\begin{tikzcd}
-			V \arrow[rrrr, "T=\Phi_n\circ S\circ \Phi_m^{-1}"] \arrow[dddd, "\Phi_n"', shift right=3]                 &  &  &  & W \arrow[dddd, "\Phi_m"', shift right=3]                 \\
-			&  &  &  &                                                          \\
-			&  &  &  &                                                          \\
-			&  &  &  &                                                          \\
-			\mathbb{F}^n \arrow[rrrr, "S=\Phi_m\circ T\circ \Phi_n^{-1}"] \arrow[uuuu, "\Phi_n^{-1}"', shift right=3] &  &  &  & \mathbb{F}^m \arrow[uuuu, "\Phi_m^{-1}"', shift right=3]
-	\end{tikzcd}}
-\end{center} Here $S:=\Phi_m\circ T\circ \Phi_n^{-1}$ is a linear transformation from $\F^n$ to $\F^m$. Suppose that $\mathcal{E}_n$ and $\mathcal{E}_m$ are the standard bases of $\F^n$ and $\F^m$, respectively. Then \begin{align*}
-	[S]_{\mathcal{E}_n}^{\mathcal{E}_m} &= [\Phi_m\circ T\circ \Phi_n^{-1}]_{\mathcal{E}_n}^{\mathcal{E}_m}\\
+\begin{minipage}{.49\textwidth}
+	\adjustbox{scale=1}{% https://tikzcd.yichuanshen.de/#N4Igdg9gJgpgziAXAbVABwnAlgFyxMJZABgBpiBdUkANwEMAbAVxiRADUQBfU9TXfIRQAWclVqMWbAOrdeIDNjwEiZYePrNWiEAB1dAWzo4AFgCMzwAGJcAeoR58lgoqPXVNUnfqOmL1uwNucRgoAHN4IlAAMwAnCCDEMhAcCCQARg9JbRAAFQBefQAFEywAfTB9AGMsWKqAAgBlatqG4tKyg1tgAFp0rjkY+MTk1KQAJiytNnbywmoGOjMYBiL+ZSEQWKwwkxwQamWwKCRkuFLo-cQAZkcQOISM6jGbqa89XRLyoOpzrEukNcFksVmtnCodNtdvs7g9EpMUmlXhJpjpGoVPh0DC06vVcji2pi5t0+gNYcMJs8kWcLlcgSj3rMKiT+gcQItlqt1i5ITs9oN7hTkS9Mgyckyur1Wb9aYDgZywQIIVs+TCKFwgA
+	\begin{tikzcd}
+		V \arrow[rrrr, "T=\Phi_n\circ A\circ \Phi_m^{-1}"] \arrow[dddd, "\Phi_n"', shift right=3]                 &  &  &  & W \arrow[dddd, "\Phi_m"', shift right=3]                 \\
+		&  &  &  &                                                          \\
+		&  &  &  &                                                          \\
+		&  &  &  &                                                          \\
+		\mathbb{F}^n \arrow[rrrr, "A=\Phi_m\circ T\circ \Phi_n^{-1}"] \arrow[uuuu, "\Phi_n^{-1}"', shift right=3] &  &  &  & \mathbb{F}^m \arrow[uuuu, "\Phi_m^{-1}"', shift right=3]
+\end{tikzcd}}
+\end{minipage}
+\begin{minipage}{.49\textwidth}
+That is, \[
+\forall \vec{v}\in V,\ (\Phi_m\circ T)(\vec{v})=(A\circ \Phi_n)(\vec{v}).
+\] 
+\end{minipage}
+\end{center} Equivalently, for each $\vec{v}\in V$ with coordinate representation \[
+[\vec{v}]_{\basis_V} =\Phi_n(\vec{v})\in \F^n\quad\text{and}\quad[T(\vec{v})]_{\basis_W}=\Phi_m(T(\vec{v}))\in\F^m,
+\] we have $
+[T(\vec{v})]_{\basis_W}=A[\vec{v}]_{\basis_V}.$ The matrix $A\in\operatorname{Mat}_{m\times n}(\F)$ is called the \textbf{matrix representation of $T$ with respect to the bases corresponding to $\Phi_n$ and $\Phi_m$}.
+\vfill
+\probox{\begin{proposition*}
+Let \( U \), \( V \), and \( W \) be vector spaces over a field \( \F \). Suppose that
+$T_1: U \to V$ and $T_2: V \to W$ are linear transformations. Then the mapping
+\[
+T: U \to W, \quad T = T_2 \circ T_1,\quad\text{is also linear.}
+\]
+\end{proposition*}}
+\begin{proof}
+Let \( \vec{u}_1, \vec{u}_2 \in U \) and let \( \alpha, \beta \in \F \). Then \begin{align*}
+T(\alpha \vec{u}_1 + \beta \vec{u}_2) = \bigl(T_2 \circ T_1\bigr)(\alpha \vec{u}_1 + \beta \vec{u}_2) &= T_2\bigl(T_1(\alpha \vec{u}_1 + \beta \vec{u}_2)\bigr) \\
+&= T_2\bigl(\alpha T_1(\vec{u}_1) + \beta T_1(\vec{u}_2)\bigr)\quad\because\text{$T_1$ is linear} \\
+&= \alpha T_2\bigl(T_1(\vec{u}_1)\bigr) + \beta T_2\bigr(T_1(\vec{u}_2)\bigr)\quad\because\text{$T_2$ is linear} \\
+&= \alpha \bigl(T_2\circ T_1\bigr)(\vec{u}_1) + \beta \bigr(T_2\circ T_1\bigr)(\vec{u}_2) \\
+&= \alpha T(\vec{u}_1) + \beta T(\vec{u}_2).
+\end{align*}
+\end{proof}
+
+\newpage
+\lembox{\begin{lemma*}
+Let \(U,V,\) and \(W\) be vector spaces over \(\F\) with bases \[
+\mathcal{B}_U=\set{\vec{u}_1,\vec{u},\dots,\vec{u}_\ell},\; \mathcal{B}_V=\set{\vec{v}_1,\vec{v},\dots,\vec{v}_n},\; \text{and}\; \mathcal{B}_W=\set{\vec{w}_1,\vec{w},\dots,\vec{w}_m},
+\] respectively. If $\Phi:U\to V$ and $\Psi:V\to W$ are linear transformations, then
+\[
+[\Psi\circ \Phi]_{\mathcal{B}_U}^{\mathcal{B}_W} = [\Psi]_{\mathcal{B}_V}^{\mathcal{B}_W}\,[\Phi]_{\mathcal{B}_U}^{\mathcal{B}_V}.
+\]
+\end{lemma*}}
+\begin{proof}
+Every vector $\vec{u}\in U$ can be uniquely written as 
+\[
+\vec{u} = \alpha_1\vec{u}_1+\alpha_2\vec{u}_2+\cdots+\alpha_\ell\vec{u}_\ell=\sum_{k=1}^{\ell} \alpha_i\vec{u}_i\quad\text{with}\quad [\vec{u}]_{\basis_U}=\begin{bmatrix}
+	\alpha_1 & \alpha_2 & \cdots & \alpha_\ell
+\end{bmatrix}^T.
+\] 
+%Then the coordinate vector of \(\vec{u}\in U\) w.r.t. \(\mathcal{B}_U\) is $
+%[\vec{u}]_{\mathcal{B}_U} = \begin{bmatrix}
+%	\alpha_1 & \alpha_2 & \cdots & \alpha_\ell
+%\end{bmatrix}^T.$ 
+Since
+\[
+\Phi(\vec{u}) = \Phi\left(\sum_{k=1}^{\ell} \alpha_k\vec{u}_k\right)=\sum_{k=1}^{\ell} \alpha_k\, \Phi(\vec{u}_k),\quad\text{and}\quad \Phi(\vec{u}_k) = \sum_{j=1}^{n} \beta_{jk}\, \vec{v}_j,
+\]
+we have \begin{align*}
+	\Phi(\vec{u}) &= \alpha_1\Phi(\vec{u}_1) + \alpha_2\Phi(\vec{u}_2) + \cdots +\alpha_\ell\Phi(\vec{u}_\ell)\\  
+	&= \alpha_1(\beta_{11}\vec{v}_1+\beta_{21}\vec{v}_2+\cdots+\beta_{n1}\vec{v}_n) +
+	\alpha_2(\beta_{12}\vec{v}_1+\beta_{22}\vec{v}_2+\cdots+\beta_{n2}\vec{v}_n) + \cdots+
+	\alpha_\ell(\beta_{1\ell}\vec{v}_1+\beta_{2\ell}\vec{v}_2+\cdots+\beta_{n\ell}\vec{v}_n)\\
+	&= (\beta_{11}\alpha_1+\beta_{12}\alpha_2+\cdots+\beta_{1\ell}\alpha_\ell)\vec{v}_1 +
+	(\beta_{21}\alpha_1+\beta_{22}\alpha_2+\cdots+\beta_{2\ell}\alpha_\ell)\vec{v}_2 + \cdots +
+	(\beta_{n1}\alpha_1+\beta_{n2}\alpha_2+\cdots+\beta_{n\ell}\alpha_\ell)\vec{v}_n\\
+	&= \sum_{j=1}^{n} \left( \sum_{k=1}^{\ell} \beta_{jk}\,\alpha_k\right)\vec{v}_j,
+\end{align*} and so
+\begin{align*} [\Phi(\vec{u})]_{\basis_V}=\begin{bmatrix}
+	\sum_{k=1}^\ell \beta_{1k}\alpha_k \\
+	\sum_{k=1}^\ell \beta_{2k}\alpha_k \\
+	\vdots \\
+	\sum_{k=1}^\ell \beta_{n k}\alpha_k
+\end{bmatrix}&=\begin{bmatrix}
+\beta_{11}\alpha_1+\beta_{12}\alpha_2+\cdots+\beta_{1\ell}\alpha_\ell \\
+\beta_{21}\alpha_1+\beta_{22}\alpha_2+\cdots+\beta_{2\ell}\alpha_\ell \\
+\vdots \\
+\beta_{n1}\alpha_1+\beta_{n2}\alpha_2+\cdots+\beta_{n\ell}\alpha_\ell
+\end{bmatrix} \\
+&=\begin{bmatrix}
+	\beta_{11} & \beta_{12} & \cdots &\beta_{1\ell} \\
+	\beta_{21} & \beta_{22} & \cdots &\beta_{2\ell}\\
+	\vdots & \vdots & \ddots &\vdots \\
+	\beta_{n1} & \beta_{n2} & \cdots & \beta_{n\ell}
+\end{bmatrix}\begin{bmatrix}
+\alpha_1 \\ \alpha_2 \\ \vdots \\ \alpha_\ell
+\end{bmatrix}=\begin{bmatrix}
+	\mid & \mid & & \mid \\
+\Phi(\vec{u}_1) &\Phi(\vec{u}_2) & \cdots & \Phi(\vec{u}_\ell) \\
+\mid & \mid & & \mid
+\end{bmatrix}\begin{bmatrix}
+\alpha_1 \\ \alpha_2 \\ \vdots \\ \alpha_\ell
+\end{bmatrix}= [\Phi]_{\mathcal{B}_U}^{\mathcal{B}_V}\,[\vec{u}]_{\mathcal{B}_U}.
+\end{align*}
+Similarly, for \(\Psi\), writing $
+\Psi(\vec{v}_j) = \sum_{i=1}^{m} \gamma_{ij}\, \vec{w}_i,$ we get
+\begin{align*}
+\bigl(\Psi\circ\Phi\bigr)(\vec{u})=\Psi\left(\Phi(\vec{u})\right) =\Psi\left(\sum_{j=1}^{n} \left( \sum_{k=1}^{\ell} \beta_{jk}\,\alpha_k\right)\vec{v}_j\right)=\sum_{i=1}^{m}\left(\sum_{j=1}^{n} \gamma_{ij} \left(\sum_{k=1}^{\ell} \beta_{jk}\,\alpha_k\right)\right)\vec{w}_i.
+\end{align*}
+Then
+\begin{align*} &[(\Psi\circ\Phi)(\vec{u})]_{\basis_W}
+	=\begin{bmatrix}
+	\sum_{j=1}^{n} \gamma_{1j} \left(\sum_{k=1}^{\ell} \beta_{jk}\,\alpha_k\right) \\
+	\sum_{j=1}^{n} \gamma_{2j} \left(\sum_{k=1}^{\ell} \beta_{jk}\,\alpha_k\right) \\
+	\vdots \\
+	\sum_{j=1}^{n} \gamma_{mj} \left(\sum_{k=1}^{\ell} \beta_{jk}\,\alpha_k\right)
+\end{bmatrix}\\
+&=\begin{bmatrix}
+	\gamma_{11}(\beta_{11}\alpha_1+\beta_{12}\alpha_2+\cdots+\beta_{1\ell}\alpha_\ell) + \gamma_{12}(\beta_{11}\alpha_1+\beta_{12}\alpha_2+\cdots+\beta_{1\ell}\alpha_\ell) +\cdots +\gamma_{1n}(\beta_{11}\alpha_1+\beta_{12}\alpha_2+\cdots+\beta_{1\ell}\alpha_\ell) \\
+	\gamma_{21}(\beta_{11}\alpha_1+\beta_{12}\alpha_2+\cdots+\beta_{1\ell}\alpha_\ell) + \gamma_{22}(\beta_{11}\alpha_1+\beta_{12}\alpha_2+\cdots+\beta_{1\ell}\alpha_\ell) +\cdots +\gamma_{2n}(\beta_{11}\alpha_1+\beta_{12}\alpha_2+\cdots+\beta_{1\ell}\alpha_\ell) \\
+	\vdots \\
+	\gamma_{m1}(\beta_{11}\alpha_1+\beta_{12}\alpha_2+\cdots+\beta_{1\ell}\alpha_\ell) + \gamma_{m2}(\beta_{11}\alpha_1+\beta_{12}\alpha_2+\cdots+\beta_{1\ell}\alpha_\ell) +\cdots +\gamma_{mn}(\beta_{11}\alpha_1+\beta_{12}\alpha_2+\cdots+\beta_{1\ell}\alpha_\ell)
+\end{bmatrix} \\
+&=\begin{bmatrix}
+	(\gamma_{11}+\gamma_{12}+\cdots+\gamma_{1n})\beta_{11}\alpha_1 + (\gamma_{11}+\gamma_{12}+\cdots+\gamma_{1n})\beta_{12}\alpha_2 + \cdots + (\gamma_{11}+\gamma_{12}+\cdots+\gamma_{1n})\beta_{1\ell}\alpha_\ell\\
+	(\gamma_{21}+\gamma_{22}+\cdots+\gamma_{2n})\beta_{11}\alpha_1 + (\gamma_{21}+\gamma_{22}+\cdots+\gamma_{2n})\beta_{12}\alpha_2 + \cdots + (\gamma_{21}+\gamma_{22}+\cdots+\gamma_{2n})\beta_{1\ell}\alpha_\ell\\
+	\vdots\\
+	(\gamma_{m1}+\gamma_{m2}+\cdots+\gamma_{mn})\beta_{11}\alpha_1 + (\gamma_{m1}+\gamma_{m2}+\cdots+\gamma_{mn})\beta_{12}\alpha_2 + \cdots + (\gamma_{m1}+\gamma_{m2}+\cdots+\gamma_{mn})\beta_{1\ell}\alpha_\ell
+\end{bmatrix}\\
+&=\begin{bmatrix}
+	(\gamma_{11}+\gamma_{12}+\cdots+\gamma_{1n})\beta_{11} + (\gamma_{11}+\gamma_{12}+\cdots+\gamma_{1n})\beta_{12} + \cdots + (\gamma_{11}+\gamma_{12}+\cdots+\gamma_{1n})\beta_{1\ell}\\
+	(\gamma_{21}+\gamma_{22}+\cdots+\gamma_{2n})\beta_{11} + (\gamma_{21}+\gamma_{22}+\cdots+\gamma_{2n})\beta_{12} + \cdots + (\gamma_{21}+\gamma_{22}+\cdots+\gamma_{2n})\beta_{1\ell}\\
+	\vdots\\
+	(\gamma_{m1}+\gamma_{m2}+\cdots+\gamma_{mn})\beta_{11} + (\gamma_{m1}+\gamma_{m2}+\cdots+\gamma_{mn})\beta_{12} + \cdots + (\gamma_{m1}+\gamma_{m2}+\cdots+\gamma_{mn})\beta_{1\ell}
+\end{bmatrix}\begin{bmatrix}
+\alpha_1 \\ \alpha_2 \\ \vdots \\ \alpha_\ell
+\end{bmatrix}\\
+&=\begin{bmatrix}
+	\mid & \mid & & \mid \\
+	(\Psi\circ\Phi)(\vec{u}_1) &(\Psi\circ\Phi)(\vec{u}_2) & \cdots & (\Psi\circ\Phi)(\vec{u}_\ell) \\
+	\mid & \mid & & \mid
+\end{bmatrix}\begin{bmatrix}
+	\alpha_1 \\ \alpha_2 \\ \vdots \\ \alpha_\ell
+\end{bmatrix}\\
+&= [\Psi\circ\Phi]_{\mathcal{B}_U}^{\mathcal{B}_W}\,[\vec{u}]_{\mathcal{B}_U}.
+\end{align*}
+
+Hence,
+\[
+[M(L(u))]_{\mathcal{B}_W} = \left(\sum_{i=1}^{\ell} m_{1i}\left(\sum_{j=1}^{k}\ell_{ij}\,\alpha_j\right),\,\ldots,\,\sum_{i=1}^{\ell} m_{mi}\left(\sum_{j=1}^{k}\ell_{ij}\,\alpha_j\right)\right)^T.
+\]
+By definition, the matrix of \(M\circ L\) satisfies
+\[
+[M\circ L]_{\mathcal{B}_U}^{\mathcal{B}_W}\,[u]_{\mathcal{B}_U} = [M(L(u))]_{\mathcal{B}_W}.
+\]
+But from the above, it is clear that
+\[
+[\Psi\circ \Phi]_{\mathcal{B}_U}^{\mathcal{B}_W} = [\Psi]_{\mathcal{B}_V}^{\mathcal{B}_W}\,[\Phi]_{\mathcal{B}_U}^{\mathcal{B}_V}.
+\]
+Since \(u\in U\) was arbitrary, the lemma is proved.
+\end{proof}
+
+
+Here $S:=\Phi_m\circ T\circ \Phi_n^{-1}$ is a linear transformation from $\F^n$ to $\F^m$. Suppose that $\mathcal{E}_n$ and $\mathcal{E}_m$ are the standard bases of $\F^n$ and $\F^m$, respectively. Then \begin{align*}
+	[A]_{\mathcal{E}_n}^{\mathcal{E}_m} &= [\Phi_m\circ T\circ \Phi_n^{-1}]_{\mathcal{E}_n}^{\mathcal{E}_m}\\
 	&=[\Phi_m]_{\basis_W}^{\mathcal{E}_m}[T]_{\basis_V}^{\basis_W}[\Phi_n^{-1}]_{\mathcal{E}_n}^{\basis_V}\\
 	&=I_m[T]_{\basis_V}^{\basis_W}I_n\\
 	&=[T]_{\basis_V}^{\basis_W}.
