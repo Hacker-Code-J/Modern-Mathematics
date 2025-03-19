@@ -30,27 +30,341 @@
 \noindent 
 We cover the following topics in this note.
 \begin{itemize}
+	\item Subspace; Span
+	\item Subgroup
 	\item TBA
 \end{itemize}
 \hrule\vspace{12pt}
 %\tableofcontents
 %\newpage
-\begin{itemize}
-	\item $U\subseteq V$ then $\Span(U)$ is a vector space over a field $\F$.
-\end{itemize}
 
+\newpage
+\begin{note}[span]
+Let $V$ be a vector space over a field $\F$, and let $S\subseteq V$. Recall that, for $n\in\N$, 
+\begin{align*}
+\Span(S):&=\set{\lambda_1\vec{v}_1+\lambda_2\vec{v}_2+\cdots+\lambda_n\vec{v}_n\mid \lambda_i\in\F,\; \vec{v}_i\in S\; \text{for all}\; i=1,2,\dots,n}\\
+&=\set{\sum_{i=1}^n\lambda_i\vec{v}_i\; \bigg|\; \lambda_i\in\F,\; \vec{v}_i\in S\; \text{for all}\; 1\leq i\leq n}.
+\end{align*}
+\end{note}\vfill
+\defbox[(Vector) Subspace]{\begin{definition*}
+	Let $V$ be a vector space over a field $\F$, and let $U\subseteq V$. We write $
+	\boxed{U\leq V}$ if $V$ is a \textbf{(vector) subspace} of $V$. That is, $U\leq V$ if and only if $U$ satisfy the following conditions: \begin{enumerate}[(i)]
+		\item $\vec{0}_V\in U$;
+		\item $\forall \vec{u},\tilde{\vec{u}}\in U$,\; $\vec{u}+\tilde{\vec{u}}\in U$;
+		\item $\forall \vec{u}\in U$,\; $\forall \lambda\in\F$,\; $\lambda\vec{u}\in U$.
+	\end{enumerate}
+\end{definition*}}
+\begin{remark*}
+If $S\subseteq V$, then $\Span(S)\leq V$.
+\begin{proof}
+We must verify that $\Span(S)$ satisfies the three defining properties of a subspace of $V$: \begin{enumerate}[(i)]
+	\item If $S=\varnothing$, by convention we define $\Span(\varnothing):=\set{\vec{0}_V}$. Let $S\neq\varnothing$. Choose any $\vec{v}\in S(\subseteq V)$ and take $n=1$ with the scalar $\lambda_1=0\in\F$. Then $\vec{0}_V=0\cdot\vec{v}\in\Span(S)$.
+	\item Let $\vec{u},\tilde{\vec{u}}\in\Span(S)$, say, \[
+	\vec{u}=\sum_{i=1}^{n}\lambda_i\vec{v}_i\quad\text{and}\quad\tilde{\vec{u}}=\sum_{j=1}^{m}\mu_j\tilde{\vec{v}}_j,
+	\] where $n,m\in\N$, $\lambda_i,\mu_j\in\F$, and $\vec{v}_i,\tilde{\vec{v}}_j\in S$ for all indices $i,j$. Then \[
+	\vec{u}+\tilde{\vec{u}}=\sum_{i=1}^{n}\lambda_i\vec{v}_i+\sum_{j=1}^{m}\mu_j\tilde{\vec{v}}_j=\overbrace{\underbrace{\lambda_1\vec{v}_1+\lambda_2\vec{v}_2+\cdots+\lambda_n\vec{v}_n}_{\text{$n$ terms}}+\underbrace{\mu_1\tilde{\vec{v}}_1+\mu_2\tilde{\vec{v}}_2+\cdots+\mu_m\tilde{\vec{v}}_m}_{\text{$m$ terms}}}^{\text{$n+m$ terms}}\in\Span(S).
+	\]
+	\item Let $\alpha\in\F$. Let $\vec{u}\in\Span(S)$, say, $\displaystyle\vec{u}=\sum_{i=1}^{n}\lambda_i\vec{v}_i,$  where $n\in\N$, $\lambda_i,\in\F$, and $\vec{v}_i\in S$ for each $1\leq i\leq n$. Then \[
+	\alpha\vec{u}=\alpha\left(\sum_{i=1}^{n}\lambda_i\vec{v}_i\right)=\sum_{i=1}^{n}(\alpha\lambda_i)\vec{v}_i\overset{}{\in}\Span(S).
+	\] since $\alpha\lambda_i\in\F$ for all $i=1,2,\dots,n$.
+\end{enumerate}
+\end{proof}
+\end{remark*}
+
+\newpage
 \probox{\begin{proposition*}
-	
+Let $V$ be a vector space over a field $\F$, and let 
+$S\subseteq V$. Then \begin{enumerate}[(1)]
+	\item $S\subseteq\Span(S)\subseteq V$.
+	\item If $U\leq V$ is any subspace of $V$ such that $S\subseteq U$, then $\Span(S)\subseteq U$.
+\end{enumerate}
 \end{proposition*}}
 \begin{proof}
-	content...
+\ \begin{enumerate}[(1)]
+	\item Let \( \vec{s} \in S \). Then, choosing \( n = 1 \) and \(\lambda_1 = 1 \in \F\), we have
+		$\vec{s} = 1 \cdot \vec{s} \in \Span(S).$ Each element \( \vec{s} \in \Span(S) \) is of the form
+		\[
+		\vec{s} = \sum_{i=1}^n \lambda_i \vec{v}_i,
+		\]
+		where \( \vec{v}_i \in S \subseteq V \) and \( \lambda_i \in \F \). Since \( V \) is a vector space and is closed under finite linear combinations, it follows that $
+		\vec{s} \in V.$
+	\item Let \( U \le V \) and $S\subseteq U$. Let \( \vec{s} \in \Span(S) \). Then, there exist \( n \in \N \), scalars \( \lambda_1,\lambda_2, \dots, \lambda_n \in \F \), and vectors \( \vec{v}_1, \vec{v}_2 \dots, \vec{v}_n \in S\subseteq V \) such that
+	\[
+	\vec{s} = \sum_{i=1}^n \lambda_i \vec{v}_i\in\Span(S).
+	\] Since \begin{itemize}
+		\item $S\subseteq U$, \ie, $\vec{v}_i\in S\subseteq U$ for each $i=1,2,\dots,n$, and
+		\item $U\leq V$, \ie, $\vec{u}+\tilde{\vec{u}}\in U$ and $\alpha\vec{u}\in U$ for any $\vec{u},\tilde{\vec{u}}\in U$,\; $\alpha\in\F$,
+	\end{itemize} it follows that \[
+\forall i\in\set{1,2,\dots,n},\; \lambda_i\vec{v}_i\in U\quad\text{and}\quad\vec{s}=\sum_{i=1}^n \lambda_i \vec{v}_i\in U.
+	\]
+\end{enumerate}
 \end{proof}
+\newpage
+\probox{\begin{proposition*}
+Let $V$ be a vector space over a field $\F$, and let $S\subseteq V$. Let $\mathcal{U}:=\set{U\leq V:S\subseteq U}.$ Then \[
+\Span(S)=\bigcap_{U\in\mathcal{U}}U.
+\] In other words, $\Span(S)$ is the smallest subspace of $V$ containing $S$.
+\end{proposition*}}
+\begin{proof}
+We want to show that $\Span(S)=\bigcap_{U\in\mathcal{U}}U$.
+\begin{itemize}
+	\item[$(\subseteq)$] Let $\vec{u}\in\Span(S)$. By definition, there exists $n\in\N$, scalars $\lambda_1,\lambda_2,\dots,\lambda_n\in\F$, and vectors $\vec{v}_1,\vec{v}_2,\dots,\vec{v}_n\in S$ such that \[
+	\vec{u}=\sum_{i=1}^n\lambda_i\vec{v}_i.
+	\] Let $U\in\mathcal{U}$ be arbitrary. Since $S\subseteq U$ and $U\leq V$, it is closed under finite linear combinations: \[
+	\sum_{i=1}^n\lambda_i\vec{v}_i\in U.
+	\] Since $\forall U\in\mathcal{U},\; \vec{u}\in U\Leftrightarrow \vec{u}\in\bigcap_{U\in\mathcal{U}} U$, we obtain \[
+	\vec{u}=\sum_{i=1}^n\lambda_i\vec{v}_i\in\bigcap_{U\in\mathcal{U}}U.
+	\]
+	\item[$(\supseteq)$] Since $S\subseteq\Span(S)$ and $\Span(S)\leq V$, we know $\Span(S)\in\mathcal{U}$. Let $\vec{u}\in\bigcap_{U\in\mathcal{U}}U$. Then \[
+	\vec{u}\in\bigcap_{U\in\mathcal{U}}U\iff \forall U\in\mathcal{U},\; \vec{u}\in U\implies \vec{u}\in\Span(S).
+	\]
+\end{itemize} Hence, we conclude that $\Span(S)=\bigcap_{U\in\mathcal{U}}U$.
+\end{proof}
+\vfill
+\defbox[Subgroup]{\begin{definition*}
+	Let $G$ be a group. Let $H\subseteq G$. We say that $H$ is a \textbf{subgroup} of $G$, denoted by $H\leq G$, if and only if $H$ is itself a group \textcolor{gray!50}{(with the operation inherited from G)}.
+\end{definition*}}
+\begin{example*}
+\ \begin{itemize}
+	\item $(\Q,+)\leq(\R,+)$.
+	\item $(\Q^\times,\times)\leq(\R^\times,\times)$.
+\end{itemize}
+\end{example*}
+
+\probox[Subgroup Test]{\begin{proposition*}
+Let $G$ be a group, and let $H\subseteq G$ with $H\neq\varnothing$. \begin{enumerate}[(1)]
+	\item (2-step Test) \[
+	H\leq G\iff \left(x,y\in H\implies xy\in H,\; x^{-1}\in H\right)
+	\]
+	\item (1-step Test) \[
+	H\leq G\iff \left(x,y\in H\implies xy^{-1}\in H\right)
+	\]
+\end{enumerate}
+\end{proposition*}}
+\begin{proof}
+We want to show that \[
+\underbrace{H\leq G}_{\text{(a)}}\iff \underbrace{\left(x,y\in H\implies xy\in H,\; x^{-1}\in H\right)}_{\text{(b)}}\iff
+\underbrace{\left(x,y\in H\implies xy^{-1}\in H\right)}_{\text{(c)}}
+\] \vfill
+\begin{itemize}
+	\item[] $\left(\text{(a)}\Rightarrow\text{(b)}\right)$\; Let $H\leq G$. Let $x,y\in H$. Since every subgroup is closed under the group operation and taking inverses, we have \[
+	xy\in H\quad\text{and}\quad x^{-1}\in H.
+	\]\vfill
+	\item[] $\left(\text{(b)}\Rightarrow\text{(c)}\right)$\; Let $x,y\in H$. Suppose that $xy\in H$ and $x^{-1}\in H.$ Clearly, $xy^{-1}\in H$.\vfill
+	\item[] $\left(\text{(c)}\Rightarrow\text{(a)}\right)$\; Let $x,y\in H$. Suppose that \[
+	xy^{-1}\in H.
+	\] Since $H\neq\varnothing$, $\exists a\in H$, and so \[
+	aa^{-1}\in H\implies e\in H.
+	\] Since $x\in H$ and $e\in H$, we have \[
+	ex^{-1}\in H\implies x^{-1}\in H.
+	\] Then, since $x,y\in H$ and $y^{-1}\in H$, we obtain \[
+	x(y^{-1})^{-1}\in H\implies xy\in H,
+	\] \ie, $H$ is closed under binary operation on $G$.
+\end{itemize}
+\end{proof}
+
+\newpage
+\defbox[Subgroup Generated by $S$]{\begin{definition*}
+	Let \( G \) be a group, and let \( S \subseteq G \).  
+	The \textbf{subgroup of \( G \) generated by \( S \)}, denoted by
+	$
+	\langle S \rangle,$
+	is defined as:
+	\[
+	\langle S \rangle \coloneqq \bigcap \{ H \le G : S \subseteq H \}=\bigcap_{S\subseteq H\leq G}H.
+	\]
+\end{definition*}}
+\begin{exercise*}
+Let $G$ be a group, and let $S\subseteq G$. Show that \(\langle S \rangle\) is the unique smallest subgroup of \( G \) containing \( S \).
+\end{exercise*}
+\begin{proof}[\sol]
+	TBA
+\end{proof}
+\begin{exercise*}
+Let $G$ be a group, and let $S\subseteq G$. Let $H_i\leq G$ for each $i\in I$. Show that \[
+\bigcap_{i\in I} H_i\leq G.
+\]
+\end{exercise*}
+\begin{proof}[\sol]
+TBA
+\end{proof}
+
+\newpage
+\probox[]{\begin{proposition*}
+Let $(G,+)$ be an abelian group with identity $0_G$, and let $x,y\in G$. Then \begin{enumerate}[(1)]
+	\item $\gen{x}=\set{nx:n\in\Z}$
+	\item $\gen{x,y}=\set{nx+my:n,m\in\Z}$
+\end{enumerate}
+\end{proposition*}}
+%\begin{remark*}
+%	The notation $nx$ is defined to represent the $n$-fold sum of $x$ with itself when $n\geq 0$. We define the function \[
+%	\fullfunction{f}{\textcolor{blue}{\Z}\times \textcolor{red}{G}}{\textcolor{red}{G}}{(n,x)}{nx}
+%	\] by the following recursive rules: \begin{enumerate}
+%		\item Base Case: $0x\coloneq0_G$.
+%		\item Positive Integer: For $n\in\Z$ with $n\geq 1$, \[
+%		nx\coloneq x+\underbrace{x+x+\cdots+x}_{\text{$n+(-1)=n-1$ times}},\quad\ie,\;\text{by induction}\;,\quad nx=x+(n-1)x.
+%		\]
+%		\item Negative Integer: For $n\in\Z$ with $n<0$, define \[
+%		nx\coloneq \textcolor{red}{-}((\textcolor{blue}{-}n)x)
+%		\]
+%	\end{enumerate}
+%	Here, for any $n\in Z$ with $n>0$, we have $(-n)x=x+(-n-1)x=2x+(-n-2)x= -(nx)$.
+%\end{remark*}
+\begin{proof}
+	TBA
+%\begin{enumerate}[(1)]
+%	\item Define
+%	\[
+%	H_1 \coloneqq \{\, nx : n\in\mathbb{Z}\,\}.
+%	\] We NTS that \(H_1\) is a subgroup of \(G\) and that \(H_1\) is the smallest subgroup containing \(x\).
+%	\begin{enumerate}
+%		\item (\(H_1\) is a subgroup of \(G\))
+%		
+%		Since $0\in\Z$ and $0x=0_G$, we have $0_G\in H_1$, \ie, $H_1\neq\varnothing$ Let $a,b\in H_1$. Then there exists $n,m\in\Z$ such that \[
+%		a=nx\quad\text{and}\quad b=mx.
+%		\] Then \[
+%		a+(-b)=a+(-(mx)),
+%		\] and since $n+(-m)\in\Z$, we have $a+(-b)\in H_1$.
+%	\end{enumerate}
+%	\item 
+%\end{enumerate}
+%
+%(a) *\(H_1\) is a subgroup of \(G\):*  
+%We verify the subgroup criteria:
+%
+%- **Nonemptiness:**  
+%Since \(0\in\mathbb{Z}\) and \(0\cdot x = 0_G\), it follows that
+%\[
+%0_G\in H_1.
+%\]
+%
+%- **Closure under Addition:**  
+%Let \(n,m\in\mathbb{Z}\). Then
+%\[
+%n\cdot x + m\cdot x = (n+m)\cdot x \in H_1,
+%\]
+%because \(n+m\in\mathbb{Z}\).
+%
+%- **Closure under Inverses:**  
+%For \(n\in\mathbb{Z}\), the additive inverse of \(n\cdot x\) is given by
+%\[
+%-(n\cdot x) = (-n)\cdot x \in H_1,
+%\]
+%since \(-n\in\mathbb{Z}\).
+%
+%Thus, \(H_1\le G\).
+%
+%(b) *\(H_1\) is the smallest subgroup containing \(x\):*  
+%Let \(K\le G\) be any subgroup with \(x\in K\). Then, by the closure properties of \(K\),
+%\[
+%(\forall\, n\in\mathbb{Z})\quad n\cdot x \in K.
+%\]
+%Hence,
+%\[
+%H_1\subseteq K.
+%\]
+%By the definition of the subgroup generated by \(x\),
+%\[
+%\langle x\rangle = \bigcap\{ K\le G : x\in K\},
+%\]
+%it follows that
+%\[
+%\langle x\rangle \subseteq H_1.
+%\]
+%Conversely, since \(x\in H_1\) and \(H_1\) is a subgroup, we have
+%\[
+%\langle x\rangle \supseteq H_1.
+%\]
+%Therefore,
+%\[
+%\langle x\rangle = H_1 = \{\, n\cdot x : n\in\mathbb{Z}\,\}.
+%\]
+%
+%2. **(Subgroup Generated by \(x\) and \(y\))**
+%
+%Define
+%\[
+%H_2 \coloneqq \{\, n\cdot x + m\cdot y : n,m\in\mathbb{Z}\,\}.
+%\]
+%
+%We show that \(H_2\) is a subgroup of \(G\) and that \(H_2\) is the smallest subgroup containing both \(x\) and \(y\).
+%
+%(a) *\(H_2\) is a subgroup of \(G\):*  
+%We check the subgroup criteria:
+%
+%- **Nonemptiness:**  
+%With \(n=m=0\) we have
+%\[
+%0\cdot x + 0\cdot y = 0_G \in H_2.
+%\]
+%
+%- **Closure under Addition:**  
+%Let \(u,v\in H_2\) so that
+%\[
+%u = n\cdot x + m\cdot y \quad\text{and}\quad v = n'\cdot x + m'\cdot y,
+%\]
+%with \(n,m,n',m'\in\mathbb{Z}\). Then,
+%\[
+%u+v = (n+n')\cdot x + (m+m')\cdot y \in H_2,
+%\]
+%since \(n+n',\, m+m'\in\mathbb{Z}\).
+%
+%- **Closure under Inverses:**  
+%For \(u = n\cdot x + m\cdot y \in H_2\),
+%\[
+%-u = (-n)\cdot x + (-m)\cdot y \in H_2,
+%\]
+%because \(-n,-m\in\mathbb{Z}\).
+%
+%Hence, \(H_2\le G\).
+%
+%(b) *\(H_2\) is the smallest subgroup containing \(x\) and \(y\):*  
+%Let \(K\le G\) be any subgroup with \(x,y\in K\). Then by closure under the group operation,
+%\[
+%(\forall\, n,m\in\mathbb{Z})\quad n\cdot x + m\cdot y \in K.
+%\]
+%Therefore,
+%\[
+%H_2 \subseteq K.
+%\]
+%Since
+%\[
+%\langle x,y\rangle = \bigcap\{ K\le G : \{x,y\}\subseteq K\},
+%\]
+%it follows that
+%\[
+%\langle x,y\rangle \subseteq H_2.
+%\]
+%Conversely, as \(x,y\in H_2\) and \(H_2\) is a subgroup, we deduce that
+%\[
+%\langle x,y\rangle \supseteq H_2.
+%\]
+%Hence,
+%\[
+%\langle x,y\rangle = H_2 = \{\, n\cdot x + m\cdot y : n,m\in\mathbb{Z}\,\}.
+%\]
+%
+%---
+%
+%**Conclusion.**  
+%We have shown that if \((G,+)\) is an abelian group and \(x,y\in G\), then
+%\[
+%\langle x\rangle = \{\, n\cdot x : n\in\mathbb{Z}\,\} \quad\text{and}\quad \langle x,y\rangle = \{\, n\cdot x + m\cdot y : n,m\in\mathbb{Z}\,\}.
+%\]
+%This completes the formal proof.
+%
+%\[
+%\quad\square
+%\]
+\end{proof}
+%\newpage
+%
 
 \vfill
 \begin{thebibliography}{9}
 	\bibitem{linear_to_abstract_a}
 	수학의 즐거움, Enjoying Math. ``수학 공부, 기초부터 대학원 수학까지, 18. 선형대수학에서 추상대수학으로 (a) 선형결합의 추상화'' YouTube Video, 24:25. Published 
-	October 15, 2019. URL: \url{https://www.youtube.com/watch?v=zg63xXZYNM8&t=684s}.
+	October 15, 2019. URL: \url{https://www.youtube.com/watch?v=zg63xXZYNM8&t=598s}.
 	\bibitem{linear_to_abstract_b}
 	수학의 즐거움, Enjoying Math. ``수학 공부, 기초부터 대학원 수학까지, 19. 선형대수학에서 추상대수학으로 (b) 대수적 구조를 보존하는 함수 algebraic homomorphisms'' YouTube Video, 25:21. Published 
 	October 16, 2019. URL: \url{https://www.youtube.com/watch?v=9TtGaY5COlg&t=187s}.
