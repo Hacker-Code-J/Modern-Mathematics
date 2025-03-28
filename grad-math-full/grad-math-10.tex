@@ -32,11 +32,48 @@ We cover the following topics in this note.
 \begin{itemize}
 	\item Subspace; Span
 	\item Subgroup
-	\item TBA
+	\item Homomorphism; Monomorphism; Epimorphism
+	\item Isomorphism
+	\item Kernel and Image
 \end{itemize}
 \hrule\vspace{12pt}
 %\tableofcontents
-%\newpage
+\begin{center}
+	\begin{tikzpicture}[every node/.style={font=\small}, scale=1.5]
+	% Ellipses
+	\filldraw[cyan!10] (-3,0) ellipse (2 and 2.5);
+	\draw[thick] (-3,0) ellipse (2 and 2.5) node[above=3.75cm] {$(G,\ast_G)$};
+	\draw[thick] (3,0) ellipse (2 and 2.5) node[above=3.75cm] {$(H,\ast_H)$};
+	
+	% Arrows for homomorphism
+	\draw[-Stealth, thick] (-1.2, 2.5) to[bend left=20] node[above] {$\varphi$} (1.2,2.5);
+%	\node at (0,-3) {\textbf{Group Homomorphism}} ;
+	
+	% Kernel (inside G)
+	\begin{scope}
+		\clip (-3,0) ellipse (2 and 2.5);
+		\fill[blue!40, opacity=0.5] (-3.5,-0.5) circle (0.9);
+	\end{scope}
+	\node at (-3.5,-0.5) {$\ker \varphi\leq G$};
+	% Image (inside H)
+	\begin{scope}
+		\clip (3,0) ellipse (2 and 2.5);
+		\fill[magenta!30, opacity=0.5] (3.2,-0.8) circle (1);
+	\end{scope}
+	\node at (3.2,-0.8) {$\operatorname{Img} \varphi\leq H$};
+	
+	\filldraw[blue] (-3,0) circle (1pt) node[left] {$e_G$};
+	\filldraw[magenta] (3,0) circle (1pt) node[right] {$e_H$};
+	
+%	\draw[|->] (-2.85,0) to (2.85,0);
+	
+	\draw[magenta!30, line width=.5mm, opacity=0.5] (-3+.5,2.5-.05) to (3.2,.2);
+	\draw[magenta!30, line width=.5mm, opacity=0.5] (-3+.5,-2.5+.05) to (3.2,-1.8);
+	
+	\draw[blue!40, line width=.5mm, opacity=0.5] (3,0) to (-3.5,.4);
+	\draw[blue!40, line width=.5mm, opacity=0.5] (3,0) to (-3.5,-1.4);
+\end{tikzpicture}
+\end{center}
 
 \newpage
 \begin{note}[span]
@@ -357,8 +394,243 @@ Let $(G,+)$ be an abelian group with identity $0_G$, and let $x,y\in G$. Then \b
 %\quad\square
 %\]
 \end{proof}
-%\newpage
-%
+
+\newpage
+\begin{observation}
+Let \begin{itemize}
+	\item \((\mathbb{R}, +)\) is the additive group of real numbers, and 
+	\item \((\mathbb{R}_{>0}, \cdot)\) is the multiplicative group of positive real numbers.
+\end{itemize}
+The \textbf{exponential function} is defined by \[
+\fullfunction{\exp}{(\R,+)}{(\R_{>0},\cdot)}{x}{e^x}.
+\] 
+\begin{center}
+\begin{tikzpicture}
+	\begin{axis}[
+		width=15cm,
+		height=10cm,
+		axis lines=middle,
+		xlabel={$x$},
+		ylabel={$y$},
+		xmin=-3, xmax=3,
+		ymin=0, ymax=25,
+		xtick={-3,-2,...,3},
+		ytick={0,5,10,15,20,25},
+		grid=both,
+		major grid style={line width=.2pt,draw=gray!50},
+		minor grid style={line width=.1pt,draw=gray!20},
+		legend pos=north west,
+		samples=300,
+		domain=-3:3,
+		xlabel style={font=\large, anchor=west},
+		ylabel style={font=\large, anchor=south},
+		]
+		% Plot exp(x)
+		\addplot [blue, thick] {exp(x)};
+		% Plot exp(-x)
+		\addplot [cyan, thick, dashed] {exp(-x)};
+		\legend{\(\exp(x)\), \(\exp(-x)\)}
+		% Mark the point (0,1) on both curves
+		\addplot[only marks, mark=*, mark options={fill=red}] coordinates {(0,1)};
+		\node[pin=45:{\(\,(0,1)\)}] at (axis cs:0,1) {};
+	\end{axis}
+\end{tikzpicture}
+\end{center}
+Then, \begin{enumerate}[(i)]
+	\item $\exp(x+y)=e^{x+y}=e^{x}\cdot e^{y}=\exp(x)\cdot\exp(y)$;
+	\item $\exp(0)=e^{0}=1$;
+	\item $\exp(-x)=e^{-x}=(e^{x})^{-1}=(\exp(x))^{-1}$.
+\end{enumerate}
+\end{observation}
+\newpage
+
+\begin{observation}
+Consider the exponential map \[
+f \colon \mathbb{Z}_3 \to U_3,\quad f(x)=\exp\left(\frac{2\pi i}{3} x\right).
+\] 
+\begin{center}
+\begin{tikzpicture}[scale=2, >=Stealth]
+	% Axes
+	\draw[->] (-1.2,0) -- (1.4,0) node[right] {$\text{Re}$};
+	\draw[->] (0,-1.2) -- (0,1.2) node[above] {$\text{Im}$};
+	
+	% Unit circle
+	\draw[gray!50, dashed] (0,0) circle(1);
+	
+	% Points
+	\filldraw[blue] (1,0) circle (0.5pt) node[below right] {$f(0)=1$};
+	\filldraw[blue] (-0.5,0.866) circle (0.5pt) node[above left] {$f(1)=\omega$};
+	\filldraw[blue] (-0.5,-0.866) circle (0.5pt) node[below left] {$f(2)=\omega^2$};
+	
+	% Labels for origin
+	\node at (0, -0.15) {0};
+	
+	% Optional: grid
+%	 \draw[step=0.5cm, gray!20, very thin] (-1.5,-1.5) grid (1.5,1.5);
+\end{tikzpicture}
+\end{center}
+Then $f$ is a group homomorphism from the additive group \((\mathbb{Z}_3, +)\) to the multiplicative group \( (U_3, \cdot) \) of the third roots of unity. Here, \begin{itemize}
+	\item \(\mathbb{Z}_3=\{0,1,2\}\) with addition modulo 3
+	\item $U_3=\{1,\,\omega,\,\omega^2\},\quad \text{with } \omega=\exp\Bigl(\frac{2\pi i}{3}\Bigr)$ which satisfies \(\omega^3=1\).
+\end{itemize} The homomorphism property means that for all \(x,y\in\mathbb{Z}_3\) we have: \[
+f(x+y)=f(x)f(y).
+\]
+\noindent
+\begin{center}
+\begin{minipage}{.49\textwidth}
+(Addition Table in $\Z_3$) \[
+\begin{array}{c|ccc}
+	+ & 0 & 1 & 2 \\
+	\hline
+	0 & \cellcolor{magenta!50}0 & \cellcolor{cyan!50}1 & \cellcolor{orange!50}2 \\
+	1 & \cellcolor{cyan!50}1 & \cellcolor{orange!50}2 & \cellcolor{magenta!50}0 \\
+	2 & \cellcolor{orange!50}2 & \cellcolor{magenta!50}0 & \cellcolor{cyan!50}1
+\end{array}
+\]
+\end{minipage}
+\begin{minipage}{.49\textwidth}
+(Multiplicative Table in $\Z_3$) \[
+\begin{array}{c|ccc}
+	\cdot & 0 & 1 & 2 \\
+	\hline
+	0 & \cellcolor{magenta!50}0 & \cellcolor{magenta!50}0 & \cellcolor{magenta!50}0 \\
+	1 & \cellcolor{magenta!50}0 & \cellcolor{cyan!50}1 & \cellcolor{orange!50}2 \\
+	2 & \cellcolor{magenta!50}0 & \cellcolor{orange!50}2 & \cellcolor{cyan!50}1
+\end{array}
+\]
+\end{minipage}
+\end{center}\vspace{10pt}
+After applying the exponential map, the corresponding elements are:
+\[
+f(0)=1,\quad f(1)=\omega,\quad f(2)=\omega^2.
+\]
+Thus, the multiplication table is:
+\[
+\begin{array}{c|ccc}
+	\cdot & 1 & \omega & \omega^2 \\
+	\hline
+	1 & \cellcolor{magenta!50}1 & \cellcolor{cyan!50}\omega & \cellcolor{orange!50}\omega^2 \\
+	\omega & \cellcolor{cyan!50}\omega & \cellcolor{orange!50}\omega^2 & \cellcolor{magenta!50}1 \\
+	\omega^2 & \cellcolor{orange!50}\omega^2 & \cellcolor{magenta!50}1 & \cellcolor{cyan!50}\omega
+\end{array}\hspace{40pt}
+\begin{array}{c|ccc}
+	\cdot & f(0) & f(1) & f(2) \\
+	\hline
+	f(0) & \cellcolor{magenta!50}f(0) & \cellcolor{cyan!50}f(1) & \cellcolor{orange!50}f(2) \\
+	f(1) & \cellcolor{cyan!50}f(1) & \cellcolor{orange!50}f(2) & \cellcolor{magenta!50}f(0) \\
+	f(2) & \cellcolor{orange!50}f(2) & \cellcolor{magenta!50}f(0) & \cellcolor{cyan!50}f(1)
+\end{array}
+\]
+\end{observation}
+
+\newpage
+\defbox[Homomorphism, Monomorphism, Epicmorphism, and Isomorphism]{\begin{definition*}
+Let \( (G, \ast_G) \) and \( (H, \ast_H) \) be groups with identity elements \( e_G \) and \( e_H \), respectively. 
+\begin{enumerate}[(1)]
+	\item A function $\varphi : G \to H$
+	is said to be a \textbf{group homomorphism} if and only if \[
+	\varphi(x\ast_G y)=\varphi(x)\ast_H \varphi(y)\quad\text{for all}\;  x,y\in G.
+	\]
+	\item A group homomorphism \(\varphi: G \to H\) is called a \textbf{group monomorphism} iff it is injective.
+	\item A group homomorphism \(\varphi: G \to H\) is called an \textbf{group epimorphism} iff it is surjective.
+	\item A group homomorphism \(\varphi: G \to H\) is called an \textbf{group isomorphism} iff it is bijective.
+\end{enumerate}
+\end{definition*}}
+\vfill
+\defbox[Ring Homomorphism]{
+\begin{definition*}
+Let $(R, +_R, \cdot_R)$ and $(S, +_S, \cdot_S)$ be rings (with unity). A function \[
+\varphi : (R, +_R, \cdot_R) \to (S, +_S, \cdot_S)
+\] is called a \textbf{ring homomorphism} if \begin{enumerate}[(i)]
+	\item $\varphi(a +_R b) = \varphi(a) +_S \varphi(b)$ for all $a,b\in R$\;
+	\item $\varphi(a \cdot_R b) = \varphi(a) \cdot_S \varphi(b)$.
+\end{enumerate} and, if the rings are unital, one additionally requires $
+\varphi(1_R) = 1_S.$ It is immediate that this definition implies \(\varphi(0_R)=0_S\) since
+\[
+\varphi(0_R) = \varphi(0_R +_R 0_R) = \varphi(0_R) +_S \varphi(0_R).
+\]
+\end{definition*}
+}
+\vfill
+\defbox[Module Homomorphism]{
+\begin{definition*}
+Let \(R\) be a ring and let \((M,+_M,\cdot_M)\) and \((N,+_N,\cdot_N)\) be \(R\)-modules. A function \[
+f : (M,+_M,\cdot_M) \to (N,+_N,\cdot_N)
+\] is an \textbf{\(R\)-module homomorphism} if the following hold: for all \(m_1,m_2\in M\) and for all \(r \in R\) 
+\begin{enumerate}[(i)]
+	\item $f(m_1+_Mm_2)= f(m_1)+_Nf(m_2)$\;
+	\item $f(r\cdot_M m_1) = r\cdot_N f(m_1)$.
+\end{enumerate}
+%This definition ensures that \(f\) is compatible with both the additive group structure of \(M\) and the scalar multiplication by \(R\).
+\end{definition*}
+}
+
+\newpage
+\defbox[Linear Transformation (revised via Module Homomorphism)]{
+\begin{definition*}
+Let \(F\) be a field and let \(V\) and \(W\) be vector spaces over \(\F\); that is, \(V\) and \(W\) are \(F\)-modules. A function
+\[
+T : V \to W
+\]
+is called a \textbf{linear transformation} if the followings are satisfied: for every \(\vec{v}_1, \vec{v}_2 \in V\) and every scalar \(\lambda \in F\) \begin{enumerate}[(i)]
+	\item $T(\vec{v}_1+\vec{v}_2) = T(\vec{v}_1) + T(\vec{v}_2)$;
+	\item $T(\lambda \, \vec{v}_1) = \lambda\, T(\vec{v}_1)$.
+\end{enumerate}
+Thus, a linear transformation is precisely an \(\F\)-module homomorphism.	
+\end{definition*}
+}
+
+\probox[Preservation of Identity and Inverses]{\begin{proposition*}
+Let \((G, \cdot_G)\) and \((H, \cdot_H)\) be groups with respective identity elements \(e_G\) and \(e_H\), and let $\varphi : G \to H$ be a group homomorphism, that is,  \[
+\varphi(a \cdot_G b) = \varphi(a) \cdot_H \varphi(b)\quad\text{for all}\; a,b\in G.
+\] Then the following hold: \begin{enumerate}[(1)]
+	\item \textbf{Preservation of Identity:}\quad $
+	\varphi(e_G) = e_H.$
+	\item \textbf{Preservation of Inverse:}\quad$
+	\varphi\bigl(a^{-1}\bigr) = \bigl(\varphi(a)\bigr)^{-1}$ for all $a \in G$.
+\end{enumerate}
+\end{proposition*}}
+\begin{proof}
+	TBA
+%*Proof Sketch:*  
+%For (1), observe that
+%\[
+%\varphi(e_G) = \varphi(e_G \cdot_G e_G) = \varphi(e_G) \cdot_H \varphi(e_G),
+%\]
+%which, by the cancellation property in \(H\), implies \(\varphi(e_G) = e_H\). For (2), using (1) and the homomorphism property,
+%\[
+%\varphi(a) \cdot_H \varphi\bigl(a^{-1}\bigr) = \varphi(a \cdot_G a^{-1}) = \varphi(e_G) = e_H,
+%\]
+%so that \(\varphi\bigl(a^{-1}\bigr)\) is the inverse of \(\varphi(a)\).
+\end{proof}
+
+\newpage
+\defbox[Kernel]{\begin{definition*}
+Let \(\varphi : G \to H\) be a group homomorphism. The \textbf{kernel of \(\varphi\)} is the subset of \(G\) defined by
+\[
+\ker(\varphi) \coloneqq \{ g \in G : \varphi(g) = e_H \}.
+\]
+\end{definition*}}
+\begin{remark*}
+	The set \(\ker(\varphi)\) is a \st{normal} subgroup of \(G\).
+	\begin{proof}
+		TBA
+	\end{proof}
+\end{remark*}
+
+\defbox[Image]{\begin{definition*}
+Let \(\varphi : G \to H\) be a group homomorphism. The \textbf{image} of \(\varphi\) is the subset of \(H\) given by
+\[
+\operatorname{Img}(\varphi) \coloneqq \{ h \in H : \exists\, g \in G \text{ such that } \varphi(g) = h \}=\set{\varphi(g):g\in G}.
+\]
+\end{definition*}}
+\begin{remark*}
+	The set \(\operatorname{Img}(\varphi)\) forms a subgroup of \(H\).
+	\begin{proof}
+		TBA
+	\end{proof}
+\end{remark*}
+
 
 \vfill
 \begin{thebibliography}{9}
