@@ -1,0 +1,778 @@
+\documentclass[11pt,openany]{article}
+
+\input{grad-math-preamble-analysis}
+\input{tcolorbox}
+\input{theorem}
+\input{tikz}
+\input{grad-math-commands}
+
+\setstretch{1.25}
+\begin{document}
+\pagenumbering{arabic}
+\begin{center}
+	\huge\textbf{Advanced Calculus I}\\
+	\vspace{0.5em}
+	\large{Ji, Yong-hyeon}\\
+	\vspace{0.5em}
+	\normalsize{\today}\\
+\end{center}
+
+\noindent We cover the following topics in this note.
+\begin{itemize}
+	\item Boundedness, Supremum and Infimum
+	\item Least Upper Bound Property (Completeness Axiom)
+	\item Well-Ordering Principle and Mathematical Induction
+	\item Archimedean Property
+\end{itemize}
+\hrule\vspace{12pt}
+\begin{observation}
+	Let \( f: [a, b] \rightarrow \mathbb{R} \) be a continuous function. Suppose that \( f(a) \) and \( f(b) \) have opposite signs, \ie, \( f(a) \cdot f(b) < 0 \). Then, there exists a point \( c \in (a, b) \) such that $f(c) = 0$. \begin{center}
+		\input{../tikz/grad-math-tikz/grad-math-3-IVT2}
+	\end{center}
+\end{observation}
+\vfill
+\thmbox[Intermediate Value Theorem]{\begin{theorem*}
+	Let $[a,b]\subseteq\mathbb{R}$ be a real interval, and let $f:[a,b]\to\mathbb{R}$ be a continuous function on $[a,b]$. Let $f(a)<f(b)$. If $\gamma\in\mathbb{R}$ satisfies $f(a)<\gamma<f(b)$, then \[
+	\exists c\in(a,b)\ \text{such that}\ f(c)=\gamma.
+	\] \begin{center}
+		\input{../tikz/grad-math-tikz/grad-math-3-IVT}
+	\end{center}
+\end{theorem*}}
+%\begin{remark*}
+%\end{remark*}
+
+\newpage
+\tableofcontents
+\vfill
+\section{Numbers}
+\begin{center}
+\begin{tabular}{ll}
+	$\N=\set{1,2,3,4,\dots}$ & \textbf{N}atural Numbers \\ \\
+	$\Z=\set{0,\pm1,\pm2,\pm3,\pm4,\dots}$ & Integers (\textbf{Z}ahlen\footnotemark[1]) \\ \\
+	$\Q=\set{\frac{q}{p}:p,q\in\Z,p\neq 0}$ & Rationals (\textbf{Q}uotient\footnotemark[2]) \\ \\
+	$\R=\set{\text{Limit of sequences of rational numbers}}$ & \mathcolorbox{-red}{\text{\textbf{R}eal Numbers}} \\ \\
+	$\C=\set{p+q\sqrt{-1}:p,q\in\R}$ & \textbf{C}omplex numbers
+\end{tabular}
+\addtocounter{footnote}{2}
+\footnotetext[1]{The integer set is denoted by $\Z$ because it comes from the German word ``Zahlen'', meaning ``numbers''.}
+\footnotetext[2]{The rational set is denoted by $\Q$ because it stands for ``Quotient'', representing numbers that can be expressed as the quotient of two integers.}
+\end{center}
+\vfill
+\begin{remark*}
+	The set $\mathbb{Z}_{\geq 0}:=\set{0}\cup\N=\set{0,1,2,\dots}$ is called \textit{non-negative integers}.
+\end{remark*}
+\begin{remark*}
+	Let $n_0\in\Z$ is given. Then \[
+	\Z_{\geq n_0}:=\set{n\in\Z:n\geq n_0}.
+	\]
+\end{remark*}
+
+\section{Least Upper Bound Property of $\mathbb{R}$}
+\defbox[Boundedness]{\begin{definition*}
+	Let $S$ be a non-empty subset of $\R$.
+	\begin{enumerate}[(1)]
+		\item A set $S$ is said to be \hl{\textbf{bounded above}} if $
+		\boxed{\exists \beta\in\mathbb{R}\ \text{such that for all}\ x\in S,\ x\leq \beta}$.\\ A real number $\beta\in\R$ is called an \hl{\textbf{upper bound}} of $S$.
+		\item A set $S$ is said to be \hl{\textbf{bounded below}} if $\boxed{\exists \alpha\in\mathbb{R}\ \text{such that for all}\ x\in S,\ \alpha\leq x}$.\\ A real number $\alpha\in\R$ is called an \hl{\textbf{lower bound}} of $S$.
+		\item A set $S$ is \hl{\textbf{bounded}} if it is bounded above and below.
+	\end{enumerate}
+\end{definition*}}
+\begin{center}
+\input{../tikz/grad-math-tikz/grad-math-3-boundedness}
+\end{center}
+
+\begin{remark*}[\textcolor{red}{\bf Caution!}]
+	It is \textcolor{red}{not} guaranteed that $\beta\in S$ and $\alpha\in S$.
+\end{remark*}
+\vfill
+\begin{remark*}
+	Let $\varnothing\neq S\subseteq\R$, and let $\alpha,\beta\in\R$.
+	\begin{align*}
+		S\ \text{is bounded above}\ (\text{by}\ \beta) &\iff S\ \text{has an upper bound}\ \beta\\
+		\beta\ \text{is an upper bound of}\ S &\iff \forall x\in S,\ x\leq \beta
+	\end{align*}
+	\begin{align*}
+		S\ \text{is bounded below}\ (\text{by}\ \alpha) &\iff S\ \text{has an lower bound}\ \alpha\\
+		\alpha\ \text{is an lower bound of}\ S &\iff \forall x\in S,\ \alpha\leq x
+	\end{align*}
+\end{remark*}
+\vfill
+\begin{remark*}
+\ \begin{enumerate}
+	\item The empty $S=\varnothing$ is bounded.
+	\begin{enumerate}[(i)]
+		\item ($\varnothing$ is bounded above) We need to find a real number $\beta\in\R$ s.t. for all $x\in\varnothing,\ x\leq\beta$. Since ``$\forall x\in\varnothing, x\leq\beta$'' is vacuously true, we can choose any real number as $\beta$.
+		\item ($\varnothing$ is bounded below) Similarly, we can choose any $\alpha\in\R$ s.t. for all $x\in\varnothing$, $\alpha\leq x$.
+	\end{enumerate}
+	\item An upper bound and a lower bound may \underline{not be unique}. A set \( S(\neq\varnothing)\subseteq\R \) may have multiple upper bounds and multiple lower bounds.
+\end{enumerate}
+\end{remark*}
+\newpage
+\begin{exercise*}
+Show that $A=\set{1-\frac{1}{n}:n\in\N}$ has an upper bound and a lower bound.
+\begin{proof}[\sol]
+\ 	
+%	The elements of $A$ are: $A=\set{0, \frac{1}{2}, \frac{2}{3}, \frac{3}{4}, \frac{4}{5}, \cdots}$. Let $x\in A$. Then $x=1-1/n$ for some $n\in\N$. \begin{enumerate}[(i)]
+%		\item Since $n\in\mathbb{N}$, we have $1/n>0$. Therefore \[
+%		1-\frac{1}{n}<1.
+%		\] Thus, for all $x=1-1/n\in A$, we have $x\leq 1$. Hence $1$ be an upper bound of $A$.
+%		\item Since $n\in\N$, we have $n\geq 1$, so $1/n\leq 1$. Therefore, \[
+%		1-\frac{1}{n}\geq 1-1=0.
+%		\] Thus, for all $x=1-1/n\in A$, we have $x\geq 0$. Hence $0$ is a lower bound of $A$.
+%	\end{enumerate}
+	\begin{center}
+	\input{../tikz/grad-math-tikz/grad-math-3-exer1}
+	\end{center}
+\vfill
+\end{proof}
+\end{exercise*}
+
+\newpage
+\begin{exercise*}
+	Show that $\N$ has a lower bound but does not have an upper bound.
+	\begin{proof}[\sol]
+		\
+%		Let $\N$ is the set of natural numbers. \begin{enumerate}[(i)]
+%			\item For each $n\in\N$, we have $n\geq 1$. Therefore, $1$ is a lower bound of $\N$.
+%			\item Assume that $\N$ is bounded above by $\beta\in\R$, \ie, \[
+%			\exists \beta\in\R\ \text{such that}\ \forall n\in\N,\ n\leq\beta.
+%			\]  However, for any $\beta\in\R$, we can always find $n\in\N$ s.t. $\beta < n$, by choosing $n=\floor{\beta} + 1 > \beta.$\\ It contradicts to the our assumption. Thus $\N$ does not have an upper bound.
+%		\end{enumerate}
+\vfill
+	\end{proof}
+\end{exercise*}
+
+\newpage
+\begin{exercise*}[\textcolor{violet}{$\star$}]
+	Consider a set \[
+	A:=\set{r\in\Q:r>0,\ r^2<2}
+	\] of positive rational numbers whose squares are less than 2. Then $A$ has a lower bound $0$. Prove that $A$ does not have the maximum element.
+	\begin{proof}[\sol]
+		Note that \[
+		A:=\set{r\in\Q:r>0,\ r^2<2}=\set{\cdots,1.4, 1.41, 1.414, 1.4142, 1.41421, 1.4141213, 1.4142135, \cdots}.
+		\] 
+%		Let $a\in A$. Then \[
+%		a^2<2<4\implies a^2<4\implies\abs{a}<2\implies a < 2.
+%		\] That is, $A$ is bounded above by $2$. Suppose that $p$ is a maximum of $A$. Since $p\in A$, $p>0$ and $p^2<2$. 
+		\begin{center}
+		\input{../tikz/grad-math-tikz/grad-math-3-NoSup}
+		\end{center}
+%		Define a rational number $q\in\Q$, for contradiction, by \[
+%		q:=p + \frac{2-p^2}{p+2}=\frac{2p+2}{p+2},	
+%		\] where $p<q$. We must show that $q\in A$. 
+%		\newpage
+%		\noindent Clearly $q>0$. We claim that $q^2<2$: \begin{align*}
+%			2-q^2=2-\left(p + \frac{2-p^2}{p+2}\right)^2
+%			&=2-\left(p^2+\frac{2p(2-p^2)}{p+2}+\frac{(2-p^2)^2}{(p+2)^2}\right) \\
+%			&=2-p^2-\frac{2p(2-p^2)}{p+2}-\frac{(2-p^2)^2}{(p+2)^2} \\
+%			&=\frac{(2-p^2)(p+2)^2-2p(2-p^2)(p+2)-(2-p^2)^2}{(p+2)^2} \\
+%%			&=\frac{1}{(p+2)^2}\left[(2-p^2)(p^2+4p+4)-(2p^2+4p)(2-p^2)-(p^4-4p^2+4)\right] \\
+%			&=\frac{1}{(p+2)^2}\left[(2-p^2)(p^2+4p+4)+(2p^2+4p)(p^2-2)+(-p^4+4p^2-4)\right] \\
+%			&=\frac{1}{(p+2)^2}\left[\crossout[red]{0}{(-1+2-1)p^4}+\crossout[red]{0}{(-4+4)p^3}+(2-4-\ncrossout[red]{4}+\ncrossout[red]{4})p^2+\crossout[red]{0}{(8-8)p}+(8-4)\right] \\
+%			&=\frac{1}{(p+2)^2}\left[-2p^2+4\right] =\frac{2(2-p^2)}{(p+2)^2}>0.
+%			\end{align*}
+%		Thus, $q\in A$ with $p<q$. It contradicts to the assumption that $p=\max A$. Hence it is proved.
+\vfill
+	\end{proof}
+\end{exercise*}
+
+\newpage
+\begin{note}[\color{red}Existence of $\sqrt{2}$]
+	There exists $x\in\R$ such that $x^2=2$. We write $x=\sqrt{2}>0$.
+	\begin{proof}
+%		\textcolor{gray!50}{Consider a set \[
+%		A=\set{x\in\Q:x>0,\ x^2<2}\subseteq\R.
+%		\] Since $1\in A$, we know $A\neq\varnothing$. Clearly, $A$ is bounded above (by 2). \underline{By the completeness axiom}, $A$ has the supremum $\lambda=\sup A\in\R$.
+%%		By trichotomy, \[
+%%		\lambda^2=2,\quad \lambda^2>2\quad \text{or}\quad \lambda^2<2.
+%%		\]
+%		Define a number $\mu\in\R$ by\[
+%		\mu:=\lambda+\frac{2-\lambda^2}{\lambda+2},\ \text{and then}\ \mu^2-2=\frac{2(\lambda^2-2)}{(\lambda+2)^2}.
+%		\] \begin{enumerate}[(\text{Case} I)]
+%			\item Let $\lambda^2<2$. Then $\lambda <\mu$ and $\mu^2<2$. That is, $\mu\in A$ with $\lambda <\mu$.
+%			It contradicts to the fact that $\lambda$ is an upper bound of A.
+%			\item Let $\lambda^2>2$. Then \begin{align*}
+%				\mu<\lambda\ \text{and}\ 2 < \mu^2 \implies \forall x\in A,\ x^2<2<\mu^2
+%				&\implies \forall x\in A,\ x<\mu\\
+%				&\implies \mu\ \text{is an upper bound of}\ A\ \text{with}\ \mu <\lambda.
+%			\end{align*} It contradicts to the fact that $\lambda$ is an upper bound of $A$.
+%		\end{enumerate} By trichotomy, we obtain $\lambda^2=2$ with $\lambda\in\R$.}
+\ \\ \vfill
+	\end{proof}
+\end{note}
+\newpage
+\defbox[Supremum and Infimum]{\begin{definition*}
+	Let $\varnothing\neq S\subseteq\R$.
+	\begin{enumerate}[(1)]
+		\item The number $\beta\in\R$ is the \hl{\textbf{supremum}} (or the \hl{\textbf{least upper bound}}) of $S$ if and only if \begin{enumerate}[(i)]
+			\item $\beta$ is an upper bound of $S$, \ie, $\forall x\in S,\ x\leq\beta$;
+			\item $u$ is any upper bound of $S\implies \beta\leq u$.
+		\end{enumerate} We write $\mathcolorbox{-red}{\beta=\sup S}\in\R$.
+		\item The number $\alpha\in\R$ is the \hl{\textbf{infimum}} (or the \hl{\textbf{greatest lower bound}}) of $S$ if and only if \begin{enumerate}[(i)]
+			\item $\alpha$ is an lower bound of $S$, \ie, $\forall x\in S,\ \alpha\leq x$;
+			\item if $\ell$ is any lower bound of $S$ then $\ell\leq\alpha$.
+		\end{enumerate} We write $\mathcolorbox{-red}{\alpha=\inf S}\in\R$.
+	\end{enumerate}
+\end{definition*}}
+\begin{remark*}[\textcolor{red}{\bf Caution!}]
+	It is \textcolor{red}{not} guaranteed that $\sup S\in S$ and that $\inf S\in S$.
+\end{remark*}
+\begin{remark*}
+	Let $\varnothing\neq S\subseteq\mathbb{R}$. \begin{enumerate}[(1)]
+		\item $\beta=\sup S \iff\begin{cases}
+			\text{(i)}\ \forall x\in S, x\leq\beta;\\
+			\text{(ii)}\ \forall u\in\R,\ [(\forall x\in S,\ x\leq u)\implies \beta\leq u].
+		\end{cases}$
+		\item $\alpha=\inf S \iff\begin{cases}
+			\text{(i)}\ \forall x\in S, \alpha\leq x;\\
+			\text{(ii)}\ \forall \ell\in\R,\ [(\forall x\in S,\ \ell\leq x)\implies \ell\leq \alpha].
+		\end{cases}$
+	\end{enumerate} 
+\end{remark*}
+\begin{remark*}
+	\begin{align*}
+		[u\ \text{is any upper bound of}\ S\implies \beta\leq u]&\iff [u<\beta\implies u\ \text{is NOT an upper bound of}\ S]\\
+		&\iff \beta\leq u\ \text{for all upper bound $u$ of $S$}.
+	\end{align*}
+	\begin{align*}
+		[\ell\ \text{is any lower bound of}\ S\implies \ell\leq\alpha]&\iff [\alpha<\ell\implies\ell\ \text{is NOT an lower bound of}\ S]\\
+		&\iff \ell\leq \alpha\ \text{for all lower bound $\ell$ of $S$}.
+	\end{align*}
+\end{remark*}
+\newpage
+\begin{remark*}[\bf Uniqueness of Supremum and Infimum]
+	\ \vspace{12pt} \\
+	(\textit{Proof by \hyperlink{trichotomy}{Trichotomy}}) Let $\varnothing\neq S\subseteq\mathbb{R}$ and $S$ is bounded above. Suppose that $\sup S=a$ and that $\sup S=b$ also. By trichotomy, exactly one of the following holds: \[
+	a=b,\ a<b,\ \text{or}\ b<a.  
+	\] However, $a<b$ and $b<a$ are impossible, as $a$ and $b$ are upper bounds, respectively. Hence $a=b$. Similarly, infimum also is unique.\qed\vspace{12pt} \\
+	(\textit{Proof by Anti-symmetry}\footnotemark[3]\textit{ of $\leq$})
+	\addtocounter{footnote}{1}
+	\footnotetext[3]{A relation $\mathcal{R}$ on a set $S$ is anti-symmetric if, for $a,b\in\mathcal{R}$, $a\relation b\land b\relation a\implies a=b$.}
+	Let $\varnothing\neq T\subseteq\mathbb{R}$ and $T$ is bounded above. Suppose that $\sup T=a$ and that $\sup T=b$ also. Then \begin{center}\setstretch{1.5}
+		\begin{tabular*}{\textwidth}{ll}
+			(a) $a$ is an upper bound of $T$ in $\R$;
+			& (b) $a$ is a supremum of $T$ in $\R$; \\
+			(c) $b$ is an upper bound of $T$ in $\R$;
+			& (d) $b$ is a supremum of $T$ in $\R$.
+		\end{tabular*}
+	\end{center} Then \[
+	\text{(a) and (d)} \implies b\leq a,\quad\quad\quad\text{(b) and (c)} \implies a\leq b.
+	\] By the anti-symmetry of $\leq$, we obtain $a=b$. Similarly, infimum also is unique.\qed
+\end{remark*}
+\vfill
+\defbox[Unbounded Sets]{\begin{definition*}
+Let $\varnothing\neq S\subseteq\R$. \begin{enumerate}[(1)]
+	\item If $S$ is unbounded above, then we write $\boxed{\sup S=\infty}$.
+	\item If $S$ is unbounded below, then we write $\boxed{\inf S=-\infty}$.
+	\item $\sup\varnothing:=-\infty$ and $\inf\varnothing:=\infty$.
+\end{enumerate}
+\end{definition*}}
+\begin{example*}
+	$\sup \N=\infty$ and $\inf\Z=-\infty$.
+\end{example*}
+\begin{remark*}
+	Suppose that $\varnothing\neq S\subseteq\R$ is unbounded above. Then \[
+	\lnot[\exists\beta\in\R\ \text{s.t.}\ \forall x\in S,\ x\leq\beta],\quad \ie,\quad [\forall\beta\in\R,\ \exists x\in S\ \text{s.t.}\ \beta <x].
+	\] Suppose that $\varnothing\neq T\subseteq\R$ is unbounded below. Then \[
+	\lnot[\exists\alpha\in\R\ \text{s.t.}\ \forall x\in T,\ \alpha\leq x],\quad \ie,\quad [\forall\alpha\in\R,\ \exists x\in T\ \text{s.t.}\ x < \alpha].
+	\]
+\end{remark*}
+
+\newpage
+\probox[Approximation Property for Supremum and Infinum I]{\begin{proposition}
+\ \hypertarget{pro1}{\begin{enumerate}[(1)]
+	\item Let $\varnothing\neq S\subseteq\R$ which is bounded above, and let $\lambda$ be an upper bound of $S$ in $\R$. \[
+	\lambda=\sup S\iff \forall\varepsilon>0,\ \exists x_\varepsilon\in S\ \text{s.t.}\ \lambda-\varepsilon<x_\varepsilon\leq\lambda.
+	\]
+	\item Let $\varnothing\neq T\subseteq\R$ which is bounded below, and let $\gamma$ be a lower bound of $T$ in $\R$. \[
+	\gamma=\inf T\iff\forall\varepsilon>0,\ \exists x_\varepsilon\in T\ \text{s.t.}\ \gamma\leq x_\varepsilon<\gamma+\varepsilon.
+	\]
+\end{enumerate}}
+\end{proposition}}
+\begin{proof}
+	\ \vfill
+%	\begin{enumerate}[(1)]
+%		\item \begin{itemize}
+%			\item[($\Rightarrow$)] Let $\lambda=\sup S$. Let $\varepsilon>0$. Suppose that \[
+%			\lnot[\exists x_\varepsilon\in S\ \text{s.t.}\ \lambda-\varepsilon<x_\varepsilon],\quad\ie,\quad[\forall x_\varepsilon\in S,\ x_\varepsilon\leq\lambda-\varepsilon].
+%			\] Then $\lambda-\varepsilon$ be an upper bound of $S$. Since $\varepsilon>0$, we have $\lambda-\varepsilon<\lambda$. It contradicts to the assumption that $\lambda$ is the \textit{least} upper bound of $S$. Thus \[
+%			\exists x_\varepsilon\in S\ \text{s.t.}\ \lambda-\varepsilon< x_\varepsilon.
+%			\] Since $x_\varepsilon\in S$ and $\lambda$ is an upper bound of $S$,  $x_\varepsilon\leq\lambda$ holds.
+%			\vspace{20pt}
+%			\item[($\Leftarrow$)] Let the RHS holds. We claim that $\lambda$ is the \textit{least} upper bound of $S$:\par
+%				\begin{center}
+%				\input{../tikz/grad-math-tikz/grad-math-3-pro1-1}
+%				\end{center}
+%				Assume, for contradiction, that there exists a smaller upper bound $\mu\in\R$ s.t. $\mu<\lambda$.\par
+%				Let $\varepsilon=\lambda-\mu>0$. Then \[
+%				\exists x_\varepsilon\in S\ \text{such that}\ \lambda-\varepsilon <x_\epsilon\leq\lambda,
+%				\] and so \[
+%				\mu=\lambda-\varepsilon <x_\varepsilon\leq\lambda\implies \mu <x_\varepsilon\leq\lambda.
+%				\] It contradicts to the assumption that $\mu$ is an upper bound of $S$. Thus, $\lambda$ be the least upper bound of $S$.
+%		\end{itemize}
+%		\newpage
+%		\item \begin{itemize}
+%			\item[($\Rightarrow$)] Let $\gamma=\inf T$. Let $\varepsilon>0$. Suppose that \[
+%			\lnot[\exists x\in T\ \text{s.t.}\ x<\gamma+\varepsilon],\quad\ie,\quad[\forall x\in T,\ \gamma+\varepsilon\leq x].
+%			\] Then $\gamma+\varepsilon$ be a lower bound of $T$. Since $\varepsilon>0$,  we have $\gamma<\gamma+\varepsilon$. It contradicts to the assumption that $\gamma$ is the \textit{greatest} lower bound of $T$. Thus, \[
+%			\exists x_\varepsilon\in T\ \text{s.t.}\ x_\varepsilon<\gamma+\varepsilon.
+%			\]
+%			Since $x_\varepsilon\in T$ and $\gamma$ is a lower bound of $T$, $\gamma\leq x_\varepsilon$ holds.
+%			\vspace{10pt}
+%			\item[($\Leftarrow$)] Let the RHS holds. We claim that $\gamma$ is the \textit{greatest} lower bound of $T$:\par
+%				\begin{center}
+%					\input{../tikz/grad-math-tikz/grad-math-3-pro1-2}
+%				\end{center}
+%				Assume, for contradiction, that there exists a greater lower bound $\gamma<\mu$.\par
+%				Let $\varepsilon=\mu-\gamma>0$. Then \[
+%				\exists x_\varepsilon\in T\ \text{such that}\ \gamma\leq x_\varepsilon<\gamma+\varepsilon,
+%				\] and so $ \gamma \leq x_\varepsilon<\mu$. It contradicts to the assumption that $\gamma$ is an lower bound of $T$. Thus, $\gamma$ be the greatest lower bound of $T$.
+%		\end{itemize}
+%	\end{enumerate}
+\end{proof}
+\vfill
+\begin{remark*}
+	See \hyperlink{pro2}{\bf Approximation Property for Supremum and Infinum II}.
+\end{remark*}
+
+\newpage
+\axiombox[Least Upper Bound Property (Completeness Axiom) of Real Number]{\begin{axiom*}
+	Every non-empty subset of $\R$ that is bounded above has the \underline{supremum} in $\R$.
+\end{axiom*}}
+\begin{example*}
+	$\Q$ does NOT hold completeness axiom. We already showed that $\set{x\in\Q:x>0,\ x^2<2}$ has NO supremum in $\Q$.
+\end{example*}
+\vspace{40pt}
+\axiombox[Infimum Property]{\begin{axiom*}
+	Every non-empty subset of $\R$ that is bounded below has the \underline{infimum} in $\R$.
+\end{axiom*}}
+
+\newpage
+\section{Well-Ordering Principle and Mathematical Induction}
+\axiombox[Well-Ordering Principle (Principle of the Least Element)]{\begin{axiom*}
+	\hypertarget{wop}{Every non-empty subset $S$ of $\N$ has a least element, \ie, \[
+	\varnothing\neq S\subseteq\N\implies\exists n\in S\ \text{s.t.}\ \forall k\in S,\ n\leq k.
+	\] In other words, $[\varnothing\neq S\subseteq\N\Rightarrow\exists n\in S\ \text{s.t.}\ n=\min(S)$].}
+\end{axiom*}}
+\begin{remark*}[general version]
+	\textcolor{gray!50}{$\varnothing\neq S\subseteq\Z_{\geq n_0}\implies\exists n\in S\ \text{s.t.}\ n=\min S\geq n_0$.}
+\end{remark*}
+%\begin{proof}
+%	Since $\emptyset\neq S\subseteq\mathbb{N}$, we have $-S\subseteq\mathbb{Z}$. Then $-1$ be an upper bound of $-S$, that is, $-S$ is bounded above. By the completeness axiom of $\mathbb{R}$, $\exists\sup(-S)\in\mathbb{R}$. Moreover, $\sup(-S)\in -S$ because $-S\subseteq\mathbb{Z}$. By the reflection principal, $\exists -\sup(-S)=\inf(S)\in -(-S)=S$.
+%\end{proof}
+\vfill
+\axiombox[Principle of Mathematical Induction]{\begin{axiom*}
+	\hypertarget{mi}{Suppose that $S\subseteq\N$ satisfies the following two conditions: \begin{enumerate}
+		\item (Basic Step) $1\in S$, and
+		\item (Inductive Step) $n\in S\implies n+1\in S$.
+	\end{enumerate} Then $S=\N$.}
+\end{axiom*}}
+\begin{remark*}[general version]
+	\textcolor{gray!50}{Let $n_0\in\Z$ be given, and let $S\subseteq\Z_{\geq n_0}$. Suppose that $S$ satisfies the following two conditions: \begin{enumerate}
+		\item (Basic Step) $n_0\in S$, and
+		\item (Inductive Step) $\forall n\in\Z_{\geq n_0}: [n\in S\implies n+1\in S]$.
+	\end{enumerate} Then $\forall n\in\Z_{\geq n_0}:n\in S$, \ie, $S=\Z_{\geq n_0}$.}
+\end{remark*}
+\vfill
+\begin{remark*}
+	To show that a mathematical statement $P(n)$ (property for $n$) holds for $n\in\N$, simply verify that the set \[
+	S:=\set{n\in\N:P(n)\ \text{holds}}
+	\] satisfies the following conditions: \begin{enumerate}[(\text{Step} 1)]
+		\item Show that $P(1)$ holds.
+		\item Show that $P(n+1)$ holds with the assumption $P(n)$ holds.
+	\end{enumerate}
+\end{remark*}
+%\begin{example}
+%	Show that \[
+%	1+2+\cdots+n=\frac{n(n+1)}{2}
+%	\] for all $n\in\ N$.
+%	\begin{proof}[\sol]
+%	\ \begin{enumerate}[(\text{Step} 1)]
+%		\item (Basic Step) Let $n=1$. Then \[
+%		\text{RHS}=1=\text{RHS}.
+%		\]
+%		\item (Inductive Step) Suppose that $1+2+\cdots k=\frac{k(k+1)}{2}$ for $n=k$. Then \[
+%		1+2+\cdots+k+1=\frac{(k+1)(k+2)}{2}.
+%		\]
+%	\end{enumerate}
+%	\end{proof}
+%\end{example}
+
+\newpage
+\thmbox[Equivalence of Well-Ordering Principle and Induction]{\begin{theorem*}
+	\ \begin{center}
+	The \hyperlink{wop}{Well-Ordering Principle} and \hyperlink{mi}{Principle of Mathematical Induction} are equivalent.
+	\end{center}
+\end{theorem*}}
+\begin{proof}
+%	\textbf{(WOP $\Rightarrow$ MI)}\ Let $S\subseteq\N$ satisfy the followings: (i) $1\in S$ and (ii) $k\in S\Rightarrow k+1\in S$. We want to establish that $S=\N$ by the Well-Ordering Principle (WOP). \par
+%	Assume for contradiction that $S\neq\N$. Then $S\subsetneq\N$, which means $\N\setminus S\neq\emptyset$. By the WOP, \[
+%	\exists m\in\N\setminus S\ \text{s.t.}\ m=\min(\N\setminus S).
+%	\] Since $1\in S$, we have $1\notin\N\setminus S$, so $m\neq 1$ and thus $m>1$ (or $m\geq 2$). 
+%	\begin{center}
+%	\input{../tikz/grad-math-tikz/grad-math-3-WOP2MI}
+%	\end{center}
+%	Then \[
+%		m=\min(\N\setminus S)\overset{\textcolor{red}{\text{by minimality of}\ m}}{\implies} m-1\notin\N\setminus S \implies m-1\in S
+%		\overset{\text{by (ii)}}{\implies} m\in S\ \text{\Large\lightning}.
+%	\] Hence $S=\N$.\\
+%	\ \\
+%	\noindent \textbf{(MI $\Rightarrow$ WOP)}\ Suppose that $\varnothing\neq S\subseteq\N$ has no least element. Define the set $T\subseteq\N$ by \[
+%	T:=\set{n\in\N:1,2,3,\dots,n\notin S}.
+%	\]  For example, if $3\in T$ then $1,2,3\notin S$; conversely, if $1,2,3\notin S$ then $3\in T$. We claim that $T$ satisfies the condition of MI: \begin{enumerate}[(i)]
+%		\item (Basic Step) Since $S$ has no least element, $1\notin S$. Therefore, $1\in T$.
+%		\item (Inductive Step) Suppose that $k\in T$. This means that $1,2,\dots, k\notin S$. Since $S$ has no least element, $k+1\notin S$ (otherwise $k+1$ would be a least element of $S$). Therefore \[
+%		1,2,\dots,k,k+1\notin S,\ \ie,\ k+1\in T.
+%		\]
+%	\end{enumerate}
+%	By the Principle of Mathematical Induction, we have $T=\N$. It follows that no natural number is in $S$, which contradicts $S\neq\varnothing$. Hence it is proved.
+\ \vfill
+\end{proof}
+
+\newpage
+\section{Archimedean Principle}
+\thmbox[Archimedean Property (The Unboundedness of Natural Numbers)]{\begin{theorem*}
+	Let $x\in\R$. Then \[
+	\exists n\in\N\ \text{such that}\ x < n.
+	\]
+\end{theorem*}}
+\begin{center}
+\input{../tikz/grad-math-tikz/grad-math-3-archi}
+\end{center}
+\begin{proof}
+{\color{white}Assume, for contradiction, that \[
+\forall n\in\N,\ n\leq x.
+\] That is $\N\subseteq\R$ is bounded above by $x\in\R$. \underline{By the completeness axiom of $\R$}, \[
+\exists\sup\mathbb{N}=:s\in\mathbb{R}.
+\] 
+%By \hyperlink{pro1}{\textbf{Proposition 1}}, 
+for $\varepsilon=1>0$, $\exists n\in\mathbb{N}$ s.t. $s-1<n$. Then \[
+s-1<n\implies s<n+1\overset{n+1\in\N}{\implies}s<n+1\leq\sup\N=s\ \text{\Large\lightning}.
+\]}
+\end{proof}
+\vfill
+\corbox{\begin{corollary*}
+	Let $x,y\in\R$ with $x>0$. Then $\exists n\in\N\ \text{such that}\ y<n\cdot x$.
+\end{corollary*}}
+\begin{center}
+\input{../tikz/grad-math-tikz/grad-math-3-archi2}
+\end{center}
+\begin{proof}
+{\color{white}	Since $\R$ is a field, we know $\frac{y}{x}\in\R$. By the Archimedean property, \[
+	\exists n\in\N\ \text{such that}\ \frac{y}{x}<n,\ \ie,\ y<n\cdot x.
+	\]}
+\end{proof}
+\corbox{\begin{corollary*}
+$\forall\varepsilon>0,\ \exists n\in\N\ \text{such that}\ \frac{1}{n}<\varepsilon$.
+\end{corollary*}}
+\begin{center}
+	\input{../tikz/grad-math-tikz/grad-math-3-archi3}
+\end{center}
+\begin{proof}
+{\color{white}	For $\varepsilon\in\R^+$ and $1\in\R$, by Archimedean property, we have \[
+	\exists n\in\N\ \text{such that}\ 1<\varepsilon\cdot n,\ \ie, \frac{1}{n}<\varepsilon.
+	\]}
+\end{proof}
+%\begin{remark*}
+%Let $x=\varepsilon>0$ and $y=1$. By Archimedean Property, \[
+%\exists n\in\N\ \text{such that}\ 1<\varepsilon\cdot n\ \left(\Leftrightarrow \frac{1}{n}<\varepsilon\right).
+%\]
+%\end{remark*}
+\vfill
+\begin{note}[Archimedean Property in Number Theory]
+	Let $a,b\in\mathbb{N}$. Then $
+	\exists n\in\mathbb{N}\ \text{such that}\ b< na$.
+%	\begin{tikzpicture}
+%		% Draw the number line
+%		\draw[->] (-1, 0) -- (10, 0) node[right] {$\mathbb{R}$};
+%		
+%		% Label points along the number line at multiples of a
+%		\foreach \n in {1, 2, 3, 4, 5, 6, 7, 8}
+%		\draw (\n, 0.1) -- (\n, -0.1) node[below] {\small $\n a$};
+%		
+%		% Mark the point b
+%		\draw[fill=black] (3.5, 0) circle (0.05) node[above] {$b$};
+%		
+%		% Mark a point for n*a where b < n * a
+%		\draw[fill=black] (6, 0) circle (0.05) node[above] {$n \cdot a$};
+%		
+%		% Draw inequality arrow for b < n * a
+%		\draw[thick, ->] (3.6, 0.3) -- (5.9, 0.3) node[midway, above] {$b < n \cdot a$};
+%		
+%	\end{tikzpicture}
+	\begin{proof}
+	\textcolor{gray!50}{Suppose that $
+	\exists a,b\in\mathbb{N}$ such that \[
+	\forall n\in\N, na\leq b.
+	\] Define a set $S$ by \[
+	S:=\set{b-na\geq 0:n\in\mathbb{N}}\subseteq\Z_{\geq 0}.
+	\] \underline{By the well-ordering principle}, $\exists s:=\min S$. Since $s=\min S\in S$, we have\[
+	s=b-ma\ \text{for some}\ m\in\mathbb{N}.
+	\] Since $m+1\in\N$ also, we have  $b-(m+1)a\in S$, and so \begin{align*}
+		{b-(m+1)a}&=b-ma-a\\
+		& {<}\ b-ma\quad\because a\in\N, \ie, a > 0\\
+		& ={\min S}\ \text{\Large\lightning}.
+	\end{align*} Hence it is proved. }
+	\end{proof}	
+\end{note}
+
+\newpage
+\probox[Approximation Property for Supremum and Infinum II]{\begin{proposition}
+\ \hypertarget{pro2}{\begin{enumerate}[(1)]
+		\item Let $\varnothing\neq S\subseteq\R$ which is bounded above, and let $\lambda$ be an upper bound of $S$ in $\R$. \begin{align*}
+			\lambda=\sup S &\iff \forall\varepsilon>0,\ \exists x_\varepsilon\in S\ \text{s.t.}\ \lambda-\varepsilon<x_\varepsilon\leq\lambda \\
+			&\iff \forall n\in\N,\ \exists x_n\in S\ \text{s.t.}\ \lambda-\frac{1}{n}<x_n\leq\lambda.
+		\end{align*}
+		\item Let $\varnothing\neq T\subseteq\R$ which is bounded below, and let $\gamma$ be a lower bound of $T$ in $\R$. \begin{align*}
+		\gamma=\inf T\in\R &\iff\forall\varepsilon>0,\ \exists x_\varepsilon\in T\ \text{s.t.}\ \gamma\leq x_\varepsilon<\gamma+\varepsilon \\
+		&\iff\forall n\in\N,\ \exists x_n\in T\ \text{s.t.}\ \gamma\leq x_n<\gamma+\frac{1}{n}.
+		\end{align*}
+\end{enumerate}}
+\end{proposition}}
+\begin{proof}
+%\begin{enumerate}[(1)]
+%	\item We NTS that \[
+%	[\forall\varepsilon>0,\ \exists x_\varepsilon\in S\ \text{s.t.}\ \lambda-\varepsilon<x_\varepsilon\leq\lambda]
+%	\iff [\forall n\in\N,\ \exists x_n\in S\ \text{s.t.}\ \lambda-\frac{1}{n}<x_n\leq\lambda].
+%	\] \begin{itemize}
+%		\item[($\Rightarrow$)] Assume that the LHS holds. Let $n\in\N$. Since $1/n>0$, we can take $\varepsilon=1/n$ for each $n\in\N$. By assumption, for this choice of $\varepsilon$, \[
+%		\exists x_n\in S\ \text{s.t.}\ \lambda-\frac{1}{n}< x_n\leq\lambda.
+%		\]
+%		\item[($\Leftarrow$)] Assume that the RHS holds. 
+%		\begin{center}
+%		\input{../tikz/grad-math-tikz/grad-math-3-pro2-1}
+%		\end{center}
+%		Let $\varepsilon>0$. By Archimedean property, $\exists n\in\N\ \text{s.t.}\ \frac{1}{n}<\varepsilon.$ By assumption, for this $n$, \[
+%		\lambda-\frac{1}{n}< x_n\leq\lambda.
+%		\] Since $1/n<\varepsilon$, we have $\lambda-\varepsilon<\lambda-\frac{1}{n},$ and so \[
+%			\lambda-\varepsilon<\lambda-\frac{1}{n}<x_n\leq\lambda,\ \text{\ie},\ \lambda-\varepsilon< x_n\leq\lambda.
+%		\] Letting $x_n=x_\varepsilon$, we see that such an $x_\varepsilon\in S$ exists for any $\varepsilon>0$.
+%	\end{itemize}
+%	\item We NTS that \[
+%	[\forall\varepsilon>0,\ \exists x_\varepsilon\in T\ \text{s.t.}\ \gamma\leq x_\varepsilon<\gamma+\varepsilon]
+%	\iff[\forall n\in\N,\ \exists x_n\in T\ \text{s.t.}\ \gamma\leq x_n<\gamma+\frac{1}{n}].
+%	\] \begin{itemize}
+%		\item[($\Rightarrow$)] Assume that the LHS holds. Let $n\in\N$. Since $1/n>0$, we can take $\varepsilon=1/n$ for each $n\in\N$. By assumption, for this choice of $\varepsilon$, \[
+%		\exists x_n\in T\ \text{s.t.}\ \gamma\leq x_n< \gamma+\varepsilon.
+%		\]
+%		\item[($\Leftarrow$)] Assume that the RHS holds. 
+%		\begin{center}
+%		\input{../tikz/grad-math-tikz/grad-math-3-pro2-2}
+%		\end{center}
+%		Let $\varepsilon>0$. By Archimedean property, $\exists n\in\N\ \text{s.t.}\ \frac{1}{n}<\varepsilon$. By assumption, for this $n$, \[
+%		\gamma\leq x_n<\gamma+\frac{1}{n}.
+%		\] Since $1/n<\varepsilon$, we have $\gamma+\frac{1}{n}<\gamma+\varepsilon$, and so \[
+%		\gamma\leq x_n<\gamma+\frac{1}{n}<\gamma+\varepsilon,\ \text{\ie},\ \gamma\leq x_n<\gamma+\varepsilon.
+%		\] Letting $x_n=x_\varepsilon$, we see that such an $x_\varepsilon\in T$ exists for any $\varepsilon>0$.
+%	\end{itemize}
+%\end{enumerate}
+\ \vfill
+\end{proof}
+\begin{remark*}
+	See \hyperlink{pro1}{\bf Approximation Property for Supremum and Infinum I}.
+\end{remark*}
+\newpage
+\thmbox[Density of the Rationals]{\begin{theorem*}
+	Let $a,b\in\mathbb{R}$. \[
+	a<b\implies \exists q\in\mathbb{Q}\ \text{such that}\ a<q<b.
+	\]
+\end{theorem*}}
+\begin{proof}
+Let $a,b\in\mathbb{R}$. Suppose that $a<b$. 
+\begin{center}
+	\adjustbox{scale=.75}{\input{../tikz/grad-math-tikz/grad-math-3-density}}
+\end{center} 
+%We consider the following two cases: 
+%\begin{enumerate}[(\text{Case} I)]
+%	\item ($0\leq a$) Since $b-a>0$, we have $\frac{1}{b-a}\in\R$. By the \textcolor{red}{Archimedean property}, \[
+%	\exists \textcolor{red}{n}\in\mathbb{N}\quad \text{s.t.}\quad \frac{1}{b-a}<n,\ \text{\ie},\ na+1< nb.
+%	\] Clearly $na\in\R$. Define a set $A$ by \[
+%	A:=\set{k\in\N:na<k}\subseteq\mathbb{N}.
+%	\] By the Archimedean property, $\exists k\in\mathbb{N}$ such that $na<k$. That is, $A\neq\emptyset$. By the \textcolor{cyan}{well-ordering principle}, $\exists \textcolor{cyan}{m}=\min A$. By the minimality of $m$, we know $m-1\notin A$, \ie, $m-1\leq na$, and so $m\leq na+1$. Thus, we obtain \[
+%	na\overset{m\in A}{<}m\leq na+1\overset{\text{by A.P.}}{<}nb.
+%	\] Therefore \[
+%	na<m<ny\implies a<\frac{m}{n}<b.
+%	\] Thus, $q:=\frac{\textcolor{cyan}{m}}{\textcolor{red}{n}}\in\Q$ satisfies $a<q<b$.
+%	\item ($a<0$) Note that $-a\in\R^+$. By the Archimedean property, \[
+%	\exists n\in\mathbb{N}:-a<n,\ \text{\ie},\ 0<a+n.
+%	\] By (Case I), we have \[
+%	\exists q\in\mathbb{Q}: a+n<q<b+n
+%	\] since $0<a+n<b+n$. Let $q'=q-n\in\mathbb{Q}$. Then $a<q'<b$.
+%\end{enumerate}
+\vfill
+\end{proof}
+%\vfill
+%\begin{thebibliography}{9}
+%	\bibitem{advanced_calc_a}
+%	수학의 즐거움, Enjoying Math. ``수학 공부, 기초부터 대학원 수학까지, 4. 해석학 개론 (a) 완비성 공리.'' YouTube Video, 32:20. Published 
+%	September 09, 2019. URL: \url{https://www.youtube.com/watch?v=pHIImTBdBRs}.
+%	\bibitem{advanced_calc_b}
+%	수학의 즐거움, Enjoying Math. ``수학 공부, 기초부터 대학원 수학까지, 5. 해석학 개론 (b) 유리수의 조밀성와 실수, 자연수 공리'' YouTube Video, 30:51. Published 
+%	September 11, 2019. URL: \url{https://www.youtube.com/watch?v=RYjhQyXxTpQ&t=2s}.
+%\end{thebibliography}
+
+\newpage
+\appendix
+\section{Axioms of the Real Numbers}
+%\begin{center}
+%\begin{tikzpicture}
+%	% Define positions of axioms and the real number
+%	\node[draw, rectangle, minimum width=2cm, minimum height=1cm, fill=blue!10] (Field) at (0, 3) {Field Axiom};
+%	\node[draw, rectangle, minimum width=2cm, minimum height=1cm, fill=green!10] (Order) at (-3, 1.5) {Order Axiom};
+%	\node[draw, rectangle, minimum width=2cm, minimum height=1cm, fill=red!10] (Completeness) at (3, 1.5) {Completeness Axiom};
+%	
+%	% Draw the target "Real Number System" node
+%	\node[draw, ellipse, minimum width=3cm, minimum height=1cm, fill=yellow!20] (RealNumber) at (0, 0) {\(\mathbb{R}\) (Real Numbers)};
+%	
+%	% Connect each axiom to the Real Number System
+%	\draw[->, thick] (Field) -- (RealNumber);
+%	\draw[->, thick] (Order) -- (RealNumber);
+%	\draw[->, thick] (Completeness) -- (RealNumber);
+%\end{tikzpicture}
+%\end{center}
+\begin{center}\resizebox{\textwidth}{!}{
+\begin{tikzpicture}[>=Stealth]
+	% Define positions for axioms and examples of failure without them
+	\node[draw, rectangle, minimum width=3.5cm, minimum height=1cm, fill=blue!15] (Field) at (1, 7) {Field Axiom};
+	\node[draw, rectangle, minimum width=3.5cm, minimum height=1cm, fill=green!15] (Order) at (1, 4) {Axiom of Order};
+	\node[draw, rectangle, minimum width=3.5cm, minimum height=1cm, fill=red!15] (Completeness) at (1, 1) {Completeness Axiom};
+	
+	% Define basic principles of each axiom
+	\node[align=center] at (1, 5.75) {Defines $+$ and $\times$\\ operations};
+	\node[align=center] at (1, 2.75) {Establishes order:\\$a=b$, $a < b$ or $b < a$};
+	\node[align=center] at (1, -.25) {Ensures bounded sets\\have supremums};
+	
+	% Add visual examples of failures if each axiom is omitted
+	\node[draw, cloud, cloud puffs=20, cloud ignores aspect, minimum width=10cm, minimum height=2.5cm, fill=blue!30, align=center] (FailField) at (-7, 7) {$\mathbb{Q}$ lacks closure under $\sqrt{2}$};
+	\node[draw, cloud, cloud puffs=20, cloud ignores aspect, minimum width=10cm, minimum height=2.5cm, fill=green!30, align=center] (FailOrder) at (-7, 4) {Complex numbers lack $<$ order};
+	\node[draw, cloud, cloud puffs=20, cloud ignores aspect, minimum width=4cm, minimum height=2.5cm, fill=red!30, align=center] (FailCompleteness) at (-7, 1) {$\{x \in \mathbb{Q}^+ \mid x^2 < 2\}$ has no supremum in $\Q$};
+	
+	% Draw the Real Numbers
+	\node[draw, ellipse, minimum width=4.5cm, minimum height=1.2cm, fill=yellow!20] (RealNumber) at (6, 4) {\(\mathbb{R}\) (Real Numbers)};
+	
+	% Connect each axiom to Real Numbers and show necessity
+	\draw[->, thick, in=180, out=0, blue!85] (Field) to (RealNumber);
+	\draw[->, thick, in=180, out=0, green!85] (Order) to (RealNumber);
+	\draw[->, thick, in=180, out=0, red!85] (Completeness) to (RealNumber);
+	
+	% Draw arrows from failure examples to each axiom
+	\draw[->, dashed, blue!85] (FailField) -- (Field);
+	\draw[->, dashed, green!85] (FailOrder) -- (Order);
+	\draw[->, dashed, red!85] (FailCompleteness) -- (Completeness);
+\end{tikzpicture}}
+\end{center}
+\noindent
+The following axioms define the real numbers \(\mathbb{R}\) as a complete ordered field.
+
+\subsection{Field Axioms}
+
+\subsubsection*{Addition:}
+\begin{enumerate}
+	\item \textbf{Closure under addition}: $\forall a, b \in \mathbb{R}, \ a + b \in \mathbb{R}$
+	\item \textbf{Associativity of addition}:$\forall a, b, c \in \mathbb{R}, \ (a + b) + c = a + (b + c)$
+	\item \textbf{Commutativity of addition}:$\forall a, b \in \mathbb{R}, \ a + b = b + a$
+	\item \textbf{Existence of additive identity}: $
+	\exists 0 \in \mathbb{R} \ \text{such that} \ \forall a \in \mathbb{R}, \ a + 0 = a$
+	\item \textbf{Existence of additive inverses}: $
+	\forall a \in \mathbb{R}, \ \exists -a \in \mathbb{R} \ \text{such that} \ a + (-a) = 0$
+\end{enumerate}
+\subsubsection*{Multiplication:}
+\begin{enumerate}
+	\item \textbf{Closure under multiplication}: $\forall a, b \in \mathbb{R}, \ a \cdot b \in \mathbb{R}$
+	\item \textbf{Associativity of multiplication}: $
+	\forall a, b, c \in \mathbb{R}, \ (a \cdot b) \cdot c = a \cdot (b \cdot c)$
+	\item \textbf{Commutativity of multiplication}: $
+	\forall a, b \in \mathbb{R}, \ a \cdot b = b \cdot a$
+	\item \textbf{Existence of multiplicative identity}: $
+	\exists 1 \in \mathbb{R}, 1 \neq 0, \ \text{such that} \ \forall a \in \mathbb{R}, \ a \cdot 1 = a$
+	\item \textbf{Existence of multiplicative inverses}: $
+	\forall a \in \mathbb{R}, a \neq 0, \ \exists a^{-1} \in \mathbb{R} \ \text{such that} \ a \cdot a^{-1} = 1$
+\end{enumerate}
+\subsubsection*{Distributive law:}
+\begin{enumerate}
+	\item \textbf{Distributivity of multiplication over addition}: $
+	\forall a, b, c \in \mathbb{R}, \ a \cdot (b + c) = a \cdot b + a \cdot c$
+\end{enumerate}
+\vspace{20pt}
+\subsection{Axiom of Order}
+A relation $<$ defined on $\R$ satisfy the followings:
+\begin{enumerate}
+	\item \hypertarget{trichotomy}{\textbf{Trichotomy}: 
+	For $a,b\in\R$, \underline{exactly one} of the following holds: \[
+	a=b,\quad a < b,\quad \text{or}\quad b < a.
+	\]}
+	\item \textbf{Transitivity}: For $a,b,c\in\R$,
+	\[a < b \ \text{and} \ b < c \implies a < c\]
+	\item \textbf{Additive compatibility}: For $a,b,c\in\R$,
+	\[a < b \implies a + c < b + c\]
+	\item \textbf{Multiplicative compatibility}: For $a,b\in\R$ and $c\in\R^+$,
+	\[a < b \implies a \cdot c < b \cdot c\]
+\end{enumerate}
+\vspace{20pt}
+\subsection{Completeness Axiom}
+\textbf{The least upper bound property} (or \textbf{supremum property}): 
+\[
+\forall S\subseteq \mathbb{R}, \ S \neq \emptyset, \ \text{if} \ S \ \text{is bounded above}\ \text{then}\ \exists \sup(S) \in \mathbb{R}
+\]
+
+\newpage
+\section{Application of Well-Ordering Principle}
+\thmbox{\begin{theorem*}
+	$\sqrt{2}$ is irrational, \ie, $\sqrt{2}\in\R\setminus\Q$.
+\end{theorem*}}
+\begin{proof}
+	Suppose $\sqrt{2}\in\Q$. That is, $\exists p,q\in\N$ s.t. $p\sqrt{2}=q$. Define a set $S$ by \[
+	S:=\set{k\sqrt{2}\in\N:k\in\N}\subseteq\N.
+	\] Since $p\sqrt{2}=q\in\N$, we have $S\neq\varnothing$. By the Well-Ordering Principle, \[
+	\exists s=\min (S)\in S.
+	\] Then $s=t\sqrt{2}$ for some $t\in\N$. Define a number \[
+	r:=s\sqrt{2}-s.
+	\] \begin{enumerate}[(\text{Claim} 1)]
+		\item $r\in S$: \begin{align*}
+			r&=s\sqrt{2}-s\\
+			&=s\sqrt{2}-t\sqrt{2}\\
+			&=(s-t)\sqrt{2}\\
+			&\in S &\because s=t\sqrt{2}>t\Rightarrow s-t>0\Rightarrow s-t\in\N.
+		\end{align*}
+		\item $r<s = \min(S)$: \begin{align*}
+			r&=s\sqrt{2}-s\\
+			&=s(\sqrt{2}-1)\\
+			&<s=\min S &\because s\in\N\ \text{and}\ 1<\sqrt{2}<2\Rightarrow 0<\sqrt{2}-1<1.
+		\end{align*}
+	\end{enumerate}
+	It is a contradiction. Hence $\sqrt{2}\notin\Q$.
+\end{proof}
+\newpage
+\section{The 2nd Principle of Mathematical Induction}
+\thmbox[The 2nd Principle of Mathematical Induction]{\begin{theorem*}\hypertarget{mi-2nd}{
+Suppose that $T\subseteq\N$ satisfies the following two conditions: \begin{enumerate}
+	\item (Basic Step) $1\in T$, and
+	\item (Inductive Step) $1,2,\dots n\in T\implies n+1\in T$.
+\end{enumerate} Then $T=\N$.}
+\end{theorem*}}
+\begin{proof}
+	We use the first principle of mathematical induction. Define the set $T'$ by \[
+	T':=\set{n\in\N:1,2,\dots,n\in T}\subseteq\N.
+	\] For example, if $1,2,3\in T$ then $3\in T'$; conversely, if $3\in T'$ then $1,2,3\in T$. Since $n\in T'\Rightarrow n\in T$, we have $T'\subseteq T\subseteq\N$. We claim that $T'$ satisfies the condition of MI: \begin{enumerate}[(i)]
+		\item (Basic Step) Clearly $1\in T'$.
+		\item (Inductive Step) Suppose that $k\in T'$. This means that $1,2,\dots k\in T$. By condition 2, \[
+		1,2,\dots,k,k+1\in T,\ \ie,\ k+1\in T'.
+		\]
+	\end{enumerate}  
+	Therefore by the first principle of mathematical induction, $T'=\N$. That is, \[
+	\N=T'\subseteq T\subseteq\N\implies T=\N.
+	\] Hence it is proved.
+\end{proof}
+\vfill
+\begin{remark*}
+	To show that a mathematical statement \( P(n) \) (property for \( n \)) holds for \( n \in \mathbb{N} \), verify that the set
+	\[
+	S := \{ n \in \mathbb{N} : P(n) \text{ holds} \}
+	\]
+	satisfies the following conditions:
+	\begin{enumerate}[(\text{Step} 1)]
+		\item Show that \( P(1) \) holds.
+		\item Show that \( P(n+1) \) holds assuming \( P(k) \) holds for all \( k \leq n \).
+	\end{enumerate}
+\end{remark*}
+\end{document}

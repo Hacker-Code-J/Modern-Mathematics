@@ -116,21 +116,26 @@ The `grad-math-full` directory contains detailed documents for graduate-level ma
 <li>Linear Transformation</li>
 <li>Vector Space Isomorphism (Linear Isomorphism)</li>
 <li>Classification of Vector Space (up to Isomorphism)</li>
-<li>Matrix Representation of a Linear Transformation}</li>
+<li>Matrix Representation of a Linear Transformation</li>
 <li>TBA</li>
 </ul>
 </details>
 
 <details>
-<summary><strong>grad-math-10.tex/pdf</strong>: Linear Algebra to Abstract Algebra (TBA) </summary>
+<summary><strong>grad-math-10.tex/pdf</strong>: Linear Algebra to Abstract Algebra</summary>
 <ul>
-<li>TBA</li>
+<li>Subspace; Span</li>
+<li>Subgroup</li>
+<li>Homomorphism; Monomorphism; Epimorphism</li>
+<li>Isomorphism</li>
+<li>Kernel and Image</li>
 </ul>
 </details>
 
 <details>
-<summary><strong>grad-math-11.tex/pdf</strong>: Abstract Algebra I (TBA) </summary>
+<summary><strong>grad-math-11.tex/pdf</strong>: Abstract Algebra I</summary>
 <ul>
+<li>Cyclic Group<li>
 <li>TBA</li>
 </ul>
 </details>
