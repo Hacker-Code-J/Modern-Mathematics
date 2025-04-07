@@ -49,39 +49,207 @@ Let \( (G, \ast) \) be a group with identity element \( e \). Recall that the ax
 	\item $\exists\, e \in G,\; \text{s.t.}\; \forall\, x \in G,\; e \cdot x = x \cdot e = x$;
 	\item $\forall\, x \in G,\; \exists\, x^{-1} \in G\; \text{s.t.}\; x \cdot x^{-1} = x^{-1} \cdot x = e$.
 \end{enumerate}
-Consider \((\mathbb{Z},+)\) as the additive group of integers. For \( a \in G \) and \( n \in \mathbb{Z} \), the notation
-\[
-a^n \coloneqq
-\begin{cases}
-	\underbrace{a \ast a \ast \cdots \ast a}_{n \text{ times}} &: n > 0, \\
-	e &: n = 0, \\
-	(a^{-1})^{-n}&: n < 0,
-\end{cases}
-\]
-defines the \( n \)-th power of \( a \).
+%Consider \((\mathbb{Z},+)\) as the additive group of integers. For \( a \in G \) and \( n \in \mathbb{Z} \), the notation
+%\[
+%a^n \coloneqq
+%\begin{cases}
+%	\underbrace{a \ast a \ast \cdots \ast a}_{n \text{ times}} &: n > 0, \\
+%	e &: n = 0, \\
+%	(a^{-1})^{-n}&: n < 0,
+%\end{cases}
+%\]
+%defines the \( n \)-th power of \( a \).
 \end{note}
 \defbox[Cyclic Group]{\begin{definition*}
 	A group $G$ is said to be \textbf{cyclic} if and only if \[
 	\exists\, a \in G \;\text{such that}\; \Bigl[\, \forall\, g \in G,\; \exists\, n \in \mathbb{Z} \text{ with } g = a^n \Bigr].
 	\] The element \( a \) is called a \textbf{generator} of \( G \).
 \end{definition*}}
-
-\thmbox[The Classification for Cyclic Groups]{\begin{theorem*}
-Let \(G\) be a cyclic group. Then
-\[
-G \simeq
+\begin{remark*}
+	The notation \(a^n\) (or $na$) is understood in the group-theoretic sense, \[
+	a^n \coloneqq
+	\begin{cases}
+		\underbrace{a \ast a \ast \cdots \ast a}_{n \text{ times}} &: n > 0, \\
+		e_G &: n = 0, \\
+		(a^{-1})^{-n}&: n < 0,
+	\end{cases}\quad\text{or}\quad	
+na \coloneqq
 \begin{cases}
-	\mathbb{Z} & \text{if } G \text{ is infinite,} \\
-	\mathbb{Z}/n\mathbb{Z} & \text{if } G \text{ is finite of order } n.
+\underbrace{a \ast a \ast \cdots \ast a}_{n \text{ times}} &: n > 0, \\
+e_G &: n = 0, \\
+(-n)(-a)&: n < 0.
 \end{cases}
-\] In other words, Every cyclic group $G$ is isomorphic to either $\mathbb{Z}$ or $\mathbb{Z}/n\mathbb{Z}$ for some $n \in \mathbb{N}$.	
+\]
+%	where for \(n \ge 0\), 
+%	\[
+%	a^n = \underbrace{a \ast a\ast \cdots \ast a}_{n\text{ factors}},
+%	\]
+%	and for \(n < 0\), 
+%	\[
+%	a^n = (a^{-1})^{-n}.
+%	\]
+\end{remark*}
+
+\newpage
+\thmbox[The Classification for Cyclic Groups]{\begin{theorem*}
+Let \((G,\ast)\) be a cyclic group. Then
+\[
+(G,\ast) \simeq
+\begin{cases}
+	(\mathbb{Z},+) & \text{if } G \text{ is infinite,} \\
+	(\mathbb{Z}/n\mathbb{Z},+_n) & \text{if } G \text{ is finite of order } n.
+\end{cases}
+\] In other words, every cyclic group $G$ is isomorphic to either $\mathbb{Z}$ or $\mathbb{Z}/n\mathbb{Z}$ for some $n \in \mathbb{N}$.	
 \end{theorem*}}
 \begin{proof}
-	Let \( G \) be a cyclic group and let \( a \in G \) be a generator. Define the mapping
+%	The structure of cyclic groups is completely determined by the order of any generator. 
+	Let \( a \in G \) be a generator of the cyclic group \(G\), \ie, $G=\gen{a}$. \\
+	\ \\ \noindent
+	(\textit{Multiplicative Version})
+	Define the mapping \[
+	\varphi : (\mathbb{Z}, +) \to (G, \ast),\quad n\mapsto \varphi(n) = a^n.
+	\] Let $a,b\in\Z$. Then, we have \[
+	\varphi(a+b)=g^{a+b}=g^a\ast g^b = \varphi(a)\ast\varphi(b).
+	\] Thus, \[
+	\forall a,b\in\Z,\quad\varphi(a+b)=\varphi(a)\ast\varphi(b).
+	\] This shows that $\varphi$ is a group homomorphism from $(\Z,+)$ into $(G,\ast)$.\ \\
+	\ \\ \noindent
+	(Case I) ($G$ is infinite)
+	
+	Assume that $G$ is infinite. We claim that $\varphi$ is bijective: \begin{enumerate}[(i)]
+		\item (Surjectivity)\; By definition of a cyclic group, every element \(h\in G\) is of the form \(h=g^k\) for some \(k\in \mathbb{Z}\). Hence, \[
+		\forall h\in G,\; \exists k\in\Z\; \text{s.t.}\; \varphi(k)=g^k = h.
+		\] Therefore, \(\varphi\) is surjective.
+		\item (Injectivity)\; Suppose \(\varphi(k)=\varphi(l)\) for some \(k,l\in \mathbb{Z}\). Then \begin{align*}
+			g^k=g^l&\implies g^{k-l}=e_G\\
+			&\implies k-l=0\\
+			&\implies k=l.
+		\end{align*}
+		Hence, \(\varphi\) is injective.
+	\end{enumerate}
+	Thus, \(\varphi\) is a bijective homomorphism, and we conclude that
 	\[
-	\varphi : (\mathbb{Z}, +) \to (G, \ast), \quad \varphi(n) = a^n.
+	(G,\ast) \simeq (\mathbb{Z},+).
 	\]
-	We now verify several properties of \(\varphi\).
+	(Case II)\; (\(G\) is Finite of Order \(n\))
+
+	Now assume that \(G\) is finite and that \(|G|=n\). Then by the definition of a cyclic group of finite order, there exists a minimal positive integer \(n\) such that
+\[
+g^n = e_G.
+\]
+We now show that for any \(k,\ell\in \mathbb{Z}\),
+\[
+g^k = g^\ell \quad \text{if and only if} \quad k\equiv \ell \ (\text{mod } n).
+\]
+
+1. **If \(k\equiv \ell\) modulo \(n\):**  
+Then there exists an integer \(t\) such that
+\[
+k = \ell + tn.
+\]
+Hence,
+\[
+g^k = g^{\ell + tn} = g^\ell \ast (g^n)^t = g^\ell \ast e_G^t = g^\ell.
+\]
+
+2. **Conversely, if \(g^k = g^\ell\):**  
+Then
+\[
+g^{k-\ell}=e_G.
+\]
+By the minimality of \(n\), it must be that \(n\) divides \(k-\ell\); that is,
+\[
+k-\ell = tn \quad \text{for some } t\in \mathbb{Z},
+\]
+which precisely means \(k\equiv \ell \ (\text{mod } n)\).
+
+Thus, the relation \(g^k = g^\ell\) holds if and only if \(k\) and \(\ell\) are congruent modulo \(n\).
+
+This observation motivates the definition of the mapping
+\[
+\psi: \mathbb{Z}/n\mathbb{Z} \to G,\quad \psi([k]) \coloneqq g^k,
+\]
+where \([k]\) denotes the equivalence class of \(k\) modulo \(n\).
+
+We now verify that \(\psi\) is a well-defined bijective homomorphism.
+
+- **Well-defined:**  
+If \(k \equiv \ell \ (\text{mod } n)\), then as shown above, \(g^k=g^\ell\). Hence, the value \(\psi([k])\) does not depend on the representative chosen.
+
+- **Homomorphism:**  
+Let \([k],[\ell]\in \mathbb{Z}/n\mathbb{Z}\). Then
+\[
+\psi([k]+[\ell]) = \psi([k+\ell]) = g^{k+\ell} = g^k \ast g^\ell = \psi([k]) \ast \psi([\ell]).
+\]
+
+- **Surjectivity:**  
+Every element \(h\in G\) is of the form \(h=g^k\) for some \(k\in \mathbb{Z}\), and hence \(h=\psi([k])\).
+
+- **Injectivity:**  
+Suppose \(\psi([k])=\psi([\ell])\); that is, \(g^k=g^\ell\). Then \(k\equiv \ell\ (\text{mod } n)\) by the discussion above, so \([k]=[\ell]\).
+
+Since \(\psi\) is a well-defined bijective homomorphism, we conclude that
+\[
+G \simeq \mathbb{Z}/n\mathbb{Z}.
+\]
+
+Using only the definition of a cyclic group and elementary properties of exponents, we have shown that:
+\[
+(G,\ast) \simeq
+\begin{cases}
+	(\mathbb{Z},+) & \text{if } G \text{ is infinite,} \\
+	(\mathbb{Z}/n\mathbb{Z},+_n) & \text{if } G \text{ is finite of order } n.
+\end{cases}
+\]
+
+%	Consider the homomorphism 
+%	\[
+%	\varphi : (\mathbb{Z}, +) \to (G, \ast),\quad n\mapsto \varphi(n) = a^n.
+%	\]
+%	Since \( G \) is cyclic, \(\varphi\) is surjective. The kernel of \(\varphi\) is given by \[
+%	\ker(\varphi) = \{\, n \in \mathbb{Z} \mid a^n = e_G \,\}, \]
+%	where \(e_G\) is the identity element in \(G\).
+%	We now distinguish two cases:\ \\
+%	\ \\ \noindent
+%	(Case I)\; (Infinite Case)
+%	  
+%	If no nonzero \( n \in \mathbb{Z} \) satisfies \( a^n = e \), then
+%	\[
+%	\ker(\varphi) = \{0\}.
+%	\]
+%	By the First Isomorphism Theorem, 
+%	\[
+%	G \cong \mathbb{Z}.
+%	\]
+%	
+%	2. **Finite Case:**  
+%	If there exists a least positive integer \( n_0 \) such that
+%	\[
+%	a^{n_0} = e,
+%	\]
+%	then 
+%	\[
+%	\ker(\varphi) = n_0 \mathbb{Z} \coloneqq \{\, n_0 k \mid k \in \mathbb{Z} \,\}.
+%	\]
+%	Again by the First Isomorphism Theorem,
+%	\[
+%	G \cong \mathbb{Z}/n_0 \mathbb{Z}.
+%	\]
+%	In this context, we say that \(G\) is of \emph{finite order} \(n_0\).
+%	
+%	Thus, we have the following classification theorem:
+%	
+%	\[
+%	\boxed{
+%		\text{Every cyclic group } G \text{ is isomorphic to either } \mathbb{Z} \text{ (if } |G| = \infty \text{) or } \mathbb{Z}/n\mathbb{Z} \text{ for some } n \in \mathbb{N} \text{ (if } |G| = n < \infty \text{).}
+%	}
+%	\]
+	
+%	Let \( G \) be a cyclic group and let \( a \in G \) be a generator. Define the mapping
+%	\[
+%	\varphi : (\mathbb{Z}, +) \to (G, \ast), \quad \varphi(n) = a^n.
+%	\]
+%	We now verify several properties of \(\varphi\).
 \end{proof}
 
 \newpage
@@ -172,88 +340,88 @@ G \simeq
 
 %### 1. Definition of a Cyclic Group
 
-\[
-\textbf{Definition.} \quad G \text{ is called \emph{cyclic} } \iff \exists\, a \in G \text{ such that } G = \langle a \rangle \coloneqq \{\, a^n \mid n \in \mathbb{Z} \,\}.
-\]
-
-In symbolic logic, this may be written as:
-\[
-\exists\, a \in G \;\; \forall\, g \in G,\; \exists\, n \in \mathbb{Z} \text{ such that } g = a^n.
-\]
-
-Here, the element \(a\) is called a \emph{generator} of \(G\). The notation \(a^n\) is understood in the group-theoretic sense, where for \(n \ge 0\), 
-\[
-a^n = \underbrace{a \cdot a \cdots a}_{n\text{ factors}},
-\]
-and for \(n < 0\), 
-\[
-a^n = (a^{-1})^{-n}.
-\]
-
+%\[
+%\textbf{Definition.} \quad G \text{ is called \emph{cyclic} } \iff \exists\, a \in G \text{ such that } G = \langle a \rangle \coloneqq \{\, a^n \mid n \in \mathbb{Z} \,\}.
+%\]
+%
+%In symbolic logic, this may be written as:
+%\[
+%\exists\, a \in G \;\; \forall\, g \in G,\; \exists\, n \in \mathbb{Z} \text{ such that } g = a^n.
+%\]
+%
+%Here, the element \(a\) is called a \emph{generator} of \(G\). The notation \(a^n\) is understood in the group-theoretic sense, where for \(n \ge 0\), 
+%\[
+%a^n = \underbrace{a \cdot a \cdots a}_{n\text{ factors}},
+%\]
+%and for \(n < 0\), 
+%\[
+%a^n = (a^{-1})^{-n}.
+%\]
+%
+%%---
+%
+%%### 2. Classification of Cyclic Groups
+%
+%The structure of cyclic groups is completely determined by the order of any generator. Let \( a \in G \) be a generator of the cyclic group \(G\). Consider the homomorphism 
+%\[
+%\varphi : (\mathbb{Z}, +) \to (G, \cdot) \quad \text{defined by} \quad \varphi(n) = a^n.
+%\]
+%Since \( G \) is cyclic, \(\varphi\) is surjective. The kernel of \(\varphi\) is given by
+%\[
+%\ker(\varphi) = \{\, n \in \mathbb{Z} \mid a^n = e \,\},
+%\]
+%where \(e\) denotes the identity element in \(G\).
+%
+%We now distinguish two cases:
+%
+%1. **Infinite Case:**  
+%If no nonzero \( n \in \mathbb{Z} \) satisfies \( a^n = e \), then
+%\[
+%\ker(\varphi) = \{0\}.
+%\]
+%By the First Isomorphism Theorem, 
+%\[
+%G \cong \mathbb{Z}.
+%\]
+%
+%2. **Finite Case:**  
+%If there exists a least positive integer \( n_0 \) such that
+%\[
+%a^{n_0} = e,
+%\]
+%then 
+%\[
+%\ker(\varphi) = n_0 \mathbb{Z} \coloneqq \{\, n_0 k \mid k \in \mathbb{Z} \,\}.
+%\]
+%Again by the First Isomorphism Theorem,
+%\[
+%G \cong \mathbb{Z}/n_0 \mathbb{Z}.
+%\]
+%In this context, we say that \(G\) is of \emph{finite order} \(n_0\).
+%
+%Thus, we have the following classification theorem:
+%
+%\[
+%\boxed{
+%	\text{Every cyclic group } G \text{ is isomorphic to either } \mathbb{Z} \text{ (if } |G| = \infty \text{) or } \mathbb{Z}/n\mathbb{Z} \text{ for some } n \in \mathbb{N} \text{ (if } |G| = n < \infty \text{).}
+%}
+%\]
+%
 %---
-
-%### 2. Classification of Cyclic Groups
-
-The structure of cyclic groups is completely determined by the order of any generator. Let \( a \in G \) be a generator of the cyclic group \(G\). Consider the homomorphism 
-\[
-\varphi : (\mathbb{Z}, +) \to (G, \cdot) \quad \text{defined by} \quad \varphi(n) = a^n.
-\]
-Since \( G \) is cyclic, \(\varphi\) is surjective. The kernel of \(\varphi\) is given by
-\[
-\ker(\varphi) = \{\, n \in \mathbb{Z} \mid a^n = e \,\},
-\]
-where \(e\) denotes the identity element in \(G\).
-
-We now distinguish two cases:
-
-1. **Infinite Case:**  
-If no nonzero \( n \in \mathbb{Z} \) satisfies \( a^n = e \), then
-\[
-\ker(\varphi) = \{0\}.
-\]
-By the First Isomorphism Theorem, 
-\[
-G \cong \mathbb{Z}.
-\]
-
-2. **Finite Case:**  
-If there exists a least positive integer \( n_0 \) such that
-\[
-a^{n_0} = e,
-\]
-then 
-\[
-\ker(\varphi) = n_0 \mathbb{Z} \coloneqq \{\, n_0 k \mid k \in \mathbb{Z} \,\}.
-\]
-Again by the First Isomorphism Theorem,
-\[
-G \cong \mathbb{Z}/n_0 \mathbb{Z}.
-\]
-In this context, we say that \(G\) is of \emph{finite order} \(n_0\).
-
-Thus, we have the following classification theorem:
-
-\[
-\boxed{
-	\text{Every cyclic group } G \text{ is isomorphic to either } \mathbb{Z} \text{ (if } |G| = \infty \text{) or } \mathbb{Z}/n\mathbb{Z} \text{ for some } n \in \mathbb{N} \text{ (if } |G| = n < \infty \text{).}
-}
-\]
-
----
-
-%### 3. Summary of the Logical Structure
-
-- **Existence of Generator:**  
-\(\exists\, a \in G\) such that \(\forall\, g \in G\), \(\exists\, n \in \mathbb{Z}\) with \(g = a^n\).
-
-- **Homomorphism Construction:**  
-Define \(\varphi: \mathbb{Z} \to G\) by \(\varphi(n) = a^n\). This map is a group homomorphism with image \(G\).
-
-- **Kernel Analysis:**
-- If \(\ker(\varphi) = \{0\}\), then \(G \cong \mathbb{Z}\).
-- If \(\ker(\varphi) = n\mathbb{Z}\) for some \(n > 0\), then \(G \cong \mathbb{Z}/n\mathbb{Z}\).
-
-This completes the formal definition and classification of cyclic groups in an extremely rigorous and symbolic manner suitable for graduate-level presentation.
+%
+%%### 3. Summary of the Logical Structure
+%
+%- **Existence of Generator:**  
+%\(\exists\, a \in G\) such that \(\forall\, g \in G\), \(\exists\, n \in \mathbb{Z}\) with \(g = a^n\).
+%
+%- **Homomorphism Construction:**  
+%Define \(\varphi: \mathbb{Z} \to G\) by \(\varphi(n) = a^n\). This map is a group homomorphism with image \(G\).
+%
+%- **Kernel Analysis:**
+%- If \(\ker(\varphi) = \{0\}\), then \(G \cong \mathbb{Z}\).
+%- If \(\ker(\varphi) = n\mathbb{Z}\) for some \(n > 0\), then \(G \cong \mathbb{Z}/n\mathbb{Z}\).
+%
+%This completes the formal definition and classification of cyclic groups in an extremely rigorous and symbolic manner suitable for graduate-level presentation.
 
 \newpage
 \probox{\begin{proposition*}
@@ -454,138 +622,138 @@ let \begin{align*}
 
 
 
-However, it is important to note that \(S^1\) itself is not a cyclic group because no single element can generate the entire uncountable set. 
-A group \(G\) is called \textbf{cyclic} if there exists an element \(g \in G\) such that
-\[
-G = \langle g \rangle = \{ g^n : n \in \mathbb{Z} \}.
-\]
-In the context of \(S^1\), while the full group is not cyclic, every finite subgroup of \(S^1\) is cyclic.
-
-\(S^1\) is a compact, connected, and smooth one-dimensional manifold. Its compactness follows from the Heine-Borel theorem, and its connectedness is inherent in the continuity of the circle. These topological features are critical in understanding its role as a topological group.
-
-Though \(S^1\) is a group under multiplication, it is not cyclic. To see this, consider any element \( e^{i\theta} \in S^1 \). The subgroup generated by \( e^{i\theta} \) is:
-\[
-\langle e^{i\theta} \rangle = \{ e^{in\theta} : n \in \mathbb{Z} \}.
-\]
-If \(\theta/2\pi\) is irrational, then \(\langle e^{i\theta} \rangle\) is dense in \(S^1\) but does not equal \(S^1\) since it is countable. If \(\theta/2\pi\) is rational, the subgroup is finite. In either case, no single element can generate the entire uncountable group \(S^1\).
-
-The exponential map provides a natural connection between the additive group \(\mathbb{R}\) and the multiplicative group \(S^1\):
-\[
-\exp: \mathbb{R} \to S^1, \quad \exp(i\theta) = e^{i\theta}.
-\]
-This continuous group homomorphism is essential in many areas of analysis and differential geometry.
-\begin{center}
-	\begin{tikzpicture}[>=stealth, scale=0.8]
-		% Real line
-		\draw[->] (-4,0) -- (4,0) node[right] {\(\mathbb{R}\)};
-		\node at (-4,0.3) {\(-\infty\)};
-		\node at (4,0.3) {\(+\infty\)};
-		
-		% S^1: Draw circle to the right
-		\begin{scope}[shift={(8,0)}]
-			\draw[thick] (0,0) circle (2cm);
-			\draw[->] (0,0) -- (2,0) node[right] {$1$};
-			\node at (0,2.3) {\(S^1\)};
-		\end{scope}
-		
-		% Arrow from real line to circle (representing the exponential map)
-		\draw[->, thick] (2,0.5) -- (7,1.5) node[midway, above] {\(\exp(i\theta)\)};
-	\end{tikzpicture}
-\end{center}
-For any positive integer \(n\), the \(n\)th roots of unity form a finite cyclic subgroup of \(S^1\). Specifically, define:
-\[
-C_n = \{ e^{2\pi i k/n} : k = 0, 1, \dots, n-1 \}.
-\]
-This group is cyclic because it can be generated by the element:
-\[
-e^{2\pi i/n},
-\]
-and every element in \(C_n\) is a power of this generator.
-
-The cyclic group \(C_n\) is a fundamental object in various fields:
-\begin{itemize}
-	\item \textbf{Number Theory:} The \(n\)th roots of unity are closely related to cyclotomic polynomials.
-	\item \textbf{Signal Processing:} They appear in the discrete Fourier transform (DFT).
-	\item \textbf{Algebra:} Finite cyclic groups are among the simplest groups and serve as building blocks for more complex structures.
-\end{itemize}
-
-\(S^1\) is not only a topological group but also a Lie group. Its smooth manifold structure enables the study of continuous group representations and provides a gateway into harmonic analysis.
-
-The study of \(S^1\) and its subgroups extends to many areas:
-\begin{itemize}
-	\item \textbf{Differential Geometry:} \(S^1\) serves as an example of a smooth manifold with a rich geometric structure.
-	\item \textbf{Complex Analysis:} As the boundary of the unit disk, \(S^1\) plays a key role in conformal mappings and function theory.
-	\item \textbf{Algebraic Topology:} The fundamental group of \(S^1\) is isomorphic to \(\mathbb{Z}\), providing insight into covering spaces and homotopy theory.
-\end{itemize}
-
-Recall that a group \(G\) is called \emph{cyclic} if
-\[
-\exists\, a \in G\;\text{s.t.}\; \forall\, g \in G,\; \exists\, n \in \mathbb{Z}:\; g = a^n.
-\]
-Consider the circle
-\[
-S^1 \coloneqq \{\, z \in \mathbb{C} \mid |z|=1 \,\},
-\]
-which is a group under complex multiplication. Each element of \(S^1\) may be written in the form
-\[
-z = e^{2\pi i \theta}, \quad \theta \in [0,1),
-\]
-and for a fixed irrational \(\theta_0\), the subgroup
-\[
-\langle e^{2\pi i \theta_0} \rangle = \{\, e^{2\pi i n \theta_0} \mid n \in \mathbb{Z} \,\}
-\]
-is dense in \(S^1\). In the finite setting, for any \(n\in\mathbb{N}\), the subgroup of \(n\)th roots of unity
-\[
-\mu_n = \{\, e^{2\pi i k/n} \mid k=0,1,\dots,n-1 \,\}
-\]
-is cyclic, isomorphic to \(\mathbb{Z}/n\mathbb{Z}\).
-\begin{tikzpicture}[scale=3]
-	
-	% Draw unit circle and axes
-	\draw[thick] (0,0) circle (1);
-	\draw[->] (-1.2,0) -- (1.2,0) node[right] {$\Re(z)$};
-	\draw[->] (0,-1.2) -- (0,1.2) node[above] {$\Im(z)$};
-	
-	% Axis labels
-	\node[below right] at (1,0) {$1$};
-	\node[below left]  at (-1,0) {$-1$};
-	\node[above left]  at (0,1) {$i$};
-	\node[below left]  at (0,-1) {$-i$};
-	
-	% Roots of unity: mu_7
-	\foreach \k in {0,...,6} {
-		\coordinate (mu\k) at ({cos(360/7*\k)},{sin(360/7*\k)});
-		\filldraw[blue] (mu\k) circle (0.015);
-	}
-	
-	% Connect cyclically: safer version without 'evaluate'
-	\foreach \k in {0,...,6} {
-		\pgfmathsetmacro{\next}{mod(\k+1,7)}
-		\draw[blue!50, thick, ->] (mu\k) -- (mu\next);
-	}
-	
-	% Label for mu_7
-	\node[blue!70!black] at (0.65,0.5) {$\mu_7 \cong \mathbb{Z}/7\mathbb{Z}$};
-	
-	% Dense subgroup: simulate e^{2\pi i n theta_0} for irrational theta_0
-	% Precomputed mod(n*0.4142,1)*360 degrees for n=1..40
-	\foreach \angle in {
-		149.1, 298.3, 87.4, 236.6, 25.7, 174.9, 324.0,
-		113.2, 262.3, 51.5, 200.6, 349.8, 138.9, 288.1,
-		77.2, 226.4, 15.5, 164.7, 313.8, 103.0, 252.1,
-		41.3, 190.4, 339.6, 128.7, 277.9, 67.0, 216.2,
-		5.3, 154.5, 303.6, 92.8, 241.9, 31.1, 180.2,
-		329.4, 118.5, 267.7, 56.8, 206.0
-	}{
-		\fill[red] ({cos(\angle)}, {sin(\angle)}) circle (0.008);
-	}
-	
-	% Labels
-	\node[red!80!black, below left] at (-0.9,-0.9) 
-	{$\langle e^{2\pi i \theta_0} \rangle$ (dense)};
-	\node at (0,-1.4) {$S^1 = \{\, z \in \mathbb{C} \mid |z|=1 \,\}$};
-	
-\end{tikzpicture}
+%However, it is important to note that \(S^1\) itself is not a cyclic group because no single element can generate the entire uncountable set. 
+%A group \(G\) is called \textbf{cyclic} if there exists an element \(g \in G\) such that
+%\[
+%G = \langle g \rangle = \{ g^n : n \in \mathbb{Z} \}.
+%\]
+%In the context of \(S^1\), while the full group is not cyclic, every finite subgroup of \(S^1\) is cyclic.
+%
+%\(S^1\) is a compact, connected, and smooth one-dimensional manifold. Its compactness follows from the Heine-Borel theorem, and its connectedness is inherent in the continuity of the circle. These topological features are critical in understanding its role as a topological group.
+%
+%Though \(S^1\) is a group under multiplication, it is not cyclic. To see this, consider any element \( e^{i\theta} \in S^1 \). The subgroup generated by \( e^{i\theta} \) is:
+%\[
+%\langle e^{i\theta} \rangle = \{ e^{in\theta} : n \in \mathbb{Z} \}.
+%\]
+%If \(\theta/2\pi\) is irrational, then \(\langle e^{i\theta} \rangle\) is dense in \(S^1\) but does not equal \(S^1\) since it is countable. If \(\theta/2\pi\) is rational, the subgroup is finite. In either case, no single element can generate the entire uncountable group \(S^1\).
+%
+%The exponential map provides a natural connection between the additive group \(\mathbb{R}\) and the multiplicative group \(S^1\):
+%\[
+%\exp: \mathbb{R} \to S^1, \quad \exp(i\theta) = e^{i\theta}.
+%\]
+%This continuous group homomorphism is essential in many areas of analysis and differential geometry.
+%\begin{center}
+%	\begin{tikzpicture}[>=stealth, scale=0.8]
+%		% Real line
+%		\draw[->] (-4,0) -- (4,0) node[right] {\(\mathbb{R}\)};
+%		\node at (-4,0.3) {\(-\infty\)};
+%		\node at (4,0.3) {\(+\infty\)};
+%		
+%		% S^1: Draw circle to the right
+%		\begin{scope}[shift={(8,0)}]
+%			\draw[thick] (0,0) circle (2cm);
+%			\draw[->] (0,0) -- (2,0) node[right] {$1$};
+%			\node at (0,2.3) {\(S^1\)};
+%		\end{scope}
+%		
+%		% Arrow from real line to circle (representing the exponential map)
+%		\draw[->, thick] (2,0.5) -- (7,1.5) node[midway, above] {\(\exp(i\theta)\)};
+%	\end{tikzpicture}
+%\end{center}
+%For any positive integer \(n\), the \(n\)th roots of unity form a finite cyclic subgroup of \(S^1\). Specifically, define:
+%\[
+%C_n = \{ e^{2\pi i k/n} : k = 0, 1, \dots, n-1 \}.
+%\]
+%This group is cyclic because it can be generated by the element:
+%\[
+%e^{2\pi i/n},
+%\]
+%and every element in \(C_n\) is a power of this generator.
+%
+%The cyclic group \(C_n\) is a fundamental object in various fields:
+%\begin{itemize}
+%	\item \textbf{Number Theory:} The \(n\)th roots of unity are closely related to cyclotomic polynomials.
+%	\item \textbf{Signal Processing:} They appear in the discrete Fourier transform (DFT).
+%	\item \textbf{Algebra:} Finite cyclic groups are among the simplest groups and serve as building blocks for more complex structures.
+%\end{itemize}
+%
+%\(S^1\) is not only a topological group but also a Lie group. Its smooth manifold structure enables the study of continuous group representations and provides a gateway into harmonic analysis.
+%
+%The study of \(S^1\) and its subgroups extends to many areas:
+%\begin{itemize}
+%	\item \textbf{Differential Geometry:} \(S^1\) serves as an example of a smooth manifold with a rich geometric structure.
+%	\item \textbf{Complex Analysis:} As the boundary of the unit disk, \(S^1\) plays a key role in conformal mappings and function theory.
+%	\item \textbf{Algebraic Topology:} The fundamental group of \(S^1\) is isomorphic to \(\mathbb{Z}\), providing insight into covering spaces and homotopy theory.
+%\end{itemize}
+%
+%Recall that a group \(G\) is called \emph{cyclic} if
+%\[
+%\exists\, a \in G\;\text{s.t.}\; \forall\, g \in G,\; \exists\, n \in \mathbb{Z}:\; g = a^n.
+%\]
+%Consider the circle
+%\[
+%S^1 \coloneqq \{\, z \in \mathbb{C} \mid |z|=1 \,\},
+%\]
+%which is a group under complex multiplication. Each element of \(S^1\) may be written in the form
+%\[
+%z = e^{2\pi i \theta}, \quad \theta \in [0,1),
+%\]
+%and for a fixed irrational \(\theta_0\), the subgroup
+%\[
+%\langle e^{2\pi i \theta_0} \rangle = \{\, e^{2\pi i n \theta_0} \mid n \in \mathbb{Z} \,\}
+%\]
+%is dense in \(S^1\). In the finite setting, for any \(n\in\mathbb{N}\), the subgroup of \(n\)th roots of unity
+%\[
+%\mu_n = \{\, e^{2\pi i k/n} \mid k=0,1,\dots,n-1 \,\}
+%\]
+%is cyclic, isomorphic to \(\mathbb{Z}/n\mathbb{Z}\).
+%\begin{tikzpicture}[scale=3]
+%	
+%	% Draw unit circle and axes
+%	\draw[thick] (0,0) circle (1);
+%	\draw[->] (-1.2,0) -- (1.2,0) node[right] {$\Re(z)$};
+%	\draw[->] (0,-1.2) -- (0,1.2) node[above] {$\Im(z)$};
+%	
+%	% Axis labels
+%	\node[below right] at (1,0) {$1$};
+%	\node[below left]  at (-1,0) {$-1$};
+%	\node[above left]  at (0,1) {$i$};
+%	\node[below left]  at (0,-1) {$-i$};
+%	
+%	% Roots of unity: mu_7
+%	\foreach \k in {0,...,6} {
+%		\coordinate (mu\k) at ({cos(360/7*\k)},{sin(360/7*\k)});
+%		\filldraw[blue] (mu\k) circle (0.015);
+%	}
+%	
+%	% Connect cyclically: safer version without 'evaluate'
+%	\foreach \k in {0,...,6} {
+%		\pgfmathsetmacro{\next}{mod(\k+1,7)}
+%		\draw[blue!50, thick, ->] (mu\k) -- (mu\next);
+%	}
+%	
+%	% Label for mu_7
+%	\node[blue!70!black] at (0.65,0.5) {$\mu_7 \cong \mathbb{Z}/7\mathbb{Z}$};
+%	
+%	% Dense subgroup: simulate e^{2\pi i n theta_0} for irrational theta_0
+%	% Precomputed mod(n*0.4142,1)*360 degrees for n=1..40
+%	\foreach \angle in {
+%		149.1, 298.3, 87.4, 236.6, 25.7, 174.9, 324.0,
+%		113.2, 262.3, 51.5, 200.6, 349.8, 138.9, 288.1,
+%		77.2, 226.4, 15.5, 164.7, 313.8, 103.0, 252.1,
+%		41.3, 190.4, 339.6, 128.7, 277.9, 67.0, 216.2,
+%		5.3, 154.5, 303.6, 92.8, 241.9, 31.1, 180.2,
+%		329.4, 118.5, 267.7, 56.8, 206.0
+%	}{
+%		\fill[red] ({cos(\angle)}, {sin(\angle)}) circle (0.008);
+%	}
+%	
+%	% Labels
+%	\node[red!80!black, below left] at (-0.9,-0.9) 
+%	{$\langle e^{2\pi i \theta_0} \rangle$ (dense)};
+%	\node at (0,-1.4) {$S^1 = \{\, z \in \mathbb{C} \mid |z|=1 \,\}$};
+%	
+%\end{tikzpicture}
 
 \newpage
 \section{Torus}

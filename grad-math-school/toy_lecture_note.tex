@@ -1,0 +1,248 @@
+\documentclass[11pt,openany]{article}
+
+\usepackage{mathtools, commath}
+% Packages for formatting
+\usepackage[margin=1in]{geometry}
+\usepackage{fancyhdr}
+\usepackage{enumerate}
+\usepackage{graphicx}
+\usepackage{kotex}
+\usepackage{arydshln} % Include this package
+\usepackage{bbding}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage[dvipsnames,table]{xcolor}
+\usepackage{amssymb, amsfonts}
+\usepackage{wasysym}
+\usepackage{footnote}
+\usepackage{tablefootnote}
+\usepackage{arydshln} % Include this package
+
+% Define colors
+\definecolor{TealBlue1}{HTML}{0077c2}
+\definecolor{TealBlue2}{HTML}{00a5e6}
+\definecolor{TealBlue3}{HTML}{b3e0ff}
+\definecolor{TealBlue4}{HTML}{00293c}
+\definecolor{TealBlue5}{HTML}{e6f7ff}
+
+\usepackage{color,soul}
+\usepackage{soul}
+\newcommand{\mathcolorbox}[2]{\colorbox{#1}{$\displaystyle #2$}}
+\usepackage{cancel}
+\newcommand\crossout[3][black]{\renewcommand\CancelColor{\color{#1}}\cancelto{#2}{#3}}
+\newcommand\ncrossout[2][black]{\renewcommand\CancelColor{\color{#1}}\cancel{#2}}
+
+\usepackage{hyperref}
+\usepackage{booktabs}
+
+% Chapter formatting
+\definecolor{titleTealBlue}{RGB}{0,53,128}
+\usepackage{titlesec}
+\titleformat{\section}
+{\normalfont\sffamily\Large\bfseries\color{titleTealBlue!100!gray}}{\thesection}{1em}{}
+\titleformat{\subsection}
+{\normalfont\sffamily\large\bfseries\color{titleTealBlue!50!gray}}{\thesubsection}{1em}{}
+
+%Tcolorbox
+\usepackage[most]{tcolorbox}
+\usepackage{multirow}
+\usepackage{multicol}
+\usepackage{blindtext}
+
+\usepackage[linesnumbered,ruled]{algorithm2e}
+\usepackage{algpseudocode}
+\usepackage{setspace}
+\SetKwComment{Comment}{/* }{ */}
+\SetKwProg{Fn}{Function}{:}{end}
+\SetKw{End}{end}
+\SetKw{DownTo}{downto}
+
+\newenvironment{algorithm2}[1][]{
+	\newcounter{tempCounter}
+	\setcounter{tempCounter}{\value{algocf}}
+	\renewcommand{\thealgocf}{}
+	\begin{algorithm}
+	}{
+	\end{algorithm}
+	\setcounter{algocf}{\value{tempCounter}}
+}
+
+\usepackage{adjustbox}
+
+% Header and footer formatting
+\pagestyle{fancy}
+\fancyhead{}
+\fancyhf{}
+\rhead{\textcolor{TealBlue2}{\large\textbf{Right Head}}}%\rule{3cm}{0.4pt}}
+\lhead{\textcolor{TealBlue2}{\large\textbf{Left Head}}}
+
+\fancyfoot[L]{\large\it \textcolor{TealBlue}{Left Foot}}
+\fancyfoot[C]{-\thepage-}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Tcolorbox
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{tcolorbox}
+\tcbset{colback=white, arc=5pt}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Theorem
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{amsthm}
+
+\newtheoremstyle{definitionstyle} % Name of the style
+{3pt} % Space above
+{3pt} % Space below
+{} % Body font
+{} % Indent amount
+{\bfseries} % Theorem head font
+{.} % Punctuation after theorem head
+{2.5mm} % Space after theorem head
+{} % Theorem head spec
+
+\newtheorem{theorem}{Theorem} % Theorem environment with section-wise numbering
+\newtheorem*{theorem*}{Theorem} % Theorem environment with section-wise numbering
+\newtheorem*{lemma*}{Lemma} % Theorem environment with section-wise numbering
+\newtheorem*{proposition*}{Proposition} % Theorem environment with section-wise numbering
+\newtheorem*{corollary*}{Corollary} % Theorem environment with section-wise numbering
+\newtheorem{proposition}[theorem]{Proposition} % Theorem environment with section-wise numbering
+\newtheorem{lemma}[theorem]{Lemma} % Lemma shares the counter with theorem
+\newtheorem{corollary}[theorem]{Corollary} % Corollary shares the counter with theorem
+
+\theoremstyle{definitionstyle}
+\newtheorem*{observation}{\textcolor{Magenta}{Observation}}
+\newtheorem{definition}{Definition} % Definition shares the counter with theorem
+\newtheorem{example}{Example} % Example shares the counter with theorem
+\newtheorem{exercise}{{Exercise}} % Example shares the counter with theorem
+\newtheorem{remark}{Remark} % Remark shares the counter with theorem
+\newtheorem*{note}{Note}
+
+\newtheorem*{axiom*}{Axiom}
+\newtheorem*{definition*}{Definition} % Definition shares the counter with theorem
+\newtheorem*{example*}{Example} % Example shares the counter with theorem
+\newtheorem*{exercise*}{\textcolor{teal}{Exercise}} % Example shares the counter with theorem
+\newtheorem*{remark*}{Remark} % Remark shares the counter with theorem
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Tikz
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{tikz}
+\usepackage{tikz-cd}
+\usepackage{tikz-3dplot}
+\usepackage{pgfplots}
+\pgfplotsset{compat=newest} % Adjust to your version of pgfplots
+\def\Circlearrowleft{\ensuremath{%
+		\rotatebox[origin=c]{180}{$\circlearrowleft$}}}
+\def\Circlearrowright{\ensuremath{%
+		\rotatebox[origin=c]{180}{$\circlearrowright$}}}
+\def\CircleArrowleft{\ensuremath{%
+		\reflectbox{\rotatebox[origin=c]{180}{$\circlearrowleft$}}}}
+\def\CircleArrowright{\ensuremath{%
+		\reflectbox{\rotatebox[origin=c]{180}{$\circlearrowright$}}}}
+\usetikzlibrary{
+	3d, % For 3D drawing
+	angles,
+	arrows,
+	arrows.meta,
+	backgrounds,
+	bending,
+	calc,
+	decorations.pathmorphing,
+	decorations.pathreplacing,
+	decorations.markings,
+	fit,
+	matrix,
+	patterns,
+	patterns.meta,
+	positioning,
+	quotes,
+	shadows,
+	shapes,
+	shapes.geometric,
+	tikzmark
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% New Command
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\ie}{\textnormal{i.e.}}
+\newcommand{\rsa}{\mathsf{RSA}}
+\newcommand{\rsacrt}{\mathsf{RSA}\textendash\mathsf{CRT}}
+\newcommand{\inv}[1]{#1^{-1}}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\cR}{\mathcal{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\nbhd}{\mathcal{N}}
+\newcommand{\Log}{\operatorname{Log}}
+\newcommand{\Arg}{\operatorname{Arg}}
+\newcommand{\pv}{\operatorname{P.V.}}
+
+\newcommand{\of}[1]{\left( #1 \right)} 
+
+\newcommand{\sol}{\textcolor{magenta}{\bf Sol}}
+\newcommand{\conjugate}[1]{\overline{#1}}
+
+\newcommand{\res}{\operatorname{res}}
+\DeclareMathOperator*{\Res}{\operatorname{Res}}
+
+\newcommand{\cyclic}[1]{\langle #1 \rangle}
+\newcommand{\uniform}{\overset{\$}{\leftarrow}}
+\newcommand{\xmark}{\textcolor{red}{\XSolidBrush}}
+\newcommand{\vmark}{\textcolor{green!75!black}{\CheckmarkBold}}
+
+\newcommand{\gen}[1]{\langle #1 \rangle}
+\newcommand{\Gen}[1]{\left\langle #1 \right\rangle}
+
+\newcommand{\img}[1]{\text{Img}(#1)}
+\newcommand{\Img}[1]{\text{Img}\left(#1\right)}
+\newcommand{\preimg}[1]{\text{Img}^{-1}(#1)}
+\newcommand{\Preimg}[1]{\text{Img}^{-1}\left(#1\right)}
+
+\newcommand{\relation}{\mathrel{\mathcal{R}}}
+\newcommand{\injection}{\rightarrowtail}
+\newcommand{\surjection}{\twoheadrightarrow}
+\newcommand{\id}{\textnormal{id}}
+
+\newcommand{\eqclass}[1]{\left[#1\right]}
+
+% Define custom colors for O and X
+\newcommand{\yes}{\textcolor{blue}{\bf \fullmoon}}
+\newcommand{\no}{\textcolor{red}{\bf \texttimes}}
+
+\DeclarePairedDelimiter\ceil{\lceil}{\rceil}
+\DeclarePairedDelimiter\floor{\lfloor}{\rfloor}
+
+\newcommand{\topology}{\mathscr{T}}
+\newcommand{\sequence}[1]{\langle #1\rangle}
+
+% Topology
+%\newcommand{\nbhd}{\mathcal{N}}
+
+% Linear Algebra
+\newcommand{\Span}{\operatorname{\normalfont span}}
+\newcommand{\basis}{\mathcal{B}}
+\newcommand{\card}[1]{\text{\normalfont card}(#1)}
+
+\setstretch{1.25}
+\begin{document}
+\pagenumbering{arabic}
+\begin{center}
+	\huge\textbf{Title}\\
+	\vspace{0.5em}
+	\large{Name}\\
+	\vspace{0.5em}
+	\normalsize{\today}\\
+\end{center}
+\noindent We cover the following topics in this note.
+\begin{itemize}
+	\item 
+\end{itemize}
+\hrule\vspace{12pt}
+
+\end{document}
