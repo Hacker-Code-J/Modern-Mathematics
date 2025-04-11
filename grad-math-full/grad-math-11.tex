@@ -33,6 +33,8 @@
 We cover the following topics in this note.
 \begin{itemize}
 	\item Cyclic Group
+	\item Classification of Cyclic Group
+	\item Order of an Element
 	\item TBA
 \end{itemize}
 \hrule\vspace{12pt}
@@ -184,7 +186,7 @@ Let \((G,\ast)\) be a cyclic group. Then
 \end{theorem*}}
 \begin{proof}
 %	The structure of cyclic groups is completely determined by the order of any generator. 
-	Let \( a \in G \) be a generator of the cyclic group \(G\), \ie, $G=\gen{a}$. \\
+	Let \( a \in G \) be a generator of the cyclic group \(G\). \\
 	\begin{center}
 	\ttfamily ------------------------------------------------------------------------------------ Multiplicative Version ------------------------------------------------------------------------------------
 	\end{center}
@@ -356,6 +358,172 @@ Hence, we conclude that:
 	The subgroup of cyclic group is also cyclic. 
 \end{proposition*}}
 
+\thmbox{\begin{theorem*}
+	Let $(G,\ast)$ be a group and let $H\leq G$ be a cyclic subgroup of $G$. Then $H$ is abelian.
+\end{theorem*}}
+\begin{proof}
+	Since $H$ is cyclic, $\exists g\in G$ such that \[
+	H=\cyclic{g}=\set{g^k:k\in\Z},\quad\text{where}\quad g^k:=\begin{cases}
+		\underbrace{g\ast\cdots\ast g}_{k\; \text{factors}} & :k>0 \\
+		0 &: k=0 \\
+		(g^{-1})^{-k} &: k < 0
+	\end{cases}.
+	\] Let $h_1,h_2$ be arbitrary. Then $\exists m,n\in\Z$ such that \[
+	h_1=g^m\quad\text{and}\quad h_2=g^n.
+	\] Thus, \[
+	h_1\ast h_2=g^n\ast g^m=g^{n+m}=g^{m+n}=g^m\ast g^n=h_2\ast h_1.
+	\]
+\end{proof}
+
+\newpage
+\defbox[Order of an Element]{\begin{definition*}
+	Let $(G,\ast)$ be a group with identity element $e\in G$. For any $g\in G$, we define the set \[
+	\set{n\in\N:g^n=e}\subseteq\N,
+	\] where for each $n\in\N$, $g^n$ is the $n$-fold $\ast$-operation of $g$ with itself (and by convention, $g^0:=e$). Then the \hl{\textbf{order of $g$}}, denoted by $\ord(g)$, is defined by \[
+	\ord(g):=\begin{cases}
+		\min\set{n\in\N:g^n=e}&:\varnothing\neq\set{n\in\N:g^n=e}\\
+		\infty &:\varnothing=\set{n\in\N:g^n=e}
+	\end{cases}
+	\] That is, if \hl{there exists at least one positive integer $n\in\Z^+$ such that 
+	$g^n$, then $\ord(g)$ is the smallest such $n$}; otherwise, we say that 
+	$g$ has infinite order and write $\ord(g)=\infty$.
+\end{definition*}}
+\begin{remark*}[Specialization to Cyclic Groups.]
+If \((G, \ast)\) is a cyclic group, then \(\exists g \in G \) (called a generator) such that \[
+\cyclic{g}: = \{ g^k : k \in \mathbb{Z} \} = G.
+\] \begin{itemize}
+	\item If \( G \) is infinite, then no positive integer \( n \) satisfies \( g^n = e \), so \[
+	\set{n\in\N:g^n=e}=\varnothing\quad\text{and}\quad\text{and consequently $\operatorname{ord}(g) = \infty$.}
+	\]
+	\item If \( G \) is finite of order \( n \), then by \emph{Lagrange’s Theorem}\footnote{\; $\abs{\cyclic{g}}=\ord(g)$ divides $\abs{G}=n$.} the unique smallest positive integer \( n \) for which \( g^n = e \) must divide \(|G|\), and in the case where \( g \) is a generator, \(\ord(g) = n = \abs{G}\).
+\end{itemize}
+\end{remark*}
+\vfill
+\begin{remark*}
+	Let $x\in G$ be an element of a cyclic group $G$ with finite order $n=\ord(x)$. Then \[
+	x^m=e\iff n\mid m\quad\text{for any $m\in\Z$}.
+	\]
+%	with finite order $n=\ord(x)$, so that, $x^n=e$ and no positive integer $k$ smaller than $n$ satisfies $x^k=e$. Note that for any integer $m\in\Z$ \[
+%	x^m=e\iff n\mid m.
+%	\]
+	\begin{itemize}
+		\item[($\Rightarrow$)] By the Division Algorithm, $\exists! q,r$ s.t. $m=nq+r$ and $0\leq r<n$. Then \[
+		x^m=x^{nq+r}=x^{nq}\ast x^r=(x^n)^q\ast x^r=e^q\ast x^r=x^r.
+		\] Since $x^m=e$, we have \[
+		x^r=e\quad\text{with}\quad 0\leq r<n.
+		\] However, by definition of $n=\ord(x)$, $r$ must be 0. Thus, $m=nq$, \ie, $n\mid m$.
+		\item[($\Leftarrow$)] $n\mid m\implies \exists q\in\Z: m=nq\implies x^m=x^{nq}=(x^{n})^q=e^q=e$.
+	\end{itemize}
+\end{remark*}
+
+\newpage
+\thmbox[Lagrange’s Theorem]{\begin{theorem*}
+Let $G$ be a finite group and let $H\leq G$ be a subgroup. Then \[
+\abs{H}\quad\text{divides}\quad\abs{G}.
+\]
+\end{theorem*}}
+\begin{proof}
+TBA
+\end{proof}
+\begin{remark*}
+	Let $G$ be a finite group and let $H\leq G$ be a subgroup. Then by Lagrange's Theorem, \[
+	\exists a\in \Z\;\text{such that}\; \abs{G}= a\cdot\abs{H}.
+	\]The \textbf{index} of $H$ in $G$, denoted by $[G:H]$, is defined by \[
+	[G:H]=\frac{\abs{G}}{\abs{H}}.
+	\] In other words, $\abs{G}=[G:H]\cdot\abs{H}.$
+\end{remark*}
+
+\thmbox[Division Algorithm]{\begin{theorem*}
+	
+\end{theorem*}}
+
+\lembox{\begin{lemma*}
+	Let $G$ be a cyclic group and let $x\in G$ with $\ord(x)=n\in\N$. Then, for each $a\in\Z$, \[
+	\boxed{\ord(x^a)=\frac{n}{\gcd(n,a)}}.
+	\]
+\end{lemma*}}
+\begin{proof}
+	By definition of order of an element $x^a$, we know that \[
+	\ord(x^a):=\min\set{k\in\N:(x^a)^k=e}.
+	\] Since $x^{ak}=e\iff n\mid ak$, we may write \[
+	\ord(x^a):=\min\set{k\in\N:(x^a)^k=e}.
+	\] Let $d:=\gcd(n,a)\neq 0$. Then $d\mid n$ and $d\mid a$, and so \[
+	\exists k_n, k_a\in\Z\; \text{such that}\; n=dk_n\; \text{and}\; a=dk_a,\quad\quad\text{with}\quad \gcd(k_n,k_a)=\gcd\left(\frac{n}{d},\frac{a}{d}\right)=1.
+	\] Since \[
+	n\mid ak\implies dk_n\mid (dk_a)k\implies k_n\mid k_ak\overset{\gcd(k_n,k_a)=1}{\implies} k_n\mid k\overset{\text{Euclid's Lemma}}{\implies} k_n=k,
+	\] we obtain \[
+	\ord(x^a)=k_n=\frac{n}{d}=\frac{n}{\gcd(n,a)}.
+	\]
+\end{proof}
+\begin{remark*}
+	By above lemma, we obtain \[
+	\boxed{\ord(x)=\ord(x^a)\gcd(\ord(x),a)}.
+	\]
+\end{remark*}
+
+\thmbox[The Converse of Lagrange’s Theorem for Finite Cyclic Groups]{\begin{theorem*}
+	Let $G$ be a finite cyclic group with $\abs{G}=n$. Then for each $d\in\N$ with $d\mid n$, \[
+	\exists! H\leq G\;\text{such that}\; \abs{H}=d.
+	\]
+\end{theorem*}}
+\begin{proof}
+	Since $G$ is cyclic, $\exists x\in G$ such that \[
+	G=\cyclic{x}=\set[1]{x^k:k\in\Z},
+	\] and by the definition of order, \[
+	x^n=e\quad\text{and\quad} n=\ord(x)=\min\set[1]{k\in\N:x^k=e}.
+	\] Let $d\in\N$ be a divisor of $n$; that is $d\mid n$, and so \[
+	\exists m\in\N\;\text{such that}\; n=dm.
+	\]
+	\paragraph{(Existence)} Define the element \[
+	y:=x^{m}=x^{\frac{n}{d}}\in G
+	\] We claim that the subgroup generated by $y$, $H:=\cyclic{y}$, has order $d$; that is $\ord(y)=d$. Note that \[
+	H=\cyclic{y}=\set[1]{y^k:k\in\Z}=\set[1]{(x^{m})^k:k\in\Z}.
+	\] Here, let $k$ be the smallest positive integer $k$ such that $y^k=e$. Then \begin{align*}
+		y^k=e &\implies x^{mk}=e\\
+		&\implies n\mid mk\quad\because \ord(x)=n\\
+		&\implies dm\mid mk \\
+		&\implies d\mid k\quad\because m\neq 0.
+	\end{align*} Since $y^d=(x^m)^{d}=x^{md}=x^n=e$ and $k$ is the \emph{smallest} positive integer with this property, $k=d$. Thus, \[
+	\ord(y)=k=d.
+	\]
+	\paragraph{(Uniqueness)} Let $K\leq G$ is any subgroup with $\abs{K}=d$. Then \[
+	K=\cyclic{x^m}\quad\text{with}\quad m=\frac{n}{d}.
+	\] Since $x$ is a generator of $G$, $\exists k\in \Z$ such that \[
+	y=x^k\quad\text{and}\quad\ord(x^k)=d.
+	\] Then \[
+	\ord(x^k)=\frac{n}{\gcd(n,k)}=d.
+	\] Thus, the subgroup of order $d$ in $G$ is unique.
+\end{proof}
+
+\begin{remark*}[The Converse of Lagrange’s Theorem for Finite Abelian Groups]
+Let $G$ be a finite abelian group and let $d\in\N$ with $d\mid \abs{G}$. Then \[
+\exists H\leq G\quad\text{such that}\quad \abs{H}=d.
+\] 
+\end{remark*}
+
+\corbox{\begin{corollary*}
+	Let $p\in\Z$ be a prime. Then $\Z/p\Z$ has no proper subgroup except $\set{e}$.
+\end{corollary*}}
+\begin{proof}
+	TBA.
+\end{proof}
+
+\corbox[Euler-Phi Function]{\begin{corollary*}
+Define a mapping \[
+\fullfunction{\varphi}{\Z}{\Z}{n}{\varphi(n):=\#\set{k\in\Z:k=0,1,2,\dots,n-1\; \text{such that}\; \gcd(n,k)=1}}
+\] is called the \textbf{Euler-phi function}.
+\end{corollary*}}
+\begin{remark*}
+	$\varphi(n)$ is the number of generators of $\Z/n\Z$.
+\end{remark*}
+
+\probox[Properties of Euler-Phi Function]{\begin{proposition*}
+Let $p\in\Z$ be a prime, and let $k,m,n\in\Z$. Then \begin{enumerate}[(1)]
+	\item $\varphi(p^k)=p^k-p^{k-1}$.
+	\item $\varphi(mn)=\varphi(m)\varphi(n)$.
+\end{enumerate}
+\end{proposition*}}
+
 \vfill
 \begin{thebibliography}{9}
 	\bibitem{abstract_algebra_a}
@@ -365,5 +533,139 @@ Hence, we conclude that:
 %	수학의 즐거움, Enjoying Math. ``수학 공부, 기초부터 대학원 수학까지, 19. 선형대수학에서 추상대수학으로 (b) 대수적 구조를 보존하는 함수 algebraic homomorphisms'' YouTube Video, 25:21. Published 
 %	October 16, 2019. URL: \url{https://www.youtube.com/watch?v=9TtGaY5COlg&t=187s}.
 \end{thebibliography}
+
+\newpage
+\appendix
+\section{Number Theory}
+
+\subsection{Divisibility}
+\defbox[Divisibility]{\begin{definition*}
+	Let $a,b\in\Z$ with $a\neq 0$. Then $a$ \textbf{divides} $b$ if \[
+	\exists c\in\Z\quad\text{such that}\quad b=ac.
+	\] Then $a$ is \emph{divisor} or \emph{factor} of $b$ and $b$ is \emph{multiple} of $a$.
+\end{definition*}}
+\begin{remark*}
+	We write $a\mid b$ if $a$ divides $b$, and $a\nmid b$ otherwise. 
+%	That is, \begin{align*}
+%		a\mid b&\iff\exists c\in\Z\;\text{such that}\; b=ac\\
+%		a\nmid b&\iff\forall c\in\Z,\; b\neq ac.
+%	\end{align*}
+\end{remark*}
+\vfill
+\probox[]{\begin{proposition*}
+	Let $a,b,c\in \Z$. \begin{enumerate}[(1)]
+		\item $a\mid b$ and $b\mid c\implies a\mid c$.
+		\item Let $c\neq 0$. Then $ca\mid cb\implies a\mid b$.
+	\end{enumerate}
+\end{proposition*}}
+\begin{proof}
+	Let $a,b,c\in\Z$. \begin{enumerate}[(1)]
+		\item Let $a\mid b$ and $b\mid c$. Then $\exists \lambda, \mu\in\Z\;\text{s.t.}\; a\lambda=b\;\text{and}\; b\mu=c$. Hence $c=b\mu=(a\lambda)\mu=a(\lambda\mu)$, and so $a\mid c$.
+		\item Let $ca\mid cb$ with $c\neq 0$. Then $\exists \lambda\in\Z$ s.t. $cb=ca\lambda$. Hence $b=a\lambda$, and so $a\mid b$.
+	\end{enumerate}
+\end{proof}
+\vfill
+\probox[]{\begin{proposition*}
+	Let $a,b,c\in \Z$. For any $m,n\in\Z$, \[
+	c\mid a\;\text{and}\; c\mid b\implies c\mid (ma+nb).
+	\]
+\end{proposition*}}
+\begin{proof}
+	Let $m.n\in\Z$, and let $a\mid b$ and $b\mid c$. Then \[
+	\exists e, f\in\Z\;\text{such that}\; a=ce\;\text{and}\; b=cf.
+	\] Hence \[
+	ma+nb=m(ce)+n(cf)=c(me+nf),
+	\] and so $c\mid (ma+nb)$.
+\end{proof}
+\newpage
+\thmbox[Euclid's Lemma]{\begin{theorem*}
+	Let \( p \in \mathbb{Z} \) be a prime number and let \( a,b \in \mathbb{Z} \). Then
+	\[
+	p \mid ab \;\Longrightarrow\; p \mid a\;\text{or}\; p \mid b.
+	\]
+\end{theorem*}}
+\begin{proof}
+Let $p\in\mathbb{Z}$ prime and $a,b\in\Z$. Assume that $p\mid ab$. We NTS that \[
+p\mid a \quad \text{or} \quad p\mid b.
+\] Suppose that \[
+p\nmid a.
+\]
+Since \( p \) is prime and \( p \nmid a \), we know that \[
+\gcd(p,a) = 1.
+\]
+By Bézout's Identity, \( \exists u,v\in\mathbb{Z} \) such that $
+up + va = 1$. Then \begin{align*}
+	u p + va = 1 &\implies b\bigl(up + va\bigr) = b\\
+	&\implies upb+vab=b\\
+	&\implies p\mid b\quad\because p\mid ab\; \text{and so}\; p\mid (upb+vab)
+\end{align*}
+Hence, under the assumption \( p\nmid a \), we obtain \[
+p\mid b.
+\] Therefore, combining the two cases, we conclude:
+\[
+p\mid ab \;\Longrightarrow\; p\mid a\;\text{or}\;p\mid b.
+\]
+\end{proof}
+\newpage
+\subsection{Modular Arithmetic}
+\defbox[Congruence (Number Theory)]{\begin{definition*}
+	Let $n$ be a positive integer ($n\in\Z^+$). Two integers 
+	$a$ and  $b$ are said to be \textbf{congruent modulo $n$}, written as
+	\[
+	a\equiv b\pmod{n},
+	\] if and only if \[
+	n\mid a-b,\quad\ie,\quad \exists k\in\ Z\; \text{s.t.}\; a-b=kn.
+	\]
+\end{definition*}}
+\begin{remark*}[Modulo Operation]
+According to the \textbf{division algorithm}, for any integer 
+$a$ and any positive integer $n$, there exist unique integers 
+$q$ (the quotient) and $r$ (the remainder) such that \[
+a=qn+r\quad\text{with}\quad 0\leq r< n.
+\] When we express this using the floor function and the mod operation, we identify: \[
+q=\floor*{\frac{a}{n}}\quad\text{and}\quad r= a\bmod n.
+\] Thus,  we can rewrite the division algorithm as: \[
+a=n\floor*{\frac{a}{n}}+(a\bmod n).
+\] Thus, we have \[
+a\bmod n:=\begin{cases}
+	\displaystyle a-n\floor*{\frac{a}{n}} &: n\neq 0\\
+	\displaystyle 0 &: n= 0.
+\end{cases}
+\] Note that \[
+a\equiv b\pmod{n}\iff a\bmod n=b\bmod n.
+\]
+\end{remark*}
+
+\subsection{Greatest Common Divisors}
+\defbox[Greatest Common Divisor; GCD]{\begin{definition*}
+	Let $a,b\in \Z$. An nonnegative integer $d\in\Z_{\geq 0}$ is called a \textbf{greatest common divisor (gcd)} of $a$ and $b$, denoted by $d=\gcd(a,b)$, if it satisfies the following two conditions: \begin{enumerate}[(i)]
+		\item (Divisibility)\; $d\mid a$ and $d\mid b$.
+		\item (Maximality)\; For any $c\in Z$, \[
+		c\mid a\; \text{and}\; c\mid b\implies c\mid d.
+		\]
+	\end{enumerate}
+\end{definition*}}
+
+\probox{\begin{proposition*}
+	Let $a,b,c\in \Z$. \begin{enumerate}[(1)]
+		\item $\gcd(a+cb,b)=\gcd(a,b)$.
+		\item $\displaystyle\gcd(a,b)=d\implies \gcd\left(\frac{a}{d},\frac{a}{d}\right)=1$.
+	\end{enumerate}
+\end{proposition*}}
+
+\thmbox[Bezout's Identity]{\begin{theorem*}
+	Let $a,b\in\Z$. Then \[
+	\exists m,n\in\Z\quad\text{such that}\quad \gcd(a,b)=ma+mb.
+	\]
+\end{theorem*}}
+\begin{remark*}
+	Note that there are infinitely many such $m$ and $n$.
+\end{remark*}
+
+\corbox{\begin{corollary*}
+	Let $a,b\in\Z$. \[
+	\gcd(a,b)=1\implies \exists m,n\in\Z\;\ \text{such that}\; ma+nb=1.
+	\]
+\end{corollary*}}
 
 \end{document}
