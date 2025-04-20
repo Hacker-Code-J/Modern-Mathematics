@@ -33,3 +33,19 @@
 	shapes.geometric,
 	tikzmark
 }
+\tikzset{
+	% single mid‐path arrow
+	mid arrow/.style={
+		decoration={
+			markings,
+			mark=at position 0.5 with {\arrow{Stealth[scale=1.2]}}
+		},
+		postaction={decorate},
+	},
+	% style for field arrows
+	field arrow/.style={
+		-{Stealth[scale=1.0]},
+		thick,
+		blue!70!black,
+	},
+}

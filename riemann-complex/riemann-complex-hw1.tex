@@ -1,0 +1,648 @@
+\documentclass[11pt,openany]{article}
+
+\input{riemann-complex-preamble}
+\input{tcolorbox}
+\input{theorem}
+\input{tikz}
+\input{riemann-complex-commands}
+\renewcommand{\vec}[1]{\mathbf{#1}}
+\setstretch{1.25}
+
+\begin{document}
+\pagenumbering{arabic}
+\begin{center}
+	\huge\textbf{Riemann; Complex Analysis}\\
+	\Large - HW1 -\\
+	\vspace{0.5em}
+	\large{Ji, Yong-hyeon}\\
+%	\large{\ttfamily \url{https://github.com/Hacker-Code-J}}\\
+	\vspace{0.5em}
+	\normalsize{\today}\\
+\end{center}
+
+\noindent 
+We cover the following topics in this note.
+\begin{itemize}
+	\item Vector Fields
+	\item Line Integrals for Vector Fields
+	\item Surface Integrals for Vector Fields
+	\item TBA
+\end{itemize}
+\hrule\vspace{12pt}
+%\tableofcontents
+%\newpage
+\section*{Scalar Function and Vector Fields}
+A \textbf{scalar function} on \(\R^n\) is a real‑valued function of an \(n\)-tuple; that is,
+\[
+f:\R^n\to\R,\quad\vec{x}\mapsto f(\vec{x})=f(x_1,x_2,\dots,x_n).
+%\fullfunction{f}{\R^n}{\R}{\vec{x}}{f(\vec{x})=f(x_1,x_2,\dots,x_n)}
+\] where \(\vec{x}=(x_1,x_2,\dots,x_n)\in\R^n\) and\(f(\vec{x})\in\R\).
+%
+%et \(n=2\).  We exhibit two concrete \emph{scalar functions} on \(\R^2\setminus\{(0,0)\}\):
+%
+%\[
+%\fullfunction{f_1}{\R^2\setminus\{(0,0)\}}{\R}{(x,y)}
+%{f_1(x,y)\;=\;-\,\frac{y}{x^2+y^2}},
+%\qquad
+%\fullfunction{f_2}{\R^2\setminus\{(0,0)\}}{\R}{(x,y)}
+%{f_2(x,y)\;=\;\frac{x}{x^2+y^2}}.
+%\]
+%
+%Here \((x,y)\in\R^2\setminus\{(0,0)\}\) and \(f_i(x,y)\in\R\).  These functions assign to each point of the punctured plane a single real value, in accordance with the definition of a scalar function on \(\R^n\).
+%
+%
+%\noindent\textbf{Polar‐coordinate form.}  Writing 
+%\[
+%x = r\cos\theta,\quad y = r\sin\theta,
+%\quad r>0,\ \theta\in[0,2\pi),
+%\]
+%we obtain the equivalent descriptions in \((r,\theta)\)‐space:
+%
+%\[
+%\fullfunction{f_1}{(0,\infty)\times[0,2\pi)}{\R}{(r,\theta)}
+%{f_1(r,\theta) \;=\; -\,\frac{r\sin\theta}{r^2}
+%	\;=\; -\,\frac{\sin\theta}{r}},
+%\]
+%
+%\[
+%\fullfunction{f_2}{(0,\infty)\times[0,2\pi)}{\R}{(r,\theta)}
+%{f_2(r,\theta) \;=\; \frac{r\cos\theta}{r^2}
+%	\;=\; \frac{\cos\theta}{r}}.
+%\]
+%
+%In this form, the dependence on the angle \(\theta\) and the radial factor \(1/r\) is made explicit.
+%
+%
+%\begin{center}
+%\begin{tikzpicture}[scale=3,>=Stealth]
+%	% Axes
+%	\draw[->] (0,0) -- (1.2,0) node[right] {$x$};
+%	\draw[->] (0,0) -- (0,1.2) node[above] {$y$};
+%	
+%	% Quarter‐circle with color ∝ x = cos(theta)
+%	\foreach \t in {0,5,...,90} {
+%		\pgfmathsetmacro{\tstart}{\t}
+%		\pgfmathsetmacro{\tend}{min(\t+5,90)}            % don’t go past 90°
+%		\pgfmathsetmacro{\mid}{(\tstart+\tend)/2}
+%		% clamp to [0,1]
+%		\pgfmathsetmacro{\col}{max(0,cos(\mid))}        
+%		\draw[line width=1pt, red!\col!black]
+%		({cos(\tstart)},{sin(\tstart)}) 
+%		arc(\tstart:\tend:1);
+%	}
+%	
+%	% orientation arrow
+%	\draw[->, red!80!black, very thick]
+%	(1,0) arc(0:15:1);
+%	
+%	% labels
+%	\node[below right] at (1,0) {$C_1$};
+%	\node[above right] at (0.6,0.6) 
+%	{$\displaystyle\int_{C_1} x\,ds$};
+%\end{tikzpicture}
+%\begin{tikzpicture}[scale=3,>=Stealth]
+%	% Axes
+%	\draw[->] (0,0) -- (1.2,0) node[right] {$x$};
+%	\draw[->] (0,0) -- (0,1.2) node[above] {$y$};
+%	
+%	% Full circle, constant density
+%	\draw[blue!70!black, thick] (0,0) circle (1);
+%	
+%	% Tangent arrows at regular points
+%	\foreach \ang in {0,45,...,315} {
+%		\pgfmathsetmacro{\x}{cos(\ang)}
+%		\pgfmathsetmacro{\y}{sin(\ang)}
+%		% on r=1, F = (−y, x) but for ds we just show tangent dir
+%		\draw[->, thick, blue!70!black]
+%		(\x,\y) -- ++({-0.1*\y},{0.1*\x});
+%	}
+%	
+%	% labels
+%	\node[below right] at (1,0) {$C_2$};
+%	\node[above right] at (0.6,0.6) 
+%	{$\displaystyle\int_{C_2} (x^2+y^2)\,ds =2\pi$};
+%\end{tikzpicture}
+%\end{center}
+%\begin{tikzpicture}[>=Stealth, thick, every label/.style={font=\small}]
+%	
+%	%% Domain: R^2 with unit circle
+%	\begin{scope}
+%		\draw[->] (-1.8,0) -- (1.8,0) node[right] {$x$};
+%		\draw[->] (0,-1.8) -- (0,1.8) node[above] {$y$};
+%		\draw (0,0) circle (1);
+%		\node at (0,-2.1) {$\displaystyle \mathbb{R}^2$};
+%		
+%		% Sample points on circle
+%		\coordinate (P1) at ({cos(60)},{sin(60)});
+%		\fill (P1) circle (1.5pt);
+%		\node[above left] at (P1) 
+%		{$P_1\!\bigl(\tfrac12,\tfrac{\sqrt3}2\bigr)$};
+%		
+%		\coordinate (P2) at ({cos(30)},{sin(30)});
+%		\fill (P2) circle (1.5pt);
+%		\node[below right] at (P2) 
+%		{$P_2\!\bigl(\tfrac{\sqrt3}2,\tfrac12\bigr)$};
+%	\end{scope}
+%	
+%	%% Codomain: R^1 vertical line
+%	\begin{scope}[xshift=6cm]
+%		\draw[->] (0,-1.8) -- (0,1.8) node[above] {$z$};
+%		\foreach \v in {-1,-0.5,0.5,1} {
+%			\draw (-0.1,\v) -- (0.1,\v) node[right] {\(\v\)};
+%		}
+%		\node at (0,-2.1) {$\displaystyle \mathbb{R}^1$};
+%	\end{scope}
+%	
+%	%% Mapping arrows
+%	% f1 at theta=60: z = -sin(60) = -√3/2 ≈ -0.866
+%	\draw[->, blue!70!black, bend left=20] 
+%	(P1) to node[above, sloped] 
+%	{\(\displaystyle f_1(P_1)=-\frac{y}{x^2+y^2}=-\tfrac{\sqrt3}{2}\)} 
+%	(5.0,-0.866);
+%	
+%	% f2 at theta=30: z = cos(30) = √3/2 ≈ 0.866
+%	\draw[->, red!70!black, bend right=20]
+%	(P2) to node[below, sloped]
+%	{\(\displaystyle f_2(P_2)=\frac{x}{x^2+y^2}=\tfrac{\sqrt3}{2}\)}
+%	(5.0,0.866);
+%	
+%\end{tikzpicture}
+%\begin{center}
+	
+%\begin{tikzpicture}[
+%	>=Stealth,
+%	every label/.style={font=\small},
+%	thick
+%	]
+%	
+%	%--- Domain: \mathbb{R}^2 plane ---
+%	\begin{scope}
+%		% axes
+%		\draw[->] (-3,0) -- (3,0) node[right] {$x$};
+%		\draw[->] (0,-3) -- (0,3) node[above] {$y$};
+%		% domain label
+%		\node at (0,-3.5) {$\displaystyle \mathbb{R}^2$};
+%	\end{scope}
+%	
+%	%--- Codomain: \mathbb{R}^1 vertical line ---
+%	\begin{scope}[xshift=8cm]
+%		% vertical axis
+%		\draw[->] (0,-3) -- (0,3) node[above] {$z$};
+%		% ticks
+%		\foreach \v in {-2,-1,1,2} {
+%			\draw (-0.1,\v) -- (0.1,\v) node[right] {\(\v\)};
+%		}
+%		% codomain label
+%		\node at (0,-3.5) {$\displaystyle \mathbb{R}^1$};
+%	\end{scope}
+%	
+%	%--- Mapping arrows with formulas ---
+%	\draw[->] (1.2,2.0) to[out=20,in=160]
+%	node[above,midway] {\(\displaystyle f_1(x,y)=-\frac{y}{x^2+y^2}\)} (8,1.5);
+%	
+%	\draw[->] (-1.2,-2.0) to[out=-20,in=-160]
+%	node[below,midway] {\(\displaystyle f_2(x,y)=\frac{x}{x^2+y^2}\)} (8,-1.5);
+%	
+%\end{tikzpicture}
+	
+\begin{center}
+\begin{minipage}{.49\textwidth}\centering
+\begin{tikzpicture}[>=stealth, scale=.5]
+%	\draw[dashed, gray!20] (-4,-4) grid (4,4);
+% Draw coordinate axes
+\draw[->] (-7.2,0) -- (7.2,0) node[right] {$x$};
+\draw[->] (0,-7.2) -- (0,7.2) node[above] {$y$};
+% Scaling factor for arrow lengths
+\def\scale{1}
+% Loop over integer grid points
+\foreach \X in {-3,-2,-1,0,1,2,3} {
+	\foreach \Y in {-3,-2,-1,0,1,2,3} {
+		% Vector field components F = (vx, vy)
+		\pgfmathsetmacro{\vx}{\X}
+		\pgfmathsetmacro{\vy}{\Y}
+		
+		% Scaled arrow components (so arrows don't overlap too much)
+		\pgfmathsetmacro{\ux}{\scale*\vx}
+		\pgfmathsetmacro{\uy}{\scale*\vy}
+		
+		% Handle the singularity at (0,0)
+		\ifnum\X=0
+		\ifnum\Y=0
+		% Zero vector as a dot
+		\fill (0,0) circle (1.5pt);
+		\else
+		% Non‑zero vector: draw arrow
+		\draw[->, line width=.5mm, blue]
+		(\X,\Y) -- ++(\ux,\uy);
+		\fi
+		\else
+		\draw[->, line width=.5mm, blue]
+		(\X,\Y) -- ++(\ux,\uy);
+		\fi
+	}
+}
+\node[] at (0,-7.8) {The radial field $\textbf{F}=\gen{x,y}=x\textbf{i}+y\textbf{j}$};
+\end{tikzpicture}
+\end{minipage}\hfill
+\begin{minipage}{.49\textwidth}\centering
+\begin{tikzpicture}[>=stealth, scale=.5]
+%	\draw[dashed, gray!20] (-4,-4) grid (4,4);
+% Axes
+\draw[->] (-7.2,0) -- (7.2,0) node[right] {$x$};
+\draw[->] (0,-7.2) -- (0,7.2) node[above] {$y$};
+% Desired arrow length
+\def\arrowlen{1}	
+% Loop over integer grid points
+\foreach \X in {-6,...,-2,-1,0,1,2,...,6} {
+	\foreach \Y in {-6,...,-2,-1,0,1,2,...,6} {
+		% Compute radius r = sqrt(x^2+y^2)
+		\pgfmathsetmacro{\r}{sqrt(\X*\X + \Y*\Y)}
+		
+		\ifdim \r pt=0pt
+		% At (0,0): singularity
+		\fill (0,0) circle (1.5pt);
+		\else
+		% Compute unit‐tangent components then scale
+		\pgfmathsetmacro{\dx}{(-\Y/\r)*\arrowlen}
+		\pgfmathsetmacro{\dy}{(\X/\r)*\arrowlen}
+		
+		% Draw the arrow
+		\draw[->, line width=.5mm, red]
+		(\X,\Y) -- ++(\dx,\dy);
+		\fi
+	}
+}
+\node[] at (0,-7.8) {The spin field $\textbf{F}=(-y\textbf{i}+x\textbf{j})/(x^2+y^2)^{1/2}$};
+\end{tikzpicture}
+\end{minipage}
+\end{center}
+A \textbf{vector field} on \(\R^n\) is a function \[
+\vec{F}:\R^n\to\R^n,\quad \vec{x}\mapsto\vec{F}(\vec{x})=(F_1(\vec{x}),F_2(\vec{x}),\dots,F_n(\vec{x})),
+%\fullfunction{\vec{F}}{\R^n}{\R^n}{\vec{x}}{\vec{F}(\vec{x})	=\bigl(F_1(\vec{x}),\,F_2(\vec{x}),\,\dots,\,F_n(\vec{x})\bigr)},
+\] where each component \(F_i:\R^n\to\R\) is itself a scalar function.
+
+\newpage
+\section*{Line Integral of Vector Fields}
+\begin{definition*}[Line Integral of Scalar Function over Arc Length]
+	Let $f:\R^n\to\R$ be a scalar function, and let $C$ be a piecewise smooth curve in 
+	$\R^n$ given by a smooth parameterization: \[
+	\gamma:[a,b]\to\R^n,\quad t\mapsto \gamma(t)=(x_1(t),x_2(t),\dots,x_n(t)).
+	\] Then the \emph{arc length} of the curve $C$ from $t=a$ to $t=b$ is defined by \[
+	L(\gamma):=\int_a^b\norm{\frac{ d\gamma}{dt}}\; dt,\quad\text{where}\; \norm{\frac{d\gamma}{dt}}=\sqrt{\left(\frac{dx_1}{dt}\right)^2+\left(\frac{dx_1}{dt}\right)^2+\cdots + \left(\frac{dx_1}{dt}\right)^2}.
+	\]The \textbf{line integral of the scalar function} $f$ along the curve $C$ with respect to arc length is defined by \[
+	\int_C f\; ds :=\int_a^bf(\gamma(t))\norm[0]{\gamma'(t)}\; dt.
+	\] Here, $ds=\norm[0]{\gamma'(t)}\; dt$ is the \emph{infinitesimal arc length}.
+\end{definition*}
+
+
+Excellent — this is a key question for understanding how **vector calculus** connects with **differential forms** and notation. Let's walk through how to **rigorously deduce**:
+
+\[
+\int_C F_1\,dx + F_2\,dy
+\quad \text{from} \quad
+\int_C \vec{F} \cdot d\vec{r}
+\]
+for a vector field \( \vec{F}(x,y) = (F_1(x,y), F_2(x,y)) \).
+
+---
+
+
+
+ **Step 1: Parametrize the Curve \( C \)**
+
+Let \( \gamma: [a, b] \to \mathbb{R}^2 \) be a smooth parameterization of the curve \( C \), given by:
+\[
+\gamma(t) = (x(t), y(t)), \quad t \in [a, b].
+\]
+
+Then the **derivative of the curve** is:
+\[
+\gamma'(t) = (x'(t), y'(t)),
+\]
+and the **differential displacement** is:
+\[
+d\vec{r} = \gamma'(t)\,dt = (dx, dy) = (x'(t)\,dt, y'(t)\,dt).
+\]
+
+---
+
+ **Step 2: Write the Line Integral of \( \vec{F} \)**
+
+The **vector line integral** is defined as:
+\[
+\int_C \vec{F} \cdot d\vec{r}
+= \int_a^b \vec{F}(\gamma(t)) \cdot \gamma'(t)\,dt
+= \int_a^b \left[ F_1(x(t), y(t))\,x'(t) + F_2(x(t), y(t))\,y'(t) \right] dt.
+\]
+
+---
+
+ **Step 3: Recognize the Total Differentials**
+
+From calculus, we know:
+\[
+dx = x'(t)\,dt, \quad dy = y'(t)\,dt.
+\]
+
+Substitute into the integral:
+\[
+\int_a^b F_1(x(t), y(t))\,dx + F_2(x(t), y(t))\,dy.
+\]
+
+So we have:
+\[
+\int_C \vec{F} \cdot d\vec{r}
+= \int_a^b F_1(x(t), y(t))\,dx + F_2(x(t), y(t))\,dy
+= \int_C F_1\,dx + F_2\,dy.
+\]
+
+---
+
+Final Deduction
+
+Thus:
+\[
+\boxed{
+	\int_C \vec{F} \cdot d\vec{r}
+	= \int_C F_1\,dx + F_2\,dy
+}
+\]
+where:
+- \( \vec{F} = (F_1, F_2) \),
+- \( d\vec{r} = (dx, dy) \),
+- The dot product \( \vec{F} \cdot d\vec{r} = F_1\,dx + F_2\,dy \).
+
+---
+
+ Interpretation
+
+- The vector line integral becomes an integral of a **1-form**:  
+\[
+\vec{F} \cdot d\vec{r} \quad \leftrightarrow \quad F_1\,dx + F_2\,dy.
+\]
+- The dot product turns into a sum of **components times differentials**.
+
+---
+
+Would you like to go one step further and express this in terms of pullbacks or show how it generalizes to \( \mathbb{R}^3 \)?
+
+\newpage
+Let \(U\subseteq\mathbb{R}^n\) be an open set and 
+\(\displaystyle\mathbf F:U\to\mathbb{R}^n\) a continuous vector field.  
+Suppose \(C\subset U\) is a smooth curve parametrized by
+\[
+\mathbf r\colon [a,b]\;\longrightarrow\;\mathbb{R}^n,
+\quad
+t\;\mapsto\;\mathbf r(t),
+\]
+with nonzero velocity \(\mathbf r'(t)\).  Then the \emph{line integral} of \(\mathbf F\) along \(C\) is defined by
+\[
+\boxed{
+	\int_C\mathbf F\!\cdot d\mathbf r
+	\;=\;
+	\int_a^b
+	\mathbf F\bigl(\mathbf r(t)\bigr)\;\cdot\;\mathbf r'(t)\;dt
+	\;=\;
+	\int_a^b
+	\sum_{i=1}^n F_i\bigl(\mathbf r(t)\bigr)\,x_i'(t)\;dt,
+}
+\]
+where \(\mathbf r(t)=(x_1(t),\dots,x_n(t))\) and 
+\(\mathbf F=(F_1,\dots,F_n)\).  
+
+\medskip
+
+\noindent
+This integral “accumulates” at each infinitesimal step \(dt\) the projection of \(\mathbf F\) onto the tangent vector \(\mathbf r'(t)\), yielding a single real number that captures the \emph{circulation} or \emph{work} of \(\mathbf F\) along \(C\).
+
+\bigskip
+
+\noindent\textbf{Example.}  Take \(n=2\) and 
+\(\displaystyle \mathbf F(x,y)
+=\Bigl(-\tfrac{y}{x^2+y^2},\,\tfrac{x}{x^2+y^2}\Bigr)\)
+on \(U=\mathbb{R}^2\setminus\{(0,0)\}\).  Let \(C\) be the unit circle 
+\(\;x^2+y^2=1\), counterclockwise.  Parametrize
+\(\mathbf r(t)=(\cos t,\sin t)\), \(t\in[0,2\pi]\).  Then
+\[
+\mathbf r'(t)=(-\sin t,\cos t),\qquad
+\mathbf F\bigl(\mathbf r(t)\bigr)
+=\bigl(-\sin t,\cos t\bigr),
+\]
+so
+\[
+\int_C\mathbf F\!\cdot d\mathbf r
+=\int_0^{2\pi}
+\bigl(-\sin t,\cos t\bigr)\cdot(-\sin t,\cos t)\;dt
+=\int_0^{2\pi}
+\bigl(\sin^2t+\cos^2t\bigr)\;dt
+=2\pi.
+\]
+Thus the total circulation (or “work”) of \(\mathbf F\) around the unit circle is \(2\pi\).
+
+
+\paragraph{{\color{magenta}Problem\;\#1} (Line Integral around Unit Circle).} Let \( C \subset \mathbb{R}^2 \) be the unit circle defined by \[
+C: x^2 + y^2 = 1,
+\] traversed in the \emph{counterclockwise direction}. Let the vector field \( \vec{F}: \mathbb{R}^2 \setminus \{(0,0)\} \to \mathbb{R}^2 \) be defined by \[
+\vec{F}(x, y) = \left( \frac{-y}{x^2 + y^2},\; \frac{x}{x^2 + y^2} \right).
+\] Evaluate the \emph{line integral} of \( \vec{F} \) along \( C \): \[
+\oint_C \vec{F} \cdot d\vec{r}.
+\]
+\begin{proof}[\sol]
+\ \begin{center}
+\begin{minipage}{.49\textwidth}\centering
+\begin{tikzpicture}[scale=1.5]
+%	\draw[dashed, gray!20] (-4,-4) grid (4,4);
+	% Axes
+	\draw[->] (-2.5,0) -- (2.5,0) node[right] {$x$};
+	\draw[->] (0,-2.5) -- (0,2.5) node[above] {$y$};
+	% Desired arrow length
+	\def\arrowlen{1}	
+	% Loop over integer grid points
+	\foreach \X in {-1.5,-1,-.5,0,.5,1,1.5} {
+		\foreach \Y in {-1.5,-1,-.5,0,.5,1,1.5} {
+			% Compute radius r = sqrt(x^2+y^2)
+			\pgfmathsetmacro{\r}{\X*\X + \Y*\Y}
+			
+			\ifdim \r pt=0pt
+			% At (0,0): singularity
+			\fill[white,draw=black] (0,0) circle (1.5pt);
+			\else
+			% Compute unit‐tangent components then scale
+			\pgfmathsetmacro{\dx}{(-\Y/\r)*\arrowlen}
+			\pgfmathsetmacro{\dy}{(\X/\r)*\arrowlen}
+			
+			% Draw the arrow
+			\draw[->, line width=.5mm, red]
+			(\X,\Y) -- ++(\dx,\dy);
+			\fi
+		}
+	}
+	\foreach \t in {0,15,...,345}{
+		\pgfmathsetmacro\x{cos(\t)}
+		\pgfmathsetmacro\y{sin(\t)}
+		% On r=1, F = (-y,x)
+		\pgfmathsetmacro\dx{(-\y)*\arrowlen}
+		\pgfmathsetmacro\dy{(\x)*\arrowlen}
+		\draw[->, line width=.5mm, red] 
+		(\x,\y) -- ++(\dx,\dy);
+	}
+	\def\arrowlen{1.5}
+	\foreach \t in {0,15,...,345}{
+		\pgfmathsetmacro\x{cos(\t)}
+		\pgfmathsetmacro\y{sin(\t)}
+		% On r=1, F = (-y,x)
+		\pgfmathsetmacro\dx{(-\y)*\arrowlen}
+		\pgfmathsetmacro\dy{(\x)*\arrowlen}
+		\draw[->, line width=.5mm, red] 
+		(\x,\y) -- ++(\dx,\dy);
+	}
+	
+	%--- Annotations -----------------------------------------
+	\node[above, red] at (0,2)
+	{$\vec{F}(x,y)=\left(-\tfrac{y}{x^2+y^2},\,\tfrac{x}{x^2+y^2}\right)$};
+\end{tikzpicture}
+\end{minipage}
+\begin{minipage}{.49\textwidth}\centering
+\begin{tikzpicture}[scale=1.5]
+	%	\draw[dashed, gray!20] (-4,-4) grid (4,4);
+	% Axes
+	\draw[->] (-2.5,0) -- (2.5,0) node[right] {$x$};
+	\draw[->] (0,-2.5) -- (0,2.5) node[above] {$y$};
+	\fill[white,draw=black] (0,0) circle (1.5pt);
+	\def\arrowlen{1}
+	\foreach \t in {0,10,...,350}{
+		\pgfmathsetmacro\x{cos(\t)}
+		\pgfmathsetmacro\y{sin(\t)}
+		% On r=1, F = (-y,x)
+		\pgfmathsetmacro\dx{(-\y)*\arrowlen}
+		\pgfmathsetmacro\dy{(\x)*\arrowlen}
+		\draw[->, thick, blue!70!black] 
+		(\x,\y) -- ++(\dx,\dy);
+	}
+	
+	%--- Draw contour C with orientation --------------------
+	\draw[cyan, very thick]
+	(0,0) circle (1)
+	node[above right=2cm] {$x^2+y^2=1$};
+\end{tikzpicture}
+\end{minipage}
+\end{center}	
+Consider the vector field:
+\[
+\vec{F}(x, y) = \left( \frac{-y}{x^2 + y^2},\; \frac{x}{x^2 + y^2} \right),
+\]
+and the curve \( C \) is the unit circle \( x^2 + y^2 = 1 \), traversed counterclockwise.
+
+\begin{enumerate}[\bfseries Step 1.]
+	\item \textbf{(Parametrization)} Define a function \[
+	\fullfunction{\gamma}{[0,2\pi]}{\set{(x,y)\in\R^2:x^2+y^2=1}}{\theta}{\gamma(\theta)=(\cos\theta,\sin\theta)}.
+	\] Here, $\frac{d\gamma}{d\theta}=(-\sin\theta,\cos\theta)$.
+	\begin{center}
+	\begin{minipage}{.4\textwidth}\centering
+	\begin{tikzpicture}[scale=.8]
+		% Draw axes
+		\draw[->] (0,-1.5) -- (0,1.5) node[above] {\(x\)};
+		\draw[->] (0,0) -- (7,0) node[right] {\(\theta\)};
+		
+		% Mark key points on the t-axis (0, pi/2, pi, 3pi/2, 2pi)
+		\foreach \x in {0,1.57,3.14,4.71,6.28} {
+			\draw (\x,0.1) -- (\x,-0.1);
+		}
+		\node at (0,-0.3) {\(0\)};
+		\node at (1.57,-0.3) {\(\pi/2\)};
+		\node at (3.14,-0.3) {\(\pi\)};
+		\node at (4.71,-0.3) {\(3\pi/2\)};
+		\node at (6.28,-0.3) {\(2\pi\)};
+		
+		% Draw sin(t) in blue
+	%	\draw[domain=0:6.28, smooth, variable=\t, blue, thick] 
+	%	plot ({\t},{sin(\t r)});
+	%	\node[blue] at (1.67,1.25) {\(\sin(t)\)};
+		
+		% Draw cos(t) in red
+		\draw[domain=0:6.28, smooth, variable=\t, red, thick] 
+		plot ({\t},{cos(\t r)});
+		\node[red] at (3.14,-1.25) {\(x=1\cdot\cos(\theta)\)};
+	\end{tikzpicture}
+	\end{minipage}\hfill
+	\begin{minipage}{.4\textwidth}\centering
+	\begin{tikzpicture}[scale=.8]
+		% Draw axes
+		\draw[->] (0,-1.5) -- (0,1.5) node[above] {\(y\)};
+		\draw[->] (0,0) -- (7,0) node[right] {\(\theta\)};
+		
+		% Mark key points on the t-axis (0, pi/2, pi, 3pi/2, 2pi)
+		\foreach \x in {0,1.57,3.14,4.71,6.28} {
+			\draw (\x,0.1) -- (\x,-0.1);
+		}
+		\node at (0,-0.3) {\(0\)};
+		\node at (1.57,-0.3) {\(\pi/2\)};
+		\node at (3.14,-0.3) {\(\pi\)};
+		\node at (4.71,-0.3) {\(3\pi/2\)};
+		\node at (6.28,-0.3) {\(2\pi\)};
+		
+		% Draw sin(t) in blue
+		\draw[domain=0:6.28, smooth, variable=\t, blue, thick] 
+		plot ({\t},{sin(\t r)});
+		\node[blue] at (1.67,1.25) {\(y=1\cdot \sin(\theta)\)};
+		
+		% Draw cos(t) in red
+	%	\draw[domain=0:6.28, smooth, variable=\t, red, thick] 
+	%	plot ({\t},{cos(\t r)});
+	%	\node[red] at (3.14,-1.25) {\(\cos(t)\)};
+	\end{tikzpicture}
+	\end{minipage}
+	\end{center}
+	\item \textbf{(Evaluate $\textbf{F}(\gamma(\theta))$ and the dot product)}\; We have \[
+	\vec{F}(\gamma(\theta)) = \vec{F}(\cos\theta,\sin\theta) \overset{\sin^2\theta+\cos^2\theta=1}{=} \left( \frac{-\sin \theta}{1}, \frac{\cos \theta}{1} \right)
+	= (-\sin \theta, \cos \theta).
+	\] and \[
+	\vec{F}(\gamma(\theta)) \cdot \frac{d\gamma}{d\theta}
+	= (-\sin \theta)(-\sin \theta) + (\cos \theta)(\cos \theta)
+	= \sin^2 \theta + \cos^2 \theta = 1.
+	\]
+	\item \textbf{(Integral)} \[
+	\oint_C \vec{F} \cdot d\vec{r}
+	= \int_0^{2\pi} \vec{F}(\gamma(\theta)) \cdot\frac{d\gamma}{d\theta}\,d\theta
+	= \int_0^{2\pi} 1\,d\theta = 2\pi.
+	\]
+\end{enumerate}
+\end{proof}
+
+
+%\begin{thebibliography}{9}
+%	\bibitem{riemann_0}
+%	수학의 즐거움, Enjoying Math. ``[리만의 복소해석을 토대로 얻는 내 수학적 시야] 0. 오리엔테이션'' YouTube Video, 1:49:27. Published 
+%	September 4, 2023. URL: \url{https://www.youtube.com/watch?v=EovxcF_DG_k&list=PL4m4z_pFWq2ob-P9m3SQZPyHTaJbbkvdz}.
+%	\bibitem{riemann_1}
+%	수학의 즐거움, Enjoying Math. ``[리만의 복소해석을 토대로 얻는 내 수학적 시야] 1. 선적분의 정의에 대한 디스커션'' YouTube Video, 1:58:19. Published 
+%	September 11, 2023. URL: \url{https://www.youtube.com/watch?v=zoalSFi1RKo&list=PL4m4z_pFWq2ob-P9m3SQZPyHTaJbbkvdz&index=2}.
+%\end{thebibliography}
+
+%\newpage
+%\appendix
+%\section{Proof of Zorn's Lemma from Axiom of Choice}
+%\thmbox{\begin{theorem*}\hypertarget{zorn}{}
+%The following statements are equivalent: \begin{enumerate}
+%	\item \textbf{Axiom of Choice (AC)}:\quad For every indexed family $\set{S_i}_{i\in I}$ of nonempty sets, there exists a choice function $f:I\to\bigcup_{i\in I}S_i$ such that $f(i)\in X_i$ for all $i\in I$.
+%	\item \textbf{Zorn's Lemma}:\quad If $(P,\preceq)$ is a nonempty partially ordered set in which every chains has an upper bound in $P$, then $P$ contains at least one maximal element.
+%\end{enumerate}
+%\end{theorem*}}
+%\begin{proof}
+%\begin{itemize}
+%	\item[($\Rightarrow$)] $(\textbf{AC}\implies \textbf{ZL})$ Assume that the Axiom of Choice holds.
+%	\begin{enumerate}
+%		\item \textbf{Definition of Poset}
+%		
+%		Let $(P,\preceq)$ be a nonempty partially ordered set with the property that every chain in $P$ has an upper bound in  $P$.
+%		
+%		\item \textbf{Construction of an Extending Function}
+%		
+%		Define the family $\set{\mathcal{C}_i}_{i\in I}$ of chains in $P$. For any chain $\mathcal{C}_i$ that is not maximal with respect to inclusion (\ie, $\exists $), AC guarantees that we can elect an element \[
+%		f(C)
+%		\] 
+%	\end{enumerate}
+%	\item[($\Leftarrow$)] $(\textbf{ZL}\implies \textbf{AC})$ 
+%\end{itemize}
+%\end{proof}
+\end{document}

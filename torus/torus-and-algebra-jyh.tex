@@ -34,12 +34,16 @@ We cover the following topics in this note.
 \begin{itemize}
 	\item Unit Circle
 	\item {\bfseries\color{red}T}{\color{orange}o}{\color{green!75!black}r}{\color{cyan}u}{\color{violet}s}
+	\item Elliptic Curve
 	\item TBA
 \end{itemize}
 \hrule\vspace{12pt}
+\vspace{20pt}
 \begin{center}
-\includegraphics[scale=1]{torus.pdf}
+\includegraphics[scale=1.5]{torus.pdf}
 \end{center}
+
+\newpage
 \tableofcontents
 
 \newpage
@@ -1168,13 +1172,145 @@ Equivalently, if we let \(\omega\) denote the standard angular 1‑form on \(\ma
 \begin{center}
 \includegraphics[scale=.85]{../tikz/grad-math-tikz-algebra/torus.pdf}
 \end{center}
+\begin{note}
+The torus rotation parameter is set to \(\theta_1\) and \(\theta_2\), each \(\theta\) expresses \[
+d\theta = \frac{-y\,dx+x\,dy}{x^2+y^2}
+\]
+globally (where \(\theta\) itself is only a local parameter), and \(\theta\) is not a gradient vector field; hence, the integral value over a circle is expressed by a nonzero integer multiple (of \(2\pi\)). \par
+These two (normalized) 1‑forms constitute a basis of \(\mathbb{R}^2\) when one identifies the collection of closed differential forms modulo exact forms.
+\end{note}
+\subsection{Quotient and Its Lattice Structure}
 Consider \[
 \mathbb{R}^2=\set{(x,y):x,y\in\R}\quad\text{and}\quad\mathbb{Z}^2 = \{(m,n) : m,n \in \mathbb{Z}\}.
-\] The quotient space is defined by the equivalence relation on \(\mathbb{R}^2\) \[
+\] The quotient space $\mathbb{T}^2 := \mathbb{R}^2/\mathbb{Z}^2$ is defined by the equivalence relation on \(\mathbb{R}^2\) \[
 (x,y) \sim (x',y') \quad \Longleftrightarrow \quad (x-x',y-y') \in \mathbb{Z}^2.
-\] Denote the quotient by \[
-\mathbb{T}^2 := \mathbb{R}^2/\mathbb{Z}^2.
 \]
+Consider \[
+\mathbb{T}^2 \cong \mathbb{R}^2/\mathbb{Z}^2,
+\] where the subgroup \(\mathbb{Z}^2\) is regarded as a free (abelian) \(\mathbb{Z}\)–module of rank 2. That is, there exist vectors 
+\[
+v_1, v_2 \in \mathbb{R}^2
+\]
+such that every element of \(\mathbb{Z}^2\) is uniquely expressible as 
+\[
+m\,v_1 + n\,v_2,\quad m,n \in \mathbb{Z}.
+\]
+Consequently, the torus possesses two independent cycles which, topologically, are isomorphic to \(\mathbb{S}^1\). In particular, one may write
+\[
+\mathbb{T}^2 = \mathbb{S}^1 \times \mathbb{S}^1.
+\]
+
+\paragraph{[$\Z^2$ as Free $\Z$-Module of Rank 2]}
+Consider the abelian group \[
+\Z^2=\Z\oplus\Z:=\set{(a,b):a,b\in\Z}
+\] with addition defined coordinate-wise: $(a,b)+(c,d)=(a+c,b+d)$. Since every element of $\Z^2$ can be uniquely expressed in the form \[
+(a,b) = a\cdot (1,0) + b\cdot (0,1),
+\] $\Z^2=\Z\oplus\Z$ is a free $\Z$-module with basis $\set{(1,0),(0,1)}$ (rank 2).
+
+
+\subsection{Local Angular Coordinates and Their Differential Forms}
+On each \(S^1\) factor of \(T^2\) one can introduce a local angular coordinate. More precisely, let
+\[
+\theta_j: U_j \to \mathbb{R},\quad j=1,2,
+\]
+be smooth functions defined on open subsets \(U_j \subset S^1\) such that for a point \(P\) in the corresponding open set we have the (local) identification
+\[
+P = (\cos\theta_j(P),\sin\theta_j(P)).
+\]
+Due to the periodicity of the trigonometric functions,
+\[
+e^{i\theta} = e^{i(\theta+2\pi k)}\quad \text{for all } k\in\mathbb{Z},
+\]
+the function \(\theta_j\) is defined only locally; its values are determined modulo \(2\pi\). Thus, while \(\theta_j\) serves as a local coordinate (or parameter) on \(S^1\), it cannot be defined globally as a real-valued function on \(S^1\).
+
+However, the exterior derivative of \(\theta_j\),
+\[
+d\theta_j,
+\]
+is independent of the additive ambiguity. To be explicit, if \(\widetilde{\theta}_j\) is any other local angular coordinate with
+\[
+\widetilde{\theta}_j = \theta_j + 2\pi k,\quad k\in\mathbb{Z},
+\]
+then
+\[
+d\widetilde{\theta}_j = d(\theta_j + 2\pi k) = d\theta_j,
+\]
+since the exterior derivative of a constant is zero. This shows that the 1‑form \(d\theta_j\) is uniquely defined on each \(S^1\) factor, and thereby on the torus \(T^2\).
+
+In standard Cartesian coordinates on \(\mathbb{R}^2\setminus\{0\}\), a direct computation yields the coordinate expression
+\[
+d\theta = \frac{-y\,dx+x\,dy}{x^2+y^2}.
+\]
+When restricted to the unit circle (or to any circle via rescaling), this expression computes the infinitesimal change in the angle.
+
+\subsection{Non-Exactness and the Integral of \(d\theta\)}
+If \(d\theta\) were exact—that is, if there existed a global smooth function \(f\) on \(S^1\) such that \(df=d\theta\)—then by the exactness property the integral over any closed curve would vanish:
+\[
+\int_\gamma df = f(\gamma(1)) - f(\gamma(0)) = 0,
+\]
+where \(\gamma\) is any closed loop. However, for a loop \(\gamma\) which represents a full rotation around the circle (or a nontrivial element in \(H_1(S^1;\mathbb{Z})\)), one has
+\[
+\int_\gamma d\theta = 2\pi k,
+\]
+with \(k\) being the winding number (typically nonzero). Hence, \(d\theta\) is closed (since \(d(d\theta)=0\) identically) but not exact. The non-exactness of \(d\theta\) reflects the nontrivial topology of \(S^1\) and, by extension, of \(T^2\).
+%
+%---
+%
+%### 4. The Periods and the Basis for \(H^1_{\mathrm{dR}}(T^2)\)
+%
+%Since the torus is expressed as \(T^2 = S^1 \times S^1\), we obtain two globally defined closed 1‑forms
+%\[
+%d\theta_1 \quad \text{and} \quad d\theta_2.
+%\]
+%By integrating these forms over the fundamental cycles, one observes that if \(\gamma_1\) and \(\gamma_2\) represent the two generating cycles of \(T^2\), then
+%\[
+%\int_{\gamma_1} d\theta_1 = 2\pi, \quad \int_{\gamma_1} d\theta_2 = 0,\quad \int_{\gamma_2} d\theta_1 = 0,\quad \int_{\gamma_2} d\theta_2 = 2\pi.
+%\]
+%Upon normalization (dividing by \(2\pi\)), the pair
+%\[
+%\left[\frac{d\theta_1}{2\pi}\right],\quad \left[\frac{d\theta_2}{2\pi}\right]
+%\]
+%forms a basis for the first de Rham cohomology group of the torus:
+%\[
+%H^1_{\mathrm{dR}}(T^2) \cong \mathbb{R}^2.
+%\]
+%This is entirely consistent with the fact that the torus lattice (the image of the period mapping) is isomorphic to the free \(\mathbb{Z}\)–module \(\mathbb{Z}^2\) and serves as the dual to the integral homology group \(H_1(T^2; \mathbb{Z})\).
+%
+%---
+%
+%### 5. Synthesis and Conclusion
+%
+%- **Torus Lattice and \(\mathbb{Z}\)–Module:**  
+%The torus \(T^2 \cong \mathbb{R}^2/\mathbb{Z}^2\) is defined by a lattice, which is a free \(\mathbb{Z}\)–module of rank 2. This structure endows the torus with two independent cycles.
+%
+%- **Local Angular Parameters:**  
+%Locally defined angular parameters \(\theta_1\) and \(\theta_2\) serve as coordinates on the two \(S^1\) factors of \(T^2\); however, they are defined only modulo \(2\pi\).
+%
+%- **Global Differential Forms \(d\theta_j\):**  
+%Despite the local ambiguity of \(\theta_j\), their differentials \(d\theta_j\) are uniquely defined, as expressed by
+%\[
+%d\theta = \frac{-y\,dx+x\,dy}{x^2+y^2}.
+%\]
+%These 1‑forms are closed (i.e., \(d(d\theta_j)=0\)) but not exact, which is manifested by the fact that
+%\[
+%\int_{\gamma} d\theta_j = 2\pi k_j \quad \text{with } k_j \in \mathbb{Z},
+%\]
+%for any closed loop \(\gamma\) representing a nontrivial homology class.
+%
+%- **Cohomological Basis and Period Lattice:**  
+%The classes \([d\theta_1]\) and \([d\theta_2]\) provide a basis for \(H^1_{\mathrm{dR}}(T^2)\), the vector space of closed 1‑forms modulo exact 1‑forms. When normalized by \(2\pi\), the integrals (periods) of these forms define a lattice in \(\mathbb{R}^2\) isomorphic to \(\mathbb{Z}^2\).
+%
+%Thus, although the local coordinate functions \(\theta_j\) are defined only locally (due to the periodicity and the resulting ambiguity modulo \(2\pi\)), the invariant differential forms \(d\theta_j\) are globally defined and yield nonzero integral values (multiples of \(2\pi\)) when integrated over the fundamental cycles. These properties not only encode the nontrivial topology of \(T^2\) but also furnish a canonical basis for the first de Rham cohomology group, thereby linking the geometric structure of the torus with the algebraic structure of its period lattice.
+%
+%---
+%
+%This formulation is intended to provide both a concrete and an abstract understanding of the interplay between local coordinates, global differential invariants, and the topological classification of the torus.
+
+\newpage
+\section{Elliptic Curve}
+An \textbf{elliptic curve} $E$ over a field $K$ (like $\C$) is given in Weierstrass form by a cubic polynomials in two variables: \[
+E:\quad y^2=x^3+ax+b
+\] where $a,b\in K$ satisfy the nonvanishing discriminant condition $\Delta=-16(4a^3+27b^2)\neq 0$.
 
 %We claim that there exists a natural homeomorphism
 %\[
