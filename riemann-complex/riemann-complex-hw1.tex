@@ -29,9 +29,12 @@ We cover the following topics in this note.
 	\item TBA
 \end{itemize}
 \hrule\vspace{12pt}
-%\tableofcontents
+\tableofcontents
 %\newpage
+
+\newpage
 \section*{Scalar Function and Vector Fields}
+\addcontentsline{toc}{section}{Scalar Function and Vector Fields}
 A \textbf{scalar function} on \(\R^n\) is a real‑valued function of an \(n\)-tuple; that is,
 \[
 f:\R^n\to\R,\quad\vec{x}\mapsto f(\vec{x})=f(x_1,x_2,\dots,x_n).
@@ -282,7 +285,23 @@ A \textbf{vector field} on \(\R^n\) is a function \[
 \] where each component \(F_i:\R^n\to\R\) is itself a scalar function.
 
 \newpage
-\section*{Line Integral of Vector Fields}
+\section*{Line Integrals}
+\addcontentsline{toc}{section}{Line Integrals}
+\subsection*{Line Integral of Scalar Function over Arc Length}
+\addcontentsline{toc}{subsection}{Line Integral of Scalar Function over Arc Length}
+
+\begin{center}
+	\animateinline[autoplay,loop]{5}% 5 fps
+	\multiframe{\the\NumPages}{i=1+1}{%
+		\includegraphics[page=\i,width=0.75\linewidth]{../riemann-tikz/cycloid_gif.pdf}%
+	}
+	\endanimateinline
+\end{center}
+
+\begin{center}
+	\includegraphics[scale=1.25]{../riemann-tikz/cycloid}
+\end{center}
+
 \begin{definition*}[Line Integral of Scalar Function over Arc Length]
 	Let $f:\R^n\to\R$ be a scalar function, and let $C$ be a piecewise smooth curve in 
 	$\R^n$ given by a smooth parameterization: \[
@@ -294,6 +313,9 @@ A \textbf{vector field} on \(\R^n\) is a function \[
 	\] Here, $ds=\norm[0]{\gamma'(t)}\; dt$ is the \emph{infinitesimal arc length}.
 \end{definition*}
 
+
+\subsection*{Line Integral of Vector Fields}
+\addcontentsline{toc}{subsection}{$\gg$ Line Integral of Vector Fields}
 
 Excellent — this is a key question for understanding how **vector calculus** connects with **differential forms** and notation. Let's walk through how to **rigorously deduce**:
 
@@ -645,4 +667,9 @@ and the curve \( C \) is the unit circle \( x^2 + y^2 = 1 \), traversed counterc
 %	\item[($\Leftarrow$)] $(\textbf{ZL}\implies \textbf{AC})$ 
 %\end{itemize}
 %\end{proof}
+
+\newpage
+\appendix
+\section{Differential Geometry}
+
 \end{document}

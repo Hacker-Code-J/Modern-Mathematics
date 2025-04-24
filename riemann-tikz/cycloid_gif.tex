@@ -1,0 +1,43 @@
+%=========================================================================================================
+% References: https://tex.stackexchange.com/questions/196957/how-can-i-draw-this-cycloid-diagram-with-tikz
+%=========================================================================================================
+\documentclass[pstricks,border=15pt,12pt]{standalone}
+\usepackage{fp}
+\FPeval\XMin{0-1}
+\FPeval\XMax{2*pi+1}
+
+\usepackage{pst-plot,pst-node}
+\psset
+{
+    algebraic,
+    linejoin=1,
+    labels=none,
+    ticks=none,
+    dimen=m,
+    linecolor=lightgray,
+    linewidth=2\pslinewidth,
+}
+
+\def\x{(t-sin(t))}
+\def\y{(1-cos(t))}
+
+\pstVerb{/I2P {AlgParser cvx exec} bind def}
+
+\def\Atom#1{%
+\begin{pspicture}(\XMin,-1)(\XMax,3)
+    \psaxes(0,0)(\XMin,-1)(\XMax,3)[$x$,0][$y$,90]
+    \pnode(!#1 1){C}
+    \pnode(!#1 /t ED \x I2P \y I2P){P}  
+    \psparametricplot[linecolor=red]{\XMin}{\XMax}{\x|\y}
+    \pscircle[linecolor=blue](C){1} 
+    % additional accessories
+    \psline(C|0,0)(C)(P)
+    \psline[linecolor=green](!#1 0)
+    \psarcn[linecolor=green,origin={C}](C){1}{-90}{(P)}
+    \pscircle*[linecolor=red](P){2pt}   
+    \pscircle*[linecolor=blue](C){2pt}
+\end{pspicture}}
+
+\begin{document}
+    \multido{\n=0.0+0.1}{21}{\Atom{\n\space Pi mul}}
+\end{document}
