@@ -290,17 +290,385 @@ A \textbf{vector field} on \(\R^n\) is a function \[
 \subsection*{Line Integral of Scalar Function over Arc Length}
 \addcontentsline{toc}{subsection}{Line Integral of Scalar Function over Arc Length}
 
-\begin{center}
-	\animateinline[autoplay,loop]{5}% 5 fps
-	\multiframe{\the\NumPages}{i=1+1}{%
-		\includegraphics[page=\i,width=0.75\linewidth]{../riemann-tikz/cycloid_gif.pdf}%
-	}
-	\endanimateinline
-\end{center}
+Let 
+\[
+\mathbf r\colon [a,b]\to\mathbb R^m,\quad
+\mathbf r(t)=(x_1(t),\dots,x_m(t))
+\]
+be a $C^1$ parametrized curve.  We give two equivalent definitions of its length.
+
+\bigskip
+
+\noindent\textbf{1.\ Polygonal Approximation.}  Take a partition 
+\(
+a=t_0<t_1<\cdots<t_n=b
+\),
+and set
+\[
+\Delta S_k
+=\bigl\|\mathbf r(t_k)-\mathbf r(t_{k-1})\bigr\|
+=\sqrt{\sum_{i=1}^m\bigl[x_i(t_k)-x_i(t_{k-1})\bigr]^2}\,.
+\]
+Then
+\[
+L(C)
+=\lim_{\max|t_k-t_{k-1}|\to0}
+\sum_{k=1}^n\Delta S_k
+\;=\;
+\lim_{n\to\infty}\sum_{k=1}^n\Delta S_k.
+\]
+For example, if $m=2$ and 
+\(\mathbf r(t)=(\cos t,\sin t)\), $t\in[0,\pi/2]$, one finds 
+\(\Delta S_k\approx|t_k-t_{k-1}|\) and hence 
+$L=\int_0^{\pi/2}1\,dt=\tfrac\pi2$.
+
+\bigskip
+
+\noindent\textbf{2.\ Differential‐Form Definition.}  In coordinates, let
+\[
+dx_i = x_i'(t)\,dt,
+\quad
+i=1,\dots,m.
+\]
+Define the line‐element (a $1$‐form)
+\[
+ds
+=\sqrt{(dx_1)^2+(dx_2)^2+\cdots+(dx_m)^2}
+=\sqrt{\sum_{i=1}^m (dx_i)^2}\,.
+\]
+Then the arc‐length is
+\[
+L(C)
+=\int_C ds
+=\int_a^b \sqrt{\sum_{i=1}^m \bigl(x_i'(t)\bigr)^2}\;dt
+=\int_a^b \bigl\|\mathbf r'(t)\bigr\|\,dt.
+\]
+In particular:
+\begin{itemize}
+	\item \emph{2-D:} $ds=\sqrt{dx^2+dy^2}$, so 
+	$L=\int_C\sqrt{dx^2+dy^2}$.  
+	
+	\item \emph{3-D:} $ds=\sqrt{dx^2+dy^2+dz^2}$, so 
+	$L=\int_C\sqrt{dx^2+dy^2+dz^2}$.
+	
+	\item \emph{$n$-D:} $ds=\sqrt{\sum_{i=1}^n dx_i^2}$, so 
+	$L=\int_Cds$ as above.
+\end{itemize}
+
+\bigskip
+
+\noindent\textbf{Example (Quarter‐Circle).}  On $C\!:x^2+y^2=1$, 
+$\mathbf r(t)=(\cos t,\sin t)$, $t\in[0,\pi/2]$, we have
+\[
+ds
+=\sqrt{(-\sin t)^2+(\cos t)^2}\,dt
+=\;1\cdot dt,
+\]
+so
+\[
+L
+=\int_0^{\pi/2}ds
+=\int_0^{\pi/2}1\,dt
+=\frac\pi2.
+\]
+\newpage
+On \(\R^n\) let \((x^1,\dots,x^n)\) be Cartesian coordinates.  Define the \emph{line element} (a differential 1-form)
+\[
+\boxed{
+	ds \;=\;\sqrt{(dx^1)^2+(dx^2)^2+\cdots+(dx^n)^2}
+	\;=\;\sqrt{\sum_{i=1}^n(dx^i)^2}\,.
+}
+\]
+Then for any smooth curve
+\[
+\mathbf r\colon [a,b]\longrightarrow\R^n,
+\quad
+t\mapsto \bigl(x^1(t),\dots,x^n(t)\bigr),
+\]
+its \emph{arc‐length} is the pullback of \(ds\) integrated over \([a,b]\):
+\[
+\boxed{
+	L(C)
+	\;=\;
+	\int_C ds
+	\;=\;
+	\int_a^b \bigl\|\,\mathbf r'(t)\bigr\|\,dt
+	\;=\;
+	\int_a^b \sqrt{\sum_{i=1}^n \bigl(x^i{}'(t)\bigr)^2}\;dt.
+}
+\]
+In particular:
+\begin{itemize}
+	\item \emph{2-D:} \(ds=\sqrt{dx^2+dy^2}\), so 
+	\(\displaystyle L=\int_C\sqrt{dx^2+dy^2}\).
+	\item \emph{3-D:} \(ds=\sqrt{dx^2+dy^2+dz^2}\), so 
+	\(\displaystyle L=\int_C\sqrt{dx^2+dy^2+dz^2}\).
+	\item \emph{\(n\)-D:} as above with \(n\) differentials.
+\end{itemize}
+
+\bigskip
+
+\noindent\textbf{Justification.}  By definition of the pullback,
+\[
+\mathbf r^*(dx^i)=x^i{}'(t)\,dt,
+\]
+so
+\[
+\mathbf r^*(ds)
+=\sqrt{\sum_i\bigl(x^i{}'(t)\,dt\bigr)^2}
+=\sqrt{\sum_i\bigl(x^i{}'(t)\bigr)^2}\;dt
+=\|\mathbf r'(t)\|\,dt.
+\]
+
+\noindent Hence 
+\(\displaystyle L=\int_C ds=\int_a^b\|\mathbf r'(t)\|\,dt\), 
+recovering the usual formula.  
+
+
+\newpage
+
+We begin with the intuitive idea: approximate a smooth curve by joining successive points with straight chords, sum their lengths, and let the mesh of the partition tend to zero.  Concretely:
+
+\bigskip
+
+\subsection*{1. Planar Curves (2-D)}
+
+Let \(C\) be a smooth curve in the plane parametrized by 
+\[
+\mathbf r(t)=(x(t),y(t)),\quad t\in[a,b],
+\]
+with \(x,y\in C^1\).  Choose a partition
+\[
+a=t_0<t_1<\cdots<t_n=b,
+\]
+and for each \(k\) let
+\[
+\Delta S_k
+=\bigl\|\mathbf r(t_k)-\mathbf r(t_{k-1})\bigr\|
+=\sqrt{\bigl[x(t_k)-x(t_{k-1})\bigr]^2
+	+\bigl[y(t_k)-y(t_{k-1})\bigr]^2}\,.
+\]
+Then the length of \(C\) is
+\[
+L(C)
+=\lim_{\max|t_k-t_{k-1}|\to0}
+\sum_{k=1}^n\Delta S_k
+=\lim_{n\to\infty}\sum_{k=1}^n\Delta S_k.
+\]
+\emph{Example.}  For the quarter‐circle of radius 1,
+\(\mathbf r(t)=(\cos t,\sin t)\), \(t\in[0,\pi/2]\), one computes
+\[
+\Delta S_k
+\approx\sqrt{2-2\cos(t_k-t_{k-1})}
+\;\approx\;|t_k-t_{k-1}|
+\quad(\text{for small }\Delta t),
+\]
+so summing and taking limits yields
+\(\displaystyle L=\int_0^{\pi/2}1\,dt=\frac\pi2\).
+
+\bigskip
+
+\subsection*{2. Space Curves (3-D)}
+
+Let \(C\) be a smooth curve in space,
+\(\mathbf r(t)=(x(t),y(t),z(t))\), \(t\in[a,b]\).  With the same partition,
+\[
+\Delta S_k
+=\sqrt{\bigl[x(t_k)-x(t_{k-1})\bigr]^2
+	+\bigl[y(t_k)-y(t_{k-1})\bigr]^2
+	+\bigl[z(t_k)-z(t_{k-1})\bigr]^2}\,,
+\]
+and 
+\[
+L(C)
+=\lim_{n\to\infty}\sum_{k=1}^n\Delta S_k
+=\int_a^b\sqrt{x'(t)^2+y'(t)^2+z'(t)^2}\,dt.
+\]
+\emph{Example.}  For the helix 
+\(\mathbf r(t)=(\cos t,\sin t,t)\), \(t\in[0,2\pi]\), one finds
+\(\|\mathbf r'(t)\|=\sqrt{\sin^2t+\cos^2t+1}=\sqrt2\),
+so \(L=\int_0^{2\pi}\!\sqrt2\,dt=2\pi\sqrt2\).
+
+\bigskip
+
+\subsection*{3. Curves in \(\R^n\)}
+
+In \(\R^n\), a smooth curve \(\mathbf r(t)=(x_1(t),\dots,x_n(t))\) admits
+\[
+\Delta S_k
+=\sqrt{\sum_{i=1}^n\bigl[x_i(t_k)-x_i(t_{k-1})\bigr]^2},
+\]
+and
+\[
+L(C)
+=\lim_{n\to\infty}\sum_{k=1}^n\Delta S_k
+=\int_a^b\sqrt{\sum_{i=1}^n [x_i'(t)]^2}\,dt.
+\]
+
+\bigskip
+
+\noindent\textbf{Why this works:} each chord  
+\(\mathbf r(t_k)-\mathbf r(t_{k-1})\)  
+approximates \(\mathbf r'(t)\,\Delta t\), so
+\(\|\Delta\mathbf r\|\approx\|\mathbf r'(t)\|\Delta t\),  
+and summing gives the Riemann integral of \(\|\mathbf r'(t)\|\).
+
+
+Consider the quarter‐circle \[
+C\colon x^2 + y^2 = 1,\quad x\ge0,\;y\ge0.
+\]
+A natural parametrization is
+\[
+\mathbf r\colon 
+[0,\tfrac\pi2]\;\longrightarrow\;\mathbb{R}^2,
+\qquad
+\mathbf r(t) = \bigl(\cos t,\;\sin t\bigr).
+\]
+Then
+\[
+\mathbf r'(t)
+= \bigl(-\sin t,\;\cos t\bigr),
+\]
+and its Euclidean norm is
+\[
+\bigl\|\mathbf r'(t)\bigr\|
+= \sqrt{(-\sin t)^2 + (\cos t)^2}
+=\sqrt{\sin^2t + \cos^2t}
+=1.
+\]
+By the definition of arc length,
+\[
+\text{Length}(C)
+= \int_{0}^{\pi/2} \bigl\|\mathbf r'(t)\bigr\|\,dt
+= \int_{0}^{\pi/2}1\,dt
+= \left[t\right]_{0}^{\pi/2}
+= \frac\pi2.
+\]
+\[
+\boxed{\;\text{Hence the quarter‐circle has length } \frac\pi2.\!}
+\]
+\qed
+
 
 \begin{center}
-	\includegraphics[scale=1.25]{../riemann-tikz/cycloid}
+\begin{tikzpicture}[>=Stealth,scale=3,font=\small]
+	% Axes
+	\draw[->] (0,0) -- (1.2,0) node[right] {$x$};
+	\draw[->] (0,0) -- (0,1.2) node[above] {$y$};
+	
+	% Quarter circle C
+	\draw[blue!70!black,thick]
+	plot[samples=100,domain=0:90,smooth] (\x:1);
+	\node[blue!70!black,above right] at (45:1) {$C$};
+	
+	% Generic point P at t0
+	\def\t{40}  % degrees
+	\coordinate (P) at (\t:1);
+	\fill[red!80!black] (P) circle (0.8pt) node[above right] {$P=(\cos t,\sin t)$};
+	
+	% Radius OP
+	\draw[dashed] (0,0) -- (P) node[midway,left=2pt] {$1$};
+	
+	% Tangent vector r'(t)
+	\draw[->,very thick,orange!80!black]
+	(P) -- ++({\t+90}:0.25) 
+	node[right] {$\mathbf r'(t)$};
+	
+	% Small angle dt
+	\draw[->,purple!80!black,thick]
+	(0.7,0) arc(0:\t:0.7);
+	\node[purple!80!black] at ({\t/2}:0.8) {$\Delta t$};
+	
+	% Corresponding arc Δs
+%	\draw[decorate,decoration={markings,mark=between positions 0.1 and 0.9 step 0.1 with {\arrow[scale=0.8]{>}}},red,thick]
+%	({\t-2}:1) arc({\t-2}:{\t+2}:1);
+%	\node[red] at ({\t}:1.1) {$\Delta s$};
+%	
+	% Relationship label
+%	\node[align=center] at (0.5,-0.3) 
+%	{On the unit circle,\\[-2pt]
+%		\(\Delta s = 1\cdot \Delta t = \Delta t\).};
+	
+	\begin{scope}[yshift=-.5cm]
+		\draw[->,thick] (0,0) -- (1.3,0) node[right] {$t$};
+		\foreach \t/\lab in {
+%			0/$0$, 0.5236/$\tfrac\pi6$, 1.0472/$\tfrac\pi3$, 1.5708/$\tfrac\pi2$
+			0/$0$, .3/$\tfrac\pi6$, .6/$\tfrac\pi3$, .9/$\tfrac\pi2$
+		}{
+			\draw (\t,0.05)--(\t,-0.05) node[below] {\lab};
+		}
+		% Δt_2 between π/6 and π/3
+		\draw[<->,thick,red] (0.3,0.15) -- node[above] {$\Delta t_2=\tfrac\pi3-\tfrac\pi6$} (.6,0.15);
+	\end{scope}
+\end{tikzpicture}
 \end{center}
+Let $I=[a,b]\subset\mathbb{R}$ and let 
+\[
+\mathbf r\colon I\;\longrightarrow\;\mathbb{R}^n,
+\quad t\;\mapsto\;\mathbf r(t)
+\]
+be a continuously differentiable (\(C^1\)) curve.  
+
+\begin{definition}[Arc Length]
+	The \emph{arc length} of the curve $\mathbf r(t)$ over the interval $[a,b]$ is
+	\[
+	L[\mathbf r]
+	\;=\;
+	\sup_{\,\mathcal P}\;
+	\sum_{i=1}^N
+	\bigl\|\mathbf r(t_i)-\mathbf r(t_{i-1})\bigr\|,
+	\]
+	where the supremum is taken over all partitions 
+	\(\mathcal P\colon a=t_0<t_1<\cdots<t_N=b\) of the interval $[a,b]$, and $\|\cdot\|$ is the Euclidean norm on~$\R^n$.
+\end{definition}
+
+\begin{remark}[Motivation]
+	\ 
+	\begin{itemize}
+		\item We approximate the smooth curve by a polygonal path joining the points 
+		\(\mathbf r(t_0),\mathbf r(t_1),\dots,\mathbf r(t_N)\).  
+		\item Each segment has length $\|\mathbf r(t_i)-\mathbf r(t_{i-1})\|$.  
+		\item Taking the supremum over all finer and finer partitions captures the intuitive “length of the curve.”  
+		\item This definition reduces to the usual distance when $\mathbf r(t)$ is a straight line.
+	\end{itemize}
+\end{remark}
+
+\begin{theorem}
+	If $\mathbf r\in C^1([a,b],\R^n)$, then the above supremum equals the integral
+	\[
+	L[\mathbf r]
+	\;=\;
+	\int_a^b
+	\bigl\|\mathbf r\,'(t)\bigr\|\;dt.
+	\]
+\end{theorem}
+
+\begin{proof}[Sketch of proof]
+	\ 
+	\begin{enumerate}
+		\item On each subinterval $[t_{i-1},t_i]$, the Mean Value Theorem gives
+		\(\mathbf r(t_i)-\mathbf r(t_{i-1})
+		=\mathbf r\,'(\xi_i)\,(t_i-t_{i-1})\) for some $\xi_i\).  
+		\item Hence 
+		\(\|\mathbf r(t_i)-\mathbf r(t_{i-1})\|
+		=\|\mathbf r\,'(\xi_i)\|\,(t_i-t_{i-1})\).  
+		\item Summing and passing to the limit as the mesh of the partition goes to zero yields the Riemann integral 
+		\(\int_a^b\|\mathbf r\,'(t)\|\,dt\).  
+	\end{enumerate}
+\end{proof}
+
+\bigskip
+
+\noindent\textbf{Why this definition?}
+\begin{itemize}
+	\item It agrees with our geometric intuition of “length” via polygonal approximation.
+	\item It is \emph{reparametrization invariant}: if one changes $t$–coordinate without reversing direction, the integral of $\|\mathbf r\,'(t)\|\,dt$ remains the same.
+	\item It generalizes the classical arclength formula for graphs $y=y(x)$:
+	\[
+	L=\int_a^b\sqrt{1+(y'(x))^2}\,dx.
+	\]
+\end{itemize}
+
 
 \begin{definition*}[Line Integral of Scalar Function over Arc Length]
 	Let $f:\R^n\to\R$ be a scalar function, and let $C$ be a piecewise smooth curve in 
@@ -315,7 +683,7 @@ A \textbf{vector field} on \(\R^n\) is a function \[
 
 
 \subsection*{Line Integral of Vector Fields}
-\addcontentsline{toc}{subsection}{$\gg$ Line Integral of Vector Fields}
+\addcontentsline{toc}{subsection}{Line Integral of Vector Fields}
 
 Excellent — this is a key question for understanding how **vector calculus** connects with **differential forms** and notation. Let's walk through how to **rigorously deduce**:
 
@@ -541,7 +909,15 @@ C: x^2 + y^2 = 1,
 		\draw[->, thick, blue!70!black] 
 		(\x,\y) -- ++(\dx,\dy);
 	}
-	
+	\foreach \t in {0,90,180,270}{
+		\pgfmathsetmacro\x{cos(\t)}
+		\pgfmathsetmacro\y{sin(\t)}
+		% On r=1, F = (-y,x)
+		\pgfmathsetmacro\dx{(-\y)*\arrowlen}
+		\pgfmathsetmacro\dy{(\x)*\arrowlen}
+		\draw[->, line width=.5mm, magenta] 
+		(\x,\y) -- ++(\dx,\dy);
+	}
 	%--- Draw contour C with orientation --------------------
 	\draw[cyan, very thick]
 	(0,0) circle (1)
