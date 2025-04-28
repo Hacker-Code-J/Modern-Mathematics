@@ -1,6 +1,7 @@
 \documentclass[11pt,openany]{article}
 
 \input{riemann-complex-preamble}
+\input{riemann-animate}
 \input{tcolorbox}
 \input{theorem}
 \input{tikz}
@@ -289,6 +290,246 @@ A \textbf{vector field} on \(\R^n\) is a function \[
 \addcontentsline{toc}{section}{Line Integrals}
 \subsection*{Line Integral of Scalar Function over Arc Length}
 \addcontentsline{toc}{subsection}{Line Integral of Scalar Function over Arc Length}
+
+\paragraph{Secant Lines \&  Tangent as a Limit}
+\begin{center}
+	\animateinline[autoplay,loop]{4}% 5 fps
+	\multiframe{\the\NumPagesA}{i=1+1}{%
+		\includegraphics[page=\i,width=\linewidth]{../riemann-tikz/secant_line_gif.pdf}%
+	}
+	\endanimateinline
+\end{center}
+For a curve $\gamma\colon t\mapsto\bigl(x(t),y(t)\bigr)$, the \emph{secant vector} over $[t,t+\Delta t]$ is
+\[
+\frac{\gamma(t+\Delta t)-\gamma(t)}{\Delta t}
+= \Bigl(\tfrac{x(t+\Delta t)-x(t)}{\Delta t},\;\tfrac{y(t+\Delta t)-y(t)}{\Delta t}\Bigr).
+\]
+As $\Delta t \to 0$, these secants converge (if $\gamma$ is smooth) to
+\[
+\frac{d}{dt}\gamma(t)=\gamma'(t)
+= \lim_{\Delta t\to0}
+\frac{\gamma(t+\Delta t)-\gamma(t)}{\Delta t},
+\]
+which gives the \emph{tangent vector} at $\gamma(t)$.
+
+\begin{center}
+\begin{tikzpicture}[scale=7]
+%	% Axes
+%	\draw[->] (0,0) -- (1.2,0) node[right] {$x$};
+%	\draw[->] (0,0) -- (0,1.2) node[above] {$y$};
+%	
+%	% Quarter circle C
+%	\draw[blue!70!black,thick]
+%	plot[samples=100,domain=0:90,smooth] (\x:1);
+%	\node[blue!70!black,above right] at (45:1) {$C$};
+%	
+%	% Generic point P at t0
+%	\def\t{40}  % degrees
+%	\coordinate (P) at (\t:1);
+%	\fill[red!80!black] (P) circle (0.8pt) node[above right] {$P=(\cos t,\sin t)$};
+%	
+%	% Radius OP
+%	\draw[dashed] (0,0) -- (P) node[midway,left=2pt] {$1$};
+%	
+%	% Tangent vector r'(t)
+%	\draw[->,very thick,orange!80!black]
+%	(P) -- ++({\t+90}:0.25) 
+%	node[right] {$\mathbf r'(t)$};
+%	
+%	% Small angle dt
+%	\draw[->,purple!80!black,thick]
+%	(0.7,0) arc(0:\t:0.7);
+%	\node[purple!80!black] at ({\t/2}:0.8) {$\Delta t$};
+	
+	% axes
+	\draw[->] (-.2,0) -- (1.5,0) node[below] {$x$};
+	\draw[->] (0,-.2) -- (0,1.5) node[left]  {$y$};
+	% unit circle
+%	\draw[thick] (0,0) circle (1);%	
+	\draw[thick] 
+	plot[samples=100,domain=0:90,smooth] (\x:1);
+	node[above right] at (45:1);
+	
+	% parameters
+	\def\t{45}      % t0 in degrees
+	\def\dt{10}     % delta t in degrees
+	
+	% points on the circle
+	\coordinate (P)       at ({cos(\t)},{sin(\t)});
+	\coordinate (Pminus)  at ({cos(\t-\dt)},{sin(\t-\dt)});
+	\coordinate (Pplus)   at ({cos(\t+\dt)},{sin(\t+\dt)});
+	
+	% draw secant
+	\draw[blue,thick,opacity=0.6]
+	(Pminus) -- (Pplus)
+	node[midway,above,sloped] {secant $\tfrac{\gamma(t_0+\Delta t)-\gamma(t_0-\Delta t)}{2\Delta t}$};
+	
+	% draw the point gamma(t0)
+	\fill (P) circle (0.015) node[above right] {$\gamma(t_0)$};
+	
+	% tangent vector at t0
+	% gamma'(t) = (-sin t, cos t)
+	\coordinate (T) at ({-sin(\t)},{cos(\t)});
+	\draw[red,->,very thick] (P) -- ++(T)
+	node[right] {$\displaystyle\gamma'(t_0)=(-\sin t_0,\cos t_0)$};
+	
+%	% annotation of angles
+%	\draw[gray,->] (0.3,0) arc (0:\t:0.3) node[midway,right] {$t_0$};
+%	\draw[gray,->] (0.5,0) arc (0:{\t+\dt}:0.5) node[midway,above] {$t_0+\Delta t$};
+%	\draw[gray,->] (0.7,0) arc (0:{\t-\dt}:0.7) node[midway,below] {$t_0-\Delta t$};
+\end{tikzpicture}
+\end{center}
+
+\begin{frame}{Example: \(\frac{d}{dt}\) as a Linear Derivation}
+	Let
+	\[
+	\gamma(t) = \bigl(x(t),\,y(t)\bigr)
+	= \bigl(t^2,\;\sin t\bigr).
+	\]
+	Then the operator
+	\[
+	v_t \;=\;\left.\frac{d}{dt}\right|_{t}
+	: C^\infty(\mathbb{R}^2)\;\longrightarrow\;\mathbb{R},
+	\quad
+	f \;\longmapsto\; \frac{d}{dt}\bigl(f(\gamma(t))\bigr)
+	\]
+	satisfies the Leibniz rule and in coordinates
+	\[
+	v_t
+	= \sum_{i=1}^2 \dot x_i(t)\,\frac{\partial}{\partial x_i}
+	= 2t\,\frac{\partial}{\partial x} \;+\;\cos t\,\frac{\partial}{\partial y}.
+	\]
+\end{frame}
+
+\begin{frame}{Applying \(v_t\) to a Test Function}
+	Take
+	\[
+	f(x,y) = x^2\,y.
+	\]
+	Then
+	\[
+	v_t(f)
+	= 2t\,\frac{\partial}{\partial x}(x^2y)
+	+ \cos t\,\frac{\partial}{\partial y}(x^2y)
+	= 2t\,(2xy) + \cos t\,(x^2)
+	\bigg|_{(x,y)=(t^2,\sin t)}
+	= 4t^3\sin t \;+\; t^4\cos t.
+	\]
+	Equivalently,
+	\[
+	\frac{d}{dt}\bigl[f(\gamma(t))\bigr]
+	= \frac{d}{dt}\bigl(t^4\sin t\bigr)
+	= 4t^3\sin t + t^4\cos t.
+	\]
+\end{frame}
+
+\begin{frame}{Verifying the Leibniz Property}
+	For \(f(x,y)=x\), \(g(x,y)=y\):
+	\[
+	v_t(fg)
+	= \frac{d}{dt}\bigl(x(t)\,y(t)\bigr)
+	= \frac{d}{dt}\bigl(t^2\sin t\bigr)
+	= 2t\sin t + t^2\cos t,
+	\]
+	while
+	\[
+	v_t(f)\,g + f\,v_t(g)
+	= \bigl(2t\bigr)\bigl(\sin t\bigr)
+	+ \bigl(t^2\bigr)\bigl(\cos t\bigr)
+	= 2t\sin t + t^2\cos t.
+	\]
+	Hence \(v_t(fg)=v_t(f)\,g+f\,v_t(g)\).
+\end{frame}
+\[
+\left.\frac{d}{dt}\right|_{t}\;:\;C^\infty(\mathbb{R}^n)\;\longrightarrow\;\mathbb{R},
+\qquad
+f\;\longmapsto\;
+\frac{d}{dt}\bigl(f(\gamma(t))\bigr)
+\;=\;
+\sum_{i=1}^n \frac{dx_i}{dt}(t)\,\frac{\partial f}{\partial x_i}\bigl(\gamma(t)\bigr).
+\]
+
+\[
+\frac{d}{dt}
+\;=\;
+\sum_{i=1}^n \frac{dx_i}{dt}(t)\,\frac{\partial}{\partial x_i}
+\quad\text{so that}\quad
+\frac{d}{dt}(f)
+=\Bigl(\sum_i \dot x_i\,\partial_{x_i}\Bigr)[f].
+\]
+
+\begin{frame}{Secant Lines \& the Limit}
+	\begin{itemize}
+		\item For a curve $\gamma\colon t\mapsto\bigl(x(t),y(t)\bigr)$, the \emph{secant vector} over $[t,t+\Delta t]$ is
+		\[
+		\frac{\gamma(t+\Delta t)-\gamma(t)}{\Delta t}
+		= \Bigl(\tfrac{x(t+\Delta t)-x(t)}{\Delta t},\;\tfrac{y(t+\Delta t)-y(t)}{\Delta t}\Bigr).
+		\]
+		\item As $\Delta t \to 0$, these secants converge (if $\gamma$ is smooth) to
+		\[
+		\frac{d}{dt}\gamma(t)=\gamma'(t)
+		= \lim_{\Delta t\to0}
+		\frac{\gamma(t+\Delta t)-\gamma(t)}{\Delta t},
+		\]
+		which gives the \emph{tangent vector} at $\gamma(t)$.
+	\end{itemize}
+\end{frame}
+
+\section{Best Linear Approximation}
+\begin{frame}{Derivative as Best Linear Approximation}
+	\begin{itemize}
+		\item The derivative is the unique linear map $D\gamma_t$ satisfying
+		\[
+		\gamma(t+\Delta t)
+		= \gamma(t)
+		+ D\gamma_t\bigl(\Delta t\bigr)
+		+ o(\Delta t).
+		\]
+		\item In one–dimensional parameter space, $D\gamma_t(\Delta t)=\gamma'(t)\,\Delta t$.
+		\item Thus $\gamma'(t)$ is the \emph{linear part} of the local approximation.
+	\end{itemize}
+\end{frame}
+
+\section{Velocity Interpretation}
+\begin{frame}{Velocity Vector Interpretation}
+	\begin{itemize}
+		\item View $\gamma(t)$ as the position of a particle at time $t$.
+		\item Then
+		\[
+		\gamma'(t)
+		= \frac{d}{dt}\gamma(t)
+		\quad\text{is exactly the particle's velocity vector.}
+		\]
+		\item Velocity lies in the tangent space of the curve and measures \emph{instantaneous} speed \& direction.
+	\end{itemize}
+\end{frame}
+
+\section{Differential–Geometric View}
+\begin{frame}{Differential–Geometric View}
+	\begin{itemize}
+		\item A smooth curve is a map $\gamma\colon I\to M$.
+		\item The tangent vector is the push‐forward
+		\[
+		\mathrm{d}\gamma_t\bigl(\tfrac{\partial}{\partial t}\bigr)
+		\;\in\;T_{\gamma(t)}M.
+		\]
+		\item In coordinates $x^i$, one has
+		\[
+		\gamma'(t)
+		= x^i{}'(t)\,\frac{\partial}{\partial x^i}.
+		\]
+	\end{itemize}
+\end{frame}
+
+\section{Summary}
+\begin{frame}{Summary}
+	\begin{itemize}
+		\item Tangent vectors are the \emph{limit of secant vectors} as the interval shrinks.
+		\item They arise as the \emph{best linear approximation} to the curve.
+		\item Physically, they correspond to a particle's \emph{velocity}.
+		\item In differential geometry, they are the \emph{push‐forward} of $\partial/\partial t$.
+	\end{itemize}
+\end{frame}
 
 Let 
 \[

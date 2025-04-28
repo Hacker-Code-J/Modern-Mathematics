@@ -1,0 +1,42 @@
+%=========================================================================================
+% References: https://tex.stackexchange.com/questions/460632/tikz-and-secant-line-diagram
+%=========================================================================================
+\documentclass[pstricks,border=12pt,12pt]{standalone}
+\usepackage{pstricks-add,pst-eucl}
+
+
+\def\f(#1){((#1+3)/3+sin(#1+3))}
+\def\fp(#1){Derive(1,\f(#1))}
+\psset{unit=2}
+
+\begin{document}
+\multido{\r=2.0+-.1}{19}{%
+\begin{pspicture}[algebraic](-1.7,-.6)(4.4,3.4)
+	\psaxes[ticks=none,labels=none]{->}(0,0)(-1.7,-.6)(4.1,3.1)[$x$,0][$y$,90]
+	\psplot[linecolor=red,linewidth=2pt]{-1}{3.9}{\f(x)}
+	%
+	\psplotTangent[linecolor=blue]{1.6}{1}{\f(x)}
+	\psplotTangent[linecolor=cyan,Derive={-1/\fp(x)}]{1.6}{.5}{\f(x)}
+	%
+	\pstGeonode[PosAngle={135,90}]
+	(*1.6 {\f(x)}){A}
+	(*{1.6 \r\space add} {\f(x)}){B}
+	\pstGeonode[PosAngle={-120,-60},PointName={t,t+\Delta t},PointNameSep=10pt]
+	(A|0,0){x1}
+	(B|0,0){x2}
+	\pstGeonode[PosAngle={210,150},PointName={\gamma(t),\gamma(t+\Delta t)},PointNameSep=15pt]
+	(0,0|A){fx1}
+	(0,0|B){fx2}
+	\pcline[nodesep=-.5,linecolor=green](A)(B)
+	%
+	\psset{linestyle=dashed}
+	\psCoordinates(A)
+	\psCoordinates(B)
+	%
+	\psset{linecolor=gray,linestyle=dashed,labelsep=4pt,arrows=|*-|*,offset=-16pt}
+	\pcline(x1)(x2)
+	\nbput{$\Delta t$}
+	\pcline(fx2)(fx1)
+	\nbput{$\gamma(t + \Delta t)-\gamma(t)$}
+\end{pspicture}}
+\end{document}
