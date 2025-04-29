@@ -7,6 +7,7 @@
 \input{tikz}
 \input{riemann-complex-commands}
 \renewcommand{\vec}[1]{\mathbf{#1}}
+\renewcommand{\emph}[1]{\textbf{#1}}
 \setstretch{1.25}
 
 \begin{document}
@@ -295,636 +296,102 @@ A \textbf{vector field} on \(\R^n\) is a function \[
 \begin{center}
 	\animateinline[autoplay,loop]{4}% 5 fps
 	\multiframe{\the\NumPagesA}{i=1+1}{%
-		\includegraphics[page=\i,width=\linewidth]{../riemann-tikz/secant_line_gif.pdf}%
+		\includegraphics[page=\i,width=.8\textwidth]{../riemann-tikz/secant_line_gif.pdf}%
 	}
 	\endanimateinline
 \end{center}
-For a curve $\gamma\colon t\mapsto\bigl(x(t),y(t)\bigr)$, the \emph{secant vector} over $[t,t+\Delta t]$ is
+For a curve $\gamma\colon\R\to\R^2\colon t\mapsto\bigl(x(t),y(t)\bigr)$, the \emph{secant vector} over $[t,t+\Delta t]$ is
 \[
 \frac{\gamma(t+\Delta t)-\gamma(t)}{\Delta t}
-= \Bigl(\tfrac{x(t+\Delta t)-x(t)}{\Delta t},\;\tfrac{y(t+\Delta t)-y(t)}{\Delta t}\Bigr).
+= \left(\frac{x(t+\Delta t)-x(t)}{\Delta t},\;\frac{y(t+\Delta t)-y(t)}{\Delta t}\right).
 \]
-As $\Delta t \to 0$, these secants converge (if $\gamma$ is smooth) to
-\[
-\frac{d}{dt}\gamma(t)=\gamma'(t)
+As $\Delta t \to 0$, these secants converge (if $\gamma$ is smooth) to \begin{align*}
+\gamma'(t)=\frac{d}{dt}\gamma(t)= \lim_{\Delta t\to0}
+\frac{\gamma(t+\Delta t)-\gamma(t)}{\Delta t}&=\left(\lim_{\Delta t\to0}\frac{x(t+\Delta t)-x(t)}{\Delta t},\;\lim_{\Delta t\to0}\frac{y(t+\Delta t)-y(t)}{\Delta t}\right)\\
+&=\left(\frac{d}{dt}x(t),\;\frac{d}{dt}y(t)\right)\\
+&=(x'(t),y'(t)),
+\end{align*} which gives the \emph{tangent vector} at $\gamma(t)$. The tangent vector captures how the curve is moving instantaneously at time $t$.\par
+By Pythagoras’ theorem, the \emph{length moved per unit time} is \(\|\gamma'(t)\|=\sqrt{(x'(t))^2 + (y'(t))^2}\), and the small arc length traveled between \(t\) and \(t+\Delta t\) is approximately: \[
+\|\gamma'(t)\| \Delta t=\sqrt{\left(\frac{d}{dt}x(t)\right)^2+\left(\frac{d}{dt}y(t)\right)^2}\cdot\Delta t.
+\]
+\newpage
+\defbox[Arc Length of a Parametrized Curve]{
+\begin{definition*}
+	Let \( C \subset \mathbb{R}^n \) be a piecewise smooth curve, given by a smooth parameterization:
+	\[
+	\gamma : [a, b] \to \mathbb{R}^n,\quad
+	t \mapsto \gamma(t) = \big(x_1(t), x_2(t), \dots, x_n(t)\big).
+	\] Then the \textbf{arc length} $s$ of the curve \( C \) from \( t = a \) to \( t = b \) is defined by \[
+	\boxed{
+		s := \int_a^b \left\| \gamma'(t) \right\|\, dt},\quad\text{where}\; \left\| \gamma'(t) \right\| = \sqrt{ \left( \frac{d}{dt}x_1(t) \right)^2 + \left( \frac{d}{dt}x_2(t) \right)^2 + \cdots + \left( \frac{d}{dt}x_n(t) \right)^2 }.
+	\]
+\end{definition*}}
+\begin{center}
+\begin{minipage}{.4\textwidth}\centering
+\includegraphics[scale=1]{../riemann-tikz/curve_in_3d.pdf}
+\end{minipage}\hfill
+\begin{minipage}{.59\textwidth}
+$\fullfunction{\gamma}{\R}{\R^3}{t}{\gamma(t)=(x(t),y(t),z(t))}$\ \\
+\vfill\ \\
+$\displaystyle\gamma'(t)=\frac{d}{dt}\gamma(t)
 = \lim_{\Delta t\to0}
-\frac{\gamma(t+\Delta t)-\gamma(t)}{\Delta t},
-\]
-which gives the \emph{tangent vector} at $\gamma(t)$.
-
-\begin{center}
-\begin{tikzpicture}[scale=7]
-%	% Axes
-%	\draw[->] (0,0) -- (1.2,0) node[right] {$x$};
-%	\draw[->] (0,0) -- (0,1.2) node[above] {$y$};
-%	
-%	% Quarter circle C
-%	\draw[blue!70!black,thick]
-%	plot[samples=100,domain=0:90,smooth] (\x:1);
-%	\node[blue!70!black,above right] at (45:1) {$C$};
-%	
-%	% Generic point P at t0
-%	\def\t{40}  % degrees
-%	\coordinate (P) at (\t:1);
-%	\fill[red!80!black] (P) circle (0.8pt) node[above right] {$P=(\cos t,\sin t)$};
-%	
-%	% Radius OP
-%	\draw[dashed] (0,0) -- (P) node[midway,left=2pt] {$1$};
-%	
-%	% Tangent vector r'(t)
-%	\draw[->,very thick,orange!80!black]
-%	(P) -- ++({\t+90}:0.25) 
-%	node[right] {$\mathbf r'(t)$};
-%	
-%	% Small angle dt
-%	\draw[->,purple!80!black,thick]
-%	(0.7,0) arc(0:\t:0.7);
-%	\node[purple!80!black] at ({\t/2}:0.8) {$\Delta t$};
-	
-	% axes
-	\draw[->] (-.2,0) -- (1.5,0) node[below] {$x$};
-	\draw[->] (0,-.2) -- (0,1.5) node[left]  {$y$};
-	% unit circle
-%	\draw[thick] (0,0) circle (1);%	
-	\draw[thick] 
-	plot[samples=100,domain=0:90,smooth] (\x:1);
-	node[above right] at (45:1);
-	
-	% parameters
-	\def\t{45}      % t0 in degrees
-	\def\dt{10}     % delta t in degrees
-	
-	% points on the circle
-	\coordinate (P)       at ({cos(\t)},{sin(\t)});
-	\coordinate (Pminus)  at ({cos(\t-\dt)},{sin(\t-\dt)});
-	\coordinate (Pplus)   at ({cos(\t+\dt)},{sin(\t+\dt)});
-	
-	% draw secant
-	\draw[blue,thick,opacity=0.6]
-	(Pminus) -- (Pplus)
-	node[midway,above,sloped] {secant $\tfrac{\gamma(t_0+\Delta t)-\gamma(t_0-\Delta t)}{2\Delta t}$};
-	
-	% draw the point gamma(t0)
-	\fill (P) circle (0.015) node[above right] {$\gamma(t_0)$};
-	
-	% tangent vector at t0
-	% gamma'(t) = (-sin t, cos t)
-	\coordinate (T) at ({-sin(\t)},{cos(\t)});
-	\draw[red,->,very thick] (P) -- ++(T)
-	node[right] {$\displaystyle\gamma'(t_0)=(-\sin t_0,\cos t_0)$};
-	
-%	% annotation of angles
-%	\draw[gray,->] (0.3,0) arc (0:\t:0.3) node[midway,right] {$t_0$};
-%	\draw[gray,->] (0.5,0) arc (0:{\t+\dt}:0.5) node[midway,above] {$t_0+\Delta t$};
-%	\draw[gray,->] (0.7,0) arc (0:{\t-\dt}:0.7) node[midway,below] {$t_0-\Delta t$};
-\end{tikzpicture}
+\frac{\gamma(t+\Delta t)-\gamma(t)}{\Delta t}=(x'(t),y'(t),z'(t))$\  \\
+\vfill\ \\
+$\displaystyle s=\int_a^b\sqrt{\left(x'(t)\right)^2+\left(y'(t)\right)^2+\left(z'(t)\right)^2}\; dt$
+\end{minipage}
 \end{center}
-
-\begin{frame}{Example: \(\frac{d}{dt}\) as a Linear Derivation}
-	Let
-	\[
-	\gamma(t) = \bigl(x(t),\,y(t)\bigr)
-	= \bigl(t^2,\;\sin t\bigr).
-	\]
-	Then the operator
-	\[
-	v_t \;=\;\left.\frac{d}{dt}\right|_{t}
-	: C^\infty(\mathbb{R}^2)\;\longrightarrow\;\mathbb{R},
-	\quad
-	f \;\longmapsto\; \frac{d}{dt}\bigl(f(\gamma(t))\bigr)
-	\]
-	satisfies the Leibniz rule and in coordinates
-	\[
-	v_t
-	= \sum_{i=1}^2 \dot x_i(t)\,\frac{\partial}{\partial x_i}
-	= 2t\,\frac{\partial}{\partial x} \;+\;\cos t\,\frac{\partial}{\partial y}.
-	\]
-\end{frame}
-
-\begin{frame}{Applying \(v_t\) to a Test Function}
-	Take
-	\[
-	f(x,y) = x^2\,y.
-	\]
-	Then
-	\[
-	v_t(f)
-	= 2t\,\frac{\partial}{\partial x}(x^2y)
-	+ \cos t\,\frac{\partial}{\partial y}(x^2y)
-	= 2t\,(2xy) + \cos t\,(x^2)
-	\bigg|_{(x,y)=(t^2,\sin t)}
-	= 4t^3\sin t \;+\; t^4\cos t.
-	\]
-	Equivalently,
-	\[
-	\frac{d}{dt}\bigl[f(\gamma(t))\bigr]
-	= \frac{d}{dt}\bigl(t^4\sin t\bigr)
-	= 4t^3\sin t + t^4\cos t.
-	\]
-\end{frame}
-
-\begin{frame}{Verifying the Leibniz Property}
-	For \(f(x,y)=x\), \(g(x,y)=y\):
-	\[
-	v_t(fg)
-	= \frac{d}{dt}\bigl(x(t)\,y(t)\bigr)
-	= \frac{d}{dt}\bigl(t^2\sin t\bigr)
-	= 2t\sin t + t^2\cos t,
-	\]
-	while
-	\[
-	v_t(f)\,g + f\,v_t(g)
-	= \bigl(2t\bigr)\bigl(\sin t\bigr)
-	+ \bigl(t^2\bigr)\bigl(\cos t\bigr)
-	= 2t\sin t + t^2\cos t.
-	\]
-	Hence \(v_t(fg)=v_t(f)\,g+f\,v_t(g)\).
-\end{frame}
-\[
-\left.\frac{d}{dt}\right|_{t}\;:\;C^\infty(\mathbb{R}^n)\;\longrightarrow\;\mathbb{R},
-\qquad
-f\;\longmapsto\;
-\frac{d}{dt}\bigl(f(\gamma(t))\bigr)
-\;=\;
-\sum_{i=1}^n \frac{dx_i}{dt}(t)\,\frac{\partial f}{\partial x_i}\bigl(\gamma(t)\bigr).
-\]
-
-\[
-\frac{d}{dt}
-\;=\;
-\sum_{i=1}^n \frac{dx_i}{dt}(t)\,\frac{\partial}{\partial x_i}
-\quad\text{so that}\quad
-\frac{d}{dt}(f)
-=\Bigl(\sum_i \dot x_i\,\partial_{x_i}\Bigr)[f].
-\]
-
-\begin{frame}{Secant Lines \& the Limit}
-	\begin{itemize}
-		\item For a curve $\gamma\colon t\mapsto\bigl(x(t),y(t)\bigr)$, the \emph{secant vector} over $[t,t+\Delta t]$ is
-		\[
-		\frac{\gamma(t+\Delta t)-\gamma(t)}{\Delta t}
-		= \Bigl(\tfrac{x(t+\Delta t)-x(t)}{\Delta t},\;\tfrac{y(t+\Delta t)-y(t)}{\Delta t}\Bigr).
-		\]
-		\item As $\Delta t \to 0$, these secants converge (if $\gamma$ is smooth) to
-		\[
-		\frac{d}{dt}\gamma(t)=\gamma'(t)
-		= \lim_{\Delta t\to0}
-		\frac{\gamma(t+\Delta t)-\gamma(t)}{\Delta t},
-		\]
-		which gives the \emph{tangent vector} at $\gamma(t)$.
-	\end{itemize}
-\end{frame}
-
-\section{Best Linear Approximation}
-\begin{frame}{Derivative as Best Linear Approximation}
-	\begin{itemize}
-		\item The derivative is the unique linear map $D\gamma_t$ satisfying
-		\[
-		\gamma(t+\Delta t)
-		= \gamma(t)
-		+ D\gamma_t\bigl(\Delta t\bigr)
-		+ o(\Delta t).
-		\]
-		\item In one–dimensional parameter space, $D\gamma_t(\Delta t)=\gamma'(t)\,\Delta t$.
-		\item Thus $\gamma'(t)$ is the \emph{linear part} of the local approximation.
-	\end{itemize}
-\end{frame}
-
-\section{Velocity Interpretation}
-\begin{frame}{Velocity Vector Interpretation}
-	\begin{itemize}
-		\item View $\gamma(t)$ as the position of a particle at time $t$.
-		\item Then
-		\[
-		\gamma'(t)
-		= \frac{d}{dt}\gamma(t)
-		\quad\text{is exactly the particle's velocity vector.}
-		\]
-		\item Velocity lies in the tangent space of the curve and measures \emph{instantaneous} speed \& direction.
-	\end{itemize}
-\end{frame}
-
-\section{Differential–Geometric View}
-\begin{frame}{Differential–Geometric View}
-	\begin{itemize}
-		\item A smooth curve is a map $\gamma\colon I\to M$.
-		\item The tangent vector is the push‐forward
-		\[
-		\mathrm{d}\gamma_t\bigl(\tfrac{\partial}{\partial t}\bigr)
-		\;\in\;T_{\gamma(t)}M.
-		\]
-		\item In coordinates $x^i$, one has
-		\[
-		\gamma'(t)
-		= x^i{}'(t)\,\frac{\partial}{\partial x^i}.
-		\]
-	\end{itemize}
-\end{frame}
-
-\section{Summary}
-\begin{frame}{Summary}
-	\begin{itemize}
-		\item Tangent vectors are the \emph{limit of secant vectors} as the interval shrinks.
-		\item They arise as the \emph{best linear approximation} to the curve.
-		\item Physically, they correspond to a particle's \emph{velocity}.
-		\item In differential geometry, they are the \emph{push‐forward} of $\partial/\partial t$.
-	\end{itemize}
-\end{frame}
-
-Let 
-\[
-\mathbf r\colon [a,b]\to\mathbb R^m,\quad
-\mathbf r(t)=(x_1(t),\dots,x_m(t))
-\]
-be a $C^1$ parametrized curve.  We give two equivalent definitions of its length.
-
-\bigskip
-
-\noindent\textbf{1.\ Polygonal Approximation.}  Take a partition 
-\(
-a=t_0<t_1<\cdots<t_n=b
-\),
-and set
-\[
-\Delta S_k
-=\bigl\|\mathbf r(t_k)-\mathbf r(t_{k-1})\bigr\|
-=\sqrt{\sum_{i=1}^m\bigl[x_i(t_k)-x_i(t_{k-1})\bigr]^2}\,.
-\]
-Then
-\[
-L(C)
-=\lim_{\max|t_k-t_{k-1}|\to0}
-\sum_{k=1}^n\Delta S_k
-\;=\;
-\lim_{n\to\infty}\sum_{k=1}^n\Delta S_k.
-\]
-For example, if $m=2$ and 
-\(\mathbf r(t)=(\cos t,\sin t)\), $t\in[0,\pi/2]$, one finds 
-\(\Delta S_k\approx|t_k-t_{k-1}|\) and hence 
-$L=\int_0^{\pi/2}1\,dt=\tfrac\pi2$.
-
-\bigskip
-
-\noindent\textbf{2.\ Differential‐Form Definition.}  In coordinates, let
-\[
-dx_i = x_i'(t)\,dt,
-\quad
-i=1,\dots,m.
-\]
-Define the line‐element (a $1$‐form)
-\[
-ds
-=\sqrt{(dx_1)^2+(dx_2)^2+\cdots+(dx_m)^2}
-=\sqrt{\sum_{i=1}^m (dx_i)^2}\,.
-\]
-Then the arc‐length is
-\[
-L(C)
-=\int_C ds
-=\int_a^b \sqrt{\sum_{i=1}^m \bigl(x_i'(t)\bigr)^2}\;dt
-=\int_a^b \bigl\|\mathbf r'(t)\bigr\|\,dt.
-\]
-In particular:
-\begin{itemize}
-	\item \emph{2-D:} $ds=\sqrt{dx^2+dy^2}$, so 
-	$L=\int_C\sqrt{dx^2+dy^2}$.  
-	
-	\item \emph{3-D:} $ds=\sqrt{dx^2+dy^2+dz^2}$, so 
-	$L=\int_C\sqrt{dx^2+dy^2+dz^2}$.
-	
-	\item \emph{$n$-D:} $ds=\sqrt{\sum_{i=1}^n dx_i^2}$, so 
-	$L=\int_Cds$ as above.
-\end{itemize}
-
-\bigskip
-
-\noindent\textbf{Example (Quarter‐Circle).}  On $C\!:x^2+y^2=1$, 
-$\mathbf r(t)=(\cos t,\sin t)$, $t\in[0,\pi/2]$, we have
-\[
-ds
-=\sqrt{(-\sin t)^2+(\cos t)^2}\,dt
-=\;1\cdot dt,
-\]
-so
-\[
-L
-=\int_0^{\pi/2}ds
-=\int_0^{\pi/2}1\,dt
-=\frac\pi2.
-\]
-\newpage
-On \(\R^n\) let \((x^1,\dots,x^n)\) be Cartesian coordinates.  Define the \emph{line element} (a differential 1-form)
-\[
-\boxed{
-	ds \;=\;\sqrt{(dx^1)^2+(dx^2)^2+\cdots+(dx^n)^2}
-	\;=\;\sqrt{\sum_{i=1}^n(dx^i)^2}\,.
-}
-\]
-Then for any smooth curve
-\[
-\mathbf r\colon [a,b]\longrightarrow\R^n,
-\quad
-t\mapsto \bigl(x^1(t),\dots,x^n(t)\bigr),
-\]
-its \emph{arc‐length} is the pullback of \(ds\) integrated over \([a,b]\):
-\[
-\boxed{
-	L(C)
-	\;=\;
-	\int_C ds
-	\;=\;
-	\int_a^b \bigl\|\,\mathbf r'(t)\bigr\|\,dt
-	\;=\;
-	\int_a^b \sqrt{\sum_{i=1}^n \bigl(x^i{}'(t)\bigr)^2}\;dt.
-}
-\]
-In particular:
-\begin{itemize}
-	\item \emph{2-D:} \(ds=\sqrt{dx^2+dy^2}\), so 
-	\(\displaystyle L=\int_C\sqrt{dx^2+dy^2}\).
-	\item \emph{3-D:} \(ds=\sqrt{dx^2+dy^2+dz^2}\), so 
-	\(\displaystyle L=\int_C\sqrt{dx^2+dy^2+dz^2}\).
-	\item \emph{\(n\)-D:} as above with \(n\) differentials.
-\end{itemize}
-
-\bigskip
-
-\noindent\textbf{Justification.}  By definition of the pullback,
-\[
-\mathbf r^*(dx^i)=x^i{}'(t)\,dt,
-\]
-so
-\[
-\mathbf r^*(ds)
-=\sqrt{\sum_i\bigl(x^i{}'(t)\,dt\bigr)^2}
-=\sqrt{\sum_i\bigl(x^i{}'(t)\bigr)^2}\;dt
-=\|\mathbf r'(t)\|\,dt.
-\]
-
-\noindent Hence 
-\(\displaystyle L=\int_C ds=\int_a^b\|\mathbf r'(t)\|\,dt\), 
-recovering the usual formula.  
-
-
-\newpage
-
-We begin with the intuitive idea: approximate a smooth curve by joining successive points with straight chords, sum their lengths, and let the mesh of the partition tend to zero.  Concretely:
-
-\bigskip
-
-\subsection*{1. Planar Curves (2-D)}
-
-Let \(C\) be a smooth curve in the plane parametrized by 
-\[
-\mathbf r(t)=(x(t),y(t)),\quad t\in[a,b],
-\]
-with \(x,y\in C^1\).  Choose a partition
-\[
-a=t_0<t_1<\cdots<t_n=b,
-\]
-and for each \(k\) let
-\[
-\Delta S_k
-=\bigl\|\mathbf r(t_k)-\mathbf r(t_{k-1})\bigr\|
-=\sqrt{\bigl[x(t_k)-x(t_{k-1})\bigr]^2
-	+\bigl[y(t_k)-y(t_{k-1})\bigr]^2}\,.
-\]
-Then the length of \(C\) is
-\[
-L(C)
-=\lim_{\max|t_k-t_{k-1}|\to0}
-\sum_{k=1}^n\Delta S_k
-=\lim_{n\to\infty}\sum_{k=1}^n\Delta S_k.
-\]
-\emph{Example.}  For the quarter‐circle of radius 1,
-\(\mathbf r(t)=(\cos t,\sin t)\), \(t\in[0,\pi/2]\), one computes
-\[
-\Delta S_k
-\approx\sqrt{2-2\cos(t_k-t_{k-1})}
-\;\approx\;|t_k-t_{k-1}|
-\quad(\text{for small }\Delta t),
-\]
-so summing and taking limits yields
-\(\displaystyle L=\int_0^{\pi/2}1\,dt=\frac\pi2\).
-
-\bigskip
-
-\subsection*{2. Space Curves (3-D)}
-
-Let \(C\) be a smooth curve in space,
-\(\mathbf r(t)=(x(t),y(t),z(t))\), \(t\in[a,b]\).  With the same partition,
-\[
-\Delta S_k
-=\sqrt{\bigl[x(t_k)-x(t_{k-1})\bigr]^2
-	+\bigl[y(t_k)-y(t_{k-1})\bigr]^2
-	+\bigl[z(t_k)-z(t_{k-1})\bigr]^2}\,,
-\]
-and 
-\[
-L(C)
-=\lim_{n\to\infty}\sum_{k=1}^n\Delta S_k
-=\int_a^b\sqrt{x'(t)^2+y'(t)^2+z'(t)^2}\,dt.
-\]
-\emph{Example.}  For the helix 
-\(\mathbf r(t)=(\cos t,\sin t,t)\), \(t\in[0,2\pi]\), one finds
-\(\|\mathbf r'(t)\|=\sqrt{\sin^2t+\cos^2t+1}=\sqrt2\),
-so \(L=\int_0^{2\pi}\!\sqrt2\,dt=2\pi\sqrt2\).
-
-\bigskip
-
-\subsection*{3. Curves in \(\R^n\)}
-
-In \(\R^n\), a smooth curve \(\mathbf r(t)=(x_1(t),\dots,x_n(t))\) admits
-\[
-\Delta S_k
-=\sqrt{\sum_{i=1}^n\bigl[x_i(t_k)-x_i(t_{k-1})\bigr]^2},
-\]
-and
-\[
-L(C)
-=\lim_{n\to\infty}\sum_{k=1}^n\Delta S_k
-=\int_a^b\sqrt{\sum_{i=1}^n [x_i'(t)]^2}\,dt.
-\]
-
-\bigskip
-
-\noindent\textbf{Why this works:} each chord  
-\(\mathbf r(t_k)-\mathbf r(t_{k-1})\)  
-approximates \(\mathbf r'(t)\,\Delta t\), so
-\(\|\Delta\mathbf r\|\approx\|\mathbf r'(t)\|\Delta t\),  
-and summing gives the Riemann integral of \(\|\mathbf r'(t)\|\).
-
-
-Consider the quarter‐circle \[
-C\colon x^2 + y^2 = 1,\quad x\ge0,\;y\ge0.
-\]
-A natural parametrization is
-\[
-\mathbf r\colon 
-[0,\tfrac\pi2]\;\longrightarrow\;\mathbb{R}^2,
-\qquad
-\mathbf r(t) = \bigl(\cos t,\;\sin t\bigr).
-\]
-Then
-\[
-\mathbf r'(t)
-= \bigl(-\sin t,\;\cos t\bigr),
-\]
-and its Euclidean norm is
-\[
-\bigl\|\mathbf r'(t)\bigr\|
-= \sqrt{(-\sin t)^2 + (\cos t)^2}
-=\sqrt{\sin^2t + \cos^2t}
-=1.
-\]
-By the definition of arc length,
-\[
-\text{Length}(C)
-= \int_{0}^{\pi/2} \bigl\|\mathbf r'(t)\bigr\|\,dt
-= \int_{0}^{\pi/2}1\,dt
-= \left[t\right]_{0}^{\pi/2}
-= \frac\pi2.
-\]
-\[
-\boxed{\;\text{Hence the quarter‐circle has length } \frac\pi2.\!}
-\]
-\qed
-
-
-\begin{center}
-\begin{tikzpicture}[>=Stealth,scale=3,font=\small]
-	% Axes
-	\draw[->] (0,0) -- (1.2,0) node[right] {$x$};
-	\draw[->] (0,0) -- (0,1.2) node[above] {$y$};
-	
-	% Quarter circle C
-	\draw[blue!70!black,thick]
-	plot[samples=100,domain=0:90,smooth] (\x:1);
-	\node[blue!70!black,above right] at (45:1) {$C$};
-	
-	% Generic point P at t0
-	\def\t{40}  % degrees
-	\coordinate (P) at (\t:1);
-	\fill[red!80!black] (P) circle (0.8pt) node[above right] {$P=(\cos t,\sin t)$};
-	
-	% Radius OP
-	\draw[dashed] (0,0) -- (P) node[midway,left=2pt] {$1$};
-	
-	% Tangent vector r'(t)
-	\draw[->,very thick,orange!80!black]
-	(P) -- ++({\t+90}:0.25) 
-	node[right] {$\mathbf r'(t)$};
-	
-	% Small angle dt
-	\draw[->,purple!80!black,thick]
-	(0.7,0) arc(0:\t:0.7);
-	\node[purple!80!black] at ({\t/2}:0.8) {$\Delta t$};
-	
-	% Corresponding arc Δs
-%	\draw[decorate,decoration={markings,mark=between positions 0.1 and 0.9 step 0.1 with {\arrow[scale=0.8]{>}}},red,thick]
-%	({\t-2}:1) arc({\t-2}:{\t+2}:1);
-%	\node[red] at ({\t}:1.1) {$\Delta s$};
-%	
-	% Relationship label
-%	\node[align=center] at (0.5,-0.3) 
-%	{On the unit circle,\\[-2pt]
-%		\(\Delta s = 1\cdot \Delta t = \Delta t\).};
-	
-	\begin{scope}[yshift=-.5cm]
-		\draw[->,thick] (0,0) -- (1.3,0) node[right] {$t$};
-		\foreach \t/\lab in {
-%			0/$0$, 0.5236/$\tfrac\pi6$, 1.0472/$\tfrac\pi3$, 1.5708/$\tfrac\pi2$
-			0/$0$, .3/$\tfrac\pi6$, .6/$\tfrac\pi3$, .9/$\tfrac\pi2$
-		}{
-			\draw (\t,0.05)--(\t,-0.05) node[below] {\lab};
-		}
-		% Δt_2 between π/6 and π/3
-		\draw[<->,thick,red] (0.3,0.15) -- node[above] {$\Delta t_2=\tfrac\pi3-\tfrac\pi6$} (.6,0.15);
-	\end{scope}
-\end{tikzpicture}
-\end{center}
-Let $I=[a,b]\subset\mathbb{R}$ and let 
-\[
-\mathbf r\colon I\;\longrightarrow\;\mathbb{R}^n,
-\quad t\;\mapsto\;\mathbf r(t)
-\]
-be a continuously differentiable (\(C^1\)) curve.  
-
-\begin{definition}[Arc Length]
-	The \emph{arc length} of the curve $\mathbf r(t)$ over the interval $[a,b]$ is
-	\[
-	L[\mathbf r]
-	\;=\;
-	\sup_{\,\mathcal P}\;
-	\sum_{i=1}^N
-	\bigl\|\mathbf r(t_i)-\mathbf r(t_{i-1})\bigr\|,
-	\]
-	where the supremum is taken over all partitions 
-	\(\mathcal P\colon a=t_0<t_1<\cdots<t_N=b\) of the interval $[a,b]$, and $\|\cdot\|$ is the Euclidean norm on~$\R^n$.
-\end{definition}
-
-\begin{remark}[Motivation]
-	\ 
-	\begin{itemize}
-		\item We approximate the smooth curve by a polygonal path joining the points 
-		\(\mathbf r(t_0),\mathbf r(t_1),\dots,\mathbf r(t_N)\).  
-		\item Each segment has length $\|\mathbf r(t_i)-\mathbf r(t_{i-1})\|$.  
-		\item Taking the supremum over all finer and finer partitions captures the intuitive “length of the curve.”  
-		\item This definition reduces to the usual distance when $\mathbf r(t)$ is a straight line.
-	\end{itemize}
-\end{remark}
-
-\begin{theorem}
-	If $\mathbf r\in C^1([a,b],\R^n)$, then the above supremum equals the integral
-	\[
-	L[\mathbf r]
-	\;=\;
-	\int_a^b
-	\bigl\|\mathbf r\,'(t)\bigr\|\;dt.
-	\]
-\end{theorem}
-
-\begin{proof}[Sketch of proof]
-	\ 
-	\begin{enumerate}
-		\item On each subinterval $[t_{i-1},t_i]$, the Mean Value Theorem gives
-		\(\mathbf r(t_i)-\mathbf r(t_{i-1})
-		=\mathbf r\,'(\xi_i)\,(t_i-t_{i-1})\) for some $\xi_i\).  
-		\item Hence 
-		\(\|\mathbf r(t_i)-\mathbf r(t_{i-1})\|
-		=\|\mathbf r\,'(\xi_i)\|\,(t_i-t_{i-1})\).  
-		\item Summing and passing to the limit as the mesh of the partition goes to zero yields the Riemann integral 
-		\(\int_a^b\|\mathbf r\,'(t)\|\,dt\).  
-	\end{enumerate}
-\end{proof}
-
-\bigskip
-
-\noindent\textbf{Why this definition?}
-\begin{itemize}
-	\item It agrees with our geometric intuition of “length” via polygonal approximation.
-	\item It is \emph{reparametrization invariant}: if one changes $t$–coordinate without reversing direction, the integral of $\|\mathbf r\,'(t)\|\,dt$ remains the same.
-	\item It generalizes the classical arclength formula for graphs $y=y(x)$:
-	\[
-	L=\int_a^b\sqrt{1+(y'(x))^2}\,dx.
-	\]
-\end{itemize}
-
+\begin{figure}[h!]
+\end{figure}
 
 \begin{definition*}[Line Integral of Scalar Function over Arc Length]
 	Let $f:\R^n\to\R$ be a scalar function, and let $C$ be a piecewise smooth curve in 
 	$\R^n$ given by a smooth parameterization: \[
 	\gamma:[a,b]\to\R^n,\quad t\mapsto \gamma(t)=(x_1(t),x_2(t),\dots,x_n(t)).
-	\] Then the \emph{arc length} of the curve $C$ from $t=a$ to $t=b$ is defined by \[
-	L(\gamma):=\int_a^b\norm{\frac{ d\gamma}{dt}}\; dt,\quad\text{where}\; \norm{\frac{d\gamma}{dt}}=\sqrt{\left(\frac{dx_1}{dt}\right)^2+\left(\frac{dx_1}{dt}\right)^2+\cdots + \left(\frac{dx_1}{dt}\right)^2}.
-	\]The \textbf{line integral of the scalar function} $f$ along the curve $C$ with respect to arc length is defined by \[
+	\] The \textbf{line integral of the scalar function} $f$ along the curve $C$ with respect to arc length is defined by \[
 	\int_C f\; ds :=\int_a^bf(\gamma(t))\norm[0]{\gamma'(t)}\; dt.
 	\] Here, $ds=\norm[0]{\gamma'(t)}\; dt$ is the \emph{infinitesimal arc length}.
 \end{definition*}
 
-
+\newpage
 \subsection*{Line Integral of Vector Fields}
 \addcontentsline{toc}{subsection}{Line Integral of Vector Fields}
+
+\thmbox[Fundamental Theorem of Calculus for Line Integrals]{\begin{theorem*}
+Let \(U\subset\mathbb{R}^n\) be open and let \(f\colon U\to\mathbb{R}\) be a \(C^1\)–function. Consider its gradient field by \[
+\nabla f = \gen{\partial_{x_1}f,\dots,\partial_{x_n}f}.
+\] Let \(\gamma\colon[a,b]\to U\) be any piecewise-\(C^1\) curve with endpoints \(\gamma(a)=P\) and \(\gamma(b)=Q\). Then \[
+\int_\gamma \nabla f\cdot d\mathbf r
+\;=\;
+\int_a^b \nabla f\bigl(\gamma(t)\bigr)\cdot\gamma'(t)\,dt
+\;=\;
+f\bigl(\gamma(b)\bigr)\;-\;f\bigl(\gamma(a)\bigr).
+\]
+
+%Exactness.  The condition \(\vec F=\nabla f\) (or \(\omega=df\)) is **necessary and sufficient** for the line integral to depend only on the endpoints of \(\gamma\) and not on its particular shape or parametrization.
+%- **Path-Independence.**  Equivalently, in any (piecewise-)connected region on which \(f\) is defined,  
+%\[
+%\int_{\gamma_1}\nabla f\cdot d\mathbf r
+%= 
+%\int_{\gamma_2}\nabla f\cdot d\mathbf r
+%\]
+%whenever \(\gamma_1\) and \(\gamma_2\) share the same start and end points.
+%
+%Orientation.  Reversing orientation changes the sign:  
+%\(\displaystyle\int_{-\gamma}\!\nabla f\cdot d\mathbf r=-\!\int_\gamma\!\nabla f\cdot d\mathbf r.\)
+\end{theorem*}}
+%\begin{remark*}[Differential-form version]
+%Identify the 1-form  
+%	\(\omega = df = \sum_{i=1}^n (\partial_{x^i}f)\,dx^i\).  Then
+%	\[
+%	\int_\gamma \omega
+%	\;=\;
+%	\int_a^b \gamma^*\omega
+%	\;=\;
+%	\int_a^b d\bigl(f\circ\gamma\bigr)
+%	\;=\;
+%	f\bigl(\gamma(b)\bigr)\;-\;f\bigl(\gamma(a)\bigr).
+%	\]
+%\end{remark*}
 
 Excellent — this is a key question for understanding how **vector calculus** connects with **differential forms** and notation. Let's walk through how to **rigorously deduce**:
 
@@ -1165,7 +632,39 @@ C: x^2 + y^2 = 1,
 	node[above right=2cm] {$x^2+y^2=1$};
 \end{tikzpicture}
 \end{minipage}
-\end{center}	
+\end{center}
+\begin{tikzpicture}[scale=1.5]
+	% Axes
+	\draw[->] (-2.5,0) -- (2.5,0) node[right] {$x$};
+	\draw[->] (0,-2.5) -- (0,2.5) node[above] {$y$};
+	
+	% The unit circle
+	\draw[cyan, very thick] (0,0) circle (1) node[above right=2cm] {$x^2+y^2=1$};
+	
+	% Tangential field F = (-y,x)
+	\def\arrowlen{1}
+	\foreach \t in {0,10,...,350}{
+		\pgfmathsetmacro\x{cos(\t)}
+		\pgfmathsetmacro\y{sin(\t)}
+		\pgfmathsetmacro\dx{(-\y)*\arrowlen}
+		\pgfmathsetmacro\dy{(\x)*\arrowlen}
+		\draw[->, thick, blue!70!black] (\x,\y) -- ++(\dx,\dy);
+	}
+	
+	% Highlight four sample vectors thicker
+	\foreach \t in {0,90,180,270}{
+		\pgfmathsetmacro\x{cos(\t)}
+		\pgfmathsetmacro\y{sin(\t)}
+		\draw[->, line width=.5mm, magenta] 
+		(\x,\y) -- ++(-\y,\x);
+	}
+	
+	% Annotate that curl F = 0 off the origin
+	\node[red] at (1.5,1.5) {\small$\displaystyle\nabla\times\mathbf F = 0$};
+	\filldraw[red] (0,0) circle(1.5pt) node[below right=2pt] 
+	{\small “hole” at $(0,0)$};
+\end{tikzpicture}
+
 Consider the vector field:
 \[
 \vec{F}(x, y) = \left( \frac{-y}{x^2 + y^2},\; \frac{x}{x^2 + y^2} \right),
@@ -1248,6 +747,157 @@ and the curve \( C \) is the unit circle \( x^2 + y^2 = 1 \), traversed counterc
 \end{enumerate}
 \end{proof}
 
+\newpage
+\section*{Surface Integral for Vector Fields}
+\addcontentsline{toc}{section}{Surface Integral for Vector Fields}
+\defbox[Surface Integral of a Vector Field]{\begin{definition*}
+Let \(S\subset\mathbb{R}^3\) be a smooth, oriented surface, and let  
+	\[
+	T\colon D\;\subseteq\;\mathbb{R}^2\;\longrightarrow\;S,
+	\qquad
+	(u,v)\;\longmapsto\;T(u,v),
+	\]  
+	be a regular \(C^1\) parametrization whose orientation agrees with that of \(S\).  Consider the partial‐derivative (tangent) vectors \[
+	T_u(u,v)=\frac{\partial T}{\partial u}(u,v),
+	\quad
+	T_v(u,v)=\frac{\partial T}{\partial v}(u,v),
+	\]  and the induced normal‐vector field  
+	\[
+	N(u,v)\;=\;T_u(u,v)\times T_v(u,v)\;\in\;\mathbb{R}^3,
+	\]  
+	which is everywhere nonzero on \(D\) and points according to the chosen orientation.
+	Now let  \[
+	\mathbf F\colon U\;(\supseteq S)\;\longrightarrow\;\mathbb{R}^3
+	\]  
+	be a continuous (or \(C^1\)) vector field defined on an open neighborhood \(U\) of \(S\).  Then \textbf{the surface integral of \(\mathbf F\) over \(S\)} is defined by the formula  
+	\[
+	\boxed{
+		\iint_{S} \mathbf F\;\cdot\;d\mathbf S
+		\;=\;
+		\iint_{D}
+		\mathbf F\bigl(T(u,v)\bigr)\;\cdot\;N(u,v)
+		\;du\,dv
+		\;=\;
+		\iint_{D}
+		\mathbf F\bigl(T(u,v)\bigr)\;\cdot\;
+		\bigl(T_u(u,v)\times T_v(u,v)\bigr)
+		\;du\,dv.
+	}
+	\]
+\end{definition*}}
+\begin{remark*}
+	1. **Geometric meaning.**  
+	At each point \(T(u,v)\in S\), the vector \(N(u,v)\,du\,dv\) represents the oriented area element \(d\mathbf S\).  Thus \(\mathbf F\cdot d\mathbf S\) measures how much \(\mathbf F\) “flows through” that little patch of surface.
+	
+	2. **Independence of parametrization.**  
+	If \(\widetilde T\colon \widetilde D\to S\) is any other orientation‐preserving \(C^1\) parametrization, then a change‐of‐variables argument shows  
+	\[
+	\iint_{D}\mathbf F\cdot\bigl(T_u\times T_v\bigr)\,du\,dv
+	\;=\;
+	\iint_{\widetilde D}\mathbf F\cdot\bigl(\widetilde T_u\times\widetilde T_v\bigr)\,d\widetilde u\,d\widetilde v.
+	\]
+	
+	3. **Special case (scalar area).**  
+	Taking \(\mathbf F=(0,0,1)\) recovers the usual surface‐area integral  
+	\(\displaystyle \mathrm{Area}(S)=\iint_S dS=\iint_D\|T_u\times T_v\|\,du\,dv.\)
+	
+	This definition is the standard one found in graduate‐level treatments of differential geometry and vector calculus.
+\end{remark*}
+
+\paragraph{{\color{magenta}Problem\;\#2} (Surface‐Flux).} 
+Let \(S\subset\mathbb{R}^3\) be the smooth surface parametrized by  
+\[
+\mathbf r\colon [0,1]\times[0,1]\;\longrightarrow\;\mathbb{R}^3,
+\qquad
+\mathbf r(u,v)=\bigl(u+2v,\;2u+v,\;3uv\bigr),
+\]  
+equipped with the orientation induced by the parametrization (so that the unit normal points in the direction of \(\mathbf r_u\times\mathbf r_v\)).  Let the vector field   \[
+\mathbf F\colon\mathbb{R}^3\to\mathbb{R}^3,
+\qquad
+\mathbf F(x,y,z)=(\,x,\;y,\;-z\,).
+\]
+Compute \[
+\iint_{S}\mathbf F\cdot d\mathbf S.
+\] 
+\begin{proof}[\sol]
+We compute in five steps.
+\begin{figure}[h!]\centering
+\includegraphics[width=\textwidth]{../riemann-tikz/problem2_1.pdf}
+\end{figure}
+\begin{figure}[h!]\centering
+\includegraphics[width=\textwidth]{../riemann-tikz/problem2_2.pdf}
+\end{figure}
+
+1. **Parametrization and partials.**  
+The surface is  
+\[
+S=\mathbf r\bigl([0,1]^2\bigr),
+\qquad
+\mathbf r(u,v)=(\,u+2v,\;2u+v,\;3uv\,),
+\]
+and hence
+\[
+\mathbf r_u=(1,\,2,\,3v),
+\qquad
+\mathbf r_v=(2,\,1,\,3u).
+\]
+
+2. **Oriented normal.**  
+The induced normal vector is the cross‐product
+\begin{align*}
+\mathbf r_u\times \mathbf r_v
+&=\det\begin{vmatrix}
+	\mathbf i & \mathbf j & \mathbf k\\
+	1 & 2 & 3v\\
+	2 & 1 & 3u
+\end{vmatrix}\\
+&=\det\begin{vmatrix}
+	2 & 3v \\ 1 & 3u
+\end{vmatrix}\textbf{i}-
+\det\begin{vmatrix}
+	1 & 3v \\ 2 & 3u
+\end{vmatrix}\textbf{j}+
+\det\begin{vmatrix}
+	1 & 2 \\ 2 & 1
+\end{vmatrix}\textbf{k}
+\\
+&=(6u-3v,\;-3u+6v,\;-3).
+\end{align*}
+
+3. **Pullback of the field.**  
+The given field is \(\mathbf F(x,y,z)=(x,y,-z)\).  Along the patch,
+\[
+\mathbf F\bigl(\mathbf r(u,v)\bigr)
+=\bigl(u+2v,\;2u+v,\;-3uv\bigr).
+\]
+
+4. **Integrand.**  
+Taking the dot‐product,
+\begin{align*}
+	\mathbf F(\mathbf r)\,\cdot\,(\mathbf r_u\times\mathbf r_v)
+	&= (u+2v)(6u-3v)\;+\;(2u+v)(-3u+6v)\;+\;(-3uv)(-3)\\
+	&= 6u^2 -3uv +12uv -6v^2 \;-\;6u^2 +12uv -3uv +6v^2 \;+\;9uv\\
+	&=(-3uv+12uv+12uv-3uv+9uv)\;=\;27\,u\,v.
+\end{align*}
+
+5. **Double integral.**  
+Thus the flux is
+\[
+\iint_{S}\mathbf F\cdot d\mathbf S
+\;=\;
+\iint_{[0,1]^2}27\,u\,v\;du\,dv
+\;=\;
+27\int_0^1\!\int_0^1 u\,v\;du\,dv
+\;=\;
+27\Bigl(\tfrac12\Bigr)\Bigl(\tfrac12\Bigr)
+\;=\;\frac{27}{4}.
+\]
+
+Hence  
+\[
+\boxed{\iint_{S}\mathbf F\cdot d\mathbf S \;=\;\frac{27}{4}}.
+\]
+\end{proof}
 
 %\begin{thebibliography}{9}
 %	\bibitem{riemann_0}

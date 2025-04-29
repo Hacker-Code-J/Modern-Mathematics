@@ -1,0 +1,86 @@
+\documentclass{article}
+\usepackage{tikz}
+\usepackage{tikz-3dplot}
+\usetikzlibrary{math}
+\usepackage{ifthen}
+\usepackage[active,tightpage]{preview}
+\PreviewEnvironment{tikzpicture}
+\setlength\PreviewBorder{1pt}
+%
+% File name: derivative-vector-function.tex
+% Description: 
+% A geometric representation of the steps one and two used 
+% (from the four step rule)
+% to compute the derivative of a vector function is shown.
+%
+% Date of creation: October, 10th, 2021.
+% Date of last modification: October, 9th, 2022.
+% Author: Efraín Soto Apolinar.
+% https://www.aprendematematicas.org.mx/author/efrain-soto-apolinar/instructing-courses/
+% Source: page 211 of the 
+% Glosario Ilustrado de Matem\'aticas Escolares.
+% https://tinyurl.com/5udm2ufy
+%
+% Terms of use:
+% According to TikZ.net
+% https://creativecommons.org/licenses/by-nc-sa/4.0/
+% Your commitment to the terms of use is greatly appreciated.
+%
+\usetikzlibrary{arrows,arrows.spaced}
+\renewcommand{\vec}[1]{\textbf{#1}}
+\begin{document}
+	%
+	\begin{center}
+		\tdplotsetmaincoords{70}{120}
+		%
+		\begin{tikzpicture}[tdplot_main_coords,scale=1.0]
+			% Component functions of the vector function
+			\tikzmath{function equis(\t) {return cos((\t) r);};}
+			\tikzmath{function ye(\t) {return sin((\t) r);};}
+			\tikzmath{function zeta(\t) {return 0.25+sqrt(\t);};}
+			% Evaluated at $t = \ti$
+			\pgfmathsetmacro{\ti}{1}
+			\pgfmathsetmacro{\tf}{2.5*pi}
+			\pgfmathsetmacro{\n}{10}
+			\pgfmathsetmacro{\r}{2.0}
+			\pgfmathsetmacro{\step}{(\tf-\ti)/\n}
+			\pgfmathsetmacro{\tcero}{.75*pi} 
+			\pgfmathsetmacro{\tuno}{\tcero+\step} 
+			%
+			\pgfmathsetmacro{\xi}{\r*equis(\ti)}
+			\pgfmathsetmacro{\xf}{\r*equis(\tf)}
+			\pgfmathsetmacro{\xtcero}{\r*equis(\tcero)}
+			\pgfmathsetmacro{\xtuno}{\r*equis(\tuno)}
+			\pgfmathsetmacro{\yi}{\r*ye(\ti)}
+			\pgfmathsetmacro{\yf}{\r*ye(\tf)}
+			\pgfmathsetmacro{\ytcero}{\r*ye(\tcero)}
+			\pgfmathsetmacro{\ytuno}{\r*ye(\tuno)}
+			\pgfmathsetmacro{\zi}{\r*zeta(\ti)}
+			\pgfmathsetmacro{\zf}{\r*zeta(\tf)}
+			\pgfmathsetmacro{\ztcero}{\r*zeta(\tcero)}
+			\pgfmathsetmacro{\ztuno}{\r*zeta(\tuno)}
+			% Coordinate axis
+			\draw[thick,->] (-1.25,0,0) -- (1.5,0,0) node[below left] {$x$}; % Eje x
+			\foreach \x in {-1,1}
+			\draw[thick] (\x,0,0.05) -- (\x,0,-0.05) node [below] {$\x$};
+			\draw[thick,->] (0,-1.25,0) -- (0,1.5,0) node[right] {$y$}; % Eje y
+			\foreach \y in {-1,1}
+			\draw[thick] (0,\y,0.05) -- (0,\y,-0.05) node [below] {$\y$};
+			\draw[thick] (0,0,-0.25) -- (0,0,0.75); % Eje z (Primera parte)
+			% Graph of the function $\gamma(t)$
+			\draw[red,thick,->] plot[domain=\ti:\tf,smooth,variable=\t] ({\r*equis(\t)},{\r*ye(\t)},{\r*zeta(\t)});
+			\node[red,above] at (\xf,\yf,\zf+0.25) {$\gamma(t)$};
+			% $z$ axis
+			\draw[thick,->] (0,0,0.75) -- (0,0,\zf+0.5) node[above] {$z$}; % Eje z
+			\foreach \z/\posicion in {1/left}
+			\draw[thick] (0,0.05,\z) -- (0,-0.05,\z) node [\posicion] {$\z$};
+			% Node $\gamma(t)$
+			\draw[blue,thick,->] (0,0,0) -- (\xtcero,\ytcero,\ztcero) node[sloped,below,near end] {\footnotesize$\gamma(t)$};	
+			% Node $\gamma(t + \Delta t)$
+			\draw[blue,thick,->] (0,0,0) -- (\xtuno,\ytuno,\ztuno) node[sloped,above,near end] {\footnotesize$\gamma(t + \Delta t)$};
+			% Node $\Delta r$
+			\draw[blue,thick,->] (\xtcero,\ytcero,\ztcero) -- (\xtuno,\ytuno,\ztuno) node[midway,sloped,above] {\footnotesize$\Delta\gamma$};	
+		\end{tikzpicture}
+	\end{center}
+	%
+\end{document}

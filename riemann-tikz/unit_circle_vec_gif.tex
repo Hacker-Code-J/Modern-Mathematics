@@ -1,0 +1,51 @@
+\documentclass[tikz]{standalone}
+%\usepackage[left=0cm,top=0cm,right=0cm,nohead,nofoot]{geometry}
+\usepackage{tikz}
+\usepackage{amsmath}
+\usepackage{pgfplots}
+
+\begin{document}
+	% Loop over t = 0,15,...,345 degrees
+	\foreach \t in {0,15,...,345}{
+		% Precompute points and vectors
+		\pgfmathsetmacro{\Px}{cos(\t)}
+		\pgfmathsetmacro{\Py}{sin(\t)}
+		\pgfmathsetmacro{\dt}{15}            % Δt in degrees
+		\pgfmathsetmacro{\Qx}{cos(\t+\dt)}
+		\pgfmathsetmacro{\Qy}{sin(\t+\dt)}
+		% Secant vector PQ = (Qx-Px, Qy-Py)
+		\pgfmathsetmacro{\Sx}{\Qx - \Px}
+		\pgfmathsetmacro{\Sy}{\Qy - \Py}
+		% Tangent vector r'(t) = (-sin t, cos t)
+		\pgfmathsetmacro{\Tx}{-sin(\t)}
+		\pgfmathsetmacro{\Ty}{ cos(\t)}
+		
+		\begin{tikzpicture}[scale=2,font=\small]\centering
+			% Axes
+			\draw[->] (-1.2,0) -- (1.2,0) node[right] {$x$};
+			\draw[->] (0,-1.2) -- (0,1.2) node[above] {$y$};
+			
+			% Unit circle
+			\draw[thick,blue!70!black] (0,0) circle (1);
+			
+			% Points P and Q
+			\fill[red] (\Px,\Py) circle (0.6pt) node[above right] {}; %P
+			\fill[cyan] (\Qx,\Qy) circle (0.6pt) node[below right] {}; %Q
+			
+			% Secant vector PQ
+			\draw[->,cyan,thick]
+			(\Px,\Py) -- (\Qx,\Qy);
+%			node[midway,above,sloped]
+%			{\(\bigl(\Sx,\Sy\bigr)\)};
+			
+			 Tangent vector at P
+			\draw[->,red,thick]
+			(\Px,\Py) -- ++(\Tx,\Ty);
+%			node[above left]
+%			{\(\bigl(\Tx,\Ty\bigr)\)};
+			
+			% Labels of t
+			\node[below left] at (-1.1,-1.1) {\small $t=\t^\circ$};
+		\end{tikzpicture}
+	}% end \foreach
+\end{document}

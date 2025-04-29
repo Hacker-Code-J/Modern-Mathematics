@@ -9,8 +9,7 @@
 \def\fp(#1){Derive(1,\f(#1))}
 \psset{unit=2}
 
-\begin{document}
-\multido{\r=2.0+-.1}{19}{%
+\begin{document}\multido{\r=2.0+-.1}{1}{%
 \begin{pspicture}[algebraic](-1.7,-.6)(4.4,3.4)
 	\psaxes[ticks=none,labels=none]{->}(0,0)(-1.7,-.6)(4.1,3.1)[$x$,0][$y$,90]
 	\psplot[linecolor=red,linewidth=2pt]{-1}{3.9}{\f(x)}
