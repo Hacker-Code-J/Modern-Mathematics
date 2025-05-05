@@ -29,58 +29,100 @@
 \usetikzlibrary{arrows,arrows.spaced}
 \renewcommand{\vec}[1]{\textbf{#1}}
 \begin{document}
-	%
-	\begin{center}
-		\tdplotsetmaincoords{70}{120}
+\begin{center}
+	\tdplotsetmaincoords{70}{120}
+	\begin{tikzpicture}[tdplot_main_coords,scale=1.0]
+		% Component functions of the vector function
+		\tikzmath{function equis(\t) {return cos((\t) r);};}
+		\tikzmath{function ye(\t) {return sin((\t) r);};}
+		\tikzmath{function zeta(\t) {return 0.25+sqrt(\t);};}
+		% Evaluated at $t = \ti$
+		\pgfmathsetmacro{\ti}{0.75}
+		\pgfmathsetmacro{\tf}{2.5*pi}
+		\pgfmathsetmacro{\n}{12}
+		\pgfmathsetmacro{\r}{2}
+		\pgfmathsetmacro{\step}{(\tf-\ti)/\n}
+		\pgfmathsetmacro{\tcero}{.75*pi} 
+		\pgfmathsetmacro{\tuno}{\tcero+\step} 
 		%
-		\begin{tikzpicture}[tdplot_main_coords,scale=1.0]
-			% Component functions of the vector function
-			\tikzmath{function equis(\t) {return cos((\t) r);};}
-			\tikzmath{function ye(\t) {return sin((\t) r);};}
-			\tikzmath{function zeta(\t) {return 0.25+sqrt(\t);};}
-			% Evaluated at $t = \ti$
-			\pgfmathsetmacro{\ti}{1}
-			\pgfmathsetmacro{\tf}{2.5*pi}
-			\pgfmathsetmacro{\n}{10}
-			\pgfmathsetmacro{\r}{2.0}
-			\pgfmathsetmacro{\step}{(\tf-\ti)/\n}
-			\pgfmathsetmacro{\tcero}{.75*pi} 
-			\pgfmathsetmacro{\tuno}{\tcero+\step} 
-			%
-			\pgfmathsetmacro{\xi}{\r*equis(\ti)}
-			\pgfmathsetmacro{\xf}{\r*equis(\tf)}
-			\pgfmathsetmacro{\xtcero}{\r*equis(\tcero)}
-			\pgfmathsetmacro{\xtuno}{\r*equis(\tuno)}
-			\pgfmathsetmacro{\yi}{\r*ye(\ti)}
-			\pgfmathsetmacro{\yf}{\r*ye(\tf)}
-			\pgfmathsetmacro{\ytcero}{\r*ye(\tcero)}
-			\pgfmathsetmacro{\ytuno}{\r*ye(\tuno)}
-			\pgfmathsetmacro{\zi}{\r*zeta(\ti)}
-			\pgfmathsetmacro{\zf}{\r*zeta(\tf)}
-			\pgfmathsetmacro{\ztcero}{\r*zeta(\tcero)}
-			\pgfmathsetmacro{\ztuno}{\r*zeta(\tuno)}
-			% Coordinate axis
-			\draw[thick,->] (-1.25,0,0) -- (1.5,0,0) node[below left] {$x$}; % Eje x
-			\foreach \x in {-1,1}
-			\draw[thick] (\x,0,0.05) -- (\x,0,-0.05) node [below] {$\x$};
-			\draw[thick,->] (0,-1.25,0) -- (0,1.5,0) node[right] {$y$}; % Eje y
-			\foreach \y in {-1,1}
-			\draw[thick] (0,\y,0.05) -- (0,\y,-0.05) node [below] {$\y$};
-			\draw[thick] (0,0,-0.25) -- (0,0,0.75); % Eje z (Primera parte)
-			% Graph of the function $\gamma(t)$
-			\draw[red,thick,->] plot[domain=\ti:\tf,smooth,variable=\t] ({\r*equis(\t)},{\r*ye(\t)},{\r*zeta(\t)});
-			\node[red,above] at (\xf,\yf,\zf+0.25) {$\gamma(t)$};
-			% $z$ axis
-			\draw[thick,->] (0,0,0.75) -- (0,0,\zf+0.5) node[above] {$z$}; % Eje z
-			\foreach \z/\posicion in {1/left}
-			\draw[thick] (0,0.05,\z) -- (0,-0.05,\z) node [\posicion] {$\z$};
-			% Node $\gamma(t)$
-			\draw[blue,thick,->] (0,0,0) -- (\xtcero,\ytcero,\ztcero) node[sloped,below,near end] {\footnotesize$\gamma(t)$};	
-			% Node $\gamma(t + \Delta t)$
-			\draw[blue,thick,->] (0,0,0) -- (\xtuno,\ytuno,\ztuno) node[sloped,above,near end] {\footnotesize$\gamma(t + \Delta t)$};
-			% Node $\Delta r$
-			\draw[blue,thick,->] (\xtcero,\ytcero,\ztcero) -- (\xtuno,\ytuno,\ztuno) node[midway,sloped,above] {\footnotesize$\Delta\gamma$};	
-		\end{tikzpicture}
-	\end{center}
-	%
+		\pgfmathsetmacro{\xi}{\r*equis(\ti)}
+		\pgfmathsetmacro{\xf}{\r*equis(\tf)}
+		\pgfmathsetmacro{\xtcero}{\r*equis(\tcero)}
+		\pgfmathsetmacro{\xtuno}{\r*equis(\tuno)}
+		\pgfmathsetmacro{\yi}{\r*ye(\ti)}
+		\pgfmathsetmacro{\yf}{\r*ye(\tf)}
+		\pgfmathsetmacro{\ytcero}{\r*ye(\tcero)}
+		\pgfmathsetmacro{\ytuno}{\r*ye(\tuno)}
+		\pgfmathsetmacro{\zi}{\r*zeta(\ti)}
+		\pgfmathsetmacro{\zf}{\r*zeta(\tf)}
+		\pgfmathsetmacro{\ztcero}{\r*zeta(\tcero)}
+		\pgfmathsetmacro{\ztuno}{\r*zeta(\tuno)}
+		
+				% define P and Q
+		\coordinate (P) at (\xtcero,\ytcero,\ztcero);
+		\coordinate (Q) at (\xtuno,\ytuno,\ztuno);
+		
+		% projections of gamma(t)
+		\draw[teal!50,dashed]
+		(\xtcero,\ytcero,\ztcero) -- (\xtcero,\ytcero,0); %node[midway,right] {$P_{xy}$};
+		\draw[teal!50,dashed]
+		(\xtcero,0,\ztcero) -- (\xtcero,0,0);
+		\draw[teal!50,dashed]
+		(0,\ytcero,\ztcero) -- (0,\ytcero,0);
+		\draw[teal!50,dashed]
+		(\xtcero,\ytcero,0) -- (\xtcero,0,0); %node[midway,below] {$P_{x}$};
+		\draw[teal!50,dashed]
+		(\xtcero,\ytcero,0) -- (0,\ytcero,0); %node[midway,below] {$P_{y}$};
+		\draw[teal!50,dashed]
+		(\xtcero,0,\ztcero) -- (0,0,\ztcero);
+		\draw[teal!50,dashed]
+		(\xtcero,\ytcero,\ztcero) -- (\xtcero,0,\ztcero); %node[midway,below left] {$P_{xz}$};
+		\draw[teal!50,dashed]
+		(0,\ytcero,\ztcero) -- (0,0,\ztcero);
+		\draw[teal!50,dashed]
+		(\xtcero,\ytcero,\ztcero) -- (0,\ytcero,\ztcero); %node[midway,above right] {$P_{yz}$};
+		
+		% projections of gamma(t+Delta t)
+		\draw[orange!50,dashed]
+		(\xtuno,\ytuno,\ztuno) -- (\xtuno,\ytuno,0); %node[midway,right] {$Q_{xy}$};
+		\draw[orange!50,dashed]
+		(0,\ytuno,\ztuno) -- (0,\ytuno,0);
+		\draw[orange!50,dashed]
+		(\xtuno,0,\ztuno) -- (\xtuno,0,0);
+		\draw[orange!50,dashed]
+		(\xtuno,\ytuno,0) -- (\xtuno,0,0); %node[midway,below] {$Q_{x}$};
+		\draw[orange!50,dashed]
+		(0,\ytuno,\ztuno) -- (0,0,\ztuno);
+		\draw[orange!50,dashed]
+		(\xtuno,\ytuno,0) -- (0,\ytuno,0); %node[midway,below] {$Q_{y}$};
+		\draw[orange!50,dashed]
+		(\xtuno,\ytuno,\ztuno) -- (\xtuno,0,\ztuno); %node[midway,below left] {$Q_{xz}$};
+		\draw[orange!50,dashed]
+		(\xtuno,\ytuno,\ztuno) -- (0,\ytuno,\ztuno); %node[midway,above right] {$Q_{yz}$};
+		\draw[orange!50,dashed]
+		(\xtuno,0,\ztuno) -- (0,0,\ztuno);
+		
+		% Coordinate axis
+		\draw[thick,->] (-1.75,0,0) -- (1.5,0,0) node[below left] {$x$}; % Eje x
+		\foreach \x in {-1,1}
+		\draw[thick] (\x,0,0.05) -- (\x,0,-0.05) node [below] {$\x$};
+		\draw[thick,->] (0,-1.25,0) -- (0,1.5,0) node[right] {$y$}; % Eje y
+		\foreach \y in {-1,1}
+		\draw[thick] (0,\y,0.05) -- (0,\y,-0.05) node [below] {$\y$};
+		\draw[thick] (0,0,-0.25) -- (0,0,0.75); % Eje z (Primera parte)
+		% Graph of the function $\vec{r}(t)$
+		\draw[red,thick,->] plot[domain=\ti:\tf,smooth,variable=\t] ({\r*equis(\t)},{\r*ye(\t)},{\r*zeta(\t)});
+		\node[red,above] at (\xf,\yf,\zf+0.25) {$\vec{r}(t)$};
+		% $z$ axis
+		\draw[thick,->] (0,0,0.75) -- (0,0,\zf+0.5) node[above] {$z$}; % Eje z
+		\foreach \z/\posicion in {1/left}
+		\draw[thick] (0,0.05,\z) -- (0,-0.05,\z) node [\posicion] {$\z$};
+		% Node $\vec{r}(t)$
+		\draw[teal,thick,->] (0,0,0) -- (\xtcero,\ytcero,\ztcero) node[sloped,below,near end] {\footnotesize$\vec{r}(t)$};	
+		% Node $\vec{r}(t + \Delta t)$
+		\draw[orange,thick,->] (0,0,0) -- (\xtuno,\ytuno,\ztuno) node[sloped,above,near end] {\footnotesize$\vec{r}(t + \Delta t)$};
+		% Node $\Delta r$
+		\draw[blue,thick,->] (\xtcero,\ytcero,\ztcero) -- (\xtuno,\ytuno,\ztuno) node[midway,sloped,above,align=center] {\footnotesize$\Delta\vec{r}=$\\ $\vec{r}(t+\Delta t)-\vec{r}(t)$};	
+	\end{tikzpicture}
+\end{center}
 \end{document}

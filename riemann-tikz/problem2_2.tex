@@ -40,28 +40,28 @@
 %	}
 %	\node[above] at (1.5,3,0) {$\mathbf F$};
 %	\end{scope}
-%	%
-%	% Panel 2: Parametric surface mesh
-%	%
-%	\begin{scope}[shift={(0,0)}]
-%		% axes
-%		\draw[axis] (0,0,0)--(2,0,0) node[anchor=north east]{$x$};
-%		\draw[axis] (0,0,0)--(0,2,0) node[anchor=west]{$y$};
-%		\draw[axis] (0,0,0)--(0,0,2) node[anchor=south]{$z$};
-%		% mesh lines u=const
-%		\foreach \i in {0,...,\Nu} {
-%			\pgfmathsetmacro\u{\i/\Nu}
-%			\draw[surf] plot[domain=0:1,variable=\v]
-%			({\u+2*\v},{2*\u+\v},{3*\u*\v});
-%		}
-%		% mesh lines v=const
-%		\foreach \j in {0,...,\Nv} {
-%			\pgfmathsetmacro\v{\j/\Nv}
-%			\draw[surf] plot[domain=0:1,variable=\u]
-%			({\u+2*\v},{2*\u+\v},{3*\u*\v});
-%		}
-%		\node[above] at (1.5,3,0) {Surface $\mathbf r(u,v)$};
-%	\end{scope}
+	%
+	% Panel 2: Parametric surface mesh
+	%
+	\begin{scope}[shift={(0,0)}]
+		% axes
+		\draw[axis] (0,0,0)--(2,0,0) node[anchor=north east]{$x$};
+		\draw[axis] (0,0,0)--(0,2,0) node[anchor=west]{$y$};
+		\draw[axis] (0,0,0)--(0,0,2) node[anchor=south]{$z$};
+		% mesh lines u=const
+		\foreach \i in {0,...,\Nu} {
+			\pgfmathsetmacro\u{\i/\Nu}
+			\draw[surf] plot[domain=0:1,variable=\v]
+			({\u+2*\v},{2*\u+\v},{3*\u*\v});
+		}
+		% mesh lines v=const
+		\foreach \j in {0,...,\Nv} {
+			\pgfmathsetmacro\v{\j/\Nv}
+			\draw[surf] plot[domain=0:1,variable=\u]
+			({\u+2*\v},{2*\u+\v},{3*\u*\v});
+		}
+		\node[above] at (1.5,3,0) {Surface $\mathbf r(u,v)$};
+	\end{scope}
 	
 	%
 	% Panel 3: Surface + vector field

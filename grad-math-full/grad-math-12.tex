@@ -1,0 +1,299 @@
+\documentclass[11pt,openany]{article}
+
+\input{grad-math-preamble}
+\input{tcolorbox}
+\input{theorem}
+\input{tikz}
+\input{grad-math-commands}
+\renewcommand{\vec}[1]{\mathbf{#1}}
+\renewcommand{\Re}{\operatorname*{Re}}
+\renewcommand{\Im}{\operatorname*{Im}}
+\setstretch{1.25}
+
+%\usepackage{background}
+%\backgroundsetup{
+%	scale=3,
+%	color=gray!20,
+%	opacity=0.3,
+%	angle=45,
+%	contents={\Huge \sffamily Ji, Yong-hyeon}
+%}
+\begin{document}
+\pagenumbering{arabic}
+\begin{center}
+	\huge\textbf{Abstract Algebra II}\\
+	\vspace{0.5em}
+	\large{Ji, Yong-hyeon}\\
+%	\large{\ttfamily \url{https://github.com/Hacker-Code-J}}\\
+	\vspace{0.5em}
+	\normalsize{\today}\\
+\end{center}
+
+\noindent 
+We cover the following topics in this note.
+\begin{itemize}
+	\item Group Action
+	\item Cayley Theorem
+	\item Normal Subgroups
+	\item TBA
+\end{itemize}
+\hrule\vspace{12pt}
+\tableofcontents
+
+
+\def\acts{\curvearrowright}
+\newpage
+\defbox[Group Action]{\begin{definition*}
+Let \( (G,\ast) \) be a group and let \( X\neq\varnothing \). A \textbf{(left) group action} of \( G \) on \( X \) is a function \[
+\cdot : G \times X \to X,\quad (g, x) \mapsto g \cdot x
+\]
+satisfying the followings: for all \( g, h \in G \) and all \( x \in X \),
+\begin{enumerate}[(i)]
+	\item (Identity)\; \( e \cdot x = x \), where \( e \in G \) is the identity element of \( G \);
+	\item (Compatibility)\; \( (g\ast h) \cdot x = g \cdot (h \cdot x) \).
+\end{enumerate}
+The pair \( (X, \cdot) \) (or simply \( X \) ) is then called a \( G \)-set.
+\end{definition*}}
+\begin{note}[Notation]
+If a group \( G \) acts on a set \( X \), one commonly writes: $G \curvearrowright X$.
+\end{note}
+\begin{remark*}
+	A right group action of \( G \) on \( X \) is a function $
+	\cdot : X \times G \to X,\quad (x, g) \mapsto x \cdot g$ 
+	satisfying: \begin{enumerate}[(i)]
+		\item \( x \cdot e = x \) for all \( x \in X \);
+		\item \( (x \cdot g) \cdot h = x \cdot (gh) \) for all \( g, h \in G \), \( x \in X \).
+	\end{enumerate}
+\end{remark*}
+\begin{example*}[Scalar Multiplication on a Vector Space]
+	Let \( \mathbb{F} \) be a field, and let \( X = \mathbb{F}^n \) be the \( n \)-dimensional vector space over \( \mathbb{F} \). Consider the multiplicative group of nonzero scalars in \( \mathbb{F} \): \[
+	G = (\F^\times, \times),\quad\text{where}\; \F^\times=\mathbb{F} \setminus \{0\}.
+	\] We define an action \( G \curvearrowright X \) by scalar multiplication:
+	\[
+	\fullfunction{\cdot}{\F^\times\times\F^n}{\F^n}{(\lambda,\vec{v})}{\lambda\cdot\vec{v}},
+	\] where the product \( \lambda\cdot \vec{v} \) is defined componentwise. Then \begin{enumerate}[(i)]
+		\item \( 1 \cdot \vec{v} = \vec{v} \) for all \( \vec{v} \in \mathbb{F}^n \).
+		\item \( (\lambda\mu) \cdot \vec{v} = \lambda \cdot (\mu \cdot \vec{v}) \) for all \( \lambda, \mu \in \mathbb{F}^\times \), \( \vec{v} \in \mathbb{F}^n \).
+	\end{enumerate}
+	\begin{center}
+	\begin{tikzpicture}[scale=1]
+		\coordinate (O) at (0,0);
+		\coordinate (v) at (2,1);
+		\coordinate (lv) at (3,1.5); % assuming \lambda=1.5
+		\draw[->] (-0.5,0) -- (4,0) node[right] {$x$};
+		\draw[->] (0,-0.5) -- (0,3) node[above] {$y$};
+		\draw[->, thick, blue]  (O) -- (v);
+		\fill[blue] (v)  circle (2pt) node[above right] {$\vec v = (v_1,v_2)$};
+		\draw[dashed, -Latex] (5,2) to node[above] {$\F^\times\acts\F^2$} (9,2) ;
+		\begin{scope}[xshift=10cm]
+			\coordinate (O) at (0,0);
+			\coordinate (v) at (2,1);
+			\coordinate (lv) at (3,1.5); % assuming \lambda=1.5
+			\draw[->] (-0.5,0) -- (4,0) node[right] {$x$};
+			\draw[->] (0,-0.5) -- (0,3) node[above] {$y$};
+			\draw[->, thick, red]   (O) -- (lv);
+			\fill[red] (lv) circle (2pt) node[above right] {$\lambda\vec v=(\lambda v_1,\lambda v_2)$};
+		\end{scope}
+	\end{tikzpicture}
+	\end{center}
+\end{example*}
+
+\newpage
+\begin{example*}[Conjugation Action on the Group Itself]
+Let \( G \) be any group, and consider \( X = G \). Define an action of \( G \) on itself by conjugation: \[
+G \curvearrowright G, \quad (g, x) \mapsto g \cdot x := g\ast x\ast g^{-1}.
+\] Then \begin{enumerate}[(i)]
+	\item \( e \cdot x = e\ast x\ast e^{-1} = x \) for all \( x \in G \).
+	\item Note that \begin{align*}
+		(g\ast h) \cdot x &= (g\ast h)\ast x\ast (g\ast h)^{-1} \\
+		&= (g\ast h)\ast x\ast (h^{-1}\ast g^{-1})\\
+		&= g\ast (h\ast x\ast h^{-1})\ast g^{-1}\\
+		&= g\ast (h\cdot x)\ast g^{-1}\\
+		&=g \cdot (h \cdot x).
+	\end{align*} Thus, this is a left group action.
+%	Its **orbits** are the **conjugacy classes** in \( G \), and the **stabilizer** of \( x \in G \) is the **centralizer**: \[
+%	\operatorname{Stab}_G(x) = \{ g \in G \mid gxg^{-1} = x \} = C_G(x).
+%	\]
+%	The kernel of this action is the **center** \( Z(G) = \{ g \in G \mid gx = xg \text{ for all } x \in G \} \).
+\end{enumerate}
+\end{example*}
+\begin{example*}[Trivial \( G \)-Set]
+Let \( G \) be any group and define the set \( X = \{x\} \), a singleton. Define the action
+\[
+G \curvearrowright X, \quad (g,x)\mapsto g \cdot x := x \quad \text{for all } g \in G.
+\] This is the \textbf{trivial action}, where every group element acts as the identity on \( X \):
+\vfill
+\begin{enumerate}[(i)]
+	\item \( e \cdot x = x \).
+	\item \( (g\ast h) \cdot x = x = g \cdot (h \cdot x) \).
+\end{enumerate}
+%This is the unique action of \( G \) on a singleton, and it appears naturally when defining constant \( G \)-sets or fixed points. 
+%in more general actions.
+\end{example*}
+\vfill
+\begin{example*}[Action on Coset Space \( G/H \)]
+Let $(G,\ast)$ be a group, and let \( H \leq G \). Let \( X = G/H \) be the set of left cosets of \( H \) in \( G \), \ie,
+\[
+X = G/H = \{ gH \mid g \in G \}.
+\] Define an action \[
+G \curvearrowright G/H, \quad (g, aH) \mapsto (ga)H.
+\] This is well-defined because if \( a_1H = a_2H \), then \( a_1^{-1}a_2 \in H \), so: $
+g a_1 H = g a_2 H.$. Since \begin{enumerate}[(i)]
+	\item \( e \cdot aH = aH \);
+	\item \( (gh) \cdot aH = g \cdot (h \cdot aH) \),
+\end{enumerate}
+this is a \textbf{transitive action}.
+%and the stabilizer of the coset \( eH \in G/H \) is \( H \) itself. 
+%This action reflects the **quotient structure** of \( G \) by \( H \), and is fundamental in the construction of **homogeneous spaces** and **induced representations**.
+\end{example*}
+\newpage
+\probox[Group Elements Act as Permutations]{\begin{proposition*}
+Let \( G \) be a group action on a set \( X \) via a left action \( G \curvearrowright X \), given by \( (g, x) \mapsto g \cdot x \). Then for each \( g \in G \), the map
+\[
+\sigma_g : X \to X, \quad x \mapsto g \cdot x
+\]
+is one-to-one and onto. {\color{gray!50} That is, \( \sigma_g \in \operatorname{Sym}(X) \), the group of all permutations of \( X \).}
+\end{proposition*}}
+\begin{proof}
+	TBA
+	%To show that \( \sigma_g \) is bijective, observe that its inverse is \( \sigma_{g^{-1}} \), since for all \( x \in X \):
+	%
+	%\[
+	%\sigma_{g^{-1}}(\sigma_g(x)) = g^{-1} \cdot (g \cdot x) = (g^{-1}g) \cdot x = e \cdot x = x,
+	%\]
+	%\[
+	%\sigma_g(\sigma_{g^{-1}}(x)) = g \cdot (g^{-1} \cdot x) = (gg^{-1}) \cdot x = e \cdot x = x.
+	%\]
+	%
+	%Hence, \( \sigma_g \) is invertible with inverse \( \sigma_{g^{-1}} \), and thus \( \sigma_g \) is bijective.
+\end{proof}
+
+\thmbox[Group Actions Induce Permutation Representations]{\begin{theorem*}
+Let \( G \) be a group action on a set \( X \) via a left group action $G \curvearrowright X, \quad (g, x) \mapsto g \cdot x$. For each \( g \in G \), define the bijection \( \sigma_g : X \to X \) by $
+\sigma_g(x) := g \cdot x$. Then the map \[
+\phi: G \to \operatorname{Sym}(X), \quad g\mapsto \sigma_g,
+\] is a \textbf{group homomorphism} from \( G \) to the symmetric group \( \operatorname{Sym}(X) \).
+In other words, for all \( g, h \in G \), \[
+\phi(g\ast h) = \sigma_{g\ast h}=\sigma_g\circ\sigma_h= \phi(g) \circ \phi(h).
+\]
+\end{theorem*}}
+\begin{remark*}
+	A group action $G\acts X$ is equivalent to a group homomorphism $G\to \operatorname{Sym}(X)$, i.e., a \textbf{permutation representation} of $G$.
+\end{remark*}
+\begin{proof}
+	TBA
+%### **Proof.**
+%
+%Let \( g, h \in G \), and let \( x \in X \). By the definition of \( \sigma_g \) and the group action axioms,
+%
+%\[
+%\sigma_{gh}(x) = (gh) \cdot x = g \cdot (h \cdot x) = \sigma_g(\sigma_h(x)) = (\sigma_g \circ \sigma_h)(x).
+%\]
+%
+%Since this equality holds for all \( x \in X \), it follows that \( \sigma_{gh} = \sigma_g \circ \sigma_h \). Therefore, \( \varphi \) is a homomorphism.
+\end{proof}
+
+\thmbox[Cayley Theorem]{\begin{theorem*} 
+Let \(G\) be a group. Consider the action of \(G\) on itself by left multiplication.  For each \(g\in G\), define  
+\[
+\sigma_g \;:\; G \;\longrightarrow\; G,\qquad x\;\mapsto\;g\cdot x.
+\]  
+Then the map  
+\[
+\phi \;:\; G \;\longrightarrow\;\operatorname{Sym}(G),\qquad g\;\mapsto\;\sigma_g
+\]  
+is an injective group homomorphism (group monomorphism).  In particular,  \[
+\phi(G)\simeq G
+\quad\text{and}\quad
+\varphi(G)\le\operatorname{Sym}(G).
+\]
+\end{theorem*}}
+\begin{proof}
+%#### Proof sketch.  
+%1. **Homomorphism.**  For all \(g,h\in G\) and \(x\in G\),  
+%\[
+%\varphi(gh)(x)
+%= \sigma_{gh}(x)
+%= (gh)\,x
+%= g\,(h\,x)
+%= \sigma_g\bigl(\sigma_h(x)\bigr)
+%= \bigl(\sigma_g\circ\sigma_h\bigr)(x),
+%\]  
+%hence \(\varphi(gh)=\sigma_g\circ\sigma_h=\varphi(g)\varphi(h)\).
+%
+%2. **Injectivity.**  If \(\varphi(g)=\mathrm{id}_G\), then for every \(x\in G\),  
+%\[
+%g\,x = \sigma_g(x) = x,
+%\]  
+%so in particular \(g\cdot e = e\) forces \(g=e\).  Thus \(\ker\varphi=\{e\}\) and \(\varphi\) is injective.
+\end{proof}
+
+\newpage
+\section*{Normal Subgroups}
+\probox[Existence of the Quotient Group]{\begin{proposition*}
+	Let \((G,\ast)\) be a group and let \(H\le G\) be a subgroup.  Define a binary operation $\boxast$ on the set of left cosets \(G/H\) by  \[
+	(g\ast H)\boxast (g'\ast H) \;=\;(g\ast g')\ast H
+	\] where $g,g'\in G$.
+	Then this operation is well-defined (and makes \(G/H\) into a group) if and only if \[
+	g\ast h\ast g^{-1}\;\in\;H.
+	\]  for all $g\in G$, $h\in H.$
+\end{proposition*}}
+\begin{proof}
+\begin{itemize}
+	\item[($\Rightarrow$)] Let $g\in G$ and $h\in H$. Then \begin{align*}
+		h\ast g^{-1}\in H\implies g\ast H=g(h)
+	\end{align*}
+	\item[($\Leftarrow$)]
+\end{itemize}
+\end{proof}
+
+\defbox[Normal Subgroup]{\begin{definition*}
+	
+\end{definition*}}
+
+\vfill
+\begin{thebibliography}{9}
+	\bibitem{abstract_algebra_d}
+	수학의 즐거움, Enjoying Math. ``수학 공부, 기초부터 대학원 수학까지, 23. 추상대수학 (d) 군 작용과 케일리-정리 group action and Cayley theorem'' YouTube Video, 29:20. Published 
+	October 23, 2019. URL: \url{https://www.youtube.com/watch?v=5SQfrH83HfA&t=1040s}.
+	\bibitem{abstract_algebra_e}
+	수학의 즐거움, Enjoying Math. ``수학 공부, 기초부터 대학원 수학까지, 24. 추상대수학 (e) 정규부분군의 정의 def of normal subgroups'' YouTube Video, 23:00. Published 
+	October 25, 2019. URL: \url{https://www.youtube.com/watch?v=3UJILZr4CNo}.
+\end{thebibliography}
+
+\newpage
+
+\appendix
+\section*{Appendices}
+\defbox[Orbit and Stabilizer]{\begin{definition*}
+Let \( G \) be a group acting on a set \( X \) via a (left) group action: \[
+G \curvearrowright X, \quad (g, x) \mapsto g \cdot x.
+\] Let $x\in X$.
+\begin{enumerate}[(1)]
+	\item The \textbf{orbit} of \( x \) under the action of \( G \) is defined by
+	\[
+	\operatorname{Orb}_G(x) := G \cdot x = \{ g \cdot x \mid g \in G \}\subseteq X.
+	\]
+	This is the set of all elements of \( X \) to which \( x \) can be moved by the action of $g\in G$. 
+	\item The \textbf{stabilizer subgroup} of an \( x \in X \), also called the \textbf{isotropy subgroup} or \textbf{fixer}, is defined by
+	\[
+	\operatorname{Stab}_G(x) := \{ g \in G \mid g \cdot x = x \}.
+	\]
+	This is a subgroup of \( G \) consisting of all elements that fix \( x \) under the action.
+\end{enumerate}
+\end{definition*}}
+\begin{remark*}
+	\ \begin{itemize}
+		\item The orbits form a \emph{partition} of \( X \); that is, \( X \) is the disjoint union of its orbits under the action of \( G \).
+	\end{itemize}
+%### **Key Properties**
+%
+%- \( \operatorname{Stab}_G(x) \leq G \) is a subgroup of \( G \).
+%- The **orbit-stabilizer theorem** states that if \( G \) is a finite group, then:
+%\[
+%|\operatorname{Orb}_G(x)| = [G : \operatorname{Stab}_G(x)],
+%\]
+%where the right-hand side is the index of \( \operatorname{Stab}_G(x) \) in \( G \).
+\end{remark*}
+
+\end{document}

@@ -292,7 +292,7 @@ A \textbf{vector field} on \(\R^n\) is a function \[
 \subsection*{Line Integral of Scalar Function over Arc Length}
 \addcontentsline{toc}{subsection}{Line Integral of Scalar Function over Arc Length}
 
-\paragraph{Secant Lines \&  Tangent as a Limit}
+%\paragraph{Secant Lines \&  Tangent as a Limit}
 \begin{center}
 	\animateinline[autoplay,loop]{4}% 5 fps
 	\multiframe{\the\NumPagesA}{i=1+1}{%
@@ -300,19 +300,19 @@ A \textbf{vector field} on \(\R^n\) is a function \[
 	}
 	\endanimateinline
 \end{center}
-For a curve $\gamma\colon\R\to\R^2\colon t\mapsto\bigl(x(t),y(t)\bigr)$, the \emph{secant vector} over $[t,t+\Delta t]$ is
+For a curve $\gamma\colon\R\to\R^2\colon t\mapsto\gen{x(t),y(t)}$, the \emph{secant vector} over $[t,t+\Delta t]$ is
 \[
-\frac{\gamma(t+\Delta t)-\gamma(t)}{\Delta t}
-= \left(\frac{x(t+\Delta t)-x(t)}{\Delta t},\;\frac{y(t+\Delta t)-y(t)}{\Delta t}\right).
+\frac{\Delta \gamma}{\Delta t}=\frac{\gamma(t+\Delta t)-\gamma(t)}{\Delta t}
+= \Gen{\frac{x(t+\Delta t)-x(t)}{\Delta t},\;\frac{y(t+\Delta t)-y(t)}{\Delta t}}.
 \]
 As $\Delta t \to 0$, these secants converge (if $\gamma$ is smooth) to \begin{align*}
 \gamma'(t)=\frac{d}{dt}\gamma(t)= \lim_{\Delta t\to0}
-\frac{\gamma(t+\Delta t)-\gamma(t)}{\Delta t}&=\left(\lim_{\Delta t\to0}\frac{x(t+\Delta t)-x(t)}{\Delta t},\;\lim_{\Delta t\to0}\frac{y(t+\Delta t)-y(t)}{\Delta t}\right)\\
-&=\left(\frac{d}{dt}x(t),\;\frac{d}{dt}y(t)\right)\\
-&=(x'(t),y'(t)),
+\frac{\Delta\gamma}{\Delta t}&=\Gen{\lim_{\Delta t\to0}\frac{x(t+\Delta t)-x(t)}{\Delta t},\;\lim_{\Delta t\to0}\frac{y(t+\Delta t)-y(t)}{\Delta t}}\\
+&=\Gen{\frac{dx}{dt},\;\frac{dy}{dt}}\\
+&=\gen{x'(t),y'(t)},
 \end{align*} which gives the \emph{tangent vector} at $\gamma(t)$. The tangent vector captures how the curve is moving instantaneously at time $t$.\par
-By Pythagoras’ theorem, the \emph{length moved per unit time} is \(\|\gamma'(t)\|=\sqrt{(x'(t))^2 + (y'(t))^2}\), and the small arc length traveled between \(t\) and \(t+\Delta t\) is approximately: \[
-\|\gamma'(t)\| \Delta t=\sqrt{\left(\frac{d}{dt}x(t)\right)^2+\left(\frac{d}{dt}y(t)\right)^2}\cdot\Delta t.
+By Pythagoras’ theorem, the \emph{length moved per unit time} is \(\|\gamma'(t)\|=\sqrt{(x'(t))^2 + (y'(t))^2}\), and so the small arc length traveled between \(t\) and \(t+\Delta t\) is approximately: \[
+\|\gamma'(t)\| \Delta t=\sqrt{\left(\frac{dx}{dt}\right)^2+\left(\frac{dy}{dt}\right)^2}\cdot\Delta t.
 \]
 \newpage
 \defbox[Arc Length of a Parametrized Curve]{
@@ -320,52 +320,174 @@ By Pythagoras’ theorem, the \emph{length moved per unit time} is \(\|\gamma'(t
 	Let \( C \subset \mathbb{R}^n \) be a piecewise smooth curve, given by a smooth parameterization:
 	\[
 	\gamma : [a, b] \to \mathbb{R}^n,\quad
-	t \mapsto \gamma(t) = \big(x_1(t), x_2(t), \dots, x_n(t)\big).
+	t \mapsto \gamma(t) = \gen{x_1(t), x_2(t), \dots, x_n(t)}.
 	\] Then the \textbf{arc length} $s$ of the curve \( C \) from \( t = a \) to \( t = b \) is defined by \[
 	\boxed{
-		s := \int_a^b \left\| \gamma'(t) \right\|\, dt},\quad\text{where}\; \left\| \gamma'(t) \right\| = \sqrt{ \left( \frac{d}{dt}x_1(t) \right)^2 + \left( \frac{d}{dt}x_2(t) \right)^2 + \cdots + \left( \frac{d}{dt}x_n(t) \right)^2 }.
+		s := \int_a^b \left\| \gamma'(t) \right\|\, dt},\quad\text{where}\; \left\| \gamma'(t) \right\| = \sqrt{ \left( \frac{dx_1}{dt} \right)^2 + \left( \frac{dx_2}{dt} \right)^2 + \cdots + \left( \frac{dx_n}{dt} \right)^2 }.
 	\]
 \end{definition*}}
+\begin{remark*}
+	Let $\gamma:[a,b]\to\R^n$ be a piecewise-$C^1$ curve, $\gamma(t)=(x_1(t),\dots x_n(t))$. A arc length function is defined by \[
+	s:[a,b]\to\R,\quad t\mapsto s(t)=\int_a^t\norm[0]{\gamma'(u)}\; du,
+	\] where $\norm[0]{\gamma'(u)}=\sqrt{\sum_{i=1}^{n}(x_i'(u))^2}$. Define two sets: \begin{align*}
+		C^1([a,b])&=\set{f\in\R^{[a,b]}:\; \text{$f$ is continuously differentiable on $[a,b]$}}\\
+		\Omega^1([a,b])&=\set{\delta(t)\ dt: \delta\in\R^{[a,b]}\; \text{is continuous and $t\in[a,b]$}}{\color{gray!50}=\set{\delta(t)\ dt: \delta\in C^0([a,b])}}.
+	\end{align*}
+	Here $s\in C^1([a,b])$ with $\displaystyle s'(t)=\frac{d}{dt}\left(\int_a^t\norm[0]{\gamma'(u)}\; du\right)\overset{\text{FTC}}{=}\norm[0]{\gamma'(t)}$. 
 \begin{center}
-\begin{minipage}{.4\textwidth}\centering
-\includegraphics[scale=1]{../riemann-tikz/curve_in_3d.pdf}
+\begin{tikzpicture}[scale=2]
+	% numeric constants
+	\def\a{0}
+	\def\b{3.141592653589793}             % π
+	\def\topYmin{0}    \def\topYmax{1.2}
+	\def\botYmin{-1.2}\def\botYmax{0}
+	
+	%── Top panel: C^1([a,b]) ──
+	\begin{scope}[]
+		% vertical grid lines at t = 0, π/4, π/2, 3π/4, π
+		\foreach \x/\xlabel in {
+			0.785/{$\tfrac{\pi}{4}$},
+			1.570/{$\tfrac{\pi}{2}$},
+			2.356/{$\tfrac{3\pi}{4}$},
+			3.141/{$\pi$}
+		}{
+			\draw[lightgray,thin] (\x,-\topYmax) -- (\x,\topYmax)
+			node[above,yshift=1pt] {\xlabel};
+		}
+		% horizontal grid lines at y = 0, 0.5, 1
+		\foreach \y/\ylabel in {
+			-1/{$-1$},
+			-0.5/{$-\tfrac12$},
+			0/{$0$},
+			0.5/{$\tfrac12$},
+			1/{$1$}
+		}{
+			\draw[lightgray,thin] (\a,\y) -- (\b,\y)
+			node[right,xshift=-2pt] {\ylabel};
+		}
+		% axes
+		\draw[->,thick] (\a,\topYmin) -- (\b,\topYmin) node[right] {$t$};
+		\draw[->,thick] (\a,-\topYmax) -- (\a,\topYmax) node[above] {$y$};
+		% the two C^1–curves
+		\draw[blue,thick,domain=\a:\b,samples=200]
+		plot (\x,{sin(\x r)});
+		\draw[red,thick,domain=\a:\b,samples=200]
+		plot (\x,{cos(\x r)});
+		% labels
+		\node at (\b,0) [below left] {\large $C^1([a,b])$};
+		\node[blue] at (1.2,1.0) {\footnotesize$\sin t$};
+		\node[red]  at (1.2,0.6) {\footnotesize$\cos t$};
+	\end{scope}
+	
+	%── the exterior derivative arrow ──
+	\draw[-Latex, thick] (3.75,0) to node[above] {$d$} (4.5,0);
+	
+	%── Bottom panel: Ω^1([a,b]) ──
+	\begin{scope}[xshift=5cm]
+	%── Bottom panel: Ω^1([a,b]) with 11 samples ──
+		% grid lines (as before)
+		\foreach \x/\xlabel in {
+			0.785/{$\tfrac{\pi}{4}$},
+			1.570/{$\tfrac{\pi}{2}$},
+			2.356/{$\tfrac{3\pi}{4}$},
+			3.141/{$\pi$}
+		}{
+			\draw[lightgray,thin] (\x,-\topYmax) -- (\x,\topYmax)
+			node[above,yshift=1pt] {\xlabel};
+		}
+		% horizontal grid lines at y = 0, 0.5, 1
+		\foreach \y/\ylabel in {
+			-1/{$-1$},
+			-0.5/{$-\tfrac12$},
+			0/{$0$},
+			0.5/{$\tfrac12$},
+			1/{$1$}
+		}{
+			\draw[lightgray,thin] (\a,\y) -- (\b,\y)
+			node[right,xshift=-2pt] {\ylabel};
+		}
+		% axes
+		\draw[->,thick] (\a,0) -- (\b,0) node[right] {$t$};
+		\draw[->,thick] (\a,-\topYmax) -- (\a,\topYmax) node[above] {$\omega$};
+		
+		% sample points t_k = k*pi/10, k=0..10
+		\foreach \k in {0.25,0.5,...,10} {
+			\pgfmathsetmacro{\x}{\k*pi/10}
+			\pgfmathsetmacro{\yone}{cos(\x r)}
+			\pgfmathsetmacro{\ytwo}{-sin(\x r)}
+			% cos t dt on the left
+			\draw[blue,->] ({\x-0.05},0) -- ++(0,{\yone});
+			% -sin t dt on the right
+			\draw[red,->]  ({\x+0.05},0) -- ++(0,{\ytwo});
+		}
+		
+		% labels
+		\node at (\b,\botYmax) [above left] {\large $\Omega^1([a,b])$};
+		\node[blue] at (0.7,1) {\footnotesize$\cos t\,dt$};
+		\node[red]  at (0.7,-1) {\footnotesize$-\sin t\,dt$};
+	\end{scope}
+\end{tikzpicture}
+\end{center}
+The map \[
+\fullfunction{d}{C^1([a,b])}{\Omega^1([a,b])}{f(t)}{d(f(t))=df}
+\] is defined by $df=f'(t)dt$, where $f'$ is the derivative of $f$. Thus \[
+ds:=d(s(t))=s'(t)\; dt=\norm[0]{\gamma'(t)}\; dt.
+\]
+\end{remark*}
+\begin{center}
+\begin{minipage}{.5\textwidth}\centering
+\includegraphics[scale=1.4]{../riemann-tikz/curve_in_3d.pdf}
 \end{minipage}\hfill
-\begin{minipage}{.59\textwidth}
-$\fullfunction{\gamma}{\R}{\R^3}{t}{\gamma(t)=(x(t),y(t),z(t))}$\ \\
+\begin{minipage}{.49\textwidth}
+$\fullfunction{\vec{r}}{\R}{\R^3}{t}{\vec{r}(t)=\gen{x(t),y(t),z(t)}}$\ \\
 \vfill\ \\
-$\displaystyle\gamma'(t)=\frac{d}{dt}\gamma(t)
-= \lim_{\Delta t\to0}
-\frac{\gamma(t+\Delta t)-\gamma(t)}{\Delta t}=(x'(t),y'(t),z'(t))$\  \\
+$\displaystyle\vec{r}'(t)=\frac{d\vec{r}}{dt}
+%= \lim_{\Delta t\to0}
+%\frac{\gamma(t+\Delta t)-\gamma(t)}{\Delta t}
+=\gen{x'(t),y'(t),z'(t)}$\  \\
 \vfill\ \\
-$\displaystyle s=\int_a^b\sqrt{\left(x'(t)\right)^2+\left(y'(t)\right)^2+\left(z'(t)\right)^2}\; dt$
+$\displaystyle s(t)=\int_a^t\norm[0]{\vec{r}'(t)}\; dt$\ \\
+$s'(t)=\norm[0]{\vec{r}'(t)}=\sqrt{\left(x'(t)\right)^2+\left(y'(t)\right)^2+\left(z'(t)\right)^2}$\ \\
+\ \\
+$ds=d(s(t))=s'(t)\; dt=\norm[0]{\vec{r}'(t)}\; dt$
 \end{minipage}
 \end{center}
 \begin{figure}[h!]
 \end{figure}
-
-\begin{definition*}[Line Integral of Scalar Function over Arc Length]
+\defbox[Line Integral of Scalar Function over Arc Length]{\begin{definition*}
 	Let $f:\R^n\to\R$ be a scalar function, and let $C$ be a piecewise smooth curve in 
-	$\R^n$ given by a smooth parameterization: \[
-	\gamma:[a,b]\to\R^n,\quad t\mapsto \gamma(t)=(x_1(t),x_2(t),\dots,x_n(t)).
-	\] The \textbf{line integral of the scalar function} $f$ along the curve $C$ with respect to arc length is defined by \[
-	\int_C f\; ds :=\int_a^bf(\gamma(t))\norm[0]{\gamma'(t)}\; dt.
-	\] Here, $ds=\norm[0]{\gamma'(t)}\; dt$ is the \emph{infinitesimal arc length}.
-\end{definition*}
+$\R^n$ given by a smooth parameterization: \[
+\gamma:[a,b]\to\R^n,\quad t\mapsto \gamma(t)=\gen{x_1(t),x_2(t),\dots,x_n(t)}\in\R^n=\operatorname*{dom}(f).
+\] The \textbf{line integral of the scalar function} $f$ along the curve $C$ with respect to arc length is defined by \[
+\int_C f\; ds :=\int_a^bf(\gamma(t))\norm[0]{\gamma'(t)}\; dt.
+\] 
+%	Here, $ds=\norm[0]{\gamma'(t)}\; dt$ is the \emph{infinitesimal arc length}.
+\end{definition*}}
 
 \newpage
 \subsection*{Line Integral of Vector Fields}
 \addcontentsline{toc}{subsection}{Line Integral of Vector Fields}
-
-\thmbox[Fundamental Theorem of Calculus for Line Integrals]{\begin{theorem*}
-Let \(U\subset\mathbb{R}^n\) be open and let \(f\colon U\to\mathbb{R}\) be a \(C^1\)–function. Consider its gradient field by \[
-\nabla f = \gen{\partial_{x_1}f,\dots,\partial_{x_n}f}.
-\] Let \(\gamma\colon[a,b]\to U\) be any piecewise-\(C^1\) curve with endpoints \(\gamma(a)=P\) and \(\gamma(b)=Q\). Then \[
-\int_\gamma \nabla f\cdot d\mathbf r
-\;=\;
-\int_a^b \nabla f\bigl(\gamma(t)\bigr)\cdot\gamma'(t)\,dt
-\;=\;
-f\bigl(\gamma(b)\bigr)\;-\;f\bigl(\gamma(a)\bigr).
+\defbox[Line Integral of a Vector Field in $\R^2$]{\begin{definition*}
+Let $C$ be a smooth curve parametrized by \[
+\gamma : [a, b] \to \mathbb{R}^2,\quad t\mapsto\gamma(t) = \gen{x(t), y(t)}. 
+\] Let \( \mathbf{F} = \gen{F_1, F_2} \) be a smooth vector field on \( \mathbb{R}^2 \).
+The \textbf{line integral of the vector field} \( \mathbf{F} = (F_1, F_2) \) along the curve \( \gamma \) is defined by \[
+\int_C\vec{F}\cdot d\vec{r}=\int_a^b\textbf{F}(\gamma(t))\cdot\gamma'(t)\; dt.
+\] Alternatively, \[
+\int_C\vec{F}\cdot d\vec{r}=\int_C (F_1,F_2)\cdot(dx,dy)=\int_C F_1dx+F_2dy.
 \]
+\end{definition*}}
+
+%\thmbox[Fundamental Theorem of Calculus for Line Integrals]{\begin{theorem*}
+%Let \(U\subset\mathbb{R}^n\) be open and let \(f\colon U\to\mathbb{R}\) be a \(C^1\)–function. Consider its gradient field by \[
+%\nabla f = \gen{\partial_{x_1}f,\dots,\partial_{x_n}f}.
+%\] Let \(\gamma\colon[a,b]\to U\) be any piecewise-\(C^1\) curve with endpoints \(\gamma(a)=P\) and \(\gamma(b)=Q\). Then \[
+%\int_\gamma \nabla f\cdot d\mathbf r
+%\;=\;
+%\int_a^b \nabla f\bigl(\gamma(t)\bigr)\cdot\gamma'(t)\,dt
+%\;=\;
+%f\bigl(\gamma(b)\bigr)\;-\;f\bigl(\gamma(a)\bigr).
+%\]
 
 %Exactness.  The condition \(\vec F=\nabla f\) (or \(\omega=df\)) is **necessary and sufficient** for the line integral to depend only on the endpoints of \(\gamma\) and not on its particular shape or parametrization.
 %- **Path-Independence.**  Equivalently, in any (piecewise-)connected region on which \(f\) is defined,  
@@ -378,7 +500,7 @@ f\bigl(\gamma(b)\bigr)\;-\;f\bigl(\gamma(a)\bigr).
 %
 %Orientation.  Reversing orientation changes the sign:  
 %\(\displaystyle\int_{-\gamma}\!\nabla f\cdot d\mathbf r=-\!\int_\gamma\!\nabla f\cdot d\mathbf r.\)
-\end{theorem*}}
+%\end{theorem*}}
 %\begin{remark*}[Differential-form version]
 %Identify the 1-form  
 %	\(\omega = df = \sum_{i=1}^n (\partial_{x^i}f)\,dx^i\).  Then
@@ -393,162 +515,161 @@ f\bigl(\gamma(b)\bigr)\;-\;f\bigl(\gamma(a)\bigr).
 %	\]
 %\end{remark*}
 
-Excellent — this is a key question for understanding how **vector calculus** connects with **differential forms** and notation. Let's walk through how to **rigorously deduce**:
+%Excellent — this is a key question for understanding how **vector calculus** connects with **differential forms** and notation. Let's walk through how to **rigorously deduce**:
+%
+%\[
+%\int_C F_1\,dx + F_2\,dy
+%\quad \text{from} \quad
+%\int_C \vec{F} \cdot d\vec{r}
+%\]
+%for a vector field \( \vec{F}(x,y) = (F_1(x,y), F_2(x,y)) \).
+%
+%---
+%
+%
+%
+% **Step 1: Parametrize the Curve \( C \)**
+%
+%Let \( \gamma: [a, b] \to \mathbb{R}^2 \) be a smooth parameterization of the curve \( C \), given by:
+%\[
+%\gamma(t) = (x(t), y(t)), \quad t \in [a, b].
+%\]
+%
+%Then the **derivative of the curve** is:
+%\[
+%\gamma'(t) = (x'(t), y'(t)),
+%\]
+%and the **differential displacement** is:
+%\[
+%d\vec{r} = \gamma'(t)\,dt = (dx, dy) = (x'(t)\,dt, y'(t)\,dt).
+%\]
+%
+%---
+%
+% **Step 2: Write the Line Integral of \( \vec{F} \)**
+%
+%The **vector line integral** is defined as:
+%\[
+%\int_C \vec{F} \cdot d\vec{r}
+%= \int_a^b \vec{F}(\gamma(t)) \cdot \gamma'(t)\,dt
+%= \int_a^b \left[ F_1(x(t), y(t))\,x'(t) + F_2(x(t), y(t))\,y'(t) \right] dt.
+%\]
+%
+%---
+%
+% **Step 3: Recognize the Total Differentials**
+%
+%From calculus, we know:
+%\[
+%dx = x'(t)\,dt, \quad dy = y'(t)\,dt.
+%\]
+%
+%Substitute into the integral:
+%\[
+%\int_a^b F_1(x(t), y(t))\,dx + F_2(x(t), y(t))\,dy.
+%\]
+%
+%So we have:
+%\[
+%\int_C \vec{F} \cdot d\vec{r}
+%= \int_a^b F_1(x(t), y(t))\,dx + F_2(x(t), y(t))\,dy
+%= \int_C F_1\,dx + F_2\,dy.
+%\]
+%
+%---
+%
+%Final Deduction
+%
+%Thus:
+%\[
+%\boxed{
+%	\int_C \vec{F} \cdot d\vec{r}
+%	= \int_C F_1\,dx + F_2\,dy
+%}
+%\]
+%where:
+%- \( \vec{F} = (F_1, F_2) \),
+%- \( d\vec{r} = (dx, dy) \),
+%- The dot product \( \vec{F} \cdot d\vec{r} = F_1\,dx + F_2\,dy \).
+%
+%---
+%
+% Interpretation
+%
+%- The vector line integral becomes an integral of a **1-form**:  
+%\[
+%\vec{F} \cdot d\vec{r} \quad \leftrightarrow \quad F_1\,dx + F_2\,dy.
+%\]
+%- The dot product turns into a sum of **components times differentials**.
+%
+%---
+%
+%Would you like to go one step further and express this in terms of pullbacks or show how it generalizes to \( \mathbb{R}^3 \)?
 
-\[
-\int_C F_1\,dx + F_2\,dy
-\quad \text{from} \quad
-\int_C \vec{F} \cdot d\vec{r}
-\]
-for a vector field \( \vec{F}(x,y) = (F_1(x,y), F_2(x,y)) \).
-
----
-
-
-
- **Step 1: Parametrize the Curve \( C \)**
-
-Let \( \gamma: [a, b] \to \mathbb{R}^2 \) be a smooth parameterization of the curve \( C \), given by:
-\[
-\gamma(t) = (x(t), y(t)), \quad t \in [a, b].
-\]
-
-Then the **derivative of the curve** is:
-\[
-\gamma'(t) = (x'(t), y'(t)),
-\]
-and the **differential displacement** is:
-\[
-d\vec{r} = \gamma'(t)\,dt = (dx, dy) = (x'(t)\,dt, y'(t)\,dt).
-\]
-
----
-
- **Step 2: Write the Line Integral of \( \vec{F} \)**
-
-The **vector line integral** is defined as:
-\[
-\int_C \vec{F} \cdot d\vec{r}
-= \int_a^b \vec{F}(\gamma(t)) \cdot \gamma'(t)\,dt
-= \int_a^b \left[ F_1(x(t), y(t))\,x'(t) + F_2(x(t), y(t))\,y'(t) \right] dt.
-\]
-
----
-
- **Step 3: Recognize the Total Differentials**
-
-From calculus, we know:
-\[
-dx = x'(t)\,dt, \quad dy = y'(t)\,dt.
-\]
-
-Substitute into the integral:
-\[
-\int_a^b F_1(x(t), y(t))\,dx + F_2(x(t), y(t))\,dy.
-\]
-
-So we have:
-\[
-\int_C \vec{F} \cdot d\vec{r}
-= \int_a^b F_1(x(t), y(t))\,dx + F_2(x(t), y(t))\,dy
-= \int_C F_1\,dx + F_2\,dy.
-\]
-
----
-
-Final Deduction
-
-Thus:
-\[
-\boxed{
-	\int_C \vec{F} \cdot d\vec{r}
-	= \int_C F_1\,dx + F_2\,dy
-}
-\]
-where:
-- \( \vec{F} = (F_1, F_2) \),
-- \( d\vec{r} = (dx, dy) \),
-- The dot product \( \vec{F} \cdot d\vec{r} = F_1\,dx + F_2\,dy \).
-
----
-
- Interpretation
-
-- The vector line integral becomes an integral of a **1-form**:  
-\[
-\vec{F} \cdot d\vec{r} \quad \leftrightarrow \quad F_1\,dx + F_2\,dy.
-\]
-- The dot product turns into a sum of **components times differentials**.
-
----
-
-Would you like to go one step further and express this in terms of pullbacks or show how it generalizes to \( \mathbb{R}^3 \)?
-
-\newpage
-Let \(U\subseteq\mathbb{R}^n\) be an open set and 
-\(\displaystyle\mathbf F:U\to\mathbb{R}^n\) a continuous vector field.  
-Suppose \(C\subset U\) is a smooth curve parametrized by
-\[
-\mathbf r\colon [a,b]\;\longrightarrow\;\mathbb{R}^n,
-\quad
-t\;\mapsto\;\mathbf r(t),
-\]
-with nonzero velocity \(\mathbf r'(t)\).  Then the \emph{line integral} of \(\mathbf F\) along \(C\) is defined by
-\[
-\boxed{
-	\int_C\mathbf F\!\cdot d\mathbf r
-	\;=\;
-	\int_a^b
-	\mathbf F\bigl(\mathbf r(t)\bigr)\;\cdot\;\mathbf r'(t)\;dt
-	\;=\;
-	\int_a^b
-	\sum_{i=1}^n F_i\bigl(\mathbf r(t)\bigr)\,x_i'(t)\;dt,
-}
-\]
-where \(\mathbf r(t)=(x_1(t),\dots,x_n(t))\) and 
-\(\mathbf F=(F_1,\dots,F_n)\).  
-
-\medskip
-
-\noindent
-This integral “accumulates” at each infinitesimal step \(dt\) the projection of \(\mathbf F\) onto the tangent vector \(\mathbf r'(t)\), yielding a single real number that captures the \emph{circulation} or \emph{work} of \(\mathbf F\) along \(C\).
-
-\bigskip
-
-\noindent\textbf{Example.}  Take \(n=2\) and 
-\(\displaystyle \mathbf F(x,y)
-=\Bigl(-\tfrac{y}{x^2+y^2},\,\tfrac{x}{x^2+y^2}\Bigr)\)
-on \(U=\mathbb{R}^2\setminus\{(0,0)\}\).  Let \(C\) be the unit circle 
-\(\;x^2+y^2=1\), counterclockwise.  Parametrize
-\(\mathbf r(t)=(\cos t,\sin t)\), \(t\in[0,2\pi]\).  Then
-\[
-\mathbf r'(t)=(-\sin t,\cos t),\qquad
-\mathbf F\bigl(\mathbf r(t)\bigr)
-=\bigl(-\sin t,\cos t\bigr),
-\]
-so
-\[
-\int_C\mathbf F\!\cdot d\mathbf r
-=\int_0^{2\pi}
-\bigl(-\sin t,\cos t\bigr)\cdot(-\sin t,\cos t)\;dt
-=\int_0^{2\pi}
-\bigl(\sin^2t+\cos^2t\bigr)\;dt
-=2\pi.
-\]
-Thus the total circulation (or “work”) of \(\mathbf F\) around the unit circle is \(2\pi\).
+%\newpage
+%Let \(U\subseteq\mathbb{R}^n\) be an open set and 
+%\(\displaystyle\mathbf F:U\to\mathbb{R}^n\) a continuous vector field.  
+%Suppose \(C\subset U\) is a smooth curve parametrized by
+%\[
+%\mathbf r\colon [a,b]\;\longrightarrow\;\mathbb{R}^n,
+%\quad
+%t\;\mapsto\;\mathbf r(t),
+%\]
+%with nonzero velocity \(\mathbf r'(t)\).  Then the \emph{line integral} of \(\mathbf F\) along \(C\) is defined by
+%\[
+%\boxed{
+%	\int_C\mathbf F\!\cdot d\mathbf r
+%	\;=\;
+%	\int_a^b
+%	\mathbf F\bigl(\mathbf r(t)\bigr)\;\cdot\;\mathbf r'(t)\;dt
+%	\;=\;
+%	\int_a^b
+%	\sum_{i=1}^n F_i\bigl(\mathbf r(t)\bigr)\,x_i'(t)\;dt,
+%}
+%\]
+%where \(\mathbf r(t)=(x_1(t),\dots,x_n(t))\) and 
+%\(\mathbf F=(F_1,\dots,F_n)\).  
+%
+%\medskip
+%
+%\noindent
+%This integral “accumulates” at each infinitesimal step \(dt\) the projection of \(\mathbf F\) onto the tangent vector \(\mathbf r'(t)\), yielding a single real number that captures the \emph{circulation} or \emph{work} of \(\mathbf F\) along \(C\).
+%
+%\bigskip
+%
+%\noindent\textbf{Example.}  Take \(n=2\) and 
+%\(\displaystyle \mathbf F(x,y)
+%=\Bigl(-\tfrac{y}{x^2+y^2},\,\tfrac{x}{x^2+y^2}\Bigr)\)
+%on \(U=\mathbb{R}^2\setminus\{(0,0)\}\).  Let \(C\) be the unit circle 
+%\(\;x^2+y^2=1\), counterclockwise.  Parametrize
+%\(\mathbf r(t)=(\cos t,\sin t)\), \(t\in[0,2\pi]\).  Then
+%\[
+%\mathbf r'(t)=(-\sin t,\cos t),\qquad
+%\mathbf F\bigl(\mathbf r(t)\bigr)
+%=\bigl(-\sin t,\cos t\bigr),
+%\]
+%so
+%\[
+%\int_C\mathbf F\!\cdot d\mathbf r
+%=\int_0^{2\pi}
+%\bigl(-\sin t,\cos t\bigr)\cdot(-\sin t,\cos t)\;dt
+%=\int_0^{2\pi}
+%\bigl(\sin^2t+\cos^2t\bigr)\;dt
+%=2\pi.
+%\]
+%Thus the total circulation (or “work”) of \(\mathbf F\) around the unit circle is \(2\pi\).
 
 
-\paragraph{{\color{magenta}Problem\;\#1} (Line Integral around Unit Circle).} Let \( C \subset \mathbb{R}^2 \) be the unit circle defined by \[
-C: x^2 + y^2 = 1,
-\] traversed in the \emph{counterclockwise direction}. Let the vector field \( \vec{F}: \mathbb{R}^2 \setminus \{(0,0)\} \to \mathbb{R}^2 \) be defined by \[
-\vec{F}(x, y) = \left( \frac{-y}{x^2 + y^2},\; \frac{x}{x^2 + y^2} \right).
+\paragraph{{\color{magenta}Problem\;\#1} (Line Integral around Unit Circle).} Let \( C \subset \mathbb{R}^2 \) be the unit circle defined by $
+C: x^2 + y^2 = 1,$ traversed in the \emph{counterclockwise direction}. Let the vector field \( \vec{F}: \mathbb{R}^2 \setminus \{(0,0)\} \to \mathbb{R}^2 \) be defined by \[
+\vec{F}(x, y) = \Gen{\frac{-y}{x^2 + y^2},\; \frac{x}{x^2 + y^2} }.
 \] Evaluate the \emph{line integral} of \( \vec{F} \) along \( C \): \[
 \oint_C \vec{F} \cdot d\vec{r}.
 \]
 \begin{proof}[\sol]
 \ \begin{center}
 \begin{minipage}{.49\textwidth}\centering
-\begin{tikzpicture}[scale=1.5]
+\begin{tikzpicture}[scale=1.25]
 %	\draw[dashed, gray!20] (-4,-4) grid (4,4);
 	% Axes
 	\draw[->] (-2.5,0) -- (2.5,0) node[right] {$x$};
@@ -601,7 +722,7 @@ C: x^2 + y^2 = 1,
 \end{tikzpicture}
 \end{minipage}
 \begin{minipage}{.49\textwidth}\centering
-\begin{tikzpicture}[scale=1.5]
+\begin{tikzpicture}[scale=1.25]
 	%	\draw[dashed, gray!20] (-4,-4) grid (4,4);
 	% Axes
 	\draw[->] (-2.5,0) -- (2.5,0) node[right] {$x$};
@@ -633,46 +754,45 @@ C: x^2 + y^2 = 1,
 \end{tikzpicture}
 \end{minipage}
 \end{center}
-\begin{tikzpicture}[scale=1.5]
-	% Axes
-	\draw[->] (-2.5,0) -- (2.5,0) node[right] {$x$};
-	\draw[->] (0,-2.5) -- (0,2.5) node[above] {$y$};
-	
-	% The unit circle
-	\draw[cyan, very thick] (0,0) circle (1) node[above right=2cm] {$x^2+y^2=1$};
-	
-	% Tangential field F = (-y,x)
-	\def\arrowlen{1}
-	\foreach \t in {0,10,...,350}{
-		\pgfmathsetmacro\x{cos(\t)}
-		\pgfmathsetmacro\y{sin(\t)}
-		\pgfmathsetmacro\dx{(-\y)*\arrowlen}
-		\pgfmathsetmacro\dy{(\x)*\arrowlen}
-		\draw[->, thick, blue!70!black] (\x,\y) -- ++(\dx,\dy);
-	}
-	
-	% Highlight four sample vectors thicker
-	\foreach \t in {0,90,180,270}{
-		\pgfmathsetmacro\x{cos(\t)}
-		\pgfmathsetmacro\y{sin(\t)}
-		\draw[->, line width=.5mm, magenta] 
-		(\x,\y) -- ++(-\y,\x);
-	}
-	
-	% Annotate that curl F = 0 off the origin
-	\node[red] at (1.5,1.5) {\small$\displaystyle\nabla\times\mathbf F = 0$};
-	\filldraw[red] (0,0) circle(1.5pt) node[below right=2pt] 
-	{\small “hole” at $(0,0)$};
-\end{tikzpicture}
-
-Consider the vector field:
-\[
-\vec{F}(x, y) = \left( \frac{-y}{x^2 + y^2},\; \frac{x}{x^2 + y^2} \right),
-\]
+%\begin{tikzpicture}[scale=1.5]
+%	% Axes
+%	\draw[->] (-2.5,0) -- (2.5,0) node[right] {$x$};
+%	\draw[->] (0,-2.5) -- (0,2.5) node[above] {$y$};
+%	
+%	% The unit circle
+%	\draw[cyan, very thick] (0,0) circle (1) node[above right=2cm] {$x^2+y^2=1$};
+%	
+%	% Tangential field F = (-y,x)
+%	\def\arrowlen{1}
+%	\foreach \t in {0,10,...,350}{
+%		\pgfmathsetmacro\x{cos(\t)}
+%		\pgfmathsetmacro\y{sin(\t)}
+%		\pgfmathsetmacro\dx{(-\y)*\arrowlen}
+%		\pgfmathsetmacro\dy{(\x)*\arrowlen}
+%		\draw[->, thick, blue!70!black] (\x,\y) -- ++(\dx,\dy);
+%	}
+%	
+%	% Highlight four sample vectors thicker
+%	\foreach \t in {0,90,180,270}{
+%		\pgfmathsetmacro\x{cos(\t)}
+%		\pgfmathsetmacro\y{sin(\t)}
+%		\draw[->, line width=.5mm, magenta] 
+%		(\x,\y) -- ++(-\y,\x);
+%	}
+%	
+%	% Annotate that curl F = 0 off the origin
+%	\node[red] at (1.5,1.5) {\small$\displaystyle\nabla\times\mathbf F = 0$};
+%	\filldraw[red] (0,0) circle(1.5pt) node[below right=2pt] 
+%	{\small “hole” at $(0,0)$};
+%\end{tikzpicture}
+\newpage\noindent
+Consider the vector field $
+\vec{F}(x, y) = \Gen{\frac{-y}{x^2 + y^2},\; \frac{x}{x^2 + y^2}}$,
 and the curve \( C \) is the unit circle \( x^2 + y^2 = 1 \), traversed counterclockwise.
-
-\begin{enumerate}[\bfseries Step 1.]
-	\item \textbf{(Parametrization)} Define a function \[
+%\begin{enumerate}[\bfseries Step 1.]
+%	\item 
+\ \\
+	\textbf{(Parametrization)} Define a function \[
 	\fullfunction{\gamma}{[0,2\pi]}{\set{(x,y)\in\R^2:x^2+y^2=1}}{\theta}{\gamma(\theta)=(\cos\theta,\sin\theta)}.
 	\] Here, $\frac{d\gamma}{d\theta}=(-\sin\theta,\cos\theta)$.
 	\begin{center}
@@ -731,172 +851,175 @@ and the curve \( C \) is the unit circle \( x^2 + y^2 = 1 \), traversed counterc
 	\end{tikzpicture}
 	\end{minipage}
 	\end{center}
-	\item \textbf{(Evaluate $\textbf{F}(\gamma(\theta))$ and the dot product)}\; We have \[
-	\vec{F}(\gamma(\theta)) = \vec{F}(\cos\theta,\sin\theta) \overset{\sin^2\theta+\cos^2\theta=1}{=} \left( \frac{-\sin \theta}{1}, \frac{\cos \theta}{1} \right)
+%	\item 
+	\textbf{(Evaluate $\textbf{F}(\gamma(\theta))$ and the dot product)}\; We have \[
+	\vec{F}(\gamma(\theta)) = \vec{F}(\cos\theta,\sin\theta) \overset{\sin^2\theta+\cos^2\theta=1}{=} \Gen{\frac{-\sin \theta}{1}, \frac{\cos \theta}{1} }
 	= (-\sin \theta, \cos \theta).
 	\] and \[
 	\vec{F}(\gamma(\theta)) \cdot \frac{d\gamma}{d\theta}
 	= (-\sin \theta)(-\sin \theta) + (\cos \theta)(\cos \theta)
 	= \sin^2 \theta + \cos^2 \theta = 1.
 	\]
-	\item \textbf{(Integral)} \[
+%	\item 
+	\textbf{(Integral)} \[
 	\oint_C \vec{F} \cdot d\vec{r}
 	= \int_0^{2\pi} \vec{F}(\gamma(\theta)) \cdot\frac{d\gamma}{d\theta}\,d\theta
 	= \int_0^{2\pi} 1\,d\theta = 2\pi.
 	\]
-\end{enumerate}
+%\end{enumerate}
 \end{proof}
 
 \newpage
 \section*{Surface Integral for Vector Fields}
 \addcontentsline{toc}{section}{Surface Integral for Vector Fields}
-\defbox[Surface Integral of a Vector Field]{\begin{definition*}
-Let \(S\subset\mathbb{R}^3\) be a smooth, oriented surface, and let  
-	\[
-	T\colon D\;\subseteq\;\mathbb{R}^2\;\longrightarrow\;S,
-	\qquad
-	(u,v)\;\longmapsto\;T(u,v),
-	\]  
-	be a regular \(C^1\) parametrization whose orientation agrees with that of \(S\).  Consider the partial‐derivative (tangent) vectors \[
-	T_u(u,v)=\frac{\partial T}{\partial u}(u,v),
-	\quad
-	T_v(u,v)=\frac{\partial T}{\partial v}(u,v),
-	\]  and the induced normal‐vector field  
-	\[
-	N(u,v)\;=\;T_u(u,v)\times T_v(u,v)\;\in\;\mathbb{R}^3,
-	\]  
-	which is everywhere nonzero on \(D\) and points according to the chosen orientation.
-	Now let  \[
-	\mathbf F\colon U\;(\supseteq S)\;\longrightarrow\;\mathbb{R}^3
-	\]  
-	be a continuous (or \(C^1\)) vector field defined on an open neighborhood \(U\) of \(S\).  Then \textbf{the surface integral of \(\mathbf F\) over \(S\)} is defined by the formula  
-	\[
-	\boxed{
-		\iint_{S} \mathbf F\;\cdot\;d\mathbf S
-		\;=\;
-		\iint_{D}
-		\mathbf F\bigl(T(u,v)\bigr)\;\cdot\;N(u,v)
-		\;du\,dv
-		\;=\;
-		\iint_{D}
-		\mathbf F\bigl(T(u,v)\bigr)\;\cdot\;
-		\bigl(T_u(u,v)\times T_v(u,v)\bigr)
-		\;du\,dv.
-	}
-	\]
-\end{definition*}}
-\begin{remark*}
-	1. **Geometric meaning.**  
-	At each point \(T(u,v)\in S\), the vector \(N(u,v)\,du\,dv\) represents the oriented area element \(d\mathbf S\).  Thus \(\mathbf F\cdot d\mathbf S\) measures how much \(\mathbf F\) “flows through” that little patch of surface.
-	
-	2. **Independence of parametrization.**  
-	If \(\widetilde T\colon \widetilde D\to S\) is any other orientation‐preserving \(C^1\) parametrization, then a change‐of‐variables argument shows  
-	\[
-	\iint_{D}\mathbf F\cdot\bigl(T_u\times T_v\bigr)\,du\,dv
-	\;=\;
-	\iint_{\widetilde D}\mathbf F\cdot\bigl(\widetilde T_u\times\widetilde T_v\bigr)\,d\widetilde u\,d\widetilde v.
-	\]
-	
-	3. **Special case (scalar area).**  
-	Taking \(\mathbf F=(0,0,1)\) recovers the usual surface‐area integral  
-	\(\displaystyle \mathrm{Area}(S)=\iint_S dS=\iint_D\|T_u\times T_v\|\,du\,dv.\)
-	
-	This definition is the standard one found in graduate‐level treatments of differential geometry and vector calculus.
-\end{remark*}
+%\defbox[Surface Integral of a Vector Field]{\begin{definition*}
+%Let \(S\subset\mathbb{R}^3\) be a smooth, oriented surface, and let  
+%	\[
+%	T\colon D\;\subseteq\;\mathbb{R}^2\;\longrightarrow\;S,
+%	\qquad
+%	(u,v)\;\longmapsto\;T(u,v),
+%	\]  
+%	be a regular \(C^1\) parametrization whose orientation agrees with that of \(S\).  Consider the partial‐derivative (tangent) vectors \[
+%	T_u(u,v)=\frac{\partial T}{\partial u}(u,v),
+%	\quad
+%	T_v(u,v)=\frac{\partial T}{\partial v}(u,v),
+%	\]  and the induced normal‐vector field  
+%	\[
+%	N(u,v)\;=\;T_u(u,v)\times T_v(u,v)\;\in\;\mathbb{R}^3,
+%	\]  
+%	which is everywhere nonzero on \(D\) and points according to the chosen orientation.
+%	Now let  \[
+%	\mathbf F\colon U\;(\supseteq S)\;\longrightarrow\;\mathbb{R}^3
+%	\]  
+%	be a continuous (or \(C^1\)) vector field defined on an open neighborhood \(U\) of \(S\).  Then \textbf{the surface integral of \(\mathbf F\) over \(S\)} is defined by the formula  
+%	\[
+%	\boxed{
+%		\iint_{S} \mathbf F\;\cdot\;d\mathbf S
+%		\;=\;
+%		\iint_{D}
+%		\mathbf F\bigl(T(u,v)\bigr)\;\cdot\;N(u,v)
+%		\;du\,dv
+%		\;=\;
+%		\iint_{D}
+%		\mathbf F\bigl(T(u,v)\bigr)\;\cdot\;
+%		\bigl(T_u(u,v)\times T_v(u,v)\bigr)
+%		\;du\,dv.
+%	}
+%	\]
+%\end{definition*}}
+%\begin{remark*}
+%	1. **Geometric meaning.**  
+%	At each point \(T(u,v)\in S\), the vector \(N(u,v)\,du\,dv\) represents the oriented area element \(d\mathbf S\).  Thus \(\mathbf F\cdot d\mathbf S\) measures how much \(\mathbf F\) “flows through” that little patch of surface.
+%	
+%	2. **Independence of parametrization.**  
+%	If \(\widetilde T\colon \widetilde D\to S\) is any other orientation‐preserving \(C^1\) parametrization, then a change‐of‐variables argument shows  
+%	\[
+%	\iint_{D}\mathbf F\cdot\bigl(T_u\times T_v\bigr)\,du\,dv
+%	\;=\;
+%	\iint_{\widetilde D}\mathbf F\cdot\bigl(\widetilde T_u\times\widetilde T_v\bigr)\,d\widetilde u\,d\widetilde v.
+%	\]
+%	
+%	3. **Special case (scalar area).**  
+%	Taking \(\mathbf F=(0,0,1)\) recovers the usual surface‐area integral  
+%	\(\displaystyle \mathrm{Area}(S)=\iint_S dS=\iint_D\|T_u\times T_v\|\,du\,dv.\)
+%	
+%	This definition is the standard one found in graduate‐level treatments of differential geometry and vector calculus.
+%\end{remark*}
 
 \paragraph{{\color{magenta}Problem\;\#2} (Surface‐Flux).} 
-Let \(S\subset\mathbb{R}^3\) be the smooth surface parametrized by  
-\[
-\mathbf r\colon [0,1]\times[0,1]\;\longrightarrow\;\mathbb{R}^3,
-\qquad
-\mathbf r(u,v)=\bigl(u+2v,\;2u+v,\;3uv\bigr),
-\]  
-equipped with the orientation induced by the parametrization (so that the unit normal points in the direction of \(\mathbf r_u\times\mathbf r_v\)).  Let the vector field   \[
-\mathbf F\colon\mathbb{R}^3\to\mathbb{R}^3,
-\qquad
-\mathbf F(x,y,z)=(\,x,\;y,\;-z\,).
-\]
-Compute \[
-\iint_{S}\mathbf F\cdot d\mathbf S.
-\] 
+%Let \(S\subset\mathbb{R}^3\) be the smooth surface parametrized by  
+%\[
+%\mathbf r\colon [0,1]\times[0,1]\;\longrightarrow\;\mathbb{R}^3,
+%\qquad
+%\mathbf r(u,v)=\bigl(u+2v,\;2u+v,\;3uv\bigr),
+%\]  
+%equipped with the orientation induced by the parametrization (so that the unit normal points in the direction of \(\mathbf r_u\times\mathbf r_v\)).  Let the vector field   \[
+%\mathbf F\colon\mathbb{R}^3\to\mathbb{R}^3,
+%\qquad
+%\mathbf F(x,y,z)=(\,x,\;y,\;-z\,).
+%\]
+%Compute \[
+%\iint_{S}\mathbf F\cdot d\mathbf S.
+%\] 
 \begin{proof}[\sol]
-We compute in five steps.
+\ \\ 
+%We compute in five steps.
 \begin{figure}[h!]\centering
-\includegraphics[width=\textwidth]{../riemann-tikz/problem2_1.pdf}
+\includegraphics[scale=1]{../riemann-tikz/problem2_1.pdf}
 \end{figure}
 \begin{figure}[h!]\centering
-\includegraphics[width=\textwidth]{../riemann-tikz/problem2_2.pdf}
+\includegraphics[scale=1]{../riemann-tikz/problem2_2.pdf}
 \end{figure}
 
-1. **Parametrization and partials.**  
-The surface is  
-\[
-S=\mathbf r\bigl([0,1]^2\bigr),
-\qquad
-\mathbf r(u,v)=(\,u+2v,\;2u+v,\;3uv\,),
-\]
-and hence
-\[
-\mathbf r_u=(1,\,2,\,3v),
-\qquad
-\mathbf r_v=(2,\,1,\,3u).
-\]
-
-2. **Oriented normal.**  
-The induced normal vector is the cross‐product
-\begin{align*}
-\mathbf r_u\times \mathbf r_v
-&=\det\begin{vmatrix}
-	\mathbf i & \mathbf j & \mathbf k\\
-	1 & 2 & 3v\\
-	2 & 1 & 3u
-\end{vmatrix}\\
-&=\det\begin{vmatrix}
-	2 & 3v \\ 1 & 3u
-\end{vmatrix}\textbf{i}-
-\det\begin{vmatrix}
-	1 & 3v \\ 2 & 3u
-\end{vmatrix}\textbf{j}+
-\det\begin{vmatrix}
-	1 & 2 \\ 2 & 1
-\end{vmatrix}\textbf{k}
-\\
-&=(6u-3v,\;-3u+6v,\;-3).
-\end{align*}
-
-3. **Pullback of the field.**  
-The given field is \(\mathbf F(x,y,z)=(x,y,-z)\).  Along the patch,
-\[
-\mathbf F\bigl(\mathbf r(u,v)\bigr)
-=\bigl(u+2v,\;2u+v,\;-3uv\bigr).
-\]
-
-4. **Integrand.**  
-Taking the dot‐product,
-\begin{align*}
-	\mathbf F(\mathbf r)\,\cdot\,(\mathbf r_u\times\mathbf r_v)
-	&= (u+2v)(6u-3v)\;+\;(2u+v)(-3u+6v)\;+\;(-3uv)(-3)\\
-	&= 6u^2 -3uv +12uv -6v^2 \;-\;6u^2 +12uv -3uv +6v^2 \;+\;9uv\\
-	&=(-3uv+12uv+12uv-3uv+9uv)\;=\;27\,u\,v.
-\end{align*}
-
-5. **Double integral.**  
-Thus the flux is
-\[
-\iint_{S}\mathbf F\cdot d\mathbf S
-\;=\;
-\iint_{[0,1]^2}27\,u\,v\;du\,dv
-\;=\;
-27\int_0^1\!\int_0^1 u\,v\;du\,dv
-\;=\;
-27\Bigl(\tfrac12\Bigr)\Bigl(\tfrac12\Bigr)
-\;=\;\frac{27}{4}.
-\]
-
-Hence  
-\[
-\boxed{\iint_{S}\mathbf F\cdot d\mathbf S \;=\;\frac{27}{4}}.
-\]
+%1. **Parametrization and partials.**  
+%The surface is  
+%\[
+%S=\mathbf r\bigl([0,1]^2\bigr),
+%\qquad
+%\mathbf r(u,v)=(\,u+2v,\;2u+v,\;3uv\,),
+%\]
+%and hence
+%\[
+%\mathbf r_u=(1,\,2,\,3v),
+%\qquad
+%\mathbf r_v=(2,\,1,\,3u).
+%\]
+%
+%2. **Oriented normal.**  
+%The induced normal vector is the cross‐product
+%\begin{align*}
+%\mathbf r_u\times \mathbf r_v
+%&=\det\begin{vmatrix}
+%	\mathbf i & \mathbf j & \mathbf k\\
+%	1 & 2 & 3v\\
+%	2 & 1 & 3u
+%\end{vmatrix}\\
+%&=\det\begin{vmatrix}
+%	2 & 3v \\ 1 & 3u
+%\end{vmatrix}\textbf{i}-
+%\det\begin{vmatrix}
+%	1 & 3v \\ 2 & 3u
+%\end{vmatrix}\textbf{j}+
+%\det\begin{vmatrix}
+%	1 & 2 \\ 2 & 1
+%\end{vmatrix}\textbf{k}
+%\\
+%&=(6u-3v,\;-3u+6v,\;-3).
+%\end{align*}
+%
+%3. **Pullback of the field.**  
+%The given field is \(\mathbf F(x,y,z)=(x,y,-z)\).  Along the patch,
+%\[
+%\mathbf F\bigl(\mathbf r(u,v)\bigr)
+%=\bigl(u+2v,\;2u+v,\;-3uv\bigr).
+%\]
+%
+%4. **Integrand.**  
+%Taking the dot‐product,
+%\begin{align*}
+%	\mathbf F(\mathbf r)\,\cdot\,(\mathbf r_u\times\mathbf r_v)
+%	&= (u+2v)(6u-3v)\;+\;(2u+v)(-3u+6v)\;+\;(-3uv)(-3)\\
+%	&= 6u^2 -3uv +12uv -6v^2 \;-\;6u^2 +12uv -3uv +6v^2 \;+\;9uv\\
+%	&=(-3uv+12uv+12uv-3uv+9uv)\;=\;27\,u\,v.
+%\end{align*}
+%
+%5. **Double integral.**  
+%Thus the flux is
+%\[
+%\iint_{S}\mathbf F\cdot d\mathbf S
+%\;=\;
+%\iint_{[0,1]^2}27\,u\,v\;du\,dv
+%\;=\;
+%27\int_0^1\!\int_0^1 u\,v\;du\,dv
+%\;=\;
+%27\Bigl(\tfrac12\Bigr)\Bigl(\tfrac12\Bigr)
+%\;=\;\frac{27}{4}.
+%\]
+%
+%Hence  
+%\[
+%\boxed{\iint_{S}\mathbf F\cdot d\mathbf S \;=\;\frac{27}{4}}.
+%\]
 \end{proof}
 
 %\begin{thebibliography}{9}
@@ -935,8 +1058,8 @@ Hence
 %\end{itemize}
 %\end{proof}
 
-\newpage
-\appendix
-\section{Differential Geometry}
+%\newpage
+%\appendix
+%\section{Differential Geometry}
 
 \end{document}
