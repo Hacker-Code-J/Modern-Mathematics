@@ -480,7 +480,6 @@ Let $\phi: (G,\ast) \;\longrightarrow\; (H,\ast')$ be a group homomorphism, and 
 		}%
 	}%
 \end{tikzpicture}
-
 Consider \begin{align*}
 	\mathbb{S}^1&=\{(x,y)\in\mathbb{R}^2 : x^2+y^2=1\}=\{e^{i\theta}: \theta\in\mathbb{R}\},\\
 	\mathbb{S}^2&=\{(x,y,z)\in\mathbb{R}^3 : x^2+y^2+z^2=1\}.
@@ -518,6 +517,220 @@ Define the map
 	\]
 \end{enumerate}
 Hence \(\Phi\) be a left group action. To be continue $\cdots$.
+
+\begin{tikzpicture}[scale=3]
+	% ←––––– Change these to plot a different initial point P=(x,y) –––––→
+	\def\xinit{1}     % x‐coordinate of P
+	\def\yinit{0.5}   % y‐coordinate of P
+	
+	% axes
+	\draw[->,gray!70] (-1.2,0) -- (1.2,0) node[right] {$x$};
+	\draw[->,gray!70] (0,-1.2) -- (0,1.2) node[above] {$y$};
+	
+	% the orbit curve
+	\draw[thick,domain=0:360,samples=200,variable=\t,blue]
+	plot ({\xinit*cos(\t)+\yinit*sin(\t)},      % x(θ)
+	{-\xinit*sin(\t)+\yinit});             % y(θ)
+	
+	% mark and label the starting point
+	\fill[red] (\xinit,\yinit) circle (0.8pt)
+	node[above right] {$P=(\xinit,\yinit)$};
+	
+	% annotate θ‐arrow and range
+	\draw[->,blue] (1.05*\xinit,1.05*\yinit) .. controls +(45:0.3) and +(135:0.3) .. ++(10:0.2)
+	node[right] {$\theta\nearrow$};
+	\node at (0,-1.35) {$\theta\in[0,2\pi]$};
+\end{tikzpicture}
+
+
+	\begin{tikzpicture}[scale=3]
+		% 1) Your base point P=(x,y):
+		\def\xinit{1}   % ← change this
+		\def\yinit{0.5} % ← or this
+		
+		% 2) Precompute arrow‐start so TikZ doesn't re‐expand inline multiplications
+		\pgfmathsetmacro{\xarrow}{1.05*\xinit}
+		\pgfmathsetmacro{\yarrow}{1.05*\yinit}
+		
+		% 3) axes and unit circle
+		\draw[->,gray!70] (-1.2,0) -- (1.2,0) node[right] {$x$};
+		\draw[->,gray!70] (0,-1.2) -- (0,1.2) node[above] {$y$};
+		\draw[thin] (0,0) circle (1);
+		
+		% 4) the orbit, with a single arrowhead at the end
+		\draw[blue,thick,domain=0:360,samples=100,variable=\t,->]
+		plot ({\xinit*cos(\t)+\yinit*sin(\t)},
+		{-\xinit*sin(\t)+\yinit});
+		
+		% 5) mark the start and show the θ‐direction
+		\fill[red] (\xinit,\yinit) circle (1pt)
+		node[above right] {$P=(\xinit,\yinit)$};
+		\draw[->,blue]
+		(\xarrow,\yarrow) .. controls + (45:0.25) and + (135:0.25) .. ++(10:0.25)
+		node[right] {$\theta\uparrow$};
+		
+		% 6) annotate the θ‐range
+		\node at (0,-1.35) {$\theta\in[0,2\pi]$};
+	\end{tikzpicture}
+
+\begin{table}[h]
+	\centering\setstretch{1.5}
+	\begin{tabular}{llll}
+		\toprule
+		$P$ & $\theta$ & $\mathsf{Rot}_\theta(P)$ & Comment \\
+		\midrule
+		$(1,0,0)$ & $\pi/2$ & $(0,-1,0)$ & ``East'' $\to$ ``South'' on equator \\
+		$(1,0,0)$ & $\pi$ & $(-1,0,0)$ & ``East'' $\to$ ``West'' \\
+		$(1,0,0)$ & $2\pi/3$ & $\bigl(-\tfrac12,\,-\tfrac{\sqrt3}{2},\,0\bigr)$ & $120^\circ$ around equator \\
+		$(0,1,0)$ & $\pi/2$ & $(1,0,0)$ & ``North'' $\to$ ``East'' on equator \\
+		$\bigl(\tfrac{\sqrt2}{2},\;\tfrac{\sqrt2}{2},\;0\bigr)$ & $\pi/4$ & $(1,0,0)$ & $45^\circ$ NE equator $\to$ East \\
+		$\bigl(\tfrac1{\sqrt2},\;0,\;\tfrac1{\sqrt2}\bigr)$ & $\pi/2$ & $\bigl(0,\,-\tfrac1{\sqrt2},\;\tfrac1{\sqrt2}\bigr)$ & $45^\circ$ above equator (height fixed) \\
+		$(1,0,0)$ & rotate by $\pi/4$ then $\pi/4$ & $(0,-1,0)$ & composition $=\mathsf{Rot}_{\pi/2}(1,0,0)$ \\
+		\bottomrule
+	\end{tabular}
+	\caption{Computations of the rotation $\mathsf{Rot}_\theta$ on $\mathbb{S}^2$.}
+\end{table}
+
+\begin{table}[h]
+	\centering
+	\begin{tabular}{@{}ccccc@{}}
+		\toprule
+		$\theta$ & $\cos\theta$ & $\sin\theta$
+		& $\mathsf{Rot}_\theta(x,y,z)$
+		& Interpretation \\
+		\midrule
+		$0$ 
+		& $1$ 
+		& $0$ 
+		& $(x,y,z)$ 
+		& identity \\[6pt]
+		
+		$\displaystyle \frac{\pi}{6}$ 
+		& $\tfrac{\sqrt3}{2}$ 
+		& $\tfrac12$ 
+		& $\bigl(\tfrac{\sqrt3}{2}x + \tfrac12y,\,-\tfrac12x + \tfrac{\sqrt3}{2}y,\,z\bigr)$ 
+		& $30^\circ$ rotation \\[6pt]
+		
+		$\displaystyle \frac{\pi}{4}$ 
+		& $\tfrac{\sqrt2}{2}$ 
+		& $\tfrac{\sqrt2}{2}$ 
+		& $\bigl(\tfrac{x+y}{\sqrt2},\,-\tfrac{x-y}{\sqrt2},\,z\bigr)$ 
+		& $45^\circ$ rotation \\[6pt]
+		
+		$\displaystyle \frac{\pi}{3}$ 
+		& $\tfrac12$ 
+		& $\tfrac{\sqrt3}{2}$ 
+		& $\bigl(\tfrac12 x + \tfrac{\sqrt3}{2}y,\,-\tfrac{\sqrt3}{2}x + \tfrac12 y,\,z\bigr)$ 
+		& $60^\circ$ rotation \\[6pt]
+		
+		$\displaystyle \frac{\pi}{2}$ 
+		& $0$ 
+		& $1$ 
+		& $(y,\,-x,\,z)$ 
+		& $90^\circ$ rotation \\[6pt]
+		
+		$\pi$ 
+		& $-1$ 
+		& $0$ 
+		& $(-x,-y,z)$ 
+		& $180^\circ$ rotation \\[6pt]
+		
+		$2\pi$ 
+		& $1$ 
+		& $0$ 
+		& $(x,y,z)$ 
+		& full $360^\circ$ rotation \\
+		
+		\bottomrule
+	\end{tabular}
+	\caption{Trigonometric values and the induced rotations on \(\mathbb{S}^2\) for key angles \(\theta\).}
+\end{table}
+
+\adjustbox{scale=.85,center}{
+	\begin{tabular}{lcccccccc}
+		\toprule
+		$P$ 
+		& $\mathsf{Rot}_{0}(P)$ 
+		& $\mathsf{Rot}_{\frac{\pi}{4}}(P)$
+		& $\mathsf{Rot}_{\frac{\pi}{2}}(P)$ 
+		& $\mathsf{Rot}_{\frac{3\pi}{4}}(P)$
+		& $\mathsf{Rot}_{\pi}(P)$ 
+		& $\mathsf{Rot}_{\frac{5\pi}{4}}(P)$
+		& $\mathsf{Rot}_{\frac{3\pi}{2}}(P)$
+		& $\mathsf{Rot}_{\frac{7\pi}{4}}(P)$ \\
+		\midrule
+		$(1,0,0)$
+		& $(1,0,0)$
+		& $\bigl(\tfrac{\sqrt2}{2},-\tfrac{\sqrt2}{2},0\bigr)$
+		& $(0,-1,0)$
+		& $\bigl(-\tfrac{\sqrt2}{2},-\tfrac{\sqrt2}{2},0\bigr)$
+		& $(-1,0,0)$
+		& $\bigl(-\tfrac{\sqrt2}{2},\tfrac{\sqrt2}{2},0\bigr)$
+		& $(0,1,0)$
+		& $\bigl(\tfrac{\sqrt2}{2},\tfrac{\sqrt2}{2},0\bigr)$ \\[6pt]
+		
+		$(0,1,0)$
+		& $(0,1,0)$
+		& $\bigl(\tfrac{\sqrt2}{2},\tfrac{\sqrt2}{2},0\bigr)$
+		& $(1,0,0)$
+		& $\bigl(\tfrac{\sqrt2}{2},-\tfrac{\sqrt2}{2},0\bigr)$
+		& $(0,-1,0)$
+		& $\bigl(-\tfrac{\sqrt2}{2},-\tfrac{\sqrt2}{2},0\bigr)$
+		& $(-1,0,0)$
+		& $\bigl(-\tfrac{\sqrt2}{2},\tfrac{\sqrt2}{2},0\bigr)$ \\[6pt]
+		
+		$\bigl(\tfrac{\sqrt2}{2},\tfrac{\sqrt2}{2},0\bigr)$
+		& $\bigl(\tfrac{\sqrt2}{2},\tfrac{\sqrt2}{2},0\bigr)$
+		& $(0,-1,0)$
+		& $\bigl(-\tfrac{\sqrt2}{2},-\tfrac{\sqrt2}{2},0\bigr)$
+		& $(-1,0,0)$
+		& $\bigl(-\tfrac{\sqrt2}{2},\tfrac{\sqrt2}{2},0\bigr)$
+		& $(0,1,0)$
+		& $\bigl(\tfrac{\sqrt2}{2},\tfrac{\sqrt2}{2},0\bigr)$
+		& $(1,0,0)$ \\[6pt]
+		
+		$\bigl(\tfrac1{\sqrt2},0,\tfrac1{\sqrt2}\bigr)$
+		& $\bigl(\tfrac1{\sqrt2},0,\tfrac1{\sqrt2}\bigr)$
+		& $\bigl(\tfrac12,-\tfrac12,\tfrac1{\sqrt2}\bigr)$
+		& $\bigl(0,-\tfrac{\sqrt2}{2},\tfrac1{\sqrt2}\bigr)$
+		& $\bigl(-\tfrac12,-\tfrac12,\tfrac1{\sqrt2}\bigr)$
+		& $\bigl(-\tfrac1{\sqrt2},0,\tfrac1{\sqrt2}\bigr)$
+		& $\bigl(-\tfrac12,\tfrac12,\tfrac1{\sqrt2}\bigr)$
+		& $\bigl(0,\tfrac{\sqrt2}{2},\tfrac1{\sqrt2}\bigr)$
+		& $\bigl(\tfrac12,\tfrac12,\tfrac1{\sqrt2}\bigr)$ \\[6pt]
+		
+		$(0,0,1)$
+		& $(0,0,1)$
+		& $(0,0,1)$
+		& $(0,0,1)$
+		& $(0,0,1)$
+		& $(0,0,1)$
+		& $(0,0,1)$
+		& $(0,0,1)$
+		& $(0,0,1)$ \\
+		\bottomrule
+	\end{tabular}
+%	\caption{Orbits of representative points $P\in\mathbb{S}^2$ under the eight rotations $\theta=k\pi/4,\ k=0,\dots,7$.}
+}
+\begin{tikzpicture}[]
+	% axes
+	\draw[->,gray!70] (-1.2,0) -- (1.2,0) node[right] {$x$};
+	\draw[->,gray!70] (0,-1.2) -- (0,1.2) node[above] {$y$};
+	
+	% continuous orbit of P=(1,0)
+	\draw[thick,domain=0:360,smooth,variable=\t,->]
+	plot ({cos(\t)}, {sin(\t)})
+	node[midway,above right,sloped] {$\mathsf{Rot}_\theta(P)$};
+	
+	% mark the starting point
+	\fill[red] (1,0) circle (0.8pt) node[below right] {$P=(1,0)$};
+	
+	% label theta
+	\node at (0,-1.4) {$\theta\in[0,2\pi]\,. $};
+\end{tikzpicture}
+
+
+
 %1. **Identity:**  
 
 %
