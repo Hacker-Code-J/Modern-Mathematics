@@ -228,7 +228,7 @@ In other words, for all \( g, h \in G \), \[
 %\sigma_{gh}(x) = (gh) \cdot x = g \cdot (h \cdot x) = \sigma_g(\sigma_h(x)) = (\sigma_g \circ \sigma_h)(x).
 %\]
 %
-%Since this equality holds for all \( x \in X \), it follows that \( \sigma_{gh} = \sigma_g \circ \sigma_h \). Therefore, \( \varphi \) is a homomorphism.
+%Since this equality holds for all \( x \in X \), it follows that \( \sigma_{gh} = \sigma_g \circ \sigma_h \). Therefore, \( \phi \) is a homomorphism.
 \end{proof}
 
 \thmbox[Cayley Theorem]{\begin{theorem*} 
@@ -243,7 +243,7 @@ Then the map
 is an injective group homomorphism (group monomorphism).  In particular,  \[
 \phi(G)\simeq G
 \quad\text{and}\quad
-\varphi(G)\le\operatorname{Sym}(G).
+\phi(G)\le\operatorname{Sym}(G).
 \]
 \end{theorem*}}
 \begin{proof}
@@ -251,20 +251,20 @@ is an injective group homomorphism (group monomorphism).  In particular,  \[
 %#### Proof sketch.  
 %1. **Homomorphism.**  For all \(g,h\in G\) and \(x\in G\),  
 %\[
-%\varphi(gh)(x)
+%\phi(gh)(x)
 %= \sigma_{gh}(x)
 %= (gh)\,x
 %= g\,(h\,x)
 %= \sigma_g\bigl(\sigma_h(x)\bigr)
 %= \bigl(\sigma_g\circ\sigma_h\bigr)(x),
 %\]  
-%hence \(\varphi(gh)=\sigma_g\circ\sigma_h=\varphi(g)\varphi(h)\).
+%hence \(\phi(gh)=\sigma_g\circ\sigma_h=\phi(g)\phi(h)\).
 %
-%2. **Injectivity.**  If \(\varphi(g)=\mathrm{id}_G\), then for every \(x\in G\),  
+%2. **Injectivity.**  If \(\phi(g)=\mathrm{id}_G\), then for every \(x\in G\),  
 %\[
 %g\,x = \sigma_g(x) = x,
 %\]  
-%so in particular \(g\cdot e = e\) forces \(g=e\).  Thus \(\ker\varphi=\{e\}\) and \(\varphi\) is injective.
+%so in particular \(g\cdot e = e\) forces \(g=e\).  Thus \(\ker\phi=\{e\}\) and \(\phi\) is injective.
 \end{proof}
 
 \newpage
@@ -332,22 +332,22 @@ Let \((G,\ast)\) be a group and let \(H\leq G\). The Following Are Equivalent:
 \newpage
 \thmbox[Normality of Kernel]{\begin{theorem*} 
 Let $\phi: (G,\ast) \;\longrightarrow\; (H,\ast')$ be a group homomorphism, and define its kernel by \[
-	\ker\phi \;=\;\set{\,g\in G : \varphi(g)=e_H}\,.  
+	\ker\phi \;=\;\set{\,g\in G : \phi(g)=e_H}\,.  
 \] Then \(\ker\phi\) is a normal subgroup of \(G\); that is, $\ker\phi \;\trianglelefteq\; G$.
 \end{theorem*}}
 \begin{proof}
 	Since \(\phi\) is a homomorphism, for every \(g\in G\) and every \(k\in\ker\phi\) we have  
 	\[
 	\phi\bigl(g\ast k\ast g^{-1}\bigr)
-	=\phi(g)\ast'\varphi(k)\ast'\phi(g)^{-1}
+	=\phi(g)\ast'\phi(k)\ast'\phi(g)^{-1}
 	=\phi(g)\ast'e_H\ast'\phi(g)^{-1}
 	=e_H,
-	\] so \(g\ast k\ast g^{-1}\in\ker\varphi\). Thus,  
+	\] so \(g\ast k\ast g^{-1}\in\ker\phi\). Thus,  
 	\[
-	g\ast(\ker\varphi)\ast g^{-1} \;=\; \ker\varphi
+	g\ast(\ker\phi)\ast g^{-1} \;=\; \ker\phi
 	\quad\forall\,g\in G,
 	\]  
-	i.e.\ \(\ker\varphi\) is invariant under conjugation and hence normal in \(G\).  
+	i.e.\ \(\ker\phi\) is invariant under conjugation and hence normal in \(G\).  
 \end{proof}
 
 
@@ -432,6 +432,265 @@ Let $\phi: (G,\ast) \;\longrightarrow\; (H,\ast')$ be a group homomorphism, and 
 %
 %> No matter which viewpoint you take—elementwise conjugation, invariance under inner automorphisms, or coset‐equality—the defining property of a normal subgroup is exactly that its elements “get carried into itself by conjugation.”  Since the kernel of a homomorphism is by definition sent to the identity, and conjugation in the image can only carry the identity to itself, the kernel must be invariant under every conjugation in $G$.
 
+\newpage
+\begin{illustration}
+\ \\
+\adjustbox{scale=.75, center}{
+\begin{tikzpicture}[every node/.style={font=\small}, scale=1.4]
+	% Domain G
+	\filldraw[cyan!10] (-3,0) ellipse (2 and 2.5);
+	\draw[thick]       (-3,0) ellipse (2 and 2.5) node[above=3.5cm] {$(G,\ast)$};
+	% Subgroup H inside G
+	\begin{scope}
+		\clip (-3,0) ellipse (2 and 2.5);
+		\fill[blue!30] (-3,0) circle (1.2) node[blue!30!black, below=1.75cm] {$H\leq G$};
+	\end{scope}
+	%\node[blue!60!black] at (-4.4,-1.8) {$H\leq G$};
+	
+	% Codomain G'
+	\filldraw[cyan!10] (3,0) ellipse (2 and 2.5);
+	\draw[thick]       (3,0) ellipse (2 and 2.5) node[above=3.5cm] {$(G',\ast')$};
+	% Image f[H] inside G'
+	\begin{scope}
+		\clip (3,0) ellipse (2 and 2.5);
+		\fill[magenta!30,opacity=0.6] (3,0) circle (1.2) node[magenta!60!black, below=1.75cm] {$f[H]\leq G'$};
+	\end{scope}
+	%\node[magenta!60!black] at (4.5,-1.8) {$f[H]\le G'$};
+	
+	% Forward arrow f
+	\draw[-Stealth, thick] (-1,2.5) to[bend left=20] node[above] {$f$} (1,2.5);
+	% Backward arrow f^{-1}
+	\draw[Stealth-, dashed, thick] (-1,-2.5) to[bend right=20] node[below] {$f^{-1}$} (1,-2.5);
+	
+	% Label the equality of sets f^{-1}(f[H]) = H
+	\node at (0,-3.5) {\(\displaystyle f^{-1}[f[H]]\;=\;H\).};
+	
+	\draw[dashed, blue!30, line width=.5mm] (3,1.195) to (-3,1.195);
+	\draw[dashed, blue!30, line width=.5mm] (3,0-1.195) to (-3,-1.195);
+	\draw[dashed, magenta!30, line width=.5mm] (3,1.155) to (-3,1.155);
+	\draw[dashed, magenta!30, line width=.5mm] (3,0-1.155) to (-3,-1.155);
+	
+	\node (x) at (-3.5,-.25) {$x\in f^{-1}[f[H]]$};
+	\node (h) at (-3.25,-.75) {$h$};
+	\node (fx) at (3.5,-.5) {$f(x)=f(h)$};
+	\draw[|->, bend angle=45, out=0, in=180] (x) to (fx);
+	\draw[|->, bend angle=45, out=0, in=180] (h) to (fx);
+
+	% Kernel inside H
+	\begin{scope}
+		\clip (-3,0) ellipse (2 and 2.5);
+		\fill[blue!60] (-2.5,0.5) circle (0.5) node[blue!60!black, above right=.5cm] {$\ker f$};
+	\end{scope}
+	%\node[blue!60!black] at (-2.1,1.3) {$\ker f$};
+	\node at (-2.45,.5) {$x\ast h^{-1}$};
+	\draw[dashed, blue!60, line width=.5mm] (-2.4,.9) to (3,0);
+	\draw[dashed, blue!60, line width=.5mm] (-2.4,.1) to (3,0);
+	\filldraw[blue!60] (3,0) circle (2pt) node[above] {$e_{G'}$};
+\end{tikzpicture}}
+\end{illustration}
+\thmbox[Preimage of the Image of a Subgroup]{\begin{theorem*} 
+	Let $f: (G,\ast) \to (G',\ast')$ be a group homomorphism, and let $H\leq G$ such that  \[
+	\{\,g\in G:f(g)=e_{G'}\}=\ker f\subseteq H.
+	\] Then \[
+	f^{-1}[f[H]]=H,
+	\] with $f[H] = \{ f(h) \mid h \in H \}$ and $f^{-1}[f[H]] = \{ g \in G \mid f(g) \in f[H] \}$.
+\end{theorem*}}
+\begin{proof}
+	Suppose that $\ker f\subseteq H\leq G$. We NTS that $f^{-1}[f[H]]=H$: \begin{itemize}
+		\item[($\supseteq$)] $h\in H\implies
+		f(h)\in f[H]\implies h\in f^{-1}[f[H]]$.
+		\item[($\subseteq$)] Let $x\in f^{-1}[f[H]]$. Then $f(x)\in f[H]$; that is, \[
+		\exists h\in H\quad\text{such that}\quad f(h)=f(x).
+		\] Thus, \[
+		f(x\ast h^{-1})=f(x)\ast 'f(h)^{-1}=f(x)\ast'f(x)^{-1}=e_{G'},
+		\] so $x\ast h^{-1}\in\ker f$. Since $\ker f\subseteq H$, we have \[
+		x=(x\ast h^{-1})\ast h\in H,
+		\] and hence $f^{-1}[f[H]]\subseteq H$.
+	\end{itemize}
+\end{proof}
+
+\newpage
+\thmbox[]{\begin{theorem*}
+Let $\phi\colon G\;\longrightarrow\;G'$ be a surjective homomorphism of groups.  Define two collections: \[
+\mathcal{S}
+\;=\;
+\bigl\{\,H\subseteq G : \ker\phi\subseteq H\le G\bigr\},
+\qquad
+\mathcal{T}
+\;=\;
+\bigl\{\,H'\subseteq G' : H'\le G'\bigr\}.
+\] Then the map \[
+\Phi\colon\mathcal{S}\;\longrightarrow\;\mathcal{T},
+\qquad
+\Phi(H)\;=\;\phi(H)
+\] is a bijection.  Its inverse is \[
+\Phi^{-1}\colon\mathcal{T}\;\longrightarrow\;\mathcal{S},
+\qquad
+\Phi^{-1}(H')\;=\;\phi^{-1}(H').
+\] Moreover, \[
+H\trianglelefteq G\iff\phi(H)\trianglelefteq G'.
+\]
+\end{theorem*}}
+%\begin{remark*}
+%\ \begin{enumerate}
+%	\item (Inclusion)\; For $H_1,H_2\in\mathcal{S}$,\; $H_1\subseteq H_2\iff
+%	\phi(H_1)\subseteq\phi(H_2)$.
+%	\item (Normality)\;
+%	$H\trianglelefteq G$ if and only if $\phi(H)\trianglelefteq G'$.
+%	\item (Index)\; If $H_1\subseteq H_2$ in $\mathcal{S}$, then $[H_2 : H_1]=\bigl[\phi(H_2) : \phi(H_1)\bigr]$.
+%\end{enumerate}
+%\end{remark*}
+\begin{proof}
+%**Theorem (Correspondence Theorem for Groups).**
+%Let
+%$$
+%\phi\colon G\;\longrightarrow\;G'
+%$$
+%
+%be a **surjective** homomorphism of groups.  Define
+%
+%$$
+%\mathcal{S}
+%=\{\,H\le G : \ker\phi\subseteq H\}, 
+%\quad
+%\mathcal{T}
+%=\{\,H'\le G'\}.
+%$$
+%
+%Then the map
+%
+%$$
+%\Phi\colon\mathcal{S}\;\longrightarrow\;\mathcal{T},
+%\qquad
+%\Phi(H)=\phi(H)
+%$$
+%
+%is a bijection, with inverse
+%
+%$$
+%\Phi^{-1}\colon\mathcal{T}\;\longrightarrow\;\mathcal{S},
+%\qquad
+%\Phi^{-1}(H')=\phi^{-1}(H').
+%$$
+%
+%Moreover, for $H_1,H_2\in\mathcal{S}$ and $H'\in\mathcal{T}$:
+%
+%1. $H_1\subseteq H_2\iff \phi(H_1)\subseteq\phi(H_2)$.
+%2. $H\triangleleft G\iff \phi(H)\triangleleft G'$.
+%3. If $H_1\subseteq H_2$, then $[H_2:H_1]=[\phi(H_2):\phi(H_1)].$
+%
+%---
+%
+%### Proof
+%
+%#### 1. Well‐definedness of $\Phi$ and $\Phi^{-1}$
+%
+%* If $H\in\mathcal{S}$, then $\ker\phi\subseteq H\le G$.  The image of a subgroup under any homomorphism is a subgroup of the codomain, so $\phi(H)\le G'$.  Hence $\Phi(H)\in\mathcal{T}$.
+%
+%* If $H'\in\mathcal{T}$, then $H'\le G'$.  Thus
+%
+%$$
+%\phi^{-1}(H') 
+%= \{\,g\in G : \phi(g)\in H'\}
+%$$
+%
+%is a subgroup of $G$ containing $\ker\phi$.  Hence $\Phi^{-1}(H')\in\mathcal{S}$.
+%
+%#### 2. $\Phi^{-1}\circ\Phi=\mathrm{id}_{\mathcal{S}}$
+%
+%Let $H\in\mathcal{S}$.  Then $\ker\phi\subseteq H$, and by the Lemma
+%
+%$$
+%\phi^{-1}\bigl(\phi(H)\bigr)
+%= H.
+%$$
+%
+%Thus $\Phi^{-1}(\Phi(H))=H$.
+%
+%#### 3. $\Phi\circ\Phi^{-1}=\mathrm{id}_{\mathcal{T}}$
+%
+%Let $H'\in\mathcal{T}$.  Since $\phi$ is surjective,
+%
+%$$
+%\phi\bigl(\phi^{-1}(H')\bigr)
+%= H'.
+%$$
+%
+%Hence $\Phi(\Phi^{-1}(H'))=H'$.
+%
+%Combining (2) and (3) shows $\Phi$ is a bijection with inverse $\Phi^{-1}$.
+%
+%---
+%
+%#### 4. Order‐preservation
+%
+%If $H_1,H_2\in\mathcal{S}$ with $H_1\subseteq H_2$, then $\phi(H_1)\subseteq\phi(H_2)$ by functoriality of images.  Conversely, if $\phi(H_1)\subseteq\phi(H_2)$, apply $\phi^{-1}$ to get
+%
+%$$
+%H_1
+%= \phi^{-1}\bigl(\phi(H_1)\bigr)
+%\subseteq \phi^{-1}\bigl(\phi(H_2)\bigr)
+%= H_2.
+%$$
+%
+%---
+%
+%#### 5. Normality correspondence
+%
+%* If $H\triangleleft G$, then for every $g'\in G'$ choose $g\in G$ with $\phi(g)=g'$.  For any $x'\in\phi(H)$ write $x'= \phi(h)$.  Then
+%
+%$$
+%g'\,x'\,(g')^{-1}
+%= \phi(g)\,\phi(h)\,\phi(g)^{-1}
+%= \phi\bigl(g\,h\,g^{-1}\bigr)\in \phi(H),
+%$$
+%
+%since $g\,h\,g^{-1}\in H$.  Thus $\phi(H)\triangleleft G'$.
+%
+%* Conversely, if $\phi(H)\triangleleft G'$, then for every $g\in G$ and $h\in H$ we have
+%
+%$$
+%\phi\bigl(g\,h\,g^{-1}\bigr)
+%= \phi(g)\,\phi(h)\,\phi(g)^{-1}
+%\in \phi(H).
+%$$
+%
+%Hence $g\,h\,g^{-1}\in \phi^{-1}\bigl(\phi(H)\bigr)=H$, so $H\triangleleft G$.
+%
+%---
+%
+%#### 6. Index equality
+%
+%Let $H_1\subseteq H_2$ in $\mathcal{S}$.  Since $\ker\phi\subseteq H_1\subseteq H_2$, the restriction
+%
+%$$
+%\phi|_{H_2}\colon H_2\;\to\;\phi(H_2)
+%$$
+%
+%is surjective with kernel
+%$\ker(\phi|_{H_2})=H_2\cap\ker\phi=\ker\phi$.  By the First Isomorphism Theorem,
+%
+%$$
+%H_2 / \ker\phi
+%\;\cong\;
+%\phi(H_2),
+%\qquad
+%H_1 / \ker\phi
+%\;\cong\;
+%\phi(H_1).
+%$$
+%
+%Since $\ker\phi\subseteq H_1\subseteq H_2$, the subgroup $H_1/\ker\phi$ sits inside $H_2/\ker\phi$, and indices satisfy
+%
+%$$
+%[H_2 : H_1]
+%= [\,H_2/\ker\phi : H_1/\ker\phi\,]
+%= [\,\phi(H_2) : \phi(H_1)\,].
+%$$
+%
+%This completes the proof of the Correspondence Theorem. 
+
+\end{proof}
 
 
 \vfill
@@ -442,6 +701,9 @@ Let $\phi: (G,\ast) \;\longrightarrow\; (H,\ast')$ be a group homomorphism, and 
 	\bibitem{abstract_algebra_e}
 	수학의 즐거움, Enjoying Math. ``수학 공부, 기초부터 대학원 수학까지, 24. 추상대수학 (e) 정규부분군의 정의 def of normal subgroups'' YouTube Video, 23:00. Published 
 	October 25, 2019. URL: \url{https://www.youtube.com/watch?v=3UJILZr4CNo}.
+	\bibitem{abstract_algebra_f}
+	수학의 즐거움, Enjoying Math. ``수학 공부, 기초부터 대학원 수학까지, 25. 추상대수학 (f) 정규부분군간의 1-1 대응 관계 1-1 correspondence of normal subgroups'' YouTube Video, 29:02. Published 
+	October 26, 2019. URL: \url{https://www.youtube.com/watch?v=na0YYLJLWeQ}.
 \end{thebibliography}
 
 \newpage
@@ -518,60 +780,60 @@ Define the map
 \end{enumerate}
 Hence \(\Phi\) be a left group action. To be continue $\cdots$.
 
-\begin{tikzpicture}[scale=3]
-	% ←––––– Change these to plot a different initial point P=(x,y) –––––→
-	\def\xinit{1}     % x‐coordinate of P
-	\def\yinit{0.5}   % y‐coordinate of P
-	
-	% axes
-	\draw[->,gray!70] (-1.2,0) -- (1.2,0) node[right] {$x$};
-	\draw[->,gray!70] (0,-1.2) -- (0,1.2) node[above] {$y$};
-	
-	% the orbit curve
-	\draw[thick,domain=0:360,samples=200,variable=\t,blue]
-	plot ({\xinit*cos(\t)+\yinit*sin(\t)},      % x(θ)
-	{-\xinit*sin(\t)+\yinit});             % y(θ)
-	
-	% mark and label the starting point
-	\fill[red] (\xinit,\yinit) circle (0.8pt)
-	node[above right] {$P=(\xinit,\yinit)$};
-	
-	% annotate θ‐arrow and range
-	\draw[->,blue] (1.05*\xinit,1.05*\yinit) .. controls +(45:0.3) and +(135:0.3) .. ++(10:0.2)
-	node[right] {$\theta\nearrow$};
-	\node at (0,-1.35) {$\theta\in[0,2\pi]$};
-\end{tikzpicture}
-
-
-	\begin{tikzpicture}[scale=3]
-		% 1) Your base point P=(x,y):
-		\def\xinit{1}   % ← change this
-		\def\yinit{0.5} % ← or this
-		
-		% 2) Precompute arrow‐start so TikZ doesn't re‐expand inline multiplications
-		\pgfmathsetmacro{\xarrow}{1.05*\xinit}
-		\pgfmathsetmacro{\yarrow}{1.05*\yinit}
-		
-		% 3) axes and unit circle
-		\draw[->,gray!70] (-1.2,0) -- (1.2,0) node[right] {$x$};
-		\draw[->,gray!70] (0,-1.2) -- (0,1.2) node[above] {$y$};
-		\draw[thin] (0,0) circle (1);
-		
-		% 4) the orbit, with a single arrowhead at the end
-		\draw[blue,thick,domain=0:360,samples=100,variable=\t,->]
-		plot ({\xinit*cos(\t)+\yinit*sin(\t)},
-		{-\xinit*sin(\t)+\yinit});
-		
-		% 5) mark the start and show the θ‐direction
-		\fill[red] (\xinit,\yinit) circle (1pt)
-		node[above right] {$P=(\xinit,\yinit)$};
-		\draw[->,blue]
-		(\xarrow,\yarrow) .. controls + (45:0.25) and + (135:0.25) .. ++(10:0.25)
-		node[right] {$\theta\uparrow$};
-		
-		% 6) annotate the θ‐range
-		\node at (0,-1.35) {$\theta\in[0,2\pi]$};
-	\end{tikzpicture}
+%\begin{tikzpicture}[scale=3]
+%	% ←––––– Change these to plot a different initial point P=(x,y) –––––→
+%	\def\xinit{1}     % x‐coordinate of P
+%	\def\yinit{0.5}   % y‐coordinate of P
+%	
+%	% axes
+%	\draw[->,gray!70] (-1.2,0) -- (1.2,0) node[right] {$x$};
+%	\draw[->,gray!70] (0,-1.2) -- (0,1.2) node[above] {$y$};
+%	
+%	% the orbit curve
+%	\draw[thick,domain=0:360,samples=200,variable=\t,blue]
+%	plot ({\xinit*cos(\t)+\yinit*sin(\t)},      % x(θ)
+%	{-\xinit*sin(\t)+\yinit});             % y(θ)
+%	
+%	% mark and label the starting point
+%	\fill[red] (\xinit,\yinit) circle (0.8pt)
+%	node[above right] {$P=(\xinit,\yinit)$};
+%	
+%	% annotate θ‐arrow and range
+%	\draw[->,blue] (1.05*\xinit,1.05*\yinit) .. controls +(45:0.3) and +(135:0.3) .. ++(10:0.2)
+%	node[right] {$\theta\nearrow$};
+%	\node at (0,-1.35) {$\theta\in[0,2\pi]$};
+%\end{tikzpicture}
+%
+%
+%	\begin{tikzpicture}[scale=3]
+%		% 1) Your base point P=(x,y):
+%		\def\xinit{0.627441406}   % ← change this
+%		\def\yinit{0.627441406} % ← or this
+%		
+%		% 2) Precompute arrow‐start so TikZ doesn't re‐expand inline multiplications
+%		\pgfmathsetmacro{\xarrow}{1.05*\xinit}
+%		\pgfmathsetmacro{\yarrow}{1.05*\yinit}
+%		
+%		% 3) axes and unit circle
+%		\draw[->,gray!70] (-1.2,0) -- (1.2,0) node[right] {$x$};
+%		\draw[->,gray!70] (0,-1.2) -- (0,1.2) node[above] {$y$};
+%		\draw[thin] (0,0) circle (1);
+%		
+%		% 4) the orbit, with a single arrowhead at the end
+%		\draw[blue,thick,domain=0:360,samples=100,variable=\t,->]
+%		plot ({\xinit*cos(\t)+\yinit*sin(\t)},
+%		{-\xinit*sin(\t)+\yinit});
+%		
+%		% 5) mark the start and show the θ‐direction
+%		\fill[red] (\xinit,\yinit) circle (1pt)
+%		node[above right] {$P=(\xinit,\yinit)$};
+%		\draw[->,blue]
+%		(\xarrow,\yarrow) .. controls + (45:0.25) and + (135:0.25) .. ++(10:0.25)
+%		node[right] {$\theta\uparrow$};
+%		
+%		% 6) annotate the θ‐range
+%		\node at (0,-1.35) {$\theta\in[0,2\pi]$};
+%	\end{tikzpicture}
 
 \begin{table}[h]
 	\centering\setstretch{1.5}
@@ -712,23 +974,6 @@ Hence \(\Phi\) be a left group action. To be continue $\cdots$.
 	\end{tabular}
 %	\caption{Orbits of representative points $P\in\mathbb{S}^2$ under the eight rotations $\theta=k\pi/4,\ k=0,\dots,7$.}
 }
-\begin{tikzpicture}[]
-	% axes
-	\draw[->,gray!70] (-1.2,0) -- (1.2,0) node[right] {$x$};
-	\draw[->,gray!70] (0,-1.2) -- (0,1.2) node[above] {$y$};
-	
-	% continuous orbit of P=(1,0)
-	\draw[thick,domain=0:360,smooth,variable=\t,->]
-	plot ({cos(\t)}, {sin(\t)})
-	node[midway,above right,sloped] {$\mathsf{Rot}_\theta(P)$};
-	
-	% mark the starting point
-	\fill[red] (1,0) circle (0.8pt) node[below right] {$P=(1,0)$};
-	
-	% label theta
-	\node at (0,-1.4) {$\theta\in[0,2\pi]\,. $};
-\end{tikzpicture}
-
 
 
 %1. **Identity:**  
