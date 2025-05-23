@@ -38,43 +38,44 @@ We cover the following topics in this note.
 	\item Normality of the Kernel
 \end{itemize}
 \hrule\vspace{12pt}
+\vfill
 %\tableofcontents
-\begin{center}
-\begin{tikzpicture}[scale=2]
-% Define the viewing tilt angle (in degrees) and its sine/cosine for reuse
-\def\tiltAngle{30}%
-\pgfmathsetmacro{\cosphi}{cos(\tiltAngle)}%
-\pgfmathsetmacro{\sinphi}{sin(\tiltAngle)}%
-% Loop over two rows (start angles 0 and 180 degrees for first frame in each row)
-%\foreach \row/\startAng in {0/0,1/180} {%
-	\foreach \row/\startAng in {1/180} {%
-% In each row, loop over 6 columns (frames)
-%	\foreach \col in {0,...,5} {%
-	\foreach \col in {0} {%
-		% Calculate the rotation angle for this frame (adds 30° per step in the row)
-		\pgfmathsetmacro{\globalAng}{\startAng + 30*\col}%
-		% Shift coordinate system for this frame’s position in the grid
-		\begin{scope}[shift={(\col*3, -\row*3)}]%
-		% Draw the sphere (5 horizontal orbit circles with sample points)
-		\foreach \i in {1,...,5} {%
-			% Latitude for orbit i (i=1 top, i=5 bottom): 60°, 30°, 0°, -30°, -60°
-			\pgfmathsetmacro{\lat}{60 - (\i-1)*30}%
-			\pgfmathsetmacro{\r}{cos(\lat)}% horizontal radius of orbit
-			\pgfmathsetmacro{\z}{sin(\lat)}% vertical center of orbit
-			\pgfmathsetmacro{\offAng}{(\i-1)*15}% initial offset angle for this orbit’s points
-			% Draw orbit circle as an ellipse (wireframe latitude)
-			\draw [thin, black] (0, {\z * \cosphi}) ellipse ({\r} and {\r * \sinphi});
-			% Draw four colored points on this orbit, at 0°, 90°, 180°, 270° around (plus offset and global rotation)
-			\foreach \angOff/\clr in {0/red, 90/green, 180/blue, 270/orange} {%
-					\pgfmathsetmacro{\ptAng}{\globalAng + \offAng + \angOff}%
-					\fill [\clr] ({\r * cos(\ptAng)}, {-\r * \sinphi * sin(\ptAng) + \z * \cosphi}) circle[radius=1.5pt];
-			}%
-		}%
-		\end{scope}%
-	}%
-}%
-\end{tikzpicture}
-\end{center}
+%\begin{center}
+%\begin{tikzpicture}[scale=2]
+%% Define the viewing tilt angle (in degrees) and its sine/cosine for reuse
+%\def\tiltAngle{30}%
+%\pgfmathsetmacro{\cosphi}{cos(\tiltAngle)}%
+%\pgfmathsetmacro{\sinphi}{sin(\tiltAngle)}%
+%% Loop over two rows (start angles 0 and 180 degrees for first frame in each row)
+%%\foreach \row/\startAng in {0/0,1/180} {%
+%	\foreach \row/\startAng in {1/180} {%
+%% In each row, loop over 6 columns (frames)
+%%	\foreach \col in {0,...,5} {%
+%	\foreach \col in {0} {%
+%		% Calculate the rotation angle for this frame (adds 30° per step in the row)
+%		\pgfmathsetmacro{\globalAng}{\startAng + 30*\col}%
+%		% Shift coordinate system for this frame’s position in the grid
+%		\begin{scope}[shift={(\col*3, -\row*3)}]%
+%		% Draw the sphere (5 horizontal orbit circles with sample points)
+%		\foreach \i in {1,...,5} {%
+%			% Latitude for orbit i (i=1 top, i=5 bottom): 60°, 30°, 0°, -30°, -60°
+%			\pgfmathsetmacro{\lat}{60 - (\i-1)*30}%
+%			\pgfmathsetmacro{\r}{cos(\lat)}% horizontal radius of orbit
+%			\pgfmathsetmacro{\z}{sin(\lat)}% vertical center of orbit
+%			\pgfmathsetmacro{\offAng}{(\i-1)*15}% initial offset angle for this orbit’s points
+%			% Draw orbit circle as an ellipse (wireframe latitude)
+%			\draw [thin, black] (0, {\z * \cosphi}) ellipse ({\r} and {\r * \sinphi});
+%			% Draw four colored points on this orbit, at 0°, 90°, 180°, 270° around (plus offset and global rotation)
+%			\foreach \angOff/\clr in {0/red, 90/green, 180/blue, 270/orange} {%
+%					\pgfmathsetmacro{\ptAng}{\globalAng + \offAng + \angOff}%
+%					\fill [\clr] ({\r * cos(\ptAng)}, {-\r * \sinphi * sin(\ptAng) + \z * \cosphi}) circle[radius=1.5pt];
+%			}%
+%		}%
+%		\end{scope}%
+%	}%
+%}%
+%\end{tikzpicture}
+%\end{center}
 \def\acts{\curvearrowright}
 %\newpage
 \vspace{20pt}
@@ -709,39 +710,40 @@ H\trianglelefteq G\iff\phi(H)\trianglelefteq G'.
 \newpage
 \appendix
 \section{Appendices}
-\subsection{The Rotation Action of $\mathbb{S}^1$ on $\mathbb{S}^2$}
-\begin{tikzpicture}
-	% Define the viewing tilt angle (in degrees) and its sine/cosine for reuse
-	\def\tiltAngle{30}%
-	\pgfmathsetmacro{\cosphi}{cos(\tiltAngle)}%
-	\pgfmathsetmacro{\sinphi}{sin(\tiltAngle)}%
-	% Loop over two rows (start angles 0 and 180 degrees for first frame in each row)
-	\foreach \row/\startAng in {0/0,1/180} {%
-		% In each row, loop over 6 columns (frames)
-		\foreach \col in {0,...,5} {%
-			% Calculate the rotation angle for this frame (adds 30° per step in the row)
-			\pgfmathsetmacro{\globalAng}{\startAng + 30*\col}%
-			% Shift coordinate system for this frame’s position in the grid
-			\begin{scope}[shift={(\col*3, -\row*3)}]%
-%				% Draw the sphere (5 horizontal orbit circles with sample points)
-				\foreach \i in {1,...,5} {%
-%					% Latitude for orbit i (i=1 top, i=5 bottom): 60°, 30°, 0°, -30°, -60°
-					\pgfmathsetmacro{\lat}{60 - (\i-1)*30}%
-					\pgfmathsetmacro{\r}{cos(\lat)}% horizontal radius of orbit
-					\pgfmathsetmacro{\z}{sin(\lat)}% vertical center of orbit
-					\pgfmathsetmacro{\offAng}{(\i-1)*15}% initial offset angle for this orbit’s points
-					% Draw orbit circle as an ellipse (wireframe latitude)
-					\draw [thin, black] (0, {\z * \cosphi}) ellipse ({\r} and {\r * \sinphi});
-%					% Draw four colored points on this orbit, at 0°, 90°, 180°, 270° around (plus offset and global rotation)
-					\foreach \angOff/\clr in {0/red, 90/green, 180/blue, 270/orange} {%
-						\pgfmathsetmacro{\ptAng}{\globalAng + \offAng + \angOff}%
-						\fill [\clr] ({\r * cos(\ptAng)}, {-\r * \sinphi * sin(\ptAng) + \z * \cosphi}) circle[radius=1.5pt];
-					}%
-				}%
-			\end{scope}%
-		}%
-	}%
-\end{tikzpicture}
+%\subsection{Group Action with Circle and Sphere}
+%\begin{tikzpicture}
+%	% Define the viewing tilt angle (in degrees) and its sine/cosine for reuse
+%	\def\tiltAngle{30}%
+%	\pgfmathsetmacro{\cosphi}{cos(\tiltAngle)}%
+%	\pgfmathsetmacro{\sinphi}{sin(\tiltAngle)}%
+%	% Loop over two rows (start angles 0 and 180 degrees for first frame in each row)
+%	\foreach \row/\startAng in {0/0,1/180} {%
+%		% In each row, loop over 6 columns (frames)
+%		\foreach \col in {0,...,5} {%
+%			% Calculate the rotation angle for this frame (adds 30° per step in the row)
+%			\pgfmathsetmacro{\globalAng}{\startAng + 30*\col}%
+%			% Shift coordinate system for this frame’s position in the grid
+%			\begin{scope}[shift={(\col*3, -\row*3)}]%
+%%				% Draw the sphere (5 horizontal orbit circles with sample points)
+%				\foreach \i in {1,...,5} {%
+%%					% Latitude for orbit i (i=1 top, i=5 bottom): 60°, 30°, 0°, -30°, -60°
+%					\pgfmathsetmacro{\lat}{60 - (\i-1)*30}%
+%					\pgfmathsetmacro{\r}{cos(\lat)}% horizontal radius of orbit
+%					\pgfmathsetmacro{\z}{sin(\lat)}% vertical center of orbit
+%					\pgfmathsetmacro{\offAng}{(\i-1)*15}% initial offset angle for this orbit’s points
+%					% Draw orbit circle as an ellipse (wireframe latitude)
+%					\draw [thin, black] (0, {\z * \cosphi}) ellipse ({\r} and {\r * \sinphi});
+%%					% Draw four colored points on this orbit, at 0°, 90°, 180°, 270° around (plus offset and global rotation)
+%					\foreach \angOff/\clr in {0/red, 90/green, 180/blue, 270/orange} {%
+%						\pgfmathsetmacro{\ptAng}{\globalAng + \offAng + \angOff}%
+%						\fill [\clr] ({\r * cos(\ptAng)}, {-\r * \sinphi * sin(\ptAng) + \z * \cosphi}) circle[radius=1.5pt];
+%					}%
+%				}%
+%			\end{scope}%
+%		}%
+%	}%
+%\end{tikzpicture}
+\iffalse
 Consider \begin{align*}
 	\mathbb{S}^1&=\{(x,y)\in\mathbb{R}^2 : x^2+y^2=1\}=\{e^{i\theta}: \theta\in\mathbb{R}\},\\
 	\mathbb{S}^2&=\{(x,y,z)\in\mathbb{R}^3 : x^2+y^2+z^2=1\}.
@@ -1044,5 +1046,179 @@ Hence \(\Phi\) be a left group action. To be continue $\cdots$.
 %%\]
 %%where the right-hand side is the index of \( \operatorname{Stab}_G(x) \) in \( G \).
 %\end{remark*}
+\fi
+\subsection*{The unit circle $\mathbb{S}^1$ as the Rotation Group in the Plane}
+The set $\mathbb{S}^1 := \{ (x,y) \in \mathbb{R}^2 : x^2+y^2=1 \}$ is called the \textbf{unit circle}. 
+\begin{center}
+\begin{minipage}{.49\textwidth}\centering
+\begin{tikzpicture}[scale=1.5]
+	% Unit circle
+	\draw[thick] (0,0) circle(1);
+	\draw[->] (-1.2,0) -- (1.3,0) node[right] {};
+	\draw[->] (0,-1.2) -- (0,1.3) node[above] {};
+	
+	% Point at angle t
+	\def\t{45}
+	\draw[-Latex, thick] (0,0) -- ({cos(\t)}, {sin(\t)}) node[above right] {\(({\color{red}\cos t}, \color{blue}\sin t)\)};
+%	\draw[->, green!75!black, opacity=.25] (0.4,0) arc[start angle=0, end angle=120, radius=0.4] node[midway, below] {};
+%	\draw[->, green!75!black, opacity=.25] (0.4,0) arc[start angle=0, end angle=240, radius=0.4] node[midway, below] {};
+%	\draw[->, green!75!black, opacity=.25] (0.4,0) arc[start angle=0, end angle=360, radius=0.4] node[midway, below] {$t\in\intco{0,2\pi}$};
+	\draw[->, magenta] (0.4,0) arc[start angle=0, end angle=\t, radius=0.4];
+	\node[magenta] at (0.6,0.2) {\(t\)};
+	% Curve labels
+	%\node at (0,-1.5) {\textbf{Figure 1.} Trigonometric parametrization of the unit circle};
+	
+	\draw[-, dotted, thick] (0,0) arc[start angle=180, end angle=90, radius=.71] node[midway, above] {$1$};
+\end{tikzpicture}
+\end{minipage}\hspace{5pt}
+\begin{minipage}{.49\textwidth}\centering
+\begin{tikzpicture}[scale=1.5]
+	% numeric constants
+	\def\a{0}
+	\def\b{3.141592653589793}             % π
+	\def\topYmin{0}    \def\topYmax{1.2}
+	\def\botYmin{-1.2}\def\botYmax{0}
+	
+	% vertical grid lines at t = 0, π/4, π/2, 3π/4, π
+	\foreach \x/\xlabel in {
+		0.785/{$\tfrac{\pi}{4}$},
+		1.570/{$\tfrac{\pi}{2}$},
+		2.356/{$\tfrac{3\pi}{4}$},
+		3.141/{$\pi$}
+	}{
+		\draw[lightgray,thin] (\x,-\topYmax) -- (\x,\topYmax)
+		node[above,yshift=1pt] {\xlabel};
+	}
+	% horizontal grid lines at y = 0, 0.5, 1
+	\foreach \y/\ylabel in {
+		-1/{$-1$},
+		-0.5/{$-\tfrac12$},
+		0/{$0$},
+		0.5/{$\tfrac12$},
+		1/{$1$}
+	}{
+		\draw[lightgray,thin] (\a,\y) -- (\b,\y)
+		node[right,xshift=-2pt] {\ylabel};
+	}
+	% axes
+	\draw[->,thick, magenta] (\a,\topYmin) -- (\b+.5,\topYmin) node[right] {$t$};
+	\draw[->,thick] (\a,-\topYmax) -- (\a,\topYmax) node[above] {$\R$};
+	% the two C^1–curves
+	\draw[blue,thick,domain=\a:\b,samples=200]
+	plot (\x,{sin(\x r)});
+	\draw[red,thick,domain=\a:\b,samples=200]
+	plot (\x,{cos(\x r)});
+	% labels
+	\node[blue] at (1.2,1.0) {\footnotesize$y=\sin t$};
+	\node[red]  at (1.2,0.6) {\footnotesize$x=\cos t$};
+\end{tikzpicture}
+\end{minipage}
+\end{center}
+Geometrically, it represents the set of points at a fixed distance \(1\) from the origin in \(\mathbb{R}^2\), while algebraically it can be seen as a group under complex multiplication.
+%\begin{center}
+%	\begin{tikzpicture}[scale=1.25]
+%		% Left illustration: R^2 representation of the unit circle
+%		\begin{scope}[xshift=0cm]
+%			\draw[step=.25cm,gray!50,very thin,opacity=.5] (-1.25,-1.25) grid (1.25,1.25);
+%			% Axes for R^2
+%			\draw[->] (-1.25,0) -- (1.25,0) node[right] {$x\in\R$};
+%			\draw[->] (0,-1.25) -- (0,1.25) node[above] {$y\in\R$};
+%			% The unit circle in R^2
+%			\draw[thick] (0,0) circle (1cm);
+%			% Label the circle with its equation
+%			\node at (0,-1.8) {\(x^2 + y^2 = 1\)};
+%			\node at (-.75,1.2) {\(\mathbb{S}^1 \subset \mathbb{R}^2\)};
+%			\filldraw[red] (45:1cm) circle (1pt) node[above right] {\((x,y)\)};
+%		\end{scope}
+%		% Right illustration: Complex plane representation of the unit circle
+%		\begin{scope}[xshift=3.75cm]
+%			\draw[step=.25cm,gray!50,very thin,opacity=.5] (-1.25,-1.25) grid (1.25,1.25);
+%			% Axes for the complex plane
+%			\draw[->] (-1.25,0) -- (1.25,0) node[right] {\(\Re(z)\)};
+%			\draw[->] (0,-1.25) -- (0,1.25) node[above] {\(\Im(z)\)};
+%			% The unit circle in the complex plane
+%			\draw[thick] (0,0) circle (1cm);
+%			% Draw an arc to indicate the angle theta
+%			%		\draw[->, red] (0.5,0) arc (0:45:0.5);
+%			%		\node at (0.7,0.2) {\(\theta\)};
+%			% Mark and label a point on the circle corresponding to e^(i theta)
+%			\filldraw[red] (45:1cm) circle (1pt) node[above right] {\(z = a + ib\)};
+%			% Label the circle with its modulus condition
+%			\node at (0,-1.8) {\(|z| = 1\)};
+%			\node at (-.75,1.2) {\(\mathbb{S}^1 \subset \mathbb{C}\)};
+%			
+%			%		\filldraw[red] (1,1) circle (1.5pt) node[anchor=south west, black] {$$};
+%		\end{scope}
+%		\begin{scope}[xshift=7.5cm]
+%			% Draw concentric circles for radii 1 to 5
+%			\foreach \r in {.25,.5,...,1.25} {
+%				\draw[very thin, gray!50, opacity=.5] (0,0) circle (\r);
+%			}
+%			% Draw radial lines at every 30 degrees
+%			\foreach \angle in {0,30,...,360} {
+%				\draw[very thin, gray!50, opacity=.5] (0,0) -- (\angle:1.25);
+%			}
+%			
+%			% Axes for the complex plane
+%			\draw[->] (-1.25,0) -- (1.25,0) node[right] {\(\Re(z)\)};
+%			\draw[->] (0,-1.25) -- (0,1.25) node[above] {\(\Im(z)\)};
+%			% The unit circle in the complex plane
+%			\draw[thick] (0,0) circle (1cm);
+%			% Draw an arc to indicate the angle theta
+%			%		\draw[->, red] (0.5,0) arc (0:45:0.5);
+%			%		\node at (0.7,0.2) {\(\theta\)};
+%			% Mark and label a point on the circle corresponding to e^(i theta)
+%			\filldraw[red] (45:1cm) circle (1pt) node[above right] {\(re^{i\theta}\)};
+%			% Label the circle with its modulus condition
+%			\node at (0,-1.8) {\(\abs{r}=1\;\text{and}\;\theta \in \mathbb{R}\)};
+%			\node at (-.75,1.2) {\(\mathbb{S}^1 \subset \mathbb{C}\)};
+%			% draw radius
+%			\draw[dashed, thick, teal] (0,0) -- (.71,0.71) node[midway, above left] {$r$};
+%			% draw angle
+%			\draw[->, thick, orange] (0.5,0) arc (0:45:0.5) node[midway, right] {$\theta$};
+%		\end{scope}
+%	\end{tikzpicture}
+%\end{center}
+In the complex plane, we write:
+\[
+\mathbb{S}^1 = \{ z \in \mathbb{C} : |z| = 1 \} = \{ re^{i\theta} : \abs{r}=1\;\text{and}\;\theta \in \mathbb{R} \}.
+\] Let \begin{align*}
+	z_1&= r_1e^{i\theta_1}=r_1\of{\cos\theta_1+i\sin\theta_1}\in\C\;\text{and}\\
+	z_2&= r_2e^{i\theta_2}=r_2\of{\cos\theta_2+i\sin\theta_2}\in\C.
+\end{align*} Then \begin{align*}
+	z_1\cdot z_2=r_1e^{i\theta_1}\cdot r_2e^{i\theta_2}=&=r_1r_2\of{\cos\theta_1+i\sin\theta_1}\of{\cos\theta_2+i\sin\theta_2}\\
+	&=r_1r_2\left[\of{\cos\theta_1\cos\theta_2-\sin\theta_1\sin\theta_2}+i\of{\cos\theta_1\sin\theta_2+\sin\theta_1\cos\theta_2}\right]\\
+	&=r_1r_2\left[\cos\of{\theta_1+\theta_2}+i\sin\of{\theta_1+\theta_2}\right]\\
+	&=r\of{\cos\theta+\sin\theta}\ \text{with}\ \begin{cases}
+		r=r_1r_2\\
+		\theta=\theta_1+\theta_2.
+	\end{cases}
+\end{align*}
+\begin{center}
+	\begin{tikzpicture}[scale=2]
+		\draw[->] (-2.5,0) -- (2.5,0) node[right] {};
+		\filldraw[red] (1,1) circle (1pt) node[anchor=south west] {$z_1=r_1e^{i\theta_1}$};
+		\filldraw[blue] (.5,1.5) circle (1pt) node[anchor=south west] {$z_2=r_2e^{i\theta_1}$};
+		\filldraw[green!75!black] (-1,2) circle (1pt) node[anchor=south west] {$z=z_1\cdot z_2=r_1r_2e^{i(\theta_1+\theta_2)}$};
+		
+		\draw[-Stealth, red] (0,0) -- (1,1) node[midway, above left] {$r_1$};
+		\draw[-Stealth, blue] (0,0) -- (.5,1.5) node[midway, above left] {$r_2$};
+		\draw[-Stealth, green!75!black] (0,0) -- (-1,2) node[midway, left] {$r=r_1r_2$};
+		\draw[->, thick, red] (.2,0) arc (0:45:.2) node[midway, right] {$\theta_1$};
+		\draw[->, thick, blue] (.5,0) arc (0:71:.5) node[midway, right] {$\theta_2$};
+		\draw[->, thick, green!75!black] (1,0) arc (0:116:1) node[midway, below right=1.25cm] {$\theta=\theta_1+\theta_2$};
+	\end{tikzpicture}
+\end{center}
+\newpage
+\noindent Multiplying a point $z=x+iy\in\C$ by $e^{i\theta}$ is exactly the rotation\[
+(x+iy)\mapsto (x+iy)e^{i\theta}=(x+iy)(\cos\theta+i\sin\theta)=(x\cos\theta-y\sin\theta)+i(x\sin\theta+y\cos\theta).
+\] In matrix form \[
+e^{i\theta}\longleftrightarrow\begin{pmatrix}
+	\cos\theta & -\sin\theta \\
+	\sin\theta & \cos\theta
+\end{pmatrix}.
+\]
+
+\section{Embed ``Plane of Rotation'' into $\R^3$ by ``fixing '' the $z$-axis}.
 
 \end{document}
