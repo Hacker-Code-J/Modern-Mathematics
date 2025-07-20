@@ -1,0 +1,59 @@
+\documentclass[border=10pt]{standalone}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usetikzlibrary{arrows.meta}
+\usepackage{amsmath}
+
+\begin{document}
+	\begin{tikzpicture}
+		% --- Pre-calculate all values for maximum robustness ---
+		% Note: pgfplots trig functions expect degrees, so we convert 'a'
+		\pgfmathsetmacro{\a}{pi/4}         % t-coordinate of point p (radians)
+		\pgfmathsetmacro{\aDeg}{deg(\a)}   % t-coordinate in degrees
+		
+		\pgfmathsetmacro{\ay}{sin(\aDeg)}    % y-coordinate of point p
+		\pgfmathsetmacro{\slope}{cos(\aDeg)} % Slope (derivative) at p
+		
+		\pgfmathsetmacro{\dt}{1.5}           % Vector t-component (dt)
+		\pgfmathsetmacro{\dy}{\slope * \dt} % Vector y-component (dy)
+		\pgfmathsetmacro{\endt}{\a + \dt}   % Vector end-point t
+		\pgfmathsetmacro{\endy}{\ay + \dy}   % Vector end-point y
+		
+		\pgfmathsetmacro{\labelt}{\a + 2} % t-pos for the T_pC label
+		\pgfmathsetmacro{\labely}{\ay+\slope*(\labelt-\a)} % y-pos for the label
+		
+		\begin{axis}[
+			axis lines=center,
+			xlabel=$t$,
+			ylabel=$y$,
+			legend pos=outer north east,
+			xmin=-0.5, xmax=2*pi+0.5,
+			ymin=-1.5, ymax=2,
+			xtick={0, pi/2, pi, 3*pi/2, 2*pi},
+			xticklabels={$0$, $\frac{\pi}{2}$, $\pi$, $\frac{3\pi}{2}$, $2\pi$},
+			clip=false,
+			]
+			
+			% --- Plot the curve y=sin(t) ---
+			% Note: pgfplots' 'x' variable is used here for plotting over the domain
+			\addplot[domain=0:2*pi, samples=100, thick, blue] {sin(deg(x))};
+			\addlegendentry{$C: y=\sin(t)$};
+			
+			% --- Plot the tangent line at t=a ---
+			\addplot[domain=-0.5:2*pi, samples=2, dashed, black!60] {\ay + \slope*(x-\a)};
+			\node[above, rotate=atan(\slope), black!60] at (axis cs: \labelt, \labely) {$T_pC$};
+			
+			% --- Mark the point p ---
+			\node[circle, fill=blue, inner sep=1.5pt, label={above right:$p=(a, \sin a)$}] at (axis cs: \a, \ay) {};
+			
+			% --- Draw the tangent vector v ---
+			\draw[
+			-{Stealth}, % Arrow tip from arrows.meta library
+			ultra thick,
+			red,
+			] (axis cs: \a, \ay) -- (axis cs: \endt, \endy)
+			node[midway, above, sloped] {$v = \langle dt, \cos(a)dt \rangle$};
+			
+			\end{axis}
+	\end{tikzpicture}
+\end{document}

@@ -1,0 +1,1 @@
+unset surface; set cntrparam levels 10; set contour; set table "single-variable2_contourtmp0.table"; splot "single-variable2_contourtmp0.dat";

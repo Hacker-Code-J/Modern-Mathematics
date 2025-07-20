@@ -1,0 +1,166 @@
+\documentclass[12pt]{article}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{geometry}
+\geometry{margin=1in}
+\newcommand{\R}{\mathbb{R}}
+\begin{document}
+	
+	\title{From Calculus to Mayer–Vietoris in de Rham Cohomology of \(S^2\)}
+	\author{Lecture Notes}
+	\date{}
+	\maketitle
+	
+	\tableofcontents
+	
+	\section{Calculus Preliminaries}
+	
+	\subsection{Fundamental Theorem of Calculus}
+	For any \(a,b\in\mathbb{R}\),
+	\[
+	\int_a^b \cos t\,dt = \sin b - \sin a,
+	\]
+	since \(\tfrac{d}{dt}(\sin t)=\cos t\).  Equivalently,
+	\[
+	d(\sin t)=\cos t\,dt,
+	\quad
+	d(-\cos t)=\sin t\,dt,
+	\]
+	so
+	\[
+	\int_a^b \cos t\,dt = \int_a^b d(\sin t) = \sin b - \sin a,
+	\quad
+	\int_a^b \sin t\,dt = -\cos b + \cos a.
+	\]
+	
+	\subsection{Fundamental Theorem for Gradients (Line Integrals)}
+	Let 
+	\[
+	\mathbf{F}(x,y)
+	=\Bigl(-\frac{y}{x^2+y^2},\;\frac{x}{x^2+y^2}\Bigr),
+	\]
+	and let \(C\) be the unit circle \(x^2+y^2=1\) oriented counterclockwise.  Then
+	\[
+	\oint_C \mathbf{F}\cdot d\mathbf{r}
+	= \oint_C \Bigl(-\tfrac{y}{r^2},\,\tfrac{x}{r^2}\Bigr)\!\cdot\!(dx,dy)
+	= 2\pi.
+	\]
+	Although \(\mathbf{F}\) is not a gradient globally, one computes via parameterization 
+	\(\mathbf{r}(t)=(\cos t,\sin t)\), \(t\in[0,2\pi]\):
+	\[
+	dx=-\sin t\,dt,\quad dy=\cos t\,dt,\quad r^2=1,
+	\]
+	so
+	\[
+	\oint_C\mathbf{F}\cdot d\mathbf{r}
+	=\int_0^{2\pi}\Bigl(-\sin t,\cos t\Bigr)\!\cdot\!\bigl(-\sin t,\cos t\bigr)\,dt
+	=\int_0^{2\pi}(\sin^2t+\cos^2t)\,dt
+	=2\pi.
+	\]
+	
+	\subsection{Surface Integrals (Flux) -- Stokes' Theorem}
+	Let \(D=[0,1]^2\) in the \(uv\)-plane, and parameterize a surface \(S\) by
+	\(\mathbf{T}(u,v)\).  Suppose
+	\[
+	\mathbf{F}(u,v)=(27\,u\,v,0,0),
+	\]
+	so that the \(2\)-form is
+	\(\beta=27\,u\,v\,du\wedge dv\).  Then
+	\[
+	\iint_S \mathbf{F}\cdot d\mathbf{S}
+	=\iint_D 27\,u\,v\,du\,dv
+	=27\!\int_0^1\!\int_0^1 u\,v\,du\,dv
+	=27\Bigl(\tfrac12\Bigr)\Bigl(\tfrac12\Bigr)
+	=\frac{27}{4}.
+	\]
+	
+	\section{Differential Forms on \(\R^n\)}
+	
+%	\begin{definition}
+	\textbf{Definition.}
+		The space of \emph{smooth functions} is
+		\[
+		C^\infty(\R^n)
+		=\bigl\{f:\R^n\to\R\mid f\text{ has continuous derivatives of all orders}\bigr\}.
+		\]
+		A \emph{smooth \(1\)-form} on \(\R^n\) is
+		\[
+		\omega
+		= f_1(x)\,dx^1 + \cdots + f_n(x)\,dx^n,
+		\quad f_i\in C^\infty(\R^n),
+		\]
+		and the collection of all of them is denoted \(\Omega^1(\R^n)\).
+%	\end{definition}
+	
+	The \emph{exterior derivative} \(d:C^\infty(\R^n)\to\Omega^1(\R^n)\) is
+	\[
+	d\bigl(f(x)\bigr)
+	=\sum_{i=1}^n \frac{\partial f}{\partial x^i}\,dx^i.
+	\]
+	
+	\section{de Rham Cohomology of the 2–Sphere \(S^2\)}
+	
+	Cover \(S^2\subset\R^3\) by two charts:
+	\[
+	U = S^2\setminus\{\text{north pole}\}, 
+	\quad
+	V = S^2\setminus\{\text{south pole}\}.
+	\]
+	Each of \(U\) and \(V\) is diffeomorphic to \(\R^2\).  Their intersection
+	\(U\cap V\) is diffeomorphic to \(\R\times S^1\).
+	
+	\subsection{Mayer–Vietoris Sequence in de Rham Theory}
+	
+	For the cover \(\{U,V\}\) of \(S^2\), the Mayer–Vietoris sequence in de Rham cohomology begins
+	\[
+	0 \;\longrightarrow\; \Omega^0(S^2)
+	\;\xrightarrow{\;\phi\;}
+	\Omega^0(U)\oplus\Omega^0(V)
+	\;\xrightarrow{\;\psi\;}
+	\Omega^0(U\cap V)
+	\;\xrightarrow{\;\delta\;}
+	\Omega^1(S^2)
+	\;\xrightarrow{\;\phi'\;}
+	\Omega^1(U)\oplus\Omega^1(V)
+	\;\rightarrow\;\cdots
+	\]
+	where
+	\[
+	\phi(f) = (f|_U,\;f|_V),
+	\quad
+	\psi(g_U,g_V) = g_U|_{U\cap V} - g_V|_{U\cap V}.
+	\]
+	
+	\subsection{Computations}
+	
+	\paragraph{Degree 0.}
+	\[
+	\Omega^0(S^2)=C^\infty(S^2),
+	\quad
+	\Omega^0(U)\cong C^\infty(\R^2),
+	\quad
+	\Omega^0(U\cap V)\cong C^\infty(\R\times S^1).
+	\]
+	Exactness at \(\Omega^0(S^2)\) and \(\Omega^0(U)\oplus\Omega^0(V)\) shows
+	\[
+	H^0_{\mathrm{dR}}(S^2)\cong\R
+	\]
+	(smooth functions constant on connected \(S^2\)).
+	
+	\paragraph{Connecting Map \(\delta\).}
+	Given \(h\in\Omega^0(U\cap V)\), one constructs a \(1\)-form on \(S^2\) whose difference of restrictions equals \(dh\).  Explicitly this uses a partition of unity, but on first-year level one may think of \(\delta(h)\) as “gluing data” producing a closed \(1\)-form on \(S^2\).
+	
+	\paragraph{Degree 1.}
+	Exactness at \(\Omega^1(S^2)\) and \(\Omega^1(U)\oplus\Omega^1(V)\) shows
+	\[
+	H^1_{\mathrm{dR}}(S^2)=0,
+	\]
+	since every closed \(1\)-form on \(S^2\) is exact (no “holes” in \(S^2\)).
+	
+	\section*{Conclusion}
+	We have built step by step from standard calculus—FTC, line integrals, surface integrals—to the language of differential forms, and used the Mayer–Vietoris sequence to compute
+	\[
+	H^0_{\mathrm{dR}}(S^2)\cong\R,
+	\quad
+	H^1_{\mathrm{dR}}(S^2)=0.
+	\]
+\end{document}

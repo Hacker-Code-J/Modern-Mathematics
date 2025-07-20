@@ -1,0 +1,188 @@
+\documentclass[12pt, letterpaper]{article}
+\usepackage{amsmath, amssymb, amsfonts, amsthm}
+\usepackage[margin=1in]{geometry}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{graphicx}
+
+\definecolor{darkblue}{rgb}{0.0, 0.0, 0.55}
+\definecolor{darkred}{rgb}{0.55, 0.0, 0.0}
+
+\hypersetup{
+	colorlinks=true,
+	linkcolor=darkblue,
+	citecolor=darkred,
+	urlcolor=darkblue,
+}
+
+\theoremstyle{definition}
+\newtheorem{defn}{Definition}[section]
+\newtheorem{exmp}{Example}[section]
+\newtheorem{idea}{Core Idea}[section]
+\newtheorem{question}{Guiding Question}[section]
+
+\title{\bfseries The Calculus of Anti-Derivatives, Reimagined: \\ \large From Potentials and Integrals to Differential Forms}
+\author{A Unified View of Vector Calculus}
+\date{\today}
+\newcommand{\R}{\mathbb{R}}
+\begin{document}
+	\maketitle
+	
+	\begin{abstract}
+		This lecture builds a bridge between the familiar concepts of multivariable calculus and the language of differential forms, guided by the single, unifying theme of the \textbf{anti-derivative}. We will see that the search for a potential function for a vector field (the anti-derivative of a gradient) and the reconstruction of a function from its Jacobian are two facets of the same fundamental question in the world of forms: given a differential form $\alpha$, can we find its "anti-derivative" $\beta$ such that $\alpha = d\beta$? We will explore the correspondences:
+		\[
+		\underbrace{f}_{\Omega^0}
+		\;\xrightarrow{d}\;
+		\underbrace{df}_{\Omega^1}
+		\;\longleftrightarrow\;
+		\underbrace{\nabla f}_{\substack{\text{gradient}\\\text{vector field}}}
+		\qquad \text{and} \qquad
+		\underbrace{\mathbf F}_{(\Omega^0)^m}
+		\;\xrightarrow{d}\;
+		\underbrace{d\mathbf F}_{\Omega^1\otimes\R^m}
+		\;\longleftrightarrow\;
+		\underbrace{D\mathbf F}_{\substack{\text{Jacobian}\\\text{matrix}}}
+		\]
+	\end{abstract}
+	
+	\section{Part 1: The Scalar Case -- The Potential as an Anti-Derivative}
+	
+	The story of the anti-derivative begins in first-semester calculus and finds its first deep generalization in the concept of a potential function for a conservative vector field.
+	
+	\subsection{From Calculus to Vector Calculus}
+	\begin{itemize}
+		\item \textbf{Calculus 1:} The anti-derivative reverses differentiation. If we have a function's derivative, $g(x) = f'(x)$, we find the original function by integrating: $f(x) = \int g(x) \, dx$.
+		\item \textbf{Vector Calculus:} The concept of a \textbf{potential function} is the direct generalization of this. For a vector field $\mathbf{F}$, its potential function is a scalar function $f$ such that $\mathbf{F} = \nabla f$. The vector field is the derivative (the gradient) of the potential function.
+	\end{itemize}
+%	
+	\begin{question}
+		In vector calculus, we ask: "Given a vector field $\mathbf{F}$, is it \textbf{conservative}?" This is precisely the anti-derivative question: "Does there exist a potential function $f$ such that $\mathbf{F} = \nabla f$?"
+	\end{question}
+	
+	\subsection{Recasting the Question in the Language of Forms}
+	
+	\begin{idea}[The Gradient/1-Form Correspondence]
+		A vector field $\mathbf{F} = \langle F_1, \dots, F_n \rangle$ corresponds to a 1-form $\alpha = F_1 dx_1 + \cdots + F_n dx_n$. A potential function $f$ is a 0-form. The relation $\mathbf{F} = \nabla f$ translates perfectly to the language of forms as $\alpha = df$.
+	\end{idea}
+	
+	Therefore, our guiding question becomes:
+	\begin{center}
+		\textit{"Given a 1-form $\alpha$, is it \textbf{exact}?"}
+	\end{center}
+	Answering "yes" means we have found the anti-derivative (the 0-form $f$).
+	
+	\subsection{Penetrating Example: Gravitational Potential Energy}
+	Consider the force of gravity near the Earth's surface, acting on a mass $m$.
+	\begin{itemize}
+		\item \textbf{The Vector Field (The Derivative):} The force is a vector field $\mathbf{F}_g = \langle 0, -mg \rangle$.
+		
+		\item \textbf{The Corresponding 1-Form:} $\alpha_g = 0 \cdot dx + (-mg) \cdot dy = -mg \, dy$.
+		
+		\item \textbf{The Anti-Derivative Question:} Can we find a scalar potential function $U(x,y)$ such that $\mathbf{F}_g = -\nabla U$? (The negative sign is conventional for potential energy). In the language of forms, can we find a 0-form $U$ such that $\alpha_g = -dU$?
+		
+		\item \textbf{Finding the Anti-Derivative by Integration:} We need to solve $-dU = -mg \, dy$, which means $dU = mg \, dy$.
+		\begin{equation*}
+			\frac{\partial U}{\partial x} dx + \frac{\partial U}{\partial y} dy = 0 \cdot dx + mg \cdot dy
+		\end{equation*}
+		Comparing coefficients of the differentials:
+		\begin{enumerate}
+			\item $\frac{\partial U}{\partial x} = 0$. Integrating with respect to $x$ tells us $U(x,y)$ does not depend on $x$, so $U(x,y) = h(y)$ for some function $h$ of $y$ alone.
+			\item $\frac{\partial U}{\partial y} = mg$. Substituting $U=h(y)$, we get $h'(y) = mg$.
+			\item We find the anti-derivative of $h'(y)$ by integrating: $h(y) = \int mg \, dy = mgy + C$.
+		\end{enumerate}
+		We have found the anti-derivative! It is the 0-form $U(x,y) = mgy + C$, the familiar formula for gravitational potential energy. The 1-form $\alpha_g$ is exact because we successfully found its anti-derivative (potential).
+		
+		\item \textbf{The Payoff (The Fundamental Theorem):} The work done by gravity moving from point $\mathbf{a}$ to $\mathbf{b}$ is $\int_C \mathbf{F}_g \cdot d\vec{r}$. Because we found an anti-derivative, we can use the Fundamental Theorem for Line Integrals:
+		\begin{equation*}
+			W = \int_C \mathbf{F}_g \cdot d\vec{r} = \int_C -\nabla U \cdot d\vec{r} = -\int_C dU = -(U(\mathbf{b}) - U(\mathbf{a})) = -\Delta U
+		\end{equation*}
+		The ability to find an anti-derivative (a potential) is what makes the work path-independent and allows us to use the Fundamental Theorem.
+	\end{itemize}
+	
+	\section{Part 2: The Vector Case -- Reconstructing a Function from its Jacobian}
+	
+	In the vector case, the "derivative" is the Jacobian matrix. The "anti-derivative" process is about reconstructing the original vector function from its complete set of differential relations (i.e., from its Jacobian).
+	
+	\subsection{The Derivative as the Jacobian}
+	A map $\mathbf{F}: \mathbb{R}^n \to \mathbb{R}^m$ has its derivative information encoded in the Jacobian matrix $D\mathbf{F}$. In the language of forms, this corresponds to the vector of 1-forms $d\mathbf{F}$.
+	
+	\begin{idea}[The Jacobian/Vector of 1-Forms Correspondence]
+		The Jacobian matrix $D\mathbf{F}$ is the matrix of coefficients for the vector of 1-forms $d\mathbf{F}$.
+		\begin{equation*}
+			d\mathbf{F} = \begin{pmatrix} dF_1 \\ \vdots \\ dF_m \end{pmatrix} = \underbrace{
+				\begin{pmatrix}
+					\frac{\partial F_1}{\partial x_1} & \cdots & \frac{\partial F_1}{\partial x_n} \\
+					\vdots & \ddots & \vdots \\
+					\frac{\partial F_m}{\partial x_1} & \cdots & \frac{\partial F_m}{\partial x_n}
+				\end{pmatrix}
+			}_{D\mathbf{F}}
+			\begin{pmatrix} dx_1 \\ \vdots \\ dx_n \end{pmatrix}
+		\end{equation*}
+	\end{idea}
+	
+	\begin{question}
+		Our new anti-derivative question is: "Given a matrix of functions which we suspect is a Jacobian (or equivalently, a vector of 1-forms), can we find the original vector function $\mathbf{F}$ that produced it?"
+	\end{question}
+	
+	\subsection{Penetrating Example: Reconstructing Polar Coordinates}
+	Let's pretend we don't know the formulas for polar coordinates, but an experiment has given us the differential relationships between the Cartesian and polar systems.
+	
+	\begin{itemize}
+		\item \textbf{The Given "Derivative" Data (The Vector of 1-Forms):} We are given the following relationships, which describe how infinitesimal steps $dr$ and $d\theta$ translate into steps $dx$ and $dy$.
+		\begin{align*}
+			dx &= \cos\theta \, dr - r\sin\theta \, d\theta \\
+			dy &= \sin\theta \, dr + r\cos\theta \, d\theta
+		\end{align*}
+		This is our given vector of 1-forms, $\mathbf{\alpha} = \begin{pmatrix} \alpha_1 \\ \alpha_2 \end{pmatrix} = \begin{pmatrix} dx \\ dy \end{pmatrix}$. The matrix of coefficients is our presumed Jacobian.
+		
+		\item \textbf{The Anti-Derivative Question:} Can we find a vector function (a vector of 0-forms) $\mathbf{F}(r, \theta) = \begin{pmatrix} x(r, \theta) \\ y(r, \theta) \end{pmatrix}$ such that $d\mathbf{F} = \mathbf{\alpha}$? This means we need to solve $dx(r,\theta) = \alpha_1$ and $dy(r,\theta) = \alpha_2$ simultaneously.
+		
+		\item \textbf{Finding the Anti-Derivative by Integration (Component 1):}
+		Let's find $x(r, \theta)$ by "integrating" the 1-form $\alpha_1 = \cos\theta \, dr - r\sin\theta \, d\theta$.
+		\begin{enumerate}
+			\item We know $dx = \frac{\partial x}{\partial r} dr + \frac{\partial x}{\partial \theta} d\theta$. By comparing coefficients with $\alpha_1$, we must have:
+			\begin{equation*}
+				\frac{\partial x}{\partial r} = \cos\theta \quad \text{and} \quad \frac{\partial x}{\partial \theta} = -r\sin\theta
+			\end{equation*}
+			\item Let's find the anti-derivative of the first equation with respect to $r$, treating $\theta$ as a constant:
+			\begin{equation*}
+				x(r, \theta) = \int \cos\theta \, dr = r\cos\theta + C(\theta)
+			\end{equation*}
+			The "constant" of integration can depend on $\theta$, since $\theta$ was held constant.
+			\item Now, we use our second piece of information. We differentiate our result for $x(r,\theta)$ with respect to $\theta$ and see if it matches.
+			\begin{equation*}
+				\frac{\partial}{\partial \theta} \left( r\cos\theta + C(\theta) \right) = -r\sin\theta + C'(\theta)
+			\end{equation*}
+			We must have $-r\sin\theta + C'(\theta) = -r\sin\theta$. This implies $C'(\theta) = 0$, so $C(\theta)$ is a true constant. We can choose this constant to be zero.
+		\end{enumerate}
+		We have successfully reconstructed the first component: $x(r, \theta) = r\cos\theta$.
+		
+		\item \textbf{Finding the Anti-Derivative by Integration (Component 2):}
+		We repeat the process for $y(r, \theta)$ using $\alpha_2 = \sin\theta \, dr + r\cos\theta \, d\theta$.
+		\begin{enumerate}
+			\item Compare coefficients: $\frac{\partial y}{\partial r} = \sin\theta$ and $\frac{\partial y}{\partial \theta} = r\cos\theta$.
+			\item Find the anti-derivative with respect to $r$: $y(r, \theta) = \int \sin\theta \, dr = r\sin\theta + K(\theta)$.
+			\item Differentiate with respect to $\theta$ and check for consistency:
+			\begin{equation*}
+				\frac{\partial}{\partial \theta} \left( r\sin\theta + K(\theta) \right) = r\cos\theta + K'(\theta)
+			\end{equation*}
+			We must have $r\cos\theta + K'(\theta) = r\cos\theta$, which implies $K'(\theta) = 0$.
+		\end{enumerate}
+		We have reconstructed the second component: $y(r, \theta) = r\sin\theta$.
+		
+		\item \textbf{The Payoff (The Reconstructed Function):} By performing this systematic "anti-differentiation", we have recovered the original vector function from its derivative data:
+		\begin{equation*}
+			\mathbf{F}(r, \theta) = \begin{pmatrix} r\cos\theta \\ r\sin\theta \end{pmatrix}
+		\end{equation*}
+		The Jacobian of this recovered function is, of course, the matrix of coefficients we started with.
+	\end{itemize}
+	
+	\section{Conclusion}
+	Viewing the relationship between vector calculus and differential forms through the lens of integration and anti-derivatives reveals a profound unity.
+	\begin{enumerate}
+		\item The search for a \textbf{potential function} for a conservative field is the search for the 0-form anti-derivative of a given 1-form.
+		\item The reconstruction of a \textbf{coordinate transformation} from its differential relations is the search for the vector of 0-forms that is the anti-derivative of a given vector of 1-forms.
+	\end{enumerate}
+	In both cases, the core mathematical task is the same: to solve the equation $\alpha = d\beta$ for $\beta$. This integral perspective shows that the language of forms is not just a new notation, but a framework that unifies the fundamental inverse problems of calculus across all dimensions.
+	
+\end{document}

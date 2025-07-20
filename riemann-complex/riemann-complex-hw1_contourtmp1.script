@@ -1,0 +1,1 @@
+unset surface; set cntrparam levels 14; set contour; set table "riemann-complex-hw1_contourtmp1.table"; splot "riemann-complex-hw1_contourtmp1.dat";

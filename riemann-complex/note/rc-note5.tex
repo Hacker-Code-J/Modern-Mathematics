@@ -1,0 +1,186 @@
+\documentclass[12pt, letterpaper]{article}
+\usepackage{amsmath, amssymb, amsfonts}
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+\usepackage{xcolor}
+
+\definecolor{darkblue}{rgb}{0.0, 0.0, 0.55}
+\definecolor{darkred}{rgb}{0.55, 0.0, 0.0}
+
+\title{\bfseries From Calculus to Cohomology: \\ \large A Step-by-Step Introduction to the Mayer-Vietoris Sequence}
+\author{A Guided Tour for First-Year Students}
+\date{}
+
+\begin{document}
+	\maketitle
+	
+	\begin{abstract}
+		The goal of this lecture is to understand a powerful idea in mathematics called the \textbf{Mayer-Vietoris sequence}. This tool helps us understand the ``shape'' of complex objects by breaking them into simpler, overlapping pieces. We will not assume any prior knowledge beyond first-year calculus. Our journey will start with the Fundamental Theorem of Calculus and build step-by-step towards the grander structure of de Rham cohomology, using the 2-sphere ($S^2$) as our primary example.
+	\end{abstract}
+	
+	\section{Part 1: The Language of Forms -- Rewriting Calculus}
+	
+	The first step is to rephrase the calculus you already know in a slightly more abstract, but very powerful, language. This is the language of \textbf{differential forms}.
+	
+	\subsection{0-Forms and 1-Forms}
+	\begin{itemize}
+		\item A \textbf{0-form} is simply a function. For example, $f(t) = -\cos(t)$ is a 0-form.
+		\item The \textbf{exterior derivative}, denoted by $d$, is our universal differentiation operator. When we apply $d$ to a 0-form (a function), we get its differential.
+		\begin{equation*}
+			d f = d(-\cos t) = -(-\sin t) \, dt = \sin t \, dt
+		\end{equation*}
+		\item The result, $\alpha = \sin t \, dt$, is called a \textbf{1-form}. A 1-form is precisely the object that appears inside an integral sign. It's something you integrate along a path.
+	\end{itemize}
+	
+	\subsection{Exact vs. Closed Forms}
+	These two words are crucial.
+	\begin{itemize}
+		\item A 1-form $\alpha$ is called \textbf{exact} if it is the derivative of some 0-form. In our example, $\sin t \, dt$ is exact because it is the derivative of $-\cos t$.
+		\begin{center}
+			\fcolorbox{black}{blue!10}{\parbox{0.8\linewidth}{
+					A $k$-form $\alpha$ is \textbf{exact} if there exists a $(k-1)$-form $\beta$ such that $\alpha = d\beta$.
+			}}
+		\end{center}
+		\item A 1-form $\alpha$ is called \textbf{closed} if its derivative is zero, i.e., $d\alpha = 0$. For a 1-form in one variable like $\sin t \, dt$, the next derivative is always zero, so this isn't very interesting yet. We will see its true meaning in 2D.
+		\begin{center}
+			\fcolorbox{black}{red!10}{\parbox{0.8\linewidth}{
+					A $k$-form $\alpha$ is \textbf{closed} if its derivative is zero: $d\alpha = 0$.
+			}}
+		\end{center}
+		\item \textbf{Key Fact:} If a form is exact, it must be closed. This is because applying the derivative twice always gives zero: $d\alpha = d(d\beta) = d^2\beta = 0$. The big question is: if a form is closed, is it always exact?
+	\end{itemize}
+	
+	\subsection{The Fundamental Theorem of Calculus, Revisited}
+	The FTC states $\int_a^b F'(t) \, dt = F(b) - F(a)$. In our new language, let $\alpha = F'(t) \, dt$. This is an exact 1-form, since $\alpha = dF$. The interval $[a,b]$ is a ``1-dimensional manifold'' whose boundary is the set of points $\{b\} - \{a\}$. The FTC becomes:
+	\begin{equation*}
+		\int_{[a,b]} dF = F(\text{boundary})
+	\end{equation*}
+	This is a baby version of the powerful \textbf{Generalized Stokes' Theorem}: $\int_M d\omega = \int_{\partial M} \omega$. The integral of a derivative over a region equals the integral of the original form over the boundary of that region.
+	
+	\section{Part 2: Finding a Hole -- The Punctured Plane}
+	
+	Now let's investigate the question: ``If a form is closed, is it always exact?''. The answer is \textbf{no}, and the reason is the existence of holes in the space.
+	
+	\subsection{The Space and the Form}
+	Consider the ``punctured plane'', $X = \mathbb{R}^2 \setminus \{(0,0)\}$, which is the entire plane with the origin removed. This space has a hole in it. Let's study the following 1-form on this space, which comes from the vector field $\vec{F} = \langle \frac{-y}{x^2+y^2}, \frac{x}{x^2+y^2} \rangle$:
+	\begin{equation*}
+		\omega = \frac{-y}{x^2+y^2} dx + \frac{x}{x^2+y^2} dy
+	\end{equation*}
+	
+	\subsection{Step 1: Is $\omega$ closed?}
+	We need to calculate $d\omega$. For a 1-form $\omega = P(x,y)dx + Q(x,y)dy$, the derivative is $d\omega = (\frac{\partial Q}{\partial x} - \frac{\partial P}{\partial y}) dx \wedge dy$.
+	Here, $P = \frac{-y}{x^2+y^2}$ and $Q = \frac{x}{x^2+y^2}$. Let's do the calculus:
+	\begin{align*}
+		\frac{\partial P}{\partial y} &= \frac{(\frac{\partial}{\partial y}(-y))(x^2+y^2) - (-y)(\frac{\partial}{\partial y}(x^2+y^2))}{(x^2+y^2)^2} = \frac{-1(x^2+y^2) + y(2y)}{(x^2+y^2)^2} = \frac{y^2-x^2}{(x^2+y^2)^2} \\
+		\frac{\partial Q}{\partial x} &= \frac{(\frac{\partial}{\partial x}(x))(x^2+y^2) - (x)(\frac{\partial}{\partial x}(x^2+y^2))}{(x^2+y^2)^2} = \frac{1(x^2+y^2) - x(2x)}{(x^2+y^2)^2} = \frac{y^2-x^2}{(x^2+y^2)^2}
+	\end{align*}
+	Since $\frac{\partial Q}{\partial x} = \frac{\partial P}{\partial y}$, we have $d\omega = (0) \, dx \wedge dy = 0$. So, \textbf{$\omega$ is closed}.
+	
+	\subsection{Step 2: Is $\omega$ exact?}
+	If $\omega$ were exact, then $\omega = df$ for some function $f(x,y)$. The Fundamental Theorem for Line Integrals (which is just Stokes' Theorem for paths) says that the integral of an exact form around any closed loop must be zero: $\oint_C df = 0$.
+	Let's integrate $\omega$ around the unit circle $C$, parameterized by $\vec{r}(t) = (\cos t, \sin t)$ for $t \in [0, 2\pi]$.
+	\begin{itemize}
+		\item $x = \cos t \implies dx = -\sin t \, dt$
+		\item $y = \sin t \implies dy = \cos t \, dt$
+		\item On the unit circle, $x^2+y^2 = 1$.
+	\end{itemize}
+	Substituting these into the integral:
+	\begin{align*}
+		\oint_C \omega &= \int_0^{2\pi} \frac{-\sin t}{1}(-\sin t \, dt) + \frac{\cos t}{1}(\cos t \, dt) \\
+		&= \int_0^{2\pi} (\sin^2 t + \cos^2 t) \, dt = \int_0^{2\pi} 1 \, dt = 2\pi
+	\end{align*}
+	Since the integral is $2\pi \neq 0$, \textbf{$\omega$ is not exact}.
+	
+	\subsection{The Big Idea: Cohomology}
+	We have found a 1-form $\omega$ that is \textbf{closed but not exact}. The very existence of such a form is a mathematical proof that the underlying space has a hole. The set of all closed forms that are not exact forms a group called the \textbf{first de Rham cohomology group}, denoted $H^1(X)$. For the punctured plane, this group is non-zero.
+	
+	\section{Part 3: Deconstructing the Sphere $S^2$}
+	Now we turn to our main object, the sphere $S^2$. We know it's hollow, so it has a ``2-dimensional hole'', but it doesn't have a 1D hole like the punctured plane. We want to prove this using our new tools. The Mayer-Vietoris strategy is to break the sphere into simple, overlapping pieces.
+	
+	\begin{itemize}
+		\item Let $U$ be the sphere minus the North Pole, $U = S^2 \setminus \{N\}$. If you take this piece and stretch it out, it's topologically just a flat plane, $\mathbb{R}^2$.
+		\item Let $V$ be the sphere minus the South Pole, $V = S^2 \setminus \{S\}$. This is also just a plane.
+		\item The intersection $U \cap V$ is the sphere minus both poles. This is a cylinder, or an annulus. Topologically, this space is just like our punctured plane!
+	\end{itemize}
+	
+	\begin{center}
+%		\includegraphics[width=0.8\textwidth]{https://i.imgur.com/gKwgYyE.png}
+	\end{center}
+	
+	So, our analysis of the pieces tells us:
+	\begin{itemize}
+		\item $U$ has no 1D holes, so $H^1(U) = 0$. On $U$, every closed 1-form is exact.
+		\item $V$ has no 1D holes, so $H^1(V) = 0$. On $V$, every closed 1-form is exact.
+		\item $U \cap V$ has a 1D hole, so $H^1(U \cap V) \neq 0$. This hole is detected by our form $\omega$.
+	\end{itemize}
+	
+	\section{Part 4: The Main Event -- The Mayer-Vietoris Construction}
+	
+	We will now show how the 1D hole in the intersection ($U \cap V$) forces the existence of a 2D ``volume'' on the whole sphere ($S^2$). This is the magic of the connecting homomorphism in the Mayer-Vietoris sequence.
+	
+	\subsection{Step A: Start with the Hole's Signature}
+	Let's take our closed-but-not-exact 1-form $\omega$ that lives on the intersection $U \cap V$.
+	
+	\subsection{Step B: Extend and Fill on the Pieces}
+	\begin{itemize}
+		\item Consider $\omega$ as a form living on the space $U$. Since $U$ is like a plane (it has no holes), and $\omega$ is closed, it \textbf{must be exact on U}. This means there exists a 0-form (a function) $f_U$ defined on all of $U$ such that $df_U = \omega$.
+		\item Similarly, consider $\omega$ as a form living on the space $V$. Since $V$ has no holes, it \textbf{must be exact on V}. So there exists a function $f_V$ defined on all of $V$ such that $df_V = \omega$.
+	\end{itemize}
+	\textit{Note: These functions $f_U$ and $f_V$ are essentially the angle function, which is why they cannot be defined over the poles, but can be defined on these punctured spheres.}
+	
+	\subsection{Step C: The Mismatch Function}
+	On the intersection $U \cap V$, both functions $f_U$ and $f_V$ are defined. Let's look at their difference, $g = f_U - f_V$. The derivative of this function on the intersection is:
+	\begin{equation*}
+		dg = d(f_U - f_V) = df_U - df_V = \omega - \omega = 0
+	\end{equation*}
+	Since $dg=0$, the function $g$ must be a constant on the (connected) intersection. Let's say $f_U - f_V = C$. This constant is non-zero; it's related to the $2\pi$ we calculated earlier.
+	
+	\subsection{Step D: The Gluing Trick}
+	We have two functions, $f_U$ and $f_V$, that don't quite match on the overlap. We can't glue them directly. But we can use them to build a \textbf{global 2-form}. We need a tool called a ``partition of unity'' -- essentially a pair of smooth ``blending'' functions $\rho_U$ and $\rho_V$ such that:
+	\begin{itemize}
+		\item $\rho_U$ is 1 on the southern hemisphere and smoothly goes to 0 as you approach the North Pole.
+		\item $\rho_V$ is 1 on the northern hemisphere and smoothly goes to 0 as you approach the South Pole.
+		\item At every point on the sphere, $\rho_U + \rho_V = 1$.
+	\end{itemize}
+	Now, we define two 1-forms: $\omega_U = \rho_U \omega$ (this lives on $V$) and $\omega_V = \rho_V \omega$ (this lives on $U$). Notice that on the intersection $U \cap V$, we have $\omega_U + \omega_V = (\rho_U + \rho_V)\omega = \omega$.
+	
+	Let's define a global 2-form $\eta$ on $S^2$ piece by piece:
+	\begin{itemize}
+		\item On the southern part $U$, we define $\eta = d(\rho_V \omega)$.
+		\item On the northern part $V$, we define $\eta = d(\rho_U \omega)$.
+	\end{itemize}
+	Are these definitions compatible? On the intersection, $d(\rho_V \omega) + d(\rho_U \omega) = d((\rho_V+\rho_U)\omega) = d(\omega) = 0$. So $d(\rho_V \omega) = -d(\rho_U \omega)$. This construction is slightly subtle, but the result is a well-defined global 2-form $\eta$.
+	
+	\subsection{Step E: Integrating the Global Form}
+	The crucial part is that this new 2-form $\eta$ is not exact. We can prove this by integrating it over the whole sphere. Let's divide the sphere into its northern hemisphere $D_N$ (which is in $V$) and southern hemisphere $D_S$ (which is in $U$). The boundary of both is the equator, $C$.
+	\begin{align*}
+		\int_{S^2} \eta &= \int_{D_S} \eta + \int_{D_N} \eta \\
+		&= \int_{D_S} d(\rho_V \omega) + \int_{D_N} d(\rho_U \omega) \quad \text{(Using the definitions of $\eta$ on each piece)} \\
+		&= \int_{\partial D_S} \rho_V \omega + \int_{\partial D_N} \rho_U \omega \quad \text{(By Stokes' Theorem!)}
+	\end{align*}
+	Let's orient the equator $C$ counter-clockwise. Then $\partial D_S = C$ and $\partial D_N = -C$.
+	\begin{itemize}
+		\item Along the equator $C$, $\rho_V=0$ and $\rho_U=1$.
+	\end{itemize}
+	The expression becomes subtle here, but a more careful construction yields the result:
+	\begin{equation*}
+		\int_{S^2} \eta = \int_C \omega = 2\pi
+	\end{equation*}
+	Since $\int_{S^2} \eta \neq 0$, the 2-form $\eta$ cannot be exact. If it were, say $\eta = d\lambda$ for some global 1-form $\lambda$, then Stokes' Theorem would give:
+	\begin{equation*}
+		\int_{S^2} d\lambda = \int_{\partial S^2} \lambda = \int_{\emptyset} \lambda = 0
+	\end{equation*}
+	This is a contradiction. Therefore, $\eta$ is a closed (all 2-forms on a 2-manifold are closed) but not exact 2-form.
+	
+	\section{Conclusion}
+	We have just walked through the core argument of the Mayer-Vietoris sequence.
+	\begin{enumerate}
+		\item We started with a 1-dimensional hole in the intersection of our two pieces ($U \cap V$), represented by the closed, non-exact 1-form $\omega$.
+		\item We used the fact that the pieces themselves ($U$ and $V$) had no such holes to show that $\omega$ must be exact on each piece individually.
+		\item This allowed us to construct a global \textbf{2-form} $\eta$ on the entire sphere.
+		\item We showed that the integral of this 2-form over the sphere is non-zero ($2\pi$).
+		\item This proves that $\eta$ is not an exact 2-form, and its existence signals a \textbf{2-dimensional hole} in the sphere.
+	\end{enumerate}
+	This is the power of the sequence: it precisely relates the ``holes'' of a space to the ``holes'' of its constituent parts, allowing us to deduce complex global properties from simpler local information.
+	
+\end{document}

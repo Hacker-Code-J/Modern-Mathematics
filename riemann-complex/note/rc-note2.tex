@@ -1,0 +1,129 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{geometry}
+\geometry{margin=1in}
+
+\title{A Step-by-Step Calculus Approach to the Mayer–Vietoris Sequence on $S^2$}
+\author{Your Name}
+\date{\today}
+
+\begin{document}
+	\maketitle
+	
+	\begin{abstract}
+		This article explains the Mayer–Vietoris argument for de Rham Cohomology on the unit sphere $S^2$ using only first-year calculus (single and double integrals, the Fundamental Theorem of Calculus) and basic linear algebra (kernels and images). We cover $S^2$ by two overlapping hemispheres and show, via two applications of the FTC, how local antiderivatives glue to a global one exactly when patching data match, and how the equator integral equals the sphere’s total integral.
+	\end{abstract}
+	
+	\section{1. The Open Cover and Local Exactness}
+	Split $S^2$ into the northern and southern open hemispheres:
+	\[
+	U = \{(x,y,z)\in S^2: z> -\tfrac12\},
+	\quad
+	V = \{(x,y,z)\in S^2: z< +\tfrac12\}.
+	\]
+	Each of $U,V$ is diffeomorphic to a disk (hence contractible).  Any continuous 1‑form on a disk is exact by integrating along straight paths (FTC): given a 1‑form
+	\[
+	beta(\phi,\theta) = P(\phi,\theta)\,d\phi + Q(\phi,\theta)\,d\theta
+	\]
+	in spherical coordinates, one finds a function $F_U(\phi,\theta)$ on $U$ by
+	\[
+	F_U(\phi,\theta) = \int_{\phi_0}^{\phi} P(s,\theta)\,ds
+	\]
+	for a fixed base–latitude $\phi_0$, so that
+	\[
+	\frac{\partial F_U}{\partial \phi}(\phi,\theta) = P(\phi,\theta).
+	\]
+	Thus $dF_U = P\,d\phi + \frac{\partial F_U}{\partial \theta}\,d\theta$.  One checks by FTC again that
+	\[
+	\frac{\partial F_U}{\partial \theta}(\phi,\theta) = Q(\phi,\theta)
+	\]
+	on any overlap region where the 1‑form equals $Q\,d\theta$ in the $\theta$–direction.
+	
+	A similar construction on $V$ gives $F_V(\phi,\theta)=\int_{\phi_1}^{\phi}P(s,\theta)\,ds$.  Hence on $U\cap V$:
+	\[
+	F_U(\phi,\theta) - F_V(\phi,\theta) = H(\theta)
+	\]
+	for some function $H$ of $\theta$ alone (difference of two FTC–integrals with the same integrand).  Differentiating in $\theta$:
+	\[
+	H'(\theta) = \frac{\partial F_U}{\partial \theta} - \frac{\partial F_V}{\partial \theta} = Q - Q = 0.
+	\]
+	By FTC, $H'(\theta)=0$ implies $H(\theta)$ is constant.  Adjusting $F_V$ by this constant makes $F_U=F_V$ on $U\cap V$, so
+	\[
+	F(p)=\begin{cases}F_U(p), & p\in U,\\ F_V(p), & p\in V,\end{cases}
+	\]
+	defines a single global $F$ with $dF=\beta$ on all of $S^2$.  This proves
+	
+	\[
+	\mathrm{Im}\bigl(\Omega^0(S^2) \xrightarrow{d} \Omega^1(S^2)\bigr)
+	= \ker\bigl(\Omega^1(S^2) \to \Omega^1(U)\oplus\Omega^1(V)\bigr).
+	\]
+	
+	\section{2. The Equator Integral and Surface Integral}
+	On the overlap region, identify the equator $U\cap V$ with $S^1$ via $z=0$.  The standard closed-but-not-exact 1‑form is
+	\[
+	\omega = d\theta,
+	\qquad \oint_{S^1}\omega = \int_{0}^{2\pi}d\theta = 2\pi.
+	\]
+	To see how this winding produces the sphere’s area, define a cutoff function (partition of unity) depending only on $z$:
+	\[
+	\rho(z) = \frac{1+z}{2},
+	\quad 0\le \rho\le1, \quad \rho=1\text{ at north pole}, \rho=0\text{ at south pole}.
+	\]
+	On $S^2$, form the 2‑form
+	\[
+	\Theta = d\bigl(\rho(z)\,\omega\bigr) = d\rho\wedge\omega.
+	\]
+	In spherical coordinates $(\phi,\theta)$ we have $z=\cos\phi$, hence
+	\[
+	d\rho = -\tfrac12\sin\phi\,d\phi,
+	\quad \omega = d\theta,
+	\quad \Rightarrow \Theta = -\tfrac12\sin\phi\,d\phi\wedge d\theta.
+	\]
+	Then the surface integral of $\Theta$ over $S^2$ is a double integral:
+	\[
+	\int_{S^2}\Theta = \int_{\phi=0}^{\pi}\int_{\theta=0}^{2\pi}\Bigl(-\tfrac12\sin\phi\Bigr)\,d\theta\,d\phi.
+	\]
+	Apply FTC in $\theta$ first:
+	\[
+	\int_{0}^{2\pi}d\theta = 2\pi,
+	\]
+	then FTC in $\phi$:
+	\[
+	\int_{0}^{\pi}\sin\phi\,d\phi = [-\cos\phi]_0^{\pi} = 2.
+	\]
+	Hence
+	\[
+	\int_{S^2}\Theta = -\tfrac12\times(2\pi)\times2 = -2\pi.
+	\]
+	Choosing the standard outward orientation flips the sign to $+2\pi$, recovering the equator’s $2\pi$ via Stokes’ theorem.  Thus globally,
+	\[
+	\int_{S^2}d\rho\wedge\omega = \oint_{S^1}\omega.
+	\]
+	
+	\section{3. Exactness in Degree Zero via Kernels and Images}
+	The induced sequence on functions (0‑forms)
+	\[
+	0 \to C^\infty(S^2) \xrightarrow{r_0} C^\infty(U)\oplus C^\infty(V)
+	\xrightarrow{s_0} C^\infty(U\cap V) \to 0
+	\]
+	has
+	\[
+	\ker(r_0)=\{f: f|_U=f|_V=0\} = 0,
+	\quad
+	\mathrm{Im}(r_0)=\{(f,f)\}
+	= \ker(s_0),
+	\quad
+	\mathrm{Im}(s_0)=C^\infty(U\cap V).
+	\]
+	All checks are immediate by comparing values on overlaps (basic algebra of real functions).
+	
+	\section{4. Conclusion}
+	We have shown using only first-year calculus:
+	\begin{enumerate}
+		\item Local antiderivatives exist by a single-variable FTC in the $\phi$-direction.
+		\item Matching on overlaps forces a constant difference via FTC in the $\theta$-direction, so one global primitive exists exactly when patch data match.
+		\item The non-exact equator 1-form $d\theta$ integrates to $2\pi$ and yields the sphere’s total integral by two nested FTCs.
+	\end{enumerate}
+	This concrete approach demystifies the Mayer–Vietoris argument for students familiar only with multivariable calculus and the FTC.
+\end{document}

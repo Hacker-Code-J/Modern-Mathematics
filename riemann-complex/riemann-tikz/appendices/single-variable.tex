@@ -1,0 +1,54 @@
+\documentclass[border=10pt]{standalone}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usetikzlibrary{arrows.meta} % Explicitly load library for arrow tips
+\usepackage{amsmath}
+
+\begin{document}
+	\begin{tikzpicture}
+		% --- Pre-calculate all values for maximum robustness ---
+		\pgfmathsetmacro{\a}{1.5}          % x-coordinate of point p
+		\pgfmathsetmacro{\ay}{\a^2}        % y-coordinate of point p
+		\pgfmathsetmacro{\slope}{2*\a}     % Slope (derivative) at p
+		\pgfmathsetmacro{\dx}{1}           % Vector x-component
+		\pgfmathsetmacro{\dy}{\slope * \dx} % Vector y-component
+		\pgfmathsetmacro{\endx}{\a + \dx}   % Vector end-point x
+		\pgfmathsetmacro{\endy}{\ay + \dy}   % Vector end-point y
+		\pgfmathsetmacro{\labelx}{3}       % x-pos for the T_pC label
+		\pgfmathsetmacro{\labely}{\ay+\slope*(\labelx-\a)} % y-pos for the T_pC label
+		
+		\begin{axis}[
+			axis lines=center,
+			xlabel=$x$,
+			ylabel=$y$,
+			legend pos=north west,
+			xmin=-1, xmax=4,
+			ymin=-1, ymax=7,
+			axis equal, % Ensures slopes are visually correct
+			clip=false,
+			]
+			
+			% --- Plot the curve y=x^2 ---
+			\addplot[domain=-2.5:2.5, samples=100, thick, blue] {x^2};
+			\addlegendentry{$C: y=x^2$};
+			\node[above right, blue] at (axis cs: 2.5, {2.5^2}) {$C$};
+			
+			% --- Plot the tangent line at x=a ---
+			\addplot[domain=-1:4, samples=2, dashed, black!60] {\ay + \slope*(x-\a)};
+			% Use pre-calculated coordinates for the label
+			\node[above, rotate=atan(\slope), black!60] at (axis cs: \labelx, \labely) {$T_pC$};
+			
+			% --- Mark the point p ---
+			\node[circle, fill=blue, inner sep=1.5pt, label={below left:$p=(a, a^2)$}] at (axis cs: \a, \ay) {};
+			
+			% --- Draw the tangent vector v=<dx,dy> ---
+			\draw[
+			-{Stealth}, % Arrow tip from arrows.meta library
+			ultra thick,
+			red,
+			] (axis cs: \a, \ay) -- (axis cs: \endx, \endy)
+			node[midway, above right, sloped] {$v = \langle 1, 2a \rangle$};
+			
+		\end{axis}
+	\end{tikzpicture}
+\end{document}

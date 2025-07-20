@@ -1,0 +1,265 @@
+\documentclass[12pt]{article}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{geometry}
+\geometry{margin=1in}
+\theoremstyle{definitionstyle}
+\newtheorem{definition}{Definition} % Definition shares the counter with theorem
+\newtheorem{example}{Example} % Example shares the counter with theorem
+\newtheorem{remark}{Remark} % Remark shares the counter with theorem
+\newcommand{\R}{\mathbb{R}}
+\begin{document}
+	
+	\title{Lecture Notes: From Differentials to Jacobians}
+	\author{}
+	\date{}
+	\maketitle
+	
+	\section*{Overview}
+	
+	We shall trace the passage from the simplest differential of a function of one variable all the way to the Jacobian matrix of a vector field, using the unifying language of differential forms and matrix notation:
+	
+	\[
+	\underbrace{f}_{\Omega^0}
+	\;\xrightarrow{d}\;
+	\underbrace{df}_{\Omega^1}
+	\;\longleftrightarrow\;
+	\underbrace{\nabla f}_{\substack{\text{gradient}\\\text{vector field}}}
+	\quad
+	\longrightarrow
+	\quad
+	\underbrace{\mathbf F}_{(\Omega^0)^m}
+	\;\xrightarrow{d}\;
+	\underbrace{d\mathbf F}_{\Omega^1\otimes\R^m}
+	\;\longleftrightarrow\;
+	\underbrace{D\mathbf F}_{\substack{\text{Jacobian}\\\text{matrix}}}.
+	\]
+	
+	Each step is an instance of the exterior derivative \(d\) or its reinterpretation under the standard Euclidean metric.
+	
+	\bigskip
+	
+	\section{Differentials of Scalar Functions}
+	
+	\subsection{0‐Forms and 1‐Forms}
+	
+	\begin{definition}[Spaces of Forms]
+		\begin{itemize}
+			\item \(\Omega^0(\R^n)\) is the space of smooth functions \(f:\R^n\to\R\) (also called \(0\)-forms).
+			\item \(\Omega^1(\R^n)\) is the space of smooth \(1\)-forms 
+			\(\displaystyle \omega = \sum_{i=1}^n g_i(x)\,dx^i\).
+		\end{itemize}
+	\end{definition}
+	
+	\subsection{The Exterior Derivative \(d\)}
+	
+	\begin{definition}[Exterior Derivative on Functions]
+		For \(f\in\Omega^0(\R^n)\), the differential \(df\) is the \(1\)-form
+		\[
+		df
+		=\sum_{i=1}^n \frac{\partial f}{\partial x_i}(x)\,dx^i
+		\;\in\;\Omega^1(\R^n).
+		\]
+	\end{definition}
+	
+	\begin{example}[One‐Variable Case]
+		If \(n=1\) and \(f(x)\in\Omega^0(\R)\), then
+		\[
+		df = f'(x)\,dx,
+		\]
+		and the \emph{Fundamental Theorem of Calculus} is
+		\(\int_a^b df = f(b)-f(a).\)
+	\end{example}
+	
+	\subsection{Gradient as Metric Dual}
+	
+	Endow \(\R^n\) with the standard dot‐product.  Then each \(1\)-form
+	\(\omega = \sum_i g_i\,dx^i\)
+	corresponds uniquely to a vector field
+	\(\displaystyle \sum_i g_i\,\frac{\partial}{\partial x_i}\).
+	In particular, the \(1\)-form \(df\) corresponds to the \emph{gradient} vector field
+	
+	\[
+	\nabla f(x)
+	=\begin{pmatrix}
+		\displaystyle \frac{\partial f}{\partial x_1}(x)\\[6pt]
+		\displaystyle \frac{\partial f}{\partial x_2}(x)\\[4pt]
+		\vdots\\[4pt]
+		\displaystyle \frac{\partial f}{\partial x_n}(x)
+	\end{pmatrix}
+	\;\in\;\R^n.
+	\]
+	
+	Thus we have the identification
+	\[
+	df 
+	\;\longleftrightarrow\;
+	\nabla f.
+	\]
+	
+	\bigskip
+	
+	\section{Differentials of Vector‐Valued Functions}
+	
+	\subsection{Vector Fields as \((\Omega^0)^m\)}
+	
+	A smooth vector field 
+	\(\mathbf F:\R^n\to\R^m\)
+	is an \(m\)-tuple of scalar fields,
+	\[
+	\mathbf F(x)
+	=\begin{pmatrix}F_1(x)\\F_2(x)\\\vdots\\F_m(x)\end{pmatrix}
+	\;\in\;(\Omega^0(\R^n))^m.
+	\]
+	
+	\subsection{Applying \(d\) Componentwise}
+	
+	\begin{definition}[Differential of a Vector Field]
+		The exterior derivative \(d\) acts on each component \(F_i\), producing a column of \(1\)-forms:
+		\[
+		d\mathbf F
+		=\begin{pmatrix}dF_1\\dF_2\\\vdots\\dF_m\end{pmatrix}
+		\;\in\;\Omega^1(\R^n)\otimes\R^m.
+		\]
+		Explicitly,
+		\[
+		dF_i
+		=\sum_{j=1}^n \frac{\partial F_i}{\partial x_j}(x)\,dx^j.
+		\]
+	\end{definition}
+	
+	\subsection{Jacobian Matrix}
+	
+	Choosing the basis \(\{dx^1,\dots,dx^n\}\) for \(\Omega^1(\R^n)\) identifies each \(dF_i\) with the row vector
+	\(\bigl(\partial_1F_i,\dots,\partial_nF_i\bigr)\).  Stacking these rows yields the \emph{Jacobian matrix}:
+	
+	\[
+	D\mathbf F(x)
+	=\begin{pmatrix}
+		\displaystyle \frac{\partial F_1}{\partial x_1}(x)
+		&\displaystyle \frac{\partial F_1}{\partial x_2}(x)
+		&\cdots
+		&\displaystyle \frac{\partial F_1}{\partial x_n}(x)\\[10pt]
+		\displaystyle \frac{\partial F_2}{\partial x_1}(x)
+		&\displaystyle \frac{\partial F_2}{\partial x_2}(x)
+		&\cdots
+		&\displaystyle \frac{\partial F_2}{\partial x_n}(x)\\[10pt]
+		\vdots & \vdots & \ddots & \vdots\\[6pt]
+		\displaystyle \frac{\partial F_m}{\partial x_1}(x)
+		&\displaystyle \frac{\partial F_m}{\partial x_2}(x)
+		&\cdots
+		&\displaystyle \frac{\partial F_m}{\partial x_n}(x)
+	\end{pmatrix}.
+	\]
+	
+	\begin{remark}[Linear Approximation]
+		For a small increment \(h\in\R^n\),
+		\[
+		\mathbf F(x+h)
+		= \mathbf F(x) \;+\;D\mathbf F(x)\,h \;+\; o(\|h\|),
+		\]
+		so \(D\mathbf F(x)\) is the total derivative (the best linear approximation) of \(\mathbf F\) at \(x\).
+	\end{remark}
+	
+	\bigskip
+	
+	\section*{Putting It All Together}
+	
+	We summarize the full chain of ideas:
+	
+	\[
+	\underbrace{f}_{\Omega^0}
+	\;\xrightarrow{d}\;
+	\underbrace{df}_{\Omega^1}
+	\;\longleftrightarrow\;
+	\underbrace{\nabla f}_{\substack{\text{gradient}\\\text{vector field}}}
+	\quad
+	\longrightarrow
+	\quad
+	\underbrace{\mathbf F}_{(\Omega^0)^m}
+	\;\xrightarrow{d}\;
+	\underbrace{d\mathbf F}_{\Omega^1\otimes\R^m}
+	\;\longleftrightarrow\;
+	\underbrace{D\mathbf F}_{\substack{\text{Jacobian}\\\text{matrix}}}.
+	\]
+	
+	\medskip
+	
+	\noindent\textbf{Key Takeaway:} The single operator \(d\) applied to \(0\)-forms produces \(1\)-forms.  Under the Euclidean metric we identify those \(1\)-forms with gradients (vector fields).  When \(d\) is applied to each component of a vector field, it produces exactly the rows of the Jacobian matrix, which encodes the full linearization of the vector‐valued function.
+	
+	\newpage
+	\section*{When Is a Vector Field a Gradient?}
+	
+	Let \(U\subset\R^n\) be a region (ideally simply‐connected), and let
+	\[
+	\mathbf F:U\longrightarrow\R^n,
+	\qquad
+	\mathbf F(x)
+	=\bigl(F_1(x),\dots,F_n(x)\bigr).
+	\]
+	Define the associated \(1\)\nobreakdash-form
+	\[
+	\alpha
+	=F_1\,dx^1+\cdots+F_n\,dx^n
+	\;\in\;\Omega^1(U).
+	\]
+	We seek a scalar potential \(f\) with
+	\[
+	\mathbf F = \nabla f
+	\quad\Longleftrightarrow\quad
+	\alpha = df.
+	\]
+	
+	\subsection*{Closed vs.\ Exact Forms}
+	
+	\begin{definition}
+		A \(1\)-form \(\alpha\) is \emph{closed} if \(d\alpha=0\), and \emph{exact} if there exists \(f\) with \(\alpha=df\).
+	\end{definition}
+	
+	On any domain \(U\subset\R^n\),
+	\[
+	d\alpha = 0
+	\;\Longleftrightarrow\;
+	\frac{\partial F_i}{\partial x_j}
+	= \frac{\partial F_j}{\partial x_i}
+	\quad\text{for all }i,j.
+	\]
+	In vector‐calculus language (for \(n=3\)), \(d\alpha=0\) is exactly \(\nabla\times\mathbf F=0\).
+	
+	\subsection*{Poincaré Lemma (Simply–Connected Case)}
+	
+	If \(U\) is simply connected, then
+	\[
+	\bigl(d\alpha=0\bigr)
+	\;\Longrightarrow\;
+	\bigl(\alpha\text{ is exact}\bigr).
+	\]
+	Hence on such a \(U\), the condition
+	\[
+	\frac{\partial F_i}{\partial x_j}
+	= \frac{\partial F_j}{\partial x_i}
+	\quad\forall\,i,j
+	\]
+	is \emph{necessary and sufficient} for the existence of a scalar potential \(f\).  In that case one recovers
+	\[
+	f(x)
+	=\int_{x_0}^{x}\alpha
+	=\int_{x_0}^{x}\mathbf F\cdot d\mathbf r,
+	\]
+	and indeed \(\nabla f=\mathbf F\).
+	
+	\subsection*{Summary}
+	
+	\[
+	\mathbf F = \nabla f
+	\quad\Longleftrightarrow\quad
+	d\alpha = 0
+	\quad\text{(on a simply‐connected domain).}
+	\]
+	Equivalently, in coordinates,
+	\[
+	\frac{\partial F_i}{\partial x_j}
+	= \frac{\partial F_j}{\partial x_i}
+	\quad\forall\,i,j.
+	\]
+	This integrability condition ensures the tight connection between the differential \(df\) and the vector field \(\mathbf F\).
+\end{document}

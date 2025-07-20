@@ -1,0 +1,216 @@
+\documentclass[11pt,openany]{article}
+
+\input{grad-math-preamble-linear}
+\input{tcolorbox}
+\input{theorem}
+\input{tikz}
+\input{grad-math-commands}
+\renewcommand{\vec}[1]{\mathbf{#1}}
+\setstretch{1.25}
+\begin{document}
+	\pagenumbering{arabic}
+	\begin{center}
+		\huge\textbf{Linear Algebra I}\\
+		\Large-- Proof for Existence of Basis --\\
+		\vspace{0.5em}
+		\large{Ji, Yong-hyeon}\\
+		%	\large{\ttfamily \url{https://github.com/Hacker-Code-J}}\\
+		\vspace{0.5em}
+		\normalsize{\today}\\
+	\end{center}
+	
+	\noindent 
+%	We cover the following topics in this note.
+%	\begin{itemize}
+%		\item[] \textbf{Part I}
+%		\item Linear Combination, Spanning Set
+%		\item Linearly Independent and Dependent
+%		\item Basis
+%		\item[] \textbf{Part II}
+%		\item Partial Order; POSET
+%		\item Total Order (Linear Order); TOSET
+%		\item Maximal, Minimal, Hasse Diagram
+%		\item[] \textbf{Part III}
+%		\item Chain, Zorn's Lemma
+%		\item Basis Theorem (Existence of Basis)
+%		\item Invariance of Basis Cardinality; Dimension of Vector Space
+%	\end{itemize}
+%	\hrule\vspace{12pt}
+
+%\newpage
+\axiombox[Zorn's Lemma]{\begin{axiom*}
+		Let $(P,\preceq)$ be a nonempty partially ordered set with property that every chain $C\subseteq P$ has an upper bound in $P$; that is, for every chain $C\subseteq P$, \[
+		\exists u\in P\quad \text{such that}\quad \forall c\in C,\quad c\preceq u.
+		\] Then $P$ contains at least one maximal element; that is, \[
+		\exists m\in P\quad\text{such that}\quad\forall a\in P,\quad (m\preceq a)\implies(m=a).
+		\]
+\end{axiom*}}
+%\begin{proof}
+%	See \hyperlink{zorn}{Proof of Zorn's Lemma}.
+%\end{proof}
+
+%\vfill
+\begin{observation}[Existence of Basis] Let $\mathcal{L}:=\set{S\subseteq \R^3:S\ \text{is linearly independent}}$.
+	\ \begin{center}
+		\begin{tikzpicture}
+			\matrix (A) [matrix of nodes, row sep=.5cm]
+			{ 
+				&$\set{\vec{u}_1,\vec{u}_2,\vec{u}_3}$&\\
+				$\set{\vec{u}_1,\vec{u}_2}$&$\set{\vec{u}_1,\vec{u}_3}$&$\set{\vec{u}_2,\vec{u}_3}$\\
+				$\set{\vec{u}_1}$& $\set{\vec{u}_2}$ &$\set{\vec{u}_3}$\\
+				& $\varnothing$ &\\
+			};
+			\draw (A-4-2)--(A-3-1);
+			\draw (A-4-2)--(A-3-2);
+			\draw (A-4-2)--(A-3-3);
+			\draw (A-3-1)--(A-2-1);
+			\draw (A-3-1)--(A-2-2);
+			\draw (A-3-2)--(A-2-1);
+			\draw (A-3-2)--(A-2-3);
+			\draw (A-3-3)--(A-2-2);
+			\draw (A-3-3)--(A-2-3);
+			\draw (A-2-1)--(A-1-2);
+			\draw (A-2-2)--(A-1-2);
+			\draw (A-2-3)--(A-1-2);
+			\node[draw=none, below=.25cm of A] {\small Hasse Diagram for a poset \((\mathcal{L},\subseteq)\) in \(\mathbb{R}^3\)};
+		\end{tikzpicture}\hspace{40pt}
+		\begin{tikzpicture}
+			\matrix (A) [matrix of nodes, row sep=.5cm]
+			{ 
+				&$\set{\vec{u}_1,\vec{u}_2,\vec{u}_3}$&\\
+				$\set{\vec{u}_1,\vec{u}_2}$&$\set{\vec{u}_1,\vec{u}_3}$&$\set{\vec{u}_2,\vec{u}_3}$\\
+				$\set{\vec{u}_1}$& $\set{\vec{u}_2}$ &$\set{\vec{u}_3}$\\
+				& $\varnothing$ &\\
+			};
+			\draw (A-4-2)--(A-3-1);
+			\draw (A-4-2)--(A-3-2);
+			\draw (A-4-2)--(A-3-3);
+			\draw (A-3-1)--(A-2-1);
+			\draw (A-3-1)--(A-2-2);
+			\draw (A-3-2)--(A-2-1);
+			\draw (A-3-2)--(A-2-3);
+			\draw (A-3-3)--(A-2-2);
+			\draw (A-3-3)--(A-2-3);
+			\draw (A-2-1)--(A-1-2);
+			\draw (A-2-2)--(A-1-2);
+			\draw (A-2-3)--(A-1-2);
+			\node[draw=none, below=.25cm of A] {\small Any chain $\mathcal{C}$};
+			
+			\draw[color=blue,thick,smooth] plot coordinates {(1,1) (1,.5) (.75,0) (-.75,-.5) (.25, -1.5) (.25,-2) (-.5,-2) (-2.5,-1) (-2, 0) (-1.25,.25) (-1,.75) (-1, 1) (-1, 2) (1,2) (1,1.25) (1,1)} node[above right] {$\mathcal{C}\subseteq\mathcal{L}$};
+		\end{tikzpicture}
+	\end{center}
+	\begin{center}
+		\begin{tikzpicture}
+			\matrix (A) [matrix of nodes, row sep=.5cm]
+			{ 
+				&$\set{\vec{u}_1,\vec{u}_2,\vec{u}_3}$&\\
+				\color{gray!50}$\set{\vec{u}_1,\vec{u}_2}$&$\set{\vec{u}_1,\vec{u}_3}$&\color{gray!50}$\set{\vec{u}_2,\vec{u}_3}$\\
+				$\set{\vec{u}_1}$& \color{gray!50}$\set{\vec{u}_2}$ &\color{gray!50}$\set{\vec{u}_3}$\\
+				& $\varnothing$ &\\
+			};
+			\draw (A-4-2)--(A-3-1);
+			\draw[gray!50] (A-4-2)--(A-3-2);
+			\draw[gray!50] (A-4-2)--(A-3-3);
+			\draw[gray!50] (A-3-1)--(A-2-1);
+			\draw (A-3-1)--(A-2-2);
+			\draw[gray!50] (A-3-2)--(A-2-1);
+			\draw[gray!50] (A-3-2)--(A-2-3);
+			\draw[gray!50] (A-3-3)--(A-2-2);
+			\draw[gray!50] (A-3-3)--(A-2-3);
+			\draw[gray!50] (A-2-1)--(A-1-2);
+			\draw (A-2-2)--(A-1-2);
+			\draw[gray!50] (A-2-3)--(A-1-2);
+			\node[draw=none, below=.25cm of A] {\small Upper Bound \(U=\bigcup_{S\in\mathcal{C}}S\)};
+			\node[blue] at (0,2.5) {\small $U=\varnothing\cup\set{\vec{u}_1}\cup\set{\vec{u}_1,\vec{u}_3}\cup\set{\vec{u}_1,\vec{u}_2,\vec{u}_3}$};
+		\end{tikzpicture}\hspace{40pt}
+		\begin{tikzpicture}
+			\matrix (A) [matrix of nodes, row sep=.5cm]
+			{ 
+				&\color{red}$\set{\vec{u}_1,\vec{u}_2,\vec{u}_3}$&\\
+				\color{gray!50}$\set{\vec{u}_1,\vec{u}_2}$&$\set{\vec{u}_1,\vec{u}_3}$&\color{gray!50}$\set{\vec{u}_2,\vec{u}_3}$\\
+				$\set{\vec{u}_1}$& \color{gray!50}$\set{\vec{u}_2}$ &\color{gray!50}$\set{\vec{u}_3}$\\
+				& $\varnothing$ &\\
+			};
+			\draw (A-4-2)--(A-3-1);
+			\draw[gray!50] (A-4-2)--(A-3-2);
+			\draw[gray!50] (A-4-2)--(A-3-3);
+			\draw[gray!50] (A-3-1)--(A-2-1);
+			\draw (A-3-1)--(A-2-2);
+			\draw[gray!50] (A-3-2)--(A-2-1);
+			\draw[gray!50] (A-3-2)--(A-2-3);
+			\draw[gray!50] (A-3-3)--(A-2-2);
+			\draw[gray!50] (A-3-3)--(A-2-3);
+			\draw[gray!50] (A-2-1)--(A-1-2);
+			\draw (A-2-2)--(A-1-2);
+			\draw[gray!50] (A-2-3)--(A-1-2);
+			\node[draw=none, below=.25cm of A] {\small Maximal element $\mathcal{B}=\set{\vec{u}_1,\vec{u}_2,\vec{u}_3}$};
+		\end{tikzpicture}
+	\end{center}	
+\end{observation}
+
+\newpage
+\thmbox[$\star$ Basis Theorem $\star$]{\begin{theorem*}
+		Every vector space $V$ over a field $F$ has a basis.
+\end{theorem*}}
+\begin{proof}
+	\ \begin{flushleft}\color{red}
+		\textbf{Key Idea}: ``By considering all linearly independent subsets of \(V\) and partially ordering them by inclusion, we use \underline{Zorn's Lemma} to guarantee a maximal linearly independent set exists.''
+	\end{flushleft}
+		\begin{enumerate}[Step 1]
+				\item \textbf{Definition of Poset.}
+				Define the set \[
+				\mathcal{L}:=\set{S\subseteq V:\text{$S$ is linearly independent}}.
+				\] with the partial order $\preceq$ on $\mathcal{L}$ by set inclusion: \[
+				\forall S,T\in\mathcal{L},\quad S\preceq T\iff S\subseteq T.
+				\] Since $\varnothing\in\mathcal{L}$, we have $\mathcal{L}\neq\varnothing$. Thus, $(\mathcal{L},\subseteq)$ forms a poset.
+				\item \textbf{Chains and Upper Bounds.}
+				Let $\mathcal{C}\subseteq\mathcal{L}$ be any chain, \ie, \[
+				\forall S,T\in\mathcal{C},\quad S\subseteq T\ \text{or}\ T\subseteq S.
+				\] Now, we need to find an upper bound $U\in\mathcal{L}$ of $\mathcal{C}$. Define \[
+				U:=\bigcup_{S\in\mathcal{C}}S.
+				\] Clearly, $U\subseteq V$. We claim that $U$ is linearly independent, \ie, $U\in\mathcal{L}$:
+				\begin{enumerate}
+						\item[] (\textit{Proof of $U\in\mathcal{L}$})\quad Let $n\in\N$ and suppose \[
+						a_1\vec{u}_1+a_2\vec{u}_2+\cdots+a_n\vec{u}_n=0\quad\text{with}\ a_i\in F, \vec{u}_i\in U\ \text{for}\ i=1,2,\dots,n.
+						\] Since $U=\bigcup_{S\in\mathcal{C}}S$, \[
+						\vec{u}_i\in U\iff \exists S_i\in\mathcal{C}\ \text{such that}\ \vec{u}_i\in S_i
+						\] for each $i\in\set{1,2,\dots,n}$. Since $\mathcal{C}$ is a chain (totally ordered by inclusion), the sets $S_1,S_2,\dots,S_n$ are comparable. Therefore, there exists at least one set $S^*\in\mathcal{C}$ such that \[
+						(\forall i\in\set{1,2,\dots,n},\ \vec{u}_i\in S^*)\quad\ie,\quad\set{\vec{u}_1,\vec{u}_2,\dots,\vec{u}_n}\subseteq S^*.
+						\] Since $S^*$ is an element of $\mathcal{C}$ (and $\mathcal{C}\subseteq\mathcal{L}$, where every element is linearly independent), the linear independence of $S^*$ implies that \[
+						a_1=a_2=\cdots=a_n=0.
+						\] Thus, $U$ is linearly independent, \ie, $U\in\mathcal{L}$.
+					\end{enumerate}
+				By definition of $U$, we know \[
+				\forall S\in\mathcal{C},\ S\subseteq U,
+				\] and so $U\in\mathcal{L}$ be an upper bound of $\mathcal{C}$.
+				\item \textbf{Application of Zorn's Lemma.}
+				
+				Since every chain $\mathcal{C}$ in $\mathcal{L}$ has an upper bound $U\in\mathcal{L}$, Zorn's Lemma guarantees the existence of a maximal element $\mathcal{B}\in\mathcal{L}$ such that \[
+				\forall S\in\mathcal{L},\ (\mathcal{B}\subseteq S)\implies (\mathcal{B}=S),\quad\ie,\quad\nexists S\in\mathcal{L}\ \text{with}\ \mathcal{B}\subseteq S.
+				\]
+				\item \textbf{$\mathcal{B}$ is a Basis of $V$.}
+				
+				We now show that $\mathcal{B}$ spans $V$, \ie, $\Span\mathcal{B}=V$. Assume, for contradiction, that \[
+				\Span\mathcal{B}\neq V,\quad\ie,\quad\exists\vec{v}_0\in V\setminus\Span\mathcal{B}.
+				\] Consider \[
+				\mathcal{B}'=\mathcal{B}\cup\set{\vec{v}_0}.
+				\] We NTS that $\mathcal{B}'$ is linearly independent. Suppose that for $n\in\N$, scalars $a_0,a_1,\cdots,a_n\in F$ and distinct vectors $\vec{v}_0,\vec{b}_1,\vec{b}_2,\cdots,\vec{b}_n\in\mathcal{B}'$, the followings holds: \[
+				a_0\vec{v}_0+(a_1\vec{b}_1+a_2\vec{b}_2+\cdots+a_n\vec{b}_n)=0.
+				\] \begin{enumerate}[(\text{Case} I)]
+						\item If $a_0=0$, then \[
+						a_1\vec{b}_1+a_2\vec{b}_2+\cdots+a_n\vec{b}_n=0
+						\] and since $\mathcal{B}$ is linearly independent, $a_i=0$ for $i=1,2,\dots, n$.
+						\item If $a_0\neq 0$, then \[
+						\vec{v}_0=-\frac{1}{a_0}(a_1\vec{b}_1+a_2\vec{b}_2+\cdots+a_n\vec{b}_n)\in\Span\mathcal{B},
+						\] which contradicts the assumption that $\vec{v}_0\notin\Span\mathcal{B}$.
+					\end{enumerate}
+				Thus, in all cases, \[
+				a_0=a_1=\cdots=a_n=0.
+				\] Hence, $\mathcal{B}'$ is linearly independent, \ie, $\mathcal{B}'\in\mathcal{L}$, and $\mathcal{B}\subseteq\mathcal{B}'$, contradicting the maximality of $\mathcal{B}$.
+			\end{enumerate}
+	
+\end{proof}
+\begin{remark*}
+	This theorem and its proof is a classic demonstration of how abstract set-theoretic principles can yield concrete and essential results in linear algebra.
+\end{remark*}
+\end{document}

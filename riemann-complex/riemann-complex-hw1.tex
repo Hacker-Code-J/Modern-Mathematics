@@ -13,15 +13,29 @@
 \begin{document}
 \pagenumbering{arabic}
 \begin{center}
-	\huge\textbf{Riemann; Complex Analysis}\\
+%	\huge\textbf{Riemann; Complex Analysis}\\
+	\huge\textbf{Multi-variable Calculus}\\
 	\Large - HW1 -\\
 	\vspace{0.5em}
 	\large{Ji, Yong-hyeon}\\
 %	\large{\ttfamily \url{https://github.com/Hacker-Code-J}}\\
 	\vspace{0.5em}
 	\normalsize{\today}\\
-\end{center}
-
+\end{center} \[\boxed{
+\underbrace{f}_{\Omega^0}
+\;\xrightarrow{d}\;
+\underbrace{df}_{\Omega^1}
+\;\longleftrightarrow\;
+\underbrace{\nabla f}_{\substack{\text{gradient}\\\text{vector field}}}
+\quad
+\longrightarrow
+\quad
+\underbrace{\mathbf F}_{(\Omega^0)^m}
+\;\xrightarrow{d}\;
+\underbrace{d\mathbf F}_{\Omega^1\otimes\R^m}
+\;\longleftrightarrow\;
+\underbrace{D\mathbf F}_{\substack{\text{Jacobian}\\\text{matrix}}}}
+\]
 \noindent 
 We cover the following topics in this note.
 \begin{itemize}
@@ -35,258 +49,6 @@ We cover the following topics in this note.
 %\newpage
 
 \newpage
-\section*{Scalar Function and Vector Fields}
-\addcontentsline{toc}{section}{Scalar Function and Vector Fields}
-A \textbf{scalar function} on \(\R^n\) is a real‑valued function of an \(n\)-tuple; that is,
-\[
-f:\R^n\to\R,\quad\vec{x}\mapsto f(\vec{x})=f(x_1,x_2,\dots,x_n).
-%\fullfunction{f}{\R^n}{\R}{\vec{x}}{f(\vec{x})=f(x_1,x_2,\dots,x_n)}
-\] where \(\vec{x}=(x_1,x_2,\dots,x_n)\in\R^n\) and\(f(\vec{x})\in\R\).
-%
-%et \(n=2\).  We exhibit two concrete \emph{scalar functions} on \(\R^2\setminus\{(0,0)\}\):
-%
-%\[
-%\fullfunction{f_1}{\R^2\setminus\{(0,0)\}}{\R}{(x,y)}
-%{f_1(x,y)\;=\;-\,\frac{y}{x^2+y^2}},
-%\qquad
-%\fullfunction{f_2}{\R^2\setminus\{(0,0)\}}{\R}{(x,y)}
-%{f_2(x,y)\;=\;\frac{x}{x^2+y^2}}.
-%\]
-%
-%Here \((x,y)\in\R^2\setminus\{(0,0)\}\) and \(f_i(x,y)\in\R\).  These functions assign to each point of the punctured plane a single real value, in accordance with the definition of a scalar function on \(\R^n\).
-%
-%
-%\noindent\textbf{Polar‐coordinate form.}  Writing 
-%\[
-%x = r\cos\theta,\quad y = r\sin\theta,
-%\quad r>0,\ \theta\in[0,2\pi),
-%\]
-%we obtain the equivalent descriptions in \((r,\theta)\)‐space:
-%
-%\[
-%\fullfunction{f_1}{(0,\infty)\times[0,2\pi)}{\R}{(r,\theta)}
-%{f_1(r,\theta) \;=\; -\,\frac{r\sin\theta}{r^2}
-%	\;=\; -\,\frac{\sin\theta}{r}},
-%\]
-%
-%\[
-%\fullfunction{f_2}{(0,\infty)\times[0,2\pi)}{\R}{(r,\theta)}
-%{f_2(r,\theta) \;=\; \frac{r\cos\theta}{r^2}
-%	\;=\; \frac{\cos\theta}{r}}.
-%\]
-%
-%In this form, the dependence on the angle \(\theta\) and the radial factor \(1/r\) is made explicit.
-%
-%
-%\begin{center}
-%\begin{tikzpicture}[scale=3,>=Stealth]
-%	% Axes
-%	\draw[->] (0,0) -- (1.2,0) node[right] {$x$};
-%	\draw[->] (0,0) -- (0,1.2) node[above] {$y$};
-%	
-%	% Quarter‐circle with color ∝ x = cos(theta)
-%	\foreach \t in {0,5,...,90} {
-%		\pgfmathsetmacro{\tstart}{\t}
-%		\pgfmathsetmacro{\tend}{min(\t+5,90)}            % don’t go past 90°
-%		\pgfmathsetmacro{\mid}{(\tstart+\tend)/2}
-%		% clamp to [0,1]
-%		\pgfmathsetmacro{\col}{max(0,cos(\mid))}        
-%		\draw[line width=1pt, red!\col!black]
-%		({cos(\tstart)},{sin(\tstart)}) 
-%		arc(\tstart:\tend:1);
-%	}
-%	
-%	% orientation arrow
-%	\draw[->, red!80!black, very thick]
-%	(1,0) arc(0:15:1);
-%	
-%	% labels
-%	\node[below right] at (1,0) {$C_1$};
-%	\node[above right] at (0.6,0.6) 
-%	{$\displaystyle\int_{C_1} x\,ds$};
-%\end{tikzpicture}
-%\begin{tikzpicture}[scale=3,>=Stealth]
-%	% Axes
-%	\draw[->] (0,0) -- (1.2,0) node[right] {$x$};
-%	\draw[->] (0,0) -- (0,1.2) node[above] {$y$};
-%	
-%	% Full circle, constant density
-%	\draw[blue!70!black, thick] (0,0) circle (1);
-%	
-%	% Tangent arrows at regular points
-%	\foreach \ang in {0,45,...,315} {
-%		\pgfmathsetmacro{\x}{cos(\ang)}
-%		\pgfmathsetmacro{\y}{sin(\ang)}
-%		% on r=1, F = (−y, x) but for ds we just show tangent dir
-%		\draw[->, thick, blue!70!black]
-%		(\x,\y) -- ++({-0.1*\y},{0.1*\x});
-%	}
-%	
-%	% labels
-%	\node[below right] at (1,0) {$C_2$};
-%	\node[above right] at (0.6,0.6) 
-%	{$\displaystyle\int_{C_2} (x^2+y^2)\,ds =2\pi$};
-%\end{tikzpicture}
-%\end{center}
-%\begin{tikzpicture}[>=Stealth, thick, every label/.style={font=\small}]
-%	
-%	%% Domain: R^2 with unit circle
-%	\begin{scope}
-%		\draw[->] (-1.8,0) -- (1.8,0) node[right] {$x$};
-%		\draw[->] (0,-1.8) -- (0,1.8) node[above] {$y$};
-%		\draw (0,0) circle (1);
-%		\node at (0,-2.1) {$\displaystyle \mathbb{R}^2$};
-%		
-%		% Sample points on circle
-%		\coordinate (P1) at ({cos(60)},{sin(60)});
-%		\fill (P1) circle (1.5pt);
-%		\node[above left] at (P1) 
-%		{$P_1\!\bigl(\tfrac12,\tfrac{\sqrt3}2\bigr)$};
-%		
-%		\coordinate (P2) at ({cos(30)},{sin(30)});
-%		\fill (P2) circle (1.5pt);
-%		\node[below right] at (P2) 
-%		{$P_2\!\bigl(\tfrac{\sqrt3}2,\tfrac12\bigr)$};
-%	\end{scope}
-%	
-%	%% Codomain: R^1 vertical line
-%	\begin{scope}[xshift=6cm]
-%		\draw[->] (0,-1.8) -- (0,1.8) node[above] {$z$};
-%		\foreach \v in {-1,-0.5,0.5,1} {
-%			\draw (-0.1,\v) -- (0.1,\v) node[right] {\(\v\)};
-%		}
-%		\node at (0,-2.1) {$\displaystyle \mathbb{R}^1$};
-%	\end{scope}
-%	
-%	%% Mapping arrows
-%	% f1 at theta=60: z = -sin(60) = -√3/2 ≈ -0.866
-%	\draw[->, blue!70!black, bend left=20] 
-%	(P1) to node[above, sloped] 
-%	{\(\displaystyle f_1(P_1)=-\frac{y}{x^2+y^2}=-\tfrac{\sqrt3}{2}\)} 
-%	(5.0,-0.866);
-%	
-%	% f2 at theta=30: z = cos(30) = √3/2 ≈ 0.866
-%	\draw[->, red!70!black, bend right=20]
-%	(P2) to node[below, sloped]
-%	{\(\displaystyle f_2(P_2)=\frac{x}{x^2+y^2}=\tfrac{\sqrt3}{2}\)}
-%	(5.0,0.866);
-%	
-%\end{tikzpicture}
-%\begin{center}
-	
-%\begin{tikzpicture}[
-%	>=Stealth,
-%	every label/.style={font=\small},
-%	thick
-%	]
-%	
-%	%--- Domain: \mathbb{R}^2 plane ---
-%	\begin{scope}
-%		% axes
-%		\draw[->] (-3,0) -- (3,0) node[right] {$x$};
-%		\draw[->] (0,-3) -- (0,3) node[above] {$y$};
-%		% domain label
-%		\node at (0,-3.5) {$\displaystyle \mathbb{R}^2$};
-%	\end{scope}
-%	
-%	%--- Codomain: \mathbb{R}^1 vertical line ---
-%	\begin{scope}[xshift=8cm]
-%		% vertical axis
-%		\draw[->] (0,-3) -- (0,3) node[above] {$z$};
-%		% ticks
-%		\foreach \v in {-2,-1,1,2} {
-%			\draw (-0.1,\v) -- (0.1,\v) node[right] {\(\v\)};
-%		}
-%		% codomain label
-%		\node at (0,-3.5) {$\displaystyle \mathbb{R}^1$};
-%	\end{scope}
-%	
-%	%--- Mapping arrows with formulas ---
-%	\draw[->] (1.2,2.0) to[out=20,in=160]
-%	node[above,midway] {\(\displaystyle f_1(x,y)=-\frac{y}{x^2+y^2}\)} (8,1.5);
-%	
-%	\draw[->] (-1.2,-2.0) to[out=-20,in=-160]
-%	node[below,midway] {\(\displaystyle f_2(x,y)=\frac{x}{x^2+y^2}\)} (8,-1.5);
-%	
-%\end{tikzpicture}
-	
-\begin{center}
-\begin{minipage}{.49\textwidth}\centering
-\begin{tikzpicture}[>=stealth, scale=.5]
-%	\draw[dashed, gray!20] (-4,-4) grid (4,4);
-% Draw coordinate axes
-\draw[->] (-7.2,0) -- (7.2,0) node[right] {$x$};
-\draw[->] (0,-7.2) -- (0,7.2) node[above] {$y$};
-% Scaling factor for arrow lengths
-\def\scale{1}
-% Loop over integer grid points
-\foreach \X in {-3,-2,-1,0,1,2,3} {
-	\foreach \Y in {-3,-2,-1,0,1,2,3} {
-		% Vector field components F = (vx, vy)
-		\pgfmathsetmacro{\vx}{\X}
-		\pgfmathsetmacro{\vy}{\Y}
-		
-		% Scaled arrow components (so arrows don't overlap too much)
-		\pgfmathsetmacro{\ux}{\scale*\vx}
-		\pgfmathsetmacro{\uy}{\scale*\vy}
-		
-		% Handle the singularity at (0,0)
-		\ifnum\X=0
-		\ifnum\Y=0
-		% Zero vector as a dot
-		\fill (0,0) circle (1.5pt);
-		\else
-		% Non‑zero vector: draw arrow
-		\draw[->, line width=.5mm, blue]
-		(\X,\Y) -- ++(\ux,\uy);
-		\fi
-		\else
-		\draw[->, line width=.5mm, blue]
-		(\X,\Y) -- ++(\ux,\uy);
-		\fi
-	}
-}
-\node[] at (0,-7.8) {The radial field $\textbf{F}=\gen{x,y}=x\textbf{i}+y\textbf{j}$};
-\end{tikzpicture}
-\end{minipage}\hfill
-\begin{minipage}{.49\textwidth}\centering
-\begin{tikzpicture}[>=stealth, scale=.5]
-%	\draw[dashed, gray!20] (-4,-4) grid (4,4);
-% Axes
-\draw[->] (-7.2,0) -- (7.2,0) node[right] {$x$};
-\draw[->] (0,-7.2) -- (0,7.2) node[above] {$y$};
-% Desired arrow length
-\def\arrowlen{1}	
-% Loop over integer grid points
-\foreach \X in {-6,...,-2,-1,0,1,2,...,6} {
-	\foreach \Y in {-6,...,-2,-1,0,1,2,...,6} {
-		% Compute radius r = sqrt(x^2+y^2)
-		\pgfmathsetmacro{\r}{sqrt(\X*\X + \Y*\Y)}
-		
-		\ifdim \r pt=0pt
-		% At (0,0): singularity
-		\fill (0,0) circle (1.5pt);
-		\else
-		% Compute unit‐tangent components then scale
-		\pgfmathsetmacro{\dx}{(-\Y/\r)*\arrowlen}
-		\pgfmathsetmacro{\dy}{(\X/\r)*\arrowlen}
-		
-		% Draw the arrow
-		\draw[->, line width=.5mm, red]
-		(\X,\Y) -- ++(\dx,\dy);
-		\fi
-	}
-}
-\node[] at (0,-7.8) {The spin field $\textbf{F}=(-y\textbf{i}+x\textbf{j})/(x^2+y^2)^{1/2}$};
-\end{tikzpicture}
-\end{minipage}
-\end{center}
-A \textbf{vector field} on \(\R^n\) is a function \[
-\vec{F}:\R^n\to\R^n,\quad \vec{x}\mapsto\vec{F}(\vec{x})=(F_1(\vec{x}),F_2(\vec{x}),\dots,F_n(\vec{x})),
-%\fullfunction{\vec{F}}{\R^n}{\R^n}{\vec{x}}{\vec{F}(\vec{x})	=\bigl(F_1(\vec{x}),\,F_2(\vec{x}),\,\dots,\,F_n(\vec{x})\bigr)},
-\] where each component \(F_i:\R^n\to\R\) is itself a scalar function.
-
-\newpage
 \section*{Line Integrals}
 \addcontentsline{toc}{section}{Line Integrals}
 \subsection*{Line Integral of Scalar Function over Arc Length}
@@ -296,7 +58,7 @@ A \textbf{vector field} on \(\R^n\) is a function \[
 \begin{center}
 	\animateinline[autoplay,loop]{4}% 5 fps
 	\multiframe{\the\NumPagesA}{i=1+1}{%
-		\includegraphics[page=\i,width=.8\textwidth]{../riemann-tikz/secant_line_gif.pdf}%
+		\includegraphics[page=\i,width=.8\textwidth]{riemann-tikz/secant_line_gif.pdf}%
 	}
 	\endanimateinline
 \end{center}
@@ -436,7 +198,7 @@ ds:=d(s(t))=s'(t)\; dt=\norm[0]{\gamma'(t)}\; dt.
 \end{remark*}
 \begin{center}
 \begin{minipage}{.5\textwidth}\centering
-\includegraphics[scale=1.4]{../riemann-tikz/curve_in_3d.pdf}
+\includegraphics[scale=1.4]{riemann-tikz/curve_in_3d.pdf}
 \end{minipage}\hfill
 \begin{minipage}{.49\textwidth}
 $\fullfunction{\vec{r}}{\R}{\R^3}{t}{\vec{r}(t)=\gen{x(t),y(t),z(t)}}$\ \\
@@ -471,7 +233,7 @@ $\R^n$ given by a smooth parameterization: \[
 Let $C$ be a smooth curve parametrized by \[
 \gamma : [a, b] \to \mathbb{R}^2,\quad t\mapsto\gamma(t) = \gen{x(t), y(t)}. 
 \] Let \( \mathbf{F} = \gen{F_1, F_2} \) be a smooth vector field on \( \mathbb{R}^2 \).
-The \textbf{line integral of the vector field} \( \mathbf{F} = (F_1, F_2) \) along the curve \( \gamma \) is defined by \[
+The \textbf{line integral of the vector field} \( \mathbf{F} \) along the curve \( \gamma \) is defined by \[
 \int_C\vec{F}\cdot d\vec{r}=\int_a^b\textbf{F}(\gamma(t))\cdot\gamma'(t)\; dt.
 \] Alternatively, \[
 \int_C\vec{F}\cdot d\vec{r}=\int_C (F_1,F_2)\cdot(dx,dy)=\int_C F_1dx+F_2dy.
@@ -926,100 +688,550 @@ and the curve \( C \) is the unit circle \( x^2 + y^2 = 1 \), traversed counterc
 %	This definition is the standard one found in graduate‐level treatments of differential geometry and vector calculus.
 %\end{remark*}
 
-\paragraph{{\color{magenta}Problem\;\#2} (Surface‐Flux).} 
-%Let \(S\subset\mathbb{R}^3\) be the smooth surface parametrized by  
-%\[
-%\mathbf r\colon [0,1]\times[0,1]\;\longrightarrow\;\mathbb{R}^3,
-%\qquad
-%\mathbf r(u,v)=\bigl(u+2v,\;2u+v,\;3uv\bigr),
-%\]  
-%equipped with the orientation induced by the parametrization (so that the unit normal points in the direction of \(\mathbf r_u\times\mathbf r_v\)).  Let the vector field   \[
-%\mathbf F\colon\mathbb{R}^3\to\mathbb{R}^3,
-%\qquad
-%\mathbf F(x,y,z)=(\,x,\;y,\;-z\,).
-%\]
-%Compute \[
-%\iint_{S}\mathbf F\cdot d\mathbf S.
-%\] 
+\paragraph{{\color{magenta}Problem\;\#2} (Surface‐Flux).} Compute the surface integral
+\[
+\iint_{S} \mathbf{F}\,\cdot\,d\mathbf{S},
+\]
+where $\mathbf{F}(x,y,z)
+= \langle x,\;y,\;-z\rangle$ and the surface \(S\) is parametrized by \[
+\mathbf{r}(u,v) 
+= \langle u + 2v,\;2u + v,\;3uv\rangle,
+\quad (u,v)\in[0,1]\times[0,1].
+\]
 \begin{proof}[\sol]
-\ \\ 
-%We compute in five steps.
-\begin{figure}[h!]\centering
-\includegraphics[scale=1]{../riemann-tikz/problem2_1.pdf}
-\end{figure}
-\begin{figure}[h!]\centering
-\includegraphics[scale=1]{../riemann-tikz/problem2_2.pdf}
-\end{figure}
+%\ \begin{center}
+%\begin{minipage}{.475\textwidth}\centering
+%	\includegraphics[width=.75\textwidth]{riemann-tikz/problem2_1.pdf}
+%\end{minipage}\hfill
+%\begin{minipage}{.475\textwidth}\centering
+%	\includegraphics[width=.75\textwidth]{riemann-tikz/problem2_2_2.pdf}
+%\end{minipage}
+%\end{center}
+\ \begin{enumerate}[\bfseries 1.]
+	\item \textbf{Parametrization and partials.\;} The surface is  
+	\[
+	S=\mathbf r\bigl([0,1]^2\bigr),
+	\qquad
+	\mathbf r(u,v)=(\,u+2v,\;2u+v,\;3uv\,),
+	\]
+	and then \[
+	\mathbf{r}_u = \frac{\partial\mathbf{r}}{\partial u}
+	= \langle 1,\,2,\,3v\rangle,
+	\quad
+	\mathbf{r}_v = \frac{\partial\mathbf{r}}{\partial v}
+	= \langle 2,\,1,\,3u\rangle.
+	\]
+	\begin{center}
+	\begin{tikzpicture}[scale=.7]
+		\begin{axis}[
+			name=plot1,
+			title={$x(u,v) = u+2v$},
+			xlabel={$u$}, ylabel={$v$},
+			width=6cm, height=6cm,
+			view={0}{90}, % Top-down 2D view
+			colorbar
+			]
+			\addplot3[
+			contour filled={number=12},
+			domain=0:1, y domain=0:1
+			] {x + 2*y};
+		\end{axis}
+		
+		\begin{axis}[
+			at=(plot1.right of east), anchor=left of west, xshift=2.2cm,
+			name=plot2,
+			title={$y(u,v) = 2u+v$},
+			xlabel={$u$}, ylabel={$v$},
+			width=6cm, height=6cm,
+			view={0}{90},
+			colorbar
+			]
+			\addplot3[
+			contour filled={number=12},
+			domain=0:1, y domain=0:1
+			] {2*x + y};
+		\end{axis}
+		
+		\begin{axis}[
+			at=(plot2.right of east), anchor=left of west, xshift=2.2cm,
+			title={$z(u,v) = 3uv$},
+			xlabel={$u$}, ylabel={$v$},
+			width=6cm, height=6cm,
+			view={0}{90},
+			colorbar
+			]
+			\addplot3[
+			contour filled={number=12},
+			domain=0:1, y domain=0:1
+			] {3*x*y};
+		\end{axis}
+	\end{tikzpicture}
+	\end{center}
+	\begin{center}
+%	\begin{tikzpicture}[scale=.7]
+%		\begin{axis}[
+%			name=plotA,
+%			title={Surface Colored by $x=u+2v$},
+%			xlabel={$x$}, ylabel={$y$}, zlabel={$z$},
+%			view={185}{30}, colorbar,
+%			width=6cm, height=6cm,			
+%			xmax=2, ymax=2, zmax=1.5,
+%			]
+%			\addplot3[
+%			surf, domain=0:1, y domain=0:1,
+%			variable=\u, variable y=\v,
+%			point meta={\u+2*\v} % Color by x-value
+%			]
+%			({u + 2*v}, {2*u + v}, {3*u*v});
+%		\end{axis}
+%		
+%		\begin{axis}[
+%			at=(plotA.right of east), anchor=left of west, xshift=2.2cm,
+%			name=plotB,
+%			title={Surface Colored by $y=2u+v$},
+%			xlabel={$x$}, ylabel={$y$}, zlabel={$z$},
+%			view={95}{30}, colorbar,
+%			width=6cm, height=6cm,			
+%			xmax=2, ymax=2, zmax=1.5,
+%			]
+%			\addplot3[
+%			surf, domain=0:1, y domain=0:1,
+%			variable=\u, variable y=\v,
+%			point meta={2*\u+\v} % Color by y-value
+%			]
+%			({u + 2*v}, {2*u + v}, {3*u*v});
+%		\end{axis}
+%		
+%		\begin{axis}[
+%			at=(plotB.right of east), anchor=left of west, xshift=2.2cm,
+%			title={Surface Colored by $z=3uv$},
+%			xlabel={$x$}, ylabel={$y$}, zlabel={$z$},
+%			view={125}{30}, colorbar,
+%			width=6cm, height=6cm	,		
+%			xmax=2, ymax=2, zmax=1.5,
+%			]
+%			\addplot3[
+%			surf, domain=0:1, y domain=0:1,
+%			variable=\u, variable y=\v,
+%			point meta={3*\u*\v} % Color by z-value
+%			]
+%			({u + 2*v}, {2*u + v}, {3*u*v});
+%		\end{axis}
+%	\end{tikzpicture}
+	\begin{tikzpicture}[scale=.8]
+		\begin{axis}[
+			title={Surface $\mathbf{r}(u,v)$},
+			xlabel={$x = u+2v$},
+			ylabel={$y = 2u+v$},
+			zlabel={$z = 3uv$},
+			view={125}{30}, % Viewing angle
+			xmin=0, ymin=0, zmin=0, % Set axis limits
+			xmax=1.5, ymax=1.5, zmax=1.5,
+			grid=major,
+%			colormap/viridis
+			colormap/cool
+			]
+			\addplot3[
+			surf,
+			domain=0:1,         % u-range
+			y domain=0:1,       % v-range
+			samples=25,         % #sample
+			variable=\u,        % domain
+			variable y=\v,      % co-domain
+			]
+			({u + 2*v}, {2*u + v}, {3*u*v});
+		\end{axis}
+	\end{tikzpicture}
+	\end{center}
+	\item \textbf{Oriented normal.\;} The induced normal vector is the cross‐product
+	\begin{align*}
+		\mathbf r_u\times \mathbf r_v
+		&=\det\begin{vmatrix}
+			\mathbf i & \mathbf j & \mathbf k\\
+			1 & 2 & 3v\\
+			2 & 1 & 3u
+		\end{vmatrix}\\
+		&=\det\begin{vmatrix}
+			2 & 3v \\ 1 & 3u
+		\end{vmatrix}\textbf{i}-
+		\det\begin{vmatrix}
+			1 & 3v \\ 2 & 3u
+		\end{vmatrix}\textbf{j}+
+		\det\begin{vmatrix}
+			1 & 2 \\ 2 & 1
+		\end{vmatrix}\textbf{k}
+		\\
+		&=\bigl\langle 6u - 3v,\; -3u + 6v,\; -3 \bigr\rangle.
+	\end{align*}
+\end{enumerate}
 
-%1. **Parametrization and partials.**  
-%The surface is  
-%\[
-%S=\mathbf r\bigl([0,1]^2\bigr),
-%\qquad
-%\mathbf r(u,v)=(\,u+2v,\;2u+v,\;3uv\,),
-%\]
-%and hence
-%\[
-%\mathbf r_u=(1,\,2,\,3v),
-%\qquad
-%\mathbf r_v=(2,\,1,\,3u).
-%\]
-%
-%2. **Oriented normal.**  
-%The induced normal vector is the cross‐product
-%\begin{align*}
-%\mathbf r_u\times \mathbf r_v
-%&=\det\begin{vmatrix}
-%	\mathbf i & \mathbf j & \mathbf k\\
-%	1 & 2 & 3v\\
-%	2 & 1 & 3u
-%\end{vmatrix}\\
-%&=\det\begin{vmatrix}
-%	2 & 3v \\ 1 & 3u
-%\end{vmatrix}\textbf{i}-
-%\det\begin{vmatrix}
-%	1 & 3v \\ 2 & 3u
-%\end{vmatrix}\textbf{j}+
-%\det\begin{vmatrix}
-%	1 & 2 \\ 2 & 1
-%\end{vmatrix}\textbf{k}
-%\\
-%&=(6u-3v,\;-3u+6v,\;-3).
-%\end{align*}
-%
-%3. **Pullback of the field.**  
-%The given field is \(\mathbf F(x,y,z)=(x,y,-z)\).  Along the patch,
-%\[
-%\mathbf F\bigl(\mathbf r(u,v)\bigr)
-%=\bigl(u+2v,\;2u+v,\;-3uv\bigr).
-%\]
-%
-%4. **Integrand.**  
-%Taking the dot‐product,
-%\begin{align*}
-%	\mathbf F(\mathbf r)\,\cdot\,(\mathbf r_u\times\mathbf r_v)
-%	&= (u+2v)(6u-3v)\;+\;(2u+v)(-3u+6v)\;+\;(-3uv)(-3)\\
-%	&= 6u^2 -3uv +12uv -6v^2 \;-\;6u^2 +12uv -3uv +6v^2 \;+\;9uv\\
-%	&=(-3uv+12uv+12uv-3uv+9uv)\;=\;27\,u\,v.
-%\end{align*}
-%
-%5. **Double integral.**  
-%Thus the flux is
-%\[
-%\iint_{S}\mathbf F\cdot d\mathbf S
-%\;=\;
-%\iint_{[0,1]^2}27\,u\,v\;du\,dv
-%\;=\;
-%27\int_0^1\!\int_0^1 u\,v\;du\,dv
-%\;=\;
-%27\Bigl(\tfrac12\Bigr)\Bigl(\tfrac12\Bigr)
-%\;=\;\frac{27}{4}.
-%\]
-%
-%Hence  
-%\[
-%\boxed{\iint_{S}\mathbf F\cdot d\mathbf S \;=\;\frac{27}{4}}.
-%\]
+
+\begin{tikzpicture}[scale=1]
+	\begin{axis}[
+%		title={Surface with Normal Vector Field $\mathbf{r}_u \times \mathbf{r}_v$},
+		xlabel={$x$},
+		ylabel={$y$},
+		zlabel={$z$},
+		view={125}{30}, % Set a good viewing angle
+		grid=major,
+		width=12cm,
+		height=12cm,
+		xmax=2, ymax=2, zmax=1.5,
+		z buffer=sort  % Ensures correct 3D layering
+		]
+		% 1. Plot the surface (semi-transparent)
+		\addplot3[
+		surf,
+		domain=0:1,
+		y domain=0:1,
+		samples=25,
+		variable=\u,
+		variable y=\v,
+		colormap/cool,
+		opacity=0.7
+		]
+		({u + 2*v}, {2*u + v}, {3*u*v});
+		
+		% 2. Plot the normal vector field using quiver
+		\addplot3[
+		-stealth, % Adds arrowheads
+		red,
+		samples=7, % Creates a 7x7 grid of vectors
+		domain=0:1,
+		y domain=0:1,
+		variable=\u,
+		variable y=\v,
+		quiver={
+			% Vector components (u,v,w) for the direction
+			u={6*u - 3*v},
+			v={-3*u + 6*v},
+			w={-3},
+			scale arrows=0.05 % Adjusts arrow length for visibility
+		}
+		]
+		% Base point (x,y,z) for each vector
+		({u + 2*v}, {2*u + v}, {3*u*v});
+	\end{axis}
+\end{tikzpicture}
+
+\subsection*{Detailed Justification for \(\mathbf r_u\times\mathbf r_v\) as Surface Normal}
+
+Let 
+\[
+\mathbf r(u,v)=(\,x(u,v),\,y(u,v),\,z(u,v)\,)
+\]
+be a smooth parametrization of a surface patch \(S\subset\R^3\).  Then at each point \((u,v)\), the two tangent vectors
+\[
+\mathbf r_u
+=\frac{\partial\mathbf r}{\partial u}
+\quad\text{and}\quad
+\mathbf r_v
+=\frac{\partial\mathbf r}{\partial v}
+\]
+span the tangent plane to \(S\).  We list the logical steps that show
+\(\mathbf r_u\times\mathbf r_v\)
+is the correct (non-unit) normal vector:
+
+\begin{enumerate}
+	\item \textbf{Tangent plane.}  By definition of partial derivatives,
+	\[
+	\mathbf r_u\;\text{is the velocity of the curve }v=\text{const},
+	\quad
+	\mathbf r_v\;\text{is the velocity of the curve }u=\text{const}.
+	\]
+	Both lie tangent to the surface.
+	
+	\item \textbf{Cross product properties.}  In \(\R^3\), the cross product 
+	\(\mathbf a\times\mathbf b\) satisfies:
+	\[
+	\mathbf a\times\mathbf b
+	\perp \mathbf a,
+	\quad
+	\mathbf a\times\mathbf b
+	\perp \mathbf b,
+	\]
+	and its direction is given by the right-hand rule (orientation of \((\mathbf a,\mathbf b,\mathbf a\times\mathbf b)\)).  Thus
+	\(\mathbf r_u\times\mathbf r_v\)
+	is perpendicular to the tangent plane.
+	
+	\item \textbf{Determinant formula.}  One defines
+	\[
+	\mathbf a\times\mathbf b
+	= \det
+	\begin{pmatrix}
+		\mathbf i & \mathbf j & \mathbf k\\
+		a_1        & a_2        & a_3\\
+		b_1        & b_2        & b_3
+	\end{pmatrix},
+	\]
+	which expands by minors to give the familiar component formula
+	\(\bigl(a_2b_3 - a_3b_2,\; a_3b_1 - a_1b_3,\;a_1b_2 - a_2b_1\bigr)\).
+	
+	\item \textbf{Application to our \(\mathbf r_u,\mathbf r_v\).}  
+	In our case,
+	\[
+	\mathbf r_u=\langle 1,\,2,\,3v\rangle,
+	\quad
+	\mathbf r_v=\langle 2,\,1,\,3u\rangle.
+	\]
+	Plugging into the determinant formula yields
+	\[
+	\mathbf r_u\times\mathbf r_v
+	= 
+	\begin{vmatrix}
+		\mathbf i & \mathbf j & \mathbf k\\
+		1         & 2         & 3v      \\
+		2         & 1         & 3u
+	\end{vmatrix}
+	= \bigl\langle 2\cdot3u-3v\cdot1,\;- (1\cdot3u-3v\cdot2),\;1\cdot1-2\cdot2\bigr\rangle
+	=\langle 6u-3v,\;-3u+6v,\;-3\rangle.
+	\]
+	
+	\item \textbf{Verification of orthogonality.}  One can check directly
+	\[
+	(\mathbf r_u\times\mathbf r_v)\;\cdot\;\mathbf r_u
+	=0,
+	\quad
+	(\mathbf r_u\times\mathbf r_v)\;\cdot\;\mathbf r_v
+	=0,
+	\]
+	confirming it is indeed normal.
+	
+	\item \textbf{Geometric interpretation.}  The magnitude
+	\(\|\mathbf r_u\times\mathbf r_v\|\) equals the area of the parallelogram spanned by \(\mathbf r_u,\mathbf r_v\).  Thus in surface integrals
+	\(\iint_S \mathbf F\cdot d\mathbf S\), one uses
+	\(\mathbf r_u\times\mathbf r_v\,du\,dv\) as the oriented area element.
+	
+\end{enumerate}
+
+\noindent In summary, the cross‐product of the partial derivatives is the unique algebraic construction in \(\R^3\) that (i) is bilinear and alternating, (ii) yields a vector orthogonal to both inputs, and (iii) has magnitude equal to the parallelogram area—exactly capturing the normal and area element needed for surface integrals.
+
+\section*{The Cross Product in \(\R^3\)}
+
+\subsection*{Definition}
+For two vectors
+\[
+\mathbf u = (u_1,u_2,u_3),
+\qquad
+\mathbf v = (v_1,v_2,v_3)
+\]
+in \(\R^3\), their \emph{cross product} \(\mathbf u \times \mathbf v\) is defined to be the vector
+\[
+\mathbf u \times \mathbf v
+=
+\bigl(
+u_2v_3 - u_3v_2,\;
+u_3v_1 - u_1v_3,\;
+u_1v_2 - u_2v_1
+\bigr).
+\]
+Equivalently, if \((\mathbf e_1,\mathbf e_2,\mathbf e_3)\) is the standard basis, one writes formally
+\[
+\mathbf u \times \mathbf v
+= 
+\begin{vmatrix}
+	\mathbf e_1 & \mathbf e_2 & \mathbf e_3\\
+	u_1         & u_2         & u_3         \\
+	v_1         & v_2         & v_3
+\end{vmatrix},
+\]
+meaning “take the determinant by expanding along the first row.”
+
+\subsection*{Key Properties}
+\begin{enumerate}
+	\item \textbf{Bilinearity and Alternation:}
+	\(\mathbf u\times(\mathbf v+\mathbf w)
+	=\mathbf u\times\mathbf v
+	+\mathbf u\times\mathbf w,\)
+	and
+	\(\mathbf u\times\mathbf v = -\,(\mathbf v\times\mathbf u).\)
+	
+	\item \textbf{Perpendicularity:}
+	\(\mathbf u\times\mathbf v\) is orthogonal to both \(\mathbf u\) and \(\mathbf v\):
+	\(\;(\mathbf u\times\mathbf v)\cdot\mathbf u=0\),
+	\((\mathbf u\times\mathbf v)\cdot\mathbf v=0.\)
+	
+	\item \textbf{Magnitude = Area:}
+	\[
+	\|\mathbf u\times\mathbf v\|
+	= \|\mathbf u\|\,\|\mathbf v\|\;\bigl|\sin\theta\bigr|
+	= \text{area of the parallelogram spanned by \(\mathbf u,\mathbf v\)},
+	\]
+	where \(\theta\) is the angle between \(\mathbf u\) and \(\mathbf v\).
+	
+	\item \textbf{Right‐Hand Rule (Orientation):}
+	The triple \((\mathbf u,\mathbf v,\mathbf u\times\mathbf v)\) has the same “right‐hand” orientation as the standard basis \((\mathbf e_1,\mathbf e_2,\mathbf e_3)\).
+\end{enumerate}
+
+\subsection*{Why the Determinant Formula?}
+
+The determinant expression
+\[
+\mathbf u\times\mathbf v
+=\det
+\begin{pmatrix}
+	\mathbf e_1 & \mathbf e_2 & \mathbf e_3\\
+	u_1         & u_2         & u_3         \\
+	v_1         & v_2         & v_3
+\end{pmatrix}
+\]
+is not a literal \(3\times3\) determinant of numbers, but a \emph{mnemonic} encoding exactly those three component‐wise minors which satisfy:
+
+\begin{itemize}
+	\item \emph{Alternation:} Swapping the two rows \((u_i)\) and \((v_i)\) changes the sign of each minor, matching \(\mathbf v\times\mathbf u=-(\mathbf u\times\mathbf v)\).
+	\item \emph{Bilinearity:} Expanding a determinant along the top row is linear in each column.
+	\item \emph{Compatibility with basis:} For the standard basis vectors,
+	\[
+	\mathbf e_1\times\mathbf e_2 = \mathbf e_3,\quad
+	\mathbf e_2\times\mathbf e_3 = \mathbf e_1,\quad
+	\mathbf e_3\times\mathbf e_1 = \mathbf e_2,
+	\]
+	and all others follow by bilinearity and alternation.
+\end{itemize}
+
+Concretely, expanding along the first row gives
+\begin{align*}
+	\mathbf r_u \times \mathbf r_v
+	&=
+	\det
+	\begin{pmatrix}
+		\mathbf i & \mathbf j & \mathbf k\\
+		1         & 2         & 3v\\
+		2         & 1         & 3u
+	\end{pmatrix}\\
+	&=
+	\mathbf i\,(2\cdot3u - 1\cdot3v)
+	-
+	\mathbf j\,(1\cdot3u - 2\cdot3v)
+	+
+	\mathbf k\,(1\cdot1   - 2\cdot2)\\
+	&=
+	\bigl\langle 6u - 3v,\;-3u + 6v,\;-3\bigr\rangle.
+\end{align*}
+
+which reproduces the component‐wise definition above.
+
+\subsection*{Geometric Interpretation via Volumes}
+
+Another way to see the determinant is to note that in \(\R^3\) the scalar triple product
+\(\det[\mathbf u,\mathbf v,\mathbf w]\)
+gives the signed volume of the parallelepiped spanned by \(\mathbf u,\mathbf v,\mathbf w\).  If one fixes \(\mathbf u,\mathbf v\), then the unique vector \(\mathbf n\) satisfying
+\[
+\det[\mathbf u,\mathbf v,\mathbf n] = \|\mathbf u\times\mathbf v\|^2
+\quad\text{and}\quad
+\mathbf n\perp \mathbf u,\mathbf v
+\]
+is precisely \(\mathbf u\times\mathbf v\).  The determinant‐of‐a‐matrix formula encodes that same volume‐and‐orientation condition intrinsically.
+
+\bigskip
+
+\noindent\emph{Conclusion:}  The cross product is the unique bilinear, alternating, oriented map \(\R^3\times\R^3\to\R^3\) whose length measures area; the \(3\times3\) “determinant” notation succinctly packages its component formula and all of its key properties in one place.
+
+
+
+
+
+
+
+
+
+2. **
+
+3. **Pullback of the field.**  
+The given field is \(\mathbf F(x,y,z)=(x,y,-z)\).  Along the patch,
+\[
+\mathbf F\bigl(\mathbf r(u,v)\bigr)
+=\bigl(u+2v,\;2u+v,\;-3uv\bigr).
+\]
+
+4. **Integrand.**  
+Taking the dot‐product,
+\begin{align*}
+	\mathbf F(\mathbf r)\,\cdot\,(\mathbf r_u\times\mathbf r_v)
+	&= (u+2v)(6u-3v)\;+\;(2u+v)(-3u+6v)\;+\;(-3uv)(-3)\\
+	&= 6u^2 -3uv +12uv -6v^2 \;-\;6u^2 +12uv -3uv +6v^2 \;+\;9uv\\
+	&=(-3uv+12uv+12uv-3uv+9uv)\;=\;27\,u\,v.
+\end{align*}
+
+5. **Double integral.**  
+Thus the flux is
+\[
+\iint_{S}\mathbf F\cdot d\mathbf S
+\;=\;
+\iint_{[0,1]^2}27\,u\,v\;du\,dv
+\;=\;
+27\int_0^1\!\int_0^1 u\,v\;du\,dv
+\;=\;
+27\Bigl(\tfrac12\Bigr)\Bigl(\tfrac12\Bigr)
+\;=\;\frac{27}{4}.
+\]
+
+Hence  
+\[
+\boxed{\iint_{S}\mathbf F\cdot d\mathbf S \;=\;\frac{27}{4}}.
+\]
+
+\newpage
+\begin{enumerate}
+	\item Compute the partial derivatives:
+	\[
+	\mathbf{r}_u = \frac{\partial\mathbf{r}}{\partial u}
+	= \langle 1,\,2,\,3v\rangle,
+	\quad
+	\mathbf{r}_v = \frac{\partial\mathbf{r}}{\partial v}
+	= \langle 2,\,1,\,3u\rangle.
+	\]
+	\item Form the cross‑product to get the oriented area element:
+	\[
+	\mathbf{r}_u\times\mathbf{r}_v
+	= 
+	\begin{vmatrix}
+		\mathbf{i} & \mathbf{j} & \mathbf{k} \\
+		1 & 2 & 3v \\
+		2 & 1 & 3u
+	\end{vmatrix}
+	= \bigl\langle 6u - 3v,\; -3u + 6v,\; -3 \bigr\rangle.
+	\]
+	Hence
+	\[
+	d\mathbf{S}
+	= \bigl(\mathbf{r}_u \times \mathbf{r}_v\bigr)\,du\,dv.
+	\]
+	\item Evaluate \(\mathbf{F}\) on the parametrization:
+	\[
+	\mathbf{F}\bigl(\mathbf{r}(u,v)\bigr)
+	= \bigl\langle u+2v,\;2u+v,\;-3uv \bigr\rangle.
+	\]
+	\item Compute the integrand
+	\[
+	\mathbf{F}(\mathbf{r}(u,v))\;\cdot\;(\mathbf{r}_u\times\mathbf{r}_v)
+	= (u+2v)(6u-3v) + (2u+v)(-3u+6v) + (-3uv)(-3).
+	\]
+	Expand term by term:
+	\[
+	(u+2v)(6u-3v) = 6u^2 +9uv -6v^2,
+	\quad
+	(2u+v)(-3u+6v) = -6u^2 +9uv +6v^2,
+	\quad
+	(-3uv)(-3) = 9uv.
+	\]
+	Summing gives
+	\[
+	6u^2+9uv-6v^2 \;+\;(-6u^2+9uv+6v^2)\;+\;9uv
+	= 27\,u v.
+	\]
+	\item Finally integrate over the unit square:
+	\[
+	\iint_{S}\mathbf{F}\cdot d\mathbf{S}
+	= \int_{0}^{1}\!\!\int_{0}^{1} 27\,u v \,du\,dv
+	= 27\;\Bigl(\int_{0}^{1}u\,du\Bigr)\Bigl(\int_{0}^{1}v\,dv\Bigr)
+	= 27\;\Bigl(\tfrac12\Bigr)\Bigl(\tfrac12\Bigr)
+	= \frac{27}{4}.
+	\]
+\end{enumerate}
+
+\medskip
+\noindent\textbf{Answer:}\quad \(\displaystyle \frac{27}{4}.\)
 \end{proof}
 
 %\begin{thebibliography}{9}
@@ -1031,35 +1243,1131 @@ and the curve \( C \) is the unit circle \( x^2 + y^2 = 1 \), traversed counterc
 %	September 11, 2023. URL: \url{https://www.youtube.com/watch?v=zoalSFi1RKo&list=PL4m4z_pFWq2ob-P9m3SQZPyHTaJbbkvdz&index=2}.
 %\end{thebibliography}
 
-%\newpage
-%\appendix
-%\section{Proof of Zorn's Lemma from Axiom of Choice}
-%\thmbox{\begin{theorem*}\hypertarget{zorn}{}
-%The following statements are equivalent: \begin{enumerate}
-%	\item \textbf{Axiom of Choice (AC)}:\quad For every indexed family $\set{S_i}_{i\in I}$ of nonempty sets, there exists a choice function $f:I\to\bigcup_{i\in I}S_i$ such that $f(i)\in X_i$ for all $i\in I$.
-%	\item \textbf{Zorn's Lemma}:\quad If $(P,\preceq)$ is a nonempty partially ordered set in which every chains has an upper bound in $P$, then $P$ contains at least one maximal element.
-%\end{enumerate}
-%\end{theorem*}}
-%\begin{proof}
-%\begin{itemize}
-%	\item[($\Rightarrow$)] $(\textbf{AC}\implies \textbf{ZL})$ Assume that the Axiom of Choice holds.
-%	\begin{enumerate}
-%		\item \textbf{Definition of Poset}
-%		
-%		Let $(P,\preceq)$ be a nonempty partially ordered set with the property that every chain in $P$ has an upper bound in  $P$.
-%		
-%		\item \textbf{Construction of an Extending Function}
-%		
-%		Define the family $\set{\mathcal{C}_i}_{i\in I}$ of chains in $P$. For any chain $\mathcal{C}_i$ that is not maximal with respect to inclusion (\ie, $\exists $), AC guarantees that we can elect an element \[
-%		f(C)
-%		\] 
-%	\end{enumerate}
-%	\item[($\Leftarrow$)] $(\textbf{ZL}\implies \textbf{AC})$ 
-%\end{itemize}
-%\end{proof}
+\newpage
+\appendix
+\textbf{\LARGE\color{titleTealBlue!100!gray}\normalfont\sffamily\bfseries Appendices}
+\section{Function and Derivative}
 
-%\newpage
-%\appendix
-%\section{Differential Geometry}
+\noindent\textbf{1. Single–Variable Function and Derivative.}\;  
+Consider a single-variable function \[
+f:\R\longrightarrow\R,
+\quad
+x\mapsto f(x).
+\]
+Its derivative at \(x\) is the linear map
+\[
+\frac{df}{dx}(x)\;=\;f'(x)\;=\;\lim\limits_{h\to\ 0}\frac{f(x+h)-f(x)}{h}
+\;\in\;\R,
+\]
+characterized by
+\[
+f(x+h)=f(x)+f'(x)\,h+o(h).
+\]
+
+\section*{1. Setup}
+
+Let
+\[
+f:\mathbb{R}\longrightarrow\mathbb{R},
+\qquad
+x\mapsto f(x)
+\]
+be a real–valued function.  We wish to define its derivative at a point $x\in\mathbb{R}$ as the best linear approximation to the increment $f(x+h)-f(x)$.
+
+\section*{2. Linear Approximation with Remainder}
+
+We say $f$ is \emph{differentiable} at $x$ if there exists a real number $A$ and a function $r(h)$ such that
+\begin{equation}\label{eq:lin-approx}
+	f(x+h) \;=\; f(x) \;+\; A\,h \;+\; r(h),
+\end{equation}
+where the remainder $r(h)$ satisfies
+\[
+\lim_{h\to0} \frac{r(h)}{h} = 0.
+\]
+In Landau notation, $r(h)=o(h)$ as $h\to0$.
+
+\section*{3. Definition of the Derivative}
+
+\begin{definition}
+	If \eqref{eq:lin-approx} holds for some real number $A$ and $r(h)=o(h)$, then $f$ is differentiable at $x$, and the \emph{derivative} of $f$ at $x$ is
+	\[
+	f'(x) \;:=\; A.
+	\]
+	Equivalently, the linear map
+	\[
+	T_x\mathbb{R}\cong\mathbb{R}\;\longrightarrow\;T_{f(x)}\mathbb{R}\cong\mathbb{R},
+	\qquad
+	h \;\mapsto\; f'(x)\,h
+	\]
+	is the unique linear approximation to the increment $f(x+h)-f(x)$.
+\end{definition}
+
+\section*{4. Equivalence with the Limit Formulation}
+
+One also defines
+\[
+f'(x) \;=\;\lim_{h\to0}\frac{f(x+h)-f(x)}{h},
+\]
+when this limit exists.  To see that this agrees with the linear–plus–remainder definition:
+\begin{itemize}
+	\item If $f'(x)=A$ and $r(h)=o(h)$ satisfy \eqref{eq:lin-approx}, then
+	\[
+	\frac{f(x+h)-f(x)}{h}
+	= A + \frac{r(h)}{h}
+	\;\longrightarrow\; A,
+	\]
+	since $\displaystyle\lim_{h\to0}\tfrac{r(h)}{h}=0$.
+	\item Conversely, if $\lim_{h\to0}\tfrac{f(x+h)-f(x)}{h}=A$, set
+	$r(h)=f(x+h)-f(x)-A\,h$.  Then
+	\[
+	\frac{r(h)}{h}
+	= \frac{f(x+h)-f(x)}{h} - A
+	\;\longrightarrow\; 0,
+	\]
+	so $r(h)=o(h)$ and \eqref{eq:lin-approx} holds.
+\end{itemize}
+
+\section*{5. Notation $o(h)$}
+
+The notation $r(h)=o(h)$ means
+\[
+\forall\varepsilon>0,\;\exists\delta>0:
+\quad
+0<|h|<\delta
+\;\Longrightarrow\;
+\bigl|r(h)/h\bigr|<\varepsilon.
+\]
+
+\section*{6. Summary}
+
+Thus the derivative $f'(x)$ is the unique scalar $A$ making
+\[
+f(x+h) = f(x) + A\,h + o(h),
+\]
+and equivalently the limit $\displaystyle f'(x)=\lim_{h\to0}\tfrac{f(x+h)-f(x)}{h}$.
+
+
+%\begin{tikzpicture}
+%	% --- Define the point for the tangent line ---
+%	\def\tnot{pi/4} % The point for the tangent line (in radians)
+%	\def\tnotDeg{45} % The same point in degrees for pgfplots
+%	\def\h{1.5}     % The "run" for the slope triangle
+%	
+%	\begin{axis}[
+%		axis lines=center,
+%		xlabel=$t$,
+%		ylabel=$y$,
+%		legend pos=outer north east,
+%		legend cell align={left},
+%		xmin=-0.5, xmax=2*pi+0.5,
+%		ymin=-1.5, ymax=1.5,
+%		xtick={0, pi/2, pi, 3*pi/2, 2*pi},
+%		xticklabels={$0$, $\frac{\pi}{2}$, $\pi$, $\frac{3\pi}{2}$, $2\pi$},
+%		enlarge x limits=0.05,
+%		enlarge y limits=0.1,
+%		clip=false,
+%		]
+%		% --- Plot the function and its derivative ---
+%		% pgfplots uses degrees, so we use sin(x) directly with the default degree-based domain
+%		\addplot[
+%		domain=0:360, samples=200, thick,
+%		blue,
+%		] {sin(x)};
+%		\addlegendentry{$f(t) = \sin(t)$};
+%		
+%		\addplot[
+%		domain=0:360, samples=200, thick,
+%		red,
+%		] {cos(x)};
+%		\addlegendentry{$f'(t) = \cos(t)$};
+%		
+%		% --- Plot the tangent line ---
+%		% y = f(t_0) + f'(t_0) * (t - t_0)
+%		% We use 'x' as the variable for pgfplots, and convert t_0 to degrees
+%		\addplot[
+%		domain=0:2*pi, samples=2, dashed,
+%		black,
+%		] {sin(\tnotDeg) + cos(\tnotDeg)*(x - \tnot)};
+%		\addlegendentry{Tangent at $t=\frac{\pi}{4}$};
+%		
+%		% --- Draw the slope triangle ---
+%		% Coordinates for the triangle
+%		\coordinate (P) at (axis cs:{\tnot}, {sin(\tnotDeg)});
+%		\coordinate (Q) at (axis cs:{\tnot+\h}, {sin(\tnotDeg)});
+%		\coordinate (R) at (axis cs:{\tnot+\h}, {sin(\tnotDeg) + cos(\tnotDeg)*\h});
+%		
+%		\draw[gray, thick] (P) -- (Q) -- (R);
+%		\node[circle, fill=blue, inner sep=1.5pt] at (P) {}; % Point of tangency
+%		
+%		% Labels for the triangle sides
+%		\node[below, font=\small] at (axis cs:{\tnot + \h/2}, {sin(\tnotDeg)}) {$h$};
+%		\node[right, font=\small] at (R) {$f'(t)h = \cos(t)h$};
+%		
+%	\end{axis}
+%\end{tikzpicture}
+\section*{1. Definition Recap}
+
+A function \(f:\mathbb{R}\to\mathbb{R}\) is \emph{differentiable} at \(x\) if there exists a real number \(A\) and a remainder \(r(h)\) such that
+\[
+f(x+h) = f(x) + A\,h + r(h),
+\qquad
+\lim_{h\to0}\frac{r(h)}{h} = 0.
+\]
+In that case \(f'(x)=A\), and \(r(h)=o(h)\).
+
+\section*{2. Example: \(f(t)=\sin t\)}
+
+We check
+\[
+\sin(x+h)\;=\;\sin x + \cos x\,h + r(h).
+\]
+Using the addition formula,
+\begin{align*}
+	\sin(x+h)
+	&= \sin x\cos h + \cos x\sin h\\
+	&= \sin x\Bigl(1 - \tfrac{h^2}{2}+o(h^2)\Bigr)
+	+ \cos x\Bigl(h - \tfrac{h^3}{6}+o(h^3)\Bigr)\\
+	&= \sin x + \cos x\,h
+	\;+\;\Bigl(-\tfrac{\sin x}{2}h^2 + o(h^2)\Bigr).
+\end{align*}
+Thus
+\[
+r(h) = -\tfrac{\sin x}{2}\,h^2 + o(h^2),
+\]
+and
+\[
+\frac{r(h)}{h} = -\tfrac{\sin x}{2}\,h + o(h) \;\xrightarrow[h\to0]{}\;0.
+\]
+Hence \(\sin t\) is differentiable with
+\[
+f'(x) = \cos x,
+\]
+and indeed \(d(\sin t)=\cos t\,dt\).
+
+\section*{3. Example: \(f(t)=\cos t\)}
+
+Similarly,
+\[
+\cos(x+h)\;=\;\cos x - \sin x\,h + r(h).
+\]
+By the addition formula,
+\begin{align*}
+	\cos(x+h)
+	&= \cos x\cos h - \sin x\sin h\\
+	&= \cos x\Bigl(1 - \tfrac{h^2}{2}+o(h^2)\Bigr)
+	- \sin x\Bigl(h - \tfrac{h^3}{6}+o(h^3)\Bigr)\\
+	&= \cos x - \sin x\,h
+	\;+\;\Bigl(-\tfrac{\cos x}{2}h^2 + o(h^2)\Bigr).
+\end{align*}
+Thus
+\[
+r(h) = -\tfrac{\cos x}{2}\,h^2 + o(h^2),
+\]
+and
+\[
+\frac{r(h)}{h} = -\tfrac{\cos x}{2}\,h + o(h) \;\xrightarrow[h\to0]{}\;0.
+\]
+Therefore \(\cos t\) is differentiable with
+\[
+f'(x) = -\sin x,
+\]
+and indeed \(d(\cos t)=-\sin t\,dt\).
+
+\section*{4. Summary}
+
+In both cases we have exhibited the decomposition
+\[
+f(x+h) = f(x) + f'(x)\,h + o(h),
+\]
+with the remainder \(r(h)\) vanishing faster than \(h\).  This formalizes that \(f'(x)\) is the unique scalar making
+\[
+h \;\mapsto\; f'(x)\,h
+\]
+the best linear approximation to the increment \(f(x+h)-f(x)\).
+
+
+\newpage
+\medskip
+
+\noindent\textbf{2. Scalar Function and Gradient}  
+\[
+f:\R^n\longrightarrow\R,
+\quad
+\mathbf x\mapsto f(\mathbf x).
+\]
+Its \emph{gradient} at \(\mathbf x\) is the vector
+\[
+\nabla f(\mathbf x)
+=\begin{pmatrix}
+	\displaystyle\frac{\partial f}{\partial x_1}(\mathbf x)\\[6pt]
+	\displaystyle\frac{\partial f}{\partial x_2}(\mathbf x)\\[4pt]
+	\vdots\\[4pt]
+	\displaystyle\frac{\partial f}{\partial x_n}(\mathbf x)
+\end{pmatrix}
+\;\in\;\R^n,
+\]
+characterized by the first‐order Taylor expansion
+\[
+f(\mathbf x+\mathbf h)
+= f(\mathbf x) \;+\;\nabla f(\mathbf x)\cdot\mathbf h\;+\;o(\|\mathbf h\|).
+\]
+
+\medskip
+
+\noindent\textbf{3. Vector Field and Jacobian (Total Derivative)}  
+\[
+\mathbf F:\R^n\longrightarrow\R^m,
+\quad
+\mathbf x\mapsto \mathbf F(\mathbf x)
+=\begin{pmatrix}F_1(\mathbf x)\\ \vdots\\ F_m(\mathbf x)\end{pmatrix}.
+\]
+Its \emph{Jacobian matrix} (total derivative) at \(\mathbf x\) is
+\[
+D\mathbf F(\mathbf x)
+=\begin{pmatrix}
+	\frac{\partial F_1}{\partial x_1}(\mathbf x) & \cdots & \frac{\partial F_1}{\partial x_n}(\mathbf x)\\[8pt]
+	\vdots & \ddots & \vdots\\[4pt]
+	\frac{\partial F_m}{\partial x_1}(\mathbf x) & \cdots & \frac{\partial F_m}{\partial x_n}(\mathbf x)
+\end{pmatrix}
+\;\in\;\R^{m\times n},
+\]
+characterized by
+\[
+\mathbf F(\mathbf x+\mathbf h)
+= \mathbf F(\mathbf x) \;+\;D\mathbf F(\mathbf x)\,\mathbf h
+\;+\;o(\|\mathbf h\|).
+\]
+
+\medskip
+
+\noindent\textbf{Special Case: \(n=m=3\).}  
+For a vector field \(\mathbf F:\R^3\to\R^3\):
+- The \emph{divergence} is the trace of the Jacobian:  
+\(\;\nabla\!\cdot\!\mathbf F
+= \partial_x F_1 + \partial_y F_2 + \partial_z F_3\).  
+- The \emph{curl} is a new vector field:  
+\(\;\nabla\times\mathbf F
+=\begin{pmatrix}
+	\partial_y F_3 - \partial_z F_2\\
+	\partial_z F_1 - \partial_x F_3\\
+	\partial_x F_2 - \partial_y F_1
+\end{pmatrix}.\)
+
+\bigskip
+
+\noindent\emph{Summary of the Hierarchy:}
+\[
+\underbrace{f'(x)}_{\text{single‐variable derivative}}
+\;\longleftrightarrow\;
+\underbrace{\nabla f(\mathbf x)}_{\substack{\text{gradient of}\\\text{scalar }f}}
+\;\longleftrightarrow\;
+\underbrace{D\mathbf F(\mathbf x)}_{\substack{\text{Jacobian of}\\\text{vector field }\mathbf F}}.
+\]
+
+We summarize the familiar hierarchy
+\[
+\text{single‐variable derivative}
+\;\longleftrightarrow\;
+\text{gradient of a scalar field}
+\;\longleftrightarrow\;
+\text{Jacobian of a vector field}
+\]
+by using the exterior derivative \(d\) on differential forms.
+
+\bigskip
+
+\paragraph{1. Single‐variable case.}
+A smooth function \(f:\R\to\R\) is a \(0\)–form, \(f\in\Omega^0(\R)\).  Its derivative is the \(1\)–form
+\[
+df 
+= f'(x)\,dx
+\;\in\;\Omega^1(\R),
+\]
+and the Fundamental Theorem of Calculus reads
+\(\displaystyle\int_a^b df = f(b)-f(a).\)
+
+\medskip
+
+\paragraph{2. Scalar field in \(\R^n\).}
+A smooth function \(f:\R^n\to\R\) is again a \(0\)–form, \(f\in\Omega^0(\R^n)\).  Its exterior derivative
+\[
+df
+=\sum_{i=1}^n \frac{\partial f}{\partial x_i}\,dx^i
+\;\in\;\Omega^1(\R^n)
+\]
+is the differential \(1\)–form whose components are the partials.  Under the Euclidean metric this \(1\)–form corresponds to the gradient vector field \(\nabla f\).
+
+\medskip
+
+\paragraph{3. Vector field in \(\R^n\).}
+A smooth vector field \(\mathbf F:\R^n\to\R^m\) can be viewed as an \(\R^m\)‐valued \(0\)–form
+\[
+\mathbf F
+=(F_1,\dots,F_m)
+\;\in\;\bigl(\Omega^0(\R^n)\bigr)^m.
+\]
+Applying \(d\) to each component yields the \emph{matrix of \(1\)–forms}
+\[
+d\mathbf F
+=
+\bigl(dF_1,\dots,dF_m\bigr)
+\;\in\;
+\underbrace{\Omega^1(\R^n)\times\cdots\times\Omega^1(\R^n)}_{m\text{ copies}}
+\;\cong\;\Omega^1(\R^n)\otimes\R^m,
+\]
+whose \(i\)th entry is
+\[
+dF_i
+=\sum_{j=1}^n\frac{\partial F_i}{\partial x_j}\,dx^j.
+\]
+Choosing the basis \(\{dx^1,\dots,dx^n\}\) identifies \(d\mathbf F\) with the Jacobian matrix
+\[
+D\mathbf F
+=\bigl[\tfrac{\partial F_i}{\partial x_j}\bigr]_{1\le i\le m,\;1\le j\le n}.
+\]
+
+\bigskip
+
+\noindent\textbf{Summary in One Diagram:}
+\[
+\underbrace{f}_{\Omega^0}
+\;\xrightarrow{d}\;
+\underbrace{df}_{\Omega^1}
+\;\longleftrightarrow\;
+\underbrace{\nabla f}_{\substack{\text{gradient}\\\text{vector field}}}
+\quad
+\longrightarrow
+\quad
+\underbrace{\mathbf F}_{(\Omega^0)^m}
+\;\xrightarrow{d}\;
+\underbrace{d\mathbf F}_{\Omega^1\otimes\R^m}
+\;\longleftrightarrow\;
+\underbrace{D\mathbf F}_{\substack{\text{Jacobian}\\\text{matrix}}}.
+\]
+Each arrow \(d\) is the same exterior derivative, producing higher‐rank forms whose coefficients encode the familiar derivatives.
+
+\section*{From Derivatives to Differentials: A Unified Matrix–Form View}
+
+We compare three levels of maps and their differentials in the language of exterior derivatives and matrices.
+
+\bigskip
+
+\noindent\begin{tabular}{p{3cm}p{4cm}p{8cm}}
+	\hline
+	\textbf{Case} & \textbf{Map} & \textbf{Differential / Matrix Form} \\
+	\hline
+	Single–variable & 
+	\(f:\R\;\longrightarrow\;\R,\;x\mapsto f(x)\) 
+	& 
+	\(\displaystyle 
+	df = f'(x)\,dx
+	\quad\bigl(\in\Omega^1(\R)\bigr)
+	\) 
+	\\[10pt]
+	Scalar field & 
+	\(f:\R^n\;\longrightarrow\;\R,\;\mathbf x\mapsto f(\mathbf x)\) 
+	& 
+	\(\displaystyle
+	df 
+	= \sum_{i=1}^n \frac{\partial f}{\partial x_i}(\mathbf x)\,dx^i
+	\quad\bigl(\in\Omega^1(\R^n)\bigr),
+	\)
+	\[
+	\nabla f(\mathbf x)
+	=\begin{pmatrix}
+		\partial_{1}f\\
+		\vdots\\
+		\partial_{n}f
+	\end{pmatrix}
+	\;\in\;\R^{n\times1}
+	\]
+	\\[14pt]
+	Vector field & 
+	\(\mathbf F:\R^n\;\longrightarrow\;\R^n,\;\mathbf x\mapsto\mathbf F(\mathbf x)\) 
+	& 
+	\(\displaystyle
+	d\mathbf F
+	=\bigl(dF_1,\dots,dF_n\bigr)
+	=\Bigl(\sum_j\partial_jF_i\,dx^j\Bigr)_{i=1}^n
+	\;\in\;\Omega^1(\R^n)\otimes\R^n,
+	\)
+	\[
+	D\mathbf F(\mathbf x)
+	=\begin{pmatrix}
+		\partial_{1}F_1 & \cdots & \partial_{n}F_1\\
+		\vdots          & \ddots & \vdots       \\
+		\partial_{1}F_n & \cdots & \partial_{n}F_n
+	\end{pmatrix}
+	\;\in\;\R^{n\times n}.
+	\]
+	\\
+	\hline
+\end{tabular}
+
+\bigskip
+
+\noindent\textbf{Key points:}
+\begin{itemize}
+	\item In each case, the exterior derivative \(d\) raises the form‐degree by one:
+	\[
+	d:\Omega^0\to\Omega^1,
+	\quad
+	d(f)=df,\quad
+	d(F_i)=dF_i.
+	\]
+	\item For \(f:\R^n\to\R\), \(df\) is a \(1\)–form whose coefficients are the partials \(\partial_i f\).  Under the Euclidean metric these correspond to the gradient vector \(\nabla f\).  
+	\item For \(\mathbf F:\R^n\to\R^n\), applying \(d\) to each component yields the matrix of \(1\)–forms \(d\mathbf F\).  Choosing the basis \(\{dx^j\}\) identifies \(d\mathbf F\) with the Jacobian matrix \(D\mathbf F\), which is the total derivative (linear approximation) of \(\mathbf F\).  
+	\item Thus the familiar hierarchy
+	\[
+	f'(x)
+	\;\longleftrightarrow\;
+	\nabla f(\mathbf x)
+	\;\longleftrightarrow\;
+	D\mathbf F(\mathbf x)
+	\]
+	is simply the degrees–of–freedom of the single exterior derivative \(d\) applied to scalar vs.\ vector‐valued functions, packaged in matrix form.
+\end{itemize}
+
+
+
+
+
+
+
+\newpage
+\section{Scalar Function and Vector Fields}
+\begin{definition*}
+	A \textbf{scalar function} on \(\R^n\) is a real‑valued function of an \(n\)-tuple; that is,
+	\[
+	f:\R^n\to\R,\quad\vec{x}\mapsto f(\vec{x})=f(x_1,x_2,\dots,x_n).
+	%\fullfunction{f}{\R^n}{\R}{\vec{x}}{f(\vec{x})=f(x_1,x_2,\dots,x_n)}
+	\] where \(\vec{x}=(x_1,x_2,\dots,x_n)\in\R^n\) and\(f(\vec{x})\in\R\).
+\end{definition*}
+
+\begin{definition}[Scalar Function]
+	A \emph{scalar function} on \(\R^n\) is a mapping
+	\[
+	f: \R^n \;\longrightarrow\;\R,
+	\qquad
+	\mathbf x=(x_1,\dots,x_n)\;\longmapsto\;f(\mathbf x),
+	\]
+	which assigns to each point \(\mathbf x\in\R^n\) a real value \(f(\mathbf x)\).  If \(f\) has continuous partial derivatives on an open set \(U\subset\R^n\), we write \(f\in C^1(U)\).
+\end{definition}
+\begin{definition*}[Gradient of a Scalar Function]
+	Let \(f\in C^1(U)\) be a scalar function on an open set \(U\subset\R^n\).  Its \emph{gradient} is the vector‐valued function
+	\[
+	\nabla f: U\;\longrightarrow\;\R^n,
+	\qquad
+	\nabla f(\mathbf x)
+	=\begin{pmatrix}
+		\dfrac{\partial f}{\partial x_1}(\mathbf x)\\[6pt]
+		\dfrac{\partial f}{\partial x_2}(\mathbf x)\\[4pt]
+		\vdots\\[4pt]
+		\dfrac{\partial f}{\partial x_n}(\mathbf x)
+	\end{pmatrix}.
+	\]
+	Equivalently, \(\nabla f(\mathbf x)\) is the unique vector in \(\R^n\) satisfying
+	\[
+	df(\mathbf x)[\mathbf h]
+	=\nabla f(\mathbf x)\cdot\mathbf h
+	\quad\text{for all }\mathbf h\in\R^n,
+	\]
+	where \(df(\mathbf x)\) is the differential of \(f\) at \(\mathbf x\).
+\end{definition*}
+
+\begin{remark*}	
+	
+In particular, its differential (or gradient) may be written in matrix (row‐vector) form as
+\[
+\nabla f(\vec{x})
+=\begin{pmatrix}
+	\displaystyle \frac{\partial}{\partial x_1}&
+	\displaystyle \frac{\partial}{\partial x_2}&
+	\cdots&
+	\displaystyle \frac{\partial}{\partial x_n}
+\end{pmatrix}\begin{pmatrix}
+	\displaystyle \frac{\partial f}{\partial x_1}(x)\\ \\
+	\displaystyle \frac{\partial f}{\partial x_2}(x)\\ \\
+	\vdots\\ \\
+	\displaystyle \frac{\partial f}{\partial x_n}(x)
+\end{pmatrix}=\begin{pmatrix}
+	\displaystyle \frac{\partial f}{\partial x_1}(\vec{x})\\ \\
+	\displaystyle \frac{\partial f}{\partial x_2}(\vec{x})\\ \\
+	\vdots\\ \\
+	\displaystyle \frac{\partial f}{\partial x_n}(\vec{x})
+\end{pmatrix}
+\;\in\;\R^{1\times n}.
+\]	
+\end{remark*}
+
+Although \(\nabla f(\mathbf x)\) is \emph{not} the product of a fixed matrix by \(\mathbf x\), the symbol
+\[
+\nabla
+\;=\;
+\begin{pmatrix}
+	\dfrac{\partial}{\partial x_1}\\[6pt]
+	\vdots\\[4pt]
+	\dfrac{\partial}{\partial x_n}
+\end{pmatrix}
+\]
+can itself be viewed as a “column‐vector” whose entries are the partial‐derivative operators.  Then for any scalar function \(f:\R^n\to\R\),
+\[
+\nabla f
+\;=\;
+\begin{pmatrix}
+	\dfrac{\partial}{\partial x_1}\\[6pt]
+	\vdots\\[4pt]
+	\dfrac{\partial}{\partial x_n}
+\end{pmatrix}
+f
+\;=\;
+\begin{pmatrix}
+	\dfrac{\partial f}{\partial x_1}\\[6pt]
+	\vdots\\[4pt]
+	\dfrac{\partial f}{\partial x_n}
+\end{pmatrix},
+\]
+which is exactly the usual gradient.
+
+---
+
+\noindent\textbf{Key point:}  
+- \(\nabla\) itself is an \emph{operator‐valued} vector, not a numeric matrix.  
+- When you write \(\nabla f\), you are applying each row of that “matrix” of operators to the single‐valued function \(f\).  
+- By the same token, for a vector field \(\mathbf F=(F_1,\dots,F_n)^T\), the \emph{Jacobian} can be written symbolically as
+\[
+D\mathbf F(\mathbf x)
+=\begin{pmatrix}
+	\nabla^{\mathsf T}F_1(\mathbf x)\\[4pt]
+	\vdots\\[2pt]
+	\nabla^{\mathsf T}F_n(\mathbf x)
+\end{pmatrix}
+=\begin{pmatrix}
+	\dfrac{\partial}{\partial x_1}&\cdots&\dfrac{\partial}{\partial x_n}
+\end{pmatrix}
+\begin{pmatrix}
+	F_1\\\vdots\\F_n
+\end{pmatrix}.
+\]
+Here the row \(\bigl(\partial_{1},\dots,\partial_{n}\bigr)\) acts on each component \(F_i\).
+
+In this sense, \(\nabla\) really \emph{is} a “matrix” (vector) of operators, whose multiplication by a function or vector field produces the gradient, divergence, curl, or Jacobian, depending on how you contract it.
+
+\paragraph{1. \(\nabla\) is not a “point‐wise” vector in \(\R^n\).}  Rather, 
+\[
+\nabla
+=\begin{pmatrix}
+	\partial_{x_1}\\
+	\partial_{x_2}\\
+	\vdots\\
+	\partial_{x_n}
+\end{pmatrix}
+\]
+is a \emph{vector of differential operators}, each \(\partial_{x_i}\) acting on functions.  It lives in the space of linear maps
+\(\mathrm{Hom}\bigl(C^\infty(\R^n),\,\Omega^1(\R^n)\bigr)\), not in \(\R^n\) itself.  We write it in “vector form” simply to mirror how it acts component‐wise.
+
+\paragraph{2. \(f\) is a scalar field, an element of the function space \(C^\infty(\R^n)\).}  Concretely,
+\[
+f: \R^n\;\longrightarrow\;\R,
+\quad
+\mathbf x\;\longmapsto\;f(\mathbf x).
+\]
+This \(f\) is \emph{not} itself a vector in \(\R^n\); it is a real‐valued function on \(\R^n\).
+
+\paragraph{3. The action \(\nabla f\) produces a genuine vector field.}  When you apply the operator‐vector \(\nabla\) to the scalar \(f\), you get
+\[
+\nabla f
+=\begin{pmatrix}
+	\partial_{x_1}f\\
+	\partial_{x_2}f\\
+	\vdots\\
+	\partial_{x_n}f
+\end{pmatrix},
+\]
+which \emph{is} a true vector‐valued function on \(\R^n\), i.e.\ an element of \(\Omega^1(\R^n)\) or equivalently \((C^\infty(\R^n))^n\).
+
+\medskip
+
+\noindent\textbf{Summary:}
+\begin{itemize}
+	\item \(\nabla\) itself is an \emph{operator} (a “vector” of partial‐derivatives), not a point in physical space.
+	\item \(f\) is a scalar field (a function) on \(\R^n\).
+	\item \(\nabla f\) is the gradient vector field, a bona fide element of \((C^\infty(\R^n))^n\).
+\end{itemize}
+\[
+\nabla f(\mathbf x)
+\;=\;
+\begin{pmatrix}
+	\dfrac{\partial f}{\partial x_1}(\mathbf x)\\[6pt]
+	\dfrac{\partial f}{\partial x_2}(\mathbf x)\\[4pt]
+	\vdots\\[4pt]
+	\dfrac{\partial f}{\partial x_n}(\mathbf x)
+\end{pmatrix}
+\;\in\;\R^{n\times1}.
+\]
+Equivalently, its transpose (the differential) is the \(1\times n\) row‐vector
+\[
+d f(\mathbf x)
+=\nabla f(\mathbf x)^{\mathsf T}
+\;=\;
+\begin{pmatrix}
+	\dfrac{\partial f}{\partial x_1}(\mathbf x)
+	&\dfrac{\partial f}{\partial x_2}(\mathbf x)
+	&\cdots
+	&\dfrac{\partial f}{\partial x_n}(\mathbf x)
+\end{pmatrix}.
+\]
+
+\vfill
+\begin{example*}
+	Let \(n=2\).  We consider two \emph{scalar functions} on \(\R^2\setminus\{(0,0)\}\):
+	\[
+	\fullfunction{f_1}{\R^2\setminus\{(0,0)\}}{\R}{(x,y)}
+	{f_1(x,y)\;=\;-\,\frac{y}{x^2+y^2}},
+	\qquad
+	\fullfunction{f_2}{\R^2\setminus\{(0,0)\}}{\R}{(x,y)}
+	{f_2(x,y)\;=\;\frac{x}{x^2+y^2}}.
+	\]
+	These functions assign to each point of the punctured plane a single real value, in accordance with the definition of a scalar function on \(\R^2\).
+	
+	Writing 
+	\[
+	x = r\cos\theta,\quad y = r\sin\theta,
+	\quad r>0,\ \theta\in[0,2\pi),
+	\]
+	we obtain the equivalent descriptions in \((r,\theta)\)‐space:
+	
+	\[
+	\fullfunction{f_1}{(0,\infty)\times[0,2\pi)}{\R}{(r,\theta)}
+	{f_1(r,\theta) \;=\; -\,\frac{r\sin\theta}{r^2}
+		\;=\; -\,\frac{\sin\theta}{r}},
+	\]
+	
+	\[
+	\fullfunction{f_2}{(0,\infty)\times[0,2\pi)}{\R}{(r,\theta)}
+	{f_2(r,\theta) \;=\; \frac{r\cos\theta}{r^2}
+		\;=\; \frac{\cos\theta}{r}}.
+	\]
+\end{example*}
+	
+%% --- Plot for f_1(x,y) ---
+%\begin{tikzpicture}
+%	\begin{axis}[
+%		title={$f_1(x,y) = -\frac{y}{x^2+y^2}$},
+%		xlabel=$x$,
+%		ylabel=$y$,
+%		zlabel={$z$},
+%		view={120}{60}, % Set viewing angle
+%		colormap/viridis,
+%		colorbar,
+%		zlabel style={rotate=-90},
+%		]
+%		\addplot3[
+%		surf,
+%		shader=interp,
+%		% Use polar coordinates for plotting
+%		% r is the radius, t is the angle in degrees
+%		domain=0.2:2.5,   % Domain for radius r
+%		domain y=0:360,   % Domain for angle t
+%		samples=40,       % Samples along the radius
+%		samples y=81,     % Samples along the angle (odd for seamless closure)
+%		variable=\r,
+%		variable y=\t,
+%		point meta=z,     % Color is determined by z-value
+%		]
+%		({r*cos(t)}, {r*sin(t)}, {-sin(t)/r});
+%	\end{axis}
+%\end{tikzpicture}
+%
+%% --- Plot for f_2(x,y) ---
+%\begin{tikzpicture}
+%	\begin{axis}[
+%		title={$f_2(x,y) = \frac{x}{x^2+y^2}$},
+%		xlabel=$x$,
+%		ylabel=$y$,
+%		zlabel={$z$},
+%		view={120}{60}, % Set viewing angle
+%		colormap/viridis,
+%		colorbar,
+%		zlabel style={rotate=-90},
+%		]
+%		\addplot3[
+%		surf,
+%		shader=interp,
+%		% Use polar coordinates for plotting
+%		% r is the radius, t is the angle in degrees
+%		domain=0.2:2.5,   % Domain for radius r
+%		domain y=0:360,   % Domain for angle t
+%		samples=40,       % Samples along the radius
+%		samples y=81,     % Samples along the angle (odd for seamless closure)
+%		variable=\r,
+%		variable y=\t,
+%		point meta=z,     % Color is determined by z-value
+%		]
+%		({r*cos(t)}, {r*sin(t)}, {cos(t)/r});
+%	\end{axis}
+%\end{tikzpicture}
+\[
+\nabla f(\mathbf x)
+\;=\;
+\begin{pmatrix}
+	\dfrac{\partial f}{\partial x_1}(\mathbf x)\\[6pt]
+	\dfrac{\partial f}{\partial x_2}(\mathbf x)\\[4pt]
+	\vdots\\[4pt]
+	\dfrac{\partial f}{\partial x_n}(\mathbf x)
+\end{pmatrix}
+\;\in\;\R^{n\times1}.
+\]
+Equivalently, its transpose (the differential) is the \(1\times n\) row‐vector
+\[
+d f(\mathbf x)
+=\nabla f(\mathbf x)^{\mathsf T}
+\;=\;
+\begin{pmatrix}
+	\dfrac{\partial f}{\partial x_1}(\mathbf x)
+	&\dfrac{\partial f}{\partial x_2}(\mathbf x)
+	&\cdots
+	&\dfrac{\partial f}{\partial x_n}(\mathbf x)
+\end{pmatrix}.
+\]
+
+
+
+
+
+
+
+
+
+\newpage
+\begin{definition*}
+A \textbf{vector field} on \(\R^n\) is a function \[
+%\vec{F}:\R^n\to\R^n,\quad \vec{x}\mapsto\vec{F}(\vec{x})=(F_1(\vec{x}),F_2(\vec{x}),\dots,F_n(\vec{x})),
+\fullfunction{\vec{F}}{\R^n}{\R^n}{\vec{x}}{
+\vec{F}(\vec{x})=
+\begin{pmatrix}
+	F_1(\vec{x})\\
+	F_2(\vec{x})\\
+	\vdots\\
+	F_n(\vec{x})
+\end{pmatrix}
+%\bigl(F_1(\vec{x}),\,F_2(\vec{x}),\,\dots,\,F_n(\vec{x})\bigr)
+},
+\] where each component \(F_i:\R^n\to\R\) is itself a scalar function.
+\end{definition*}
+\vfill
+\begin{remark*}
+Its Jacobian matrix—which encodes the best linear approximation of \(F\) at each point—is
+\[
+\vec{J}_{\vec{F}}
+=\frac{\partial(F_1,\dots,F_n)}{\partial(x_1,\dots,x_n)}
+=\begin{pmatrix}
+	\displaystyle \frac{\partial F_1}{\partial x_1}(\vec{x})
+	&\displaystyle \frac{\partial F_1}{\partial x_2}(\vec{x})
+	&\cdots
+	&\displaystyle \frac{\partial F_1}{\partial x_n}(\vec{x})\\ \\
+	\displaystyle \frac{\partial F_2}{\partial x_1}(\vec{x})
+	&\displaystyle \frac{\partial F_2}{\partial x_2}(\vec{x})
+	&\cdots
+	&\displaystyle \frac{\partial F_2}{\partial x_n}(\vec{x})\\ \\
+	\vdots & \vdots & \ddots & \vdots\\ \\
+	\displaystyle \frac{\partial F_n}{\partial x_1}(\vec{x})
+	&\displaystyle \frac{\partial F_n}{\partial x_2}(\vec{x})
+	&\cdots
+	&\displaystyle \frac{\partial F_n}{\partial x_n}(\vec{x})
+\end{pmatrix}
+\;\in\;\R^{n\times n}.
+\]
+\end{remark*}
+Let
+\[
+f:\R^n\longrightarrow\R,
+\qquad
+x=(x_1,\dots,x_n)\mapsto f(x_1,\dots,x_n).
+\]
+Its \emph{Jacobian} is the \(1\times n\) matrix whose entries are the first‐order partial derivatives of \(f\).  Concretely,
+\[
+J_f(x)
+=\begin{pmatrix}
+	\dfrac{\partial f}{\partial x_1}(x)
+	&
+	\dfrac{\partial f}{\partial x_2}(x)
+	&
+	\cdots
+	&
+	\dfrac{\partial f}{\partial x_n}(x)
+\end{pmatrix}
+\;\in\;\R^{1\times n}.
+\]
+Equivalently, one writes
+\[
+df(x)
+=\sum_{i=1}^n \frac{\partial f}{\partial x_i}(x)\,dx^i,
+\]
+so that in the basis \(\{dx^1,\dots,dx^n\}\),
+\[
+df(x)
+=\begin{pmatrix}
+	\partial_{1}f(x) & \partial_{2}f(x) & \cdots & \partial_{n}f(x)
+\end{pmatrix}
+\begin{pmatrix}dx^1\\dx^2\\\vdots\\dx^n\end{pmatrix}.
+\]
+
+\bigskip
+
+\noindent\textbf{Examples:}
+\begin{itemize}
+	\item If \(n=2\) and \(f(x,y)=x^2y+e^y\), then
+	\[
+	J_f(x,y)
+	=\begin{pmatrix}
+		\dfrac{\partial}{\partial x}(x^2y+e^y)
+		&\dfrac{\partial}{\partial y}(x^2y+e^y)
+	\end{pmatrix}
+	=\begin{pmatrix}
+		2xy & x^2 + e^y
+	\end{pmatrix}.
+	\]
+	\item If \(n=3\) and \(f(x,y,z)=\sin(xy)+z^3\), then
+	\[
+	J_f(x,y,z)
+	=\bigl(f_x,f_y,f_z\bigr)
+	=\Bigl(y\cos(xy),\;x\cos(xy),\;3z^2\Bigr).
+	\]
+\end{itemize}
+\subsection*{Deriving the Jacobian Matrix from the Gradient}
+
+Let 
+\[
+\vec{F}:\R^n\;\longrightarrow\;\R^n,
+\qquad
+\vec{F}(\vec{x})
+=\bigl(F_1(\vec{x}),\,F_2(\vec{x}),\,\dots,\,F_n(\vec{x})\bigr)^T,
+\]
+where each \(F_i:\R^n\to\R\) is a scalar function.  We will build the \(n\times n\) Jacobian matrix
+\[
+J_F(x)
+=\frac{\partial(F_1,\dots,F_n)}{\partial(x_1,\dots,x_n)},
+\]
+step by step, starting from the familiar gradient of a single scalar function.
+
+\bigskip
+
+\paragraph{1. Gradient of a single scalar function.}  
+If \(f:\R^n\to\R\), then its \emph{gradient} is the column‐vector of partials:
+\[
+\nabla f(x)
+=\begin{pmatrix}
+	\frac{\partial f}{\partial x_1}(x)\\[6pt]
+	\frac{\partial f}{\partial x_2}(x)\\[6pt]
+	\vdots\\[4pt]
+	\frac{\partial f}{\partial x_n}(x)
+\end{pmatrix}
+\;\in\;\R^n.
+\]
+Equivalently, the differential \(df(x)\) is the row‐vector
+\(\bigl(\partial_1 f(x),\dots,\partial_n f(x)\bigr)\in\R^{1\times n}\).
+
+\bigskip
+
+\paragraph{2. View each component \(F_i\) as a scalar function.}  
+Since \(F(x)=(F_1(x),\dots,F_n(x))^T\), we can take the gradient of each \(F_i\):
+\[
+\nabla F_i(x)
+=\begin{pmatrix}
+	\partial_1 F_i(x)\\
+	\partial_2 F_i(x)\\
+	\vdots\\
+	\partial_n F_i(x)
+\end{pmatrix},
+\]
+and the corresponding differential (row) is
+\[
+dF_i(x) = 
+\bigl(\partial_1F_i(x),\,\partial_2F_i(x),\,\dots,\,\partial_nF_i(x)\bigr)
+\;\in\;\R^{1\times n}.
+\]
+
+\bigskip
+
+\paragraph{3. Assemble the Jacobian by stacking these row‐vectors.}  
+By definition, the Jacobian \(J_F(x)\) is the matrix whose \(i\)th row is \(dF_i(x)\).  Thus
+\[
+J_F(x)
+=\begin{pmatrix}
+	dF_1(x)\\[6pt]
+	dF_2(x)\\[6pt]
+	\vdots\\[4pt]
+	dF_n(x)
+\end{pmatrix}
+=
+\begin{pmatrix}
+	\partial_1F_1(x) & \partial_2F_1(x) & \cdots & \partial_nF_1(x)\\[8pt]
+	\partial_1F_2(x) & \partial_2F_2(x) & \cdots & \partial_nF_2(x)\\[8pt]
+	\vdots           & \vdots           & \ddots & \vdots\\[4pt]
+	\partial_1F_n(x) & \partial_2F_n(x) & \cdots & \partial_nF_n(x)
+\end{pmatrix}.
+\]
+
+\bigskip
+
+\paragraph{4. Interpretation as the linear approximation.}  
+For a small increment \(h\in\R^n\),
+\[
+F(x+h)
+=F(x) + J_F(x)\,h + o(\|h\|),
+\]
+so \(J_F(x)\) is exactly the matrix representing the derivative (total differential) of the vector field \(F\) at \(x\).
+
+\bigskip
+
+\noindent\emph{Summary:}  
+- The gradient \(\nabla f\) of a scalar \(f\) is a single column of partial derivatives.  
+- For a vector field \(F=(F_1,\dots,F_n)\), we take gradients of each component \(F_i\).  
+- Stacking these gradients (as row‐vectors) produces the Jacobian matrix \(J_F\).  
+
+This construction ensures that \(J_F(x)\) captures all first‐order variations of the vector field in every coordinate direction.
+
+\[
+\underbrace{
+	\begin{bmatrix}
+		\displaystyle \frac{\partial \mathbf f}{\partial x_1}
+		& \cdots
+		& \displaystyle \frac{\partial \mathbf f}{\partial x_n}
+	\end{bmatrix}
+}_{\text{``row'' of partials of the vector field}}
+\;=\;
+\underbrace{
+	\begin{bmatrix}
+		\nabla^{\mathsf T}f_1 \\[6pt]
+		\vdots\\[2pt]
+		\nabla^{\mathsf T}f_m
+	\end{bmatrix}
+}_{\substack{\text{stacked transposed}\\\text{gradients of each component}}}
+\;=\;
+\underbrace{
+	\begin{bmatrix}
+		\dfrac{\partial f_1}{\partial x_1} & \cdots & \dfrac{\partial f_1}{\partial x_n}\\[8pt]
+		\vdots                              & \ddots & \vdots\\[4pt]
+		\dfrac{\partial f_m}{\partial x_1} & \cdots & \dfrac{\partial f_m}{\partial x_n}
+	\end{bmatrix}
+}_{\text{the usual Jacobian matrix of } \mathbf f = (f_1,\dots,f_m)^\mathsf T.}
+\]
+\[
+\vec F:\R^n\longrightarrow\R^n,
+\qquad
+\vec F(\vec x)
+=\begin{pmatrix}
+	F_1(\vec x)\\[4pt]
+	F_2(\vec x)\\[2pt]
+	\vdots\\[2pt]
+	F_n(\vec x)
+\end{pmatrix},
+\quad
+F_i:\R^n\to\R\ (\text{scalar functions}).
+\]
+Then the \emph{Jacobian matrix} \(D\vec F(\vec x)\) is obtained by taking the gradient of each component \(F_i\) and stacking them as rows:
+\[
+D\vec F(\vec x)
+=\begin{pmatrix}
+	\nabla^{\mathsf T}F_1(\vec x)\\[6pt]
+	\nabla^{\mathsf T}F_2(\vec x)\\[2pt]
+	\vdots\\[2pt]
+	\nabla^{\mathsf T}F_n(\vec x)
+\end{pmatrix}
+=
+\begin{pmatrix}
+	\displaystyle \frac{\partial F_1}{\partial x_1}(\vec x)
+	&\displaystyle \frac{\partial F_1}{\partial x_2}(\vec x)
+	&\cdots
+	&\displaystyle \frac{\partial F_1}{\partial x_n}(\vec x)\\[10pt]
+	\displaystyle \frac{\partial F_2}{\partial x_1}(\vec x)
+	&\displaystyle \frac{\partial F_2}{\partial x_2}(\vec x)
+	&\cdots
+	&\displaystyle \frac{\partial F_2}{\partial x_n}(\vec x)\\[10pt]
+	\vdots & \vdots & \ddots & \vdots\\[6pt]
+	\displaystyle \frac{\partial F_n}{\partial x_1}(\vec x)
+	&\displaystyle \frac{\partial F_n}{\partial x_2}(\vec x)
+	&\cdots
+	&\displaystyle \frac{\partial F_n}{\partial x_n}(\vec x)
+\end{pmatrix}.
+\]
+Each row \(\nabla^{\mathsf T}F_i(\vec x)\) is the transpose of the gradient of the scalar function \(F_i\).
+
+\vfill
+\begin{example*}
+\ \begin{center}
+\begin{minipage}{.49\textwidth}\centering
+\begin{tikzpicture}[>=stealth, scale=.5]
+	%	\draw[dashed, gray!20] (-4,-4) grid (4,4);
+	% Draw coordinate axes
+	\draw[->] (-7.2,0) -- (7.2,0) node[right] {$x$};
+	\draw[->] (0,-7.2) -- (0,7.2) node[above] {$y$};
+	% Scaling factor for arrow lengths
+	\def\scale{1}
+	% Loop over integer grid points
+	\foreach \X in {-3,-2,-1,0,1,2,3} {
+		\foreach \Y in {-3,-2,-1,0,1,2,3} {
+			% Vector field components F = (vx, vy)
+			\pgfmathsetmacro{\vx}{\X}
+			\pgfmathsetmacro{\vy}{\Y}
+			
+			% Scaled arrow components (so arrows don't overlap too much)
+			\pgfmathsetmacro{\ux}{\scale*\vx}
+			\pgfmathsetmacro{\uy}{\scale*\vy}
+			
+			% Handle the singularity at (0,0)
+			\ifnum\X=0
+			\ifnum\Y=0
+			% Zero vector as a dot
+			\fill (0,0) circle (1.5pt);
+			\else
+			% Non‑zero vector: draw arrow
+			\draw[->, line width=.5mm, blue]
+			(\X,\Y) -- ++(\ux,\uy);
+			\fi
+			\else
+			\draw[->, line width=.5mm, blue]
+			(\X,\Y) -- ++(\ux,\uy);
+			\fi
+		}
+	}
+	\node[] at (0,-7.8) {The radial field $\textbf{F}=\gen{x,y}=x\textbf{i}+y\textbf{j}$};
+\end{tikzpicture}
+\end{minipage}\hfill
+\begin{minipage}{.49\textwidth}\centering
+\begin{tikzpicture}[>=stealth, scale=.5]
+	%	\draw[dashed, gray!20] (-4,-4) grid (4,4);
+	% Axes
+	\draw[->] (-7.2,0) -- (7.2,0) node[right] {$x$};
+	\draw[->] (0,-7.2) -- (0,7.2) node[above] {$y$};
+	% Desired arrow length
+	\def\arrowlen{1}	
+	% Loop over integer grid points
+	\foreach \X in {-6,...,-2,-1,0,1,2,...,6} {
+		\foreach \Y in {-6,...,-2,-1,0,1,2,...,6} {
+			% Compute radius r = sqrt(x^2+y^2)
+			\pgfmathsetmacro{\r}{sqrt(\X*\X + \Y*\Y)}
+			
+			\ifdim \r pt=0pt
+			% At (0,0): singularity
+			\fill (0,0) circle (1.5pt);
+			\else
+			% Compute unit‐tangent components then scale
+			\pgfmathsetmacro{\dx}{(-\Y/\r)*\arrowlen}
+			\pgfmathsetmacro{\dy}{(\X/\r)*\arrowlen}
+			
+			% Draw the arrow
+			\draw[->, line width=.5mm, red]
+			(\X,\Y) -- ++(\dx,\dy);
+			\fi
+		}
+	}
+	\node[] at (0,-7.8) {The spin field $\textbf{F}=(-y\textbf{i}+x\textbf{j})/(x^2+y^2)^{1/2}$};
+\end{tikzpicture}
+\end{minipage}
+\end{center}
+\end{example*}
+
 
 \end{document}

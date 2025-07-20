@@ -1,0 +1,300 @@
+% !TeX program = pdflatex
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{geometry}
+\geometry{left=30mm,right=30mm,top=30mm,bottom=30mm}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{adjustbox}
+
+% Theorem environments
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+\newtheorem{example}{Example}[section]
+\theoremstyle{remark}
+\newtheorem*{remark}{Remark}
+
+\title{Big-Number Arithmetic: HW1}
+\author{Ji, Yonghyeon}
+\date{\today}
+\renewcommand{\emph}[1]{\textbf{#1}}
+\begin{document}
+\maketitle
+\tableofcontents
+%	\begin{abstract}
+%		This article presents a fully formal symbolic framework for hexadecimal
+%		addition and subtraction.  We introduce precise definitions, detail the
+%		carry and borrow mechanisms via modular arithmetic, and provide
+%		penetrating worked examples.  A set of rigorous exercises concludes
+%		the treatment, suitable for graduate-level study and publication.
+%	\end{abstract}
+%	\section{Introduction}
+%	In computational number theory and computer science, arithmetic in bases
+%	other than ten is ubiquitous.  In particular, base--16, or \emph{hexadecimal},
+%	offers a compact representation of binary data.  This article develops
+%	a rigorous, symbolic foundation for hexadecimal addition and
+%	subtraction, suitable for inclusion in a graduate-level mathematics text.
+\newpage
+\section{Preliminaries}
+\begin{definition}[Hexadecimal Expansion]
+	A \emph{hexadecimal integer} of length $n$ is any element
+	\[
+	A \;=\;\sum_{i=0}^{n-1} a_i\,16^i,\quad a_i\in\{\texttt{0},\texttt{1},\texttt{2},\dots,\texttt{9},\texttt{A},\dots,\texttt{F}\}.
+	\]
+	We denote $A$ in radix--16 by $(a_{n-1}\dots a_1 a_0)_{16}$.
+\end{definition}
+
+\section{Addition}
+\subsection{Algorithmic Formulation}
+\begin{definition}[Hexadecimal Addition]
+	Let \[
+	A=\sum_{i=0}^{n-1} a_i\,16^i,\quad B=\sum_{i=0}^{n-1} b_i\,16^i,
+	\] with $a_i,b_i\in\{\texttt{0},\dots,\texttt{F}\}$.  Define the recurrence: \[
+	r_i= a_i + b_i + c_{i-1},\quad c_{-1}=0,
+	\] and set \[
+	s_i = r_i\bmod 16,\qquad c_i = \left\lfloor\frac{r_i}{16}\right\rfloor,
+	\] for $i=0,1,\dots,n-1$.  Then \[
+	A+B = \sum_{i=0}^{n-1} s_i\,16^i + c_n\,16^{n},
+	\]
+	expressed as the $(n+1)$--digit hexadecimal
+	$(c_n\, s_{n-1}\dots s_1 s_0)_{16}$.
+\end{definition}
+\vfill
+\subsection{Examples}
+\begin{example}[Addition of $\texttt{F4C3}_{16}$ and $\texttt{2B7D}_{16}$]
+	Let \[
+	A=\texttt{F4C3}_{16},\quad B=\texttt{2B7D}_{16},\quad n=3.
+	\] Compute: 
+	\begin{center}
+	\begin{minipage}{.45\textwidth} 
+	\adjustbox{scale=1, center}{
+		\begin{tabular}{|l|l|l|c|c|c|}
+			\multicolumn{1}{l}{\ } & \multicolumn{1}{c}{\texttt{1}} & \multicolumn{1}{c}{\texttt{1}} & \multicolumn{1}{c}{\texttt{1}} & \multicolumn{1}{c}{\texttt{1}} & \multicolumn{1}{c}{\color{red}0} \\ \cline{3-6}
+			\multicolumn{2}{l}{\ } & \multicolumn{1}{|c|}{\texttt{F}} & \texttt{4} & \texttt{C} & \texttt{3} \\ \cline{3-6}
+			\multicolumn{2}{l}{$+$} & \multicolumn{1}{|c|}{\texttt{2}} & \texttt{B} & \texttt{7} & \texttt{D} \\
+			\specialrule{1pt}{2pt}{1pt}
+			\hline
+			\multicolumn{1}{l}{\ } & \multicolumn{1}{|c|}{\texttt{1}} & \multicolumn{1}{|c|}{\texttt{2}} & \texttt{0} & \texttt{4} & \texttt{0} \\ \cline{2-6}
+			%		\hspace{.5cm} & \hspace{.5cm} & \hspace{.5cm} & \hspace{.5cm} & \multicolumn{2}{c|}{$a_0b_0$} \\ \hline
+			%		& & & \multicolumn{2}{c|}{$a_1b_0$} & \\ \hline
+			%		& & \multicolumn{2}{c|}{$a_2b_0$} & \hspace{.5cm} & \hspace{.5cm} \\ \hline\hline
+			%		& & & \multicolumn{2}{c|}{$a_0b_1$} & \\ \hline
+			%		& & \multicolumn{2}{c|}{$a_1b_1$} & & \\ \hline
+			%		& \multicolumn{2}{c|}{$a_2b_1$} & & & \\ \hline\hline
+			%		& & \multicolumn{2}{c|}{$a_0b_2$} & & \\ \hline
+			%		& \multicolumn{2}{c|}{$a_1b_2$} & & & \\ \hline
+			%		\multicolumn{2}{|c|}{$a_2b_2$} & & & & \\ \hline
+	\end{tabular}}	
+	\end{minipage}
+	\begin{minipage}{.45\textwidth} \[
+	\begin{array}{c|cccc}
+		i & 0 & 1 & 2 & 3 \\ \hline
+		a_i & 3 & \mathrm{C} & 4 & \mathrm{F} \\
+		b_i & \mathrm{D} & 7 & \mathrm{B} & 2 \\
+		c_{i-1} & 0 & 1 & 1 & 1 \\
+		r_i=a_i+b_i+c_{i-1} & 16 & 20 & 16 & 18 \\
+		s_i=r_i\bmod16 & 0 & 4 & 0 & 2 \\
+		c_i=\lfloor r_i/16\rfloor & 1 & 1 & 1 & 1
+	\end{array}\]
+	\end{minipage}
+	\end{center}
+	Since $c_3=1$, one obtains \[
+	\texttt{F4C3}_{16}+\texttt{2B7D}_{16} = \texttt{12040}_{16}.
+	\]
+\end{example}
+
+\newpage
+\begin{example}[Addition of $\texttt{C0FFEE}_{16}$ and $\texttt{1BADF00D}_{16}$]
+	Pad to $n=7$ by writing \[
+	A = \texttt{00\,C0\,FF\,EE}_{16},\quad B = \texttt{1B\,AD\,F0\,0D}_{16}.
+	\]
+	Compute for $i=0,\dots,7$: 
+	\begin{center}
+	\begin{minipage}{.475\textwidth}\centering
+	\adjustbox{scale=1, center}{
+		\begin{tabular}{|l|l|l|l|l|l|c|c|c|}
+			\multicolumn{1}{l}{\ } & \multicolumn{1}{c}{\texttt{0}} & \multicolumn{1}{c}{\texttt{1}} & \multicolumn{1}{c}{\texttt{1}} & \multicolumn{1}{c}{\texttt{1}} & \multicolumn{1}{c}{\texttt{0}} & \multicolumn{1}{c}{\texttt{0}} & \multicolumn{1}{c}{\texttt{1}} & \multicolumn{1}{c}{\color{red}0} \\ \cline{4-9}
+			\multicolumn{3}{l}{\ } & \multicolumn{1}{|l}{\texttt{C}} & \multicolumn{1}{|c|}{\texttt{0}} & \multicolumn{1}{|c|}{\texttt{F}} & \texttt{F} & \texttt{E} & \texttt{E} \\ \cline{2-9}
+			\multicolumn{1}{l}{$+$} & \multicolumn{1}{|c|}{\texttt{1}} & \multicolumn{1}{|c|}{\texttt{B}} & \texttt{A} & \texttt{D} & \texttt{F} & \texttt{0} & \texttt{0} & \texttt{D} \\
+			\specialrule{1pt}{2pt}{1pt}
+			\hline
+			\multicolumn{1}{l}{\ } & \multicolumn{1}{|c|}{\texttt{1}} & \multicolumn{1}{|c|}{\texttt{C}} & \texttt{6} & \texttt{E} & \texttt{E} & \texttt{F} & \texttt{F} & \texttt{B} \\ \cline{2-9}
+			%		\hspace{.5cm} & \hspace{.5cm} & \hspace{.5cm} & \hspace{.5cm} & \multicolumn{2}{c|}{$a_0b_0$} \\ \hline
+			%		& & & \multicolumn{2}{c|}{$a_1b_0$} & \\ \hline
+			%		& & \multicolumn{2}{c|}{$a_2b_0$} & \hspace{.5cm} & \hspace{.5cm} \\ \hline\hline
+			%		& & & \multicolumn{2}{c|}{$a_0b_1$} & \\ \hline
+			%		& & \multicolumn{2}{c|}{$a_1b_1$} & & \\ \hline
+			%		& \multicolumn{2}{c|}{$a_2b_1$} & & & \\ \hline\hline
+			%		& & \multicolumn{2}{c|}{$a_0b_2$} & & \\ \hline
+			%		& \multicolumn{2}{c|}{$a_1b_2$} & & & \\ \hline
+			%		\multicolumn{2}{|c|}{$a_2b_2$} & & & & \\ \hline
+	\end{tabular}}
+	\end{minipage}\hfill
+	\begin{minipage}{.475\textwidth} \[
+	\begin{array}{c|cccccccc}
+		i & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 \\ \hline
+		a_i & \mathrm{E} & \mathrm{E} & \mathrm{F} & \mathrm{F} & 0 & \mathrm{C} & 0 & 0 \\
+		b_i & \mathrm{D} & 0 & 0 & \mathrm{F} & \mathrm{D} & \mathrm{A} & \mathrm{B} & 1 \\
+		c_{i-1} & 0 & 1 & 0 & 0 & 1 & 0 & 1 & 0 \\
+		r_i & 27 & 15 & 15 & 30 & 14 & 22 & 12 & 1 \\
+		s_i = r_i \bmod 16 & \mathrm{B} & \mathrm{F} & \mathrm{F} & \mathrm{E} & \mathrm{E} & 6 & \mathrm{C} & 1 \\
+		c_i = \lfloor r_i/16\rfloor & 1 & 0 & 0 & 1 & 0 & 1 & 0 & 0
+		\end{array}\]
+	\end{minipage}
+	\end{center}
+	Thus \[
+	\texttt{C0FFEE}_{16} + \texttt{1BADF00D}_{16} = \texttt{1C6EEFFB}_{16}.
+	\]
+\end{example}
+
+\section{Subtraction}
+\subsection{Algorithmic Formulation}
+\begin{definition}[Hexadecimal Subtraction]
+	Let \[
+	A=\sum_{i=0}^{n-1} a_i\,16^i,\quad B=\sum_{i=0}^{n-1} b_i\,16^i,
+	\] with $a_i,b_i\in\{\texttt{0},\dots,\texttt{F}\}$.  Define the recurrence: \[
+	r_i = a_i - b_i - d_{i-1},\quad d_{-1}=0,
+	\] and set \[
+	t_i = r _i \bmod 16,\qquad
+	d_i = 
+	\begin{cases}
+		1, & r_i < 0,\\
+		0, & r_i \ge 0.
+	\end{cases}\]
+	Then \[
+	A - B = \sum_{i=0}^{n-1} t_i\,16^i \;-\; d_n\,16^{\,n+1}.
+	\]
+\end{definition}
+
+\subsection{Examples}
+\begin{example}[Subtraction of $\texttt{A5B2}_{16}$ and $\texttt{3C7F}_{16}$]
+	Let
+	\[
+	A = \texttt{A5B2}_{16},\quad B = \texttt{3C7F}_{16},\quad n=3.
+	\]
+	Compute:
+\begin{center}
+	\begin{minipage}{.475\textwidth}\centering
+	\adjustbox{scale=1, center}{
+		\begin{tabular}{|l|l|c|c|c|}
+			\multicolumn{1}{l}{\ } & \multicolumn{1}{c}{1} & \multicolumn{1}{c}{\texttt{0}} & \multicolumn{1}{c}{\texttt{1}} & \multicolumn{1}{c}{\color{red}0} \\ \cline{2-5}
+			\multicolumn{1}{l}{\ } & \multicolumn{1}{|c|}{\texttt{A}} & \texttt{5} & \texttt{B} & \texttt{2} \\ \cline{2-5}
+			\multicolumn{1}{l}{$-$}  & \multicolumn{1}{|c|}{\texttt{3}} & \texttt{C} & \texttt{7} & \texttt{F} \\
+			\specialrule{1pt}{2pt}{1pt}
+			\hline
+			\multicolumn{1}{l}{$+$} & \multicolumn{1}{|c|}{\texttt{6}} & \texttt{9} & \texttt{3} & \texttt{3} \\ \cline{2-5}
+	\end{tabular}}
+	\end{minipage}\hfill
+	\begin{minipage}{.475\textwidth} 	\[
+		\begin{array}{c|cccc}
+			i & 0 & 1 & 2 & 3 \\ \hline
+			a_i & 2 & B & 5 & A \\
+			b_i & F & 7 & C & 3 \\
+			d_{i-1} & 0 & 1 & 0 & 1 \\
+			r_i = a_i - b_i - d_{i-1} & -13 & 3 & -7 & 6 \\
+			t_i = r_i\bmod16 & 3 & 3 & 9 & 6 \\
+			d_i = \mathbf{1}_{r_i<0} & 1 & 0 & 1 & 0
+		\end{array}
+		\]
+	\end{minipage}
+\end{center}
+	Hence
+	\[
+	\texttt{A5B2}_{16} - \texttt{3C7F}_{16} = \texttt{6933}_{16}.
+	\]
+\end{example}
+\newpage
+\begin{example}[Subtraction of $\texttt{DEAD}_{16}$ and $\texttt{BEEF}_{16}$]
+	Let \[
+	A = \texttt{DEAD}_{16},\quad B = \texttt{BEEF}_{16},\quad n=3.
+	\]
+	Compute: 
+\begin{center}
+	\begin{minipage}{.475\textwidth}\centering
+		\adjustbox{scale=1, center}{
+			\begin{tabular}{|l|l|c|c|c|}
+				\multicolumn{1}{l}{\ } & \multicolumn{1}{c}{1} & \multicolumn{1}{c}{\texttt{1}} & \multicolumn{1}{c}{\texttt{1}} & \multicolumn{1}{c}{\color{red}0} \\ \cline{2-5}
+				\multicolumn{1}{l}{\ } & \multicolumn{1}{|c|}{\texttt{D}} & \texttt{E} & \texttt{A} & \texttt{D} \\ \cline{2-5}
+				\multicolumn{1}{l}{$-$}  & \multicolumn{1}{|c|}{\texttt{B}} & \texttt{E} & \texttt{E} & \texttt{F} \\
+				\specialrule{1pt}{2pt}{1pt}
+				\hline
+				\multicolumn{1}{l}{$+$} & \multicolumn{1}{|c|}{\texttt{1}} & \texttt{F} & \texttt{B} & \texttt{E} \\ \cline{2-5}
+		\end{tabular}}
+	\end{minipage}\hfill
+	\begin{minipage}{.475\textwidth} 	\[
+		\begin{array}{c|cccc}
+			i & 0 & 1 & 2 & 3 \\ \hline
+			a_i & D & A & E & D \\
+			b_i & F & E & E & B \\
+			d_{i-1} & 0 & 1 & 1 & 1 \\
+			r_i = a_i - b_i - d_{i-1} & -2 & -5 & -1 & 1 \\
+			t_i = r_i\bmod16 & E & B & F & 1 \\
+			d_i = \mathbf{1}_{r_i<0} & 1 & 1 & 1 & 0
+		\end{array}
+		\]
+	\end{minipage}
+\end{center}
+	Hence \[
+	\texttt{DEAD}_{16} - \texttt{BEEF}_{16} = \texttt{1FBE}_{16}.
+	\]
+\end{example}
+
+%\begin{example}[Subtraction of $\texttt{1BADF00D}_{16}$ and $\texttt{C0FFEE}_{16}$]
+%	Let
+%	\[
+%	A = \texttt{1BADF00D}_{16},\quad B = \texttt{C0FFEE}_{16},\quad n=7.
+%	\]
+%	Compute for $i=0,\dots,7$:
+%\begin{center}
+%	\begin{minipage}{.475\textwidth}\centering
+%		\adjustbox{scale=1, center}{
+%			\begin{tabular}{|l|l|c|c|c|}
+%				\multicolumn{1}{l}{\ } & \multicolumn{1}{c}{1} & \multicolumn{1}{c}{\texttt{1}} & \multicolumn{1}{c}{\texttt{1}} & \multicolumn{1}{c}{\color{red}0} \\ \cline{2-5}
+%				\multicolumn{1}{l}{\ } & \multicolumn{1}{|c|}{\texttt{D}} & \texttt{E} & \texttt{A} & \texttt{D} \\ \cline{2-5}
+%				\multicolumn{1}{l}{$-$}  & \multicolumn{1}{|c|}{\texttt{B}} & \texttt{E} & \texttt{E} & \texttt{F} \\
+%				\specialrule{1pt}{2pt}{1pt}
+%				\hline
+%				\multicolumn{1}{l}{$+$} & \multicolumn{1}{|c|}{\texttt{1}} & \texttt{F} & \texttt{B} & \texttt{E} \\ \cline{2-5}
+%		\end{tabular}}
+%	\end{minipage}\hfill
+%	\begin{minipage}{.475\textwidth} 	\[
+%		\begin{array}{c|cccccccc}
+%			i & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 \\ \hline
+%			a_i & D & 0 & 0 & F & F & D & A & 1 \\
+%			b_i & E & E & F & F & 0 & C & 0 & 0 \\
+%			d_{i-1} & 0 & 1 & 1 & 1 & 1 & 1 & 1 & 1 \\
+%			r_i & -1 & -2 & -2 & -1 & 15 & 1 & 10 & 0 \\
+%			t_i = r_i\bmod16 & F & E & E & F & F & 1 & A & 0 \\
+%			d_i & 1 & 1 & 1 & 1 & 0 & 0 & 0 & 0
+%		\end{array}
+%		\]
+%	\end{minipage}
+%\end{center}
+%	Thus
+%	\[
+%	\texttt{1BADF00D}_{16} - \texttt{C0FFEE}_{16} = \texttt{1AECF01F}_{16}.
+%	\]
+%\end{example}
+
+\section{Exercises}
+%	Compute each of the following in radix--16, presenting full detail of
+%	carry or borrow steps:
+\begin{enumerate}
+	\item $\texttt{A5B2}_{16} + \texttt{C3F9}_{16}$
+	\item $\texttt{7D3E}_{16} + \texttt{1A4C}_{16}$
+	\item $\texttt{F4C3}_{16} + \texttt{2B7D}_{16}$
+	\item $\texttt{9AFE}_{16} + \texttt{65B1}_{16}$
+	\item $\texttt{BEEF}_{16} + \texttt{DEAD}_{16}$
+	\item $\texttt{C0FFEE}_{16} + \texttt{1BADF00D}_{16}$
+	\item $\texttt{F4C3}_{16} - \texttt{2A9D}_{16}$
+	\item $\texttt{A5B2}_{16} - \texttt{3C7F}_{16}$
+	\item $\texttt{DEAD}_{16} - \texttt{BEEF}_{16}$
+	\item $\texttt{1BADF00D}_{16} - \texttt{C0FFEE}_{16}$
+	\item $\texttt{7D3E}_{16} - \texttt{1A4C}_{16}$
+	\item $\texttt{9AFE}_{16} - \texttt{65B1}_{16}$
+\end{enumerate}
+
+\end{document}
