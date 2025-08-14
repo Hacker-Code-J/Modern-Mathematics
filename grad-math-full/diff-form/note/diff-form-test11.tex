@@ -1,0 +1,85 @@
+\documentclass[12pt]{article}
+\usepackage{amsmath, amssymb}
+\usepackage{geometry}
+\usepackage{tikz}
+\usepackage{mathtools}
+\usetikzlibrary{arrows.meta, calc, decorations.markings}
+\geometry{margin=1in}
+
+\title{1-Form as Scalar Projection onto a Tangent Line}
+\date{}
+\begin{document}
+\maketitle
+
+\section*{Setup}
+
+Consider the smooth curve \( C \subseteq \mathbb{R}^2 \) defined by
+\[
+C = \{ (x, y) \in \mathbb{R}^2 \mid y = x^2 \},
+\]
+and let \( f(x) = x^2 \), so that \( f'(x) = 2x \). Let
+\[
+p = (1.5, f(1.5)) = (1.5, 2.25),
+\]
+with tangent vector at \( p \):
+\[
+\vec{v} = \left\langle 1, f'(1.5) \right\rangle = \left\langle 1, 3 \right\rangle.
+\]
+Hence the tangent space at \( p \) is
+\[
+T_pC = \text{span} \left\{ \langle 1, 3 \rangle \right\}.
+\]
+
+We define a differential 1-form \( \omega \in \Omega^1(\mathbb{R}^2) \) corresponding to the scalar projection onto \( \vec{v} \):
+\[
+\omega = \frac{1}{\sqrt{10}}(dx + 3\, dy).
+\]
+
+This 1-form evaluates, for any \( \vec{w} \in T_p\mathbb{R}^2 \), the scalar projection of \( \vec{w} \) onto the direction of \( \vec{v} \).
+
+\section*{Visualization of Geometry}
+\begin{center}
+\begin{tikzpicture}[scale=2, >=Latex]	
+	% Axes
+	\draw[->] (-0.2,0) -- (2.8,0) node[right] {\(x\)};
+	\draw[->] (0,-0.2) -- (0,5) node[above] {\(y\)};
+	\draw[dashed,gray!50] (0,0) grid (3,5);
+	
+	% Curve y = x^2
+	\draw[domain=-1:2.5, smooth, thick, blue] plot(\x,{(\x)*(\x)}) node[above right] {\(C: y = x^2\)};
+	
+	% Point p = (1.5, 2.25)
+	\coordinate (P) at (1.5,2.25);
+	\filldraw[black] (P) circle (1.5pt) node[left] {\(p = (1.5, 2.25)\)};
+	
+	% Tangent vector <1,3> at p
+	\coordinate (V) at (1.5+1,2.25+3);
+	\draw[->, line width=.5mm, red] (P) -- (V) node[right] {\(\vec{v} = \langle 1, f'(x) \rangle_{p} =\langle 1, 2x \rangle_{p}= \langle 1, 3 \rangle\)};
+	
+	% Dashed tangent line
+	\draw[thick, magenta] ($(P)+(-1,-3)$) -- ($(P)+(1.2,3.6)$);
+	
+	% Arbitrary vector w
+	\coordinate (W) at ($(P)+(2,1)$);
+	\draw[->, thick, teal] (P) -- (W) node[above left] {\(\vec{w}\)};
+	
+	% Projection of w onto v
+	\coordinate (Proj) at ($(P)+(0.48,1.44)$);
+	\draw[dotted] (W) -- (Proj);
+	\draw[->, thick, purple] (P) -- (Proj) node[below right] {\(\text{proj}_{\vec{v}}(\vec{w})\)};
+	
+	% Label for 1-form
+	\node at (2.2,1.4) {\(\omega = \dfrac{1}{\sqrt{10}}(dx + 3\,dy)\)};	
+\end{tikzpicture}
+\end{center}
+
+\section*{Interpretation}
+
+\begin{itemize}
+	\item The red vector \( \vec{v} = \langle 1, 3 \rangle \) is tangent to the curve \( y = x^2 \) at the point \( p = (1.5, 2.25) \).
+	\item The vector \( \vec{w} \in T_p\mathbb{R}^2 \) is arbitrary.
+	\item The projection \( \text{proj}_{\vec{v}}(\vec{w}) \) shows the scalar component of \( \vec{w} \) in the direction of \( \vec{v} \).
+	\item The 1-form \( \omega \) returns the component of any input vector along the line in the direction of \( \vec{v} \), normalized by \( \|\vec{v}\| = \sqrt{10} \).
+\end{itemize}
+	
+\end{document}

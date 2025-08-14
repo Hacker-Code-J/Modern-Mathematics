@@ -1,0 +1,97 @@
+\documentclass[12pt]{article}
+\usepackage{amsmath,amssymb}
+
+\newcommand{\R}{\mathbb{R}}
+\renewcommand{\span}{\text{span}}
+\begin{document}
+	
+	\section*{Lecture Note: 1‐Form via Dot‐Product Projection}
+	
+	\subsection*{1. The Curve and Its Tangent Line}
+	Let 
+	\[
+	C = \bigl\{(x,y)\in\mathbb{R}^2:y = f(x)\bigr\},
+	\]
+	and fix a point \(p = (a,f(a))\in C\).  The ambient tangent plane is 
+	\[
+	T_p\mathbb{R}^2 = \mathrm{span}\{\,\partial_x|_p,\;\partial_y|_p\}
+	\cong\mathbb{R}^2,
+	\]
+	and the curve’s tangent space at \(p\) is the one‐dimensional subspace
+	\[
+	T_pC = \mathrm{span}\bigl\{\,\vec v=(1,f'(a))^T\bigr\}.
+	\]
+	
+	\subsection*{2. Coordinate Charts}
+	\textbf{On \(C\).}  The ambient coordinate projections 
+	\[
+	x,y\;\colon\;\mathbb{R}^2\to\mathbb{R},\qquad
+	x(x,y)=x,\;y(x,y)=y,
+	\]
+	restrict to 
+	\[
+	x|_C\colon C\to\mathbb{R},\quad
+	y|_C\colon C\to\mathbb{R},
+	\]
+	and assemble into the chart
+	\[
+	\Phi_C\colon C \to \mathbb{R}^2,\qquad
+	\Phi_C(p)=\bigl(x|_C(p),\,y|_C(p)\bigr)=(a,f(a)).
+	\]
+	
+	\medskip
+	\textbf{On \(T_pC\).}  The dual projections 
+	\[
+	dx,\,dy\;\colon\;T_p\mathbb{R}^2\to\mathbb{R},
+	\quad
+	dx(v^1,v^2)=v^1,\;
+	dy(v^1,v^2)=v^2,
+	\]
+	when restricted to \(T_pC\), yield
+	\[
+	dx|_{T_pC},\,dy|_{T_pC}
+	\;\colon\;T_pC\to\mathbb{R}.
+	\]
+	Stacking gives the fiber‐chart
+	\[
+	\Phi_{T_pC}\colon T_pC\to\mathbb{R}^2,
+	\qquad
+	\Phi_{T_pC}(v)
+	=\bigl(dx(v),\,dy(v)\bigr).
+	\]
+	In particular, for \(v=t\,(1,f'(a))^T\),
+	\[
+	dx(v)=t,
+	\quad
+	dy(v)=t\,f'(a),
+	\quad
+	\Phi_{T_pC}(v)=\begin{pmatrix}t\\t\,f'(a)\end{pmatrix}.
+	\]
+	
+	\subsection*{3. The Projection 1‐Form}
+	Fix a unit vector 
+	\(\displaystyle \mathbf{u}=(\cos\theta,\sin\theta)\in\mathbb{R}^2.\)
+	Define the differential \(1\)-form
+	\[
+	\omega\;\in\;\Omega^1(C)
+	\]
+	by projecting each tangent vector \(v\in T_pC\subset T_p\R^2\) onto \(\mathbf{u}\):
+	\[
+	\forall\,v\in T_pC:\qquad
+	\omega_p(v)
+	=\langle \mathbf{u},\,v\rangle
+	=\cos\theta\;dx(v)
+	+\sin\theta\;dy(v).
+	\]
+	Linearity in \(v\) and smooth dependence on \(p\) show that \(\omega\) is a smooth
+	section of \(T^*C\).
+	
+	\medskip
+	\textbf{Example.}  For the canonical tangent \(v=(1,f'(a))^T\),
+	\[
+	\omega_p\bigl((1,f'(a))^T\bigr)
+	=\cos\theta\cdot1
+	+\sin\theta\cdot f'(a).
+	\]
+	
+\end{document}

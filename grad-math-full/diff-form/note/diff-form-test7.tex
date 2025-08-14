@@ -1,0 +1,151 @@
+\documentclass[12pt]{article}
+\usepackage{amsmath,amssymb,amsthm, mathtools}
+\usepackage{geometry}
+\geometry{margin=1in}
+\usepackage{hyperref}
+
+\newtheorem{theorem}{Theorem} % Theorem environment with section-wise numbering
+\newtheorem*{theorem*}{Theorem} % Theorem environment with section-wise numbering
+\newtheorem*{lemma*}{Lemma} % Theorem environment with section-wise numbering
+\newtheorem*{proposition*}{Proposition} % Theorem environment with section-wise numbering
+\newtheorem*{corollary*}{Corollary} % Theorem environment with section-wise numbering
+\newtheorem{proposition}[theorem]{Proposition} % Theorem environment with section-wise numbering
+\newtheorem{lemma}[theorem]{Lemma} % Lemma shares the counter with theorem
+\newtheorem{corollary}[theorem]{Corollary} % Corollary shares the counter with theorem
+
+\theoremstyle{definitionstyle}
+\newtheorem{definition}{Definition} % Definition shares the counter with theorem
+\newtheorem{example}{Example} % Example shares the counter with theorem
+\newtheorem{exercise}{{Exercise}} % Example shares the counter with theorem
+\newtheorem{remark}{Remark} % Remark shares the counter with theorem
+\newtheorem*{note}{Note}
+
+\title{Lecture Notes: Coordinates and Differentials on a Plane Curve}
+\author{}
+\date{}
+
+\newcommand{\R}{\mathbb{R}}
+\renewcommand{\span}{\text{span}}
+\begin{document}
+\maketitle
+\section*{Lecture Note: 1-Form as Scalar Projection onto a Fixed Direction}
+
+\subsection*{1. Curve and Its Tangent Line}
+Let 
+\[
+C \;=\;\bigl\{(x,y)\in\R^2\colon y=f(x)\bigr\}
+\]
+be a smooth curve.  Fix a point 
+\[
+p=(a,f(a))\in C
+\]
+and write the tangent direction at \(p\) as
+\[
+\vec v
+=\begin{pmatrix}1\\ f'(a)\end{pmatrix}\in T_p\R^2.
+\]
+Then the one–dimensional tangent space is
+\[
+T_pC \;=\;\span\{\vec v\}
+\;\subset\;T_p\R^2.
+\]
+
+\subsection*{2. Coordinate System on \(C\)}
+On the ambient plane \(\R^2\) we have the standard projections
+\[
+x,y\;:\;\R^2\longrightarrow\R,
+\qquad
+x(x,y)=x,
+\quad
+y(x,y)=y.
+\]
+Restricting to \(C\) yields two functions
+\[
+x\big|_C\,:\;C\to\R,
+\quad
+y\big|_C\,:\;C\to\R.
+\]
+Define the chart
+\[
+\Phi_C\;:\;C\;\longrightarrow\;\R^2,
+\qquad
+\Phi_C(p)=\bigl(x|_C(p),\,y|_C(p)\bigr)=(a,f(a)).
+\]
+
+\subsection*{3. Coordinate Projections on \(T_pC\)}
+At each \(p\in C\), the ambient tangent plane is
+\[
+T_p\R^2
+=\span\bigl\{\partial_x|_p,\;\partial_y|_p\bigr\}
+\;\cong\;\R^2.
+\]
+Its dual coordinates are
+\[
+dx,\,dy\;:\;T_p\R^2\to\R,
+\qquad
+dx\bigl((v^1,v^2)^T\bigr)=v^1,
+\quad
+dy\bigl((v^1,v^2)^T\bigr)=v^2.
+\]
+Restrict these to the line \(T_pC=\span\{(1,f'(a))^T\}\) to obtain
+\[
+dx\big|_{T_pC},\;dy\big|_{T_pC}
+\;:\;
+T_pC\;\longrightarrow\;\R.
+\]
+Stacking gives the fiber–chart
+\[
+\Phi_{T_pC}\;:\;T_pC\;\longrightarrow\;\R^2,
+\qquad
+\Phi_{T_pC}(v)
+=\begin{pmatrix}
+	dx(v)\\[4pt]
+	dy(v)
+\end{pmatrix}.
+\]
+Concretely, if \(v=t\,(1,f'(a))^T\in T_pC\), then
+\[
+dx(v)=t,
+\quad
+dy(v)=t\,f'(a),
+\quad
+\Phi_{T_pC}(v)
+=\begin{pmatrix}t\\[3pt]t\,f'(a)\end{pmatrix}.
+\]
+
+\subsection*{4. The 1-Form of Scalar Projection}
+Fix a unit direction
+\[
+\mathbf{u}=(\cos\theta,\sin\theta)\;\in\;\R^2.
+\]
+Define a differential \(1\)-form
+\[
+\omega\;\in\;\Omega^1(C)
+\]
+by declaring its action on each tangent vector \(v\in T_pC\subset T_p\R^2\) to be the scalar
+projection onto \(\mathbf{u}\):
+\[
+\forall\,v\in T_pC:\qquad
+\omega_p(v)
+=\langle \mathbf{u},v\rangle
+=\cos\theta\;dx(v)
++\sin\theta\;dy(v).
+\]
+Linearity in \(v\) and smooth dependence on \(p\) show that \(\omega\) is indeed a smooth
+section of the cotangent bundle \(T^*C\).  In particular, for the canonical basis vector
+\(\vec v=(1,f'(a))^T\),
+\[
+\omega_p(\vec v)
+=\cos\theta\cdot 1
++\sin\theta\cdot f'(a).
+\]
+
+\vspace{1ex}\noindent
+\textbf{Abstract Formulation.}  A \emph{differential \(1\)-form} on \(C\) is by definition
+a section \(\omega\in\Gamma(T^*C)\).  The above \(\omega\) arises from the ambient
+inner–product by pulling back the functional \(v\mapsto\langle\mathbf{u},v\rangle\)
+along the inclusion \(T_pC\hookrightarrow T_p\R^2\), thereby encoding the scalar
+projection onto the fixed direction \(\mathbf{u}\) at each point of the curve.
+
+	
+\end{document}

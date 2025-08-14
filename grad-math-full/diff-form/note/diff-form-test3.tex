@@ -1,0 +1,154 @@
+\documentclass[12pt]{article}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{geometry}
+\geometry{margin=1in}
+\usepackage{hyperref}
+%\usepackage{bm}
+
+\numberwithin{equation}{section}
+
+\newtheorem{theorem}{Theorem} % Theorem environment with section-wise numbering
+\newtheorem*{theorem*}{Theorem} % Theorem environment with section-wise numbering
+\newtheorem*{lemma*}{Lemma} % Theorem environment with section-wise numbering
+\newtheorem*{proposition*}{Proposition} % Theorem environment with section-wise numbering
+\newtheorem*{corollary*}{Corollary} % Theorem environment with section-wise numbering
+\newtheorem{proposition}[theorem]{Proposition} % Theorem environment with section-wise numbering
+\newtheorem{lemma}[theorem]{Lemma} % Lemma shares the counter with theorem
+\newtheorem{corollary}[theorem]{Corollary} % Corollary shares the counter with theorem
+
+\theoremstyle{definitionstyle}
+\newtheorem{definition}{Definition} % Definition shares the counter with theorem
+\newtheorem{example}{Example} % Example shares the counter with theorem
+\newtheorem{exercise}{{Exercise}} % Example shares the counter with theorem
+\newtheorem{remark}{Remark} % Remark shares the counter with theorem
+\newtheorem*{note}{Note}
+
+\title{Lecture Note: 1-Form as Scalar Projection onto a Line in \(\R^2\)}
+\author{}
+\date{}
+\newcommand{\R}{\mathbb{R}}
+\begin{document}
+	\maketitle
+	
+	\section{Ambient Space and Tangent Spaces}
+	Let
+	\[
+	\R^2 \;=\;\{\, (x,y) : x,y\in\R\}
+	\]
+	be equipped with the standard basis
+	\[
+	\mathbf{e}_1=(1,0),
+	\quad
+	\mathbf{e}_2=(0,1).
+	\]
+	At any point \(p\in\R^2\), the tangent space is canonically
+	\[
+	T_p\R^2 \;=\;\mathrm{span}\{\mathbf{e}_1,\mathbf{e}_2\}\;\cong\;\R^2.
+	\]
+	We write a general tangent vector at \(p\) as
+	\[
+	v \;=\; v^1\,\mathbf{e}_1 \;+\; v^2\,\mathbf{e}_2,
+	\qquad
+	v^1,v^2\in\R.
+	\]
+	
+	\section{Definition of the Line and Its Unit Direction}
+	Fix a nonzero vector
+	\[
+	\mathbf{w} \;=\;(w_1,w_2)\;\in\;\R^2,
+	\qquad
+	\mathbf{w}\neq(0,0).
+	\]
+	This determines the line
+	\[
+	L \;=\;\mathrm{span}\{\mathbf{w}\}
+	\;\subset\;\R^2.
+	\]
+	Define the unit–direction vector
+	\[
+	\hat{\mathbf{w}}
+	\;=\;
+	\frac{\mathbf{w}}{\|\mathbf{w}\|}
+	\;=\;
+	\frac{1}{\sqrt{w_1^2+w_2^2}}\,(w_1,w_2),
+	\]
+	so that \(\|\hat{\mathbf{w}}\|=1\).
+	
+	\section{Scalar Projection Functional}
+	\begin{definition}
+		The \emph{scalar projection onto the line \(L\)} is the map
+		\[
+		\alpha\colon T_p\R^2\;\longrightarrow\;\R
+		\]
+		given by
+		\[
+		\alpha(v)
+		\;=\;
+		\bigl\langle \hat{\mathbf{w}},\,v\bigr\rangle
+		\;=\;
+		\hat w_1\,v^1 \;+\;\hat w_2\,v^2.
+		\]
+	\end{definition}
+	
+	\begin{lemma}
+		\(\alpha\) is a linear functional on \(T_p\R^2\).  Hence it defines a differential
+		\(1\)--form on \(\R^2\).
+	\end{lemma}
+	
+	\begin{proof}
+		For \(v,v'\in T_p\R^2\) and \(\lambda\in\R\),
+		\[
+		\alpha(v+v')
+		=\bigl\langle\hat{\mathbf{w}},\,v+v'\bigr\rangle
+		=\bigl\langle\hat{\mathbf{w}},\,v\bigr\rangle
+		+\bigl\langle\hat{\mathbf{w}},\,v'\bigr\rangle
+		=\alpha(v)+\alpha(v'),
+		\]
+		\[
+		\alpha(\lambda\,v)
+		=\bigl\langle\hat{\mathbf{w}},\,\lambda\,v\bigr\rangle
+		=\lambda\,\bigl\langle\hat{\mathbf{w}},\,v\bigr\rangle
+		=\lambda\,\alpha(v).
+		\]
+		Thus \(\alpha\in (T_p\R^2)^\ast\).
+	\end{proof}
+	
+	\section{Expression in the Dual Basis}
+	Recall that the dual basis \(\{dx,dy\}\) of \(\{\mathbf{e}_1,\mathbf{e}_2\}\) is defined by
+	\[
+	dx(\mathbf{e}_1)=1,\quad dx(\mathbf{e}_2)=0,
+	\qquad
+	dy(\mathbf{e}_1)=0,\quad dy(\mathbf{e}_2)=1.
+	\]
+	Writing \(v=v^1\mathbf{e}_1+v^2\mathbf{e}_2\), one has
+	\[
+	dx(v)=v^1,
+	\quad
+	dy(v)=v^2.
+	\]
+	Therefore
+	\[
+	\alpha(v)
+	=\hat w_1\,v^1+\hat w_2\,v^2
+	=\hat w_1\,dx(v)+\hat w_2\,dy(v),
+	\]
+	and as a \(1\)--form,
+	\[
+	\boxed{
+		\alpha
+		=\hat w_1\,dx \;+\;\hat w_2\,dy
+		\;=\;
+		\frac{w_1}{\sqrt{w_1^2+w_2^2}}\,dx
+		\;+\;
+		\frac{w_2}{\sqrt{w_1^2+w_2^2}}\,dy.
+	}
+	\]
+	
+	\section*{Interpretation}
+	\begin{itemize}
+		\item \(x,y\colon\R^2\to\R\) are the coordinate functions associated to the ambient basis \((\mathbf e_1,\mathbf e_2)\).
+		\item \(dx,dy\colon T_p\R^2\to\R\) are the dual coordinate functions on each tangent space.
+		\item The 1-form \(\alpha\) is precisely the functional which takes any tangent vector \(v\) and returns its signed scalar projection onto the fixed direction \(\hat{\mathbf w}\).
+	\end{itemize}
+	
+\end{document}

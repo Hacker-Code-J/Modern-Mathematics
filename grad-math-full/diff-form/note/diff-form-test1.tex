@@ -1,0 +1,180 @@
+\documentclass[12pt]{article}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{geometry}
+\geometry{margin=1in}
+\usepackage{hyperref}
+
+\numberwithin{equation}{section}
+
+\newtheorem{theorem}{Theorem} % Theorem environment with section-wise numbering
+\newtheorem*{theorem*}{Theorem} % Theorem environment with section-wise numbering
+\newtheorem*{lemma*}{Lemma} % Theorem environment with section-wise numbering
+\newtheorem*{proposition*}{Proposition} % Theorem environment with section-wise numbering
+\newtheorem*{corollary*}{Corollary} % Theorem environment with section-wise numbering
+\newtheorem{proposition}[theorem]{Proposition} % Theorem environment with section-wise numbering
+\newtheorem{lemma}[theorem]{Lemma} % Lemma shares the counter with theorem
+\newtheorem{corollary}[theorem]{Corollary} % Corollary shares the counter with theorem
+
+\theoremstyle{definitionstyle}
+\newtheorem{definition}{Definition} % Definition shares the counter with theorem
+\newtheorem{example}{Example} % Example shares the counter with theorem
+\newtheorem{exercise}{{Exercise}} % Example shares the counter with theorem
+\newtheorem{remark}{Remark} % Remark shares the counter with theorem
+\newtheorem*{note}{Note}
+
+\title{Coordinate and Tangent‐Space Charts for a Plane Curve}
+\author{}
+\date{}
+\newcommand{\R}{\mathbb{R}}
+\begin{document}
+	\maketitle
+	
+	\section{The Curve as a $1$–Dimensional Submanifold}
+	
+	\begin{definition}
+		Let $f\colon \R \to \R$ be a $C^1$–function.  Its \emph{graph}
+		\[
+		C \;=\;\bigl\{(x,y)\in\R^2 \,\bigm|\, y \;=\; f(x)\bigr\}
+		\]
+		is a $1$–dimensional embedded submanifold of $\R^2\,$.
+	\end{definition}
+	
+	\noindent Fix $a\in\R$ and set 
+	\[
+	p \;=\;(a,f(a)) \;\in\; C.
+	\]
+	
+	\section{Global Coordinate Chart on \(\mathbf{C}\)}
+	
+	\subsection*{6.1. Chart via a Parametrization}
+	
+	Define
+	\[
+	\Phi\;:\;\underbrace{\R}_{\displaystyle U}\;\longrightarrow\;C,
+	\qquad
+	\Phi(t)\;=\;\bigl(t,\,f(t)\bigr).
+	\]
+	\begin{proposition}
+		$\Phi$ is a diffeomorphism from $U=\R$ onto $C$, with inverse
+		\[
+		\Phi^{-1}\;:\;C\;\longrightarrow\;\R,
+		\qquad
+		(x,y)\;\longmapsto\;x.
+		\]
+		Hence $t\in\R$ is a global coordinate on $C$, and every point $p\in C$ admits the unique representation $p=\Phi(t)$.
+	\end{proposition}
+	
+	\begin{proof}
+		$\Phi$ is $C^1$ with Jacobian determinant $1\neq0$, hence a local diffeo; injectivity and surjectivity are immediate from its formula.  The inverse $\Phi^{-1}(x,y)=x$ is $C^1$.
+	\end{proof}
+	
+	\subsection*{6.2.\ Ambient Coordinate Restriction}
+	
+	Equivalently, let
+	\[
+	\pi_i\;:\;\R^2\;\longrightarrow\;\R,\quad
+	\pi_1(x,y)=x,\;\pi_2(x,y)=y.
+	\]
+	Then the pair
+	\[
+	(x,y)\bigl|_C
+	\;=\;
+	(\pi_1,\pi_2)\bigl|_C
+	\;:\;
+	C
+	\;\longrightarrow\;
+	\R^2
+	\]
+	serves as the inclusion of $C$ into its ambient coordinate system, with
+	\[
+	(x,y)\bigl(t,f(t)\bigr)\;=\;(t,f(t)).
+	\]
+	
+	\section{Coordinate Chart on the Tangent Spaces}
+	
+	\subsection*{7.1.\ The Tangent Bundle and Its Trivialization}
+	
+	The tangent bundle of $C$ may be presented via the push–forward
+	\[
+	d\Phi\;:\;
+	TU\;=\;U\times\underbrace{\R}_{\text{model fiber}}
+	\;\longrightarrow\;TC\subset T\R^2,
+	\]
+	where
+	\[
+	d\Phi_{\,t}(\dot t)
+	\;=\;
+	\frac{d}{dt}\Bigl(t,f(t)\Bigr)\Big|_{t}\,\dot t
+	\;=\;
+	\dot t\;\bigl(1,f'(t)\bigr)
+	\;\in\;T_{\,\Phi(t)}C.
+	\]
+	Since $d\Phi_{\,t}$ is a vector‐space isomorphism $\R\to T_{\Phi(t)}C$, this gives a trivialization
+	\[
+	TC \;\cong\; U\times\R,
+	\]
+	and in particular, at $t=a$,
+	\[
+	d\Phi_{\,a}\;:\;
+	\R\;\xrightarrow{\;\sim\;}\;T_{p}C,
+	\qquad
+	\tau\;\longmapsto\;\tau\,(1,f'(a)).
+	\]
+	Thus \(\tau\in\R\) is a \emph{local coordinate} on the fibre \(T_pC\).
+	
+	\subsection*{7.2.\ Cotangent‐Bundle Coordinates}
+	
+	Dually, the ambient projections $\pi_i$ induce
+	\[
+	d\pi_i\;:\;
+	T_{p}\R^2\;\longrightarrow\;\R,
+	\qquad
+	(v_1,v_2)\;\longmapsto\;v_i.
+	\]
+	Restricting to the line $T_pC=\mathrm{span}\{\,(1,f'(a))\}\subset T_p\R^2$ yields a map
+	\[
+	(d\pi_1,d\pi_2)\bigl|_{T_pC}
+	\;:\;
+	T_pC
+	\;\longrightarrow\;
+	\underbrace{\R^2}_{\displaystyle \text{model cotangent fiber}},
+	\]
+	\[
+	v\;\longmapsto\;\bigl(dx(v),\,dy(v)\bigr).
+	\]
+	Again this is injective onto the one‐dimensional subspace $\{(\tau,\;f'(a)\,\tau)\}\subset\R^2$, and projecting to the first factor recovers the scalar coordinate~$\tau$.
+	
+	\section{Coordinate Functions on \(\mathbf{C}\)}
+	
+	\[
+	x\;=\;\pi_1\bigl|_C\;:\;C\longrightarrow\R,
+	\qquad
+	y\;=\;\pi_2\bigl|_C\;:\;C\longrightarrow\R.
+	\]
+	Explicitly,
+	\[
+	x\bigl(\Phi(t)\bigr)=t,
+	\quad
+	y\bigl(\Phi(t)\bigr)=f(t),
+	\]
+	and at $p=\Phi(a)$, $x(p)=a$ and $y(p)=f(a)$.
+	
+	\section{Differentials on the Tangent Space}
+	
+	\[
+	dx\;=\;d\pi_1\bigl|_{T_p\R^2}\;:\;T_p\R^2\to\R,
+	\quad
+	dy\;=\;d\pi_2\bigl|_{T_p\R^2}\;:\;T_p\R^2\to\R,
+	\]
+	\[
+	dx(v_1,v_2)=v_1,\quad dy(v_1,v_2)=v_2.
+	\]
+	Restricted to $T_pC=\mathrm{span}\{(1,f'(a))\}$ one has
+	\[
+	dx\bigl(1,f'(a)\bigr)=1,
+	\qquad
+	dy\bigl(1,f'(a)\bigr)=f'(a).
+	\]
+	In particular $dy/dx\big|_p=f'(a)$ as expected.
+	
+\end{document}

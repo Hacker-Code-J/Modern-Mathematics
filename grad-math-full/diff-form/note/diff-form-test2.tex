@@ -1,0 +1,107 @@
+\documentclass[12pt]{article}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{geometry}
+\geometry{margin=1in}
+\usepackage{hyperref}
+
+\numberwithin{equation}{section}
+
+\title{Lecture Note: Coordinates and Differentials on a Plane Curve}
+\author{}
+\date{}
+
+\begin{document}
+	\maketitle
+	
+	\section{Setup}
+	Let \(f\colon \mathbb{R}\to\mathbb{R}\) be a \(C^1\)--function and define the embedded curve
+	\[
+	C \;=\;\bigl\{(x,y)\in\mathbb{R}^2 \mid y = f(x)\bigr\}.
+	\]
+	Fix \(a\in\mathbb{R}\) and set
+	\[
+	p \;=\;(a,\;f(a)) \;\in\; C.
+	\]
+	
+	\section{Coordinate System on \(C\)}
+	\begin{enumerate}
+		\item Define the global parametrization
+		\[
+		\Phi\colon \mathbb{R}\;\longrightarrow\;C,\quad
+		\Phi(t)=\bigl(t,f(t)\bigr).
+		\]
+		\item Its inverse is
+		\[
+		\Phi^{-1}\colon C\;\longrightarrow\;\mathbb{R},
+		\quad
+		(x,y)\mapsto x.
+		\]
+		\item Thus \(t\) is a \emph{coordinate on \(C\)}, and every \(p\in C\) is uniquely
+		\(p=\Phi(t)\).
+	\end{enumerate}
+	
+	\section{Coordinate System on \(T_pC\)}
+	\begin{enumerate}
+		\item Differentiate \(\Phi\) at \(t=a\):
+		\[
+		d\Phi_{\,a}(1)
+		=\frac{d}{dt}(t,f(t))\bigg|_{t=a}
+		=(1,\;f'(a))
+		=:\vec v\in T_pC.
+		\]
+		\item By definition,
+		\[
+		T_pC
+		=\mathrm{span}\{\,(1,f'(a))\}
+		\subset T_{p}\mathbb{R}^2.
+		\]
+		\item Every \(v\in T_pC\) writes \(v=\tau\,(1,f'(a))\) for a unique
+		\(\tau\in\mathbb{R}\).  Hence \(\tau\) is a \emph{fiber coordinate} on \(T_pC\).
+	\end{enumerate}
+	
+	\section{The Functions \(x,y\colon C\to\mathbb{R}\)}
+	\begin{align*}
+		x\;&=\;\pi_1\bigl|_C\colon C\to\mathbb{R},\quad (x,y)\mapsto x,\\
+		y\;&=\;\pi_2\bigl|_C\colon C\to\mathbb{R},\quad (x,y)\mapsto y.
+	\end{align*}
+	Restricted to \(\Phi(t)\), these give
+	\[
+	x\bigl(\Phi(t)\bigr)=t,
+	\quad
+	y\bigl(\Phi(t)\bigr)=f(t).
+	\]
+	
+	\section{The Differentials \(dx,dy\colon T_pC\to\mathbb{R}\)}
+	\begin{enumerate}
+		\item In the ambient \(\mathbb{R}^2\), the differentials act by
+		\[
+		dx(v_1,v_2)=v_1,
+		\quad
+		dy(v_1,v_2)=v_2.
+		\]
+		\item On the generator \(\vec v=(1,f'(a))\in T_pC\),
+		\[
+		dx(\vec v)=1,
+		\quad
+		dy(\vec v)=f'(a).
+		\]
+		\item Hence \(dx,dy\) extract the \(x\)– and \(y\)–components of any vector in \(T_pC\).
+	\end{enumerate}
+	
+	\section*{Abstract Graduate–Level Synthesis}
+	Let \(M=C\) be the \(1\)--dimensional submanifold of \(\mathbb{R}^2\) defined by \(y=f(x)\).
+	The chart \(\Phi\colon\mathbb{R}\to M\) endows \(M\) with the coordinate \(t\), and its
+	differential \(d\Phi\) trivializes the tangent bundle,
+	\[
+	d\Phi\colon T\mathbb{R}\cong\mathbb{R}\;\longrightarrow\;TM,
+	\quad
+	\tau\mapsto \tau\,\Phi'(t).
+	\]
+	Dually, the ambient projections restrict to
+	\[
+	dx,\,dy\colon TM\;\longrightarrow\;\mathbb{R},
+	\]
+	providing a coframe.  Thus \((t)\) on \(M\) and \((dx,dy)\) on \(TM\) constitute
+	local frames that distinguish base points from tangent vectors, a paradigm
+	that generalizes to all smooth manifolds.
+\end{document}

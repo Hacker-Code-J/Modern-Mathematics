@@ -1,0 +1,138 @@
+\documentclass[12pt]{article}
+\usepackage{amsmath,amssymb,amsthm, mathtools}
+\usepackage{geometry}
+\geometry{margin=1in}
+\usepackage{hyperref}
+
+\title{Lecture Notes: Coordinates and Differentials on a Plane Curve}
+\author{}
+\date{}
+
+\newcommand{\R}{\mathbb{R}}
+\renewcommand{\span}{\text{span}}
+\begin{document}
+	\maketitle
+	
+	\section{Setup: The Plane Curve and Its Tangent}
+	
+	Let \(f\colon\mathbb{R}\to\mathbb{R}\) be a \(C^1\)–function, and define the plane curve
+	\[
+	C \;=\;\bigl\{(x,y)\in\mathbb{R}^2 \mid y=f(x)\bigr\}\subseteq\mathbb{R}^2.
+	\]
+	Fix a point
+	\[
+	p=(a,f(a))\;\in\;C,
+	\]
+	and consider the standard parametrization
+	\[
+	\Phi\colon \mathbb{R}\longrightarrow C,
+	\qquad
+	\Phi(t) = \bigl(t,\;f(t)\bigr).
+	\]
+	At \(t=a\), the tangent (velocity) is
+	\[
+	\Phi'(a)
+	=\begin{pmatrix}
+		1\\
+		f'(a)
+	\end{pmatrix}
+	=\vec v
+	\;\in\;T_pC,
+	\]
+	so the tangent space is the one–dimensional subspace
+	\[
+	T_pC \;=\;\mathrm{span}\{\vec v\}
+	=\mathrm{span}\Bigl\{\,(1,\;f'(a))\Bigr\}
+	\;\subset\;T_p\mathbb{R}^2\cong\mathbb{R}^2.
+	\]
+	
+	\section{Points vs.\ Tangent Vectors}
+	
+	\begin{itemize}
+		\item A \emph{point} \(p\in C\) is an element of the set \(C\subseteq\mathbb{R}^2\).
+		We denote it by unadorned parentheses, e.g.\ \(p=(a,f(a))\).
+		\item A \emph{tangent vector} \(v\in T_pC\) is an element of the tangent space
+		(a copy of \(\mathbb{R}^2\)) at the point \(p\).  We denote it in bold or arrow notation,
+		e.g.\ \(\vec v=\bigl(1,f'(a)\bigr)^T\).
+	\end{itemize}
+	
+	\section{Coordinates on the Curve \(C\)}
+	
+	Define the ambient coordinate functions
+	\[
+	x,y\;\colon\;\mathbb{R}^2\;\longrightarrow\;\mathbb{R},
+	\qquad
+	x(x,y)=x,
+	\quad
+	y(x,y)=y.
+	\]
+	Restricted to \(C\), these give a chart
+	\[
+	(C\subseteq\mathbb{R}^2)\;\longrightarrow\;\mathbb{R}^2,
+	\qquad
+	p\;\mapsto\;\bigl(x(p),\,y(p)\bigr)
+	=\bigl(a,\;f(a)\bigr).
+	\]
+	Thus the \emph{point–coordinates} of \(p\) are \((x(p),y(p))\).
+	
+	\section{Coordinates on the Tangent Line \(T_pC\)}
+	
+	On the ambient tangent plane \(T_p\mathbb{R}^2\cong\mathbb{R}^2\), introduce the dual basis
+	\(\{dx,dy\}\) defined by
+	\[
+	dx\bigl(e_1\bigr)=1,\;dx(e_2)=0,
+	\quad
+	dy(e_1)=0,\;dy(e_2)=1,
+	\]
+	where \(e_1=(1,0)\), \(e_2=(0,1)\).  Then for any \(v=(v^1,v^2)^T\),
+	\[
+	dx(v)=v^1,
+	\quad
+	dy(v)=v^2.
+	\]
+	Restricted to the tangent line \(T_pC=\span\{(1,f'(a))\}\), these give the fiber–chart
+	\[
+	T_pC\;\longrightarrow\;\mathbb{R}^2,
+	\qquad
+	\vec v\;\mapsto\;
+	\begin{pmatrix}
+		dx(\vec v)\\[4pt]
+		dy(\vec v)
+	\end{pmatrix}
+	=
+	\begin{pmatrix}
+		1\\
+		f'(a)
+	\end{pmatrix}.
+	\]
+	Thus the \emph{vector–coordinates} of \(\vec v\) in the basis \(\{\partial_x,\partial_y\}\)
+	are \(\bigl(dx(\vec v),\,dy(\vec v)\bigr)\).
+	
+	\section{Summary of Maps}
+	
+%\begin{align*}
+%&\underbrace{C\subseteq\mathbb{R}^2}_{\text{curve}}
+%\;\longrightarrow\;\mathbb{R}^2,
+%&&
+%p\;\longmapsto\;(x(p),y(p))=(a,f(a));\\
+%&\underbrace{T_pC}_{\text{tangent line}}
+%\;\longrightarrow\;\mathbb{R}^2,
+%&&
+%\vec v\;\longmapsto\;\bigl(dx(\vec v),\,dy(\vec v)\bigr)
+%=(1,f'(a)).
+%\end{align*}
+\[
+\begin{array}{ccccc}
+&\underbrace{C\subseteq\mathbb{R}^2}_{\text{curve}}
+\;\longrightarrow\;\mathbb{R}^2,
+&&
+p\;\longmapsto\;(x(p),y(p))=(a,f(a));\\
+&\underbrace{T_pC}_{\text{tangent line}}
+\;\longrightarrow\;\mathbb{R}^2,
+&&
+\vec v\;\longmapsto\;\bigl(dx(\vec v),\,dy(\vec v)\bigr)
+=(1,f'(a)).
+\end{array}
+\]
+	
+\end{document}

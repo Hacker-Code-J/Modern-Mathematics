@@ -1,0 +1,146 @@
+\documentclass[12pt]{article}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{geometry}
+\geometry{margin=1in}
+\usepackage{hyperref}
+\newtheorem{theorem}{Theorem} % Theorem environment with section-wise numbering
+\newtheorem*{theorem*}{Theorem} % Theorem environment with section-wise numbering
+\newtheorem*{lemma*}{Lemma} % Theorem environment with section-wise numbering
+\newtheorem*{proposition*}{Proposition} % Theorem environment with section-wise numbering
+\newtheorem*{corollary*}{Corollary} % Theorem environment with section-wise numbering
+\newtheorem{proposition}[theorem]{Proposition} % Theorem environment with section-wise numbering
+\newtheorem{lemma}[theorem]{Lemma} % Lemma shares the counter with theorem
+\newtheorem{corollary}[theorem]{Corollary} % Corollary shares the counter with theorem
+
+\theoremstyle{definitionstyle}
+\newtheorem{definition}{Definition} % Definition shares the counter with theorem
+\newtheorem{example}{Example} % Example shares the counter with theorem
+\newtheorem{exercise}{{Exercise}} % Example shares the counter with theorem
+\newtheorem{remark}{Remark} % Remark shares the counter with theorem
+\newtheorem*{note}{Note}
+\title{Lecture Note: A 1-Form as Scalar Projection onto a Fixed Line}
+\author{}
+\date{}
+
+\newcommand{\R}{\mathbb{R}}
+\renewcommand{\span}{\mathrm{span}}
+\begin{document}
+	\maketitle
+	
+	\section{The Curve and Its Tangent Spaces}
+	Let \(f\colon\mathbb{R}\to\mathbb{R}\) be a \(C^1\)‐function and set
+	\[
+	C \;=\;\bigl\{(x,y)\in\mathbb{R}^2\mid y=f(x)\bigr\}.
+	\]
+	Fix \(a\in\mathbb{R}\) and let
+	\[
+	p=(a,f(a))\in C.
+	\]
+	The inclusion \(C\hookrightarrow\mathbb{R}^2\) may be written as
+	\[
+	C\;\longrightarrow\;\mathbb{R}^2,
+	\qquad
+	p\;\mapsto\;\bigl(x(p),\,y(p)\bigr),
+	\]
+	where \(x,y\colon\mathbb{R}^2\to\mathbb{R}\) are the standard coordinate functions,
+	\(\;x(x,y)=x,\;y(x,y)=y.\)
+	
+	The velocity of the parametrization \(t\mapsto(t,f(t))\) at \(t=a\) is
+	\[
+	\Phi'(a) \;=\;\bigl(1,\;f'(a)\bigr)\;\in\;T_pC.
+	\]
+	Thus
+	\[
+	T_pC \;=\;\span\bigl\{(1,f'(a))\bigr\}
+	\;\subset\;T_p\mathbb{R}^2\cong\mathbb{R}^2.
+	\]
+	Each tangent vector \(v\in T_pC\) is uniquely
+	\[
+	v \;=\;\tau\,(1,f'(a)),
+	\qquad
+	\tau\in\mathbb{R}.
+	\]
+	We record the induced coordinate map on the fiber:
+	\[
+	T_pC\;\longrightarrow\;\mathbb{R}^2,\qquad
+	v\;\mapsto\;\begin{pmatrix}
+		dx(v)\\[6pt]
+		dy(v)
+	\end{pmatrix}.
+	\]
+	Since \(dx,dy\) are the dual basis on \(T_p\R^2\cong\R^2\), one has
+	\[
+	dx\bigl(1,f'(a)\bigr)=1,
+	\quad
+	dy\bigl(1,f'(a)\bigr)=f'(a).
+	\]
+	
+	\section{A Fixed Line in the Plane}
+	Choose a nonzero vector
+	\[
+	w=(w_1,w_2)\in\mathbb{R}^2,
+	\quad
+	\|w\|\neq0,
+	\]
+	and let \(L=\span\{w\}\subset\R^2\).  Define the unit direction
+	\[
+	\hat w=\frac{w}{\|w\|},
+	\quad
+	\|\hat w\|=1.
+	\]
+	
+	\section{Definition of the 1-Form}
+	\begin{definition}
+		The \emph{scalar–projection 1-form} onto the line \(L\) is
+		\[
+		\alpha\;\colon\;T\R^2\;\longrightarrow\;\R,
+		\qquad
+		\alpha_p(v)=\bigl\langle\hat w\,,\,v\bigr\rangle,
+		\]
+		for each \(p\in\R^2\) and \(v\in T_p\R^2\).
+	\end{definition}
+	
+	Since
+	\(\hat w=(\hat w_1,\hat w_2)\) and \(v=(v^1,v^2)\), one has
+	\[
+	\alpha_p(v)
+	=\hat w_1\,v^1 + \hat w_2\,v^2
+	=\hat w_1\,dx(v)+\hat w_2\,dy(v).
+	\]
+	Hence, in the usual notation for 1-forms,
+	\[
+	\boxed{
+		\alpha
+		=\hat w_1\,dx\;+\;\hat w_2\,dy
+		\;=\;
+		\frac{w_1}{\sqrt{w_1^2+w_2^2}}\,dx
+		\;+\;
+		\frac{w_2}{\sqrt{w_1^2+w_2^2}}\,dy.
+	}
+	\]
+	
+	\section{Restriction to the Curve}
+	Pulled back along the inclusion \(i\colon C\hookrightarrow\R^2\), the 1-form
+	\(\alpha\) restricts to a well‐defined \(1\)-form on \(C\):
+	\[
+	i^*\alpha
+	=\hat w_1\,dx\big|_C \;+\;\hat w_2\,dy\big|_C,
+	\]
+	which on \(T_pC\) evaluates by
+	\[
+	\bigl(i^*\alpha\bigr)_p\bigl(\tau(1,f'(a))\bigr)
+	=\tau\,\bigl(\hat w_1 + \hat w_2\,f'(a)\bigr).
+	\]
+	
+	\section*{Summary}
+	\begin{itemize}
+		\item The map \(p\mapsto(x(p),y(p))\) simply records the two ambient coordinates
+		of each point in \(C\subset\R^2\).
+		\item The map \(v\mapsto(dx(v),dy(v))\) records the two components of any tangent
+		vector \(v\in T_p\R^2\).
+		\item The 1-form \(\alpha=\hat w_1\,dx+\hat w_2\,dy\) is precisely the functional
+		that takes each tangent vector and returns its scalar component in the fixed
+		direction \(\hat w\).
+	\end{itemize}
+	
+\end{document}

@@ -1,0 +1,194 @@
+\documentclass[12pt]{article}
+\usepackage{amsmath,amssymb,amsthm, mathtools}
+\usepackage{geometry}
+\geometry{margin=1in}
+\usepackage{hyperref}
+
+\newtheorem{theorem}{Theorem} % Theorem environment with section-wise numbering
+\newtheorem*{theorem*}{Theorem} % Theorem environment with section-wise numbering
+\newtheorem*{lemma*}{Lemma} % Theorem environment with section-wise numbering
+\newtheorem*{proposition*}{Proposition} % Theorem environment with section-wise numbering
+\newtheorem*{corollary*}{Corollary} % Theorem environment with section-wise numbering
+\newtheorem{proposition}[theorem]{Proposition} % Theorem environment with section-wise numbering
+\newtheorem{lemma}[theorem]{Lemma} % Lemma shares the counter with theorem
+\newtheorem{corollary}[theorem]{Corollary} % Corollary shares the counter with theorem
+
+\theoremstyle{definitionstyle}
+\newtheorem{definition}{Definition} % Definition shares the counter with theorem
+\newtheorem{example}{Example} % Example shares the counter with theorem
+\newtheorem{exercise}{{Exercise}} % Example shares the counter with theorem
+\newtheorem{remark}{Remark} % Remark shares the counter with theorem
+\newtheorem*{note}{Note}
+
+\title{Lecture Notes: Coordinates and Differentials on a Plane Curve}
+\author{}
+\date{}
+
+\newcommand{\R}{\mathbb{R}}
+\renewcommand{\span}{\text{span}}
+\begin{document}
+\maketitle
+	
+\section{Parametrized Curve and Coordinate Chart on \(C\)}
+Let \(f\colon\mathbb{R}\to\mathbb{R}\) be a \(C^1\)–function.  Define the plane curve
+\[
+C \;=\;\bigl\{(x,y)\in\mathbb{R}^2 \;\big|\; y=f(x)\bigr\}.
+\]
+We introduce the standard coordinate functions
+\[
+x,y\colon\mathbb{R}^2\to\mathbb{R},
+\qquad
+x(x,y)=x,
+\quad
+y(x,y)=y,
+\]
+and restrict them to \(C\).  The resulting chart on \(C\) is
+\[
+\Phi_C\colon C\;\longrightarrow\;\mathbb{R}^2,
+\qquad
+\Phi_C\bigl(p\bigr)
+=\bigl(x(p),\,y(p)\bigr).
+\]
+In particular, for
+\[
+p=(a,f(a))\in C,
+\]
+we have
+\[
+\Phi_C(p)=(a,f(a)).
+\]
+
+\section{Tangent Space and Fiber–Coordinates on \(T_pC\)}
+Parametrize \(C\) by
+\[
+\gamma(t) = \bigl(t,f(t)\bigr).
+\]
+At \(t=a\) the velocity vector is
+\[
+\gamma'(a)
+=\begin{pmatrix}
+	1\\
+	f'(a)
+\end{pmatrix}
+\;=\;\vec v
+\;\in\;T_pC.
+\]
+Thus the tangent space is
+\[
+T_pC
+=\mathrm{span}\{\vec v\}
+=\mathrm{span}\Bigl\{\,(1,f'(a))\Bigr\}
+\subset T_p\mathbb{R}^2\cong\mathbb{R}^2.
+\]
+On \(T_p\mathbb{R}^2\) we employ the dual basis \(\{dx,dy\}\) defined by
+\[
+dx(e_1)=1,\;dx(e_2)=0,
+\quad
+dy(e_1)=0,\;dy(e_2)=1,
+\]
+where \(e_1=(1,0)\), \(e_2=(0,1)\).  Each tangent vector \(v=(v^1,v^2)\) then satisfies
+\[
+dx(v)=v^1,
+\quad
+dy(v)=v^2.
+\]
+Restricted to \(T_pC\), we obtain the fiber–chart
+\[
+\Phi_{T_pC}\colon T_pC\;\longrightarrow\;\mathbb{R}^2,
+\qquad
+\Phi_{T_pC}(\vec v)
+=\begin{pmatrix}
+	dx(\vec v)\\[4pt]
+	dy(\vec v)
+\end{pmatrix}
+=\begin{pmatrix}
+	1\\
+	f'(a)
+\end{pmatrix}.
+\]
+
+\section{Fixed Line and Unit Direction}
+Choose a nonzero vector
+\[
+w=(w_1,w_2)\in\mathbb{R}^2,
+\qquad
+\|w\|\neq0,
+\]
+and consider the line \(L=\mathrm{span}\{w\}\subset\mathbb{R}^2\).  Define the unit–direction
+\[
+\hat w
+=\frac{w}{\|w\|}
+=\Bigl(\tfrac{w_1}{\sqrt{w_1^2+w_2^2}},\,\tfrac{w_2}{\sqrt{w_1^2+w_2^2}}\Bigr),
+\]
+so that \(\|\hat w\|=1\).
+
+\section{Definition of the Scalar–Projection 1–Form}
+\begin{definition}
+	The \emph{scalar–projection 1–form} onto the line \(L\) is the mapping
+	\[
+	\alpha\;\colon\;T\mathbb{R}^2
+	\;\longrightarrow\;\mathbb{R},
+	\qquad
+	\alpha_p(v)
+	=\bigl\langle \hat w,\;v\bigr\rangle,
+	\]
+	for each \(p\in\mathbb{R}^2\) and \(v\in T_p\mathbb{R}^2\).
+\end{definition}
+
+Writing \(v=(v^1,v^2)\) in the dual coordinates, one obtains
+\[
+\alpha_p(v)
+=\hat w_1\,v^1 + \hat w_2\,v^2
+=\hat w_1\,dx(v)+\hat w_2\,dy(v).
+\]
+Hence the global \(1\)–form is
+\[
+\boxed{
+	\alpha
+	=\hat w_1\,dx
+	\;+\;
+	\hat w_2\,dy
+	\;=\;
+	\frac{w_1}{\sqrt{w_1^2+w_2^2}}\;dx
+	\;+\;
+	\frac{w_2}{\sqrt{w_1^2+w_2^2}}\;dy.
+}
+\]
+
+\section{Restriction to the Curve \(C\)}
+Pulling back \(\alpha\) along the inclusion \(i\colon C\hookrightarrow\R^2\) yields
+\[
+i^*\alpha
+=\hat w_1\,dx\bigl|_C
+\;+\;\hat w_2\,dy\bigl|_C,
+\]
+which on \(T_pC\) evaluates by
+\[
+\bigl(i^*\alpha\bigr)_p(\tau\,(1,f'(a)))
+=\tau\,\bigl(\hat w_1 + \hat w_2\,f'(a)\bigr),
+\quad
+\tau\in\mathbb{R}.
+\]
+
+\section*{Summary of Charts and Forms}
+\[
+\begin{aligned}
+	&C\subseteq\mathbb{R}^2
+	\;\xrightarrow{\;\Phi_C\;}
+	\mathbb{R}^2,
+	&&
+	p\;\mapsto\;(x(p),y(p))
+	=(a,f(a)),\\
+	&T_pC
+	\;\xrightarrow{\;\Phi_{T_pC}\;}
+	\mathbb{R}^2,
+	&&
+	\vec v\;\mapsto\;(dx(\vec v),dy(\vec v))
+	=(1,f'(a)),\\
+	&\alpha\;=\;\hat w_1\,dx+\hat w_2\,dy,
+	\quad
+	i^*\alpha\in\Omega^1(C).
+\end{aligned}
+\]
+	
+\end{document}
