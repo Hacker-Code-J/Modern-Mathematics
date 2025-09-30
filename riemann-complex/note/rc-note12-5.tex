@@ -1,0 +1,101 @@
+\documentclass[12pt, a4paper]{article}
+
+% PACKAGES for math, formatting, and colors
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage[margin=1in]{geometry}
+\usepackage{xcolor}
+
+% Custom command for partial derivatives
+\newcommand{\pderiv}[2]{\frac{\partial #1}{\partial #2}}
+\renewcommand{\d}{\mathrm{d}} % For a straight 'd' in differentials
+\newcommand{\R}{\mathbb{R}} % For the set of real numbers
+\renewcommand{\vec}[1]{\mathbf{#1}} % For vectors
+
+\title{From Gradient Fields to Exact Forms}
+\author{Notes for a Vector Calculus Student}
+\date{\today}
+
+\begin{document}
+	
+	\maketitle
+	
+	You understand the most important concept in vector calculus: if a vector field $\vec{F}$ is the \textbf{gradient} of a potential function $f$ (written $\vec{F} = \nabla f$), line integrals become simple. The language of \textbf{differential forms} offers a new perspective on this idea, helping us understand exactly when a field is a gradient.
+	
+	\section{A New Test from an Old Idea}
+	
+	Let's start with what you know. If a 2D vector field $\vec{F} = \langle P, Q \rangle$ is a gradient, then it comes from a potential function $f(x,y)$, and:
+	\begin{itemize}
+		\item $P = \pderiv{f}{x}$
+		\item $Q = \pderiv{f}{y}$
+	\end{itemize}
+	Now, think back to partial derivatives. You learned about the \textbf{equality of mixed partials} (Clairaut's Theorem), which states that for a nice function $f$, the order of differentiation doesn't matter: $\pderiv{}{y}\left(\pderiv{f}{x}\right) = \pderiv{}{x}\left(\pderiv{f}{y}\right)$.
+	
+	Let's apply this to $P$ and $Q$:
+	\begin{itemize}
+		\item Differentiate $P$ with respect to $y$: $\pderiv{P}{y} = \pderiv{}{y}\left(\pderiv{f}{x}\right)$
+		\item Differentiate $Q$ with respect to $x$: $\pderiv{Q}{x} = \pderiv{}{x}\left(\pderiv{f}{y}\right)$
+	\end{itemize}
+	Because the right-hand sides are equal, the left-hand sides must be too! This gives us a powerful and necessary condition:
+	\begin{center}
+		\textit{If a vector field $\vec{F} = \langle P, Q \rangle$ is a gradient, it \textbf{must} satisfy the condition $\pderiv{Q}{x} = \pderiv{P}{y}$.}
+	\end{center}
+	This gives us a simple test to check if a field might be conservative.
+	
+	\section{The Dictionary: A Quick Translation}
+	
+	\begin{center}
+		\begin{tabular}{l|l}
+			\hline
+			\textbf{Vector Calculus (Your Current Language)} & \textbf{Differential Forms (The New Language)} \\
+			\hline \hline
+			Vector Field $\vec{F} = \langle P, Q \rangle$ & \textbf{1-Form} $\omega = P\,\d x + Q\,\d y$ \\
+			\textbf{Conservative} Field ($\vec{F} = \nabla f$) & \textbf{Exact} Form ($\omega = \d f$) \\
+			\textbf{Mixed Partials Test} ($\pderiv{Q}{x} = \pderiv{P}{y}$) & \textbf{Closed} Form ($\d\omega = 0$) \\
+			\hline
+		\end{tabular}
+	\end{center}
+	A form is called \textbf{``closed''} if it passes the mixed partials test. The big question is: if a form is closed, is it always exact?
+	\vskip 1em
+	\textbf{Answer:} Only on domains without ``holes'' (called \textbf{simply connected} domains).
+	
+	\section{The Classic Example: When the Test Isn't Enough }
+	
+	Let's look at a field on the plane with the origin removed, $\R^2 \setminus \{(0,0)\}$. This domain has a hole.
+	\[
+	\vec{F}(x,y) = \left\langle \frac{-y}{x^2+y^2}, \frac{x}{x^2+y^2} \right\rangle
+	\]
+	As a 1-form, this is:
+	\[
+	\omega = \frac{-y}{x^2+y^2}\,\d x + \frac{x}{x^2+y^2}\,\d y
+	\]
+	
+	\subsection{Step 1: Does it pass our test?}
+	Let's check the mixed partials. Here, $P = \frac{-y}{x^2+y^2}$ and $Q = \frac{x}{x^2+y^2}$.
+	\begin{align*}
+		\pderiv{P}{y} &= \frac{(-1)(x^2+y^2) - (-y)(2y)}{(x^2+y^2)^2} = \frac{y^2-x^2}{(x^2+y^2)^2} \\
+		\pderiv{Q}{x} &= \frac{(1)(x^2+y^2) - (x)(2x)}{(x^2+y^2)^2} = \frac{y^2-x^2}{(x^2+y^2)^2}
+	\end{align*}
+	They are equal! The test passes, so the form is \textbf{closed}. This means the field has the \textit{local properties} of a gradient field.
+	
+	\subsection{Step 2: Is it actually a gradient field (conservative)?}
+	You know that if a field is conservative, its integral around \textbf{any closed loop must be zero}. Let's test this by integrating around the unit circle, $\gamma(t) = (\cos t, \sin t)$ for $t \in [0, 2\pi]$.
+	\begin{itemize}
+		\item $x = \cos t \implies \d x = -\sin t\,\d t$
+		\item $y = \sin t \implies \d y = \cos t\,\d t$
+		\item $x^2+y^2 = \cos^2 t + \sin^2 t = 1$
+	\end{itemize}
+	The line integral is:
+	\begin{align*}
+		\oint_\gamma \omega &= \int_0^{2\pi} \left( \frac{-\sin t}{1}(-\sin t\,\d t) + \frac{\cos t}{1}(\cos t\,\d t) \right) \\
+		&= \int_0^{2\pi} (\sin^2 t + \cos^2 t)\,\d t = \int_0^{2\pi} 1\,\d t = 2\pi
+	\end{align*}
+	
+	\subsection{The Punchline}
+	The integral is $2\pi$, which is \textbf{not zero}.
+	\vskip 1em
+	\textcolor{red}{\textbf{Conclusion:}} Even though the field passed our mixed-partials test (it's \textbf{closed}), it fails the path independence test. Therefore, the field is \underline{not} conservative (it's \textbf{not exact}).
+	\vskip 1em
+	The \textbf{hole at the origin} is the culprit. The mixed partials test is a local check, and it's blind to the global problem of the hole. The hole allows the field to have a ``global circulation'' that prevents a single, consistent potential function $f(x,y)$ from existing over the whole domain.
+	
+\end{document}

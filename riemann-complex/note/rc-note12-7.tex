@@ -1,0 +1,109 @@
+\documentclass[12pt, a4paper]{article}
+
+% PACKAGES for math, formatting, and emojis
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage[margin=1in]{geometry}
+
+% Custom command for partial derivatives for cleaner code
+\newcommand{\pderiv}[2]{\frac{\partial #1}{\partial #2}}
+\renewcommand{\vec}[1]{\mathbf{#1}} % For vectors
+\renewcommand{\d}{\mathrm{d}} % For a straight 'd' in differentials
+
+% DOCUMENT TITLE
+\title{Finding a Potential Function for the FTC}
+\author{A Penetrating Example Using the Three Tests}
+\date{\today}
+
+\begin{document}
+	
+	\maketitle
+	
+	The entire purpose of these tests is to determine if we can find a potential function $f$ for a vector field $\vec{F}$, allowing us to use the \textbf{Fundamental Theorem of Calculus for Line Integrals}. This lets us replace a potentially difficult line integral with a simple evaluation: $\int_A^B \vec{F} \cdot d\vec{r} = f(B) - f(A)$.
+	\vskip 1em
+	
+	Let's investigate the vector field $\vec{F}(x,y) = \langle e^y + y\cos(x), xe^y + \sin(x) \rangle$. We want to find its potential function $f(x,y)$.
+	
+	\hrulefill
+	
+	\section{Test 1: Equality of Mixed Partials (Local Test)}
+	
+	This is the \textbf{fast check} to see if a potential function might even exist. If a field $\vec{F} = \langle P, Q \rangle$ is the gradient of $f$, it's necessary that $\frac{\partial P}{\partial y} = \frac{\partial Q}{\partial x}$.
+	\begin{itemize}
+		\item $P = e^y + y\cos(x)$
+		\item $Q = xe^y + \sin(x)$
+	\end{itemize}
+	Let's compute the partials:
+	\begin{align*}
+		\pderiv{P}{y} &= \pderiv{}{y}(e^y + y\cos(x)) = \mathbf{e^y + \cos(x)} \\
+		\pderiv{Q}{x} &= \pderiv{}{x}(xe^y + \sin(x)) = \mathbf{e^y + \cos(x)}
+	\end{align*}
+	The mixed partials are \textbf{equal}. This tells us the field is \textbf{closed} (curl-free), so it's worth proceeding to find the potential function.
+	
+	\hrulefill
+	
+	\section{Test 2: Path Independence (Global Test)}
+	
+	This test demonstrates the \textbf{physical consequence} of having a potential function: the work done between two points is the same regardless of the path. Let's calculate the line integral from $A=(0,0)$ to $B=(\frac{\pi}{2}, 1)$ along two different paths.
+	
+	\subsection{Path 1 (Along the axes): $(0,0) \to (\frac{\pi}{2},0) \to (\frac{\pi}{2},1)$}
+	\begin{enumerate}
+		\item \textbf{Segment 1} ($y=0, dy=0$):
+		\[ \int_0^{\pi/2} (e^0 + 0\cos(x))\,dx = \int_0^{\pi/2} 1\,dx = \frac{\pi}{2} \]
+		\item \textbf{Segment 2} ($x=\frac{\pi}{2}, dx=0$):
+		\[ \int_0^1 \left(\frac{\pi}{2}e^y + \sin\left(\frac{\pi}{2}\right)\right)\,dy = \int_0^1 \left(\frac{\pi}{2}e^y + 1\right)\,dy = \left[\frac{\pi}{2}e^y + y\right]_0^1 = \left(\frac{\pi}{2}e+1\right) - \left(\frac{\pi}{2}\right) = \frac{\pi e}{2} + 1 - \frac{\pi}{2} \]
+	\end{enumerate}
+	\textbf{Total for Path 1:} $\frac{\pi}{2} + \left(\frac{\pi e}{2} + 1 - \frac{\pi}{2}\right) = \mathbf{\frac{\pi e}{2} + 1}$.
+	
+	\subsection{Path 2 (Along the axes, different order): $(0,0) \to (0,1) \to (\frac{\pi}{2},1)$}
+	\begin{enumerate}
+		\item \textbf{Segment 1} ($x=0, dx=0$):
+		\[ \int_0^1 (0 \cdot e^y + \sin(0))\,dy = \int_0^1 0\,dy = 0 \]
+		\item \textbf{Segment 2} ($y=1, dy=0$):
+		\[ \int_0^{\pi/2} (e^1 + 1\cos(x))\,dx = [ex + \sin(x)]_0^{\pi/2} = \left(e\frac{\pi}{2} + \sin\left(\frac{\pi}{2}\right)\right) - (0+0) = \frac{\pi e}{2} + 1 \]
+	\end{enumerate}
+	\textbf{Total for Path 2:} $0 + \left(\frac{\pi e}{2} + 1\right) = \mathbf{\frac{\pi e}{2} + 1}$.
+	\vskip 1em
+	Since both paths yield the same result, the integral is \textbf{path-independent}, confirming the field is \textbf{conservative} (exact).
+	
+	\hrulefill
+	
+	\section{Test 3: Potential Recovery (Constructive Test)}
+	This is the \textbf{direct method} for finding the potential function $f(x,y)$ that we need for the FTC.
+	\begin{enumerate}
+		\item \textbf{Integrate P with respect to x}: We assume $\pderiv{f}{x} = P = e^y + y\cos(x)$.
+		\[
+		f(x,y) = \int (e^y + y\cos(x))\,dx = xe^y + y\sin(x) + h(y)
+		\]
+		The ``constant'' of integration, $h(y)$, is an unknown function of $y$.
+		
+		\item \textbf{Differentiate with respect to y and match to Q}: Now, take the partial derivative of our candidate $f$ and set it equal to $Q$.
+		\[
+		\pderiv{f}{y} = \pderiv{}{y}(xe^y + y\sin(x) + h(y)) = xe^y + \sin(x) + h'(y)
+		\]
+		We know this must equal $Q = xe^y + \sin(x)$.
+		\[
+		xe^y + \sin(x) + h'(y) = xe^y + \sin(x)
+		\]
+		
+		\item \textbf{Solve for h(y)}:
+		\[
+		h'(y) = 0 \implies h(y) = C
+		\]
+		The function $h(y)$ is just a constant (which we can set to 0).
+	\end{enumerate}
+	We have successfully recovered the potential function:
+	\[
+	\mathbf{f(x,y) = xe^y + y\sin(x)}
+	\]
+	
+	\subsection*{Using the FTC}
+	Now, we can compute the line integral from the global test instantly using our found potential function and the FTC:
+	\begin{align*}
+		\int_{(0,0)}^{(\pi/2, 1)} \vec{F} \cdot d\vec{r} &= f\left(\frac{\pi}{2}, 1\right) - f(0,0) \\
+		&= \left(\frac{\pi}{2}e^1 + 1\sin\left(\frac{\pi}{2}\right)\right) - (0 \cdot e^0 + 0\sin(0)) \\
+		&= \mathbf{\frac{\pi e}{2} + 1}
+	\end{align*}
+	This matches the path integral results and was far easier to compute.
+	
+\end{document}

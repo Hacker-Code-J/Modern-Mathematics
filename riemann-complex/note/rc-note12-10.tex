@@ -1,0 +1,85 @@
+\documentclass[12pt]{article}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{physics}
+\usepackage{enumitem}
+\usepackage{geometry}
+\geometry{margin=1in}
+
+\title{Why \(\partial Q/\partial x - \partial P/\partial y\) is the Curl in 2D}
+\author{}
+\date{}
+
+\begin{document}
+	\maketitle
+	
+	\section*{Local circulation density from a small rectangle}
+	Let \(\vec F=\langle P(x,y),Q(x,y)\rangle\) be \(C^1\). Consider a small, axis-aligned rectangle
+	centered at \((x_0,y_0)\) with side lengths \(\Delta x,\Delta y\). Its counterclockwise circulation is
+	\[
+	\oint_{\partial R}\vec F\cdot d\vec r
+	=\int_{\text{right}}Q\,dy+\int_{\text{top}}P\,dx+\int_{\text{left}}Q\,dy+\int_{\text{bottom}}P\,dx.
+	\]
+	Taylor expand \(P,Q\) to first order along each edge and keep first-order terms. One obtains
+	\[
+	\oint_{\partial R}\vec F\cdot d\vec r
+	\approx \big(Q_x(x_0,y_0)-P_y(x_0,y_0)\big)\,\Delta x\,\Delta y.
+	\]
+	Dividing by the area \(\Delta A=\Delta x\,\Delta y\) and shrinking the rectangle,
+	\[
+	\lim_{\Delta A\to 0}\frac{1}{\Delta A}\oint_{\partial R}\vec F\cdot d\vec r
+	= Q_x(x_0,y_0)-P_y(x_0,y_0).
+	\]
+	Thus the scalar \(Q_x-P_y\) is the \emph{circulation per unit area}---the 2D curl.
+	
+	\section*{Green's theorem (global circulation)}
+	If \(C=\partial D\) is a positively oriented simple closed curve enclosing a region \(D\),
+	Green's theorem states
+	\[
+	\oint_{C}\vec F\cdot d\vec r
+	=\iint_{D}\Big(\frac{\partial Q}{\partial x}-\frac{\partial P}{\partial y}\Big)\,dA.
+	\]
+	So the total circulation equals the area integral of the local circulation density.
+	
+	\section*{Example 1: Rigid rotation and angular velocity}
+	Consider the rigid rotation field with angular speed \(\omega\):
+	\[
+	\vec F(x,y)=\langle -\omega y,\ \omega x\rangle.
+	\]
+	Then
+	\[
+	\frac{\partial Q}{\partial x}=\omega,\qquad \frac{\partial P}{\partial y}=-\omega
+	\quad\Rightarrow\quad
+	\operatorname{curl}\vec F = Q_x - P_y = 2\omega.
+	\]
+	This shows curl equals twice the angular velocity. For a circle of radius \(R\),
+	parametrize \(r(t)=(R\cos t,R\sin t)\), \(dr=(-R\sin t,R\cos t)\,dt\). Then
+	\[
+	\oint \vec F\cdot d\vec r
+	=\int_0^{2\pi}\omega R^2\,dt
+	=2\pi\omega R^2.
+	\]
+	Meanwhile, \(\iint_{D}(2\omega)\,dA=2\omega \cdot \pi R^2=2\pi\omega R^2\), agreeing with Green's theorem.
+	
+	\section*{Example 2: Curl-free but not conservative (topology matters)}
+	On \(\mathbb{R}^2\setminus\{(0,0)\}\), define
+	\[
+	\vec F(x,y)=\Big\langle -\frac{y}{x^2+y^2},\ \frac{x}{x^2+y^2}\Big\rangle.
+	\]
+	A direct calculation shows \(Q_x-P_y=0\) wherever defined (curl-free). However, the circulation
+	around the unit circle is
+	\[
+	\oint \vec F\cdot d\vec r=2\pi\neq 0.
+	\]
+	Hence there is no global potential function; the puncture creates a topological obstruction.
+	This illustrates that \(\operatorname{curl}\vec F=0\) captures \emph{local} rotation, while global
+	circulation can persist in domains with holes.
+	
+	\section*{Summary checklist}
+	\begin{itemize}[nosep]
+		\item \(Q_x-P_y\) is the infinitesimal (per-area) circulation density.
+		\item Green's theorem sums local curl to give total circulation.
+		\item Rigid rotation: \(\operatorname{curl}=2\omega\) (twice angular velocity).
+		\item Curl \(=0\) can still have nonzero loop integrals if the domain has holes.
+	\end{itemize}
+	
+\end{document}

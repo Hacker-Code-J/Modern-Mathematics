@@ -1,0 +1,121 @@
+\documentclass[12pt, a4paper]{article}
+
+% PACKAGES for math, formatting, and images
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx} % For including images
+
+% Custom commands for cleaner code
+\newcommand{\R}{\mathbb{R}} % The set of real numbers
+\newcommand{\Scircle}{S^1}   % The circle S^1
+\newcommand{\Ssphere}{S^2}   % The sphere S^2
+\newcommand{\Ttorus}{T^2}    % The torus T^2
+\renewcommand{\d}{\mathrm{d}} % For a straight 'd' in differentials
+
+% DOCUMENT TITLE
+\title{Penetrating Examples in Differential Forms}
+\author{Manifolds: $S^1$, $S^2$, and $T^2$}
+\date{\today}
+
+\begin{document}
+	
+	\maketitle
+	
+	These examples get to the very heart of how a space's \textbf{topology} (its shape and number of ``holes'') influences the behavior of calculus on it. The key concept we'll illustrate is the difference between \textbf{closed} and \textbf{exact} differential forms, which is the sophisticated version of the difference between a \textbf{curl-free} and a \textbf{conservative} vector field.
+	
+	A form $\omega$ is:
+	\begin{itemize}
+		\item \textbf{Closed} if its derivative is zero ($d\omega=0$). This is a \textit{local} property, like being curl-free.
+		\item \textbf{Exact} if it is the derivative of another form ($\omega = d\alpha$). This is a \textit{global} property, meaning a single potential function $\alpha$ exists across the whole space.
+	\end{itemize}
+	The crucial rule is: \textbf{Exact always implies Closed}. The interesting question is when the reverse is true. On spaces with ``holes,'' it often isn't.
+	
+	\hrulefill
+	
+	\section{The Circle ($\Scircle$)}
+	The circle is the simplest space with a hole. This hole prevents a specific, natural 1-form from being exact.
+	
+	\paragraph{The Topology} $\Scircle$ has one 1-dimensional hole. You can't shrink a loop drawn on it to a point without leaving the circle. Because of this, we expect to find a 1-form that is closed but not exact.
+	
+	\paragraph{The Penetrating Example} The ``angle form,'' $\omega = d\theta$. If we view $\Scircle$ as the unit circle in the plane, this form is written as $\omega = -y\,dx + x\,dy$.
+	
+	\paragraph{Analysis}
+	\begin{enumerate}
+		\item \textbf{Is it closed?} Yes. Trivially, $d\omega = d(d\theta) = 0$. Any form on a 1-dimensional space is automatically closed because its derivative would be a 2-form, which must be zero.
+		\item \textbf{Is it exact?} Let's test it using the fundamental theorem of calculus. If $\omega$ were exact, its integral around any closed loop must be zero. Let's integrate it once around the circle. We parameterize the circle with $x=\cos\theta, y=\sin\theta$.
+		\begin{align*}
+			\oint_{\Scircle} \omega &= \int_0^{2\pi} (- \sin\theta)(-\sin\theta\,\d\theta) + (\cos\theta)(\cos\theta\,\d\theta) \\
+			&= \int_0^{2\pi} (\sin^2\theta + \cos^2\theta)\,\d\theta = \int_0^{2\pi} 1\,\d\theta = 2\pi
+		\end{align*}
+	\end{enumerate}
+	
+	\paragraph{The Insight} The integral is $2\pi \neq 0$. Therefore, $\omega$ \textbf{is not exact}. The angle $\theta$ is a perfect potential function \textit{locally}, but it fails globally because it's not single-valued (it jumps from $2\pi$ back to $0$). This failure is a direct measurement of the hole in the circle.
+	
+	\hrulefill
+	
+	\section{The Sphere ($\Ssphere$)}
+	The sphere is the opposite. It has no 1-dimensional holes; any loop you draw on its surface can be shrunk down to a single point.
+	
+	\paragraph{The Topology} $\Ssphere$ is \textbf{simply connected}. It lacks the kind of hole found in the circle. This means its topology guarantees that \textbf{every closed 1-form on the sphere is also exact}. There are no interesting 1-form examples here because the phenomenon of ``closed but not exact'' cannot happen.
+	
+	\paragraph{The Penetrating Example (for 2-forms)} The sphere's ``hole'' is the 3D volume it encloses. This 2-dimensional hole is detected by a \textbf{2-form}: the \textbf{area form} $\sigma$.
+	
+	\paragraph{Analysis}
+	\begin{enumerate}
+		\item \textbf{Is it closed?} Yes. Any 2-form on a 2-dimensional space is trivially closed because its derivative, a 3-form, must be zero.
+		\item \textbf{Is it exact?} If $\sigma$ were exact, it would be the derivative of some 1-form, $\sigma = d\omega$. By Stokes' Theorem, the integral of $\sigma$ over the entire sphere would have to be zero, because the sphere has no boundary ($\partial \Ssphere = \emptyset$).
+		\[
+		\int_{\Ssphere} \sigma = \int_{\Ssphere} d\omega = \oint_{\partial \Ssphere} \omega = 0
+		\]
+		But we know the integral of the area form is simply the surface area of the sphere:
+		\[
+		\int_{\Ssphere} \sigma = \text{Area}(\Ssphere) = 4\pi r^2
+		\]
+	\end{enumerate}
+	
+	\paragraph{The Insight} Since the integral is $4\pi r^2 \neq 0$, the area form $\sigma$ \textbf{is not exact}. The non-zero area of the sphere, a closed surface, acts as the obstruction. This proves that the sphere, while having no 1D holes, encloses a 2D hole which is detected by a 2-form.
+	
+	\hrulefill
+	
+	\section{The Torus ($\Ttorus$)}
+	The torus is richer than the circle because it has two distinct types of holes.
+	
+	\begin{figure}[h]
+		\centering
+		% In a real document, you would use: \includegraphics[width=0.5\textwidth]{torus_loops.png}
+		\fbox{}
+		\caption{The two fundamental loops on a torus, $\gamma_\theta$ and $\gamma_\phi$.}
+	\end{figure}
+	
+	\paragraph{The Topology} The torus ($\Ttorus = \Scircle \times \Scircle$) has two independent 1-dimensional holes: one going around the ``long way'' ($\theta$) and one going through the ``hole of the donut'' ($\phi$). We therefore expect to find two independent 1-forms that are closed but not exact.
+	
+	\paragraph{The Penetrating Examples} The differentials of the two angle coordinates, $\omega_\theta = d\theta$ and $\omega_\phi = d\phi$.
+	
+	\paragraph{Analysis}
+	\begin{enumerate}
+		\item \textbf{Are they closed?} Yes, for the same reason as on the circle: $d(d\theta)=0$ and $d(d\phi)=0$.
+		\item \textbf{Are they exact?} We test them by integrating over the two fundamental loops.
+		\begin{itemize}
+			\item Let $\gamma_\theta$ be the ``long way'' loop where $\theta$ goes from $0$ to $2\pi$ and $\phi$ is constant.
+			\item Let $\gamma_\phi$ be the ``short way'' loop where $\phi$ goes from $0$ to $2\pi$ and $\theta$ is constant.
+		\end{itemize}
+		Let's integrate $\omega_\theta$ around both loops:
+		\[
+		\oint_{\gamma_\theta} \omega_\theta = \int_0^{2\pi} d\theta = 2\pi \neq 0 \implies \omega_\theta \text{ is not exact.}
+		\]
+		\[
+		\oint_{\gamma_\phi} \omega_\theta = \int_0^{2\pi} 0 = 0
+		\]
+		Now let's integrate $\omega_\phi$ around both loops:
+		\[
+		\oint_{\gamma_\theta} \omega_\phi = \int_0^{2\pi} 0 = 0
+		\]
+		\[
+		\oint_{\gamma_\phi} \omega_\phi = \int_0^{2\pi} d\phi = 2\pi \neq 0 \implies \omega_\phi \text{ is not exact.}
+		\]
+	\end{enumerate}
+	
+	\paragraph{The Insight} We have found two distinct closed forms, $\omega_\theta$ and $\omega_\phi$. Neither is exact. Each one successfully ``detects'' one of the torus's holes (by having a non-zero integral around it) while ignoring the other. This shows how different non-exact forms can probe the distinct topological features of a space.
+	
+\end{document}

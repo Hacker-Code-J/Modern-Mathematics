@@ -1,0 +1,65 @@
+\documentclass[12pt, a4paper]{article}
+
+% PACKAGES for math and formatting
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage[margin=1in]{geometry}
+
+% Custom command for partial derivatives for cleaner code
+\newcommand{\pderiv}[2]{\frac{\partial #1}{\partial #2}}
+\renewcommand{\vec}[1]{\mathbf{#1}} % For vectors
+
+% DOCUMENT TITLE
+\title{Why Are the Tests for Conservative Fields Named That Way?}
+\author{An Intuitive Explanation}
+\date{\today}
+
+\begin{document}
+	
+	\maketitle
+	
+	Each test for a conservative vector field is named after the fundamental question it answers about the field's structure.
+	
+	\hrulefill
+	
+	\section{The Local Test: Equality of Mixed Partials}
+	
+	This is called the \textbf{``Local Test''} because it checks a property of the vector field at \textbf{one single point at a time}, independent of any other point in space.
+	
+	The calculation of the partial derivatives, $\pderiv{P}{y}$ and $\pderiv{Q}{x}$, only requires information about the field in an infinitesimally small neighborhood around a point $(x,y)$. You can confirm that the ``no-swirl'' condition holds at $(1, 2)$ without knowing anything about the field at $(5, 10)$.
+	
+	It's like inspecting a tiled floor by checking each individual tile for cracks. You can declare one tile ``good'' or ``bad'' based only on a local inspection of that single tile.
+	
+	\paragraph{Example} For the vector field $\vec{F} = \langle -y, x \rangle$, the mixed partials are $\pderiv{P}{y} = -1$ and $\pderiv{Q}{x} = 1$. Because these are not equal, this test tells us that at \textit{every local point}, there is a rotational component. This local failure everywhere guarantees the field is not conservative.
+	
+	\hrulefill
+	
+	\section{The Global Test: Path Independence}
+	
+	This is called the \textbf{``Global Test''} because it checks a property that depends on the vector field along an \textbf{entire path}, not just a single point.
+	
+	You cannot determine if an integral is path-independent by looking at the start point, the end point, or any single point in between. You must integrate the field's influence over the whole ``global'' journey. The result is a property of the path as it moves through the entire space (the ``globe'').
+	
+	This is like checking if it's possible to walk from the ground floor to the roof of a building. You can't know the answer by just looking at the lobby; you have to check the entire global path, including all stairways and hallways, to see if it's connected.
+	
+	\paragraph{Example} To confirm that $\vec{F} = \langle 2x, 2y \rangle$ is conservative, we could show that the line integral from $(0,0)$ to $(1,1)$ is the same for the straight path $\gamma_1(t)=\langle t,t \rangle$ and the parabolic path $\gamma_2(t)=\langle t, t^2 \rangle$. Each calculation requires integrating over the \textit{entire} path.
+	
+	\hrulefill
+	
+	\section{The Constructive Test: Potential Recovery}
+	
+	This is called the \textbf{``Constructive Test''} because you literally \textbf{construct}, or build, the potential function $f$ piece by piece.
+	
+	Unlike the other tests that just give a ``yes'' or ``no'' answer, this is a procedure that results in a finished product: the potential function itself. The process is a step-by-step construction.
+	
+	This is like an architect reverse-engineering a blueprint from an existing building. They start by measuring one room (integrating $P$), then use the connecting hallways to inform the layout of the next room (differentiating and comparing to $Q$), continuing until they have constructed the blueprint for the entire floor ($f$).
+	
+	\paragraph{Example} For $\vec{F} = \langle 2xy, x^2 \rangle$, the procedure is a construction:
+	\begin{enumerate}
+		\item \textbf{Construct a candidate:} Start by integrating $P$: 
+		\[ f(x,y) = \int 2xy \, dx = x^2y + h(y) \]
+		\item \textbf{Refine the construction:} Use $Q$ to determine the unknown part. Differentiating our candidate gives $\pderiv{f}{y} = x^2 + h'(y)$. We set this equal to $Q = x^2$.
+		\item \textbf{Finalize the construction:} This shows $h'(y)=0$, so $h(y)$ is a constant. The finished object is the potential function $f(x,y) = x^2y+C$.
+	\end{enumerate}
+	
+\end{document}

@@ -1,0 +1,143 @@
+\documentclass[11pt,openany]{article}
+
+\input{grad-math-preamble-linear}
+\input{tcolorbox}
+\input{theorem}
+\input{tikz}
+\input{grad-math-commands}
+\newtheorem{problem}{Problem}
+\renewcommand{\vec}[1]{\mathbf{#1}}
+\newenvironment{solution}{\paragraph{\color{magenta}Solution}}{}
+\setstretch{1.25}
+
+\begin{document}
+\pagenumbering{arabic}
+\begin{center}
+	\huge\textbf{Homework2: One-to-one Correspondence between Linear Transformations and Matrices}\\
+	\vspace{0.5em}
+	\large{Ji, Yong-hyeon}\\
+	%	\large{\ttfamily \url{https://github.com/Hacker-Code-J}}\\
+	\vspace{0.5em}
+	\normalsize{\today}\\
+\end{center}
+Let $U,V,W$ are vector spaces with basis \[
+\mathcal B_U=\{u_1,\dots,u_\ell\},\; \mathcal B_V=\{v_1,\dots,v_n\},\; \mathcal B_W=\{w_1,\dots,w_m\},
+\] respectively. Consider linear transformations $T_1:U\to V$, $T_2:V\to W$, and $T_2\circ  T_1:U\to W$. 
+Let $A=[T_1]_{\mathcal B_U}^{\mathcal B_V}\in M_{n\times \ell}$ and $B=[T_2]_{\mathcal B_V}^{\mathcal B_W}\in M_{m\times n}$. Prove that \[
+[T_2\circ T_1]_{\mathcal B_U}^{\mathcal B_W}
+=
+[T_2]_{\mathcal B_V}^{\mathcal B_W}\,[T_1]_{\mathcal B_U}^{\mathcal B_V}=BA\in M_{m\times\ell}.
+\]
+
+\begin{proof}
+\ \\ \ \\ \noindent
+\textbf{Column-wise computation.}\; Define
+\[
+A:=[T_1]_{\mathcal B_U}^{\mathcal B_V}
+=
+\begin{bmatrix}
+	\;| &        & |\;\\
+	[T_1(u_1)]_{\mathcal B_V} & \cdots & [T_1(u_\ell)]_{\mathcal B_V}\\
+	\;| &        & |\;
+\end{bmatrix}
+\in \mathbb R^{n\times \ell},
+\quad
+B:=[T_2]_{\mathcal B_V}^{\mathcal B_W}
+=
+\begin{bmatrix}
+	\;| &        & |\;\\
+	[T_2(v_1)]_{\mathcal B_W} & \cdots & [T_2(v_n)]_{\mathcal B_W}\\
+	\;| &        & |\;
+\end{bmatrix}
+\in \mathbb R^{m\times n}.
+\]
+The matrix of the composition will be
+\[
+C:=[T_2\circ T_1]_{\mathcal B_U}^{\mathcal B_W}
+=
+\begin{bmatrix}
+	\;| &        & |\;\\
+	[(T_2\circ T_1)(u_1)]_{\mathcal B_W} & \cdots & [(T_2\circ T_1)(u_\ell)]_{\mathcal B_W}\\
+	\;| &        & |\;
+\end{bmatrix}
+\in \mathbb R^{m\times \ell}.
+\]
+For each \(j\in\{1,\dots,\ell\}\), by linearity and the definition of \(A\) and \(B\),
+\[
+[(T_2\circ T_1)(u_j)]_{\mathcal B_W}
+=
+[T_2\big(T_1(u_j)\big)]_{\mathcal B_W}
+=
+[T_2]_{\mathcal B_V}^{\mathcal B_W}\,[T_1(u_j)]_{\mathcal B_V}
+=
+B\cdot (\text{the $j$-th column of }A).
+\]
+Hence the \(j\)-th column of \(C\) equals \(B\) times the \(j\)-th column of \(A\), i.e.,
+\[
+C=BA.
+\]
+
+\newpage\noindent
+\textbf{Entry-wise (index) verification.}
+Write
+\[
+A=\big[a_{ij}\big]_{1\le i\le n,\,1\le j\le \ell},\qquad
+B=\big[b_{ki}\big]_{1\le k\le m,\,1\le i\le n}.
+\]
+Then for each \(j\),
+\[
+T_1(u_j)=\sum_{i=1}^n a_{ij}v_i,
+\quad
+T_2(v_i)=\sum_{k=1}^m b_{ki}w_k,
+\]
+so
+\[
+(T_2\circ T_1)(u_j)
+=
+T_2\!\left(\sum_{i=1}^n a_{ij}v_i\right)
+=
+\sum_{i=1}^n a_{ij}T_2(v_i)
+=
+\sum_{i=1}^n a_{ij}\sum_{k=1}^m b_{ki}w_k
+=
+\sum_{k=1}^m\left(\sum_{i=1}^n b_{ki}a_{ij}\right)w_k.
+\]
+Thus the \(k\)-th coordinate (in \(\mathcal B_W\)) of \((T_2\circ T_1)(u_j)\) is
+\[
+c_{kj}:=\sum_{i=1}^n b_{ki}a_{ij}.
+\]
+Therefore \(C=[c_{kj}]\) with
+\[
+C
+=
+BA
+=
+\begin{bmatrix}
+	b_{11} & \cdots & b_{1n}\\
+	\vdots & \ddots & \vdots\\
+	b_{m1} & \cdots & b_{mn}
+\end{bmatrix}
+\begin{bmatrix}
+	a_{11} & \cdots & a_{1\ell}\\
+	\vdots & \ddots & \vdots\\
+	a_{n1} & \cdots & a_{n\ell}
+\end{bmatrix}
+=
+\begin{bmatrix}
+	\displaystyle\sum_{i=1}^n b_{1i}a_{i1} & \cdots & \displaystyle\sum_{i=1}^n b_{1i}a_{i\ell}\\[6pt]
+	\vdots & \ddots & \vdots\\[2pt]
+	\displaystyle\sum_{i=1}^n b_{mi}a_{i1} & \cdots & \displaystyle\sum_{i=1}^n b_{mi}a_{i\ell}
+\end{bmatrix}.
+\]
+%\vspace{40pt}\\ \noindent
+%\textbf{Coordinate-vector form (optional).}
+%For any \(x=\sum_{j=1}^\ell x_j u_j\in U\),
+%\[
+%[T_1(x)]_{\mathcal B_V}=A\,[x]_{\mathcal B_U},\qquad
+%[T_2\circ T_1(x)]_{\mathcal B_W}=B\,[T_1(x)]_{\mathcal B_V}=BA\,[x]_{\mathcal B_U}.
+%\]
+%Hence \([T_2\circ T_1]_{\mathcal B_U}^{\mathcal B_W}=BA=[T_2]_{\mathcal B_V}^{\mathcal B_W}[T_1]_{\mathcal B_U}^{\mathcal B_V}.\)
+\end{proof}
+
+
+\end{document}

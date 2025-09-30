@@ -1,0 +1,113 @@
+\documentclass[12pt]{article}
+
+% PACKAGES for math and formatting
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage[a4paper, margin=1in]{geometry}
+
+% Custom command for partial derivatives for cleaner code
+\newcommand{\pderiv}[2]{\frac{\partial #1}{\partial #2}}
+
+% DOCUMENT TITLE
+\title{Three Tests for an Exact Differential Form}
+\author{A Penetrating Example}
+\date{\today}
+
+\begin{document}
+	
+	\maketitle
+	
+	We will investigate the properties of the 1-form $\omega$ on the simply connected domain $\mathbb{R}^2$:
+	\[
+	\omega = \underbrace{(2xy^3 - \sin(x))}_{P(x,y)}\,\d x + \underbrace{(3x^2y^2)}_{Q(x,y)}\,\d y
+	\]
+	We will apply three distinct tests to determine if $\omega$ is exact (i.e., if it is the differential of some potential function $f(x,y)$).
+	
+	\hrulefill
+	
+	\section{Test 1: Equality of Mixed Partials (The Local Test )}
+	
+	\subsection*{Purpose}
+	This is the fastest diagnostic check. Its purpose is to answer the \textbf{local} question: ``Does this field have zero curl at every point?'' It's a rapid disqualifier---if this test fails, the form is not exact, and we can stop. On a simply connected domain like $\mathbb{R}^2$, this test is also sufficient to prove exactness.
+	
+	\subsection*{Application}
+	We must check if $\pderiv{Q}{x} = \pderiv{P}{y}$.
+	\begin{align*}
+		P(x,y) &= 2xy^3 - \sin(x) \implies \pderiv{P}{y} = 2x \cdot (3y^2) = \mathbf{6xy^2} \\
+		Q(x,y) &= 3x^2y^2 \implies \pderiv{Q}{x} = 3y^2 \cdot (2x) = \mathbf{6xy^2}
+	\end{align*}
+	Since $\pderiv{Q}{x} = \pderiv{P}{y}$, the condition is met. The form $\omega$ is \textbf{closed}. Because the domain is simply connected, we conclude it is also \textbf{exact}.
+	
+	\hrulefill
+	
+	\section{Test 2: Path Independence (The Global Test)}
+	
+	\subsection*{Purpose}
+	This test verifies the fundamental physical meaning of a conservative field. Its purpose is to answer the \textbf{global} question: ``Is the work done between two points independent of the path taken?'' This confirms the field is globally coherent.
+	
+	\subsection*{Application}
+	Let's calculate the line integral of $\omega$ from point $A=(0,0)$ to point $B=(1,2)$ along two different paths. If the form is exact, the results must be identical.
+	
+	\subsubsection*{Path $\gamma_1$: The ``City Block'' Path}
+	Move from $(0,0) \to (1,0)$ and then from $(1,0) \to (1,2)$.
+	\begin{itemize}
+		\item \textbf{Segment 1: $(0,0) \to (1,0)$.} Here, $y=0$ and $\d y=0$.
+		\[
+		\int_{\text{seg1}} \omega = \int_0^1 (2x(0)^3 - \sin(x))\,\d x = \int_0^1 -\sin(x)\,\d x = [\cos(x)]_0^1 = \cos(1) - 1
+		\]
+		\item \textbf{Segment 2: $(1,0) \to (1,2)$.} Here, $x=1$ and $\d x=0$.
+		\[
+		\int_{\text{seg2}} \omega = \int_0^2 (3(1)^2y^2)\,\d y = \int_0^2 3y^2\,\d y = [y^3]_0^2 = 8
+		\]
+	\end{itemize}
+	The total integral for path $\gamma_1$ is $(\cos(1) - 1) + 8 = \mathbf{7 + \cos(1)}$.
+	
+	\subsubsection*{Path $\gamma_2$: The Direct Straight Line}
+	Parameterize the line as $\mathbf{r}(t) = \langle t, 2t \rangle$ for $t \in [0,1]$.
+	This gives $x=t, \d x=\d t$ and $y=2t, \d y=2\,\d t$.
+	\begin{align*}
+		\int_{\gamma_2} \omega &= \int_0^1 \left[ (2(t)(2t)^3 - \sin(t))\,\d t + (3(t)^2(2t)^2)(2\,\d t) \right] \\
+		&= \int_0^1 \left( (16t^4 - \sin(t)) + 24t^4 \right)\,\d t \\
+		&= \int_0^1 (40t^4 - \sin(t))\,\d t \\
+		&= [8t^5 + \cos(t)]_0^1 \\
+		&= (8 + \cos(1)) - (0 + \cos(0)) = \mathbf{7 + \cos(1)}
+	\end{align*}
+	The results are identical, demonstrating path independence and confirming the form is \textbf{exact}.
+	
+	\hrulefill
+	
+	\section{Test 3: Potential Recovery (The Constructive Test )}
+	
+	\subsection*{Purpose}
+	This is the ultimate proof by construction. Its purpose is to answer the question: ``If a potential function exists, what is it?'' This is the most practical test, as it yields the potential function $f$ needed for applications, such as using the Fundamental Theorem of Line Integrals.
+	
+	\subsection*{Application}
+	We construct $f(x,y)$ such that $\d f = \omega$.
+	\begin{enumerate}
+		\item \textbf{Integrate $P(x,y)$ with respect to $x$:}
+		\begin{align*}
+			f(x,y) &= \int P(x,y)\,\d x + h(y) \\
+			&= \int (2xy^3 - \sin(x))\,\d x + h(y) \\
+			&= x^2y^3 + \cos(x) + h(y)
+		\end{align*}
+		Here, $h(y)$ is an unknown function of $y$ that acts as the constant of integration.
+		
+		\item \textbf{Differentiate with respect to $y$ and set equal to $Q(x,y)$:}
+		\[
+		\pderiv{f}{y} = \pderiv{}{y}(x^2y^3 + \cos(x) + h(y)) = 3x^2y^2 + h'(y)
+		\]
+		We know this must equal $Q(x,y) = 3x^2y^2$.
+		\[
+		3x^2y^2 + h'(y) = 3x^2y^2
+		\]
+		
+		\item \textbf{Solve for $h(y)$:}
+		The equation simplifies to $h'(y) = 0$. Integrating gives $h(y) = C$, a constant. We can choose $C=0$ for simplicity.
+	\end{enumerate}
+	We have successfully constructed the potential function:
+	\[
+	\mathbf{f(x,y) = x^2y^3 + \cos(x)}
+	\]
+	Finding an explicit potential function is the definitive proof that $\omega$ is \textbf{exact}.
+	
+\end{document}

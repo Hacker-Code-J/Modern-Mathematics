@@ -1,0 +1,132 @@
+\documentclass[12pt, a4paper]{article}
+
+% PACKAGES for math, formatting, and emojis
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+
+% Custom command for partial derivatives for cleaner code
+\newcommand{\pderiv}[2]{\frac{\partial #1}{\partial #2}}
+\renewcommand{\vec}[1]{\mathbf{#1}} % For vectors
+\renewcommand{\d}{\mathrm{d}} % For a straight 'd' in differentials
+
+% DOCUMENT TITLE
+\title{From Gradients to Curl: A Natural Introduction}
+\author{Motivating the Three Tests for Conservative Fields}
+\date{\today}
+
+\begin{document}
+	
+	\maketitle
+	
+	The core problem is this: given a random vector field $\vec{F}$, how can we tell if it's a \textbf{conservative} (or gradient) field? Trying to guess the potential function $f$ is hard. We need a more systematic approach, starting only from what we know about gradients.
+	
+	\hrulefill
+	
+	\section{Why You Should Naturally Think About ``Curl''}
+	
+	You already know that if a field $\vec{F}$ is conservative, it must be the gradient of some potential function $f$. In 2D, this means:
+	\[
+	\vec{F} = \langle P, Q \rangle = \nabla f = \left\langle \pderiv{f}{x}, \pderiv{f}{y} \right\rangle
+	\]
+	This gives us two direct relationships: $P = \pderiv{f}{x}$ and $Q = \pderiv{f}{y}$.
+	
+	Now, let's ask a simple question. What happens if we differentiate $P$ with respect to $y$ and $Q$ with respect to $x$?
+	\begin{itemize}
+		\item Differentiate $P$ with respect to $y$: $\pderiv{P}{y} = \pderiv{}{y}\left(\pderiv{f}{x}\right) = \frac{\partial^2 f}{\partial y \partial x}$
+		\item Differentiate $Q$ with respect to $x$: $\pderiv{Q}{x} = \pderiv{}{x}\left(\pderiv{f}{y}\right) = \frac{\partial^2 f}{\partial x \partial y}$
+	\end{itemize}
+	From calculus, you know that for any well-behaved function $f$, the order of differentiation doesn't matter (Clairaut's Theorem on mixed partials). This means $\frac{\partial^2 f}{\partial y \partial x}$ must equal $\frac{\partial^2 f}{\partial x \partial y}$.
+	
+	This leads to a profound conclusion: if a field $\vec{F} = \langle P, Q \rangle$ is truly a gradient field, it is \textbf{necessary} that $\pderiv{Q}{x} = \pderiv{P}{y}$.
+	
+	This specific quantity, $\pderiv{Q}{x} - \pderiv{P}{y}$, measures the microscopic ``rotation'' or ``swirl'' of a vector field at a point. It's so important that it gets its own name: the \textbf{curl}. The condition we just derived, $\pderiv{Q}{x} - \pderiv{P}{y} = 0$, is simply the statement that the field must have \textbf{zero curl}.
+	
+	So, you should naturally think about ``zero curl'' not as a random new concept, but as a \textbf{simple, necessary consequence of a field being a gradient}, derived directly from the equality of mixed partials.
+	
+	\hrulefill
+	
+	\section{A Natural Reason for the Three Tests}
+	
+	Based on this, we can approach the problem of identifying conservative fields from three different, very natural angles. Each ``test'' is really just a different question we're asking.
+	
+	\subsection{The Local Test (Equality of Mixed Partials)}
+	\begin{itemize}
+		\item \textbf{The Question:} ``Is there a fast, upfront check to see if a field is \textit{disqualified} from being conservative?''
+		\item \textbf{The Reason:} This is the ``zero curl'' test we just derived ($\pderiv{Q}{x} = \pderiv{P}{y}$). It's called the \textbf{Local Test} because it checks the field's rotational property at every single point. If this test fails, the field cannot be a gradient, and we can stop. It's our first, essential checkpoint.
+	\end{itemize}
+	
+	\subsection{The Global Test (Path Independence)}
+	\begin{itemize}
+		\item \textbf{The Question:} ``What is the most important \textit{physical consequence} of a field being conservative?''
+		\item \textbf{The Reason:} You know that for a conservative field, the line integral only depends on the start and end points. This is the defining feature! This test, called the \textbf{Global Test}, checks this very property. It's ``global'' because it depends on the entire path, not just local behavior.
+	\end{itemize}
+	
+	\subsection{The Constructive Test (Potential Recovery)}
+	\begin{itemize}
+		\item \textbf{The Question:} ``If a field passes the local test, how can I \textit{prove} it's conservative and find its potential function $f$?''
+		\item \textbf{The Reason:} This is the most direct approach. You try to \textbf{build} the potential function $f$ by reversing the process of the gradient---that is, by integrating. If you can successfully construct $f$, you have provided definitive proof. This is the \textbf{Constructive Test}.
+	\end{itemize}
+	
+	\hrulefill
+	
+	\section{An Example That Permeates All Three Tests}
+	
+	Let's investigate the vector field $\vec{F}(x,y) = \langle 2xy, x^2 + 3y^2 \rangle$. Is it conservative? Let's ask our three questions.
+	
+	\subsection{Test 1: The Fast Check (Local Test)}
+	Does it have the necessary ``zero curl'' property? Here, $P = 2xy$ and $Q = x^2 + 3y^2$.
+	\begin{align*}
+		\pderiv{P}{y} &= \pderiv{}{y}(2xy) = 2x \\
+		\pderiv{Q}{x} &= \pderiv{}{x}(x^2 + 3y^2) = 2x
+	\end{align*}
+	Yes, $\pderiv{Q}{x} = \pderiv{P}{y}$. The field passes our first check. It \textit{could} be conservative.
+	
+	\subsection{Test 2: Checking the Physical Consequence (Global Test)}
+	Is the line integral from $A=(0,0)$ to $B=(1,2)$ path-independent?
+	\begin{itemize}
+		\item \textbf{Path 1 (Along the axes):} $(0,0) \to (1,0) \to (1,2)$.
+		\begin{itemize}
+			\item Segment 1 ($(0,0) \to (1,0)$): $y=0, \d y=0$. Integral is $\int_0^1 2x(0)\,\d x = 0$.
+			\item Segment 2 ($(1,0) \to (1,2)$): $x=1, \d x=0$. Integral is $\int_0^2 (1^2 + 3y^2)\,\d y = [y + y^3]_0^2 = 10$.
+		\end{itemize}
+		\textbf{Total for Path 1 = 10.}
+		
+		\item \textbf{Path 2 (Straight line):} Parameterize as $\vec{r}(t) = \langle t, 2t \rangle$ for $t \in [0,1]$.
+		This gives $x=t, y=2t, \d x=\d t, \d y=2\,\d t$.
+		\begin{align*}
+			\int_C P\,\d x + Q\,\d y &= \int_0^1 \left( (2(t)(2t))\,\d t + (t^2 + 3(2t)^2)(2\,\d t) \right) \\
+			&= \int_0^1 (4t^2 + 2(13t^2))\,\d t = \int_0^1 30t^2\,\d t \\
+			&= [10t^3]_0^1 = 10.
+		\end{align*}
+		\textbf{Total for Path 2 = 10.}
+	\end{itemize}
+	Both paths give the same answer! This demonstrates the global property of path independence.
+	
+	\subsection{Test 3: Building the Proof (Constructive Test)}
+	Let's find the potential function $f(x,y)$ by reversing the gradient.
+	\begin{enumerate}
+		\item \textbf{Integrate $P$ with respect to $x$:} We know $\pderiv{f}{x} = 2xy$.
+		\[
+		f(x,y) = \int 2xy\,\d x = x^2y + h(y)
+		\]
+		The ``constant'' of integration is an unknown function of $y$.
+		
+		\item \textbf{Differentiate with respect to $y$ and match to $Q$:} We know $\pderiv{f}{y} = x^2 + 3y^2$.
+		\[
+		\pderiv{f}{y} = \pderiv{}{y}(x^2y + h(y)) = x^2 + h'(y)
+		\]
+		Setting our two expressions for $\pderiv{f}{y}$ equal:
+		\[
+		x^2 + h'(y) = x^2 + 3y^2
+		\]
+		
+		\item \textbf{Solve for $h(y)$:}
+		\[
+		h'(y) = 3y^2 \implies h(y) = \int 3y^2\,\d y = y^3
+		\]
+	\end{enumerate}
+	We have successfully built the potential function: $f(x,y) = x^2y + y^3$. Since we found a potential, the field is definitively \textbf{conservative}.
+	
+\end{document}
