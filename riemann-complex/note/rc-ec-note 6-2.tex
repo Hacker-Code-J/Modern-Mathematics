@@ -1,0 +1,133 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{mathrsfs}
+
+\title{Why Nonconstant Holomorphic Functions Don't Exist on Compact Riemann Surfaces\\
+	\large A proof via the winding (logarithmic) form}
+\author{}
+\date{}
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{proposition}{Proposition}
+\theoremstyle{remark}
+\newtheorem*{remark}{Remark}
+
+\newcommand{\C}{\mathbb{C}}
+
+\begin{document}
+	\maketitle
+	
+	\section*{0. Setup and the winding form}
+	Let \(X\) be a compact Riemann surface (connected, without boundary). 
+	If \(f:X\to\C\) is holomorphic and \emph{nonvanishing} on some open set, we may define on that open set the \emph{logarithmic derivative} (winding form)
+	\[
+	\omega_f \ :=\ d\log f \ =\ \frac{f'}{f}\,dz,
+	\]
+	where \(z\) is any local holomorphic coordinate. This is a well-defined meromorphic \(1\)-form on \(X\) with the following basic property:
+	
+	\begin{lemma}[Local argument principle]
+		If \(p\in X\) is a zero of \(f\) of order \(m\ge 1\) (so locally \(f(z)=u(z)(z-p)^m\) with \(u(p)\neq 0\)), then
+		\[
+		\operatorname{Res}_p\!\left(\frac{f'}{f}\,dz\right)=m.
+		\]
+		If \(p\) is a pole of order \(n\ge 1\) (so \(f(z)=u(z)(z-p)^{-n}\) with \(u(p)\neq 0\)), then
+		\[
+		\operatorname{Res}_p\!\left(\frac{f'}{f}\,dz\right)=-\,n.
+		\]
+	\end{lemma}
+	
+	\begin{proof}
+		Write \(f(z)=u(z)(z-p)^m\) with \(u\) holomorphic and nowhere zero; then
+		\[
+		\frac{f'}{f}=\frac{u'}{u}+\frac{m}{z-p},
+		\]
+		so the residue is \(m\). The pole case is identical with \(m=-n\).
+	\end{proof}
+	
+	\section*{1. Residue theorem on a compact surface}
+	On any compact Riemann surface, the sum of residues of a meromorphic \(1\)-form is zero:
+	
+	\begin{proposition}[Residue theorem, global form]\label{prop:residue}
+		If \(\eta\) is a meromorphic \(1\)-form on a compact Riemann surface \(X\), then
+		\[
+		\sum_{p\in X}\operatorname{Res}_p(\eta)=0.
+		\]
+	\end{proposition}
+	
+	\begin{proof}[Idea]
+		Cover \(X\) by coordinate discs avoiding poles and small punctured discs around each pole; apply Stokes' theorem on the complement of the punctures and use that small positively oriented circles around the punctures bound with negative orientation; the boundary integrals are \(2\pi i\) times the residues and sum to \(0\).
+	\end{proof}
+	
+	\section*{2. The winding-form proof of Liouville on compact surfaces}
+	\begin{theorem}\label{thm:main}
+		If \(X\) is compact and \(f:X\to\C\) is holomorphic, then \(f\) is constant.
+	\end{theorem}
+	
+	\begin{proof}[Proof via the winding (logarithmic) form]
+		Consider \(\omega_f = \dfrac{f'}{f}\,dz\), which is meromorphic on \(X\). Since \(f\) is holomorphic on \(X\), it has \emph{no poles}; thus, by the local argument principle, the only possible residues of \(\omega_f\) occur at the zeros of \(f\), and each such residue equals the zero's multiplicity (a nonnegative integer).
+		
+		By the residue theorem (Proposition~\ref{prop:residue}),
+		\[
+		\sum_{p\in X}\operatorname{Res}_p(\omega_f)=0.
+		\]
+		But each term is \(\ge 0\). Hence every term must be \(0\), so \(f\) has \emph{no zeros}. Therefore \(\omega_f\) is in fact holomorphic everywhere on \(X\) (no poles anywhere).
+		
+		Now take real parts:
+		\[
+		d\log|f| \ =\ \Re\!\left(\frac{f'}{f}\,dz\right).
+		\]
+		Since \(\omega_f\) is holomorphic, its real part is a \emph{closed} \(1\)-form; locally it is the differential of the harmonic function \(\log|f|\). Globally, \(\log|f|\) is thus a harmonic function on the \emph{compact} surface \(X\). A harmonic function on a compact manifold attains its max/min and hence is constant. Therefore \(|f|\) is constant on \(X\).
+		
+		Finally, if \(|f|\equiv c>0\) is constant and \(f\) is holomorphic, then \(f\overline{f}=c^2\). Differentiating in \(z\),
+		\[
+		0=\partial_z(f\overline{f})=f'\,\overline{f},
+		\]
+		so \(f'\equiv 0\) and \(f\) is constant.
+	\end{proof}
+	
+	\begin{remark}[Equivalent phrasing via the argument principle]
+		Equivalently, on a compact surface, the divisor of a meromorphic function has degree \(0\):
+		\[
+		\sum_{p}\operatorname{ord}_p(f)=0.
+		\]
+		When \(f\) is holomorphic (no poles), this forces \(\operatorname{ord}_p(f)=0\) for all \(p\), i.e. no zeros. Then \(\log|f|\) is globally harmonic and must be constant, hence \(f\) is constant.
+	\end{remark}
+	
+	\section*{3. Two standard one-line proofs (for comparison)}
+	\paragraph{(A) Maximum modulus principle.}
+	A continuous image of a compact space is compact, so \(|f|\) attains a maximum on \(X\). A holomorphic function with an interior maximum is constant. Hence \(f\) is constant.
+	
+	\paragraph{(B) Open mapping + compactness.}
+	If \(f\) is nonconstant holomorphic, it is open; thus \(f(X)\) is an open subset of \(\C\). But \(X\) is compact, so \(f(X)\) is compact. The only subset of \(\C\) that is both open and compact is empty; contradiction. Hence \(f\) is constant.
+	
+	\section*{4. Intuition: winding numbers and \(\frac{dz}{z}\)}
+	On \(\C^\times\), the \emph{winding form} \(\dfrac{dz}{z}\) satisfies
+	\[
+	\frac{1}{2\pi i}\int_\gamma \frac{dz}{z} \in \mathbb{Z},
+	\]
+	the winding number of \(\gamma\) about \(0\).
+	For a holomorphic \(f\), \(\dfrac{f'}{f}dz = d\log f\) pulls this counting to the domain:
+	\[
+	\frac{1}{2\pi i}\int_{\partial U} \frac{f'}{f}dz
+	=\sum_{p\in U}\operatorname{ord}_p(f)-\sum_{p\in U}\operatorname{ord}_p(\text{poles of }f),
+	\]
+	the \emph{argument principle}. On a compact surface with \(U=X\), the boundary term vanishes and the global count must be \(0\). This forces holomorphic \(f\) to have neither zeros nor poles; then \(\log|f|\) is harmonic and constant.
+	
+	\section*{5. Tiny exercise set}
+	\begin{itemize}
+		\item Show directly that if \(f\) is holomorphic and nowhere zero on a compact Riemann surface, then \(\log|f|\) is harmonic and hence constant; conclude \(f\) is constant.
+		\item Let \(\omega\) be a meromorphic \(1\)-form on a compact Riemann surface. Prove
+		\(\sum_p \operatorname{Res}_p(\omega)=0\) using Stokes' theorem.
+		\item (Argument principle) For a domain \(U\Subset X\) with smooth boundary avoiding zeros/poles of a meromorphic \(f\), prove
+		\[
+		\frac{1}{2\pi i}\int_{\partial U} \frac{f'}{f}dz
+		=\sum_{p\in U}\operatorname{ord}_p(f)-\sum_{p\in U}\operatorname{ord}_p(1/f).
+		\]
+	\end{itemize}
+	
+\end{document}

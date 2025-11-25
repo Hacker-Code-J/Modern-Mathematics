@@ -1,0 +1,76 @@
+\documentclass[tikz,border=5mm]{standalone}
+\usepackage{amssymb,amsmath,mathtools}
+\usetikzlibrary{arrows.meta,decorations.pathreplacing}
+\usetikzlibrary{calc,angles,quotes}
+\renewcommand{\Re}{\mathrm{Re}}
+\renewcommand{\Im}{\mathrm{Im}}
+
+\begin{document}
+\begin{tikzpicture}[>=Latex,scale=0.9]
+%==================== z-plane ====================
+\begin{scope}
+	% axes
+	\draw[->] (-3.2,0) -- (3.2,0) node[below right] {$\Re z$};
+	\draw[->] (0,-3.2) -- (0,3.2) node[left] {$\Im z$};
+	\node at (0,3.5) {$z$-plane};
+	
+	% circle |z| = 2
+	\draw[gray!60] (0,0) circle (2);
+	\node[gray!70] at (2.35,0.3) {$|z|=2$};
+	
+	% ray with angle -2pi/3 (= -120 degrees)
+	% length 3 just to show direction
+	\draw[gray!70,dashed] (0,0) -- (-1.5,-2.598);  % 3*(cos -120, sin -120)
+	\node[gray!70,anchor=west] at (-1.5,-2.598) {$\theta=-\frac{2\pi}{3}$};
+	
+	% the actual point z = -1 - sqrt(3)i = 2*(cos -120, sin -120)
+	\fill[blue] (-1.0,-1.732) circle (2pt)
+	node[anchor=east,align=right] {$z=-1-\sqrt3\,i$\\$=2e^{-2\pi i/3}$};
+\end{scope}
+
+%================= mapping arrow =================
+\draw[->,thick] (3.6,0) -- (5.0,0) node[midway,above] {$w=\log z$};
+
+%==================== w-plane ====================
+\begin{scope}[xshift=8.5cm]
+	% axes
+	\draw[->] (-2.2,0) -- (3.0,0) node[below right] {$u=\Re w$};
+	\draw[->] (0,-9.0) -- (0,5.0) node[left] {$v=\Im w$};
+	\node at (0,5.3) {$w$-plane};
+	
+	% vertical line u = ln 2 ≈ 0.6931
+	\draw[gray!60] (0.6931,-9.0) -- (0.6931,5.0);
+	\node[gray!70,anchor=west] at (0.75,4.6) {$u=\ln 2$};
+	
+	% horizontal lines v = -2pi/3 + 2pi n
+	% n = -1:  -2pi/3 - 2pi = -8.3776
+	% n =  0:  -2pi/3        = -2.0944
+	% n =  1:  -2pi/3 + 2pi  =  4.1888
+	\draw[gray!50] (-2.0,-8.3776) -- (3.0,-8.3776);
+	\draw[gray!60] (-2.0,-2.0944) -- (3.0,-2.0944);
+	\draw[gray!50] (-2.0, 4.1888) -- (3.0, 4.1888);
+	
+	\node[gray!70,anchor=west] at (0.1,-2.0944)
+	{$v=-\tfrac{2\pi}{3}$};
+	\node[gray!70,anchor=west] at (0.1,4.1888)
+	{$v=-\tfrac{2\pi}{3}+2\pi$};
+	\node[gray!70,anchor=west] at (0.1,-8.3776)
+	{$v=-\tfrac{2\pi}{3}-2\pi$};
+	
+	% image points: (ln 2, -2pi/3 + 2pi n)
+	% ln 2 ≈ 0.6931
+	\fill[red] (0.6931,-8.3776) circle (2.2pt);
+	\fill[red] (0.6931,-2.0944) circle (2.2pt);
+	\fill[red] (0.6931, 4.1888) circle (2.2pt);
+	
+	\node[red,anchor=west] at (0.8,-2.0944)
+	{$\ln 2 + i\bigl(-\tfrac{2\pi}{3}+2\pi n\bigr)$};
+	
+	% small hints
+	\node[blue!70,anchor=west] at (-2.0,0.5)
+	{$|z|=2 \ \mapsto\ u=\ln 2$};
+	\node[blue!70,anchor=west] at (-2.0,-0.9)
+	{$\theta=-\tfrac{2\pi}{3} \ \mapsto\ v=-\tfrac{2\pi}{3}+2\pi n$};
+\end{scope}
+\end{tikzpicture}
+\end{document}

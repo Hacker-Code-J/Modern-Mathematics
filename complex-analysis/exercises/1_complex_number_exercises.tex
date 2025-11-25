@@ -1,0 +1,532 @@
+\subsection{Exercises}
+\begin{enumerate}[\bfseries 1.]
+\item Verify that $\sqrt{2}\,|z|\ge |\Re z|+|\Im z|$.
+\begin{proof}[\Sol]
+Let $z=x+iy$, so that $x=\Re z$, $y=\Im z$, and $\lvert z\rvert=\sqrt{x^2+y^2}$. Then
+\begin{align*}
+\sqrt{2}\,\lvert z\rvert \;\ge\; \lvert \Re z\rvert+\lvert \Im z\rvert&\iff\sqrt{2}\,\sqrt{x^2+y^2}\;\ge\;\lvert x\rvert+\lvert y\rvert\\
+&\iff 2(x^2+y^2)\;\ge\;(\lvert x\rvert+\lvert y\rvert)^2\\
+&\iff 2(x^2+y^2)\;\ge\;x^2+y^2+2\lvert x\rvert\lvert y\rvert\quad(\because |x|^2=x^2,\; |y|^2=y^2)\\
+&\iff x^2+y^2\;\ge\;2\lvert x\rvert\lvert y\rvert\quad\text{by subtracting $x^2+y^2$ from both sides}\\
+&\iff x^2+y^2\;\ge\;2\sqrt{x^2y^2} \\
+&\iff \frac{x^2+y^2}{2}\;\ge\;\sqrt{x^2y^2} \\
+&\iff \frac{a+b}{2}\;\ge\;\sqrt{ab}\quad\text{by setting $a:=x^2$ and $b:=y^2$;\quad (AM-GM inequality)} \\
+\end{align*}
+Hence it holds.
+\begin{center}
+\begin{tikzpicture}[scale=2.75, >=Stealth]
+	% axes
+	\draw[->] (-1.8,0) -- (1.8,0) node[right] {$\Re z$};
+	\draw[->] (0,-1.8) -- (0,1.8) node[above] {$\Im z$};
+	
+	% unit circle |z|=1
+	\draw[ultra thick,blue!70] (0,0) circle (1);
+%	\draw[ultra thick,blue!70, opacity=.5] (0,0) circle (0.7207);
+	\node[blue!70] at (0,1.1) {$|z|=1$};
+	
+	% diamond |x|+|y|=sqrt(2)  (vertices at (±√2,0),(0,±√2))
+	% use √2 ≈ 1.4142
+	\draw[ultra thick,cyan] ( 1.4142,0) -- (0, 1.4142) -- (-1.4142,0) -- (0,-1.4142) -- cycle;
+	\node[cyan] at (0,1.55) {$|x|+|y|=\sqrt{2}$};
+	
+	% equality rays y=±x
+	\draw[dashed,gray!60] (-1,-1) -- (1,1);
+	\draw[dashed,gray!60] (-1, 1) -- (1,-1);
+	\node[gray!60] at (1.25,1.05) {$y=x$};
+	\node[gray!60] at (1.25,-1.05) {$y=-x$};
+	
+	\foreach \X/\Y in {0.7071/0.7071, 0.7071/-0.7071, -0.7071/0.7071, -0.7071/-0.7071}{
+		\fill[teal] (\X,\Y) circle (0.03);
+	}
+	\node[teal,anchor=east] at (-0.74,-0.74) {Equality Point
+%		$\bigl(\tfrac{1}{\sqrt2},\tfrac{1}{\sqrt2}\bigr)$
+	};
+	
+	% a sample point on the circle (theta = 30°)
+	% coordinates: (cos 30°, sin 30°) ≈ (0.8660, 0.5)
+	\fill[red] (0.8660,0.5000) circle (0.03);
+	\draw[red,->,thick] (0,0) -- (0.8660,0.5000) node[right] {$z=x+iy$};
+	
+	% helper projections to visualize |x| and |y|
+	\draw[red!70,densely dashed] (0.8660,0) -- (0.8660,0.5000);
+	\draw[red!70,densely dashed] (0,0.5000) -- (0.8660,0.5000);
+	\node[red!70] at (0.86,-0.10) {$x=\Re z$};
+	\node[red!70, left] at (0,0.50) {$y=\Im z$};
+	
+	% AM-GM derivation (compact)
+	\node[align=left,draw,rounded corners=1pt,inner sep=2pt,anchor=west] at (1.75,1.2)
+	{$\displaystyle |x||y|\le\frac{x^2+y^2}{2}\ \ (\text{AM--GM on }x^2,y^2)$\\[2pt]
+		$\displaystyle \implies\ (x^2+y^2)\le (2|x||y|)$\\[2pt]
+		$\displaystyle \implies\ 2\cdot (x^2+y^2)\le(x^2+y^2)+(2|x||y|)$\\[2pt]
+		$\displaystyle \implies\ (|x|+|y|)^2\le 2(x^2+y^2)$\\[2pt]
+		$\displaystyle \overset{\sqrt{\;\cdot\;}}{\implies}\ |x|+|y|\le \sqrt{2}\,|z|$\\[2pt]
+		$\displaystyle \implies\ |\Re z|+|\Im z|\le \sqrt{2}\,|z|.$};
+\end{tikzpicture}
+\end{center}
+\end{proof}
+\item By factoring $z^4-4z+3$ into two quadratic factors show that if $z$ lies on the circle $|z|=2$, then \[
+\left|\frac{1}{z^4-4z^2+3}\right|\le \frac13.
+\]
+\begin{proof}[\Sol]
+Since $z^4-4z^2+3 \;=\; (z^2-1)(z^2-3)$, we have \[
+\left\lvert z^4-4z^2+3 \right\rvert
+= \lvert z^2-1\rvert\,\lvert z^2-3\rvert.
+\]
+For $\lvert z\rvert=2$ one has $\lvert z^2\rvert=\lvert z\rvert^2=4$. By the triangle inequality,
+\[
+\lvert z^2-1\rvert \;\ge\; \bigl|\,\lvert z^2\rvert-\lvert 1\rvert\,\bigr| = \lvert 4-1\rvert = 3,
+\qquad
+\lvert z^2-3\rvert \;\ge\; \bigl|\,\lvert z^2\rvert-\lvert 3\rvert\,\bigr| = \lvert 4-3\rvert = 1.
+\]
+Hence
+\[
+\lvert z^4-4z^2+3\rvert \;\ge\; 3\cdot 1 \;=\; 3,
+\]
+and therefore
+\[
+\left\lvert\frac{1}{z^4-4z^2+3}\right\rvert \;=\; \frac{1}{\lvert z^4-4z^2+3\rvert} \;\le\; \frac{1}{3}.
+\]
+
+\begin{center}
+\begin{tikzpicture}[>=Latex,scale=.85]
+	
+	%================ z-plane =================
+	\begin{scope}
+		% axes
+		\draw[->] (-3.2,0) -- (3.2,0) node[right] {$\Re z$};
+		\draw[->] (0,-3.2) -- (0,3.2) node[above] {$\Im z$};
+		\node at (0,-3.5) {$z$-plane};
+		
+		% circle |z|=2
+		\draw[thick,blue!70] (0,0) circle (2);
+		\node[blue!70] at (0.75,2.25) {$|z|=2$};
+		
+		% sample point z with |z|=2, angle ~20°
+		% coordinates: 2*(cos20, sin20) ≈ (1.8794, 0.6840)
+		\fill[blue] (1.8794,0.6840) circle (2pt)
+		node[anchor=west] {$z$};
+		
+		% mapping arrow
+		\draw[->,thick] (4.5,0) -- (7,0) node[midway,above] {$f(z)=z^2$};
+	\end{scope}
+	
+	%================ w-plane =================
+	\begin{scope}[xshift=10.5cm]
+		% axes
+		\draw[->] (-3.2,0) -- (5.2,0) node[right] {$\Re f(z)$};
+		\draw[->] (0,-3.2) -- (0,3.2) node[above] {$\Im f(z)$};
+		\node at (0,-3.5) {$f(z)$-plane};
+		
+		% circle |w|=4
+		\draw[thick,blue!70] (0,0) circle (4);
+		\node[blue!70] at (5,0.3) {$|f(z)|=4$};
+		
+		% two real points 1 and 3
+		\fill (1,0) circle (1.6pt) node[below] {$1$};
+		\fill (3,0) circle (1.6pt) node[below] {$3$};;
+		\fill (4,0) circle (1.6pt) node[below] {$4$};
+		
+		% image point w = z^2 (angle doubles: ~40°), coords 4*(cos40, sin40) ≈ (3.0640, 2.5712)
+		\fill[red] (3.0640,2.5712) circle (2.2pt) node[above right] {$f(z)=z^2$};
+		\draw[red,->,thick] (0,0) -- (3.0640,2.5712);
+		
+		% distances |w-1| and |w-3|
+		\draw[magenta, dashed] (3.0640,2.5712) -- (1,0) node[midway,above left] {$|f(z)-1|$};
+		\draw[magenta, dashed] (3.0640,2.5712) -- (3,0) node[midway,right] {$|f(z)-3|$};
+		
+		% triangle-inequality lower bounds along the radial (origin->w) direction
+		% show the radial segment length 4, and compare to 1 and 3
+		\draw[dashed,gray!70] (0,0) -- (3.0640,2.5712); % radius 4
+		% project the points 1 and 3 to the radial line via concentric circles
+		\draw[gray!40] (0,0) circle (1);
+		\draw[gray!40] (0,0) circle (3);
+		
+		% double-arrows indicating |4-1|=3 and |4-3|=1 on the radial line
+		% place them near the ray with small offsets for clarity
+		% marker for 0->1
+		\draw[<->,gray!70] (-0.10,0.10) -- (-0.7071,0.7071)
+		node[midway,above right] {$1$};
+		% marker for 1->3
+		\draw[<->,gray!70] (-0.7771,0.7771) -- (-2.1213,2.1213)
+		node[midway,above right] {$2$};
+		% marker for 3->4
+		\draw[<->,gray!70] (-2.1913,2.1913) -- (-2.8284,2.8284)
+		node[midway,above right] {$1$};
+%		% marker for 0->4 (whole radius)
+%		\node[gray!70] at (-1.9,1.2) {$|w|=4$};
+		
+%		% inequality reminders near the base points
+%		\node[align=left,gray!60] at (0.9,1.3)
+%		{$|w-1| \ge \bigl||w|-1\bigr|=3$};
+%		\node[align=left,gray!60] at (2.6,-1.1)
+%		{$|w-3| \ge \bigl||w|-3\bigr|=1$};
+		
+%		% product and reciprocal bounds
+%		\node[draw,rounded corners=2pt,align=left,anchor=west] at (-3.0,-2.4)
+%		{$\displaystyle |(w-1)(w-3)| \ge 3\cdot1=3$\\[4pt]
+%			$\displaystyle \left|\frac{1}{(w-1)(w-3)}\right| \le \frac{1}{3}$};
+	\end{scope}
+	
+\end{tikzpicture}
+\end{center}
+
+For equality in the reverse triangle inequalities we must have $z^2$ and the positive reals $1,3$ on the same ray from the origin, i.e.\ $z^2=4$. Together with $\lvert z\rvert=2$ this forces $z=\pm 2$, and indeed
+\[
+\lvert (\pm 2)^4 - 4(\pm 2)^2 + 3\rvert = \lvert 16-16+3\rvert = 3,
+\]
+so the bound is sharp precisely at $z=\pm 2$.
+\end{proof}
+
+\item Prove the finite geometric sum
+\[
+1+z+z^2+\cdots+z^n=\frac{1-z^{n+1}}{1-z}\quad(z\ne1)
+\]
+and deduce Lagrange's trigonometric identity
+\[
+1+\cos\theta+\cdots+\cos n\theta=\frac12+\frac{\sin\!\big((2n+1)\theta/2\big)}{2\sin(\theta/2)}\quad(0<\theta<2\pi).
+\]
+\newpage
+\item Prove that the usual formula solves the quadratic equation \[
+az^2+bz+c=0\quad (a\neq 0)
+\] when the coefficient $a$,$b$, and $c$ are complex numbers. Specifically, by completing the square on the left-hand side, derive the \textbf{quadratic formula} \[
+z=\frac{-b+\sqrt{b^2-4ac}}{2a},
+\] where both square roots are to be considered when $b^2-4ac\neq 0$. Use this result to find the roots of the equation \[
+z^2+2z+(1-i)=0.
+\]
+\begin{proof}[\Sol]
+Since  \[
+az^2+bz+c
+= a\!\left(z^2+\frac{b}{a}z\right)+c
+= a\!\left(z+\frac{b}{2a}\right)^{\!2}-a\!\left(\frac{b}{2a}\right)^{\!2}+c
+= a\!\left(z+\frac{b}{2a}\right)^{\!2}-\frac{b^2}{4a}+c,
+\] we have
+\[
+a\!\left(z+\frac{b}{2a}\right)^{\!2}=\frac{b^2}{4a}-c
+\quad\Longleftrightarrow\quad
+\left(z+\frac{b}{2a}\right)^{\!2}=\frac{b^2-4ac}{4a^2}.
+\]
+Taking square roots of both sides yields \[
+z+\frac{b}{2a}=\pm\,\frac{\sqrt{\,b^2-4ac\,}}{2a},\quad\text{whence}\quad z=\frac{-b\pm\sqrt{\,b^2-4ac\,}}{2a}.
+\] Consider $z^2+2z+(1-i)$ with \(a=1\), \(b=2\), and \(c=1-i\). The discriminant is \[
+\Delta=b^2-4ac=4-4(1-i)=4i.
+\] Since \[
+\sqrt{i}=\frac{1+i}{\sqrt{2}}\quad\left(\text{indeed},\; \left(\frac{1+i}{\sqrt{2}}\right)^2=\frac{1+2i-1}{2}=i\right),
+\] we may take $\sqrt{\Delta}=\sqrt{4i}=2\sqrt{i}= \sqrt{2}\,(1+i)$.
+Therefore \[
+z=\frac{-2\pm \sqrt{4i}}{2}
+= -1 \pm \sqrt{i}
+= -1 \pm \frac{1+i}{\sqrt{2}}.
+\] Thus the roots are \[
+z_1=-1+\frac{1+i}{\sqrt{2}},
+\qquad
+z_2=-1-\frac{1+i}{\sqrt{2}}.
+\] Note that $z_1,z_2$ are roots of $(z+1)^2=i$.
+
+\begin{center}
+\begin{tikzpicture}[>=Latex, scale=4.0]
+	% Axes
+	\draw[->] (-2.2,0) -- (1.2,0) node[right] {$\Re z$};
+	\draw[->] (0,-1.2) -- (0,1.2) node[above] {$\Im z$};
+	% Center at -1 + 0i (from completing the square: (z+1)^2 = i)
+	\fill (-1,0) circle (0.02) node[below] {$-1$};
+	\draw[gray!60] (0,0) circle (1);
+	\draw[blue,->, ultra thick] (0,0) -- (0.7071,0.7071)
+	node[above right] {$\sqrt{i}=\dfrac{1+i}{\sqrt2}$};
+	\filldraw[blue] (0.7071,0.7071) circle (.75pt);
+	\node[blue] at (0.45,0.18) {$\arg=\tfrac{\pi}{4}$};
+	\draw[cyan,->, ultra thick] (0,0) -- (0,1)
+	node[left] {$i=(\sqrt{i})^2$};
+	\filldraw[cyan] (0,1) circle (.75pt);
+	\node[cyan] at (.2,0.8) {$\arg=\tfrac{\pi}{2}$};
+	\draw[teal,->,ultra thick] (0,0) -- (-.7071,-.7071);
+	% Roots as endpoints on the circle
+	\fill[teal] (-.7071,-.7071) circle (0.03)
+	node[below left] {$-\dfrac{1+i}{\sqrt2}$};
+	\node[teal] at (-.45,-.18) {$\arg=-\tfrac{\pi}{4}$};
+\begin{scope}[yshift=-2.75cm]
+% Axes
+\draw[->] (-2.2,0) -- (1.2,0) node[right] {$\Re z$};
+\draw[->] (0,-1.2) -- (0,1.2) node[above] {$\Im z$};
+% Center at -1 + 0i (from completing the square: (z+1)^2 = i)
+\node[above, red] at (-1,.25) {$(z+1)^2 = i$};
+\fill (-1,0) circle (0.02) node[below] {$-1$};
+% Guide: circle of radius 1/sqrt(2) centered at -1
+% 1/sqrt(2) ≈ 0.7071
+%\draw[gray!60] (-1,0) circle (0.7071);
+\draw[gray!60] (-1,0) circle (1);
+\draw[gray!60] (0,0) circle (1);
+%\node[gray!60] at (-0.35,0.12) {$r=\tfrac{1}{\sqrt2}$};
+% Direction line for sqrt(i): 45 degrees through the center (-1,0)
+\draw[dashed,gray!60] (-1-1.2,-1.2) -- (-1+1.2,1.2);
+%\node[gray!60] at (-0.35,0.58) {$\arg=\tfrac{\pi}{4}$};
+\node[blue] at (0.45,0.18) {$\arg=\tfrac{\pi}{4}$};
+% The vector sqrt(i) drawn at the origin (reference)
+\draw[blue,->,thick] (0,0) -- (0.7071,0.7071)
+node[above right] {$\sqrt{i}=\dfrac{1+i}{\sqrt2}$};
+%\node[blue] at (0.22,0.18) {$\tfrac{1}{\sqrt2}$};
+% Same vector translated to start at -1 (to locate z1)
+\draw[blue,->,thick] (-1,0) -- (-0.2929,0.7071);
+% Opposite direction (to locate z2)
+\draw[blue,->,thick] (-1,0) -- (-1.7071,-0.7071);
+% Roots as endpoints on the circle
+\fill[red] (-0.2929, 0.7071) circle (0.03)
+node[above right] {$z_1=-1+\dfrac{1+i}{\sqrt2}$};
+\fill[red] (-1.7071,-0.7071) circle (0.03)
+node[below left] {$z_2=-1-\dfrac{1+i}{\sqrt2}$};
+\end{scope}
+\end{tikzpicture}
+\end{center}
+
+\end{proof}
+
+\newpage
+\item Determine the accumulation points of each sequence: \[
+z_n=i^n,\quad, z_n=\frac{i^n}{n},\quad z_n=(-1)^n(1+i)\frac{n-1}{n}.
+\]
+
+\begin{proof}[\Sol]
+	content...
+\end{proof}
+\item Prove that a finite set of points $z_1,z_2,\cdots, z_n$ cannot have any accumulation points.
+\begin{proof}[\Sol]
+Recall that $w\in\mathbb{C}$ is an accumulation point of $F$ iff for every $\varepsilon>0$ the punctured ball
+$B(w,\varepsilon)\setminus\{w\}$ intersects $F$ (equivalently, $B(w,\varepsilon)$ contains a point of $F$ distinct from $w$).
+
+Fix $w\in\mathbb{C}$. Consider the finite set of distances
+\[
+D:=\{\lvert w-z_k\rvert : 1\le k\le n\}\subset[0,\infty).
+\]
+Let $d:=\min D$. There are two cases.
+
+\smallskip
+\emph{Case 1: $w\notin F$.} Then $d>0$. For $\varepsilon:=\tfrac{d}{2}$ we have
+$B(w,\varepsilon)\cap F=\varnothing$, hence $w$ is not an accumulation point.
+
+\smallskip
+\emph{Case 2: $w=z_j$ for some $j$.} If $n=1$, then $F=\{w\}$ and for any $\varepsilon>0$ small enough,
+$B(w,\varepsilon)\cap(F\setminus\{w\})=\varnothing$, so $w$ is not an accumulation point. If $n\ge2$, put
+\[
+d':=\min_{k\neq j}\lvert z_j-z_k\rvert \;>\;0
+\]
+(since the minimum of finitely many positive numbers is positive). For $\varepsilon:=\tfrac{d'}{2}$ we have
+$B(w,\varepsilon)\cap(F\setminus\{w\})=\varnothing$, so again $w$ is not an accumulation point.
+
+\smallskip
+Since \emph{no} $w\in\mathbb{C}$ can be an accumulation point of $F$, the set $F$ has no accumulation points.
+
+\end{proof}
+\end{enumerate}
+
+
+\begin{definition}
+	Let $(z_n)_{n\ge1}$ be a sequence in $\mathbb{C}$. A point $w\in\mathbb{C}$ is an \emph{accumulation point} (or \emph{subsequential limit}) of $(z_n)$ if there exists a strictly increasing map $k\mapsto n_k$ such that $\lim_{k\to\infty} z_{n_k}=w$.
+\end{definition}
+
+\begin{enumerate}
+	\item[\textbf{(1)}] \(\displaystyle z_n=i^n.\)
+	
+	\emph{Claim.} The set of accumulation points is \(\{1,i,-1,-i\}\).
+	
+	\emph{Proof.} Since $i^n$ is $4$-periodic, the image set is $S:=\{1,i,-1,-i\}$, and each element of $S$ occurs infinitely many times. Hence for each $s\in S$ there exists the constant subsequence $z_{n_k}\equiv s$, so $s$ is an accumulation point. Conversely, any subsequence takes all its values in the finite set $S$, thus has a further constant subsequence by the pigeonhole principle; hence every accumulation point lies in $S$. Therefore the accumulation set equals $S$.
+	
+	\smallskip
+	
+	\item[\textbf{(2)}] \(\displaystyle z_n=\frac{i^n}{n}.\)
+	
+	\emph{Claim.} The only accumulation point is \(0\).
+	
+	\emph{Proof.} Since $\lvert i^n\rvert=1$ for all $n$, we have
+	\[
+	\lvert z_n\rvert=\frac{1}{n}\xrightarrow[n\to\infty]{}0.
+	\]
+	Thus $z_n\to 0$, and a convergent sequence has the singleton set $\{0\}$ as its accumulation set.
+	
+	\smallskip
+	
+	\item[\textbf{(3)}] \(\displaystyle z_n=(-1)^n(1+i)\,\frac{n-1}{n}.\)
+	
+	\emph{Claim.} The accumulation points are \(\{\,1+i,\,-(1+i)\,\}\).
+	
+	\emph{Proof.} Decompose into even/odd subsequences. For $n=2m$,
+	\[
+	z_{2m}=(1+i)\,\frac{2m-1}{2m}\xrightarrow[m\to\infty]{}1+i.
+	\]
+	For $n=2m+1$,
+	\[
+	z_{2m+1}=-(1+i)\,\frac{2m}{2m+1}\xrightarrow[m\to\infty]{}-(1+i).
+	\]
+	Hence $1+i$ and $-(1+i)$ are accumulation points. If $w$ is an accumulation point, then there exists $n_k\to\infty$ with $z_{n_k}\to w$. Since $\frac{n_k-1}{n_k}\to 1$ and $(-1)^{n_k}\in\{\pm1\}$, every limit $w$ must belong to $\{\pm(1+i)\}$. Thus the accumulation set is exactly $\{\,1+i,\,-(1+i)\,\}$.
+\end{enumerate}
+
+\begin{tikzpicture}[>=Latex,scale=1]
+	
+	% ================= Panel 1: z_n = i^n =================
+	\begin{scope}
+		% axes
+		\draw[->] (-1.6,0) -- (1.6,0) node[below right] {$\Re$};
+		\draw[->] (0,-1.6) -- (0,1.6) node[left] {$\Im$};
+		\node at (0,1.85) {$z_n=i^n$};
+		
+		% unit circle (for context)
+		\draw[gray!50] (0,0) circle (1);
+		
+		% the 4 accumulation points
+		\foreach \X/\Y/\L in {1/0/{1}, 0/1/{i}, -1/0/{-1}, 0/-1/{-i}}{
+			\fill[red] (\X,\Y) circle (2.2pt) node[shift={(0.1,0.1)}] {\L};
+		}
+		
+		% a few terms n=0..7 to show cycling
+		\foreach \P in {(1,0),(0,1),(-1,0),(0,-1),(1,0),(0,1),(-1,0),(0,-1)}{
+			\fill[blue!70] \P circle (1.4pt);
+		}
+		
+		\node[align=center] at (0,-1.95) {Accumulation set: $\{1,i,-1,-i\}$};
+	\end{scope}
+	
+	% ================= Panel 2: z_n = i^n / n =================
+	\begin{scope}[xshift=6.2cm]
+		% axes
+		\draw[->] (-1.6,0) -- (1.6,0) node[below right] {$\Re$};
+		\draw[->] (0,-1.6) -- (0,1.6) node[left] {$\Im$};
+		\node at (0,1.85) {$z_n=\dfrac{i^n}{n}$};
+		
+		% sample terms n=1..8:
+		% (0,1),(-1/2,0),(0,-1/3),(1/4,0),(0,1/5),(-1/6,0),(0,-1/7),(1/8,0)
+		\foreach \X/\Y in {0/1, -0.5/0, 0/-0.3333, 0.25/0, 0/0.2, -0.1667/0, 0/-0.1429, 0.125/0}{
+			\fill[blue!70] (\X,\Y) circle (1.8pt);
+		}
+		
+		% target 0
+		\fill[red] (0,0) circle (2.2pt) node[below right] {$0$};
+		
+		% hint arrows
+		\draw[->,gray!60] (0,1.1) -- (0,0.15);
+		\draw[->,gray!60] (-0.9,0) -- (-0.18,0);
+		\draw[->,gray!60] (0,-1.1) -- (0,-0.18);
+		\draw[->,gray!60] (1.1,0) -- (0.15,0);
+		
+		\node[align=center] at (0,-1.95) {Accumulation set: $\{0\}$};
+	\end{scope}
+	
+	% ================= Panel 3: z_n = (-1)^n(1+i)(n-1)/n =================
+	\begin{scope}[xshift=12.4cm]
+		% axes
+		\draw[->] (-2.1,0) -- (2.1,0) node[below right] {$\Re$};
+		\draw[->] (0,-2.1) -- (0,2.1) node[left] {$\Im$};
+		\node at (0,2.35) {$z_n=(-1)^n(1+i)\dfrac{n-1}{n}$};
+		
+		% limit points at ±(1,1)
+		\fill[red] (1,1) circle (2.4pt) node[above right] {$1+i$};
+		\fill[red] (-1,-1) circle (2.4pt) node[below left] {$-1-i$};
+		
+		% terms n=1..8
+		% n=1: 0
+		\fill[blue!70] (0,0) circle (1.8pt) node[below right] {$n=1$};
+		% n even:  (s,s),  s=(n-1)/n = 1-1/n
+		% n odd:  (-s,-s)
+		% n=2: s=1/2
+		\fill[blue!70] (0.5,0.5) circle (1.8pt);
+		% n=3: s=2/3
+		\fill[blue!70] (-0.6667,-0.6667) circle (1.8pt);
+		% n=4: s=3/4
+		\fill[blue!70] (0.75,0.75) circle (1.8pt);
+		% n=5: s=4/5
+		\fill[blue!70] (-0.8,-0.8) circle (1.8pt);
+		% n=6: s=5/6
+		\fill[blue!70] (0.8333,0.8333) circle (1.8pt);
+		% n=7: s=6/7
+		\fill[blue!70] (-0.8571,-0.8571) circle (1.8pt);
+		% n=8: s=7/8
+		\fill[blue!70] (0.875,0.875) circle (1.8pt);
+		
+		% guide: dashed diagonal where the points lie
+		\draw[dashed,gray!60] (-1.6,-1.6) -- (1.6,1.6);
+		
+		\node[align=center] at (0,-2.25) {Accumulation set: $\{\,1+i,\,-1-i\,\}$};
+	\end{scope}
+	
+\end{tikzpicture}
+
+\begin{tikzpicture}[scale=1.1]
+	
+	% ================== Case 1: w not in F ==================
+	\begin{scope}
+		% axes (faint)
+		\draw[gray!20] (-2.2,0) -- (2.4,0);
+		\draw[gray!20] (0,-1.4) -- (0,2.0);
+		
+		\node[align=left] at (0,1.8) {\textbf{Case 1:} $w\notin F$};
+		\node[align=left,gray!60] at (0,1.45) {$d=\min\{|w-z_k|\}>0$,\quad $\varepsilon=d/2$};
+		
+		% finite set F = {z1,z2,z3}
+		\fill[blue] (-1.3,0.2) circle (2pt) node[below left] {$z_1$};
+		\fill[blue] (0.6,-0.3)  circle (2pt) node[below] {$z_2$};
+		\fill[blue] (-0.2,1.1)  circle (2pt) node[above] {$z_3$};
+		\node[blue] at (-1.15,1.45) {$F=\{z_1,z_2,z_3\}$};
+		
+		% w not in F and its epsilon-ball
+		\fill[red] (1.6,0.9) circle (2pt);
+		\node[red,anchor=west] at (1.65,0.9) {$w\notin F$};
+		
+		% choose a ball around w that avoids F (epsilon = d/2 schematic)
+		\draw[red,thick] (1.6,0.9) circle (0.45);
+		\node[red] at (2.25,1.25) {$B(w,\varepsilon)$};
+		
+		% emphasize empty intersection
+		\node[gray!70,anchor=west] at (-2.0,-1.0)
+		{$B(w,\varepsilon)\cap F=\varnothing\ \Rightarrow\ \text{$w$ not an acc. point}$};
+	\end{scope}
+	
+	% =============== Case 2: w in F, n >= 2 =================
+	\begin{scope}[xshift=8.2cm]
+		% axes (faint)
+		\draw[gray!20] (-2.2,0) -- (2.4,0);
+		\draw[gray!20] (0,-1.4) -- (0,2.0);
+		
+		\node[align=left] at (0,1.8) {\textbf{Case 2:} $w\in F$,\ $n\ge2$};
+		\node[align=left,gray!60] at (0,1.45) {$d'=\min_{k\neq j}|z_j-z_k|>0$,\quad $\varepsilon=d'/2$};
+		
+		% finite set F = {z1=z_j, z2, z3}
+		\fill[blue] (-0.9,0.9) circle (2pt) node[above left] {$z_1$};
+		\fill[blue] (1.4,0.2)  circle (2pt) node[right] {$z_3$};
+		
+		% w = z2 (the point we're testing)
+		\fill[red] (0.5,-0.3) circle (2pt);
+		\node[red,anchor=west] at (0.56,-0.28) {$w=z_j=z_2$};
+		
+		% distances from w to neighbors (guides)
+		\draw[gray!50,dashed] (0.5,-0.3) -- (-0.9,0.9);
+		\draw[gray!50,dashed] (0.5,-0.3) -- (1.4,0.2);
+		\node[gray!60] at (-0.15,0.45) {$|z_j-z_k|$};
+		
+		% punctured ball B(w, eps)\{w} with eps = d'/2 (schematic radius)
+	\draw[red,thick] (0.5,-0.3) circle (0.42);
+	% open/white dot to stress "punctured"
+	\fill[white] (0.5,-0.3) circle (2.6pt);
+	\draw[red] (0.5,-0.3) circle (2pt);
+	\node[red] at (1.45,-0.7) {$B(w,\varepsilon)\setminus\{w\}$};
+	
+	% emphasize empty intersection with F\{w}
+\node[gray!70,anchor=west] at (-2.0,-1.0)
+{$\bigl(B(w,\varepsilon)\setminus\{w\}\bigr)\cap F=\varnothing$};
+\node[gray!70,anchor=west] at (-2.0,-1.3)
+{$\Rightarrow\ \text{$w$ not an acc. point}$};
+\end{scope}
+
+% =============== Inset: Case 2 with n=1 =================
+\begin{scope}[xshift=8.2cm,yshift=2.9cm,scale=0.75]
+% small box
+\draw[gray!50,rounded corners=2pt] (-2.1,-1.2) rectangle (2.2,1.3);
+\node at (0,1.05) {\textbf{Subcase:} $n=1$ ($F=\{w\}$)};
+
+% w and its punctured ball
+\fill[red] (0,0) circle (2pt) node[below right] {$w$};
+\draw[red,thick] (0,0) circle (0.6);
+\fill[white] (0,0) circle (2.6pt);
+\draw[red] (0,0) circle (2pt);
+
+\node[gray!70] at (0,-0.85)
+{$\bigl(B(w,\varepsilon)\setminus\{w\}\bigr)\cap F=\varnothing$};
+\end{scope}
+
+\end{tikzpicture}

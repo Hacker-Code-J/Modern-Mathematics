@@ -1,0 +1,99 @@
+\documentclass[12pt]{article}
+\usepackage[margin=1.05in]{geometry}
+\usepackage{amsmath,amsthm,amssymb}
+
+\newtheorem{theorem}{Theorem}
+
+\begin{document}
+	
+	\begin{theorem}[Harmonic $\Rightarrow$ constant on a compact Riemann surface, no Hodge star / no $\partial,\bar\partial$ / no ``conformal'']
+		Let $X$ be a compact, connected Riemann surface. If $u\in C^\infty(X,\mathbb{R})$ is harmonic, then $u$ is constant.
+	\end{theorem}
+	
+	\paragraph{Definition of harmonic (chart-based).}
+	A Riemann surface has an atlas of holomorphic charts $\phi:U\!\to\!V\subset\mathbb{C}$, $\phi(p)=z=x+iy$.
+	We say $u$ is \emph{harmonic} if in every holomorphic chart,
+	\[
+	\frac{\partial^2 (u\circ \phi^{-1})}{\partial x^2}
+	+\frac{\partial^2 (u\circ \phi^{-1})}{\partial y^2}=0
+	\quad\text{on }V.
+	\]
+	This is independent of the holomorphic chart: if $w=h(z)$ is a holomorphic coordinate change with
+	$h'(z_0)=a+ib\neq 0$, then at the corresponding point
+	\[
+	\left(\frac{\partial^2}{\partial x^2}+\frac{\partial^2}{\partial y^2}\right)
+	\;=\;
+	(a^2+b^2)\left(\frac{\partial^2}{\partial u^2}+\frac{\partial^2}{\partial v^2}\right),
+	\]
+	so vanishing of the $x,y$-Laplacian is equivalent to vanishing of the $u,v$-Laplacian.
+	
+	\paragraph{Key local identity (plain calculus).}
+	Fix one holomorphic chart $(x,y)$ on $U\subset X$. Set
+	\[
+	P:=-u\,u_y,\qquad Q:=u\,u_x.
+	\]
+	A direct computation (product rule) gives
+	\[
+	\frac{\partial Q}{\partial x}-\frac{\partial P}{\partial y}
+	= u_x^2+u_y^2 + u\,(u_{xx}+u_{yy})
+	= |\nabla u|^2 + u\,\Delta u,
+	\tag{$\ast$}
+	\]
+	where here $\Delta u:=u_{xx}+u_{yy}$ in this chart.
+	
+	\paragraph{Green's theorem with a bump function.}
+	Let $\rho\in C_c^\infty(U)$ (compactly supported in $U$) and define
+	\[
+	P_\rho:=-\rho\,u\,u_y,\qquad Q_\rho:=\rho\,u\,u_x.
+	\]
+	Then
+	\[
+	\frac{\partial Q_\rho}{\partial x}-\frac{\partial P_\rho}{\partial y}
+	=\rho\big(|\nabla u|^2+u\,\Delta u\big)
+	+ u\,u_x\,\rho_x + u\,u_y\,\rho_y.
+	\tag{$\ast\ast$}
+	\]
+	Take $U'\Subset U$ with smooth boundary and $\operatorname{supp}\rho\subset U'$. Green's theorem gives
+	\[
+	\int_{U'}\!\Big(\frac{\partial Q_\rho}{\partial x}-\frac{\partial P_\rho}{\partial y}\Big)\,dx\,dy
+	=\int_{\partial U'}\! P_\rho\,dx + Q_\rho\,dy
+	=0
+	\]
+	because $\rho=0$ on $\partial U'$.
+	
+	\paragraph{Globalization via a partition of unity.}
+	Cover $X$ by finitely many holomorphic coordinate discs $U_1,\dots,U_N$.
+	Choose a smooth partition of unity $\{\rho_j\}_{j=1}^N$ with $\operatorname{supp}\rho_j\Subset U_j$
+	and $\sum_{j=1}^N \rho_j\equiv 1$ on $X$. Apply the previous step in each $U_j$ and sum:
+	\[
+	0
+	=\sum_{j=1}^N \int_{U_j}\!\Big(\frac{\partial Q_{\rho_j}}{\partial x}-\frac{\partial P_{\rho_j}}{\partial y}\Big)\,dx\,dy
+	=\int_X \sum_{j=1}^N \Big[\rho_j\big(|\nabla u|^2+u\,\Delta u\big)
+	+ u\,u_x\,\rho_{j,x} + u\,u_y\,\rho_{j,y}\Big]\,dx\,dy.
+	\]
+	Since $\sum_j \rho_j\equiv 1$ and hence $\sum_j \rho_{j,x}\equiv 0\equiv \sum_j \rho_{j,y}$ (in overlapping coordinates), this becomes
+	\[
+	0 \;=\; \int_X \big(|\nabla u|^2 + u\,\Delta u\big)\,dx\,dy.
+	\]
+	
+	\paragraph{Finish.}
+	If $u$ is harmonic, then $\Delta u=0$ in each chart, so
+	\[
+	0=\int_X |\nabla u|^2\,dx\,dy.
+	\]
+	The integrand is pointwise nonnegative; thus $|\nabla u|\equiv 0$ everywhere, so $u$ is locally constant.
+	By connectedness of $X$, $u$ is constant.
+	
+	\hfill$\square$
+	
+	\bigskip
+	
+	\noindent\textbf{What we used (and nothing more):}
+	\begin{itemize}
+		\item Holomorphic coordinate charts on a Riemann surface.
+		\item Chain rule to note that the Euclidean Laplacian scales by a positive factor under holomorphic coordinate changes, so ``$\Delta u=0$'' is chart-independent.
+		\item Plain product rule identity \((\ast)\).
+		\item Green's theorem in the plane (applied in charts) + a partition of unity to glue the local integrals.
+	\end{itemize}
+	
+\end{document}

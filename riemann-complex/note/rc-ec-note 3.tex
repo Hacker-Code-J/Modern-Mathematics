@@ -1,0 +1,221 @@
+\documentclass[11pt]{article}
+
+% ---------- Packages ----------
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{physics} % for \dd, \partial, etc.
+\usepackage{microtype}
+\usepackage{enumitem}
+\setlist{nosep}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,calc,angles,quotes,decorations.pathreplacing}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+
+% ---------- Macros ----------
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\ii}{\mathrm{i}}
+\newcommand{\dz}{\,\mathrm{d}z}
+\newcommand{\dzbar}{\,\mathrm{d}\bar z}
+\newcommand{\dx}{\,\mathrm{d}x}
+\newcommand{\dy}{\,\mathrm{d}y}
+\newcommand{\darg}{\,\mathrm{d}\arg}
+\newcommand{\dlog}{\,\mathrm{d}\log}
+
+\newtheorem{definition}{Definition}
+\newtheorem{remark}{Remark}
+\newtheorem{example}{Example}
+\newtheorem{exercise}{Exercise}
+
+% ---------- Title ----------
+\title{\Large A Gentle Note on \(dz=dx+\ii\,dy\), Dual Frames, and the Winding Form \(\displaystyle \frac{\dz}{z}\)}
+\author{ }
+\date{ }
+
+\begin{document}
+	\maketitle
+	
+	\section*{Goal and mindset}
+	We view \(\C\cong\R^2\) with coordinates \(x,y\) and complex coordinate \(z=x+\ii y\). One-forms act on vector fields:
+	\[
+	dx(\partial_x)=1,\quad dx(\partial_y)=0,\qquad
+	dy(\partial_x)=0,\quad dy(\partial_y)=1.
+	\]
+	You can think of \(dx\) as “measuring the \(x\)-component of motion” and ignoring motion tangent to \(x\)-level sets; similarly for \(dy\).
+	This note packages them into the \emph{complex} 1-form
+	\[
+	dz = dx + \ii\,dy,
+	\]
+	explains what \(dz\) does to vectors, and shows why holomorphic differentials are multiples of \(dz\). We finish with the geometric decomposition of the winding form \(\dz/z\) into radial and angular parts.
+	
+	\section{What \(dz\) does to a vector}
+	Let \(v=a\,\partial_x + b\,\partial_y\). Then
+	\[
+	dz(v) = dx(v) + \ii\,dy(v) = a + \ii b.
+	\]
+	Thus \(dz\) turns the real vector \((a,b)\) into the complex number \(a+\ii b\): its modulus is the speed, its argument is the direction angle.
+	
+%	\begin{center}
+%		\begin{tikzpicture}[scale=1.05]
+%			% axes
+%			\draw[->] (-0.3,0) -- (3.2,0) node[below right] {$x$};
+%			\draw[->] (0,-0.3) -- (0,2.2) node[left] {$y$};
+%			% vector v
+%			\coordinate (O) at (0,0);
+%			\coordinate (V) at (2.6,1.5);
+%			\draw[very thick, -{Latex[width=3mm]}] (O) -- (V) node[midway, above] {$v=a\partial_x+b\partial_y$};
+%			% projection markers
+%			\draw[dashed] (V) -- (2.6,0) node[below] {$a$};
+%			\draw[dashed] (V) -- (0,1.5) node[left] {$b$};
+%			% angle
+%			\pic[draw, ->, "$\theta$", angle eccentricity=1.4, angle radius=1cm] {angle = (1,0)--(0,0)--(2.6,1.5)};
+%			\node at (4.1,1.2) {$dz(v)=a+\ii b=|v|e^{\ii\theta}$};
+%		\end{tikzpicture}
+%		
+%		\vspace{0.5em}
+%		\small Fig.~1. \(dz\) returns a complex number encoding magnitude and direction of \(v\).
+%	\end{center}
+	
+	\section{Complex frames \(\partial_z,\partial_{\bar z}\) and the dual coframe \(dz,d\bar z\)}
+	Define
+	\[
+	\partial_z := \tfrac12\bigl(\partial_x - \ii\,\partial_y\bigr),\qquad
+	\partial_{\bar z} := \tfrac12\bigl(\partial_x + \ii\,\partial_y\bigr),
+	\]
+	and
+	\[
+	dz:=dx+\ii\,dy,\qquad d\bar z:=dx-\ii\,dy.
+	\]
+	Then \(\{dz,d\bar z\}\) is dual to \(\{\partial_z,\partial_{\bar z}\}\):
+	\[
+	dz(\partial_z)=1,\quad dz(\partial_{\bar z})=0,\qquad
+	d\bar z(\partial_{\bar z})=1,\quad d\bar z(\partial_z)=0.
+	\]
+	So \(dz\) detects motion in the \emph{holomorphic} direction \(\partial_z\) and kills the anti-holomorphic direction \(\partial_{\bar z}\).
+	
+	\begin{example}[How holomorphicity appears]
+		For a complex-valued \(f(x,y)\),
+		\[
+		df = f_x\,dx + f_y\,dy = f_z\,dz + f_{\bar z}\,d\bar z,\qquad
+		f_z = \tfrac12(f_x- \ii f_y),\quad f_{\bar z}=\tfrac12(f_x+\ii f_y).
+		\]
+		Holomorphicity is exactly the condition \(f_{\bar z}=0\), i.e.\ \(df\) is a multiple of \(dz\) only. This is the \(1\)-form version of the Cauchy--Riemann equations.
+	\end{example}
+	
+	\section{Level-set intuition, revisited}
+	Because \(dz\) is complex-valued, talking about a single “level set” is less natural. Instead:
+	\[
+	\Re(dz)=dx \quad\text{(vertical lines \(x=\text{const}\))},\qquad
+	\Im(dz)=dy \quad\text{(horizontal lines \(y=\text{const}\))}.
+	\]
+	The pair \((dx,dy)\) forms two orthogonal foliations; \(dz\) packages both and carries orientation via its complex phase.
+	
+%	\begin{center}
+%		\begin{tikzpicture}[scale=0.7]
+%			% Grid of level sets
+%			\foreach \x in {-3,-2,...,3} \draw[lightgray] (\x,-3) -- (\x,3);
+%			\foreach \y in {-3,-2,...,3} \draw[lightgray] (-3,\y) -- (3,\y);
+%			\draw[->] (-3.2,0) -- (3.4,0) node[right] {$x$};
+%			\draw[->] (0,-3.2) -- (0,3.4) node[above] {$y$};
+%			\node at (2.7,2.8) {\small level sets of $dx$ and $dy$};
+%		\end{tikzpicture}
+%		
+%		\vspace{0.25em}
+%		\small Fig.~2. \(dx\): vertical leaves, \(dy\): horizontal leaves; \(dz\) encodes both.
+%	\end{center}
+	
+	\section{Integrating \(dz\)}
+	For a path \(\gamma:[a,b]\to\C\), \(\gamma(t)=x(t)+\ii y(t)\),
+	\[
+	\int_\gamma dz=\int_\gamma (dx+\ii\,dy)=\bigl[x(t)+\ii y(t)\bigr]_{t=a}^{t=b}=z(\gamma(b))-z(\gamma(a)).
+	\]
+	Thus \(dz\) is exact with potential \(z\). This is why on \(\C\) the “flat holomorphic \(1\)-form” is just \(dz\).
+	
+	\section{The winding form \(\displaystyle \frac{\dz}{z}\)}
+	Away from \(z=0\), write \(z=re^{\ii\theta}\) (\(r>0\), \(\theta=\arg z\)). Then
+	\[
+	\frac{\dz}{z} = \frac{d(re^{\ii\theta})}{re^{\ii\theta}}
+	= \frac{dr}{r} + \ii\, d\theta
+	= d(\log r) + \ii\, d\arg z.
+	\]
+	\(\Re(\dz/z)=d(\log r)\) measures \emph{radial} change; \(\Im(\dz/z)=d\theta\) measures \emph{angular} change (winding).
+	
+%	\begin{center}
+%		\begin{tikzpicture}[scale=1.05]
+%			% axes
+%			\draw[->] (-3.2,0) -- (3.2,0) node[right] {$x$};
+%			\draw[->] (0,-3.2) -- (0,3.2) node[above] {$y$};
+%			% circle
+%			\draw[thick] (0,0) circle (2.5);
+%			\node at (2.9,0.2) {\small $r=\text{const}$};
+%			% radial line and angle
+%			\draw[thick, -{Latex[length=3mm]}] (0,0) -- (40:2.5) node[pos=0.6, above right] {\small $dr$};
+%			\pic[draw, ->, "$\theta$", angle eccentricity=1.4, angle radius=1cm] {angle = (1,0)--(0,0)--(40:1)};
+%			% arc indicating dtheta
+%			\draw[thick, -{Latex[length=2mm]}] (40:2.5) arc (40:55:2.5);
+%			\node at (2.0,2.2) {\small $d\theta$};
+%			\node at (-2.5,-2.5) {$\displaystyle \frac{\dz}{z} = \underbrace{\frac{dr}{r}}_{\text{radial}} + \ii\,\underbrace{d\theta}_{\text{angular}}$};
+%		\end{tikzpicture}
+%		
+%		\vspace{0.25em}
+%		\small Fig.~3. Decomposing \(\dz/z\) into radial and angular pieces.
+%	\end{center}
+	
+	\begin{example}[Winding number]
+		If \(\gamma\) is a closed loop avoiding \(0\),
+		\[
+		\frac{1}{2\pi\ii}\oint_\gamma \frac{\dz}{z} = \text{winding number of }\gamma\text{ around }0\in\mathbb{Z}.
+		\]
+		Indeed \(\oint d(\log r)=0\) (since \(\log r\) is single-valued on \(\C^\times\)), and \(\oint d\theta = 2\pi\,(\text{winding})\).
+	\end{example}
+	
+	\section{Mini-computations and sanity checks}
+	
+	\begin{example}[Action on basis vectors]
+		\(dz(\partial_x)=1\), \(dz(\partial_y)=\ii\). For \(v=\partial_x+\partial_y\), \(dz(v)=1+\ii\).
+	\end{example}
+	
+	\begin{example}[Directional derivative of a holomorphic function]
+		If \(f\) is holomorphic, \(df=f_z\,dz\) with \(f_z=\partial f/\partial z\). For \(v=a\,\partial_x+b\,\partial_y\),
+		\[
+		df(v) = f_z\,dz(v) = f_z\,(a+\ii b).
+		\]
+		So the real \(2\text{D}\) directional derivative is the complex derivative times the complex number representing \(v\).
+	\end{example}
+	
+	\begin{example}[Line integrals]
+		Let \(\gamma(t)=t\) on \([0,1]\). Then \(\int_\gamma dz = 1\).
+		Let \(\gamma(t)=e^{\ii t}\) on \([0,2\pi]\). Then \(\displaystyle \oint \frac{\dz}{z} = 2\pi\ii\).
+	\end{example}
+	
+	\section{Exercises (with short solutions at the end)}
+	\begin{exercise}
+		Show that \(dz(\partial_{\bar z})=0\) and \(d\bar z(\partial_z)=0\).
+	\end{exercise}
+	
+	\begin{exercise}
+		Write \(df\) in the \((dz,d\bar z)\)-basis and show that \(f\) holomorphic \(\iff f_{\bar z}=0\).
+	\end{exercise}
+	
+	\begin{exercise}
+		Let \(\gamma(t)=re^{\ii t}\) with constant \(r>0\), \(t\in[t_0,t_1]\). Compute \(\int_\gamma \dz/z\).
+	\end{exercise}
+	
+	\begin{exercise}
+		Prove that for \(\gamma\) closed avoiding \(0\), \(\frac{1}{2\pi\ii}\oint_\gamma\dz/z\in\mathbb{Z}\).
+	\end{exercise}
+	
+	\subsection*{Sketch solutions}
+	\begin{enumerate}[label=\arabic*)]
+		\item Use definitions: \(\partial_{\bar z}=\tfrac12(\partial_x+\ii\partial_y)\) and \(dz=dx+\ii dy\).
+		\item Compute \(df=f_x\,dx+f_y\,dy\) and rewrite as \(f_z\,dz+f_{\bar z}\,d\bar z\).
+		\item \(\dz/z = \ii\,dt\) along \(\gamma\) (since \(dr=0\)), so the integral is \(\ii(t_1-t_0)\).
+		\item Approximate \(\gamma\) by a polygon and use the argument principle, or apply homotopy invariance of \(\oint \dz/z\) on \(\C^\times\) together with the circle case.
+	\end{enumerate}
+	
+	\section*{Where this connects next}
+	On a complex torus \(X=\C/\Lambda\) the (nowhere-vanishing) holomorphic \(1\)-form is the pushdown of \(dz\). Choosing cycles \(a,b\) gives periods \(\int_a dz=1\), \(\int_b dz=\tau\).
+	From \(dz\) one builds the Weierstrass \(\wp\)-function and the elliptic curve \(y^2=4x^3-g_2x-g_3\). (See the companion note: constructing \(\wp\) from \(dt=\omega\).)
+	
+\end{document}

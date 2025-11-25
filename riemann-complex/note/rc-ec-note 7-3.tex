@@ -1,0 +1,44 @@
+\documentclass[12pt]{article}
+\usepackage[margin=1.05in]{geometry}
+\usepackage{amsmath,amsthm,amssymb}
+
+\newtheorem{proposition}{Proposition}
+
+\begin{document}
+	
+	\begin{proposition}
+		Let $X$ be a Riemann surface and $f$ a holomorphic (resp.\ meromorphic) function on $X$.
+		Then $u:=\log|f|$ is harmonic on $X\setminus (Z(f)\cup P(f))$.
+		If $f$ is holomorphic and nowhere zero on all of $X$, then $u$ is harmonic on $X$; on compact, connected $X$
+		this forces $f$ (hence $u$) to be constant.
+	\end{proposition}
+	
+	\begin{proof}
+		Fix a point $p\in X$ with $f(p)\neq 0$ (and $p$ not a pole if $f$ is meromorphic). Take a small simply connected
+		neighborhood $U$ of $p$ on which $f$ has no zeros or poles. On $U$ the holomorphic $1$-form $\frac{f'}{f}\,dz$
+		is exact, so there exists a holomorphic function $g$ on $U$ with $g'=\frac{f'}{f}$ and $e^{g}=f$.
+		Write $g=\varphi+i\psi$ with real-valued $\varphi,\psi$. Then on $U$,
+		\[
+		|f| = |e^{g}| = e^{\Re g} = e^{\varphi}\qquad\Longrightarrow\qquad u=\log|f|=\varphi.
+		\]
+		But the real part of a holomorphic function is harmonic (equivalently, $\varphi_{xx}+\varphi_{yy}=0$ in any
+		local coordinate), hence $u$ is harmonic on $U$. Since $p$ was arbitrary in $X\setminus (Z(f)\cup P(f))$,
+		$u$ is harmonic there.
+		
+		If $f$ is holomorphic and nowhere zero on all of $X$, then the above holds on all of $X$.
+		If, in addition, $X$ is compact and connected, any harmonic function is constant (e.g.\ by the maximum
+		principle or by integrating $|\nabla u|^2$ and using Stokes), so $u$ is constant and therefore $f$ has
+		constant modulus. A holomorphic map with constant modulus is constant (by the open mapping theorem),
+		so $f$ is constant.
+	\end{proof}
+	
+	\noindent\textbf{Remark (meromorphic case, distributional Laplacian).}
+	If $f$ is meromorphic, near a zero or pole at $p$ of order $m\in\mathbb{Z}$ one can write
+	$f(z)=z^{m}g(z)$ with $g$ holomorphic and $g(0)\neq 0$. Then
+	$\log|f|= m\log|z|+\log|g|$, where $\log|g|$ is harmonic and
+	$\Delta\log|z|=2\pi\,\delta_{0}$ (distributionally). Hence
+	\[
+	\Delta \log|f| \;=\; 2\pi\sum_{p\in X} \operatorname{ord}_p(f)\,\delta_p
+	\]
+	as distributions. This shows $\log|f|$ is subharmonic globally and harmonic away from zeros and poles.
+\end{document}

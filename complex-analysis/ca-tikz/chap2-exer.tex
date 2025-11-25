@@ -1,0 +1,56 @@
+\documentclass[tikz,border=6pt]{standalone}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usetikzlibrary{pgfplots.groupplots}
+\begin{document}
+	
+	% ---- knobs you can tweak ----
+	\def\xmin{-3}\def\xmax{3}
+	\def\ymin{-3}\def\ymax{3}
+	\def\samples{41} % reduce to 31 or 21 if you still hit memory
+	% ------------------------------
+	
+	\begin{tikzpicture}
+		\begin{groupplot}[
+			group style={group size=2 by 3, horizontal sep=2.0cm, vertical sep=1.8cm},
+			width=7cm, height=5.2cm,
+			view={0}{90}, axis on top,
+			xlabel={$x$}, ylabel={$y$},
+			xmin=\xmin, xmax=\xmax, ymin=\ymin, ymax=\ymax,
+			colormap/viridis, colorbar,
+			shader=flat,                  % cheaper than 'interp'
+			samples=\samples, samples y=\samples,
+			domain=\xmin:\xmax, y domain=\ymin:\ymax
+			]
+			
+			% ================= f1(z) = \bar z =================
+			% |f1| = sqrt(x^2 + y^2)
+			\nextgroupplot[title={$f_1(z)=\overline z$: $|f_1|$}, colorbar style={title={$|f_1|$}}]
+			\addplot3[surf] {sqrt(x^2 + y^2)};
+			
+			% arg f1 = atan2(-y, x)  (pgfplots' atan2 is in radians)
+			\nextgroupplot[title={$f_1(z)=\overline z$: $\arg f_1$}, colorbar style={title={$\,\arg$ (rad)}}]
+			\addplot3[surf] {atan2(-y, x)};
+			
+			% ================= f2(z) = 2x + i x y^2 =================
+			% |f2| = abs(x)*sqrt(4 + y^4)
+			\nextgroupplot[title={$f_2(z)=2x+i\,x y^2$: $|f_2|$}, colorbar style={title={$|f_2|$}}]
+			\addplot3[surf] {abs(x)*sqrt(4 + y^4)};
+			
+			% arg f2 = atan2(x*y^2, 2*x)   (handles x<0 correctly)
+			\nextgroupplot[title={$f_2(z)=2x+i\,x y^2$: $\arg f_2$}, colorbar style={title={$\,\arg$ (rad)}}]
+			\addplot3[surf] {atan2(x*y^2, 2*x)};
+			
+			% ================= f3(z) = e^{\bar z} = e^{x-iy} =================
+			% |f3| = e^x
+			\nextgroupplot[title={$f_3(z)=e^{\overline z}$: $|f_3|$}, colorbar style={title={$|f_3|$}}]
+			\addplot3[surf] {exp(x)};
+			
+			% arg f3 = atan2(-sin y, cos y).  pgf trig is degree-based inside sin/cos:
+			\nextgroupplot[title={$f_3(z)=e^{\overline z}$: $\arg f_3$}, colorbar style={title={$\,\arg$ (rad)}}]
+			\addplot3[surf] {atan2(-sin(deg(y)), cos(deg(y)))};
+			
+		\end{groupplot}
+	\end{tikzpicture}
+	
+\end{document}

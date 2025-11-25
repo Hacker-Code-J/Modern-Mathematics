@@ -1,0 +1,57 @@
+\usepackage{amsthm}
+
+% Define custom theorem styles
+\newtheoremstyle{dotless} % Name of the style
+{3pt} % Space above
+{3pt} % Space below
+{\itshape} % Body font
+{} % Indent amount
+{\bfseries} % Theorem head font
+{} % Punctuation after theorem head
+{2.5mm} % Space after theorem head
+{} % Theorem head spec
+
+\newtheoremstyle{definitionstyle} % Name of the style
+{3pt} % Space above
+{3pt} % Space below
+{} % Body font
+{} % Indent amount
+{\bfseries} % Theorem head font
+{.} % Punctuation after theorem head
+{2.5mm} % Space after theorem head
+{} % Theorem head spec
+
+% Applying custom styles
+%\theoremstyle{dotless}
+%\newtheorem{theorem}{Theorem} % Theorem environment with section-wise numbering
+%\newtheorem*{theorem*}{Theorem} % Theorem environment with section-wise numbering
+%\newtheorem*{lemma*}{Lemma} % Theorem environment with section-wise numbering
+%\newtheorem*{proposition*}{Proposition} % Theorem environment with section-wise numbering
+%\newtheorem*{corollary*}{Corollary} % Theorem environment with section-wise numbering
+%\newtheorem{proposition}[theorem]{Proposition} % Theorem environment with section-wise numbering
+%\newtheorem{lemma}[theorem]{Lemma} % Lemma shares the counter with theorem
+%\newtheorem{corollary}[theorem]{Corollary} % Corollary shares the counter with theorem
+%
+%\theoremstyle{definitionstyle}
+%\newtheorem*{observation}{\textcolor{Magenta}{Observation}}
+%\newtheorem{definition}{Definition} % Definition shares the counter with theorem
+%\newtheorem{example}{Example} % Example shares the counter with theorem
+%\newtheorem{exercise}{{Exercise}} % Example shares the counter with theorem
+%\newtheorem{remark}{Remark} % Remark shares the counter with theorem
+%\newtheorem*{note}{Note}
+%
+%\newtheorem*{axiom*}{Axiom}
+%\newtheorem*{definition*}{Definition} % Definition shares the counter with theorem
+%\newtheorem*{example*}{Example} % Example shares the counter with theorem
+%\newtheorem*{exercise*}{\textcolor{teal}{Exercise}} % Example shares the counter with theorem
+%\newtheorem*{remark*}{Remark} % Remark shares the counter with theorem
+
+
+\newtheorem{definition}{Definition}[section]
+\newtheorem{theorem}[definition]{Theorem}
+\newtheorem{lemma}[definition]{Lemma}
+\newtheorem{proposition}[definition]{Proposition}
+\newtheorem{corollary}[definition]{Corollary}
+\theoremstyle{remark}
+\newtheorem{remark}[definition]{Remark}
+\newtheorem{example}[definition]{Example}

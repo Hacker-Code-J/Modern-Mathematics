@@ -1,0 +1,80 @@
+\documentclass[tikz,border=5mm]{standalone}
+\usepackage{amssymb,amsmath,mathtools}
+\usetikzlibrary{arrows.meta,decorations.pathreplacing}
+\usetikzlibrary{calc,angles,quotes}
+\renewcommand{\Re}{\mathrm{Re}}
+\renewcommand{\Im}{\mathrm{Im}}
+
+\begin{document}
+\begin{tikzpicture}[>=Latex, scale=0.9]
+%------------------------ z-plane (left)
+\begin{scope}
+% axes
+\draw[->] (-1.2,0) -- (2.2,0) node[right] {$x$};
+\draw[->] (0,-.5) -- (0,7.5) node[above] {$y$};
+\node at (0,-3) {$z$-plane};
+
+% constants
+\def\xline{0.3466}      % 0.5*ln 2
+\def\pifour{0.7854}     % pi/4
+\def\twopi{6.2832}      % 2pi
+	
+% vertical line x = (1/2) ln 2
+\draw[thick,blue] (\xline,-.5) -- (\xline,7);
+\node[blue,anchor=north] at (\xline,-.5) {$x=\tfrac12\ln 2$};
+	
+% sample preimage points: n = -1, 0, 1
+\foreach \n in {0,1}{
+	\pgfmathsetmacro\yy{\pifour + \n*\twopi}
+	\fill[blue] (\xline,\yy) circle (2.0pt);
+	\draw[dashed,blue!60] (0,\yy) -- (\xline,\yy);
+}
+% one label for the arithmetic progression in y
+\node[blue,anchor=east] at (\xline-.5,\pifour)
+{$y=\frac{\pi}{4}$};
+\node[blue,anchor=east] at (\xline-.5,\pifour+\twopi)
+{$y=\frac{\pi}{4}+2\pi$};
+	
+% brace and note for periodicity
+\draw[decorate,decoration={brace,amplitude=6pt},blue!60]
+(\xline,\pifour) -- (\xline,\pifour+\twopi)
+node[midway,xshift=-1.5cm,align=left,blue!70]
+{period $2\pi$ in $y$};
+	
+% solution label
+%\node[align=left,black] at (3.8,-4.75)
+%{$\displaystyle z=\frac12\ln 2+i\!\left(2n+\frac14\right)\!\pi,\ n\in\mathbb Z$};
+\end{scope}
+
+% 1.6, 2.6
+
+%------------------------ mapping arrow
+\draw[->,thick] (3,-3) -- (4.6,-3) node[midway,above] {$w=e^z$};
+%------------------------ w-plane (right)
+\begin{scope}[xshift=7.2cm]
+\def\xline{0.3466}      % 0.5*ln 2
+\def\pifour{0.7854}     % pi/4
+\def\twopi{6.2832}      % 2pi
+% axes
+\draw[->] (-2.2,0) -- (2.6,0) node[right] {$\Re$};
+\draw[->] (0,-2.2) -- (0,2.6) node[above] {$\Im$};
+\node at (0,-3) {$w$-plane};
+
+% circle |w| = sqrt(2)
+\def\r{1.4142}
+\draw[gray!60] (0,0) circle (\r);
+\node[gray!70] at (-.5, .5) {$|w|=\sqrt2$};
+
+% the image point 1+i (angle pi/4)
+\fill[red] (1,1) circle (2.5pt);
+\draw[dashed,gray!70] (0,0) -- (1,1);
+\node[red,anchor=west,align=left] at (1.05,1.05) {$1+i$\\$=\sqrt{2}\exp\left(i\left(\frac{\pi}{4}+2n\pi\right)\right)$};
+\node[gray!70,anchor=west] at (0.55,0.25) {$\arg=\tfrac{\pi}{4}$};
+
+% illustrative arrows from three preimages (schematic)
+%\draw[->,blue!70,bend left=15] (-4.2, -5.50) to (0.9,0.9);
+\draw[->,blue!70,bend left=10] (\xline-7.2,\pifour) to (0.95,0.95);
+\draw[->,blue!70,bend left=20] (\xline-7.2,\pifour+\twopi) to (1.0,1.0);
+\end{scope}
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,95 @@
+\documentclass[12pt]{article}
+\usepackage[margin=1.05in]{geometry}
+\usepackage{amsmath,amsthm,amssymb}
+
+\newtheorem{theorem}{Theorem}
+
+\begin{document}
+	
+	\begin{theorem}[Harmonic $\Rightarrow$ constant on a compact Riemann surface, elementary proof]
+		Let $X$ be a compact, connected Riemann surface. If $u\in C^\infty(X,\mathbb{R})$ is harmonic, then $u$ is constant.
+	\end{theorem}
+	
+	\paragraph{Set-up (what ``harmonic'' means here).}
+	A Riemann surface admits \emph{conformal} local coordinates $(x,y)$ in which the Laplacian is the
+	\emph{flat} one up to a positive factor. Thus $u$ is harmonic iff in any such chart
+	\[
+	u_{xx}+u_{yy}=0 .
+	\]
+	(All we need below is harmonicity in each chart.)
+	
+	\medskip
+	
+	\paragraph{Key local identity (just product rule).}
+	Fix one conformal chart $(x,y)$ on an open set $U\subset X$. Define
+	\[
+	P:=-u\,u_y,\qquad Q:=u\,u_x .
+	\]
+	Then a direct computation gives
+	\[
+	\frac{\partial Q}{\partial x}-\frac{\partial P}{\partial y}
+	= u_x^2+u_y^2 + u\,(u_{xx}+u_{yy})
+	= |\nabla u|^2 + u\,\Delta u .
+	\tag{$\ast$}
+	\]
+	(Here $|\nabla u|^2:=u_x^2+u_y^2$ and $\Delta u:=u_{xx}+u_{yy}$ in this chart.)
+	
+	\medskip
+	
+	\paragraph{Green's theorem in the chart.}
+	For a \emph{compactly supported} smooth function $\rho$ in $U$, apply Green's theorem to the vector field
+	\[
+	(P_\rho,Q_\rho):=\big(-\rho\,u\,u_y,\;\rho\,u\,u_x\big).
+	\]
+	On $U$ we have, by the product rule and $(\ast)$,
+	\[
+	\frac{\partial Q_\rho}{\partial x}-\frac{\partial P_\rho}{\partial y}
+	=\rho\big(|\nabla u|^2+u\,\Delta u\big)
+	\;+\; u\,u_x\,\rho_x + u\,u_y\,\rho_y .
+	\tag{$\ast\ast$}
+	\]
+	If $U'$ is a slightly larger coordinate patch containing $\operatorname{supp}\rho$ and with smooth boundary,
+	then Green's theorem gives
+	\[
+	\int_{U'}\!\Big(\frac{\partial Q_\rho}{\partial x}-\frac{\partial P_\rho}{\partial y}\Big)\,dx\,dy
+	=\int_{\partial U'} \! P_\rho\,dx+Q_\rho\,dy
+	=0,
+	\]
+	because $\rho\equiv 0$ on $\partial U'$ (so $P_\rho=Q_\rho=0$ there).
+	
+	\medskip
+	
+	\paragraph{Make it global with a partition of unity.}
+	Cover $X$ by finitely many conformal coordinate discs $U_1,\dots,U_N$. Choose a smooth partition of unity
+	$\{\rho_j\}_{j=1}^N$ subordinate to $\{U_j\}$; that is, each $\rho_j\ge 0$ has compact support in $U_j$,
+	$\sum_j \rho_j\equiv 1$, and $\sum_j \rho_{j,x}\equiv 0\equiv \sum_j \rho_{j,y}$ in overlapping coordinates.
+	Apply the previous step in each $U_j$ and sum:
+	\[
+	0
+	=\sum_{j=1}^N \int_{U_j'}\!\Big(\frac{\partial Q_{\rho_j}}{\partial x}-\frac{\partial P_{\rho_j}}{\partial y}\Big)\,dx\,dy
+	=\int_{X} \sum_{j=1}^N \Big[\rho_j\big(|\nabla u|^2+u\,\Delta u\big)
+	+ u\,u_x\,\rho_{j,x} + u\,u_y\,\rho_{j,y}\Big]\,dx\,dy.
+	\]
+	Using $\sum_j \rho_j\equiv 1$ and $\sum_j \rho_{j,x}=\sum_j \rho_{j,y}\equiv 0$, we simplify to
+	\[
+	0 \;=\; \int_X \big(|\nabla u|^2 + u\,\Delta u\big)\,dx\,dy.
+	\]
+	
+	\paragraph{Finish.}
+	Since $u$ is harmonic, $\Delta u=0$ in every chart, hence
+	\[
+	0=\int_X |\nabla u|^2\,dx\,dy .
+	\]
+	The integrand is pointwise nonnegative, so $|\nabla u|\equiv 0$ on $X$. Therefore $u$ is locally constant, and by connectedness of $X$, $u$ is constant.
+	
+	\hfill$\square$
+	
+	\bigskip
+	
+	\noindent\textbf{Notes.}
+	\begin{itemize}
+		\item This proof only used the product rule, Green's theorem (no wedge products), and a partition of unity.
+		\item The same argument works for any compact oriented surface endowed with a conformal atlas.
+	\end{itemize}
+	
+\end{document}

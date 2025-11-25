@@ -1,0 +1,1350 @@
+\documentclass[11pt,openany]{article}
+
+\input{riemann-complex-preamble}
+\input{riemann-animate}
+\input{tcolorbox}
+\input{theorem}
+\input{tikz}
+\input{riemann-complex-commands}
+\renewcommand{\vec}[1]{\mathbf{#1}}
+\renewcommand{\emph}[1]{\textbf{#1}}
+\renewcommand{\d}{\mathrm{d}} % For the exterior derivative 'd'
+\newcommand{\pderiv}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\spderiv}[3]{\frac{\partial^2 #1}{\partial #2\partial #3}}
+\newcommand{\vect}[1]{\begin{bmatrix} #1 \end{bmatrix}}
+
+\newcommand{\HH}{\mathbb{H}}
+\newcommand{\PP}{\mathbb{P}}
+\newcommand{\OO}{\mathcal{O}}
+\newcommand{\E}{\mathcal{E}}
+%\newcommand{\Res}{\operatorname{Res}}
+\newcommand{\Aut}{\operatorname{Aut}}
+\newcommand{\ord}{\operatorname{ord}}
+\newcommand{\im}{\operatorname{Im}}
+\newcommand{\re}{\operatorname{Re}}
+\newcommand{\divisor}{\operatorname{div}}
+\newcommand{\de}{\,\mathrm{d}}
+\newcommand{\la}{\langle}
+\newcommand{\ra}{\rangle}
+\newcommand{\D}[2]{D(#1,#2)}                % disk D(a,R)
+\newcommand{\Ann}[3]{A(#1;#2,#3)}           % annulus A(a;R1,R2)
+
+
+\newcommand{\circulationsquare}[1]{
+\draw[thick, gray] #1 rectangle ++(1,1);
+\begin{scope}[decoration={markings, mark=at position 0.5 with {\arrow{>}}}]
+	\draw[postaction={decorate}, blue] #1 -- ++(1,0);
+	\draw[postaction={decorate}, blue] ++(1,0) -- ++(0,1);
+	\draw[postaction={decorate}, blue] ++(0,1) -- ++(-1,0);
+	\draw[postaction={decorate}, blue] ++(-1,0) -- cycle;
+\end{scope}
+}
+
+\usepackage{esvect}
+\usepackage{physics}
+
+\setstretch{1.25}
+
+\begin{document}
+\pagenumbering{arabic}
+\begin{center}
+	%	\huge\textbf{Riemann; Complex Analysis}\\
+	\huge\textbf{Elliptic Curves, Elliptic Integrals, and \\ the Complex Torus}\\
+	%	\Large - HW1 -\\
+	\vspace{0.5em}
+	\large{Ji, Yong-hyeon}\\
+	%	\large{\ttfamily \url{https://github.com/Hacker-Code-J}}\\
+	\vspace{0.5em}
+	\normalsize{\today}\\
+\end{center} 
+\noindent 
+We cover the following topics in this note.
+\begin{itemize}
+	\item Vector calculus (conservative fields, irrotational field)
+	\item Differential forms (exact forms, closed forms)
+\end{itemize}
+%In this note, we build a bridge between the familiar concepts of vector calculus (conservative fields, curl) and the language of differential forms (exact forms, closed forms)
+%\hrule\vspace{12pt}
+\begin{center}
+	\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}} l c l}
+		\hline
+		\textbf{Vector Calculus (in $\R^2$ or $\R^3$)} & & \textbf{Differential Forms} \\
+		\hline
+		Vector Field $\vec F$ & $\iff$ & 1-form $\omega$ \\
+		Conservative Vector Field ($\vec F = \nabla f$) & $\iff$ & Exact 1-form ($\omega = \d f$) \\
+		Irrotational Vector Field ($\nabla \times \vec F = \mathbf{0}$) & $\iff$ & Closed 1-form ($\d\omega = 0$) \\
+		\hline
+	\end{tabular*}
+\end{center}
+
+\vspace{1em}
+
+%\begin{framed}
+%	\noindent\textbf{The Fundamental Implication:}
+%	\begin{itemize}
+%		\item \textbf{Conservative $\implies$ Irrotational},\; i.e.,\; \textbf{Exact $\implies$ Closed}\\ (This is always true.)
+%		\item \textbf{Irrotational $\implies$ Conservative},\; i.e,\; \textbf{Closed $\implies$ Exact}\\ (This is only true on ``nice'' domains, e.g., simply connected ones.)
+%	\end{itemize}
+%\end{framed}
+
+
+\tableofcontents
+\newpage
+\section{Setup}
+Fix a lattice \begin{align*}
+\Lambda&=\Z\omega_1+\Z\omega_2=\set{m\omega_1+n\omega_2:m,n\in \Z,\; \omega_1,\omega_2\in\C^\times} \subset\C
+\end{align*} with \(\omega_1,\omega_2\) are \(\R\)-linearly independent, i.e., span a rank-2 lattice.
+\begin{figure}[h!]\centering
+\includegraphics[scale=.8]{tikz-illustrations/lattice.pdf}
+\caption{The lattice $\Lambda=\mathbb{Z}\,\omega_1+\mathbb{Z}\,\omega_2\subset\mathbb{C}$.}\label{fig:lattice-lambda}
+\end{figure}
+\begin{remark}
+A \textbf{lattice} in $\C$ must be rank-2 over $\Z$, i.e., $\set{\omega_1,\omega_2}$ is $\R$-linearly independent. Note that \begin{itemize}
+	\item $\set{\omega_1,\omega_2}$ is $\R$-linearly dependent $\iff\displaystyle\frac{\omega_2}{\omega_1}\in\R$.
+	\item $\set{\omega_1,\omega_2}$ is $\R$-linearly independent $\iff\displaystyle\frac{\omega_2}{\omega_1}\notin\R$.
+	\item $\displaystyle\frac{\omega_2}{\omega_1}\notin\R\iff\Im\left(\frac{\omega_2}{\omega_1}\right)\neq 0$.
+	\item Let $\omega_1=u_1+iu_2\in\C^\times$, $\omega_2=v_1+iv_2\in\C^\times$, $\vec{u}=(u_1,u_2)\in(\R^\times)^2$ and $\vec{v}=(v_1,v_2)\in(\R^\times)^2$. Then \begin{align*}
+	\frac{\omega_2}{\omega_1}&=\frac{v_1+iv_2}{u_1+iu_2}\\
+	&=\frac{v_1+iv_2}{u_1+iu_2}\cdot\frac{(u_1-iu_2)}{(u_1-iu_2)}=\frac{u_1v_1+u_2v_2+i(u_1v_2-u_2v_1)}{u_1^2+u_2^2} =\frac{1}{\norm{\vec{u}}^2}\left(\vec{u}\cdot\vec{v} +i\det(\vec{u},\vec{v})\right)
+	\end{align*} Thus, we have $\displaystyle\Re(\omega_2/\omega_1)=\frac{\vec{u}\cdot\vec{v}}{\norm{\vec{u}}^2}$ and $\displaystyle\Im(\omega_2/\omega_1)=\frac{1}{\norm{\vec{u}}}\det\begin{pmatrix}
+	\Re(\omega_1) & \Im(\omega_1) \\
+	\Re(\omega_2) & \Im(\omega_2)
+\end{pmatrix}$.
+\end{itemize}
+\end{remark}
+
+\newpage\noindent
+The complex torus is \(X=\C/\Lambda\); write the class of \(z\in\C\) as \([z]\in X\).
+
+
+\newpage
+\subsection*{Holomorphic on a Disk vs.\ Holomorphic on an Annulus}
+
+\paragraph{Domains.}
+\[
+\text{Disk: } \D{a}{R}=\{\,z\in\C:|z-a|<R\,\},\qquad
+\text{Annulus: } \Ann{a}{R_1}{R_2}=\{\,z\in\C:R_1<|z-a|<R_2\,\}.
+\]
+
+\paragraph{Canonical expansions.}
+\begin{itemize}
+	\item \textbf{Disk (Taylor).} If $f$ is holomorphic on $\D{a}{R}$, then
+	\[
+	f(z)=\sum_{n=0}^{\infty}\frac{f^{(n)}(a)}{n!}(z-a)^n,\qquad |z-a|<R.
+	\]
+	\item \textbf{Annulus (Laurent).} If $f$ is holomorphic on $\Ann{a}{R_1}{R_2}$, then
+	\[
+	f(z)=\sum_{n=-\infty}^{\infty}c_n(z-a)^n,\qquad R_1<|z-a|<R_2,
+	\]
+	with coefficients given by the same Cauchy integral formula
+	\[
+	\boxed{\,c_n=\frac{1}{2\pi i}\oint_{|\zeta-a|=r}\frac{f(\zeta)}{(\zeta-a)^{n+1}}\,d\zeta\,,\quad
+		R_1<r<R_2,\ n\in\mathbb{Z}\,}
+	\]
+	(In particular, $c_{-1}=\operatorname{Res}(f,a)$.)
+\end{itemize}
+
+\paragraph{Comparison table.}
+\begin{table}[h]
+	\centering
+	\begin{tabular}{p{0.19\linewidth}|p{0.28\linewidth}|p{0.30\linewidth}|p{0.17\linewidth}}
+		\textbf{Region} & \textbf{Expansion type} & \textbf{Coefficient formula} & \textbf{Negative powers} \\ \hline
+		Disk $\D{a}{R}$ &
+		Taylor series $\displaystyle \sum_{n\ge0}\frac{f^{(n)}(a)}{n!}(z-a)^n$ &
+		$\displaystyle \frac{f^{(n)}(a)}{n!}=\frac{1}{2\pi i}\oint\frac{f(\zeta)}{(\zeta-a)^{n+1}}\,d\zeta$ &
+		None (holomorphic at $a$) \\
+		Annulus $\Ann{a}{R_1}{R_2}$ &
+		Laurent series $\displaystyle \sum_{n\in\mathbb{Z}} c_n (z-a)^n$ &
+		$\displaystyle c_n=\frac{1}{2\pi i}\oint\frac{f(\zeta)}{(\zeta-a)^{n+1}}\,d\zeta$ &
+		Allowed; principal part $\sum_{n\le-1} c_n (z-a)^n$
+	\end{tabular}
+	\caption{Taylor (disk) vs.\ Laurent (annulus).}
+\end{table}
+
+\paragraph{Radii of convergence.}
+\begin{itemize}
+	\item \textbf{Disk:} $R=$ distance from $a$ to the nearest singularity of $f$.
+	\item \textbf{Annulus:} inner $R_1=$ distance from $a$ to the nearest singularity \emph{inside}, outer $R_2=$ distance to the nearest singularity \emph{outside}.
+\end{itemize}
+
+\paragraph{Classification at the center $a$ (when a punctured neighborhood exists).}
+\begin{itemize}
+	\item Principal part $=0$ $\Rightarrow$ removable singularity (extends holomorphically; Taylor only).
+	\item Finite principal part $\Rightarrow$ pole (order = largest $-n$ with $c_n\neq0$).
+	\item Infinite principal part $\Rightarrow$ essential singularity.
+\end{itemize}
+
+\paragraph{Examples.}
+\begin{align*}
+	\frac{1}{1-z} &= \sum_{n\ge0} z^n \quad (|z|<1),\\[2mm]
+	\frac{1}{z(z-1)} &= \frac{1}{z}-\frac{1}{z-1}
+	= \begin{cases}
+		\displaystyle \frac{1}{z}+1+z+z^2+\cdots,& 0<|z|<1,\\[1mm]
+		\displaystyle \frac{1}{z}+\frac{1}{z^2}+\frac{1}{z^3}+\cdots,& |z|>1~.
+	\end{cases}
+\end{align*}
+
+\paragraph{One-line takeaway.}
+\emph{Holomorphic on a disk $\Rightarrow$ Taylor (no negative powers). Holomorphic on an annulus $\Rightarrow$ Laurent (negative powers allowed; $c_{-1}$ is the residue).}
+% --- End snippet ---
+
+\newpage
+\begin{center}
+\begin{tabular}{|p{4.5cm}|p{4.75cm}|p{4.75 cm}|}
+	\hline
+	& $\operatorname{ord}_a f$ & $\operatorname{Res}(f,a)$ \\
+	\hline
+	Basic idea
+	& Measures how $f$ vanishes or blows up at $a$
+	& Coefficient of $(z-a)^{-1}$ in the Laurent expansion of $f$ at $a$ \\
+	\hline
+	Defined by
+	& $f(z) = (z-a)^m g(z)$ with $g(a)\neq 0 \;\Rightarrow\; \operatorname{ord}_a f = m$
+	& If $f(z) = \sum_{n=-\infty}^\infty c_n (z-a)^n$, then $\operatorname{Res}(f,a) = c_{-1}$ \\
+	\hline
+	Possible values
+	& Integer ($\dots,-2,-1,0,1,2,\dots$)
+	& Complex number \\
+	\hline
+	Interpretation of sign
+	& $>0$: zero of order $m$; $=0$: $f(a)\neq 0$; $<0$: pole of order $-m$
+	& Nonzero $\iff$ the Laurent series has a $(z-a)^{-1}$ term \\
+	\hline
+	When $f$ is holomorphic and $f(a)\neq 0$
+	& $\operatorname{ord}_a f = 0$
+	& $\operatorname{Res}(f,a) = 0$ \\
+	\hline
+	When $f$ has a zero of order $m\ge 1$ at $a$
+	& $\operatorname{ord}_a f = m$
+	& $\operatorname{Res}(f,a) = 0$ (no negative powers) \\
+	\hline
+	When $f$ has a pole of order $k\ge 1$ at $a$
+	& $\operatorname{ord}_a f = -k$
+	& May be $0$ or nonzero, depends on $(z-a)^{-1}$ term \\
+	\hline
+	Key relation
+	& $\operatorname{ord}_a f = \operatorname{Res}\!\left(\dfrac{f'}{f}, a\right)$
+	& $\operatorname{Res}\!\left(\dfrac{f'}{f}, a\right) = \operatorname{ord}_a f$ \\
+	\hline
+	Main use
+	& Divisors, counting zeros/poles, argument principle
+	& Contour integration, residue theorem \\
+	\hline
+\end{tabular}
+\end{center}
+
+\begin{center}
+\begin{table}[h]
+	\centering
+	\begin{tabular}{c|c|l}
+		\(\operatorname{ord}_a f\) & \(\operatorname{Res}(f,a)\) & Description \\ \hline
+		\(> 0\)     & \(0\)                      & \(f\) has a zero at \(a\) \\
+		\(= 0\)     & \(0\)                      & \(f\) holomorphic and nonzero at \(a\) \\
+		\(-1\)      & \(\neq 0\) in general      & simple pole; residue is coeff.\ of \((z-a)^{-1}\) \\
+		\(< -1\)    & \(0\)                      & pole of order \(\ge 2\); residue vanishes
+	\end{tabular}
+	\caption{Relation between the order of \(f\) at \(a\) and the residue \(\operatorname{Res}(f,a)\).}
+\end{table}
+\end{center}
+
+\begin{itemize}
+	\item A \emph{1-form} on $\C$ is something we can integrate along curves; the basic ones look like $\omega=f(z)\,dz$.
+	\item If $f$ is holomorphic (complex differentiable), then $\omega$ is a \emph{holomorphic 1-form}.
+	\item Given a path $\gamma:[a,b]\to\mathbb C$, we compute
+	\[
+	\int_\gamma \omega \;=\; \int_a^b f(\gamma(t))\,\gamma'(t)\,dt.
+	\]
+\end{itemize}
+
+\newpage
+\begin{theorem}[No nonconstant holomorphic functions on compact Riemann surfaces]
+	Let $X$ be a compact, connected Riemann surface. If $f:X\to\mathbb{C}$ is holomorphic, then $f$ is constant.
+\end{theorem}
+
+\begin{proof}
+	Let $Z(f)=\{p\in X:\, f(p)=0\}$ be the (finite) set of zeros of $f$, each with multiplicity
+	$\operatorname{ord}_p(f)\in\mathbb{Z}_{\ge 0}$. Consider the (logarithmic / winding) $1$-form
+	\[
+	\omega \;:=\; \frac{1}{2\pi i}\,\frac{df}{f}
+	\qquad\text{on }X\setminus Z(f).
+	\]
+	This form is closed on $X\setminus Z(f)$ (indeed $d\omega=\frac{1}{2\pi i}d\!\left(\frac{df}{f}\right)=0$ there)
+	and has integer periods around small loops encircling the points of $Z(f)$, as recorded below.
+	
+	\begin{lemma}[Winding / argument principle in local form]
+		For $p\in Z(f)$ and a sufficiently small positively oriented circle $\gamma_p$ around $p$
+		(in a local coordinate $z$ with $z(p)=0$), one has
+		\[
+		\int_{\gamma_p}\omega \;=\; \operatorname{ord}_p(f).
+		\]
+	\end{lemma}
+	
+	\begin{proof}[Proof of the lemma]
+		In a local coordinate $z$ at $p$ we can write $f(z)=z^{m}g(z)$ with $m=\operatorname{ord}_p(f)$ and $g$ holomorphic and nonvanishing near $0$.
+		Then
+		\[
+		\frac{df}{f} \;=\; \frac{m\,dz}{z} \;+\; \frac{dg}{g}.
+		\]
+		Since $\frac{dg}{g}$ is holomorphic, its integral over a small circle vanishes by Cauchy's theorem, while
+		$\int_{\gamma_p}\frac{dz}{z}=2\pi i$. Therefore
+		\[
+		\int_{\gamma_p}\omega \;=\; \frac{1}{2\pi i}\int_{\gamma_p}\frac{df}{f}
+		\;=\; \frac{1}{2\pi i}\Big(m\int_{\gamma_p}\frac{dz}{z}\Big) \;=\; m.
+		\]
+	\end{proof}
+	
+	Now remove from $X$ a disjoint union of small discs $D_p$ centered at each $p\in Z(f)$, and set
+	\[
+	X_\varepsilon \;:=\; X\setminus \bigcup_{p\in Z(f)} D_p.
+	\]
+	Then $X_\varepsilon$ is a compact manifold \emph{with} boundary
+	\(
+	\partial X_\varepsilon = \bigsqcup_{p\in Z(f)} (-\partial D_p),
+	\)
+	where $-\partial D_p$ denotes the boundary circle with the induced (outward) orientation of $X_\varepsilon$.
+	Since $d\omega=0$ on $X_\varepsilon$, the generalized Stokes theorem gives
+	\[
+	0 \;=\; \int_{X_\varepsilon} d\omega \;=\; \int_{\partial X_\varepsilon} \omega
+	\;=\; \sum_{p\in Z(f)} \int_{-\partial D_p}\omega
+	\;=\; - \sum_{p\in Z(f)} \int_{\partial D_p}\omega
+	\;=\; - \sum_{p\in Z(f)} \operatorname{ord}_p(f).
+	\]
+	Hence
+	\[
+	\sum_{p\in Z(f)} \operatorname{ord}_p(f) \;=\; 0.
+	\]
+	Because each $\operatorname{ord}_p(f)\ge 0$, it follows that $\operatorname{ord}_p(f)=0$ for all $p$, i.e.\ $f$ has no zeros on $X$.
+	
+	Consequently $u:=\log|f|$ is a globally defined harmonic function on $X$ (in local coordinates,
+	$\Delta u=0$ wherever $f\neq 0$, and we just proved $f$ never vanishes). On a compact, connected
+	Riemann surface every harmonic function is constant (by the maximum principle, or by integrating $|\nabla u|^2$).
+	Therefore $|f|$ is constant on $X$.
+	
+	Finally, a holomorphic map whose modulus is constant must itself be constant: otherwise its image would be
+	an open subset of the circle $\{w\in\mathbb{C}:|w|=\text{const}\}$, contradicting the open mapping theorem.
+	Hence $f$ is constant.
+\end{proof}
+
+\bigskip
+
+\noindent\textbf{Remark (Meromorphic variant).}
+If $f$ were merely meromorphic on $X$, the same argument (with the same $\omega$) yields the residue/divisor
+identity
+\[
+\sum_{p\in X} \operatorname{ord}_p(f) \;=\; 0,
+\]
+i.e.\ the divisor of a meromorphic function has degree zero. The holomorphic case corresponds to ``no poles'',
+forcing the sum of zeros to vanish and hence no zeros at all.
+
+
+\begin{theorem}[Degree of a meromorphic function’s divisor is zero]
+	Let $X$ be a compact, connected Riemann surface and let $f\not\equiv 0$ be meromorphic on $X$.
+	Then
+	\[
+	\sum_{p\in X}\operatorname{ord}_p(f)=0,
+	\]
+	i.e.\ the sum of the orders of zeros (positive) and poles (negative) of $f$ is $0$.
+\end{theorem}
+
+\begin{proof}
+	Let $S=\{p\in X:\text{$p$ is a zero or pole of $f$}\}$, which is finite by compactness.
+	On $X\setminus S$ consider the \emph{logarithmic} 1\!--form
+	\[
+	\omega \;=\; \frac{1}{2\pi i}\,\frac{df}{f}.
+	\]
+	Since $\frac{df}{f}$ is holomorphic on $X\setminus S$, we have $d\omega=0$ there.
+	
+	Choose pairwise disjoint coordinate discs $\{D_p\}_{p\in S}$ centered at the points of $S$, small
+	enough so that $f$ has no zeros or poles on any $\partial D_p$, and set
+	\[
+	X_\varepsilon \;:=\; X \setminus \bigcup_{p\in S} D_p .
+	\]
+	Then $X_\varepsilon$ is a compact surface with boundary
+	$\partial X_\varepsilon \;=\; \bigsqcup_{p\in S} (-\partial D_p)$,
+	where $-\partial D_p$ denotes the boundary circle with the induced (outward) orientation of $X_\varepsilon$.
+	
+	By the generalized Stokes theorem,
+	\[
+	0 \;=\; \int_{X_\varepsilon} d\omega
+	\;=\; \int_{\partial X_\varepsilon} \omega
+	\;=\; \sum_{p\in S}\int_{-\partial D_p}\omega
+	\;=\; -\sum_{p\in S}\int_{\partial D_p}\omega.
+	\tag{1}
+	\]
+	
+	It remains to compute the boundary integrals. Fix $p\in S$ and take a local coordinate $z$ with $z(p)=0$.
+	Write
+	\[
+	f(z)=z^m g(z), \qquad m=\operatorname{ord}_p(f)\in\mathbb{Z}, \quad g \text{ holomorphic and } g(0)\neq 0.
+	\]
+	Then
+	\[
+	\frac{df}{f}=\frac{m\,dz}{z}+\frac{dg}{g},
+	\]
+	where $\frac{dg}{g}$ is holomorphic near $0$. Hence for a small positively oriented circle
+	$\gamma_p=\partial D_p$ we have, by Cauchy,
+	\[
+	\int_{\gamma_p}\frac{dg}{g}=0 \quad\text{and}\quad
+	\int_{\gamma_p}\frac{dz}{z}=2\pi i,
+	\]
+	so
+	\[
+	\int_{\partial D_p}\omega
+	=\frac{1}{2\pi i}\int_{\partial D_p}\frac{df}{f}
+	=\frac{1}{2\pi i}\bigg(m\int_{\partial D_p}\frac{dz}{z}\bigg)
+	= m
+	=\operatorname{ord}_p(f).
+	\tag{2}
+	\]
+	Substituting \((2)\) into \((1)\) gives
+	\[
+	0 \;=\; -\sum_{p\in S}\operatorname{ord}_p(f),
+	\]
+	hence \(\sum_{p\in X}\operatorname{ord}_p(f)=0\).
+	
+	\smallskip
+	\emph{Residue viewpoint.}
+	Equivalently, $\frac{df}{f}$ has at worst simple poles at $S$ with
+	$\operatorname{Res}_p\!\left(\frac{df}{f}\right)=\operatorname{ord}_p(f)$.
+	Since $X$ is compact,
+	\(\sum_{p\in X}\operatorname{Res}_p\!\left(\frac{df}{f}\right)=0\),
+	yielding the same conclusion after dividing by \(2\pi i\).
+\end{proof}
+
+\newpage
+
+\begin{theorem}[Holomorphic functions on compact Riemann surfaces are constant]
+	Let $X$ be a compact, connected Riemann surface and let $f:X\to\mathbb{C}$ be holomorphic. Then $f$ is constant.
+\end{theorem}
+
+We give a detailed proof split into transparent steps. Throughout, $f\not\equiv 0$ unless explicitly stated (if $f\equiv 0$ the theorem is trivial).
+
+\subsection*{Step 1: The sum of orders of zeros equals $0$}
+\begin{claim}\label{claim:sumzero}
+	If $f$ is holomorphic on $X$, then the set of zeros $Z(f)$ is finite and
+	\[
+	\sum_{p\in Z(f)} \operatorname{ord}_p(f) \;=\; 0.
+	\]
+\end{claim}
+
+\begin{proof}[Proof of finiteness]
+	Zeros of a holomorphic function on a Riemann surface are isolated. Since $X$ is compact, an infinite set of isolated points would have an accumulation point, contradicting isolatedness. Hence $Z(f)$ is finite.
+\end{proof}
+
+\begin{proof}[Proof of the identity]
+	Let $S=Z(f)$ (there are no poles because $f$ is holomorphic). On $X\setminus S$ define the \emph{logarithmic form}
+	\[
+	\omega:=\frac{1}{2\pi i}\frac{df}{f}.
+	\]
+	This $1$-form is smooth and \emph{closed} on $X\setminus S$ because $f$ is holomorphic and nonvanishing there:
+	$d\omega = \frac{1}{2\pi i}d\big(\frac{df}{f}\big)=0$ on $X\setminus S$.
+	Choose pairwise disjoint coordinate discs $\{D_p\}_{p\in S}$ so that $f$ has no zeros on the boundary circles $\gamma_p:=\partial D_p$, and set
+	\[
+	X_\varepsilon:=X\setminus \bigcup_{p\in S}D_p.
+	\]
+	Then $X_\varepsilon$ is a compact manifold \emph{with} boundary
+	\(\partial X_\varepsilon=\bigsqcup_{p\in S}(-\gamma_p)\), where the minus sign denotes the outward orientation induced from $X_\varepsilon$ (i.e.\ the geometric boundary circles are traversed negatively relative to the positive orientation of the small discs).
+	
+	By the generalized Stokes theorem:
+	\[
+	0=\int_{X_\varepsilon} d\omega \;=\; \int_{\partial X_\varepsilon}\omega
+	\;=\; \sum_{p\in S}\int_{-\gamma_p}\omega
+	\;=\; -\sum_{p\in S}\int_{\gamma_p}\omega.
+	\tag{$\ast$}
+	\]
+	Thus it remains to compute each boundary integral. Fix $p\in S$ and take a local coordinate $z$ with $z(p)=0$. By Weierstrass preparation,
+	\(
+	f(z)=z^m g(z)
+	\)
+	with $m=\operatorname{ord}_p(f)\in\mathbb{Z}_{\ge 0}$ and $g$ holomorphic, $g(0)\neq 0$. Then
+	\[
+	\frac{df}{f}=\frac{m\,dz}{z}+\frac{dg}{g}.
+	\]
+	The $1$-form $\frac{dg}{g}$ is holomorphic in a neighborhood of $0$, so $\int_{\gamma_p}\frac{dg}{g}=0$ by Cauchy's theorem. Also $\int_{\gamma_p}\frac{dz}{z}=2\pi i$. Therefore
+	\[
+	\int_{\gamma_p}\omega=\frac{1}{2\pi i}\int_{\gamma_p}\frac{df}{f}
+	=\frac{1}{2\pi i}\cdot m\int_{\gamma_p}\frac{dz}{z}=m=\operatorname{ord}_p(f).
+	\]
+	Plugging this into $(\ast)$ yields $0=-\sum_{p\in S}\operatorname{ord}_p(f)$, i.e.\ $\sum_{p\in Z(f)}\operatorname{ord}_p(f)=0$.
+\end{proof}
+
+\subsection*{Step 2: Nonnegativity forces no zeros}
+\begin{claim}\label{claim:nozeros}
+	For holomorphic $f$, each $\operatorname{ord}_p(f)\ge 0$. Hence \(\sum_{p\in Z(f)}\operatorname{ord}_p(f)=0\)
+	implies $\operatorname{ord}_p(f)=0$ for all $p$, so $Z(f)=\varnothing$.
+\end{claim}
+
+\begin{proof}
+	By definition, for a holomorphic function the order at a zero is the nonnegative integer $m$ such that $f(z)=z^m g(z)$ with $g(0)\neq 0$. Thus all summands are $\ge 0$. A finite sum of nonnegative integers can be $0$ only if each is $0$.
+\end{proof}
+
+\begin{remark}[Why we only summed over zeros]
+	In the meromorphic case, the residue/Stokes computation gives
+	\(\sum_{p\in X}\operatorname{ord}_p(f)=0\), where pole orders are negative. In the holomorphic case there are no poles, so the sum is over zeros only, and nonnegativity forces triviality.
+\end{remark}
+
+\subsection*{Step 3: Global harmonicity of \(u=\log|f|\)}
+\begin{claim}\label{claim:harmonic}
+	If $f$ is holomorphic and \emph{nowhere vanishing} on $X$, then $u:=\log|f|$ is a well-defined global \emph{harmonic} real-valued function on $X$.
+\end{claim}
+
+\begin{proof}
+	\textbf{(Well-definedness)} Since $f$ never vanishes, $|f|>0$ and $\log|f|$ is a single-valued continuous function globally (no branch issue, because we take the real logarithm of the positive function $|f|$).
+	
+	\smallskip
+	\textbf{(Harmonicity is local.)} A function is harmonic if and only if it is (real) harmonic in every coordinate chart; this is local. So fix a coordinate $z=x+iy$ on a simply connected chart $U\Subset X$. Because $f$ is holomorphic and never zero on $U$, there exists a holomorphic logarithm $g$ on $U$ with $e^{g}=f$ (define $g$ by integrating $f'/f$, or pick a holomorphic branch of $\log f$). Write $g=\varphi+i\psi$ with real-valued $\varphi,\psi$. Then
+	\[
+	|f|=|e^g|=e^{\Re g}=e^{\varphi}\quad\Longrightarrow\quad u=\log|f|=\varphi.
+	\]
+	But the real part of a holomorphic function is harmonic: $\Delta \varphi=0$ in the Euclidean Laplacian $\Delta=\partial_x^2+\partial_y^2$. Hence $u$ is harmonic on each such chart; therefore $u$ is harmonic globally on $X$.
+	
+	\smallskip
+	\textbf{(Equivalent differential-form computation)} In a complex coordinate $z$, write $\partial=\frac{\partial}{\partial z}\,dz$ and $\bar\partial=\frac{\partial}{\partial\bar z}\,d\bar z$. Locally choose a holomorphic branch $\log f$. Then
+	\[
+	\partial\bar\partial \log|f|
+	=\frac12\,\partial\bar\partial\big(\log f+\log\bar f\big)
+	=\tfrac12\big(\underbrace{\partial\bar\partial\log f}_{=0}+\underbrace{\partial\bar\partial\log\bar f}_{=0}\big)=0,
+	\]
+	because $\bar\partial\log f=0$ and $\partial\log\bar f=0$. Since the Laplacian is a (nonzero) scalar multiple of $\partial\bar\partial$ in complex notation, this is another way to see $\Delta u=0$.
+\end{proof}
+
+\subsection*{Step 4: Harmonic functions on compact Riemann surfaces are constant}
+\begin{proposition}\label{prop:harmonic-constant}
+	If $X$ is compact and connected, any harmonic function $u:X\to\mathbb{R}$ is constant.
+\end{proposition}
+
+\begin{proof}[Two standard proofs]
+	\textbf{(Maximum principle)} A harmonic function satisfies the strong maximum principle: it cannot achieve a nonconstant local maximum or minimum in the interior. By compactness, $u$ attains a global max and min on $X$; by the maximum principle both are attained on every neighborhood, forcing $u$ to be constant.
+	
+	\smallskip
+	\textbf{(Energy identity)} Equivalently, integrate by parts. In a conformal coordinate $z=x+iy$,
+	\[
+	\int_X |\nabla u|^2\,dA
+	= -\int_X u\,\Delta u\,dA \;+\; \underbrace{\int_{\partial X} u\,\partial_\nu u\,ds}_{=0}
+	= 0,
+	\]
+	since $\Delta u=0$ and $\partial X=\varnothing$. Thus $|\nabla u|\equiv 0$, hence $u$ is constant on each chart, and by connectedness on $X$.
+\end{proof}
+
+\subsection*{Step 5: From constant modulus to constant function}
+\begin{claim}\label{claim:modulus-constant-implies-constant}
+	If $f$ is holomorphic on a connected Riemann surface and $|f|$ is constant, then $f$ is constant.
+\end{claim}
+
+\begin{proof}[Two ways]
+	\textbf{(Open mapping theorem)} A nonconstant holomorphic map is open, so $f(X)$ would be an open subset of $\{w:|w|=\mathrm{const}\}$, a circle, which has empty interior—a contradiction.
+	
+	\smallskip
+	\textbf{(Differential identity)} Let $F=|f|^2=f\bar f$. In a local coordinate $z$,
+	\(
+	\partial F = (\partial f)\,\bar f = f'(z)\,\overline{f(z)}\,dz.
+	\)
+	If $F$ is constant then $\partial F=0$, so $f'(z)\,\overline{f(z)}=0$. On the locus where $f\neq 0$ we get $f'(z)=0$. But the set $\{f=0\}$ is discrete for holomorphic $f$, hence $f'$ vanishes on a dense open set and by analyticity $f'\equiv 0$ on $X$. Therefore $f$ is constant on each connected component, hence on $X$.
+\end{proof}
+
+\subsection*{Putting it all together}
+From Claim~\ref{claim:sumzero} and Claim~\ref{claim:nozeros}, a holomorphic $f$ on compact $X$ has \emph{no zeros} (unless $f\equiv 0$). Therefore $u=\log|f|$ is globally well-defined and harmonic by Claim~\ref{claim:harmonic}. By Proposition~\ref{prop:harmonic-constant}, $u$ is constant; hence $|f|$ is constant. Finally, by Claim~\ref{claim:modulus-constant-implies-constant}, $f$ is constant.
+
+\begin{remark}[What changes for meromorphic $f$?]
+	If $f$ is meromorphic, the same Stokes argument gives
+	\(
+	\sum_{p\in X}\operatorname{ord}_p(f)=0,
+	\)
+	with negative contributions from poles; this is the statement that the divisor of a meromorphic function has degree $0$. The holomorphic case is the special case “no poles,” forcing the sum of zero-orders to vanish and hence to be trivial termwise.
+\end{remark}
+
+\newpage
+\begin{theorem}[Harmonic $\Rightarrow$ constant on compact Riemann surfaces]
+	Let $X$ be a compact, connected Riemann surface (thus a compact oriented $2$-manifold with a conformal structure).
+	If $u\in C^\infty(X,\mathbb{R})$ is harmonic, then $u$ is constant.
+\end{theorem}
+
+\begin{proof}[Proof via Hodge star and generalized Stokes]
+	Equip $X$ with any Riemannian metric compatible with the complex structure (e.g.\ from a local conformal coordinate).
+	Let $d$ be the exterior derivative and $*$ the Hodge star. The codifferential is $\delta:= - * d *$ on $1$-forms,
+	and the Laplacian on functions is $\Delta u = \delta(du) = - * d * du$.
+	Harmonicity means $\Delta u = 0$, equivalently $d * du = 0$.
+	
+	Consider the $1$-form $u\, * du$ on $X$.
+	By the Leibniz rule,
+	\[
+	d(u * du) \;=\; du \wedge * du \;+\; u\, d * du.
+	\]
+	Since $u$ is harmonic, $d*du=0$, hence
+	\[
+	d(u * du) \;=\; du \wedge * du.
+	\]
+	Integrate over $X$ and apply the generalized Stokes theorem (no boundary since $X$ is compact):
+	\[
+	\int_X du \wedge * du \;=\; \int_X d(u * du) \;=\; \int_{\partial X} u * du \;=\; 0.
+	\]
+	But pointwise $du \wedge * du = |du|^2 \, d\mathrm{vol}$, hence
+	\[
+	\int_X |du|^2 \, d\mathrm{vol} \;=\; 0.
+	\]
+	Therefore $|du|^2 \equiv 0$ on $X$, so $du \equiv 0$. Since $X$ is connected, $u$ is constant.
+\end{proof}
+
+\bigskip
+
+\begin{theorem}[Equivalent $\partial\bar\partial$-proof]
+	In complex notation, let $\partial,\bar\partial$ be the Dolbeault operators and fix the standard normalization
+	$\Delta u = 4 \, \partial\bar\partial u$ (as a $(1,1)$-form after identifying functions with $(0,0)$-forms).
+	If $u$ is harmonic (so $\partial\bar\partial u=0$), then $u$ is constant.
+\end{theorem}
+
+\begin{proof}
+	On a Riemann surface,
+	\[
+	i\,\partial u \wedge \bar\partial u
+	\;=\;
+	\frac{i}{2}\,\partial\bar\partial(u^2)
+	\;-\; i\,u\,\partial\bar\partial u.
+	\]
+	Integrate over $X$:
+	\[
+	\int_X i\,\partial u \wedge \bar\partial u
+	=
+	\frac{i}{2}\int_X \partial\bar\partial(u^2)
+	\;-\; i\int_X u\,\partial\bar\partial u.
+	\]
+	The first term vanishes by Stokes (exact form on a compact manifold), and the second vanishes by harmonicity
+	($\partial\bar\partial u=0$). Hence
+	\[
+	\int_X i\,\partial u \wedge \bar\partial u \;=\; 0.
+	\]
+	Pointwise, $i\,\partial u \wedge \bar\partial u$ is a nonnegative $(1,1)$-form equal to
+	$\tfrac{1}{2}|\nabla u|^2\, d\mathrm{vol}$ (up to a harmless normalization); thus it vanishes identically.
+	Therefore $\partial u \equiv 0$, so $u$ is (anti)holomorphic and real-valued, hence constant.
+\end{proof}
+
+\newpage
+\begin{theorem}[Harmonic $\Rightarrow$ constant on compact Riemann surfaces, no Hodge star]
+	Let $X$ be a compact, connected Riemann surface. If $u\in C^\infty(X,\mathbb{R})$ is harmonic, then $u$ is constant.
+\end{theorem}
+
+\subsection*{Proof 1 (Dolbeault $\partial\bar\partial$ + Stokes)}
+On a Riemann surface, harmonicity is equivalent to $\partial\bar\partial u=0$ (the complex Laplacian).
+Compute the $(1,1)$-form identity
+\[
+i\,\partial u\wedge \bar\partial u
+\;=\;
+\frac{i}{2}\,\partial\bar\partial(u^2)\;-\; i\,u\,\partial\bar\partial u.
+\]
+Integrate over $X$ and apply the generalized Stokes theorem:
+\[
+\int_X i\,\partial u\wedge \bar\partial u
+=
+\frac{i}{2}\int_X \partial\bar\partial(u^2)
+\;-\; i\int_X u\,\partial\bar\partial u
+=0-0=0,
+\]
+since $X$ has no boundary and $\partial\bar\partial u=0$.
+
+Locally, in a coordinate $z=x+iy$, one checks
+\[
+i\,\partial u\wedge \bar\partial u
+=\frac12\left( u_x^2+u_y^2\right)\,dx\wedge dy,
+\]
+so the integrand is pointwise nonnegative. Hence the integral vanishes only if
+$u_x=u_y\equiv 0$ everywhere; thus $u$ is constant on each component, and $X$ is connected.
+
+\subsection*{Proof 2 (Real-variable $1$-form trick + Stokes)}
+Choose a local real coordinate chart $(x,y)$ compatible with the complex structure (possible locally everywhere).
+Set
+\[
+\alpha \;:=\; -u_y\,dx + u_x\,dy
+\quad\text{(a $90^\circ$ rotation of the gradient as a $1$-form).}
+\]
+A direct computation gives the two identities
+\[
+du \wedge \alpha
+=\big(u_x\,dx+u_y\,dy\big)\wedge\big(-u_y\,dx+u_x\,dy\big)
+=\big(u_x^2+u_y^2\big)\,dx\wedge dy,
+\]
+\[
+d\alpha
+= -u_{yx}\,dx\wedge dx - u_{yy}\,dy\wedge dx + u_{xx}\,dx\wedge dy + u_{xy}\,dy\wedge dy
+=(u_{xx}+u_{yy})\,dx\wedge dy
+=(\Delta u)\,dx\wedge dy.
+\]
+Now apply Leibniz to the $1$-form $u\,\alpha$:
+\[
+d(u\,\alpha)=du\wedge \alpha + u\,d\alpha
+=\big(|\nabla u|^2 + u\,\Delta u\big)\,dx\wedge dy.
+\]
+If $u$ is harmonic, $\Delta u=0$, so $d(u\,\alpha)=|\nabla u|^2\,dx\wedge dy$.
+Integrate over the compact surface $X$ and use Stokes (no boundary):
+\[
+\int_X |\nabla u|^2\,dx\wedge dy
+=\int_X d(u\,\alpha)
+=\int_{\partial X} u\,\alpha
+=0.
+\]
+Hence $|\nabla u|^2\equiv 0$, so $du\equiv 0$ and $u$ is constant on the connected $X$.
+
+\newpage
+\begin{theorem}[Harmonic $\Rightarrow$ constant on a compact Riemann surface, no Hodge star]
+	Let $X$ be a compact, connected Riemann surface. If $u\in C^\infty(X,\mathbb{R})$ is harmonic, then $u$ is constant.
+\end{theorem}
+
+\paragraph{What ``harmonic'' means here.}
+A Riemann surface carries a conformal (angle-preserving) atlas. In any \emph{conformal} local coordinate
+$(x,y)$ on $U\subset X$, harmonicity means the \emph{flat} Laplacian vanishes:
+\[
+\Delta u \;:=\; u_{xx}+u_{yy} \;=\; 0 \quad \text{on } U.
+\]
+(Equivalently, with any conformal metric $\lambda(x,y)(dx^2+dy^2)$, the Laplace--Beltrami operator is
+$\Delta_g u=\lambda^{-1}(u_{xx}+u_{yy})$, so $\Delta_g u=0 \iff u_{xx}+u_{yy}=0$.)
+
+\medskip
+
+\paragraph{Key local calculation (purely real-variable).}
+On any conformal chart $(x,y)$, define the $1$-form
+\[
+\alpha \;:=\; -\,u_y\,dx \;+\; u_x\,dy .
+\]
+A direct computation (product rule + $dx\wedge dx=0=dy\wedge dy$) gives the identities
+\begin{align*}
+	du \wedge \alpha
+	&= (u_x\,dx+u_y\,dy)\wedge(-u_y\,dx+u_x\,dy)
+	\;=\; (u_x^2+u_y^2)\,dx\wedge dy, \\
+	d\alpha
+	&= -u_{yx}\,dx\wedge dx - u_{yy}\,dy\wedge dx
+	+ u_{xx}\,dx\wedge dy + u_{xy}\,dy\wedge dy \\
+	&= (u_{xx}+u_{yy})\,dx\wedge dy
+	\;=\; (\Delta u)\,dx\wedge dy .
+\end{align*}
+Therefore, for the $1$-form $u\,\alpha$ we have
+\[
+d(u\,\alpha) \;=\; du\wedge\alpha \;+\; u\,d\alpha
+\;=\; \big(u_x^2+u_y^2 + u\,\Delta u\big)\,dx\wedge dy .
+\tag{$\ast$}
+\]
+
+\paragraph{Conformal invariance of the right-hand side.}
+If $(u,v)$ is another conformal chart with $(u,v)=(u(x,y),v(x,y))$ coming from a holomorphic change of
+coordinates, then
+\[
+du\wedge dv \;=\; J\,dx\wedge dy, \qquad
+u_u^2+u_v^2 \;=\; J^{-1}\,(u_x^2+u_y^2),
+\]
+where $J>0$ is the Jacobian factor (for a conformal change, $J=|h'(z)|^2$).
+Hence
+\[
+\big(u_u^2+u_v^2\big)\,du\wedge dv \;=\; (u_x^2+u_y^2)\,dx\wedge dy,
+\]
+and similarly $(\Delta u)\,dx\wedge dy=(\Delta u)\,du\wedge dv / J$ transforms the same way. Thus the
+$2$-form on the right-hand side of $(\ast)$ is independent of the chosen conformal chart. Consequently, the
+following $2$-form is \emph{globally} well-defined on $X$:
+\[
+\Omega \;:=\; \big(u_x^2+u_y^2 + u\,\Delta u\big)\,dA,
+\]
+where in each chart $dA$ denotes the oriented area form ($dx\wedge dy$).
+
+\paragraph{Exactness and Stokes.}
+By $(\ast)$, on each chart $\Omega = d(u\,\alpha)$. Hence $\Omega$ is \emph{locally exact}.
+By the generalized Stokes theorem on manifolds without boundary, the integral of a globally defined $2$-form
+that is locally exact is $0$:
+\[
+\int_X \Omega \;=\; 0.
+\]
+(One way to see this concretely: choose a finite conformal atlas $\{U_j\}$ with a partition of unity
+$\{\rho_j\}$, and set $\Theta:=\sum_j \rho_j\,u\,\alpha_j$, where $\alpha_j$ is the above form in $U_j$.
+A brief check shows $d\Theta=\Omega$, so $\int_X\Omega=\int_X d\Theta=\int_{\partial X}\Theta=0$.)
+
+\paragraph{Conclude for harmonic $u$.}
+If $u$ is harmonic (\(\Delta u=0\) in each conformal chart), then
+\[
+\Omega \;=\; (u_x^2+u_y^2)\,dA \;\;\ge 0 \quad\text{pointwise,}
+\]
+and
+\[
+0 \;=\; \int_X \Omega \;=\; \int_X (u_x^2+u_y^2)\,dA .
+\]
+Thus $u_x=u_y\equiv 0$ everywhere. Hence $du\equiv 0$, so $u$ is constant on each connected component; since
+$X$ is connected, $u$ is constant.
+
+\hfill$\square$
+
+\bigskip
+
+\noindent\textbf{Remarks.}
+\begin{itemize}
+	\item This proof uses only: (i) conformal local coordinates on a Riemann surface,
+	(ii) the product rule for $d$, and (iii) the generalized Stokes theorem. No Hodge star, no
+	$\partial,\bar\partial$.
+	\item The same argument works on any compact oriented surface endowed with a conformal structure (equivalently, a Riemannian metric up to smooth positive scaling) because harmonicity and the $2$-form
+	$(u_x^2+u_y^2)\,dA$ are conformally invariant as used above.
+\end{itemize}
+
+
+\newpage
+\section{Complex tori as Riemann surfaces}
+\begin{definition}
+	A \emph{lattice} in $\C$ is a discrete rank-$2$ subgroup
+	\[
+	\Lambda = \Z \omega_1 \oplus \Z \omega_2, \qquad \omega_1,\omega_2 \in \C \text{ linearly independent over }\R.
+	\]
+	The associated \emph{complex torus} is the quotient
+	\[
+	E_\Lambda \coloneqq \C/\Lambda.
+	\]
+\end{definition}
+
+\begin{proposition}
+	The quotient $E_\Lambda$ carries a natural structure of a complex $1$-dimensional manifold (a compact Riemann surface). The projection $\pi:\C\to E_\Lambda$ is a holomorphic universal covering map.
+\end{proposition}
+
+\begin{proof}[Sketch]
+	The action of $\Lambda$ on $\C$ by translations is properly discontinuous and free. Local charts descend from $\C$, and compactness follows from the parallelogram fundamental domain. The universal covering property is standard.
+\end{proof}
+
+\begin{remark}[Linear entire lifts]
+	Let $F:E_{\Lambda}\to E_{\Lambda'}$ be holomorphic. Any lift $\widetilde F:\C\to\C$ with $\pi'\circ \widetilde F = F\circ \pi$ is entire and $\Lambda$--equivariant:
+	\[
+	\widetilde F(z+\lambda)=\widetilde F(z)+\lambda'_\lambda\qquad (\lambda\in\Lambda,\ \lambda'_\lambda\in \Lambda').
+	\]
+	By Liouville/Weierstrass, an entire function with at most linear growth is affine. Equivariance forces $\widetilde F(z)=az+b$ with $a\in\C$ and $a\Lambda\subseteq \Lambda'$. Replacing $F$ by a translate we may assume $b=0$.
+\end{remark}
+
+\begin{proposition}[Biholomorphisms of tori]
+	Two complex tori $E_\Lambda$ and $E_{\Lambda'}$ are biholomorphic iff there exists $a\in\C^\times$ with $a\Lambda=\Lambda'$.
+\end{proposition}
+
+\begin{proof}
+	If $F:E_{\Lambda}\to E_{\Lambda'}$ is biholomorphic, pick a lift $\widetilde F(z)=az$ with $a\neq 0$ and $a\Lambda\subseteq \Lambda'$. Applying the argument to $F^{-1}$ shows $a^{-1}\Lambda'\subseteq\Lambda$, hence equality.
+\end{proof}
+
+\section{The moduli of complex tori}
+Choose a lattice basis $(\omega_1,\omega_2)$ and set $\tau=\omega_2/\omega_1$ with $\im\tau>0$. Scaling by $\omega_1$ identifies $\Lambda=\omega_1(\Z+\Z\tau)$, so any torus is $E_\tau \coloneqq \C/(\Z+\Z\tau)$ with $\tau\in\HH$.
+
+\begin{proposition}
+	$E_\tau \cong E_{\tau'}$ iff $\tau'=\dfrac{a\tau+b}{c\tau+d}$ for some $\begin{psmallmatrix}a&b\\ c&d\end{psmallmatrix}\in \mathrm{SL}_2(\Z)$.
+\end{proposition}
+
+\begin{proof}
+	Changing the basis of the lattice by an integer matrix corresponds to the indicated fractional linear transformation of~$\tau$.
+\end{proof}
+
+Thus the moduli of complex tori is $\mathrm{SL}_2(\Z)\backslash \HH$, concretely represented by the classical fundamental domain
+\[
+\mathcal{D}=\bigl\{\tau\in\HH : |\re\tau|\le \tfrac12,\ |\tau|\ge 1 \bigr\},
+\]
+with suitable edge identifications.
+
+\section{Elliptic curves as plane cubics}
+\begin{definition}
+	An \emph{elliptic curve} over $\C$ is a pair $(E, O)$ where $E$ is a smooth projective curve of genus $1$ and $O\in E(\C)$ is a distinguished point.
+\end{definition}
+
+\begin{theorem}[Plane cubic model]
+	Every elliptic curve over $\C$ is isomorphic to a smooth plane cubic in Weierstrass form
+	\[
+	y^2 = 4x^3 - g_2 x - g_3,
+	\]
+	for some $g_2,g_3\in\C$ with discriminant $\Delta = g_2^3 - 27 g_3^2 \ne 0$.
+\end{theorem}
+
+\begin{proof}[Idea via the holomorphic implicit function theorem]
+	Consider a cubic $F(x,y,z)=0$ in $\PP^2$ with a nonsingular point $O=[0:1:0]$. In an affine chart ($z=1$) the curve is locally given by $f(x,y)=0$ with suitable partial derivative nonvanishing at $O$, so by the complex IFT one solves locally for a holomorphic parameter. Global projectivity and genus computation yield a smooth genus-$1$ curve, which can be transformed to Weierstrass form by linear changes of variables.
+\end{proof}
+
+\section{Meromorphic functions and Riemann--Roch facts}
+Let $M$ be a compact Riemann surface of genus $g$. Write $\mathbb{C}(M)$ for its field of meromorphic functions.
+
+\begin{theorem}[Riemann--Roch (special cases)]
+	If $f\in\mathbb{C}(M)$ is nonconstant, the sum of orders of its poles equals the sum of orders of its zeros. In particular, on $M$ any meromorphic differential $\omega$ has total order $2g-2$. Moreover, given a point $p\in M$,
+	\begin{itemize}
+		\item there exists $f$ with a pole at $p$ of order at most $g+1$;
+		\item if $g\ge 2$, for all but finitely many $p$ (the Weierstrass points) there exists $f$ \emph{with a single pole at $p$} of exact order $g+1$.
+	\end{itemize}
+\end{theorem}
+
+\begin{remark}
+	For an elliptic curve ($g=1$), a nonzero holomorphic $1$-form has no zeros; its divisor has degree $0$. This matches the translation-invariant form on a complex torus.
+\end{remark}
+
+\section{The Weierstrass \texorpdfstring{$\wp$}{wp}-function}
+Fix a lattice $\Lambda\subset\C$. The Weierstrass $\wp$-function is
+\[
+\wp(z) = \frac{1}{z^2} + \sum_{\omega\in\Lambda\setminus\{0\}}
+\left(\frac{1}{(z-\omega)^2}-\frac{1}{\omega^2}\right),\qquad
+\wp'(z) = -2\sum_{\omega\in\Lambda} \frac{1}{(z-\omega)^3}.
+\]
+It is even, $\wp(-z)=\wp(z)$, while $\wp'$ is odd.
+
+\begin{proposition}[Periodic meromorphicity]
+	$\wp$ and $\wp'$ are $\Lambda$-periodic meromorphic functions on $\C$; they descend to meromorphic functions on $E_\Lambda$. The function $\wp$ has a unique (double) pole at $z\equiv 0\ (\mathrm{mod}\ \Lambda)$ and no other poles.
+\end{proposition}
+
+\begin{lemma}[Residues]
+	The differential $\wp(z)\,dz$ is a globally defined meromorphic $1$-form on $E_\Lambda$ with vanishing total residue; in particular $\Res_0(\wp\,dz)=0$.
+\end{lemma}
+
+\begin{proposition}[Differential equation]
+	Set the Eisenstein series
+	\[
+	g_2 = 60\!\!\sum_{\omega\in\Lambda\setminus\{0\}} \frac{1}{\omega^4},
+	\qquad
+	g_3 = 140\!\!\sum_{\omega\in\Lambda\setminus\{0\}} \frac{1}{\omega^6}.
+	\]
+	Then
+	\[
+	\bigl(\wp'(z)\bigr)^2 = 4\bigl(\wp(z)\bigr)^3 - g_2\,\wp(z) - g_3,
+	\]
+	and the right-hand side has nonzero discriminant precisely when $E_\Lambda$ is nonsingular.
+\end{proposition}
+
+\begin{proof}[Idea]
+	One shows that $\wp$ and $\wp'$ generate the field of meromorphic functions on $E_\Lambda$ with pole at $0$; their minimal algebraic relation must be cubic in $\wp$ and quadratic in $\wp'$. Coefficient identification via Laurent expansions near $0$ yields the stated equation with $g_2,g_3$ as above.
+\end{proof}
+
+\subsection{Half-periods and zeros of \texorpdfstring{$\wp'$}{wp'}}
+Let the three \emph{half-periods} be
+\[
+\omega_1/2,\qquad \omega_2/2,\qquad (\omega_1+\omega_2)/2 \quad \text{mod }\Lambda.
+\]
+\begin{proposition}
+	The zeros of $\wp'$ are exactly the three half-period classes and they are simple. Denote
+	\[
+	e_1=\wp\!\left(\tfrac{\omega_1}{2}\right),\quad
+	e_2=\wp\!\left(\tfrac{\omega_2}{2}\right),\quad
+	e_3=\wp\!\left(\tfrac{\omega_1+\omega_2}{2}\right),
+	\]
+	then $e_1+e_2+e_3=0$ and
+	\[
+	(\wp')^2 = 4(\wp-e_1)(\wp-e_2)(\wp-e_3).
+	\]
+\end{proposition}
+
+\section{Uniformization: torus \texorpdfstring{$\longleftrightarrow$}{<->} cubic}
+Define
+\[
+\Phi:\C/\Lambda \longrightarrow E \subset \PP^2,\qquad
+z \longmapsto \bigl[X:Y:Z\bigr]=\bigl(1:\wp(z):\tfrac{1}{2}\wp'(z)\bigr),
+\]
+which in affine coordinates is $(x,y)=\bigl(\wp(z),\tfrac{1}{2}\wp'(z)\bigr)$.
+
+\begin{theorem}
+	$\Phi$ is a biholomorphism from the complex torus $E_\Lambda$ onto the smooth plane cubic
+	\[
+	y^2 = 4x^3 - g_2 x - g_3,
+	\]
+	sending $z\equiv 0$ to the point at infinity $O=[0:1:0]$. Thus every complex elliptic curve is analytically isomorphic to a complex torus.
+\end{theorem}
+
+\begin{proof}[Sketch]
+	Local holomorphicity and nondegeneracy follow from the inverse function theorem away from the zeros of $\wp'$ and from the cubic relation. The map is $\Lambda$-periodic, hence well-defined on the quotient; it is bijective with holomorphic inverse given by an elliptic integral.
+\end{proof}
+
+\begin{remark}[Elliptic integrals]
+	Writing $x=\wp(z)$ and $y=\tfrac{1}{2}\wp'(z)$,
+	\[
+	dz = \frac{dx}{\sqrt{4x^3 - g_2 x - g_3}}.
+	\]
+	Hence the inverse uniformization is given by an elliptic integral
+	\[
+	z = \int^x \frac{du}{\sqrt{4u^3 - g_2 u - g_3}},
+	\]
+	with branch cuts chosen to make the integral single-valued on $E$.
+\end{remark}
+
+\section{Automorphisms and special \texorpdfstring{$\tau$}{tau}}
+The automorphism group of $E_\tau$ contains translations and the group of linear automorphisms preserving $\Lambda$. For generic $\tau$ this group is $\{\pm 1\}$; at special moduli (square and hexagonal lattices) it is larger:
+\[
+\tau=i\ (\text{square})\ \Rightarrow\ \Aut(E_\tau)\cong \mu_4,\qquad
+\tau=e^{\pi i/3}\ (\text{hexagonal})\ \Rightarrow\ \Aut(E_\tau)\cong \mu_6.
+\]
+These correspond to extra symmetries of the cubic (e.g.\ $j=1728$ and $j=0$).
+
+\section{Moduli and $j$-invariant (brief)}
+The coarse moduli of complex elliptic curves is parametrized by the modular $j$-invariant
+\[
+j(\tau)=1728\,\frac{g_2(\tau)^3}{\Delta(\tau)},\qquad \Delta(\tau)=g_2(\tau)^3-27g_3(\tau)^2,
+\]
+constant on $\mathrm{SL}_2(\Z)$-orbits. The fundamental domain $\mathcal D$ gives a concrete set of representatives for isomorphism classes.
+
+\section{Appendix: analytic ingredients}
+\subsection*{Complex implicit function theorem (CIFT)}
+Let $U\subset\C^2$ open and $F:U\to\C$ holomorphic. If $F(z_0,w_0)=0$ and $\frac{\partial F}{\partial w}(z_0,w_0)\neq 0$, then in a neighborhood of $z_0$ there is a holomorphic function $w=w(z)$ with $F(z,w(z))=0$. This produces holomorphic charts on plane curves and ensures nonsingularity when the gradient does not vanish.
+
+\subsection*{Riemann–Roch snapshots}
+For a divisor $D$ on a compact Riemann surface $M$,
+\[
+\ell(D)-\ell(K-D)=\deg D + 1 - g,\qquad K\ \text{canonical divisor}.
+\]
+Specializing to $g=1$ implies $\deg K=0$ and $\ell(D)=\deg D$ for effective $D$ of degree $\ge 1$, enabling the description of the function field of $E$ via poles at~$O$.
+
+\bigskip
+\noindent\textbf{Summary.}
+\begin{itemize}
+	\item Complex tori $\C/\Lambda$ are precisely (analytic) elliptic curves.
+	\item The moduli is $\mathrm{SL}_2(\Z)\backslash\HH$, with fundamental domain $\mathcal D$.
+	\item The Weierstrass functions $\wp,\wp'$ uniformize the cubic $y^2=4x^3-g_2x-g_3$; the zeros of $\wp'$ are the half-periods and yield the roots $e_1,e_2,e_3$.
+	\item Elliptic integrals invert the uniformization map.
+\end{itemize}
+
+
+
+
+\newpage
+\section{Elliptic Curves, Elliptic Integrals, and the Complex Torus}
+% ============================================================
+
+In this section, we describe how elliptic curves arise naturally from
+the complex torus \(\mathbb{C}/\Lambda\), where \(\Lambda = \mathbb{Z} + \mathbb{Z}\tau\) for
+\(\Im\tau>0\).
+We show how meromorphic functions on \(\mathbb{C}/\Lambda\) can be expressed
+using the Weierstrass \(\wp\)-function and its derivative,
+how the Weierstrass equation defines an algebraic curve in \(\mathbb{CP}^2\),
+and how the elliptic integral connects the complex torus and this projective curve.
+
+% ------------------------------------------------------------
+\subsection{The Weierstrass \(\wp\)-function and its differential equation}
+
+Let \(\Lambda = \mathbb{Z} + \mathbb{Z}\tau\) be a lattice in \(\mathbb{C}\), with
+\(\Im\tau>0\).
+Define the Weierstrass \(\wp\)-function by the absolutely convergent series
+\[
+\wp(z;\Lambda)
+=
+\frac{1}{z^2}
++\!\!\sum_{\substack{\omega\in\Lambda\\ \omega\neq0}}
+\left(
+\frac{1}{(z-\omega)^2}-\frac{1}{\omega^2}
+\right),
+\qquad z\in\mathbb{C}.
+\]
+Then \(\wp\) is a \emph{doubly periodic meromorphic function} on \(\mathbb{C}\)
+with periods \(1\) and \(\tau\),
+and thus descends to a meromorphic function on the torus
+\(\mathbb{C}/\Lambda\).
+
+The derivative
+\(\wp'(z) = \dfrac{d}{dz}\wp(z)\)
+is also \(\Lambda\)-periodic but \emph{odd}, satisfying
+\(\wp'(-z)=-\wp'(z)\), while \(\wp\) itself is even:
+\(\wp(-z)=\wp(z)\).
+
+\begin{theorem}[Weierstrass differential equation]
+	The functions \(\wp(z)\) and \(\wp'(z)\) satisfy the cubic relation
+	\[
+	(\wp'(z))^2 = 4\wp(z)^3 - g_2\,\wp(z) - g_3,
+	\]
+	where the invariants
+	\[
+	g_2 = 60\sum_{\omega\in\Lambda\setminus\{0\}}\frac{1}{\omega^4}, \qquad
+	g_3 = 140\sum_{\omega\in\Lambda\setminus\{0\}}\frac{1}{\omega^6}
+	\]
+	depend only on the lattice \(\Lambda\).
+\end{theorem}
+
+This polynomial relation shows that
+the function field of the torus satisfies
+\[
+\mathcal{M}(\mathbb{C}/\Lambda) = \mathbb{C}(\wp,\wp').
+\]
+Thus the complex torus can be viewed as a compact Riemann surface
+of genus one, whose field of meromorphic functions is generated
+by \(\wp\) and \(\wp'\).
+
+% ------------------------------------------------------------
+\subsection{Zeros of \(\wp'\) and the half-periods}
+
+For a lattice \(\Lambda = \mathbb{Z} + \mathbb{Z}\tau\), the zeros of \(\wp'\)
+are exactly the \emph{half-periods}:
+\[
+\frac{1}{2},\quad \frac{\tau}{2},\quad \frac{1+\tau}{2},
+\]
+and these zeros are all simple.
+
+\begin{proof}[Sketch]
+	Since \(\wp'\) is odd and periodic,
+	\(\wp'(1-z)=-\wp'(z)\),
+	so evaluating at \(z=\tfrac{1}{2}\) gives \(\wp'(\tfrac{1}{2})=0\).
+	Similarly, using \(\wp'(z+\tau)=-\wp'(z)\),
+	we find \(\wp'(\tfrac{\tau}{2})=\wp'(\tfrac{1+\tau}{2})=0\).
+\end{proof}
+
+The corresponding values of \(\wp\) at these points,
+\[
+e_1 = \wp\!\left(\tfrac{1}{2}\right),\quad
+e_2 = \wp\!\left(\tfrac{\tau}{2}\right),\quad
+e_3 = \wp\!\left(\tfrac{1+\tau}{2}\right),
+\]
+are the three roots of the cubic polynomial
+\(4x^3 - g_2 x - g_3 = 0\).
+
+% ------------------------------------------------------------
+\subsection{Elliptic integrals and inversion}
+
+From the Weierstrass equation
+\[
+(\wp'(z))^2 = 4(\wp(z)-e_1)(\wp(z)-e_2)(\wp(z)-e_3),
+\]
+we may regard \(x=\wp(z)\) and \(y=\wp'(z)\),
+so that
+\[
+\frac{dy}{dz} = \frac{d\wp'(z)}{dz} = 6\wp(z)^2 - \frac{1}{2}g_2.
+\]
+By the inverse function theorem, away from zeros of \(\wp'\),
+we can invert \(\wp\) locally:
+\[
+z = \wp^{-1}(x)
+=
+\int_{\infty}^{x}
+\frac{du}{\sqrt{4u^3 - g_2u - g_3}}.
+\]
+Thus the coordinate \(z\) on the torus is expressed as
+an \emph{elliptic integral of the first kind}.
+If \(a,b\in\mathbb{R}\) and \(e_1>e_2>e_3\in\mathbb{R}\),
+restricting to real values yields the classical real elliptic integral
+\[
+\int_{a}^{b}\frac{du}{\sqrt{4u^3 - g_2u - g_3}}.
+\]
+This parallels the trigonometric case
+\[
+\int_{a}^{b}\frac{dx}{\sqrt{1-x^2}} = \sin^{-1}(b)-\sin^{-1}(a),
+\]
+with \(\sin(x)\) being a single-periodic function,
+while \(\wp(z)\) is doubly periodic.
+
+% ------------------------------------------------------------
+\subsection{Embedding the torus into projective space}
+
+Define a holomorphic map
+\[
+\begin{aligned}
+	F: \mathbb{C} &\longrightarrow \mathbb{CP}^2,\\
+	z &\longmapsto [1 : \wp(z) : \wp'(z)].
+\end{aligned}
+\]
+Since \(\wp\) and \(\wp'\) are doubly periodic,
+\(F\) descends to a well-defined holomorphic map
+\[
+F: \mathbb{C}/\Lambda \longrightarrow \mathbb{CP}^2.
+\]
+Using the Weierstrass equation,
+we see that the image \(F(\mathbb{C}/\Lambda)\)
+is contained in the projective cubic curve
+\[
+E = \{[Z_0:Z_1:Z_2]\in\mathbb{CP}^2 \mid
+Z_2^2Z_0 = 4Z_1^3 - g_2Z_1Z_0^2 - g_3Z_0^3\}.
+\]
+This defines a nonsingular projective cubic curve,
+called an \emph{elliptic curve}.
+
+\begin{proposition}
+	The map \(F:\mathbb{C}/\Lambda \to E\subset\mathbb{CP}^2\)
+	is a biholomorphism.
+\end{proposition}
+
+\begin{proof}[Idea]
+	\(F\) is well-defined and holomorphic.
+	Locally, it is one-to-one except at lattice points where \(\wp'\) vanishes.
+	The inverse is given by
+	\[
+	z = \int_{\infty}^{x} \frac{du}{\sqrt{4u^3 - g_2u - g_3}},
+	\]
+	which is holomorphic on \(E\) minus the point at infinity.
+	Since both \(\mathbb{C}/\Lambda\) and \(E\) are compact Riemann surfaces of genus \(1\),
+	\(F\) must be biholomorphic.
+\end{proof}
+
+Thus every complex torus \(\mathbb{C}/\Lambda\) can be realized as a nonsingular cubic
+curve in projective space.
+
+% ------------------------------------------------------------
+\subsection{Elliptic curves as complex tori}
+
+Conversely, every smooth projective cubic curve
+\[
+E = \{[Z_0:Z_1:Z_2]\in\mathbb{CP}^2 \mid
+Z_2^2Z_0 = 4Z_1^3 - g_2Z_1Z_0^2 - g_3Z_0^3\}
+\]
+is a compact Riemann surface of genus \(1\).
+Its holomorphic differential
+\[
+\omega = \frac{dX}{Y}, \qquad (X,Y)=\Big(\frac{Z_1}{Z_0},\frac{Z_2}{Z_0}\Big),
+\]
+is nowhere vanishing, and integrating over a basis of
+\(H_1(E,\mathbb{Z})\) gives the two fundamental periods
+\(\omega_1,\omega_2\).
+The corresponding period lattice
+\(\Lambda = \mathbb{Z}\omega_1 + \mathbb{Z}\omega_2\)
+yields an isomorphism of Riemann surfaces
+\[
+E \simeq \mathbb{C}/\Lambda.
+\]
+Hence we have the equivalence:
+\[
+\boxed{
+	\text{Elliptic curve} \quad \Longleftrightarrow \quad
+	\text{Complex torus } \mathbb{C}/\Lambda.
+}
+\]
+
+% ------------------------------------------------------------
+\subsection{Moduli and lattice equivalence}
+
+Two lattices \(\Lambda_1=\mathbb{Z}+\mathbb{Z}\tau_1\)
+and \(\Lambda_2=\mathbb{Z}+\mathbb{Z}\tau_2\)
+give rise to biholomorphic tori
+\(\mathbb{C}/\Lambda_1 \cong \mathbb{C}/\Lambda_2\)
+if and only if there exists a matrix
+\(\begin{pmatrix} a & b \\ c & d \end{pmatrix}\in SL(2,\mathbb{Z})\)
+such that
+\[
+\tau_2 = \frac{a\tau_1 + b}{c\tau_1 + d}.
+\]
+The moduli space of complex tori is therefore represented by
+the fundamental domain of the modular group \(SL(2,\mathbb{Z})\)
+acting on the upper half-plane
+\[
+\mathbb{H} = \{\tau\in\mathbb{C}\mid \Im\tau>0\}.
+\]
+\begin{theorem}[Moduli interpretation]
+	The moduli space of complex tori (or elliptic curves over \(\mathbb{C}\))
+	is given by
+	\[
+	\mathcal{M}_1(\mathbb{C})
+	\simeq SL(2,\mathbb{Z})\backslash\mathbb{H}.
+	\]
+\end{theorem}
+
+% ============================================================
+\section{Galois Group and Riemann Surface}
+% ============================================================
+
+In this section we explain the Galois–theoretic viewpoint on holomorphic maps
+between compact Riemann surfaces. The key dictionary identifies holomorphic
+coverings with finite extensions of function fields and deck transformations with
+field automorphisms. We end by recalling the uniformization that realizes every
+compact Riemann surface as a quotient of a simply connected model.
+
+% ------------------------------------------------------------
+\subsection{ Function fields and pullback}
+
+For a Riemann surface \(X\), let \(\mathcal{M}(X)\) denote its field of meromorphic functions.
+A nonconstant holomorphic map \(\pi:Y\to X\) induces a field embedding
+\[
+\pi^{*}:\ \mathcal{M}(X)\hookrightarrow \mathcal{M}(Y),\qquad f\longmapsto f\circ\pi .
+\]
+We identify \(\mathcal{M}(X)\) with \(\pi^{*}\mathcal{M}(X)\subset\mathcal{M}(Y)\).
+
+\paragraph{Symmetric functions.}
+Assume first that \(\pi\) is an unramified covering of degree \(d\). For any evenly covered
+neighborhood \(U\subset X\) with sheets \(V_{1},\dots,V_{d}\) and local inverses
+\(\tau_{j}:U\to V_{j}\), and any \(f\in\mathcal{M}(Y)\), set \(f_{j}=f\circ\tau_{j}\in\mathcal{M}(U)\).
+Then
+\[
+\prod_{j=1}^{d}(T-f_{j})=T^{d}+c_{1}T^{d-1}+\cdots+c_{d}\in\mathcal{M}(U)[T]
+\]
+has coefficients \(c_{i}\) that glue on \(X\) (they are elementary symmetric polynomials in the \(f_{j}\)).
+If \(\pi\) is branched, the same \(c_{i}\) are defined on \(X\setminus\) (branch values) and extend
+meromorphically across the branch values.
+
+\begin{theorem}[Minimal polynomial]
+	Let \(\pi:Y\to X\) have degree \(d\) and \(f\in\mathcal{M}(Y)\). If \(c_{1},\dots,c_{d}\in\mathcal{M}(X)\) are the
+	signed symmetric functions attached to \(f\), then in \(\mathcal{M}(Y)\)
+	\[
+	f^{d}+(\pi^{*}c_{1})f^{\,d-1}+\cdots+(\pi^{*}c_{d-1})f+\pi^{*}c_{d}=0.
+	\]
+	Hence \([\mathcal{M}(Y):\mathcal{M}(X)]\le d\); in fact equality holds.
+\end{theorem}
+
+Thus \(\mathcal{M}(Y)/\mathcal{M}(X)\) is a finite algebraic extension whose degree equals \(\deg\pi\).
+
+% ------------------------------------------------------------
+\subsection{ Galois coverings and Galois extensions}
+
+\begin{definition}[Galois/normal covering]
+	A covering map \(p:Y\to X\) is \emph{Galois} if the deck transformation group
+	\(\operatorname{Deck}(Y/X)\) acts transitively on each fiber (equivalently,
+	\(p_{*}\pi_{1}(Y)\trianglelefteq \pi_{1}(X)\)).
+	For a branched map \(F:Y\to X\), we call \(F\) Galois if the restriction over the
+	complement of the branch values is a Galois covering.
+\end{definition}
+
+\begin{theorem}[Deck transformations vs.\ field automorphisms]
+	Let \(K=\mathcal{M}(X)\) and \(L=\mathcal{M}(Y)\) for a finite holomorphic map \(\pi:Y\to X\).
+	Composition with deck transformations gives a group isomorphism
+	\[
+	\operatorname{Deck}(Y/X)\ \xrightarrow{\ \sim\ }\ \operatorname{Aut}(L/K),\qquad
+	\sigma\longmapsto (f\mapsto f\circ\sigma^{-1}).
+	\]
+	Consequently, \(\pi\) is Galois if and only if the field extension \(L/K\) is Galois.
+\end{theorem}
+
+\begin{example}[Hyperelliptic double cover]
+	Let \(E:\ y^{2}=x^{3}-x\) and \(\pi:E\to\mathbb{P}^{1}\), \((x,y)\mapsto x\). Then
+	\(\mathcal{M}(E)=\mathbb{C}(x)[y]/(y^{2}-(x^{3}-x))\) is quadratic over \(\mathbb{C}(x)\).
+	The nontrivial deck transformation \((x,y)\mapsto(x,-y)\) corresponds to the unique
+	nontrivial automorphism of \(\mathcal{M}(E)/\mathbb{C}(x)\). Hence \(\pi\) is a Galois (normal)
+	cover of degree \(2\).
+\end{example}
+
+\begin{definition}[Function field of one variable]
+	A \emph{function field in one variable over \(\mathbb{C}\)} is a finite extension of \(\mathbb{C}(z)\).
+\end{definition}
+
+\begin{proposition}[Equivalence of categories]
+	The assignment
+	\[
+	X\longmapsto \mathcal{M}(X),\qquad
+	(\pi:Y\to X)\longmapsto \pi^{*}:\mathcal{M}(X)\hookrightarrow \mathcal{M}(Y)
+	\]
+	defines an equivalence between the category of compact, connected Riemann surfaces
+	(with holomorphic maps) and the category of function fields in one variable over
+	\(\mathbb{C}\) (with field monomorphisms). Under this equivalence,
+	\(\operatorname{Deck}(Y/X)\cong \operatorname{Aut}(\mathcal{M}(Y)/\mathcal{M}(X))\).
+\end{proposition}
+
+% ------------------------------------------------------------
+\subsection{ Uniformization and the Galois picture}
+
+\begin{theorem}[Simply connected models]
+	Every simply connected Riemann surface is isomorphic to exactly one of
+	\(\mathbb{P}^{1}\), \(\mathbb{C}\), or the unit disc \(\mathbb{D}\).
+	Thus any Riemann surface \(X\) has a universal cover \(\widetilde{X}\) of this form and
+	\(X\cong G\backslash \widetilde{X}\) for a discrete group \(G\) of automorphisms of \(\widetilde{X}\).
+\end{theorem}
+
+\begin{theorem}[Uniformization of compact Riemann surfaces]
+	Let \(X\) be compact and connected.
+	\begin{enumerate}
+		\item If \(g(X)=0\), then \(X\cong \mathbb{P}^{1}\).
+		\item If \(g(X)=1\), then \(X\cong \mathbb{C}/\Lambda\) for a full lattice \(\Lambda\subset\mathbb{C}\).
+		\item If \(g(X)\ge 2\), then \(X\cong \Gamma\backslash\mathbb{H}\) for a torsion-free, discrete
+		\(\Gamma\le \operatorname{PSL}_{2}(\mathbb{R})\).
+	\end{enumerate}
+\end{theorem}
+
+\paragraph{\(\operatorname{PSL}_{2}(\mathbb{R})\) as isometries of \(\mathbb{H}\).}
+Equip \(\mathbb{H}=\{x+iy\in\mathbb{C}\mid y>0\}\) with the hyperbolic metric
+\[
+ds^{2}=\frac{|dz|^{2}}{(\operatorname{Im}z)^{2}}=\frac{dx^{2}+dy^{2}}{y^{2}}.
+\]
+Then fractional linear transformations \(z\mapsto \dfrac{az+b}{cz+d}\) with
+\(\begin{psmallmatrix}a&b\\c&d\end{psmallmatrix}\in \operatorname{PSL}_{2}(\mathbb{R})\)
+act by orientation-preserving isometries and give the full isometry group.
+Hence any compact surface of genus \(\ge2\) is realized as a quotient
+\(\Gamma\backslash\mathbb{H}\), and its holomorphic maps correspond to inclusions of
+Fuchsian groups \(\Gamma\), equivalently to inclusions of the associated function fields.
+
+\medskip
+\noindent
+\textbf{Takeaway.}
+Holomorphic coverings \(Y\to X\) are simultaneously:
+\begin{center}
+	\(\displaystyle
+	\text{(topology)}\quad \text{deck transformation actions}\ \Longleftrightarrow\
+	\text{(algebra)}\quad \operatorname{Aut}\big(\mathcal{M}(Y)/\mathcal{M}(X)\big)\ \Longleftrightarrow\
+	\text{(geometry)}\quad \Gamma\subset\Gamma'\le\operatorname{Aut}(\widetilde{X}).
+	\)
+\end{center}
+This Galois dictionary is the backbone for later discussion of Belyi maps and dessins.
+
+
+\end{document}

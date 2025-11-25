@@ -1,0 +1,104 @@
+\documentclass[tikz,border=6pt]{standalone}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usepgfplotslibrary{colormaps}
+\usetikzlibrary{arrows.meta}
+
+% ---- Path gamma(t) on [0,1] ----
+% A = (-1.6, 0), B = (1.5, 1.0)
+\newcommand{\xpath}[1]{-1.6 + 3.1*#1}
+\newcommand{\ypath}[1]{0.0 + 1.0*#1 + 0.35*sin(180*#1)} % (degrees)
+\newcommand{\zpath}[1]{(\xpath{#1})*(\xpath{#1}) + (\ypath{#1})*(\ypath{#1})}
+
+\begin{document}
+	\begin{tikzpicture}
+		
+		% =========================
+		% Left axis: 2D plane
+		% =========================
+		\begin{axis}[
+			name=leftplot,
+			width=9cm, height=8cm,
+			view={0}{90},
+			axis equal image,
+			xmin=-2.2, xmax=2.2, ymin=-2.2, ymax=2.2,
+			axis lines=middle,
+			xlabel={$x$}, ylabel={$y$},
+			ticks=none,
+			]
+			% Level-set circles (R = 0.6, 1.0, 1.4, 1.8)
+			\addplot+[no marks, gray!70, samples=300, domain=0:360]
+			({0.6*cos(x)}, {0.6*sin(x)});
+			\addplot+[no marks, gray!70, samples=300, domain=0:360]
+			({1.0*cos(x)}, {1.0*sin(x)});
+			\addplot+[no marks, gray!70, samples=300, domain=0:360]
+			({1.4*cos(x)}, {1.4*sin(x)});
+			\addplot+[no marks, gray!70, samples=300, domain=0:360]
+			({1.8*cos(x)}, {1.8*sin(x)});
+			
+			% Base path gamma(t)
+			\addplot+[very thick, teal!70!black, samples=300, domain=0:1]
+			({\xpath{x}}, {\ypath{x}});
+			
+			% Endpoints A,B
+			\pgfmathsetmacro{\Ax}{\xpath{0}} \pgfmathsetmacro{\Ay}{\ypath{0}}
+			\pgfmathsetmacro{\Bx}{\xpath{1}} \pgfmathsetmacro{\By}{\ypath{1}}
+			\addplot+[only marks, mark=*, mark size=1pt] coordinates {(\Ax,\Ay) (\Bx,\By)};
+			\node at (axis cs:\Ax,\Ay) [anchor=east] {$A$};
+			\node at (axis cs:\Bx,\By) [anchor=west] {$B$};
+			\node at (axis cs:-0.2,0.35) [fill=white, inner sep=1pt, font=\scriptsize] {$\gamma(t)$};
+			\node at (axis cs:1.55,0.2) [font=\scriptsize, gray!60] {$f(x,y)=x^2+y^2$ level sets};
+			
+			% Gradient vector at a sample point t0
+			\def\tzero{0.45}
+			\pgfmathsetmacro{\px}{\xpath{\tzero}}
+			\pgfmathsetmacro{\py}{\ypath{\tzero}}
+			\pgfmathsetmacro{\gx}{2*\px}
+			\pgfmathsetmacro{\gy}{2*\py}
+			\addplot+[only marks, mark=*, mark size=1pt] coordinates {(\px,\py)};
+			% Draw gradient with a normal TikZ draw (safe)
+			\draw[-{Stealth[length=2mm]}, red!75!black, very thick]
+			(axis cs:\px,\py) -- (axis cs:\px+0.35*\gx,\py+0.35*\gy);
+			\node at (axis cs:\px+0.38*\gx,\py+0.38*\gy)
+			[font=\scriptsize, anchor=west, fill=white, inner sep=1pt] {$\nabla f$};
+		\end{axis}
+		
+		% =========================
+		% Right axis: 3D surface & lifted path
+		% =========================
+		\begin{axis}[
+			at={(leftplot.east)}, xshift=1.6cm,
+			width=9cm, height=8cm,
+			view={-40}{30},
+			xlabel={$x$}, ylabel={$y$}, zlabel={$z$},
+			xmin=-2.2, xmax=2.2, ymin=-2.2, ymax=2.2, zmin=0,
+			colormap/viridis,
+			ticks=none,
+			]
+			% Surface z = x^2 + y^2
+			\addplot3[surf, shader=interp, samples=45, samples y=45, domain=-2:2, y domain=-2:2]
+			{x^2 + y^2};
+			
+			% Lifted path \tilde{\gamma}(t)
+			\addplot3[very thick, teal!70!black, samples=300, domain=0:1]
+			({\xpath{x}}, {\ypath{x}}, {\zpath{x}});
+			
+			% Endpoints on the surface
+			\pgfmathsetmacro{\Az}{\zpath{0}}
+			\pgfmathsetmacro{\Bz}{\zpath{1}}
+			\addplot3[only marks, mark=*, mark size=1pt] coordinates {(\Ax,\Ay,\Az) (\Bx,\By,\Bz)};
+			\node at (axis cs:\Ax,\Ay,\Az) [anchor=east] {$\tilde A$};
+			\node at (axis cs:\Bx,\By,\Bz) [anchor=west] {$\tilde B$};
+			
+			% Vertical connectors from (x,y,0) to (x,y,f)
+			\addplot3[gray!60] coordinates {(\Ax,\Ay,0) (\Ax,\Ay,\Az)};
+			\addplot3[gray!60] coordinates {(\Bx,\By,0) (\Bx,\By,\Bz)};
+			\addplot3[only marks, mark=*, mark size=0.8pt] coordinates {(\Ax,\Ay,0) (\Bx,\By,0)};
+			
+			% Identity label
+			\node at (rel axis cs:0.02,0.98,1) [anchor=north west, fill=white, inner sep=2pt, font=\scriptsize]
+			{$\displaystyle \int_{\gamma} df \;=\; f(B)-f(A)$};
+		\end{axis}
+		
+	\end{tikzpicture}
+\end{document}

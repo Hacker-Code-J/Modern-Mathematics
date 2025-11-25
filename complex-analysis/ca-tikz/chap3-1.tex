@@ -1,0 +1,77 @@
+\documentclass[tikz,border=5mm]{standalone}
+\usepackage{amssymb,amsmath,mathtools}
+\usetikzlibrary{arrows.meta,calc}
+\usetikzlibrary{angles,quotes}
+
+\begin{document}
+\begin{tikzpicture}[>=Latex, line cap=round, line join=round, scale=1.0]
+% -------- parameters (all numeric to avoid pgfmath hiccups) --------
+\def\xsol{0.3466}   % 0.5*ln(2)
+\def\ang{0.7854}    % pi/4
+\def\twopi{6.2832}  % 2*pi
+\def\rw{1.4142}     % sqrt(2)
+% ==================== z-plane ====================
+\begin{scope}[shift={(-4.6,0)}]
+% axes
+\draw[->] (-0.8,0) -- (2.2,0) node[right] {$\Re z$};
+\draw[->] (0,-3.8) -- (0,3.8) node[above] {$\Im z$};
+\node[below left] at (0,0) {$0$};
+	
+% vertical solution line Re z = 0.5 ln 2
+\draw[very thick,blue!70] (\xsol,-3.5) -- (\xsol,3.5)
+node[above,black] {$\Re z=\tfrac12\ln 2$};
+%	
+%	% mark y = pi/4 + 2pi*n for n = -1,0,1
+%	\foreach \k/\lab in {-1/{\tfrac{\pi}{4}-2\pi}, 0/{\tfrac{\pi}{4}}, 1/{\tfrac{\pi}{4}+2\pi}} {
+%		\pgfmathsetmacro\ypt{\ang + \k*\twopi}
+%		\draw[densely dashed,blue!40] (0,\ypt) -- (\xsol,\ypt);
+%		\fill[blue!70] (\xsol,\ypt) circle (2pt);
+%		\node[left,blue!70] at (0,\ypt) {$\lab$};
+%	}
+%	
+%	% suggest periodicity a bit further out
+%	\foreach \m in {-2,2} {
+%		\pgfmathsetmacro\yq{\ang + \m*\twopi}
+%		\fill[blue!30] (\xsol,\yq) circle (1.5pt);
+%	}
+%	
+%	% caption
+%	\node[above,font=\small] at (0.6,3.8) {\textbf{$z$-plane}};
+%	\node[align=left,anchor=north west,font=\small]
+%	at (-0.7,3.3)
+%	{$e^{z}=1+i$ solutions:\\
+%		$z=\tfrac12\ln 2 + i\!\left(\tfrac{\pi}{4}+2\pi n\right),\ n\in\mathbb{Z}$.};
+\end{scope}
+
+	% ==================== mapping arrow ====================
+	\draw[->,thick] (-1.7,0) -- (1.7,0) node[midway,above] {$w=e^{z}$};
+	
+% ==================== w-plane ====================
+\begin{scope}[shift={(4.6,0)}]
+	% axes
+	\draw[->] (-2.3,0) -- (2.3,0) node[below] {$\Re w$};
+	\draw[->] (0,-2.3) -- (0,2.3) node[left] {$\Im w$};
+	\node[below left] at (0,0) {$0$};
+%		
+%		% circle |w| = sqrt(2)
+%		\draw[very thick,red!70] (0,0) circle (\rw);
+%		\node[above right,red!70] at (\rw,0) {$|w|=\sqrt{2}$};
+%		
+%		% target point w = 1+i at angle pi/4
+%		\coordinate (W) at ({\rw*cos(45)},{\rw*sin(45)});
+%		\fill[red!70] (W) circle (2.2pt)
+%		node[above right] {$1+i=\sqrt2\,e^{i\pi/4}$};
+%		
+%		% small angle arc
+%		\draw[red!60] (0.55,0) arc (0:45:0.55);
+%		\node at (0.46,0.23) {\small $\frac{\pi}{4}$};
+%		
+%		% caption
+%		\node[above,font=\small] at (0.6,2.3) {\textbf{$w$-plane}};
+%		\node[align=left,anchor=north west,font=\small]
+%		at (-2.2,2.05)
+%		{Image of $\Re z=\tfrac12\ln 2$ is $|w|=\sqrt{2}$.\\
+%			Adding $2\pi$ to $\Im z$ leaves $e^{z}$ unchanged.};
+\end{scope}
+\end{tikzpicture}
+\end{document}

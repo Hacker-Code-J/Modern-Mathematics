@@ -1,0 +1,312 @@
+\documentclass[11pt,openany]{article}
+
+\input{qc-preamble}
+\input{tcolorbox}
+\input{theorem}
+\input{tikz}
+\input{qc-commands}
+\renewcommand{\vec}[1]{\mathbf{#1}}
+\renewcommand{\emph}[1]{\textbf{#1}}
+\renewcommand{\d}{\mathrm{d}} % For the exterior derivative 'd'
+\newcommand{\pderiv}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\spderiv}[3]{\frac{\partial^2 #1}{\partial #2\partial #3}}
+\newcommand{\vect}[1]{\begin{bmatrix} #1 \end{bmatrix}}
+
+\newcommand{\circulationsquare}[1]{
+	\draw[thick, gray] #1 rectangle ++(1,1);
+	\begin{scope}[decoration={markings, mark=at position 0.5 with {\arrow{>}}}]
+		\draw[postaction={decorate}, blue] #1 -- ++(1,0);
+		\draw[postaction={decorate}, blue] ++(1,0) -- ++(0,1);
+		\draw[postaction={decorate}, blue] ++(0,1) -- ++(-1,0);
+		\draw[postaction={decorate}, blue] ++(-1,0) -- cycle;
+	\end{scope}
+}
+
+\usepackage{esvect}
+\usepackage{physics}
+
+\setstretch{1.25}
+
+\begin{document}
+	\pagenumbering{arabic}
+	\begin{center}
+		\huge\textbf{Quantum Computing}\\
+		%	\Large - HW1 -\\
+		\vspace{0.5em}
+		\large{Ji, Yong-hyeon}\\
+		%	\large{\ttfamily \url{https://github.com/Hacker-Code-J}}\\
+		\vspace{0.5em}
+		\normalsize{\today}\\
+	\end{center} 
+	%\[\boxed{
+		%\underbrace{f}_{\Omega^0}
+		%\;\xrightarrow{d}\;
+		%\underbrace{df}_{\Omega^1}
+		%\;\longleftrightarrow\;
+		%\underbrace{\nabla f}_{\substack{\text{gradient}\\\text{vector field}}}
+		%\quad
+		%\longrightarrow
+		%\quad
+		%\underbrace{\mathbf F}_{(\Omega^0)^m}
+		%\;\xrightarrow{d}\;
+		%\underbrace{d\mathbf F}_{\Omega^1\otimes\R^m}
+		%\;\longleftrightarrow\;
+		%\underbrace{D\mathbf F}_{\substack{\text{Jacobian}\\\text{matrix}}}}
+	%\]
+	\noindent 
+	We cover the following topics in this note.
+	\begin{itemize}
+		\item Vector calculus (conservative fields, irrotational field)
+		\item Differential forms (exact forms, closed forms)
+	\end{itemize}
+	%In this note, we build a bridge between the familiar concepts of vector calculus (conservative fields, curl) and the language of differential forms (exact forms, closed forms)
+	%\hrule\vspace{12pt}
+%	\begin{center}
+%		\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}} l c l}
+%			\hline
+%			\textbf{Vector Calculus (in $\R^2$ or $\R^3$)} & & \textbf{Differential Forms} \\
+%			\hline
+%			Vector Field $\vec F$ & $\iff$ & 1-form $\omega$ \\
+%			Conservative Vector Field ($\vec F = \nabla f$) & $\iff$ & Exact 1-form ($\omega = \d f$) \\
+%			Irrotational Vector Field ($\nabla \times \vec F = \mathbf{0}$) & $\iff$ & Closed 1-form ($\d\omega = 0$) \\
+%			\hline
+%		\end{tabular*}
+%	\end{center}
+
+	\tableofcontents
+	
+	\vspace{1em}
+	
+	\newpage
+	\section{Spin, Qubits, and Entanglement: $\C^2$, $\CP^1$, and Two-Qubit Structure}
+	
+	\subsection{Kinematics of a Single Qubit}
+	\subsubsection{Hilbert-Space Model}
+	\begin{definition}[Qubit as a ray]
+		Let $\HS\cong\C^2$ be a two-dimensional complex Hilbert space with the standard Hermitian inner product $\bracket{\psi}{\phi}=\psi^\dagger\phi$. A \emph{(pure) qubit state} is a ray $[\psi]$ in the complex projective line $\CP^1$, where $\psi\in\C^2\setminus\{0\}$ and $[\psi]=\{\lambda\psi: \lambda\in\C\setminus\{0\}\}$. Two vectors describe the same physical state iff they differ by a nonzero complex scalar.\end{definition}
+	
+	\begin{remark}[Normalization and global phase]
+		Every state admits a representative of unit norm, $\ket{\psi}\in\sphere^3\subset\C^2$, unique up to a global phase $e^{i\theta}$. Probabilities depend only on the ray $[\psi]$.
+	\end{remark}
+	
+	
+	\subsection{Computational Bases and Pauli Observables}
+	Fix the computational basis $\{\ket{0},\ket{1}\}$ with $\ket{0}=\vectwo{1}{0}$, $\ket{1}=\vectwo{0}{1}$. Define the Pauli matrices
+	\[
+	\sigma_x=\begin{bmatrix}0&1\\1&0\end{bmatrix},\quad
+	\sigma_y=\begin{bmatrix}0&-i\\ i&0\end{bmatrix},\quad
+	\sigma_z=\begin{bmatrix}1&0\\0&-1\end{bmatrix}.
+	\]
+	Each $\sigma_\alpha$ ($\alpha\in\{x,y,z\}$) is Hermitian with eigenvalues $\pm 1$ and eigenbases corresponding, respectively, to ``horizontal'' ($\{\ket{\rightarrow},\ket{\leftarrow}\}$), ``diagonal'' ($\{\ket{\nearrow},\ket{\swarrow}\}$), and ``vertical'' ($\{\ket{0},\ket{1}\}$) spin/polarization directions. Up to global phase, one may take
+	\begin{align*}
+		\ket{\rightarrow}&=\tfrac{1}{\sqrt{2}}(\ket{0}+\ket{1}),&
+		\ket{\leftarrow}&=\tfrac{1}{\sqrt{2}}(\ket{0}-\ket{1}),\\
+		\ket{\nearrow}&=\tfrac{1}{\sqrt{2}}(\ket{0}+i\ket{1}),&
+		\ket{\swarrow}&=\tfrac{1}{\sqrt{2}}(\ket{0}-i\ket{1}).
+	\end{align*}
+	
+	
+	\subsection{Born Rule and Projective Measurement}
+	\begin{definition}[Projective measurement in basis $\mathcal{B}$]
+		Let $\mathcal{B}=(\ket{b_0},\ket{b_1})$ be an ordered orthonormal basis of $\C^2$. The measurement associated with $\mathcal{B}$ is the PVM $\{\Pi_0,\Pi_1\}$ where $\Pi_j=\ketbra{b_j}{b_j}$. For a normalized $\ket{\psi}$, the outcome $j\in\{0,1\}$ is obtained with probability $p_j=\norm{\Pi_j\psi}^2=|\braket{b_j}{\psi}|^2$, and the post-measurement state is $\ket{b_j}$.\end{definition}
+	
+	
+	\begin{remark}[Equivalence under sign and phase]
+		If $\ket{\psi}$ and $e^{i\theta}\ket{\psi}$ (in particular $-\ket{\psi}$) differ by a global phase, they yield identical outcome probabilities in any measurement; hence they encode the same physical state (ray).\end{remark}
+	
+	
+	\subsection{Bloch-Sphere / $\CP^1$ Identification}
+	\begin{proposition}[Hopf fibration and Bloch map]
+		Define $\bm{r}:\CP^1\to\sphere^2\subset\R^3$ by
+		\[\bm{r}([\psi])=\big(\braket{\psi}{\sigma_x\psi},\,\braket{\psi}{\sigma_y\psi},\,\braket{\psi}{\sigma_z\psi}\big).\]
+		Then $\norm{\bm{r}([\psi])}=1$ for any pure state, providing a bijection between qubit rays and points of the Bloch sphere $\sphere^2$. Rotations $R\in\SO(3)$ correspond to conjugations by $U\in\SU(2)$ via the double cover $\SU(2)\twoheadrightarrow\SO(3)$.
+	\end{proposition}
+	
+	
+	\begin{remark}[Polarization and spin directions]
+		Choosing a measurement axis given by a unit vector $\hat{n}\in\sphere^2$ corresponds to measuring the observable $\sigma_{\hat{n}}=\hat{n}\cdot\bm{\sigma}$, where $\bm{\sigma}=(\sigma_x,\sigma_y,\sigma_z)$. The eigenstates of $\sigma_{\hat{n}}$ are points $\pm\hat{n}$ on the Bloch sphere.
+	\end{remark}
+	
+	\newpage
+\section{Kinematics of a Single Qubit}
+\subsection{Hilbert-Space Model}
+\begin{definition}[Qubit as a ray]
+	Let $\HS\cong\C^2$ be a two-dimensional complex Hilbert space with the standard Hermitian inner product $\bracket{\psi}{\phi}=\psi^\dagger\phi$. A \emph{(pure) qubit state} is a ray $[\psi]$ in the complex projective line $\CP^1$, where $\psi\in\C^2\setminus\{0\}$ and $[\psi]=\{\lambda\psi: \lambda\in\C\setminus\{0\}\}$. Two vectors describe the same physical state iff they differ by a nonzero complex scalar.\end{definition}
+
+
+\begin{remark}[Normalization and global phase]
+	Every state admits a representative of unit norm, $\ket{\psi}\in\sphere^3\subset\C^2$, unique up to a global phase $e^{i\theta}$. Probabilities depend only on the ray $[\psi]$.
+\end{remark}
+
+
+\subsection{Computational Bases and Pauli Observables}
+Fix the computational basis $\{\ket{0},\ket{1}\}$ with $\ket{0}=\vectwo{1}{0}$, $\ket{1}=\vectwo{0}{1}$. Define the Pauli matrices
+\[
+\sigma_x=\begin{bmatrix}0&1\\1&0\end{bmatrix},\quad
+\sigma_y=\begin{bmatrix}0&-i\\ i&0\end{bmatrix},\quad
+\sigma_z=\begin{bmatrix}1&0\\0&-1\end{bmatrix}.
+\]
+Each $\sigma_\alpha$ ($\alpha\in\{x,y,z\}$) is Hermitian with eigenvalues $\pm 1$ and eigenbases corresponding, respectively, to ``horizontal'' ($\{\ket{\rightarrow},\ket{\leftarrow}\}$), ``diagonal'' ($\{\ket{\nearrow},\ket{\swarrow}\}$), and ``vertical'' ($\{\ket{0},\ket{1}\}$) spin/polarization directions. Up to global phase, one may take
+\begin{align*}
+	\ket{\rightarrow}&=\tfrac{1}{\sqrt{2}}(\ket{0}+\ket{1}),&
+	\ket{\leftarrow}&=\tfrac{1}{\sqrt{2}}(\ket{0}-\ket{1}),\\
+	\ket{\nearrow}&=\tfrac{1}{\sqrt{2}}(\ket{0}+i\ket{1}),&
+	\ket{\swarrow}&=\tfrac{1}{\sqrt{2}}(\ket{0}-i\ket{1}).
+\end{align*}
+
+\subsection{Born Rule and Projective Measurement}
+\begin{definition}[Projective measurement in basis $\mathcal{B}$]
+	Let $\mathcal{B}=(\ket{b_0},\ket{b_1})$ be an ordered orthonormal basis of $\C^2$. The measurement associated with $\mathcal{B}$ is the PVM $\{\Pi_0,\Pi_1\}$ where $\Pi_j=\ketbra{b_j}{b_j}$. For a normalized $\ket{\psi}$, the outcome $j\in\{0,1\}$ is obtained with probability $p_j=\norm{\Pi_j\psi}^2=|\braket{b_j}{\psi}|^2$, and the post-measurement state is $\ket{b_j}$.\end{definition}
+
+
+\begin{remark}[Equivalence under sign and phase]
+	If $\ket{\psi}$ and $e^{i\theta}\ket{\psi}$ (in particular $-\ket{\psi}$) differ by a global phase, they yield identical outcome probabilities in any measurement; hence they encode the same physical state (ray).\end{remark}
+
+
+\subsection{Bloch-Sphere / $\CP^1$ Identification}
+\begin{proposition}[Hopf fibration and Bloch map]
+	Define $\bm{r}:\CP^1\to\sphere^2\subset\R^3$ by
+	\[\bm{r}([\psi])=\big(\braket{\psi}{\sigma_x\psi},\,\braket{\psi}{\sigma_y\psi},\,\braket{\psi}{\sigma_z\psi}\big).\]
+	Then $\norm{\bm{r}([\psi])}=1$ for any pure state, providing a bijection between qubit rays and points of the Bloch sphere $\sphere^2$. Rotations $R\in\SO(3)$ correspond to conjugations by $U\in\SU(2)$ via the double cover $\SU(2)\twoheadrightarrow\SO(3)$.
+\end{proposition}
+
+
+\begin{remark}[Polarization and spin directions]
+	Choosing a measurement axis given by a unit vector $\hat{n}\in\sphere^2$ corresponds to measuring the observable $\sigma_{\hat{n}}=\hat{n}\cdot\bm{\sigma}$, where $\bm{\sigma}=(\sigma_x,\sigma_y,\sigma_z)$. The eigenstates of $\sigma_{\hat{n}}$ are points $\pm\hat{n}$ on the Bloch sphere.
+\end{remark}
+
+
+\section{From Stern--Gerlach to the Postulates}
+\subsection{Idealized Stern--Gerlach}
+\begin{definition}[Stern--Gerlach splitting (idealized)]
+	Given a spin-$\tfrac12$ particle with magnetic moment $\bm{\mu}=\gamma\,\bm{S}$ and a static inhomogeneous field $\bm{B}(\bm{r})$, the force is $\bm{F}(\bm{r})=\nabla(\bm{\mu}\cdot\bm{B})$. In the usual $z$-gradient setting one has $F_z\approx \mu_z\,\partial_z B_z$, producing two spatially separated beams corresponding to eigenvalues $\pm\tfrac{\hbar}{2}$ of $S_z$.
+\end{definition}
+
+
+\begin{remark}
+	At the level of state vectors, a beam in state $\ket{\psi}=\alpha\ket{0}+\beta\ket{1}$ impinging on a $z$-analyzer is \emph{projectively} resolved into $\ket{0}$ with probability $|\alpha|^2$ and $\ket{1}$ with probability $|\beta|^2$; the spatial separation is a macroscopic record of the projective outcome.
+\end{remark}
+
+\subsection{Rotation of the Analyzer}
+\begin{proposition}[Spinor half-angle]
+	If the analyzer is rotated by a physical angle $\theta$ about some axis, the corresponding basis in $\C^2$ is obtained by an $\SU(2)$ action with \emph{half-angle}: the eigenvectors of $\sigma_{\hat{n}(\theta)}$ correspond to $U(\theta/2)\in\SU(2)$. Concretely, for rotations in the $x$--$z$ plane,
+	\[
+	\ket{b_0(\theta)}=\begin{bmatrix}\cos(\theta/2)\\ \sin(\theta/2)\end{bmatrix},\qquad
+	\ket{b_1(\theta)}=\begin{bmatrix}-\sin(\theta/2)\\ \cos(\theta/2)\end{bmatrix}.
+	\]
+	Consequently, if a particle is prepared in $\ket{0}$ and measured along $\theta$, the $+1$ outcome occurs with probability $\cos^2(\theta/2)$ and the $-1$ outcome with probability $\sin^2(\theta/2)$.
+\end{proposition}
+
+
+\section{Linear Algebra Prerequisites in $\C^2$}
+\subsection{Bras, Kets, and Inner Products}
+Vectors $\ket{v}\in\C^2$ are columns, bras are conjugate-transposes $\bra{v}=\ket{v}^\dagger$, inner products are $\braket{u}{v}=u^\dagger v$, and orthonormality means $\braket{b_i}{b_j}=\delta_{ij}$. For any orthonormal basis $\{\ket{b_0},\ket{b_1}\}$, every $\ket{v}$ admits the expansion $\ket{v}=\sum_j\braket{b_j}{v}\ket{b_j}$ with $\norm{v}^2=\sum_j|\braket{b_j}{v}|^2$.
+
+
+\subsection{Unitary Transformations and Gates}
+\begin{definition}[Unitary]
+	$U\in\C^{2\times 2}$ is \emph{unitary} if $U^\dagger U=I$. Unitaries preserve inner products and implement reversible dynamics on $\CP^1$ via $[\psi]\mapsto[U\psi]$. 
+	Examples: the Hadamard $H=\tfrac{1}{\sqrt{2}}\begin{bmatrix}1&1\\1&-1\end{bmatrix}$ diagonalizes $\sigma_x$; phase gates and general rotations $R_{\hat{n}}(\theta)=e^{-i\theta\,\hat{n}\cdot\bm{\sigma}/2}$ generate $\SU(2)$.
+\end{definition}
+
+
+\section{Photons: Linear Polarization in $\C^2$}
+\begin{remark}
+	Classically, a linear polarizer transmits the field component along its axis and absorbs the orthogonal component. Quantum mechanically, a single-photon polarization qubit $\ket{\psi}$ is resolved by the PVM aligned with the polarizer axis; Malus's law $\cos^2(\theta)$ appears as $\cos^2(\theta/2)$ on the Bloch sphere because the physical angle between axes equals $2$ times the geodesic angle between the corresponding rays in $\CP^1$.
+\end{remark}
+
+\begin{example}[Three polarizers]
+	Let $Z$ be vertical, $X$ be horizontal, and $D$ be $45^\circ$. A vertically polarized photon $\ket{0}$ has $\tfrac12$ transmission probability through $D$ (state becomes $\ket{\rightarrow}$ or $\ket{\leftarrow}$), and then again $\tfrac12$ through $X$, yielding an overall $\tfrac14$ transmission, whereas without $D$ the transmission through $X$ is zero. The intermediate measurement changes the state and thereby the statistics.
+\end{example}
+
+
+\section{Two Qubits and Tensor Products}
+\subsection{Tensor Products and Bases}
+For $\HS_A\cong\HS_B\cong\C^2$, the composite space is $\HS_{AB}=\HS_A\otimes\HS_B\cong\C^4$ with computational basis $\{\ket{00},\ket{01},\ket{10},\ket{11}\}$. A pure product state has the form $\ket{\psi_A}\otimes\ket{\phi_B}$.
+
+
+\begin{definition}[Product vs. entangled state]
+	A unit vector $\ket{\Psi}\in\HS_{AB}$ is a \emph{product} state if $\ket{\Psi}=\ket{\psi}\otimes\ket{\phi}$ for some $\ket{\psi},\ket{\phi}\in\C^2$. Otherwise it is \emph{entangled}.
+\end{definition}
+
+
+\subsection{Schmidt Decomposition in $\C^2\otimes\C^2$}
+\begin{theorem}[Schmidt decomposition]
+	Every $\ket{\Psi}\in\C^2\otimes\C^2$ admits orthonormal bases $\{\ket{a_0},\ket{a_1}\}$ of $A$ and $\{\ket{b_0},\ket{b_1}\}$ of $B$ such that
+	\[\ket{\Psi}=\sqrt{\lambda}\,\ket{a_0}\otimes\ket{b_0}+\sqrt{1-\lambda}\,\ket{a_1}\otimes\ket{b_1},\qquad 0\le \lambda\le 1.
+	\]
+	Entanglement occurs iff $\lambda\in(0,1)$.
+\end{theorem}
+
+\begin{corollary}[Rank criterion]
+	Writing $\ket{\Psi}=\sum_{i,j\in\{0,1\}} c_{ij}\ket{ij}$ and arranging coefficients as the $2\times2$ matrix $C=[c_{ij}]$, we have: $\ket{\Psi}$ is a product state iff $\rank C=1$, equivalently $\det C=0$; it is entangled iff $\det C\ne0$.
+\end{corollary}
+
+
+\subsection{Bell States and Correlations}
+Define the (maximally entangled) Bell states
+\begin{align*}
+	\ket{\Phi^\pm}&=\tfrac{1}{\sqrt{2}}(\ket{00}\pm\ket{11}),&
+	\ket{\Psi^\pm}&=\tfrac{1}{\sqrt{2}}(\ket{01}\pm\ket{10}).
+\end{align*}
+Measuring both qubits in the same basis yields perfect (anti-)correlations while marginal statistics of each subsystem are maximally mixed: $\rho_A=\rho_B=\tfrac12 I$.
+
+
+\subsection{CNOT as an Entangler}
+\begin{definition}[CNOT]
+	The controlled-NOT gate in the ordered basis $\{\ket{00},\ket{01},\ket{10},\ket{11}\}$ is
+	\[\operatorname{CNOT}=\begin{bmatrix}1&0&0&0\\0&1&0&0\\0&0&0&1\\0&0&1&0\end{bmatrix}.
+	\]
+\end{definition}
+If the control is $A$ and the target $B$, then $\operatorname{CNOT}\,(H\ket{0})\otimes\ket{0}=\frac{1}{\sqrt{2}}(\ket{00}+\ket{11})=\ket{\Phi^+}$, producing entanglement from a product input.
+
+
+\section{Measurement Locality and No-Signalling}
+\begin{proposition}[Local measurement update]
+	Let $\ket{\Psi}\in\HS_A\otimes\HS_B$ and let $\{\Pi_j\}$ be a PVM on $A$. Upon obtaining outcome $j$ (with probability $p_j=\bra{\Psi}(\Pi_j\otimes I)\ket{\Psi}$), the post-measurement state is $\ket{\Psi_j}=(\Pi_j\otimes I)\ket{\Psi}/\sqrt{p_j}$. The reduced state on $B$ becomes $\rho_B^{(j)}=\Tr_A\ketbra{\Psi_j}{\Psi_j}$ and depends on $j$; however, the \emph{unconditioned} state on $B$ is $\sum_j p_j\,\rho_B^{(j)}=\Tr_A\ketbra{\Psi}{\Psi}$, independent of whether $A$ was measured.
+\end{proposition}
+
+
+\begin{corollary}[No superluminal signalling]
+	Local operations and classical ignorance ensure that marginal statistics on $B$ are unaffected by a space-like separated measurement on $A$; hence entanglement alone cannot be used for faster-than-light communication.
+\end{corollary}
+
+
+\section{Worked Calculations in $\C^2$ and $\C^2\otimes\C^2$}
+\subsection{Axis Rotation and Probabilities}
+\begin{example}
+	Prepare $\ket{\psi}=\ket{0}$ and measure along axis at physical angle $\theta$ from $z$. The outcome ``$+$'' (eigenvalue $+1$ of $\sigma_{\hat{n}}$) occurs with probability $\cos^2(\theta/2)$; the outcome ``$-$'' occurs with probability $\sin^2(\theta/2)$. For $\theta=60^\circ$, these are $3/4$ and $1/4$, respectively.
+\end{example}
+
+
+\subsection{Entanglement Test via Coefficients}
+\begin{example}
+	Consider $\ket{\Psi}=\tfrac12\ket{00}+\tfrac12\ket{01}+\tfrac{1}{\sqrt{2}}\ket{10}+0\cdot\ket{11}$. The coefficient matrix is $C=\begin{bmatrix}1/2&1/2\\1/\sqrt{2}&0\end{bmatrix}$ with $\det C=-\tfrac{1}{2\sqrt{2}}\ne0$, hence $\ket{\Psi}$ is entangled. Measuring $A$ in the $\{\ket{0},\ket{1}\}$ basis yields outcome $0$ or $1$ with equal probabilities $1/2$; the corresponding conditional states of $B$ are $\ket{\rightarrow}$ and $\ket{0}$, respectively.
+\end{example}
+
+\section{From $\CP^1$ to Geometry of Gates}
+\subsection{Geodesics and Two-Level Interference}
+On $\CP^1$ endowed with the Fubini--Study metric $\mathrm{d}s^2=\arccos^2(|\braket{\psi}{\phi}|)$, the probability $|\braket{\psi}{\phi}|^2$ is the squared cosine of half the geodesic distance on the Bloch sphere; interference phases shift points along great circles.
+
+
+\subsection{SU(2) Action and Euler Angles}
+Any unitary $U\in\SU(2)$ can be written $U=e^{-i\alpha\sigma_z/2}e^{-i\beta\sigma_y/2}e^{-i\gamma\sigma_z/2}$; on $\sphere^2$ this is the $\SO(3)$ rotation with Euler angles $(\alpha,\beta,\gamma)$. Thus physical rotations of analyzers/polarizers correspond to unitary conjugations on $\C^2$.
+
+
+\section{Appendix: Basic Probability for Qubits}
+\begin{definition}[Discrete probability space]
+	An experiment with outcomes $\{E_i\}_{i=1}^n$ assigns probabilities $p_i\in[0,1]$ with $\sum_i p_i=1$. For qubit measurements in an ONB $\{\ket{b_0},\ket{b_1}\}$, the distribution is $p_j=|\braket{b_j}{\psi}|^2$.
+\end{definition}
+
+
+\begin{remark}[Law of total probability for projective measurements]
+	Given a refinement by an intermediate measurement (e.g., three-polarizer setup), classical conditioning applies to the \emph{quantum-updated} states, not to the unmeasured counterfactuals; hence inserting a compatible intermediate polarizer can increase transmission by altering the state.
+\end{remark}
+
+
+\vspace{1em}
+\noindent\textbf{Notation summary:} $\ket{\cdot}$ (kets), $\bra{\cdot}$ (bras), $\braket{\phi}{\psi}$ (inner product), $\ketbra{\psi}{\psi}$ (rank-1 projector), $\Tr$ (trace), $I$ (identity), $\sigma_{x,y,z}$ (Pauli), $H$ (Hadamard), $\operatorname{CNOT}$ (controlled-NOT), $\CP^1$ (rays), Bloch sphere $\sphere^2$ (pure states).
+
+\newpage
+
+\end{document}

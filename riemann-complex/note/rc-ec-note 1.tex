@@ -1,0 +1,326 @@
+\documentclass[11pt]{article}
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{hyperref}
+\usepackage{physics}
+\usepackage{enumitem}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,calc,decorations.pathreplacing}
+
+\setlist[itemize]{topsep=4pt,itemsep=2pt}
+\setlist[enumerate]{topsep=4pt,itemsep=2pt}
+
+\title{Holomorphic 1-Forms, \(dz\), and the Winding Form \(\displaystyle \frac{dz}{z}\)}
+\author{(your name)}
+\date{}
+
+\newtheorem{definition}{Definition}
+\newtheorem{fact}{Fact}
+\newtheorem{theorem}{Theorem}
+\newtheorem{exercise}{Exercise}
+
+\begin{document}
+	\maketitle
+	
+	\tableofcontents
+	
+	\section{What is a 1-Form? (Baby viewpoint)}
+	On an open set of the plane \(\mathbb{R}^2\) with coordinates \((x,y)\), a \emph{(real) 1-form} is an expression
+	\[
+	\alpha = P(x,y)\,dx + Q(x,y)\,dy,
+	\]
+	which is a rule that eats a tangent vector \(v = a\,\partial_x + b\,\partial_y\) and returns a number:
+	\[
+	\alpha(v) = P(x,y)\,a + Q(x,y)\,b.
+	\]
+	Here \(dx,dy\) are dual to \(\partial_x,\partial_y\):
+	\[
+	dx(\partial_x)=1,\quad dx(\partial_y)=0,\qquad
+	dy(\partial_x)=0,\quad dy(\partial_y)=1.
+	\]
+	
+	\medskip
+	In the complex plane \(\mathbb{C}\) with coordinate \(z=x+iy\), we \emph{complexify} and allow complex coefficients.
+	The most fundamental complex 1-forms are
+	\[
+	dz := dx + i\,dy, \qquad d\bar z := dx - i\,dy.
+	\]
+	They pair with basis vectors as
+	\[
+	dz(\partial_x)=1,\quad dz(\partial_y)=i
+	\qquad\text{and}\qquad
+	d\bar z(\partial_x)=1,\quad d\bar z(\partial_y)=-i.
+	\]
+	
+	\section{Holomorphic 1-Forms}
+	\begin{definition}
+		A \emph{holomorphic 1-form} on a domain \(\Omega\subset\mathbb{C}\) is a 1-form of the shape
+		\[
+		\omega = f(z)\,dz,
+		\]
+		where \(f:\Omega\to\mathbb{C}\) is holomorphic.
+	\end{definition}
+	
+	\begin{fact}[How to integrate along a curve]
+		If \(\gamma:[a,b]\to\Omega\) is a smooth path, then
+		\[
+		\int_\gamma \omega
+		= \int_\gamma f(z)\,dz
+		= \int_{a}^{b} f\!\big(\gamma(t)\big)\,\gamma'(t)\,dt.
+		\]
+	\end{fact}
+	
+	\paragraph{Examples.}
+	\(\omega=dz\) (constant coefficient), \(\omega=z\,dz\) (simple zero at \(z=0\)), 
+	\(\omega=e^z\,dz\) (no zeros), while \(\omega=\overline{z}\,dz\) is \emph{not} holomorphic because \(z\mapsto\bar z\) is not complex-differentiable.
+	
+	\section{\texorpdfstring{\(dz\)}{dz} in Cartesian and Polar Coordinates}
+	Since \(z=x+iy\),
+	\[
+	dz = dx + i\,dy.
+	\]
+	In polar coordinates \(z = re^{i\theta}\) with \(r>0\), \(\theta\in\mathbb{R}\),
+	a standard calculation gives
+	\[
+	dz = e^{i\theta}\big(dr + i\,r\,d\theta\big).
+	\]
+	This splits \(dz\) into a \emph{radial} part (\(dr\)) and an \emph{angular} part (\(r\,d\theta\)), rotated by the phase \(e^{i\theta}\).
+	
+%	\subsection*{TikZ: \(dz\) eats vectors}
+%	\begin{center}
+%		\begin{tikzpicture}[scale=1.0]
+%			% axes
+%			\draw[->,gray!70] (-0.5,0) -- (4.5,0) node[below right] {$\Re z$};
+%			\draw[->,gray!70] (0,-0.5) -- (0,3.2) node[above left] {$\Im z$};
+%			
+%			% point and two basis vectors
+%			\coordinate (P) at (2.0,1.8);
+%			\fill (P) circle (1.2pt) node[above right] {$z$};
+%			
+%			\draw[-{Latex[length=3mm]},thick] (P) -- ++(1,0)
+%			node[midway,below] {$\partial_x$};
+%			\draw[-{Latex[length=3mm]},thick] (P) -- ++(0,1)
+%			node[midway,left] {$\partial_y$};
+%			
+%			% dz applied: annotate outputs
+%			\node[draw,rounded corners,fill=white,align=left] at (3.5,2.6) {%
+%				$dz(\partial_x)=1$\\
+%				$dz(\partial_y)=i$
+%			};
+%			\draw[-{Latex[length=2.5mm]}}] (3.0,2.3) -- (2.6,2.05);
+%	\end{tikzpicture}
+%\end{center}
+
+\section{The Winding Form \texorpdfstring{\(\displaystyle \omega=\frac{dz}{z}\)}{dz/z}}
+On \(\mathbb{C}\setminus\{0\}\) the 1-form
+\[
+\omega := \frac{dz}{z}
+\]
+detects how a path winds about the origin.
+
+\subsection{Polar and Cartesian decompositions}
+In polar coordinates \(z=re^{i\theta}\):
+\[
+\boxed{\;\frac{dz}{z} = \frac{dr}{r} + i\,d\theta\;}
+\]
+Thus the \emph{real part} measures radial scaling (\(d\log r\)), and the \emph{imaginary part} measures angular turning (\(d\theta\)).
+
+In Cartesian coordinates \(z=x+iy\),
+\[
+\frac{dz}{z}
+= \frac{x\,dx+y\,dy}{x^2+y^2}
+\;+\; i\,\frac{-y\,dx+x\,dy}{x^2+y^2}.
+\]
+Here \(\Re\frac{dz}{z}=d(\log r)\) annihilates vectors tangent to circles \(r=\text{const}\), while \(\Im\frac{dz}{z}=d\theta\) annihilates radial vectors.
+
+\subsection{Integrating \(\frac{dz}{z}\): winding number}
+Let \(\gamma\) be a smooth closed loop avoiding \(0\). Then
+\[
+\oint_{\gamma} \frac{dz}{z}
+= \oint_{\gamma} \frac{dr}{r} + i\oint_{\gamma} d\theta
+= 0 + i\,(2\pi\,\mathrm{Wind}(\gamma,0))
+= 2\pi i\,\mathrm{Wind}(\gamma,0).
+\]
+The term \(\int d(\log r)\) vanishes on a closed loop; only the total angle change survives.
+
+\begin{fact}[Local primitive vs global obstruction]
+	Locally on any simply connected region avoiding \(0\),
+	\(\displaystyle \frac{dz}{z} = d(\log z)\).
+	Globally, \(\log z\) is multi-valued and picks up \(2\pi i\) upon circling the origin, hence the nonzero integral around loops.
+\end{fact}
+
+%\subsection*{TikZ: \(\frac{dz}{z}\) on circles and rays}
+%\begin{center}
+%	\begin{tikzpicture}[scale=1.0]
+%		% axes
+%		\draw[->,gray!70] (-3.2,0) -- (3.2,0) node[below right] {$\Re z$};
+%		\draw[->,gray!70] (0,-3.2) -- (0,3.2) node[above left] {$\Im z$};
+%		
+%		% reference circle r=2
+%		\draw[blue!60,thick] (0,0) circle (2);
+%		\node[blue!60] at (2.2,0.2) {$r=\text{const}$};
+%		
+%		% tangential direction (dtheta) along the circle
+%		\foreach \ang in {0,30,60,90,120,150,180,210,240,270,300,330} {
+%			\coordinate (Q) at ({2*cos(\ang)},{2*sin(\ang)});
+%			\draw[-{Latex[length=2.5mm]},blue!70] (Q)
+%			-- ++({0.6*(-sin(\ang))},{0.6*(cos(\ang))});
+%		}
+%		\node[align=left,anchor=west] at (1.6,2.4)
+%		{\(\Im\frac{dz}{z}=d\theta\) along the circle};
+%		
+%		% a ray (theta = const)
+%		\draw[red!70,thick] (0,0) -- (2.8,0);
+%		\node[red!70] at (2.6,-0.35) {$\theta=\text{const}$};
+%		
+%		% radial direction (dr/r) along the ray
+%		\foreach \r in {0.6,1.2,1.8,2.4} {
+%			\coordinate (R) at (\r,0);
+%			\draw[-{Latex[length=2.5mm]},red!70] (R) -- ++(0.6,0);
+%		}
+%		\node[align=left,anchor=west] at (-3.0,2.6)
+%		{\(\Re\frac{dz}{z}=\frac{dr}{r}\) along the ray};
+%	\end{tikzpicture}
+%\end{center}
+
+%\section{Four Canonical Fields: \texorpdfstring{\(dz\), \(z\,dz\), \(e^z\,dz\), \(\bar z\,dz\)}{dz, zdz, e^z dz, zbar dz}}
+%A useful mental model is: a form \(\omega=f(z)\,dz\) assigns at each point the complex number \(f(z)\), which \emph{scales} by \(|f(z)|\) and \emph{rotates} by \(\arg f(z)\) a tiny step in the tangent direction.
+
+%\subsection*{TikZ: sampled arrows for the four fields}
+%\begin{center}
+%	% ---------- knobs shared by all panels ----------
+%	\def\base{0.35}      % base arrow length multiplier
+%	\def\maxlen{0.6}     % clamp arrows so they don't explode
+%	
+%	% Helper macro: arrow at (x,y) with polar (len, ang in degrees), clamped.
+%	\newcommand{\arrowAt}[3]{%
+%		\pgfmathsetmacro{\Lraw}{#2}
+%		\pgfmathsetmacro{\L}{min(\Lraw,\maxlen)}
+%		\draw[-{Latex[length=2.0mm]}, line width=0.35pt]
+%		#1 -- ($#1 + (\L*cos(#3), \L*sin(#3))$);
+%	}
+%	% Axes macro
+%	\newcommand{\axes}{%
+%		\draw[->,gray!70] (-2.6,0) -- (2.6,0) node[below right] {$\Re z$};
+%		\draw[->,gray!70] (0,-2.6) -- (0,2.6) node[above left] {$\Im z$};
+%		\foreach \t in {-2,-1,1,2} {
+%			\draw[gray!35] (\t,-2.6) -- (\t,2.6);
+%			\draw[gray!35] (-2.6,\t) -- (2.6,\t);
+%		}
+%	}
+%	
+%	\begin{tikzpicture}[scale=1.0]
+%		% Panel A: omega = dz
+%		\begin{scope}[shift={(-4.2,3.2)}]
+%			\node at (0,2.9) {\large \(\omega=dz\)};
+%			\axes
+%			\foreach \x in {-2,-1.2,-0.4,0.4,1.2,2} {
+%				\foreach \y in {-2,-1.2,-0.4,0.4,1.2,2} {
+%					\arrowAt{(\x,\y)}{\base}{0}
+%				}
+%			}
+%			\node[align=center] at (0,-3.1) {Holomorphic; uniform; no zeros.};
+%		\end{scope}
+%		
+%		% Panel B: omega = z dz
+%		\begin{scope}[shift={(4.2,3.2)}]
+%			\node at (0,2.9) {\large \(\omega=z\,dz\)};
+%			\axes
+%			\foreach \x in {-2,-1.2,-0.4,0.4,1.2,2} {
+%				\foreach \y in {-2,-1.2,-0.4,0.4,1.2,2} {
+%					\pgfmathsetmacro{\r}{sqrt(\x*\x+\y*\y)}
+%					\pgfmathsetmacro{\ang}{atan2(\y,\x)}
+%					\pgfmathsetmacro{\len}{\base*\r}
+%					\arrowAt{(\x,\y)}{\len}{\ang}
+%				}
+%			}
+%			\fill (0,0) circle (1.2pt) node[below right] {\(0\)};
+%			\node[align=center] at (0,-3.1) {Holomorphic; radial; zero at \(0\).};
+%		\end{scope}
+%		
+%		% Panel C: omega = e^z dz
+%		\begin{scope}[shift={(-4.2,-3.2)}]
+%			\node at (0,2.9) {\large \(\omega=e^{z}\,dz\)};
+%			\axes
+%			\foreach \x in {-2,-1.2,-0.4,0.4,1.2,2} {
+%				\foreach \y in {-2,-1.2,-0.4,0.4,1.2,2} {
+%					\pgfmathsetmacro{\len}{\base*exp(\x)}
+%					\pgfmathsetmacro{\ang}{57.295779513*\y} % 180/pi
+%					\arrowAt{(\x,\y)}{\len}{\ang}
+%				}
+%			}
+%			\node[align=center] at (0,-3.1) {Holomorphic; grows right, twists with height; no zeros.};
+%		\end{scope}
+%		
+%		% Panel D: omega = \bar z dz (not holomorphic)
+%		\begin{scope}[shift={(4.2,-3.2)}]
+%			\node at (0,2.9) {\large \(\omega=\overline{z}\,dz\)};
+%			\axes
+%			\foreach \x in {-2,-1.2,-0.4,0.4,1.2,2} {
+%				\foreach \y in {-2,-1.2,-0.4,0.4,1.2,2} {
+%					\pgfmathsetmacro{\r}{sqrt(\x*\x+\y*\y)}
+%					\pgfmathsetmacro{\ang}{atan2(-\y,\x)} % mirror direction
+%					\pgfmathsetmacro{\len}{\base*\r}
+%					\arrowAt{(\x,\y)}{\len}{\ang}
+%				}
+%			}
+%			\node[align=center] at (0,-3.1) {Not holomorphic (depends on \(\bar z\)); mirrored directions.};
+%		\end{scope}
+%	\end{tikzpicture}
+%\end{center}
+%
+\section{A Worked Integral and the Winding Number}
+Let \(\gamma(t)=Re^{it}\) for \(t\in[0,2\pi]\) (counterclockwise circle of radius \(R>0\)).
+Then \(z=\gamma(t)\), \(dz=iRe^{it}dt\), and
+\[
+\oint_\gamma \frac{dz}{z}
+= \int_0^{2\pi} \frac{iRe^{it}}{Re^{it}}\,dt
+= \int_0^{2\pi} i\,dt
+= 2\pi i.
+\]
+Reversing orientation gives \(-2\pi i\). More generally,
+\[
+\oint_\gamma \frac{dz}{z} = 2\pi i\cdot \mathrm{Wind}(\gamma,0).
+\]
+%
+%\subsection*{TikZ: loop and orientation}
+%\begin{center}
+%	\begin{tikzpicture}[scale=1.0]
+%		% axes
+%		\draw[->,gray!70] (-3.2,0) -- (3.2,0) node[below right] {$\Re z$};
+%		\draw[->,gray!70] (0,-3.2) -- (0,3.2) node[above left] {$\Im z$};
+%		
+%		% circle loop
+%		\draw[thick,blue!70] (0,0) circle (2);
+%		% orientation arrows
+%		\foreach \ang in {20,70,120,170,220,270,320} {
+%			\coordinate (Q) at ({2*cos(\ang)},{2*sin(\ang)});
+%			\draw[-{Latex[length=3mm]},blue!70] (Q) -- ++({0.001*(-sin(\ang))},{0.001*(cos(\ang))});
+%		}
+%		\fill (0,0) circle (1.2pt) node[below right] {$0$};
+%		\node[draw,rounded corners,fill=white] at (0,-2.6)
+%		{\(\displaystyle \oint \frac{dz}{z} = 2\pi i\)};
+%	\end{tikzpicture}
+%\end{center}
+
+\section{Summary}
+\begin{itemize}
+	\item \(dz=dx+i\,dy\) complexifies the standard ruler: \(dz(\partial_x)=1\), \(dz(\partial_y)=i\).
+	\item Holomorphic 1-forms are \(f(z)\,dz\) with \(f\) holomorphic; arrows scale by \(|f|\) and rotate by \(\arg f\).
+	\item \(\displaystyle \frac{dz}{z} = \frac{dr}{r} + i\,d\theta\) splits into radial (scale) and angular (turn) parts.
+	\item On closed loops, only the total turn survives: \(\displaystyle \oint \frac{dz}{z} = 2\pi i\cdot \mathrm{Wind}(\gamma,0)\).
+\end{itemize}
+
+\section*{Extra Exercises}
+\begin{exercise}
+	Show directly from \(z=x+iy\) that
+	\(\displaystyle \Re\frac{dz}{z}=\frac{x\,dx+y\,dy}{x^2+y^2}=d(\log r)\) and
+	\(\displaystyle \Im\frac{dz}{z}=\frac{-y\,dx+x\,dy}{x^2+y^2}=d\theta\).
+\end{exercise}
+
+\begin{exercise}
+	Let \(f\) be holomorphic and nonvanishing on a domain. Prove that \(\displaystyle d(\log f) = \frac{f'(z)}{f(z)}\,dz\) is closed,
+	and integrate it around loops to relate to the argument principle.
+\end{exercise}
+
+\end{document}
