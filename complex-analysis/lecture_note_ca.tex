@@ -840,39 +840,7 @@ For $z\neq 0$, the set of all arguments is $\arg z=\{\theta+2\pi n:n\in\mathbb{Z
 \end{observation}
 
 \newpage
-\subsection{Exercises}
-\begin{exercise}
-	Show that $f(z)=\exp(\overline{z})$ is not analytic anywhere. \emph{(Hint: use the Cauchy--Riemann equations.)}
-\end{exercise}
-
-\begin{exercise}
-	Let $f(z)=u(x,y)+iv(x,y)$ be analytic in a domain $D$. Show that
-	\[
-	U(x,y)=e^{u(x,y)}\cos v(x,y),\qquad V(x,y)=e^{u(x,y)}\sin v(x,y)
-	\]
-	are harmonic in $D$, and that $V$ is a harmonic conjugate of $U$.
-\end{exercise}
-
-\begin{exercise}
-	Show that $f(z)=\Log(z-i)$ is analytic except on the half-line $y=1$, $x\le 0$, and that
-	\[
-	g(z)=\frac{\Log(z+4)}{z^2+i}
-	\]
-	is analytic everywhere except at $z=\pm\frac{1-i}{\sqrt2}$ and on the half-line $x\le -4$ on the real axis.
-\end{exercise}
-
-\begin{exercise}
-	Show that $\ln(x^2+y^2)$ is harmonic in any domain not containing the origin.
-\end{exercise}
-
-\begin{exercise}
-	Show that neither $\sin z$ nor $\cos z$ is an analytic function of $\overline{z}$ anywhere. \emph{(Hint: Cauchy--Riemann.)}
-\end{exercise}
-
-\begin{exercise}
-	Show that $\cosh^2 z-\sinh^2 z=1$ and $\sinh z+\cosh z=e^z$.
-\end{exercise}
-
+\input{exercises/3_elementary_functions_exercises}
 
 \newpage
 \section{Integrals: Part I}
@@ -1160,7 +1128,7 @@ For $z\neq 0$, the set of all arguments is $\arg z=\{\theta+2\pi n:n\in\mathbb{Z
 %
 
 \newpage
-\section{Integrals: Part II}
+%\section{Integrals: Part II}
 \subsection{Cauchy--Goursat Theorem}
 
 We begin with the real-variable result which motivates Cauchy's theorem.
@@ -1492,49 +1460,10 @@ Equivalently,
 	On $R$, $\sin^2 x$ is largest at $x=\pi/2$ and $\sinh^2 y$ is largest at $y=1$, so the maximum of $|f(z)|$ on $R$ is attained at $z=\pi/2 + i$ and nowhere in the interior.
 \end{example}
 
-%\section{Exercises}
-%
-%\begin{enumerate}[label=\textbf{E\arabic*.}]
-%	\item Let $C_0$ be the positively oriented circle $|z-z_0|=R$. Show that
-%	\[
-%	\int_{C_0} (z - z_0)^{n-1}\,dz =
-%	\begin{cases}
-%		0, & n=\pm1,\pm2,\dots, \ n\ne 0,\\[2pt]
-%		2\pi i, & n=0.
-%	\end{cases}
-%	\]
-%	\item Let $C$ be the boundary of the square with sides $x=\pm 2$, $y=\pm 2$, oriented positively. Show that
-%	\[
-%	\int_C \frac{\cos z}{z(z^2+8)}\,dz = \frac{i\pi}{4},\qquad
-%	\int_C \frac{\cosh z}{z^4}\,dz = 0,
-%	\]
-%	and, for $-2<x_0<2$,
-%	\[
-%	\int_C \frac{\tan(z/2)}{(z-x_0)^2}\,dz = i\pi \sec^2\!\left(\frac{x_0}{2}\right).
-%	\]
-%	\item Let $C$ be the circle $|z|=3$, positively oriented, and define
-%	\[
-%	f(z)=\int_C \frac{2s^2 - s - 2}{s - z}\,ds,\qquad |z|\ne 3.
-%	\]
-%	Show that $f(2)=8\pi i$.
-%	\item Let $C$ be any positively oriented simple closed contour and
-%	\[
-%	f(z)=\int_C \frac{s^3 + 2s}{(s - z)^3}\,ds.
-%	\]
-%	Show that $f(z)=6\pi i\, z$ when $z$ is inside $C$, and $f(z)=0$ when $z$ is outside.
-%	\item Let $C$ be the unit circle $z=e^{i\theta}$, $-\pi\le\theta\le\pi$. Show that for any constant $a$,
-%	\[
-%	\int_C \frac{e^{az}}{z}\,dz = 2\pi i,
-%	\]
-%	and hence
-%	\[
-%	\int_0^\pi e^{a\cos\theta} \cos(a\sin\theta)\,d\theta = \pi.
-%	\]
-%\end{enumerate}
-%
-%\vspace{1em}
-%\noindent Source: lecture note \emph{Complex Variables and Applications, Chapter 4: Integrals (Part II)}. :contentReference[oaicite:0]{index=0}
+\input{exercises/4_integrals_exercises}
 
+
+\newpage
 \section{Series}
 
 \subsection{Convergence of Sequences}

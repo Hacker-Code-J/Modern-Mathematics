@@ -1,0 +1,667 @@
+\subsection{Exercises}
+
+\begin{enumerate}[\bfseries 1.]
+\item Let $C_0$ be the positively oriented circle $|z-z_0|=R$. Show that \[
+\int_{C_0} (z - z_0)^{n-1}\,\d z =
+\begin{cases}
+	0, & n=\pm1,\pm2,\dots \\
+	2\pi i, & n=0.
+\end{cases}
+\]
+\begin{proof}[\sol]
+Parametrize $C_0$ by $
+z(t)=z_0+Re^{it}$ ($t\in[0,2\pi]$) then $dz=iRe^{it}\,\d t$ and
+\[
+\int_{C_0} (z-z_0)^{\,n-1}\,\d z
+=\int_{0}^{2\pi} (Re^{it})^{\,n-1}\, iRe^{it}\,\d t
+= iR^{n}\int_{0}^{2\pi} e^{int}\,\d t.
+\] \begin{enumerate}[(1)]
+	\item If $n\neq0$, then \[
+	\int_{0}^{2\pi} e^{int}\,\d t=\left[\frac{1}{in}e^{int}\right]_{0}^{2\pi}=\frac{e^{in2\pi}-1}{in}=\frac{1-1}{in}=0,\qquad\text{so the integral is $0$.}
+	\] 
+	\item If $n=0$, then $e^{int}\equiv 1$ and the integral equals $iR^{0}\int_{0}^{2\pi} 1\,\d t=2\pi i$.
+\end{enumerate}
+%\begin{center}
+%\begin{tikzpicture}[>=Latex,scale=1]
+%% ---------- styles ----------
+%\tikzset{
+%	axis/.style={gray!40, line cap=round},
+%	label/.style={gray!60, font=\footnotesize},
+%	main/.style={font=\small},
+%	circ/.style={blue!70, thick},
+%	tang/.style={red!70!black, -{Latex}, thick},
+%	jump/.style={orange!80!black, -{Latex}, thick},
+%	sheet/.style={fill=gray!10, draw=gray!50}
+%}
+%
+%% =====================================================
+%% LEFT: n != 0  — single-valued potential F_n; integral 0
+%% =====================================================
+%\begin{scope}
+%	% axes
+%	\draw[axis] (-3.0,0) -- (3.0,0) node[right] {$\Re z$};
+%	\draw[axis] (0,-2.6) -- (0,2.6) node[above] {$\Im z$};
+%	\node[main] at (0,-3.2) {$n\neq 0\ \text{single-valued primitive } F_n(z)=\dfrac{(z-z_0)^n}{n}$};
+%	
+%	% circle C0
+%	\def\zx{0.6}\def\zy{0.4}\def\R{1.8}
+%	\draw[circ] (\zx,\zy) circle (\R);
+%	\fill (\zx,\zy) circle (2pt) node[above right] {$z_0$};
+%	\node[blue!70] at (-\zx-\R+1,-\zy-1) {$|z-z_0|=R$};
+%	
+%	% orientation ticks
+%	\foreach \a in {0,60,120,180,240,300}{
+%		\draw[blue!70,->] ({\zx+\R*cos(\a)},{\zy+\R*sin(\a)})
+%		-- ++({0.14*(-sin(\a))},{0.14*(cos(\a))});
+%	}
+%	
+%	% start/end points on C0 (same z but different t=0,2π)
+%	\def\ang{35}
+%	\coordinate (Zs) at ({\zx+\R*cos(\ang)},{\zy+\R*sin(\ang)});
+%	\fill[blue!70] (Zs) circle (2pt) node[below right] {$z(t_0)$};
+%	% tangent
+%	\draw[tang] (Zs) -- ++({-sin(\ang)},{cos(\ang)}) node[above right] {$dz$};
+%	
+%	% potential arrows: F_n(z(t)) returns to same value after one loop
+%	% draw a little “energy bar” that starts and ends at same height
+%	\draw[sheet] (-2.7,1.3) rectangle (-2.1,2.2);
+%	\draw[gray!50] (-2.7,1.3) -- (-2.1,1.3);
+%	\draw[gray!50] (-2.7,2.2) -- (-2.1,2.2);
+%	\draw[blue!70,very thick] (-2.7,1.55) -- (-2.1,1.55);
+%	\draw[blue!70,very thick] (-2.7,1.98) -- (-2.1,1.98);
+%	\draw[gray!60,->] (-2.4,1.55) -- (-2.4,1.98) node[midway,left] {\(\ F_n(z(t))\)};
+%	\node[label,align=left] at (-2.45,1.1)
+%	{one loop\\same value};
+%	
+%	% conclusion
+%	\node[main,align=left] at (-2.9,-2.1)
+%	{$\displaystyle\oint_{C_0} (z-z_0)^{\,n-1}\,dz
+%		= F_n(z)\Big|_{\text{start}}^{\text{end}}=0.$};
+%\end{scope}
+%	
+%	% =====================================================
+%	% RIGHT: n = 0  — multi-valued potential Log; jump 2πi
+%	% =====================================================
+%	\begin{scope}[xshift=8.2cm]
+%		% axes
+%		\draw[axis] (-3.0,0) -- (3.0,0) node[below right] {$\Re z$};
+%		\draw[axis] (0,-2.6) -- (0,2.6) node[left] {$\Im z$};
+%		\node[main] at (0,2.9) {$n=0\ \text{multi-valued primitive } F_0(z)=\Log(z-z_0)$};
+%		
+%		% circle C0
+%		\def\zx{0.4}\def\zy{0.3}\def\R{1.9}
+%		\draw[circ] (\zx,\zy) circle (\R);
+%		\fill (\zx,\zy) circle (2pt) node[above right] {$z_0$};
+%		\foreach \a in {0,60,120,180,240,300}{
+%			\draw[blue!70,->] ({\zx+\R*cos(\a)},{\zy+\R*sin(\a)})
+%			-- ++({0.14*(-sin(\a))},{0.14*(cos(\a))});
+%		}
+%		
+%		% indicate Arg increases by 2π on one loop
+%		\draw[gray!55,dashed] (\zx,\zy) -- ({\zx+\R*0.9},{\zy});
+%		\draw[gray!55,->] (\zx+0.7,\zy) arc[start angle=0,end angle=330,radius=0.7];
+%		\node[label] at (\zx+1.05,\zy-0.3) {$+\;2\pi$ in $\Arg$};
+%		
+%		% "Riemann sheets" for Log (stacked strips, jump 2πi)
+%		\foreach \k/\yy in {0/0,1/0.7,2/1.4}{
+%			\draw[sheet] (-2.7,{\yy+0.15}) rectangle (-1.5,{\yy+0.65});
+%			\node[label] at (-1.55,{\yy+0.4}) {$\Im \Log = \Arg + 2\pi \k$};
+%		}
+%		% vertical jump arrow of size 2π (illustrative)
+%		\draw[jump] (-2.2,0.65) -- (-2.2,1.4)
+%		node[midway,left] {$+\,2\pi i$};
+%		\node[label] at (-2.2,-0.05) {single loop};
+%		
+%		% conclusion
+%		\node[main,align=left] at (-2.9,-2.1)
+%		{$\displaystyle\oint_{C_0} (z-z_0)^{-1}\,dz
+%			= \Log(z-z_0)\Big|_{\text{start}}^{\text{end}}
+%			= 2\pi i.$};
+%	\end{scope}
+%\end{tikzpicture}
+%
+%\begin{tikzpicture}[>=Latex,scale=1]
+%	\tikzset{
+%		axis/.style={gray!40, line cap=round},
+%		label/.style={gray!60, font=\footnotesize},
+%		title/.style={font=\small},
+%		loop/.style={blue!70, thick},
+%		tanv/.style={red!70!black, -{Latex}, thick},
+%		arrow/.style={-{Latex}, thick},
+%		level/.style={gray!60},
+%		tick/.style={black, line cap=round},
+%		jump/.style={orange!80!black, -{Latex}, thick}
+%	}
+%	
+%	% =========================================================
+%	% LEFT: n ≠ 0  — FTC with single-valued antiderivative F_n
+%	% =========================================================
+%	\begin{scope}
+%		% --- z-plane with circle C0 ---
+%		\node[title] at (0,2.9) {$n\neq 0\ \ F_n(z)=\dfrac{(z-z_0)^n}{n},\ \ F_n'(z)=(z-z_0)^{n-1}$};
+%		\draw[axis] (-2.9,0) -- (2.9,0) node[below right] {$\Re z$};
+%		\draw[axis] (0,-2.3) -- (0,2.4) node[left] {$\Im z$};
+%		
+%		\def\zx{-0.1}\def\zy{0.1}\def\R{1.6}\def\ang{35}
+%		\fill (\zx,\zy) circle (2pt) node[above right] {$z_0$};
+%		\draw[loop] (\zx,\zy) circle (\R);
+%		% orientation ticks
+%		\foreach \a in {0,60,120,180,240,300}{
+%			\draw[loop,->] ({\zx+\R*cos(\a)},{\zy+\R*sin(\a)})
+%			-- ++({0.14*(-sin(\a))},{0.14*(cos(\a))});
+%		}
+%		% mark start/end at same point z(0)=z(2π)
+%		\coordinate (Zs) at ({\zx+\R*cos(\ang)},{\zy+\R*sin(\ang)});
+%		\fill[blue!70] (Zs) circle (2pt) node[below right] {$z(0)=z(2\pi)$};
+%		% tangent
+%		\draw[tanv] (Zs) -- ++({-sin(\ang)},{cos(\ang)}) node[above right] {$dz$};
+%		
+%		% --- potential axis: values of F_n(z(t)) ---
+%		\begin{scope}[xshift=5.4cm]
+%			\node[title] at (0,2.9) {Potential axis $F_n(z(t))$};
+%			% vertical axis for potential value
+%			\draw[axis] (0,-2.0) -- (0,2.4) node[left] {$\Re/\Im F_n$};
+%			% two coincident levels (start = end)
+%			\draw[level] (0.2,0.8) -- (3.4,0.8);
+%			\draw[level] (0.2,0.8) -- (0.2,0.8) node[left] {};
+%			\fill[blue!70] (0.2,0.8) circle (1.8pt) node[left] {$F_n(z(0))$};
+%			\fill[blue!70] (3.4,0.8) circle (1.8pt) node[right] {$F_n(z(2\pi))$};
+%			% arrow across showing difference
+%			\draw[arrow,gray!70] (0.4,1.15) -- (3.2,1.15)
+%			node[midway,above] {$F_n(z(2\pi)) - F_n(z(0)) = 0$};
+%			% FTC statement
+%			\node[label,align=left] at (1.7,-1.6)
+%			{$\displaystyle \oint_{C_0}(z-z_0)^{n-1}dz
+%				= F_n\!\big(z(2\pi)\big)-F_n\!\big(z(0)\big)=0.$};
+%		\end{scope}
+%		
+%		% mapping arrow (FTC idea)
+%		\draw[arrow] (2.9,1.2) -- (4.4,1.2) node[midway,above] {lift via $F_n$};
+%	\end{scope}
+%	
+%	% =========================================================
+%	% RIGHT: n = 0  — FTC with multi-valued Log; jump 2πi
+%	% =========================================================
+%	\begin{scope}[yshift=-10cm]
+%		% --- z-plane with circle C0 ---
+%		\node[title] at (0,2.9) {$n=0\ \ F_0(z)=\Log(z-z_0),\ \ F_0'(z)=\dfrac{1}{z-z_0}$};
+%		\draw[axis] (-2.9,0) -- (2.9,0) node[below right] {$\Re z$};
+%		\draw[axis] (0,-2.3) -- (0,2.4) node[left] {$\Im z$};
+%		
+%		\def\zxa{0.2}\def\zya{0.0}\def\Ra{1.6}\def\anga{20}
+%		\fill (\zxa,\zya) circle (2pt) node[above right] {$z_0$};
+%		\draw[loop] (\zxa,\zya) circle (\Ra);
+%		\foreach \a in {0,60,120,180,240,300}{
+%			\draw[loop,->] ({\zxa+\Ra*cos(\a)},{\zya+\Ra*sin(\a)})
+%			-- ++({0.14*(-sin(\a))},{0.14*(cos(\a))});
+%		}
+%		% start/end point
+%		\coordinate (Za) at ({\zxa+\Ra*cos(\anga)},{\zya+\Ra*sin(\anga)});
+%		\fill[blue!70] (Za) circle (2pt) node[below right] {$z(0)=z(2\pi)$};
+%		% Arg gain hint
+%		\draw[gray!55,->] (\zxa+0.8,\zya) arc[start angle=0,end angle=330,radius=0.8];
+%		\node[label] at (\zxa+1.15,\zya-0.35) {$\Delta\Arg=+\,2\pi$};
+%		
+%		% --- stacked potential axis (Riemann sheets of Log) ---
+%		\begin{scope}[xshift=5.4cm]
+%			\node[title] at (0,2.9) {Potential axis $F_0(z(t))=\Log(z(t)-z_0)$};
+%			% vertical axis
+%			\draw[axis] (0,-2.0) -- (0,2.4) node[left] {$\Im$ part (sheet index)};
+%			% three sheets (levels)
+%			\foreach \y/\txt in {0.2/{$\Im\Log=\Arg$},1.1/{$\Arg+2\pi$},2.0/{$\Arg+4\pi$}}{
+%				\draw[level] (0.2,\y) -- (3.4,\y);
+%				\node[label] at (3.55,\y) {\txt};
+%			}
+%			% start level (sheet k)
+%			\fill[blue!70] (0.2,0.2) circle (1.8pt) node[left] {$F_0(z(0))$};
+%			% jump of 2πi to next sheet after one loop
+%			\draw[jump] (0.2,0.2) -- (0.2,1.1) node[midway,left] {$+\,2\pi i$};
+%			\fill[blue!70] (3.4,1.1) circle (1.8pt) node[right] {$F_0(z(2\pi))$};
+%			% difference arrow
+%			\draw[arrow,gray!70] (0.4,1.45) -- (3.2,1.45)
+%			node[midway,above] {$F_0(z(2\pi))-F_0(z(0))=2\pi i$};
+%			% FTC statement
+%			\node[label,align=left] at (1.7,-1.6)
+%			{$\displaystyle \oint_{C_0}\frac{dz}{z-z_0}
+%				= F_0\!\big(z(2\pi)\big)-F_0\!\big(z(0)\big)=2\pi i.$};
+%		\end{scope}
+%		
+%		% mapping arrow (FTC idea)
+%		\draw[arrow] (2.9,1.2) -- (4.4,1.2) node[midway,above] {lift via $\Log$};
+%	\end{scope}
+%\end{tikzpicture}
+%\end{center}
+\end{proof}
+\item Let $C$ be the boundary of the square with sides $x=\pm 2$, $y=\pm 2$, oriented positively. Show that
+\[
+\int_C \frac{\cos z}{z(z^2+8)}\,dz = \frac{i\pi}{4},\qquad
+\int_C \frac{\cosh z}{z^4}\,dz = 0,\qquad
+\int_C \frac{\tan(z/2)}{(z-x_0)^2}\,dz = i\pi \sec^2\!\left(\frac{x_0}{2}\right),
+\] where $-2<x_0<2$.
+\begin{proof}[\sol]
+	Let $C$ be the positively oriented boundary of the square $\{x+iy:\ |x|\le2,\ |y|\le2\}$.
+	\begin{center}
+	\begin{tikzpicture}
+		\tikzset{
+			axis/.style={gray!40, line cap=round, -Stealth},
+			box/.style={thick, blue!65},
+			orient/.style={-{Latex}, blue!65, thick}
+		}
+		\draw[axis] (-3.0,0) -- (3.0,0) node[right] {$\Re z$};
+		\draw[axis] (0,-3.0) -- (0,3.0) node[above] {$\Im z$};
+		% square boundary |x|<=2, |y|<=2
+		\draw[box] (-2,-2) rectangle (2,2);
+		% CCW orientation arrows (midpoints of edges)
+		\draw[orient] ( 0, 2) -- ++(-1.1,0);
+		\draw[orient] ( 2, 0) -- ++(0,1.1);
+		\draw[orient] ( 0,-2) -- ++(1.1,0);
+		\draw[orient] (-2, 0) -- ++(0, -1.1);
+	\end{tikzpicture}
+	\end{center}
+	\begin{enumerate}[(1)]
+		\item $\displaystyle \int_C \frac{\cos z}{z(z^2+8)}\,dz$.\quad
+		The integrand is meromorphic with simple poles at $z=0$ and $z=\pm 2\sqrt2\,i$.
+		\begin{center}
+		\begin{tikzpicture}[>=Latex,scale=1]
+			\tikzset{
+				axis/.style={gray!40, line cap=round},
+				box/.style={thick, blue!65},
+				orient/.style={-{Latex}, blue!65, thick},
+				polein/.style={red!70, fill=red!70},
+				poleout/.style={red!70, draw=red!70, fill=white, thick}
+			}
+			%======== common function to draw the square with orientation ========
+			\def\DrawSquare{
+				% square boundary |x|<=2, |y|<=2
+				\draw[box] (-2,-2) rectangle (2,2);
+				% CCW orientation arrows (midpoints of edges)
+				\draw[orient] ( 0, 2) -- ++(-1.1,0);
+				\draw[orient] ( 2, 0) -- ++(0,1.1);
+				\draw[orient] ( 0,-2) -- ++(1.1,0);
+				\draw[orient] (-2, 0) -- ++(0, -1.1);
+			}
+			% axes
+			\draw[axis] (-3.0,0) -- (3.0,0) node[right] {$\Re z$};
+			\draw[axis] (0,-3.0) -- (0,3.0) node[above] {$\Im z$};
+			\DrawSquare
+			% poles: z=0 (inside), z=±2\sqrt2\,i (outside since |Im|≈2.828>2)
+			\fill[poleout] (0,0) circle (2.4pt) node[above right] {$0$};
+			\draw[poleout] (0, 2.828) circle (2.4pt) node[right] {$2\sqrt2\,i$};
+			\draw[poleout] (0,-2.828) circle (2.4pt) node[right] {$-2\sqrt2\,i$};
+		\end{tikzpicture}
+		\end{center}
+		Only $z=0$ is inside $C$. Around $z=0$, \[
+		\cos z=1-\frac{z^2}{2}+\frac{z^4}{4!}-\cdots,\qquad
+		\frac{1}{z(z^2+8)}=\frac{1}{z^3+8z}=\frac{1}{8z}\,\frac{1}{1+z^2/8}
+		=\frac{1}{8z}\Bigl(1-\frac{z^2}{8}+\frac{z^4}{8^2}-\cdots\Bigr).
+		\] Thus, \[
+		\Res_{z=0}\frac{\cos z}{z(z^2+8)}
+		=\Res_{z=0}\left(\frac{1}{8z}\Bigl(1-\frac{z^2}{8}+\frac{z^4}{8^2}-\cdots\Bigr)\Bigl(1-\frac{z^2}{2}+\frac{z^4}{4!}-\cdots\Bigr)\right)
+%		=\lim_{z\to0}\frac{\cos z}{z^2+8}
+		=\frac{1}{8}.
+		\]
+		By the residue theorem,
+		\[
+		\int_C \frac{\cos z}{z(z^2+8)}\,dz
+		=2\pi i\cdot\frac18
+		=\frac{i\pi}{4}.
+		\]
+		\item $\displaystyle \int_C \frac{\cosh z}{z^4}\,dz$.\quad
+		Here the only singularity is at $z=0$ (order $4$). 
+		\begin{center}
+			\begin{tikzpicture}[>=Latex,scale=1]
+				\tikzset{
+					axis/.style={gray!40, line cap=round},
+					box/.style={thick, blue!65},
+					orient/.style={-{Latex}, blue!65, thick},
+					polein/.style={red!70, fill=red!70},
+					poleout/.style={red!70, draw=red!70, fill=white, thick},
+					note/.style={gray!60, font=\small},
+				}
+				%======== common function to draw the square with orientation ========
+				\def\DrawSquare{
+					% square boundary |x|<=2, |y|<=2
+					\draw[box] (-2,-2) rectangle (2,2);
+					% CCW orientation arrows (midpoints of edges)
+					\draw[orient] ( 0, 2) -- ++(-1.1,0);
+					\draw[orient] ( 2, 0) -- ++(0,1.1);
+					\draw[orient] ( 0,-2) -- ++(1.1,0);
+					\draw[orient] (-2, 0) -- ++(0, -1.1);
+				}
+				% axes
+				\draw[axis] (-3.0,0) -- (3.0,0) node[right] {$\Re z$};
+				\draw[axis] (0,-3.0) -- (0,3.0) node[above] {$\Im z$};
+				\DrawSquare
+				% pole at 0 of order 4 (inside)
+				\draw[poleout] (0,0) circle (2.8pt);
+				\node[note,anchor=west] at (0.15,0.15) {order $4$};
+			\end{tikzpicture}
+		\end{center}
+		Using
+		\[
+		\cosh z=1+\frac{z^2}{2!}+\frac{z^4}{4!}+\cdots,
+		\qquad
+		\frac{\cosh z}{z^4}=\frac{1}{z^4}+\frac{1}{2}\frac{1}{z^2}+\frac{1}{4!}+\cdots,
+		\]
+		there is no $1/z$ term; hence $\Res_{z=0}(\cosh z/z^4)=0$, and therefore
+		\[
+		\int_C \frac{\cosh z}{z^4}\,dz=0.
+		\]
+		\item $\displaystyle \int_C \frac{\tan(z/2)}{(z-x_0)^2}\,dz$ with $-2<x_0<2$.\quad 	We know that \[
+		\tan w = \frac{\sin w}{\cos w},
+		\] so the poles of $\tan w$ occur exactly where $\cos w = 0$ and $\sin w \neq 0$. The zeros of $\cos w$ are \[
+		w = \frac{\pi}{2} + k\pi = \frac{(2k+1)\pi}{2}, \quad k \in \mathbb{Z}.
+		\] Now consider $\tan\!\left(\frac{z}{2}\right)$. Let $
+		w = \frac{z}{2}$. The poles of $\tan(z/2)$ occur where $w$ is a pole of $\tan w$, i.e.\ where
+		\[
+		\frac{z}{2} = \frac{(2k+1)\pi}{2}, \quad k \in \mathbb{Z}.
+		\] So the poles of $\tan(z/2)$ are precisely at $z = (2k+1)\pi$ with $k\in\mathbb{Z}$. Since \[
+		|(2k+1)\pi| \ge \pi > 2,
+		\]
+		none of these poles lie inside or on $C$. Hence $\tan(z/2)$ is analytic on and inside $C$. The only singularity of the integrand ${\tan(z/2)}/{(z - x_0)^2}$ inside $C$ is at $z = x_0$.
+		\begin{center}
+		\begin{tikzpicture}[>=Latex,scale=1]
+			\tikzset{
+				axis/.style={gray!40, line cap=round},
+				box/.style={thick, blue!65},
+				orient/.style={-{Latex}, blue!65, thick},
+				polein/.style={red!70, fill=red!70},
+				poleout/.style={red!70, draw=red!70, fill=white, thick},
+				note/.style={gray!60, font=\small},
+			}
+			
+			%======== common function to draw the square with orientation ========
+			\def\DrawSquare{
+				% square boundary |x|<=2, |y|<=2
+				\draw[box] (-2,-2) rectangle (2,2);
+				% CCW orientation arrows (midpoints of edges)
+				\draw[orient] ( 0, 2) -- ++(-1.1,0);
+				\draw[orient] ( 2, 0) -- ++(0,1.1);
+				\draw[orient] ( 0,-2) -- ++(1.1,0);
+				\draw[orient] (-2, 0) -- ++(0, -1.1);
+			}
+			% axes
+			\draw[axis] (-3.2,0) -- (3.2,0) node[right] {$\Re z$};
+			\draw[axis] (0,-3.0) -- (0,3.0) node[above] {$\Im z$};
+			\DrawSquare
+			
+			% tan(z/2) poles at (2k+1)\pi lie outside (|Re|>\pi>2)
+			\node[note] at (2.2,2.55) {$\tan(z/2)$ analytic on/inside $C$};
+			
+			% double pole at z=x0 on real axis (inside since -2<x0<2)
+			% draw a vertical marker at x=x0 and a filled pole
+			\def\xo{1.1} % choose a sample x0 in (-2,2)
+%			\draw[gray!30,dashed] (\xo,-2.3) -- (\xo,2.3);
+			\fill[poleout] (\xo,0+.25) circle (2.4pt) node[right] {$x_0$};
+			\node[note] at (\xo+0.15,0.35+.25) {order $2$};
+		\end{tikzpicture}
+		\end{center} 
+		Since $\tan(z/2)$ is analytic at $z = x_0$, we may expand it in a Taylor series about $x_0$: \begin{align*}
+			\tan\!\left(\frac{z}{2}\right)
+			&= \tan\!\left(\frac{x_0}{2}\right)
+			+ \left.\frac{\d}{\d z}\tan\!\left(\frac{z}{2}\right)\right|_{z = x_0} (z - x_0)
+			+ \cdots\\
+			&=\tan\!\left(\frac{x_0}{2}\right)
+			+ \frac12 \sec^2\!\left(\frac{x_0}{2}\right) (z - x_0)
+			+ \cdots.
+		\end{align*}
+		Dividing by $(z - x_0)^2$ gives the Laurent series
+		\[
+		\frac{\tan(z/2)}{(z - x_0)^2}
+		= \frac{\tan(x_0/2)}{(z - x_0)^2}
+		+ \frac12 \sec^2\!\left(\frac{x_0}{2}\right)\frac{1}{z - x_0}
+		+ \cdots.
+		\] Thus, we obtain \[
+		\operatorname{Res}_{z=x_0}\!\left(\frac{\tan(z/2)}{(z - x_0)^2}\right)
+		= \frac12 \sec^2\!\left(\frac{x_0}{2}\right).
+		\]
+		By the residue theorem,
+		\[
+		\int_C \frac{\tan(z/2)}{(z - x_0)^2}\,dz
+		= 2\pi i \cdot \frac12 \sec^2\!\left(\frac{x_0}{2}\right)
+		= i\pi \sec^2\!\left(\frac{x_0}{2}\right).
+		\]
+	\end{enumerate}
+\end{proof}
+\newpage
+\item Let $C$ be the circle $|z|=3$, positively oriented, and define
+\[
+f(z)=\int_C \frac{2s^2 - s - 2}{s - z}\,ds,\qquad |z|\ne 3.
+\]
+Show that $f(2)=8\pi i$.
+\begin{proof}[\sol]
+Let \(F(s)=2s^2-s-2\), which is entire. By the Cauchy integral formula, for \(|z|<3\), \[
+\int_{|s|=3}\frac{F(s)}{s-z}\,ds = 2\pi i\,F(z).
+\] Since \(2\) lies inside the circle \(|s|=3\), we have
+\[
+f(2)=2\pi i\,F(2)=2\pi i\,\bigl(2\cdot 2^2-2-2\bigr)
+=2\pi i\,(8-2-2)=2\pi i\cdot 4=8\pi i.
+\] 
+\end{proof}
+\item Let $C$ be any positively oriented simple closed contour and
+\[
+f(z)=\int_C \frac{s^3 + 2s}{(s - z)^3}\,ds.
+\]
+Show that $f(z)=6\pi i\, z$ when $z$ is inside $C$, and $f(z)=0$ when $z$ is outside.
+\begin{proof}[\sol]
+	Let $F(s)=s^3+2s$, an entire function. By the generalized Cauchy integral formula,
+	\[
+	\int_C \frac{F(s)}{(s-z)^{n+1}}\,ds=\frac{2\pi i}{n!}\,F^{(n)}(z),
+	\]
+	for $z$ inside $C$. Here $\dfrac{F(s)}{(s-z)^3}$ corresponds to $n=2$, so
+	\[
+	f(z)=\int_C \frac{s^3+2s}{(s-z)^3}\,ds=\frac{2\pi i}{2!}\,F''(z).
+	\]
+	Compute $F'(s)=3s^2+2$ and $F''(s)=6s$, hence for $z$ inside $C$,
+	\[
+	f(z)=\frac{2\pi i}{2}\cdot 6z=6\pi i\,z.
+	\]
+	
+	If $z$ is outside $C$, then $s\mapsto \dfrac{s^3+2s}{(s-z)^3}$ is analytic on and inside $C$ (the only singularity is at $s=z$, which lies outside). By Cauchy’s theorem,
+	\[
+	f(z)=\int_C \frac{s^3+2s}{(s-z)^3}\,ds=0.
+	\]
+	\begin{center}
+	\begin{tikzpicture}[>=Latex,scale=1]
+		\tikzset{
+			axis/.style={gray!35, line cap=round},
+			Ccurve/.style={blue!70, thick},
+			orient/.style={-{Latex}, blue!70, thick},
+			zin/.style={red!70, fill=red!70},
+			zout/.style={red!70, draw=red!70, fill=white, thick},
+			note/.style={gray!60, font=\small},
+			title/.style={font=\small},
+			box/.style={draw, rounded corners=2pt, inner sep=4pt, fill=gray!5}
+		}
+		
+		% =============== LEFT: z inside C =================
+		\begin{scope}
+			% axes
+			\draw[axis] (-4.2,0)--(4.2,0) node[below right] {$\Re s$};
+			\draw[axis] (0,-3.2)--(0,3.2) node[left] {$\Im s$};
+			\node[title] at (0,3.5)
+			{$f(z)=\displaystyle\int_C \frac{s^3+2s}{(s-z)^3}\,ds,\ \ F(s)=s^3+2s$};
+			
+			% a generic positively oriented simple closed contour C
+			\draw[Ccurve] plot[smooth cycle, tension=0.8]
+			coordinates{(-2.6,0.2) (-1.3,1.9) (0.6,1.5) (2.3,0.4) (1.5,-1.6) (-0.7,-1.8) (-2.4,-0.6)};
+			% orientation arrows along C
+%			\foreach \t/\a in {0/20, 0.25/70, 0.5/140, 0.75/220}{
+%				\path plot[smooth, tension=0.8, domain=0:1, samples=200] 
+%				({-2.6*(1-\x)^6 + ...}); % placeholder
+%			}
+			% simpler: put four small arrows approximately along the curve
+			\draw[orient] (-1.9,1.7) -- ++(0.9,-0.2);
+			\draw[orient] ( 1.8,0.4)  -- ++(-0.2,-0.8);
+			\draw[orient] ( 0.3,-1.7) -- ++(-0.8,0.2);
+			\draw[orient] (-2.4,-0.3) -- ++(0.3,0.7);
+			\node[note] at (2.6,2.1) {$C$ (positively oriented)};
+			
+			% z inside
+			\fill[zin] (-0.3,0.2) circle (2.6pt) node[above right] {$z$};
+			% indicate triple pole in s at s=z (inside)
+			\draw[gray!55,dashed] (0,0) -- (-0.3,0.2);
+%			\node[note,anchor=west] at (-4.1,-2.7)
+%			{Inside case: pole at $s=z$ of order $3$ is inside $C$.\\
+%				Generalized Cauchy (with $n=2$): 
+%				$\displaystyle \int_C \frac{F(s)}{(s-z)^3}\,ds=\frac{2\pi i}{2!}F''(z)$.\\
+%				Here $F'(s)=3s^2+2,\ F''(s)=6s \Rightarrow f(z)=6\pi i\,z$.};
+			
+			% small result box
+			\node[box,anchor=west] at (-1.5,2.4) {$\displaystyle f(z)=6\pi i\,z$};
+		\end{scope}
+		
+		% =============== RIGHT: z outside C =================
+		\begin{scope}[xshift=10.4cm]
+			% axes
+			\draw[axis] (-4.2,0)--(4.2,0) node[below right] {$\Re s$};
+			\draw[axis] (0,-3.2)--(0,3.2) node[left] {$\Im s$};
+			\node[title] at (0,3.5) {Exterior case: $z$ outside $C$};
+			
+			% same contour shape
+			\draw[Ccurve] plot[smooth cycle, tension=0.8]
+			coordinates{(-2.6,0.2) (-1.3,1.9) (0.6,1.5) (2.3,0.4) (1.5,-1.6) (-0.7,-1.8) (-2.4,-0.6)};
+			\draw[orient] (-1.9,1.7) -- ++(0.9,-0.2);
+			\draw[orient] ( 1.8,0.4)  -- ++(-0.2,-0.8);
+			\draw[orient] ( 0.3,-1.7) -- ++(-0.8,0.2);
+			\draw[orient] (-2.4,-0.3) -- ++(0.3,0.7);
+			\node[note] at (2.6,2.1) {$C$ (positively oriented)};
+			
+			% z outside
+			\draw[zout] (3.2,1.2) circle (2.6pt);
+			\node[note,anchor=west] at (3.35,1.2) {$z$ outside};
+			
+			% conclusion
+			\node[note,align=left,anchor=west] at (-4.1,-2.7)
+			{Here the integrand $\dfrac{F(s)}{(s-z)^3}$ is analytic on and inside $C$\\
+				(its only singularity is at $s=z$, which lies outside).\\
+				By Cauchy’s theorem, $\displaystyle f(z)=\int_C \frac{F(s)}{(s-z)^3}\,ds=0$.};
+			
+			% small result box
+			\node[box,anchor=west] at (-1.5,2.4) {$\displaystyle f(z)=0$};
+		\end{scope}		
+	\end{tikzpicture}
+	\end{center}
+\end{proof}
+\newpage
+\item Let $C$ be the unit circle $z=e^{i\theta}$, $-\pi\le\theta\le\pi$. Show that for any constant $a$,
+\[
+\int_C \frac{e^{az}}{z}\,dz = 2\pi i.
+\] Then writethis integral in term of $\theta$ to derive the integration formula \[
+\int_0^\pi e^{a\cos\theta} \cos(a\sin\theta)\,d\theta = \pi.
+\]
+\begin{proof}[\sol]
+	Let $C$ be the unit circle oriented positively. The integrand
+	\[
+	\frac{e^{a z}}{z}
+	\]
+	has a simple pole at $z=0$ with residue $\Res_{z=0}\frac{e^{a z}}{z}=e^{a\cdot 0}=1$. By the residue theorem,
+	\[
+	\int_C \frac{e^{a z}}{z}\,dz \;=\; 2\pi i.
+	\]
+	
+	Now parametrize $C$ by $z=e^{i\theta}$, $-\pi\le \theta\le \pi$. Then $dz=i e^{i\theta}\,d\theta$ and
+	\[
+	\int_C \frac{e^{a z}}{z}\,dz
+	=\int_{-\pi}^{\pi} \frac{e^{a e^{i\theta}}}{e^{i\theta}}\, i e^{i\theta}\,d\theta
+	=i\int_{-\pi}^{\pi} e^{a(\cos\theta+i\sin\theta)}\,d\theta
+	=i\int_{-\pi}^{\pi} e^{a\cos\theta}\bigl(\cos(a\sin\theta)+i\sin(a\sin\theta)\bigr)\,d\theta.
+	\]
+	Equating real and imaginary parts with $2\pi i$ gives
+	\[
+	\int_{-\pi}^{\pi} e^{a\cos\theta}\sin(a\sin\theta)\,d\theta=0,
+	\qquad
+	\int_{-\pi}^{\pi} e^{a\cos\theta}\cos(a\sin\theta)\,d\theta=2\pi.
+	\]
+	Since the integrand $e^{a\cos\theta}\cos(a\sin\theta)$ is even in $\theta$, we obtain
+	\[
+	\int_{0}^{\pi} e^{a\cos\theta}\cos(a\sin\theta)\,d\theta=\pi.
+	\]
+	\begin{center}
+	\begin{tikzpicture}[>=Latex,scale=1]
+		\tikzset{
+			axis/.style={gray!40, line cap=round},
+			circ/.style={blue!70, thick},
+			orient/.style={-{Latex}, blue!70, thick},
+			pole/.style={red!70, fill=red!70},
+			note/.style={gray!60, font=\small},
+			title/.style={font=\small},
+			box/.style={draw, rounded corners=2pt, inner sep=4pt, fill=gray!5}
+		}
+		
+		% ================= LEFT: Complex z-plane, unit circle =================
+		\begin{scope}
+			% axes
+			\draw[axis] (-3.2,0) -- (3.2,0) node[below right] {$\Re z$};
+			\draw[axis] (0,-3.0) -- (0,3.0) node[left] {$\Im z$};
+			\node[title] at (0,3.3) {$C$:$\ |z|=1,\ \displaystyle \int_C \frac{e^{az}}{z}\,dz$};
+			
+			% unit circle with CCW orientation
+			\draw[circ] (0,0) circle (2.2);
+			\foreach \a in {0,60,120,180,240,300}{
+				\draw[orient] ({2.2*cos(\a)},{2.2*sin(\a)}) --
+				++({0.16*(-sin(\a))},{0.16*(cos(\a))});
+			}
+			\node[note] at (2.55,0.35) {$|z|=1$};
+			
+			% pole at z=0, residue 1
+			\fill[pole] (0,0) circle (2.6pt) node[below right] {$z=0$};
+%			\node[note,anchor=west] at (-3.1,-2.5)
+%			{Simple pole at $z=0$, $\Res_{z=0}\!\dfrac{e^{az}}{z}=1$\\[2pt]
+%				$\Rightarrow\ \displaystyle \int_C \frac{e^{az}}{z}\,dz=2\pi i$};
+			
+			% parametrization tag
+			\node[note] at (-2.6,2.4) {$z=e^{i\theta}$,\ $-\pi\le\theta\le\pi$};
+		\end{scope}
+		
+		% ============== Arrow between panels ==============
+		\draw[-{Latex}, thick] (3.6,1.2) -- (5.1,1.2)
+		node[midway,above] {parametrize $z=e^{i\theta}$};
+		
+		% ================= RIGHT: θ–integral & parity =================
+		\begin{scope}[xshift=9.6cm]
+			% axes for θ
+			\draw[axis] (-4.4,0) -- (4.4,0) node[below right] {$\theta$};
+			\node[title] at (0,3.3) {Rewrite via $z=e^{i\theta}$, $dz=i e^{i\theta} d\theta$};
+			
+			% formula box
+			\node[box,align=left] at (0,2.2)
+			{$\displaystyle \int_C \frac{e^{az}}{z}\,dz
+				= i\!\int_{-\pi}^{\pi} e^{a(\cos\theta+i\sin\theta)}\,d\theta$\\[3pt]
+				$= i\!\int_{-\pi}^{\pi} e^{a\cos\theta}\!
+				\big(\cos(a\sin\theta)+i\sin(a\sin\theta)\big)\,d\theta.$};
+			
+			% split into real/imag with parity
+			\node[note,anchor=west] at (-4.3,0.9)
+			{$\Re$:$\displaystyle\ i\!\int_{-\pi}^{\pi} \underbrace{e^{a\cos\theta}\cos(a\sin\theta)}_{\text{even}}\,d\theta$};
+			\node[note,anchor=west] at (-4.3,0.35)
+			{$\Im$:$\displaystyle\ i^2\!\int_{-\pi}^{\pi} \underbrace{e^{a\cos\theta}\sin(a\sin\theta)}_{\text{odd}}\,d\theta$};
+			
+			% even/odd schematic curves
+			\draw[blue!70,thick,domain=-3.1416:3.1416,samples=100,smooth]
+			plot(\x,{0.7*cos(deg(\x/2)) + 0.1}); % even schematic
+			\node[blue!70] at (3.2,0.95) {even};
+			\draw[red!70,thick,domain=-3.1416:3.1416,samples=100,smooth]
+			plot(\x,{0.6*sin(deg(\x/1.2))}); % odd schematic
+			\node[red!70] at (3.1,-0.35) {odd};
+			
+%			% conclusions
+%			\node[note,align=left] at (0,-1.1)
+%			{$\displaystyle \int_{-\pi}^{\pi} e^{a\cos\theta}\sin(a\sin\theta)\,d\theta=0$ (odd).\\[4pt]
+%				$\displaystyle i\!\int_{-\pi}^{\pi} e^{a\cos\theta}\cos(a\sin\theta)\,d\theta=2\pi i
+%				\ \Rightarrow\ 
+%				\int_{-\pi}^{\pi} e^{a\cos\theta}\cos(a\sin\theta)\,d\theta=2\pi.$};
+%			
+%			% final even reduction to [0,π]
+%			\node[box,align=left] at (0,-2.5)
+%			{$\text{Even integrand}\ \Rightarrow\
+%				\displaystyle \int_{0}^{\pi} e^{a\cos\theta}\cos(a\sin\theta)\,d\theta=\pi.$};
+		\end{scope}
+		
+	\end{tikzpicture}
+	\end{center}
+\end{proof}
+\end{enumerate}
+
+%\vspace{1em}
+%\noindent Source: lecture note \emph{Complex Variables and Applications, Chapter 4: Integrals (Part II)}. :contentReference[oaicite:0]{index=0}

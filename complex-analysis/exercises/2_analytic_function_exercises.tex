@@ -355,12 +355,220 @@ hold at the origin.
 	values along different approach directions).
 \end{remark}
 \end{proof}
-%	\item Prove $f(z)=\sin x\cosh y+i\cos x\sinh y$ and $f(z)=e^{-y}(\sin x-i\cos x)$ are entire.
-%	\item Locate the singular points and justify analyticity elsewhere for
-%	\[
-%	\frac{2z+1}{z(z^2+1)},\qquad \frac{z^3+i}{z^2-3z+2},\qquad \frac{z^2+1}{(z+2)(z^2+2z+2)}.
-%	\]
-%	\item Show $f(z)=\ln r+i\theta$ ($r>0$, $0<\theta<2\pi$) is analytic with $f'(z)=1/z$ on its domain; deduce $g(z)=f(z^2+1)$ is analytic for $x>0,y>0$ with $g'(z)=\dfrac{2z}{z^2+1}$.
+\item Let \[
+f(z)=\sin x\cosh y+i\cos x\sinh y\quad\text{and}\quad f(z)=e^{-y}(\sin x-i\cos x).
+\] Then show that all $f$ are entire.
+\begin{proof}[\sol]
+Let \begin{align*}
+f_1(z)&=\sin x\cosh y+i\cos x\sinh y\quad\text{and}\\
+f_2(z)&=e^{-y}(\sin x-i\cos x).
+\end{align*}
+\textbf{(a) } 
+Let $z = x + iy$ with $x,y \in \mathbb{R}$. Note that \[
+\begin{array}{lcr}
+	e^{iz}=\cos z+i\sin z && \displaystyle\cos z = \frac{e^{iz} + e^{-iz}}{2} \\
+	&\longleftrightarrow& \\
+	e^{-iz}=\cos z-i\sin z && \displaystyle\sin z = \frac{e^{iz} - e^{-iz}}{2i}
+\end{array}
+\]By definition,
+\[
+\sin z = \frac{e^{iz} - e^{-iz}}{2i}.
+\]
+Substitute $z = x + iy$:
+\[
+iz = i(x+iy) = ix - y, \qquad -iz = -ix + y,
+\]
+so
+\[
+e^{iz} = e^{ix-y} = e^{-y}e^{ix}, \qquad e^{-iz} = e^{-ix+y} = e^{y}e^{-ix}.
+\]
+Using Euler's formula $e^{ix} = \cos x + i\sin x$ and $e^{-ix} = \cos x - i\sin x$, we get
+\[
+e^{iz} = e^{-y}(\cos x + i\sin x), \qquad
+e^{-iz} = e^{y}(\cos x - i\sin x).
+\]
+Then
+\begin{align*}
+	e^{iz} - e^{-iz}
+	&= e^{-y}(\cos x + i\sin x) - e^{y}(\cos x - i\sin x) \\
+	&= \cos x(e^{-y} - e^{y}) + i\sin x(e^{-y} + e^{y}).
+\end{align*}
+Recall the hyperbolic functions
+\[
+\cosh y = \frac{e^{y} + e^{-y}}{2}, \qquad
+\sinh y = \frac{e^{y} - e^{-y}}{2},
+\]
+so that
+\[
+e^{-y} + e^{y} = 2\cosh y, \qquad
+e^{-y} - e^{y} = -2\sinh y.
+\]
+Hence
+\begin{align*}
+	e^{iz} - e^{-iz}
+	&= \cos x(-2\sinh y) + i\sin x(2\cosh y) \\
+	&= 2\bigl(i\sin x\cosh y - \cos x\sinh y\bigr).
+\end{align*}
+Therefore
+\begin{align*}
+	\sin z
+	&= \frac{e^{iz} - e^{-iz}}{2i}
+	= \frac{2\bigl(i\sin x\cosh y - \cos x\sinh y\bigr)}{2i} \\
+	&= \frac{i\sin x\cosh y}{i} - \frac{\cos x\sinh y}{i} \\
+	&= \sin x\cosh y + i\cos x\sinh y,
+\end{align*}
+since $\dfrac{1}{i} = -i$.
+
+Thus
+\[
+\boxed{\sin(x+iy) = \sin x \cosh y + i \cos x \sinh y.}
+\]
+
+
+Using the standard identity for the complex sine,
+\[
+\sin z=\sin(x+iy)=\sin x\cosh y + i\cos x\sinh y,
+\]
+we see immediately that $f_1(z)=\sin z$. Since $\sin z$ is an entire function (power series with infinite radius of convergence), $f_1$ is entire.
+
+\smallskip
+\textbf{(b) } Note that
+\[
+e^{iz}=e^{i(x+iy)}=e^{ix-y}=e^{-y}\bigl(\cos x + i\sin x\bigr).
+\]
+Multiplying by $-i$ gives
+\[
+-i\,e^{iz}=e^{-y}\bigl(\sin x - i\cos x\bigr)=f_2(z).
+\]
+Thus $f_2(z)=-i\,e^{iz}$. Since the exponential is entire and multiplication by a constant preserves holomorphy, $f_2$ is entire.
+
+\smallskip
+Therefore both functions are entire.
+\end{proof}
+	\newpage	
+	\item Show that the function \[
+	f(z)=\ln r+i\theta\quad (r>0,\; 0<\theta<2\pi)
+	\] is analytic in the indicated domain of definition, with derivative $f'(z)=1/z$. Then show that th e composite function $g(z)=f(z^2+1)$ is analytic in the quadratic $x>0,y>0$ with derivative \[
+	g'(z)=\frac{2z}{z^2+1}.
+	\] (Suggestion: Observe that $\Im(z^2+1)>0$ when $x>0, y>0$)
+\begin{proof}[\sol]
+	Let $z=x+iy=re^{i\theta}$ with $r=\sqrt{x^2+y^2}>0$ and $0<\theta<2\pi$. Define
+	\[
+	f(z)=\ln r+i\theta .
+	\]
+	Then $f$ is analytic on the slit plane
+	\begin{center}
+	\begin{minipage}{.475\textwidth} \[
+	\Omega:=\{\,z\in\mathbb{C}: r>0,\ 0<\theta<2\pi\,\}=\mathbb{C}\setminus[0,\infty),
+	\] and $f'(z)=\frac{1}{z}\; (z\in\Omega)$.
+	\end{minipage}\hfill
+	\begin{minipage}{.475\textwidth}\centering
+	\begin{tikzpicture}
+		% axes
+		\draw[->, thick] (-2.5,0) -- (2.5,0) node[right] {$\Re z$};
+		\draw[->, thick] (0,-1) -- (0,2.5) node[above] {$\Im z$};
+		% shade domain
+		\fill[blue!60, opacity=.25] (-2.5,-1) rectangle (2.5,2.5);
+		\node[blue!60] at (2.5,2.5) {$\Omega=\C\setminus\intco{0,\infty}$};
+		% slit: [0, +∞) on real axis
+		\filldraw[white] (0,0) circle (2pt);
+		\draw[white,ultra thick] (0,0) -- (2.5,0) node[midway, above] {$[0,\infty)$};
+	\end{tikzpicture}
+	\end{minipage}
+	\end{center}
+	Write $f=u+iv$ with \[
+	u(x,y)=\ln r=\frac12\ln(x^2+y^2),\qquad v(x,y)=\theta=\Arg(z)\in(0,2\pi).
+	\]
+	On $\Omega$ the functions $u,v$ are $C^1$ and their partials are:
+	\[
+	u_x=\frac{x}{x^2+y^2},\quad u_y=\frac{y}{x^2+y^2},\qquad
+	v_x=-\frac{y}{x^2+y^2},\quad v_y=\frac{x}{x^2+y^2}.
+	\]
+	Hence the Cauchy--Riemann equations hold on $\Omega$:
+	\[
+	u_x=v_y=\frac{x}{x^2+y^2},\qquad u_y=-v_x=\frac{y}{x^2+y^2}.
+	\]
+	Since these partials are continuous on $\Omega$, $f$ is analytic there. Its complex derivative is
+	\[
+	f'(z)=u_x+iv_x=\frac{x}{x^2+y^2}+i\!\left(-\frac{y}{x^2+y^2}\right)
+	=\frac{x-iy}{x^2+y^2}=\frac{1}{x+iy}=\frac{1}{z}.
+	\]
+	For $g(z)=f(z^2+1)$, compute
+	\begin{align*}
+	z^2+1&=(x+iy)^2+1\\
+	&=(x^2-y^2+2ixy) +1 \\
+	&=(x^2-y^2+1)+i(2xy).
+	\end{align*}
+	If $x>0$ and $y>0$, then $\Im(z^2+1)=2xy>0$, so $z^2+1$ lies in the open upper half-plane $\mathbb{H}$, in particular in $\Omega$ (its argument lies in $(0,\pi)\subset(0,2\pi)$). 
+	\begin{center}
+	\begin{tikzpicture}[>=Latex,scale=.75]
+		% ================= z-plane: domain Q =================
+		\begin{scope}
+			% axes
+			\draw[->] (-0.6,0) -- (3.2,0) node[right] {$\Re z=x$};
+			\draw[->] (0,-0.6) -- (0,3.0) node[above] {$\Im z=y$};
+			\node at (1.6,-1.25) {$z$-plane};
+			
+			% shade first quadrant Q: x>0, y>0
+			\fill[blue!12, opacity=.25] (0,0) rectangle (3.0,2.8);
+			\node[blue!70] at (2.6,2.5) {$Q_1$};
+			
+			% sample point z = 1 + 0.8 i
+			\fill[blue!80] (1.0,0.8) circle (2pt) node[above right] {$z$};
+		\end{scope}
+		% arrow z -> w
+		\draw[->,thick] (5.6,1.4) -- (9.2,1.4) node[midway,above] {$w=z^2+1$};
+		% ================= w-plane: image in upper half-plane, slit shown =================
+		\begin{scope}[xshift=12.6cm]
+			% axes
+			\draw[->] (-2.6,0) -- (3.4,0) node[right] {$\Re w$};
+			\draw[->] (0,-0.6) -- (0,3.0) node[above] {$\Im w$};
+			\node at (0,-1.25) {$w$-plane};
+			
+			% shade upper half-plane Im w>0
+			\fill[green!12, opacity=.25] (-2.5,0) rectangle (3.2,2.8);
+			\node[green!60] at (2.5,2.5) {$\Im w>0$};
+			
+			% slit: [0, +∞) on real axis
+			\draw[red!70,very thick] (0,0) -- (3.2,0) node[midway, below] {$[0,\infty)$};
+%			\node[gray!70,anchor=west] at (-2.5,-0.35) {$\Omega=\C\setminus[0,\infty)$};
+			% image of the sample point: z=1+0.8i -> w=(1-0.64+1)+i(2*1*0.8) = 1.36 + 1.6 i
+			\fill[green!80!black] (1.36,1.60) circle (2.2pt) node[above right] {$w=z^2+1$};
+			% guide from origin showing |w| and Arg(w)
+			\draw[gray!60,dashed] (0,0) -- (1.36,1.60);
+%			\node[gray!70] at (0.75,0.18) {$\Arg w\in(0,\pi)$};
+		\end{scope}
+		% arrow w -> s
+		\draw[->,thick] (5.6,1.4-7) -- (9.2,1.4-7) node[midway,above] {$s=f(w)=\Log w$};
+		% ================= s-plane: image strip 0<Im s<pi =================
+		\begin{scope}[xshift=12.6cm, yshift=-7cm]
+			% axes
+			\draw[->] (-2.4,0) -- (3.2,0) node[right] {$\Re s=u$};
+			\draw[->] (0,-0.6) -- (0,3.6) node[above] {$\Im s=v$};
+			\node at (0,-1.25) {$s$-plane};
+			% horizontal strip 0 < v < pi
+			\fill[yellow!18, opacity=.25] (-2.3,0.00) rectangle (3.0,3.1416);
+			\draw[gray!70] (-2.3,0.00) -- (3.0,0.00) node[right] {$v=0$};
+			\draw[gray!70] (-2.3,3.1416) -- (3.0,3.1416) node[right] {$v=\pi$};
+			\node[brown!70] at (2.4,2.8) {$0<\Im s<\pi$};
+			% image of the sample w under Log: s = ln|w| + i Arg(w)
+			% |w| ≈ sqrt(1.36^2+1.6^2) ≈ 2.100 -> ln|w| ≈ 0.741, Arg ≈ atan(1.6/1.36) ≈ 0.864
+			\fill[brown!80!black] (0.741,0.864) circle (2.2pt)
+			node[above right] {$s=\Log w$};
+		\end{scope}
+%		
+%		% ================= footer: analyticity & derivative =================
+%		\node[align=left] at (8.6,-0.9)
+%		{\small In $Q$: $w=z^2+1$ has $\Im w=2xy>0\Rightarrow w\in\Omega$;\ \ $f=\Log$ is analytic on $\Omega$.\\
+%			\small Hence $g(z)=f(z^2+1)$ is analytic on $Q$, and by chain rule
+%			$\displaystyle\ g'(z)=f'(z^2+1)\cdot(2z)=\frac{2z}{z^2+1}\,.$};
+%		
+	\end{tikzpicture}
+	\end{center}
+	Thus $g$ is the composition of analytic functions on the first quadrant $Q_1$, hence analytic on $Q_1$. By the chain rule, \[
+	g'(z)=f'(z^2+1)\cdot(2z)=\frac{2z}{z^2+1}\qquad (z\in Q_1).
+	\]
+\end{proof}
 %	\item Find harmonic conjugates for $u(x,y)=2x-x^3+3xy^2$ and for $u(x,y)=\sinh x\sin y$.
 %	\item If $v$ is a harmonic conjugate of $u$ and $u$ a harmonic conjugate of $v$ in $D$, show $u,v$ are constant in $D$.
 %	\item Using polar CR, prove that for analytic $f=u+iv$ on $D\subset\C\setminus\{0\}$, $u$ satisfies $r^2u_{rr}+ru_r+u_{\theta\theta}=0$ (polar Laplace equation). Same for $v$.

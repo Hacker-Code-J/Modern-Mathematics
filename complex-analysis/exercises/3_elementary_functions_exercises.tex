@@ -1,0 +1,414 @@
+\subsection{Exercises}
+\begin{enumerate}[\bfseries 1.]
+	\item Show that $f(z)=\exp(\overline{z})$ is not analytic anywhere.
+	
+	\noindent 
+	\textit{(Hint: use the Cauchy--Riemann equations.)}
+	\begin{proof}[\sol]
+		(\textbf{Proof via Cauchy--Riemann equations}) Write \(z=x+iy\). Then \[
+		f(z)=e^{\overline z}=e^{x-iy}=e^{x}\bigl(\cos y-i\sin y\bigr),
+		\] so \[
+		u(x,y)=e^{x}\cos y,\qquad v(x,y)=-e^{x}\sin y.
+		\] Then \[
+		u_x=e^{x}\cos y,\quad u_y=-e^{x}\sin y,\qquad
+		v_x=-e^{x}\sin y,\quad v_y=-e^{x}\cos y.
+		\] If \(f\) is complex differentiable at \((x,y)\), the Cauchy--Riemann equations would hold: \[
+		u_x=v_y \quad\text{and}\quad u_y=-\,v_x.
+		\] That is, \begin{align*}
+			u_x=v_y&\implies e^x\cos y=-e^x\cos y&\implies \cos y=0, \\
+			u_y=-v_x&\implies -e^x\sin y=e^x\sin y&\implies \sin y=0.
+		\end{align*}
+		There is no \(y\in\mathbb{R}\) with \(\cos y=0\) and \(\sin y=0\) simultaneously. Hence the Cauchy--Riemann equations fail at every point, so \(f\) is nowhere analytic.
+		
+	\medskip\noindent
+	(\textbf{Proof via Wirtinger derivatives})
+		Using \(\partial/\partial z=\tfrac12(\partial_x- i\,\partial_y)\) and
+		\(\partial/\partial\overline z=\tfrac12(\partial_x+ i\,\partial_y)\),
+		one checks directly that \[
+		\frac{\partial f}{\partial z}=0,
+		\qquad
+		\frac{\partial f}{\partial \overline z}=e^{\overline z}\neq 0\ \text{ for all } z.
+		\]
+		A function is holomorphic iff \(\partial f/\partial \overline z\equiv 0\) on its domain. Since this is not the case, \(f\) is nowhere holomorphic.
+	\end{proof}
+	%\begin{remark}
+	%		The map \(z\mapsto e^{\overline z}\) is \emph{anti-holomorphic}: the composition \(z\mapsto \overline z\) (conjugation) with the holomorphic \(w\mapsto e^{w}\). It is holomorphic only on the empty set.
+	%	\end{remark}
+	\newpage
+	\item Let $f(z)=u(x,y)+iv(x,y)$ be analytic in a domain $D$. Show that \[
+		U(x,y)=e^{u(x,y)}\cos v(x,y),\qquad V(x,y)=e^{u(x,y)}\sin v(x,y)
+		\] are harmonic in $D$, and that $V$ is a harmonic conjugate of $U$.
+	\begin{proof}[\sol]
+		Since $f$ is analytic on $D$, the composition
+		\[
+		F(z):=e^{f(z)}=e^{u(x,y)}\big(\cos v(x,y)+i\sin v(x,y)\big)=U(x,y)+iV(x,y)
+		\]
+		is analytic on $D$ (composition of analytic maps). It follows that
+		$U=\Re F$ and $V=\Im F$ are harmonic and satisfy the Cauchy--Riemann equations.
+%		For completeness, we verify the CR equations directly and then deduce harmonicity.
+		\begin{center}
+		\begin{tikzpicture}[>=Latex,scale=1]
+			% ================= z-plane =================
+			\begin{scope}
+				% axes
+				\draw[->] (-2.6,0) -- (2.6,0) node[right] {$\Re z=x$};
+				\draw[->] (0,-2.3) -- (0,2.6) node[above] {$\Im z=y$};
+				\node at (0,-2.9) {$z$-plane (domain $D$)};
+				
+				% suggestive orthogonal families u=const (blue) and v=const (green) pulled back by f
+				% (schematic curves—just to show orthogonality/conformality)
+				\draw[blue!60,thick,domain=-2.3:2.3,samples=100,smooth] plot(\x,{0.5*sin(1.2*\x r)+0.4});
+				\draw[blue!60,thick,domain=-2.3:2.3,samples=100,smooth] plot(\x,{-0.5*sin(1.2*\x r)-0.2});
+				\draw[green!60,thick,domain=-2.3:2.3,samples=100,smooth] plot(\x,{0.6*cos(1.1*\x r)});
+				\draw[green!60,thick,domain=-2.3:2.3,samples=100,smooth] plot(\x,{0.6*cos(1.1*\x r)+0.9});
+				
+				% sample point z0
+				\fill[black] (0.8,0.7) circle (2pt) node[above right] {$z$};
+			\end{scope}
+			
+			% arrow to (u,v)-plane
+			\draw[->,thick] (5.0,1.2) -- (6.5,1.2) node[midway,above] {$f(z)=u+iv$};
+			
+			% ================= (u,v)-plane =================
+			\begin{scope}[xshift=10cm]
+				% axes
+				\draw[->] (-2.6,0) -- (2.8,0) node[below right] {$u$};
+				\draw[->] (0,-2.3) -- (0,2.6) node[left] {$v$};
+				\node at (0,2.9) {$f$-plane};
+				
+				% horizontals u=const
+				\foreach \uu/\lab in {-1.3/{$u=u_1$},0/{$u=0$},1.1/{$u=u_2$}}{
+					\draw[blue!60,thick] (\uu,-2.2) -- (\uu,2.2);
+					\node[blue!60,anchor=west] at (\uu+0.05,2.2) {\lab};
+				}
+				% verticals v=const
+				\foreach \vv/\lab in {-1.2/{$v=v_1$},0/{$v=0$},1.0/{$v=v_2$}}{
+					\draw[green!60,thick] (-2.4,\vv) -- (2.4,\vv);
+					\node[green!60,anchor=west] at (2.45,\vv) {\lab};
+				}
+				
+				% sample point (u0,v0) and its small orthonormal frame
+				\fill (0.6,0.8) circle (2pt) node[above right] {$(u,v)$};
+				% Jacobian of exp at (u,v) is E*[ [cos v, -sin v],[sin v, cos v] ]
+				\node[gray!70,align=left,anchor=north west] at (-2.5,-2.1)
+				{\small CR in $z\!\mapsto\!(u,v)$:\\[-1pt]
+					\small $u_x=v_y,\ \ u_y=-\,v_x$ (conformal)};
+			\end{scope}
+			% arrow to w-plane
+			\draw[->,thick] (5,1.2-7) -- (6.5,1.2-7) node[midway,above] {$F(z)=e^{f(z)}$};
+			% ================= w-plane =================
+			\begin{scope}[xshift=10cm, yshift=-7cm]
+				% axes
+				\draw[->] (-2.6,0) -- (2.8,0) node[below right] {$\Re w=U$};
+				\draw[->] (0,-2.6) -- (0,2.8) node[left] {$\Im w=V$};
+				\node at (0,3.1) {$w$-plane};
+				
+				% image of u-const: circles of radius e^u
+				\draw[blue!60] (0,0) circle (0.27); % e^{-1.3} ~ 0.27
+				\draw[blue!60] (0,0) circle (1.00); % e^{0}   = 1
+				\draw[blue!60] (0,0) circle (3.00); % e^{~1.1}\approx 3.0 (schematic)
+				\node[blue!60] at (2.4,0.25) {$|w|=e^{u}$};
+				
+				% image of v-const: rays with angle v
+				\foreach \ang/\txt in {-1.2/{$v_1$},0/{$0$},1.0/{$v_2$}}{
+					\draw[green!60,thick] (0,0) -- ({2.6*cos(\ang r)},{2.6*sin(\ang r)});
+				}
+				\node[green!60,anchor=west] at (1.9,1.5) {$\arg w=v$};
+				
+				% image point
+				% choose u0=0.6, v0=0.8 -> radius e^{0.6}\approx 1.82, angle 0.8
+				\fill[brown!80!black] ({1.82*cos(0.8 r)},{1.82*sin(0.8 r)}) circle (2.2pt)
+				node[above right] {$w=U+iV=e^{u}(\cos v+i\sin v)$};
+				
+				% CR & harmonic box
+				\node[draw,rounded corners=2pt,align=left,anchor=north west] at (-2.5,-2.2)
+				{\small Since $F$ is analytic:\ $U=\Re F,\ V=\Im F$ satisfy CR\\[-2pt]
+					\small $U_x=V_y,\ \ U_y=-V_x$ and are harmonic:\ $\Delta U=\Delta V=0$.};
+			\end{scope}
+		\end{tikzpicture}
+		\end{center}
+		Note that
+		\begin{align*}
+			U_x &= e^{u(x,y)}\,(u_x\cos v - v_x\sin v), &\qquad
+			U_y &= e^{u(x,y)}\,(u_y\cos v - v_y\sin v),\\
+			V_x &= e^{u(x,y)}\,(u_x\sin v + v_x\cos v), &\qquad
+			V_y &= e^{u(x,y)}\,(u_y\sin v + v_y\cos v).
+		\end{align*}
+		Because $f$ is analytic, $u,v$ satisfy the CR equations $u_x=v_y$ and $u_y=-\,v_x$. Substituting,
+		\begin{align*}
+			U_x &= e^{u(x,y)}\,(v_y\cos v - v_x\sin v)=V_y,\\
+			U_y &= e^{u(x,y)}\,(-v_x\cos v - v_y\sin v)= -\,V_x.
+		\end{align*}
+		Thus $U_x=V_y$ and $U_y=-V_x$, i.e.\ $V$ is a harmonic conjugate of $U$.
+		
+		To show harmonicity, differentiate the CR relations and use equality of mixed partials:
+		\[
+		U_{xx} = (V_y)_x = V_{yx},\qquad
+		U_{yy} = (-V_x)_y = -V_{xy}.
+		\]
+		Hence $\Delta U:=U_{xx}+U_{yy}=V_{yx}-V_{xy}=0$. Similarly,
+		\[
+		V_{xx} = (-U_y)_x = -U_{yx},\qquad
+		V_{yy} = (U_x)_y = U_{xy},
+		\]
+		so $\Delta V:=V_{xx}+V_{yy}=-U_{yx}+U_{xy}=0$. Therefore $U$ and $V$ are harmonic on $D$, and $V$ is a harmonic conjugate of $U$.
+	\end{proof}
+	\newpage
+	\item Show that $f(z)=\Log(z-i)$ is analytic except on portion $x\leq 0$ of the line $y=1$ and that the function
+		\[
+		f(z)=\frac{\Log(z+4)}{z^2+i}
+		\] is analytic everywhere except at the points $\pm{(1-i)}/{\sqrt2}$ and on the portion $x\leq -4$ of the real axis.
+	\begin{proof}[\sol]
+		Consider $\Log\; z=\ln|z|+i\Arg\; z$, the principal branch of the complex logarithm,
+		with $\Arg\; z\in(-\pi,\pi)$, so that $\Log$ is analytic on \begin{align*}
+			\mathbb{C}\setminus(-\infty,0] &= \C\setminus\set{z\in\C:\Re z\leq 0\land\Im z=0}\\
+			&=\{\, z\in\mathbb{C} : \Re z>0\lor \Im z\neq 0\,\}.
+		\end{align*} Then
+		\begin{enumerate}[(1)]
+			\item Since $\Log$ is analytic on $\mathbb{C}\setminus(-\infty,0]$ and the map $z\mapsto z-i$ is entire,
+			the composition $z\mapsto \Log(z-i)$ is analytic precisely where $z-i\notin(-\infty,0]$.
+			Equivalently, \begin{align*}
+				z-i\in(-\infty,0] &\iff \Re(z-i)\le 0 \text{ and } \Im(z-i)=0 \\
+				&\iff \Re(x+i(y-1))=x\le 0 \text{ and } \Im(x+i(y-1))=y-1=0.
+			\end{align*}
+			That is, $f(z):=\Log(z-i)$ is analytic on $\mathbb{C}\setminus\{\,x+iy:\; x\le 0,\ y=1\}$. 
+	%i.e. it is analytic except on the portion $x\le0$ of the line $y=1$.
+			\begin{center}
+				\begin{tikzpicture}[>=Latex,scale=1.05]
+					\draw[gray!20, dashed] (-4,-1) grid (4,3);
+					% axes
+					\draw[->] (-4.2,0) -- (4.2,0) node[right] {$\Re z=x$};
+					\draw[->] (0,-1) -- (0,2.6) node[above] {$\Im z=y$};
+					\node at (0,-2.2) {$f(z)=\Log(z-i)$};
+					% a few reference gridlines for context
+					\draw[gray!40] (-4.0, 1.0) -- (4.0, 1.0) node[right] {$y=1$};
+					\draw[gray!40] ( 1.0,2.4) -- ( 1.0, -1) node[below] {$x=1$};
+					% branch cut in z-plane: y = 1, x <= 0  (comes from w=z-i \in (-\infty,0])
+					\draw[ultra thick,red!70] (-4.0,1.0) -- (0.0,1.0) node[midway,above] {$\;x\le 0,\ y=1$ (excluded)};
+					\fill[red!70] (0.0,1.0) circle (2pt); % includes endpoint x=0
+					% legend
+					\node[align=left,anchor=west] at (-4.0,-2.9)
+					{Analytic domain: $\ \C \setminus \{(x,y)\mid y=1,\ x\le 0\}$.};
+				\end{tikzpicture}
+			\end{center}
+			\item The numerator $z\mapsto \Log(z+4)$ is analytic wherever $z+4\notin(-\infty,0]$, i.e., $z\notin\intoc{-\infty,-4}$. In other words, $\Log(z+4)$ is analytic on \[
+			\C\setminus\intoc{-\infty,-4}=\C\setminus\set{z\in\C:\Re z\leq -4\land \Im z = 0}=\set{z\in\C:\Re z>-4\lor \Im z\neq 0 }
+			\] $\C\setminus\intoc{-\infty}$ for
+			$z\notin(-\infty,-4]$, which is the portion $x\le -4$ of the real axis.
+			The denominator $z^2+i$ vanishes exactly at the zeros of $z^2=-i$, namely
+			\[
+			z=\pm(-i)^{1/2}=\pm e^{-i\pi/4}=\pm\frac{1-i}{\sqrt2}.
+			\]
+			Therefore $g$ is analytic on the domain where the numerator is analytic and the denominator is nonzero, i.e.
+			\[
+			\mathbb{C}\setminus\Big( (-\infty,-4]\ \cup\ \{\pm\tfrac{1-i}{\sqrt2}\}\Big),
+			\]
+			which is exactly the stated set.
+			
+			$g(z):=\dfrac{\Log(z+4)}{z^2+i}$ is analytic on
+			\[
+			\mathbb{C}\setminus\Big(\{\,x+iy:\; y=0,\ x\le -4\,\}\ \cup\ \{\pm\tfrac{1-i}{\sqrt2}\}\Big),
+			\]
+			i.e. everywhere except at the branch cut $x\le -4$ on the real axis and at the two points $\pm{(1-i)}/{\sqrt2}$.
+			
+			\begin{center}
+				\begin{tikzpicture}[>=Latex,scale=1.05]
+					\draw[gray!20, dashed] (-4,-4) grid (4,4);
+					% axes
+					\draw[->] (-6.2,0) -- (4.2,0) node[right] {$\Re z=x$};
+					\draw[->] (0,-3.2) -- (0,3.2) node[above] {$\Im z=y$};
+					\node at (0,-3.5) {$g(z)=\dfrac{\Log(z+4)}{z^2+i}$};
+					% branch cut from Log(z+4): real axis x <= -4
+					\draw[very thick,red!70] (-6.0,0.0) -- (-4.0,0.0) node[midway,above] {$\ (-\infty,-4]$ (excluded)};
+					\fill[red!70] (-4.0,0.0) circle (2pt); % includes endpoint x=-4
+					% poles from z^2+i=0: z = ±(1 - i)/√2  ≈ (±0.7071, ∓0.7071)
+					\draw[red!80,very thick] ( 0.7071,-0.7071) +(0.12,0.12) -- +(-0.12,-0.12);
+					\draw[red!80,very thick] ( 0.7071,-0.7071) +(-0.12,0.12) -- +(0.12,-0.12);
+					\node[red!80,anchor=west] at (0.78,-0.70) {$\ \ \tfrac{1-i}{\sqrt2}$};
+					\draw[red!80,very thick] (-0.7071, 0.7071) +(0.12,0.12) -- +(-0.12,-0.12);
+					\draw[red!80,very thick] (-0.7071, 0.7071) +(-0.12,0.12) -- +(0.12,-0.12);
+					\node[red!80,anchor=east] at (-0.78,0.70) {$\tfrac{-1+i}{\sqrt2}\ $};
+					\draw[red!80,very thick, dotted] ( 0.7071,0) -- ( 0.7071,-0.7071);
+					\draw[red!80,very thick, dotted] ( 0,-0.7071) -- ( 0.7071,-0.7071);
+					\draw[red!80,very thick, dotted] ( -0.7071,0.7071) -- ( -0.7071,0);
+					\draw[red!80,very thick, dotted] ( 0,0.7071) -- ( -0.7071,0.7071);
+%					% legend
+%					\node[align=left,anchor=west] at (-6.0,-2.7)
+%					{Analytic domain: $\ \C\setminus\big((-\infty,-4]\cup\{\pm\tfrac{1-i}{\sqrt2}\}\big)$.};
+				\end{tikzpicture}
+			\end{center}
+		\end{enumerate}
+	\end{proof}
+	\newpage
+	\item Show that the function $\ln(x^2+y^2)$ is harmonic in every domain that does not contain the origin.
+	\begin{proof}[\sol]
+%		We need to show that $u(x,y) = \ln(x^2 + y^2)$
+%		satisfies Laplace’s equation \[
+%		u_{xx} + u_{yy} = 0
+%		\] at every point $(x,y)\neq(0,0)$. 
+		For $(x,y)\neq(0,0)$, we can differentiate: \begin{align*}
+		u_x &= \frac{\partial}{\partial x}\ln(x^2 + y^2) = \frac{2x}{x^2 + y^2},\\
+		u_y &= \frac{\partial}{\partial y}\ln(x^2 + y^2) = \frac{2y}{x^2 + y^2}.
+		\end{align*} And then \begin{align*}
+		u_{xx}
+		&= \frac{2(x^2 + y^2) - 2x\cdot 2x}{(x^2 + y^2)^2}
+		= \frac{2(x^2 + y^2) - 4x^2}{(x^2 + y^2)^2}
+		= \frac{-2x^2 + 2y^2}{(x^2 + y^2)^2} \\
+		u_{yy}
+		&= \frac{2(x^2 + y^2) - 2y\cdot 2y}{(x^2 + y^2)^2}
+		= \frac{2(x^2 + y^2) - 4y^2}{(x^2 + y^2)^2}
+		= \frac{2x^2 - 2y^2}{(x^2 + y^2)^2}.
+		\end{align*}	
+		Now compute the Laplacian: \[
+		u_{xx} + u_{yy}
+		= \frac{-2x^2 + 2y^2}{(x^2 + y^2)^2}+
+		\frac{2x^2 - 2y^2}{(x^2 + y^2)^2}
+		= \frac{(-2x^2 + 2y^2) + (2x^2 - 2y^2)}{(x^2 + y^2)^2}
+		= \frac{0}{(x^2 + y^2)^2}
+		= 0
+		\] for all $(x,y)\neq(0,0)$.
+%		So $\ln(x^2 + y^2)$ is harmonic at every point where it is twice continuously differentiable --- that is, on any domain that does not contain the origin (since at ((0,0)) the function is not even defined, and our derivatives blow up).	
+%		Therefore, **(\ln(x^2 + y^2)) is harmonic in every domain that does not contain the origin.**
+		
+		\medskip\noindent
+		(\textbf{Proof via Wirtinger-operator})
+		Let $z=x+iy$ and
+		\[
+		u(x,y)=\ln(x^2+y^2)=\ln(\abs{z}^2)=\ln(z\bar z).
+		\]
+		Recall the Wirtinger operators $
+		\partial:=\tfrac12(\partial_x-i\,\partial_y)$ and
+		$\bar\partial:=\tfrac12(\partial_x+i\,\partial_y),$
+		so that the Laplacian satisfies
+		\[
+		\Delta=\partial_{xx}+\partial_{yy}=4\,\partial\bar\partial=4\,\bar\partial\partial.
+		\]
+		On $\mathbb{C}\setminus\{0\}$ the chain rule gives \begin{align*}
+		\partial u
+		&=\partial\big(\ln(z\bar z)\big)
+		=\frac{1}{z\bar z}\,\partial(z\bar z)
+		=\frac{1}{z\bar z}\,\bar z
+		=\frac{1}{z},\\
+		\bar\partial u
+		&=\bar\partial\big(\ln(z\bar z)\big)
+		=\frac{1}{z\bar z}\,\bar\partial(z\bar z)
+		=\frac{1}{z\bar z}\,z
+		=\frac{1}{\bar z}.
+		\end{align*}
+		Therefore,
+		\[
+		\Delta u
+		=4\,\partial\bar\partial u
+		=4\,\partial\!\left(\frac{1}{\bar z}\right)
+		=0\qquad\text{on }\mathbb{C}\setminus\{0\}.
+		\]
+%		since $\partial(1/\bar z)=0$ away from the origin (equivalently, $\bar\partial(1/z)=0$).
+%		Hence $u(x,y)=\ln(x^2+y^2)$ is harmonic on any domain not containing $0$.
+%		\emph{Remark (distributional):} Globally, $\Delta\ln|z|^2=4\pi\,\delta_0$; the failure of harmonicity is a point mass at the origin.
+	\end{proof}
+	\newpage
+	\item Show that neither $\sin\bar z$ nor $\cos\bar z$ is an analytic function of $z$ anywhere.
+	
+	\textit{(Hint: use the Cauchy--Riemann equation.)}
+	\begin{proof}[\sol]
+		(\textbf{Proof via CR-equations})
+		Write \(z=x+iy\).
+		\begin{enumerate}[(1)]
+			\item Let \[
+			f(z)=\sin(\overline z)=\sin(x-iy)=\sin(x)\cos(iy)-\cos x\sin(iy)=\sin x\cosh y - i\,\cos x\sinh y
+			\] then \[
+			u(x,y)=\sin x\cosh y,\qquad v(x,y)=-\cos x\sinh y.
+			\]
+			Compute the partials:
+			\[
+			u_x=\cos x\cosh y,\quad u_y=\sin x\sinh y,\qquad
+			v_x=\sin x\sinh y,\quad v_y=-\cos x\cosh y.
+			\]
+			The Cauchy--Riemann (CR) equations \(u_x=v_y\) and \(u_y=-v_x\) become
+			\[
+			\cos x\cosh y=-\cos x\cosh y \quad\Longrightarrow\quad \cos x\cosh y=0,
+			\]
+			\[
+			\sin x\sinh y=-\sin x\sinh y \quad\Longrightarrow\quad \sin x\sinh y=0.
+			\]
+			Since \(\cosh y\neq 0\) for all \(y\), the first forces \(\cos x=0\). Then the second gives either
+			\(\sin x=0\) (impossible simultaneously with \(\cos x=0\)) or \(\sinh y=0\), i.e.\ \(y=0\).
+			Hence the CR equations can hold only at isolated points with \(y=0\) and \(\cos x=0\) (i.e.\ \(x=\tfrac{\pi}{2}+k\pi\)).
+			They \emph{cannot} hold on any open set. Therefore \(f\) is not analytic anywhere.
+			\item \(g(z)=\cos(\overline z)=\cos(x-iy)=\cos x\cosh y + i\,\sin x\sinh y\).
+			Thus
+			\[
+			u(x,y)=\cos x\cosh y,\qquad v(x,y)=\sin x\sinh y.
+			\]
+			Compute the partials:
+			\[
+			u_x=-\sin x\cosh y,\quad u_y=\cos x\sinh y,\qquad
+			v_x=\cos x\sinh y,\quad v_y=\sin x\cosh y.
+			\]
+			The CR equations give
+			\[
+			u_x=v_y \ \Longrightarrow\ -\sin x\cosh y=\sin x\cosh y \ \Longrightarrow\ \sin x\cosh y=0,
+			\]
+			\[
+			u_y=-v_x \ \Longrightarrow\ \cos x\sinh y=-\cos x\sinh y \ \Longrightarrow\ \cos x\sinh y=0.
+			\]
+			Again, since \(\cosh y\neq 0\), the first forces \(\sin x=0\); then the second forces either \(\cos x=0\) (incompatible)
+			or \(\sinh y=0\), i.e.\ \(y=0\). Thus CR can hold only at isolated points with \(y=0\) and \(\sin x=0\) (i.e.\ \(x=k\pi\)),
+			and not on any open set. Therefore \(g\) is not analytic anywhere.
+		\end{enumerate}
+
+		\medskip\noindent
+		(\textbf{Proof via Wirtinger-operators})
+		Recall the Wirtinger operators
+		\[
+		\partial=\tfrac12(\partial_x-i\,\partial_y),\qquad
+		\bar\partial=\tfrac12(\partial_x+i\,\partial_y),
+		\]
+		and the criterion: a \(C^1\) function \(F\) is holomorphic on an open set iff \(\bar\partial F\equiv 0\) there.
+		
+		Let \(h(w)=\sin w\). Then \(f_1(z):=\sin(\overline z)=h(\overline z)\) satisfies
+		\[
+		\partial f_1(z)=0,\qquad \bar\partial f_1(z)=h'(\overline z)=\cos(\overline z).
+		\]
+		Similarly, with \(h(w)=\cos w\), \(f_2(z):=\cos(\overline z)\) satisfies
+		\[
+		\partial f_2(z)=0,\qquad \bar\partial f_2(z)=h'(\overline z)=-\sin(\overline z).
+		\]
+		In each case, \(\bar\partial f_j\) is \emph{not} identically zero on any open set (its zero set is discrete). Hence neither
+		\(f_1\) nor \(f_2\) is holomorphic on any nonempty open set; i.e. they are nowhere analytic.
+		
+		\emph{Remark.} At isolated points where \(\cos(\overline z)=0\) (respectively \(\sin(\overline z)=0\)), the complex
+		difference quotient may happen to have limit \(0\); however, analyticity requires \(\bar\partial f\equiv 0\) on a neighborhood, which fails here.
+	\end{proof}
+	\item Show that $\cosh^2 z-\sinh^2 z=1$ and $\sinh z+\cosh z=e^z$.
+	\begin{proof}[\sol]
+	Recall the exponential definitions (valid for all $z\in\mathbb{C}$):
+	\[
+	\cosh z=\frac{e^{z}+e^{-z}}{2},\qquad
+	\sinh z=\frac{e^{z}-e^{-z}}{2}.
+	\]
+	
+	\medskip
+	\noindent\textbf{(1) $\cosh^2 z-\sinh^2 z=1$.}
+	\[
+	\cosh^2 z-\sinh^2 z
+	=\left(\frac{e^{z}+e^{-z}}{2}\right)^{\!2}
+	-\left(\frac{e^{z}-e^{-z}}{2}\right)^{\!2}
+	=\frac{(e^{z}+e^{-z})^2-(e^{z}-e^{-z})^2}{4}.
+	\]
+	Expanding,
+	\[
+	(e^{z}+e^{-z})^2-(e^{z}-e^{-z})^2
+	=e^{2z}+2+e^{-2z}-(e^{2z}-2+e^{-2z})=4,
+	\]
+	so $\cosh^2 z-\sinh^2 z=\frac{4}{4}=1$.
+	
+	\medskip
+	\noindent\textbf{(2) $\sinh z+\cosh z=e^{z}$.}
+	\[
+	\sinh z+\cosh z
+	=\frac{e^{z}-e^{-z}}{2}+\frac{e^{z}+e^{-z}}{2}
+	=e^{z}.
+	\]
+	\end{proof}
+\end{enumerate}

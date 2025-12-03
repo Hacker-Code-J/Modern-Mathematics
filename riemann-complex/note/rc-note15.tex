@@ -1,0 +1,452 @@
+\documentclass[11pt]{article}
+
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{geometry}
+\usepackage{hyperref}
+\usepackage{mathrsfs}
+
+\geometry{a4paper, margin=1in}
+
+\title{Classifying Complex Elliptic Curves via the Period Map}
+\author{Joy of Mathematics}
+\date{}
+
+\newtheorem{definition}{Definition}[section]
+\newtheorem{theorem}[definition]{Theorem}
+\newtheorem{proposition}[definition]{Proposition}
+\newtheorem{remark}[definition]{Remark}
+
+\begin{document}
+	
+	\maketitle
+	
+	\tableofcontents
+	
+	\section{Complex Elliptic Curves and Complex Tori}
+	
+	The goal of this note is to define the periods of a complex elliptic curve as explicit integrals and, using these, to describe the period map into the upper half-plane $\mathbb{H}$ with concrete computations.
+	
+	\begin{definition}[Complex Elliptic Curve]\label{def:elliptic-curve}
+		A \emph{complex elliptic curve} (or elliptic curve over $\mathbb{C}$) is a pair $(E, 0)$ satisfying:
+		\begin{enumerate}
+			\item $E$ is a one-dimensional complex analytic manifold (that is, a compact Riemann surface), and
+			\item $E$ is equipped with the structure of a complex Lie group, with distinguished identity element $0 \in E$.
+		\end{enumerate}
+		Usually one also regards $E$ as a smooth projective algebraic curve over $\mathbb{C}$.
+	\end{definition}
+	
+	A classical fact in the theory of elliptic curves is that every complex elliptic curve is (analytically) isomorphic to a complex torus $\mathbb{C}/\Lambda$ for a suitable lattice $\Lambda \subset \mathbb{C}$.
+	
+	\begin{theorem}[Classification of Complex Elliptic Curves]\label{thm:classification}
+		For any complex elliptic curve $E$ there exists a lattice
+		\[
+		\Lambda = \mathbb{Z}\omega_1 \oplus \mathbb{Z}\omega_2 \subset \mathbb{C}
+		\]
+		such that $E$ is analytically isomorphic to the complex torus
+		\[
+		E \cong \mathbb{C}/\Lambda.
+		\]
+		Conversely, for any lattice $\Lambda \subset \mathbb{C}$ of rank $2$ (i.e.\ $\omega_1, \omega_2 \in \mathbb{C}$ are $\mathbb{R}$-linearly independent), the complex torus $\mathbb{C}/\Lambda$ carries a natural structure of an elliptic curve.
+	\end{theorem}
+	
+	Here $\omega_1, \omega_2 \in \mathbb{C}$ are $\mathbb{R}$-linearly independent so that $\Lambda$ is a discrete subgroup of rank $2$ in $\mathbb{C}$.
+	
+	
+	\section{Holomorphic 1-Forms and the Definition of Periods}
+	
+	To define periods, we use holomorphic $1$-forms on an elliptic curve.
+	
+	\begin{proposition}
+		Let $E$ be a complex elliptic curve. Then there exists a nonzero holomorphic $1$-form $\omega$ on $E$. Moreover, the space
+		\[
+		H^0(E, \Omega_E^1)
+		\]
+		of holomorphic $1$-forms on $E$ is a one-dimensional complex vector space.
+	\end{proposition}
+	
+	In particular, any nonzero holomorphic $1$-form $\omega$ spans this space, and every other holomorphic $1$-form is a complex scalar multiple of $\omega$.
+	
+	Next we recall that, topologically, a complex elliptic curve is a real two-dimensional torus $T^2$. Thus its first (singular) homology group with integer coefficients is
+	\[
+	H_1(E, \mathbb{Z}) \cong \mathbb{Z}^2.
+	\]
+	
+	\begin{definition}[Marking]\label{def:marking}
+		A \emph{marking} of a complex elliptic curve $E$ is the choice of a basis
+		\[
+		\alpha, \beta \in H_1(E, \mathbb{Z})
+		\]
+		of the first homology group together with an orientation convention such that the intersection number satisfies
+		\[
+		\langle \alpha, \beta \rangle = 1.
+		\]
+		Such a basis $(\alpha, \beta)$ is also called a \emph{symplectic basis} of $H_1(E, \mathbb{Z})$.
+	\end{definition}
+	
+	\begin{definition}[Periods]\label{def:periods}
+		Let $\omega$ be a nonzero holomorphic $1$-form on $E$, and let $(\alpha, \beta)$ be a marking as above. Define the \emph{periods} of $\omega$ by
+		\[
+		\tau_1 := \int_{\alpha} \omega, \qquad
+		\tau_2 := \int_{\beta} \omega.
+		\]
+		These are complex numbers, and the $\mathbb{Z}$-span
+		\[
+		\Lambda = \langle \tau_1, \tau_2 \rangle_{\mathbb{Z}}
+		\]
+		is a lattice in $\mathbb{C}$.
+	\end{definition}
+	
+	A crucial fact is that $\tau_1$ and $\tau_2$ are $\mathbb{R}$-linearly independent. In particular, the ratio
+	\[
+	\frac{\tau_2}{\tau_1}
+	\]
+	is not real; in fact, it lies in the upper half-plane
+	\[
+	\mathbb{H} = \{ \tau \in \mathbb{C} \mid \mathrm{Im}\,\tau > 0 \}.
+	\]
+	We now verify this by a standard computation.
+	
+	
+	\section{Why the Period Lies in the Upper Half-Plane $\mathbb{H}$: Detailed Computation}
+	
+	Let $\omega$ be a nonzero holomorphic $1$-form on $E$. Locally we can write
+	\[
+	\omega = f(z)\,dz
+	\]
+	for some holomorphic function $f$ in a local coordinate $z$. Consider the $2$-form
+	\[
+	i\,\omega \wedge \overline{\omega}.
+	\]
+	Since $E$ is a compact Riemann surface, this provides a positive volume form on $E$, and hence
+	\[
+	\int_E i\,\omega \wedge \overline{\omega} > 0.
+	\]
+	This integral is essentially the area of $E$ with respect to the metric induced by $\omega$.
+	
+	On the other hand, we can compute the same integral in terms of the periods of $\omega$ and the marking $(\alpha, \beta)$. This is given by a special case of the Riemann bilinear relations.
+	
+	\begin{proposition}\label{prop:riemann-bilinear}
+		Let $(\alpha, \beta)$ be a marking on $E$, and let $\tau_1, \tau_2$ be the periods
+		\[
+		\tau_1 = \int_\alpha \omega, \qquad
+		\tau_2 = \int_\beta \omega.
+		\]
+		Then
+		\[
+		\int_E i\,\omega \wedge \overline{\omega}
+		= 2\,\mathrm{Im}(\tau_1 \overline{\tau_2}).
+		\]
+		In particular,
+		\[
+		\mathrm{Im}\left( \frac{\tau_2}{\tau_1} \right) > 0.
+		\]
+	\end{proposition}
+	
+	\begin{proof}[Idea of the proof]
+		The general Riemann bilinear relation for a compact Riemann surface of genus $g$ says that for holomorphic $1$-forms $\omega, \eta$ one has
+		\[
+		\int_E \omega \wedge \eta
+		=
+		\sum_{j=1}^g 
+		\left(
+		\int_{\alpha_j} \omega \int_{\beta_j} \eta
+		-
+		\int_{\beta_j} \omega \int_{\alpha_j} \eta
+		\right),
+		\]
+		where $(\alpha_j, \beta_j)_{j=1}^g$ is a symplectic basis of $H_1(E, \mathbb{Z})$.
+		
+		In our case, the genus is $g=1$, so we choose $\alpha_1 = \alpha$ and $\beta_1 = \beta$. Taking $\eta = \overline{\omega}$ and using that $\overline{\int_\gamma \omega} = \int_\gamma \overline{\omega}$, we obtain
+		\[
+		\int_E \omega \wedge \overline{\omega}
+		=
+		\left(
+		\int_\alpha \omega \int_\beta \overline{\omega}
+		-
+		\int_\beta \omega \int_\alpha \overline{\omega}
+		\right)
+		=
+		\tau_1 \overline{\tau_2} - \tau_2 \overline{\tau_1}
+		=
+		2i\,\mathrm{Im}(\tau_1 \overline{\tau_2}).
+		\]
+		Multiplying by $i$ yields
+		\[
+		\int_E i\,\omega \wedge \overline{\omega}
+		= 2\,\mathrm{Im}(\tau_1 \overline{\tau_2}) > 0.
+		\]
+		Thus $\mathrm{Im}(\tau_1 \overline{\tau_2}) > 0$, and
+		\[
+		\mathrm{Im}\left(\frac{\tau_2}{\tau_1}\right)
+		=
+		\frac{\mathrm{Im}(\tau_1 \overline{\tau_2})}{|\tau_1|^2}
+		> 0.
+		\]
+		Hence the ratio
+		\[
+		\tau := \frac{\tau_2}{\tau_1}
+		\]
+		lies in the upper half-plane $\mathbb{H}$.
+	\end{proof}
+	
+	We call this complex number $\tau$ (depending on the data $(E,\omega,\alpha,\beta)$) the \emph{period} of the elliptic curve (more precisely, the period with respect to the given marking and $1$-form).
+	
+	
+	\section{Normalization and the Complex Torus $\mathbb{C}/(\mathbb{Z} + \mathbb{Z}\tau)$}
+	
+	From the discussion above, $\tau_1$ is a nonzero complex number. We may thus \emph{normalize} the holomorphic $1$-form by dividing by $\tau_1$.
+	
+	Define a new holomorphic $1$-form
+	\[
+	\omega' := \frac{\omega}{\tau_1}.
+	\]
+	Then the periods of $\omega'$ with respect to the same marking $(\alpha,\beta)$ satisfy
+	\[
+	\int_\alpha \omega' = 1, \qquad
+	\int_\beta \omega' = \tau,
+	\]
+	where
+	\[
+	\tau = \frac{\tau_2}{\tau_1} \in \mathbb{H}.
+	\]
+	
+	\begin{definition}[Normalized Period and Standard Lattice]\label{def:normalized-period}
+		Choose a holomorphic $1$-form $\omega'$ on $E$ such that
+		\[
+		\int_{\alpha} \omega' = 1.
+		\]
+		Let
+		\[
+		\tau := \int_{\beta} \omega' \in \mathbb{H}.
+		\]
+		We call this $\tau$ the \emph{normalized period} of $E$ (relative to the marking), and we define the associated standard lattice
+		\[
+		\Lambda_{\tau} = \mathbb{Z} \cdot 1 \oplus \mathbb{Z} \cdot \tau \subset \mathbb{C}.
+		\]
+	\end{definition}
+	
+	A classical theorem then states that the elliptic curve $E$ (with the marking and normalized $1$-form) is analytically isomorphic to the complex torus $\mathbb{C}/\Lambda_{\tau}$.
+	
+	More precisely, for the $\tau$ obtained from $(E,\omega',\alpha,\beta)$ as in Definition \ref{def:normalized-period}, there is an analytic isomorphism
+	\[
+	E \cong \mathbb{C}/\Lambda_{\tau}
+	\]
+	such that under the quotient map $\pi : \mathbb{C} \to \mathbb{C}/\Lambda_{\tau} \cong E$, the form $\omega'$ corresponds to the standard $1$-form $dz$ on $\mathbb{C}$, i.e.
+	\[
+	\pi^* \omega' = dz.
+	\]
+	
+	\begin{remark}
+		The normalization condition $\int_{\alpha} \omega' = 1$ fixes the scale of the $1$-form and provides a standard reference. Under this normalization, the entire information of the marked elliptic curve is encoded in the single complex number $\tau \in \mathbb{H}$.
+	\end{remark}
+	
+	
+	\section{Definition of the Period Map}
+	
+	We now define the moduli space of \emph{marked} complex elliptic curves with a nonzero holomorphic $1$-form.
+	
+	\begin{definition}[Moduli of Marked Elliptic Curves]
+		Let $\mathcal{E}$ be the set of isomorphism classes of data
+		\[
+		(E, \omega, \alpha, \beta),
+		\]
+		where:
+		\begin{itemize}
+			\item $E$ is a complex elliptic curve,
+			\item $0 \neq \omega \in H^0(E, \Omega_E^1)$ is a nonzero holomorphic $1$-form on $E$,
+			\item $(\alpha, \beta)$ is a symplectic basis of $H_1(E,\mathbb{Z})$.
+		\end{itemize}
+		Two such tuples $(E_1,\omega_1,\alpha_1,\beta_1)$ and $(E_2,\omega_2,\alpha_2,\beta_2)$ are considered equivalent if there exists a biholomorphism
+		\[
+		f : E_1 \longrightarrow E_2
+		\]
+		such that
+		\[
+		f^* \omega_2 = \omega_1,\quad
+		f_* (\alpha_1) = \alpha_2,\quad
+		f_* (\beta_1) = \beta_2.
+		\]
+	\end{definition}
+	
+	Given such a tuple $(E,\omega,\alpha,\beta)$, we can define its period as the normalized ratio
+	\[
+	\tau = \frac{\displaystyle\int_{\beta} \omega}{\displaystyle\int_{\alpha} \omega} \in \mathbb{H}.
+	\]
+	
+	\begin{definition}[Period Map]\label{def:period-map}
+		The \emph{period map} is the map
+		\[
+		\mathrm{Per} : \mathcal{E} \longrightarrow \mathbb{H}
+		\]
+		defined by
+		\[
+		\mathrm{Per}(E,\omega,\alpha,\beta)
+		= 
+		\frac{\displaystyle\int_{\beta} \omega}{\displaystyle\int_{\alpha} \omega}.
+		\]
+	\end{definition}
+	
+	\begin{theorem}[Biholomorphism of the Period Map]\label{thm:Per-biholo}
+		The period map
+		\[
+		\mathrm{Per} : \mathcal{E} \longrightarrow \mathbb{H}
+		\]
+		is a biholomorphism. In particular, the moduli space $\mathcal{E}$ of marked elliptic curves with a holomorphic $1$-form is analytically isomorphic to the upper half-plane $\mathbb{H}$.
+	\end{theorem}
+	
+	\begin{proof}[Idea of the proof]
+		For each $\tau \in \mathbb{H}$, consider the standard complex torus
+		\[
+		E_{\tau} := \mathbb{C}/(\mathbb{Z} + \mathbb{Z}\tau).
+		\]
+		On $\mathbb{C}$ we have the standard $1$-form $dz$, which descends to a holomorphic $1$-form $\omega_{\tau}$ on $E_{\tau}$. Take the standard symplectic basis $(\alpha,\beta)$ of $H_1(E_{\tau},\mathbb{Z})$ given by:
+		\begin{itemize}
+			\item $\alpha$: the cycle corresponding to the direction of $1 \in \mathbb{C}$,
+			\item $\beta$: the cycle corresponding to the direction of $\tau \in \mathbb{C}$.
+		\end{itemize}
+		Then by construction,
+		\[
+		\int_{\alpha} \omega_{\tau} = 1, \qquad
+		\int_{\beta} \omega_{\tau} = \tau,
+		\]
+		so that
+		\[
+		\mathrm{Per}(E_{\tau}, \omega_{\tau}, \alpha, \beta) = \tau.
+		\]
+		This shows that $\mathrm{Per}$ is surjective.
+		
+		Conversely, given an arbitrary $(E,\omega,\alpha,\beta)$, we can normalize $\omega$ so that $\int_{\alpha} \omega = 1$. The corresponding normalized period is
+		\[
+		\tau = \int_{\beta} \omega \in \mathbb{H}.
+		\]
+		A classical result states that $E$ is analytically isomorphic to $E_{\tau}$ in such a way that $\omega$ corresponds to $\omega_{\tau}$ up to scaling, and the marking $(\alpha,\beta)$ corresponds to the standard marking on $E_{\tau}$. This shows that $\mathrm{Per}$ is injective. The dependence on $(E,\omega,\alpha,\beta)$ is analytic, so $\mathrm{Per}$ is a biholomorphism.
+	\end{proof}
+	
+	
+	\section{\texorpdfstring{$\mathrm{SL}_2(\mathbb{Z})$}{SL(2,Z)}-Action and the Unmarked Moduli Space}
+	
+	So far, we have kept track of a marking $(\alpha,\beta)$. If we ``forget'' the marking and keep only the underlying elliptic curve $E$, then there is an additional freedom: we may choose a different symplectic basis of $H_1(E,\mathbb{Z})$.
+	
+	Changing the symplectic basis $(\alpha,\beta)$ is equivalent to acting by an element of the group $\mathrm{SL}_2(\mathbb{Z})$. Concretely, let
+	\[
+	\gamma =
+	\begin{pmatrix}
+		a & b \\
+		c & d
+	\end{pmatrix}
+	\in \mathrm{SL}_2(\mathbb{Z}),
+	\]
+	and define a new basis $(\alpha',\beta')$ by
+	\[
+	\begin{pmatrix}
+		\alpha' \\
+		\beta'
+	\end{pmatrix}
+	=
+	\begin{pmatrix}
+		a & b \\
+		c & d
+	\end{pmatrix}
+	\begin{pmatrix}
+		\alpha \\
+		\beta
+	\end{pmatrix}.
+	\]
+	Then $(\alpha',\beta')$ is again a symplectic basis of $H_1(E,\mathbb{Z})$.
+	
+	Let $\omega$ be a holomorphic $1$-form on $E$, and let
+	\[
+	\tau_1 = \int_{\alpha} \omega, \quad \tau_2 = \int_{\beta} \omega
+	\]
+	be its periods. The periods with respect to $(\alpha',\beta')$ are then
+	\[
+	\int_{\alpha'} \omega = a \tau_1 + b \tau_2, \qquad
+	\int_{\beta'} \omega = c \tau_1 + d \tau_2.
+	\]
+	If we normalize $\omega'$ so that $\int_{\alpha'} \omega' = 1$, the new normalized period is
+	\[
+	\tau'
+	=
+	\frac{\displaystyle\int_{\beta'} \omega'}{\displaystyle\int_{\alpha'} \omega'}
+	=
+	\frac{c\tau_1 + d\tau_2}{a\tau_1 + b\tau_2}
+	=
+	\frac{c + d\tau}{a + b\tau},
+	\]
+	where $\tau = \tau_2/\tau_1$ is the previous normalized period.
+	
+	Thus we obtain the familiar fractional linear (Möbius) transformation
+	\[
+	\tau' = \gamma \cdot \tau := \frac{a\tau + b}{c\tau + d}.
+	\]
+	
+	\begin{remark}
+		Changing the marking $(\alpha,\beta)$ corresponds exactly to the action of $\mathrm{SL}_2(\mathbb{Z})$ on the upper half-plane $\mathbb{H}$ via fractional linear transformations
+		\[
+		\tau \longmapsto \frac{a\tau + b}{c\tau + d}.
+		\]
+		Hence, when we forget the marking and consider elliptic curves up to isomorphism \emph{without} additional data, the moduli space is
+		\[
+		\{\text{complex elliptic curves up to isomorphism}\}
+		\;\;\cong\;\;
+		\mathbb{H}/\mathrm{SL}_2(\mathbb{Z}),
+		\]
+		which is the classical moduli space of elliptic curves.
+	\end{remark}
+	
+	
+	\section{Weierstrass Equation and a Concrete Example of Period Integrals}
+	
+	We conclude with a standard example of how the period is realized as a concrete integral for an elliptic curve in Weierstrass form.
+	
+	Consider the elliptic curve given by the Weierstrass equation
+	\[
+	E: \quad y^2 = 4x^3 - g_2 x - g_3,
+	\]
+	where $g_2, g_3 \in \mathbb{C}$ are constants such that the cubic polynomial on the right-hand side has distinct roots (so that $E$ is nonsingular).
+	
+	Let $\wp(z)$ be the Weierstrass $\wp$-function associated to a lattice $\Lambda \subset \mathbb{C}$, and let $\wp'(z)$ denote its derivative. Then the corresponding elliptic curve $\mathbb{C}/\Lambda$ can be parametrized by
+	\[
+	x = \wp(z), \qquad y = \wp'(z),
+	\]
+	and this parametrization satisfies the Weierstrass equation
+	\[
+	\wp'(z)^2 = 4\wp(z)^3 - g_2 \wp(z) - g_3.
+	\]
+	
+	On this curve, consider the $1$-form
+	\[
+	\omega = \frac{dx}{y}.
+	\]
+	
+	\begin{proposition}\label{prop:weierstrass-period}
+		With $x = \wp(z)$ and $y = \wp'(z)$ as above, we have
+		\[
+		\omega = \frac{dx}{y} = dz.
+		\]
+		Therefore, the periods of $\omega$ along the basic cycles of $\mathbb{C}/\Lambda$ coincide exactly with the generators of the lattice $\Lambda$.
+	\end{proposition}
+	
+	\begin{proof}
+		Since $y = \wp'(z) = \dfrac{d}{dz}\wp(z)$, we have
+		\[
+		dx = d(\wp(z)) = \wp'(z)\,dz.
+		\]
+		Substituting into $\omega = \dfrac{dx}{y}$, we get
+		\[
+		\omega
+		=
+		\frac{\wp'(z)\,dz}{\wp'(z)} = dz.
+		\]
+		Thus the pullback of $\omega$ to $\mathbb{C}$ via $z \mapsto (\wp(z),\wp'(z))$ is just $dz$. If $\alpha, \beta$ are the basic cycles corresponding to generators $\omega_1,\omega_2$ of the lattice $\Lambda$, then
+		\[
+		\int_{\alpha} \omega = \int_{\alpha} dz = \omega_1,
+		\qquad
+		\int_{\beta} \omega = \int_{\beta} dz = \omega_2.
+		\]
+		Hence the periods of $\omega$ are exactly the generators of $\Lambda$.
+	\end{proof}
+	
+	This example explicitly shows how the period lattice of the holomorphic $1$-form $\omega = \dfrac{dx}{y}$ is identified with the lattice $\Lambda$ defining the complex torus $\mathbb{C}/\Lambda$. It illustrates concretely the relationship between periods and the complex torus structure of an elliptic curve.
+	
+\end{document}

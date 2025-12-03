@@ -1,0 +1,35 @@
+\usepackage{tikz}
+\usepackage{tikz-cd}
+\usepackage{tikz-3dplot}
+\usepackage{pgfplots}
+\pgfplotsset{compat=newest} % Adjust to your version of pgfplots
+\def\Circlearrowleft{\ensuremath{%
+		\rotatebox[origin=c]{180}{$\circlearrowleft$}}}
+\def\Circlearrowright{\ensuremath{%
+		\rotatebox[origin=c]{180}{$\circlearrowright$}}}
+\def\CircleArrowleft{\ensuremath{%
+		\reflectbox{\rotatebox[origin=c]{180}{$\circlearrowleft$}}}}
+\def\CircleArrowright{\ensuremath{%
+		\reflectbox{\rotatebox[origin=c]{180}{$\circlearrowright$}}}}
+\usetikzlibrary{
+	3d, % For 3D drawing
+	angles,
+	arrows,
+	arrows.meta,
+	backgrounds,
+	bending,
+	calc,
+	decorations.pathmorphing,
+	decorations.pathreplacing,
+	decorations.markings,
+	fit,
+	matrix,
+	patterns,
+	patterns.meta,
+	positioning,
+	shadows,
+	shapes,
+	shapes.geometric,
+	tikzmark,
+	quotes
+}

@@ -1,0 +1,658 @@
+\documentclass[11pt,openany]{article}
+
+\input{grad-math-preamble}
+\input{tcolorbox}
+\input{theorem}
+\input{tikz}
+\input{grad-math-commands}
+\renewcommand{\vec}[1]{\mathbf{#1}}
+\renewcommand{\Re}{\operatorname*{Re}}
+\renewcommand{\Im}{\operatorname*{Im}}
+\newcommand{\Mat}{\operatorname{Mat}}
+
+\newcommand{\Sym}{\mathrm{Sym}}
+
+\setstretch{1.25}
+
+\begin{document}
+\pagenumbering{arabic}
+\begin{center}
+	\huge\textbf{Linear Algebra III}\\
+	\vspace{0.5em}
+	\large{Ji, Yong-hyeon}\\
+	\vspace{0.5em}
+	\normalsize{\today}\\
+\end{center}
+
+\noindent 
+We cover the following topics in this note.
+\begin{itemize}
+	\item Determinant and Inverse matrix
+\end{itemize}
+\hrule\vspace{12pt}
+\tableofcontents
+\vfill
+
+\newpage
+\section{Determinant}
+\subsection{Matrix equation and Group structure}
+Let $\F$ be a field and let $\Mat_{m\times n}(\F)$ denote the set
+of $m\times n$ matrices with entries in $\F$. Given matrices \begin{align*}
+A&=(a_{ij})_{1\le i\le m,\;1\le j\le n}=\begin{bmatrix}
+	a_{11} & \cdots & a_{1n} \\
+	\vdots & \ddots & \vdots \\
+	a_{m1} & \cdots & a_{mn}
+\end{bmatrix}\in\Mat_{m\times n}(\F),\\
+X&=(x_{jk})_{1\le j\le n,\;1\le k\le \ell}=\begin{bmatrix}
+	x_{11} & \cdots & x_{1\ell} \\
+	\vdots & \ddots & \vdots \\
+	x_{n1} & \cdots & x_{n\ell}
+\end{bmatrix}\in\Mat_{n\times \ell}(\F),\\
+B&=(b_{ik})_{1\le i\le m,\;1\le k\le \ell}=\begin{bmatrix}
+	b_{11} & \cdots & b_{1\ell} \\
+	\vdots & \ddots & \vdots \\
+	b_{m1} & \cdots & b_{m\ell}
+\end{bmatrix}\in\Mat_{m\times \ell}(\F),
+\end{align*} the matrix equation \[
+AX = B\quad\left(\Leftrightarrow\begin{bmatrix}
+	a_{11} & \cdots & a_{1n} \\
+	\vdots & \ddots & \vdots \\
+	a_{m1} & \cdots & a_{mn}
+\end{bmatrix}\begin{bmatrix}
+x_{11} & \cdots & x_{1\ell} \\
+\vdots & \ddots & \vdots \\
+x_{n1} & \cdots & x_{n\ell}
+\end{bmatrix}=\begin{bmatrix}
+b_{11} & \cdots & b_{1\ell} \\
+\vdots & \ddots & \vdots \\
+b_{m1} & \cdots & b_{m\ell}
+\end{bmatrix}\right)
+\] means the entries satisfy \[
+b_{ik} = \sum_{j=1}^n a_{ij}x_{jk},
+\qquad 1\le i\le m,\ 1\le k\le\ell.
+\] To solve $AX=B$ by ``dividing by $A$'' from the left, we need an inverse
+matrix for $A$.  Thus we restrict to square matrices and look at the
+multiplicative structure. Define
+\[
+G = \operatorname{GL}_n(\F) =
+\left\{ A\in\Mat_{n\times n}(\F) :
+\exists\,A^{-1}\text{s.t.}AA^{-1}=A^{-1}A=I_n \right\}.
+\]
+Then $G$ is a group under matrix multiplication.
+
+\newpage
+\subsection{Computing $A^{-1}$ by cofactors}
+Let $A\in\Mat_{n\times n}(\F)$ and write\[
+A=(a_{ij})_{1\le i,j\le n}=\begin{bmatrix}
+	a_{11} & \cdots & a_{1n} \\
+	\vdots & \ddots & \vdots \\
+	a_{n1} & \cdots & a_{nn}
+\end{bmatrix}.
+\] To find $A^{-1}$ we look for an $n\times n$ matrix \[
+X=(x_{kj})_{1\le k,j\le n}
+\] such that \[
+AX = \begin{bmatrix}
+	a_{11} & \cdots & a_{1n} \\
+	\vdots & \ddots & \vdots \\
+	a_{n1} & \cdots & a_{nn}
+\end{bmatrix}\begin{bmatrix}
+x_{11} & \cdots & x_{1n} \\
+\vdots & \ddots & \vdots \\
+x_{n1} & \cdots & x_{nn}
+\end{bmatrix}=\begin{bmatrix}
+1 & \cdots & 0 \\
+\vdots & \ddots & \vdots \\
+0 & \cdots & 1
+\end{bmatrix}=I_n.
+\] In entries this means
+\[
+\delta_{ij} = \sum_{k=1}^n a_{ik}b_{kj},
+\qquad 1\le i,j\le n,
+\]
+where $\delta_{ij}$ is the \emph{Kronecker delta}:
+\[
+\delta_{ij} =
+\begin{cases}
+	1, & i=j,\\[2pt]
+	0, & i\neq j.
+\end{cases}
+\]
+
+\medskip
+
+Recall the Laplace expansion (expansion along the $j$-th column):
+\[
+\det A = \sum_{k=1}^n a_{kj}C_{kj},
+\]
+where
+\[
+C_{kj} = (-1)^{k+j}M_{kj}
+\]
+is the \emph{cofactor} of the entry $a_{kj}$, and $M_{kj}$ is the
+determinant of the $(n-1)\times(n-1)$ minor obtained by deleting the
+$k$-th row and $j$-th column of $A$.
+
+Fix a column index $j$.  Set
+\[
+b_{kj} = \frac{C_{jk}}{\det A},\qquad k=1,\dots,n.
+\]
+Then
+\[
+\sum_{k=1}^n a_{ik}b_{kj}
+= \frac{1}{\det A}\sum_{k=1}^n a_{ik}C_{jk}
+=
+\begin{cases}
+	1,& i=j,\\
+	0,& i\neq j.
+\end{cases}
+\]
+Hence $AB=I_n$.
+
+\medskip
+
+Define the \emph{adjugate matrix} of $A$ by
+\[
+\operatorname{adj}(A) = (C_{ij})_{1\le i,j\le n}.
+\]
+In matrix form we have
+\[
+A^{-1} = \frac{1}{\det A}\,\operatorname{adj}(A)^{\mathsf T}.
+\]
+Therefore $A^{-1}$ exists only when $\det A\neq 0$.
+
+\subsection{Determinant}
+
+Let $A\in\Mat_{n\times n}(F)$, $A=(a_{ij})$.  The
+\emph{determinant} of $A$ is
+\[
+\det A
+=
+\sum_{\sigma\in S_n}
+\operatorname{sgn}(\sigma)\,
+a_{1,\sigma(1)}
+a_{2,\sigma(2)}
+\cdots
+a_{n,\sigma(n)},
+\]
+where $S_n$ is the symmetric group on $\{1,\dots,n\}$ and
+$\operatorname{sgn}(\sigma)\in\{\pm1\}$ is the sign of the permutation
+$\sigma$.
+
+\paragraph{Example ($n=2$).}
+For
+\[
+A =
+\begin{pmatrix}
+	a & b\\
+	c & d
+\end{pmatrix},
+\]
+we have
+\[
+\det A = ad-bc.
+\]
+Geometrically, if $A$ is regarded as having rows (or columns) the
+vectors $(a,b)$ and $(c,d)$ in $\mathbb{R}^2$, then $\det A$ is the
+signed area of the parallelogram spanned by these vectors.
+
+\medskip
+
+More generally, for $A\in\Mat_{n\times n}(\mathbb{R})$,
+$\det A$ is the signed volume of the parallelotope spanned by the row
+vectors of $A$.
+
+\medskip
+
+\noindent\textbf{Exercise.} Show that
+\[
+\det A = \det A^{\mathsf T}.
+\]
+Thus $\det A$ is also the signed volume spanned by the column vectors
+of $A$.
+
+\medskip
+
+\noindent\textbf{Exercise.} For $A,B\in\Mat_{n\times n}(F)$,
+prove that
+\[
+\det(AB) = (\det A)(\det B).
+\]
+
+\subsection*{Equivalent conditions for invertibility}
+
+\begin{proposition}
+	Let $A\in\Mat_{n\times n}(F)$.  The following conditions
+	are equivalent:
+	\begin{enumerate}
+		\item $A$ is invertible, i.e.\ there exists $A^{-1}$ such that
+		$AA^{-1}=A^{-1}A=I_n$.
+		\item The homogeneous system $AX=0$ has only the trivial solution
+		$X=0$.
+		\item $A$ is row-equivalent to the identity matrix $I_n$.
+		\item For every $B\in\Mat_{n\times \ell}(F)$ (any number
+		of columns $\ell$), the system $AX=B$ has a solution $X$.
+		\item $\det A\neq 0$.
+		\item $\operatorname{rank}A = n$ (i.e.\ $A$ has full rank).
+		\item The linear map
+		\[
+		T_A:F^n\to F^n,\qquad T_A(x)=Ax,
+		\]
+		is onto, i.e.\ $\operatorname{Im}T_A = F^n$ and hence
+		$\dim\operatorname{Im}T_A = \operatorname{rank}A = n$.
+		\item The row vectors of $A$ are linearly independent.
+		\item The column vectors of $A$ are linearly independent.
+	\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+	As one example, we show $(1)\Rightarrow(2)$.
+	Suppose $AX=0$ and $A$ is invertible.  Then
+	\[
+	X = A^{-1}(AX) = A^{-1}0 = 0,
+	\]
+	so the only solution is $X=0$.
+	The remaining implications are proved by standard arguments from linear
+	algebra.
+\end{proof}
+
+\subsection*{Elementary row operations}
+
+\begin{definition}
+	Given any matrix, an \emph{elementary row operation} is one of:
+	\begin{enumerate}
+		\item Multiply a row by a nonzero scalar.
+		\item Interchange two rows.
+		\item Replace a row by itself plus a scalar multiple of another row.
+	\end{enumerate}
+\end{definition}
+
+These operations are used to bring a matrix to row-echelon form and, in
+the square case, to compute inverses.
+
+\subsection*{Computing the inverse by row reduction}
+
+To compute the inverse of an invertible matrix
+$A\in\Mat_{n\times n}(F)$ by row operations, form the
+augmented matrix
+\[
+\left[\,A \,\bigm|\, I_n\,\right]
+\]
+and apply elementary row operations until the left block becomes $I_n$:
+\[
+\left[\,A \,\bigm|\, I_n\,\right]
+\;\sim\;
+\left[\,I_n \,\bigm|\, A^{-1}\,\right].
+\]
+Then the right block is $A^{-1}$.
+
+\newpage
+\section{Coordinate Change Matrix and Similarity}
+%\section*{Coordinate change matrix in \texorpdfstring{$\mathbb{R}^2$}{R2}}
+%
+%Let us consider $\mathbb{R}^2$.
+%
+%Take a basis
+%\[
+%E=\{e_1,e_2\}, \qquad
+%e_1=(1,0),\; e_2=(0,1).
+%\]
+%
+%Let us consider another basis
+%\[
+%F=\{f_1,f_2\},
+%\]
+%where $f_1,f_2\in\mathbb{R}^2$ are linearly independent
+%vectors.
+%
+%Let $u\in\mathbb{R}^2$.
+%
+%\medskip
+%
+%\noindent
+%Read $u$ in the basis $E$:
+%\[
+%u = u_1 e_1 + u_2 e_2, \qquad
+%[u]_E =
+%\begin{pmatrix}
+%	u_1\\ u_2
+%\end{pmatrix}.
+%\]
+%
+%On the other hand we can read $u$ in the basis $F$:
+%\[
+%u = v_1 f_1 + v_2 f_2, \qquad
+%[u]_F =
+%\begin{pmatrix}
+%	v_1\\ v_2
+%\end{pmatrix}.
+%\]
+%
+%Write each $f_j$ in the basis $E$:
+%\[
+%f_1 = a_{11} e_1 + a_{21} e_2,\qquad
+%f_2 = a_{12} e_1 + a_{22} e_2.
+%\]
+%Equivalently,
+%\[
+%\begin{pmatrix} f_1 & f_2 \end{pmatrix}
+%=
+%\begin{pmatrix}
+%	a_{11} & a_{12}\\
+%	a_{21} & a_{22}
+%\end{pmatrix}
+%\begin{pmatrix}
+%	e_1 & e_2
+%\end{pmatrix}.
+%\]
+%
+%Thus
+%\[
+%u = v_1 f_1 + v_2 f_2
+%= v_1(a_{11}e_1+a_{21}e_2)
+%+ v_2(a_{12}e_1+a_{22}e_2)
+%= (a_{11}v_1+a_{12}v_2)e_1
+%+ (a_{21}v_1+a_{22}v_2)e_2.
+%\]
+%Hence
+%\[
+%[u]_E
+%=
+%\begin{pmatrix}
+%	a_{11} & a_{12}\\
+%	a_{21} & a_{22}
+%\end{pmatrix}
+%[u]_F.
+%\]
+%
+%We call the matrix
+%\[
+%P = \begin{pmatrix}
+%	a_{11} & a_{12}\\
+%	a_{21} & a_{22}
+%\end{pmatrix}
+%\]
+%the \emph{coordinate change matrix from $F$ to $E$}.
+%
+%Thus we have observed that, given a vector $u$,
+%\[
+%[u]_E = P\,[u]_F.
+%\]
+%
+%\section*{General case}
+%
+%Let $V$ be a finite-dimensional vector space over a field $\mathbb{F}$.
+%For a basis $\beta = \{v_1,\dots,v_n\}$ of $V$ and $u\in V$, we write
+%\[
+%u = \sum_{i=1}^n a_i v_i
+%\quad\Longrightarrow\quad
+%[u]_\beta =
+%\begin{pmatrix}
+%	a_1\\ \vdots\\ a_n
+%\end{pmatrix}\!.
+%\]
+%
+%\begin{prop}\label{prop:change-coordinates}
+%	Let $V$ be an $n$-dimensional vector space over $\mathbb{F}$ and
+%	$\id_V:V\to V$ the identity map.
+%	Choose bases $\beta$ and $\gamma$ for $V$.
+%	Then for every $u\in V$,
+%	\[
+%	[u]_\gamma
+%	=
+%	[\id_V]_{\beta}^{\gamma}\,[u]_\beta,
+%	\]
+%	where $[\id_V]_{\beta}^{\gamma}$ is the coordinate change matrix
+%	from $\beta$ to $\gamma$.
+%\end{prop}
+%
+%\begin{proof}
+%	Write
+%	\[
+%	\beta = \{v_1,\dots,v_n\},\qquad
+%	\gamma = \{w_1,\dots,w_n\}.
+%	\]
+%	
+%	Let $u\in V$ and write
+%	\[
+%	u = \sum_{i=1}^n a_i v_i
+%	= \sum_{j=1}^n b_j w_j.
+%	\]
+%	
+%	Each $w_j$ can be expressed in the basis $\beta$:
+%	\[
+%	w_j = \sum_{i=1}^n c_{ij} v_i, \qquad j=1,\dots,n.
+%	\]
+%	
+%	Then
+%	\[
+%	u = \sum_{j=1}^n b_j w_j
+%	= \sum_{j=1}^n b_j\Bigl(\sum_{i=1}^n c_{ij} v_i\Bigr)
+%	= \sum_{i=1}^n
+%	\Bigl(\sum_{j=1}^n c_{ij} b_j\Bigr) v_i.
+%	\]
+%	Comparing coefficients in the basis $\beta$ gives
+%	\[
+%	a_i = \sum_{j=1}^n c_{ij} b_j,\qquad i=1,\dots,n.
+%	\]
+%	
+%	In matrix form this is
+%	\[
+%	\bm a = C \bm b,
+%	\qquad
+%	\bm a =
+%	\begin{pmatrix}
+%		a_1\\ \vdots\\ a_n
+%	\end{pmatrix},\quad
+%	\bm b =
+%	\begin{pmatrix}
+%		b_1\\ \vdots\\ b_n
+%	\end{pmatrix},\quad
+%	C = (c_{ij})_{1\le i,j\le n}.
+%	\]
+%	That is,
+%	\[
+%	[u]_\beta = C\,[u]_\gamma,
+%	\]
+%	so
+%	\[
+%	[u]_\gamma = C^{-1}[u]_\beta.
+%	\]
+%	By definition,
+%	\[
+%	[\id_V]_{\beta}^{\gamma} = C^{-1},
+%	\]
+%	whence
+%	\[
+%	[u]_\gamma = [\id_V]_{\beta}^{\gamma}\,[u]_\beta.
+%	\]
+%\end{proof}
+%
+%\subsection*{Matrix of a composition}
+%
+%\begin{lem}
+%	Let $V,W,Z$ be finite-dimensional vector spaces over $\mathbb{F}$ with
+%	bases
+%	\[
+%	\dim V = m,\ \beta=\{v_1,\dots,v_m\},\qquad
+%	\dim W = n,\ \gamma=\{w_1,\dots,w_n\},\qquad
+%	\dim Z = \ell,\ \delta=\{z_1,\dots,z_\ell\}.
+%	\]
+%	Let $T:V\to W$ and $S:W\to Z$ be linear transformations.
+%	Then
+%	\[
+%	[S\circ T]_{\beta}^{\delta}
+%	=
+%	[S]_{\gamma}^{\delta}\,[T]_{\beta}^{\gamma}.
+%	\]
+%\end{lem}
+%
+%\section*{Change of basis and invertibility}
+%
+%\begin{prop}\label{prop:inverse-change}
+%	Let $V$ be a finite-dimensional vector space over $\mathbb{F}$ with
+%	$\dim V=n$, and let $\beta,\gamma$ be bases for $V$. Then
+%	\begin{enumerate}
+%		\item $[\id_V]_{\beta}^{\beta} = I_n$.
+%		\item $[\id_V]_{\gamma}^{\beta} =
+%		\bigl([\id_V]_{\beta}^{\gamma}\bigr)^{-1}$.
+%	\end{enumerate}
+%	In particular, every coordinate change matrix is invertible.
+%	Moreover, every invertible matrix in $\Mat_n(\mathbb{F})$ is a
+%	coordinate change matrix for $\mathbb{F}^n$.
+%\end{prop}
+%
+%\begin{proof}
+%	The first statement is clear.
+%	
+%	For (2), consider
+%	\[
+%	V \xrightarrow{\;\id_V\;} V \xrightarrow{\;\id_V\;} V.
+%	\]
+%	Apply the lemma to the composition $\id_V\circ\id_V=\id_V$ with
+%	appropriate choices of bases.
+%	
+%	For the last statement, let $A\in\Mat_n(\mathbb{F})$ be invertible.
+%	Think of $A$ as a linear map
+%	\[
+%	L_A:\mathbb{F}^n\to\mathbb{F}^n,\qquad x\mapsto Ax.
+%	\]
+%	Let $\varepsilon_n=\{e_1,\dots,e_n\}$ be the standard basis of
+%	$\mathbb{F}^n$. The $j$-th column of $A$ is $A e_j$.
+%	Let
+%	\[
+%	\beta = \{A e_1,\dots,A e_n\}.
+%	\]
+%	Then $A$ is invertible iff its columns are linearly independent, i.e.\
+%	iff $\beta$ is a basis of $\mathbb{F}^n$.
+%	
+%	Now, with respect to the bases $\beta$ and $\varepsilon_n$, we have
+%	\[
+%	[\id_{\mathbb{F}^n}]_{\beta}^{\varepsilon_n} = A.
+%	\]
+%	Thus $A$ is a coordinate change matrix from $\beta$ to the standard
+%	basis $\varepsilon_n$.
+%\end{proof}
+%
+%\section*{Linear operators and similarity}
+%
+%Let $T:V\to V$ be a linear operator on an $n$-dimensional
+%vector space $V$. Choose two bases $\beta$ and $\gamma$ of $V$. We then
+%have the matrices $[T]_\beta$ and $[T]_\gamma$.
+%
+%\medskip
+%
+%\noindent\textbf{Question.}
+%What is the relation between $[T]_\beta$ and $[T]_\gamma$?
+%
+%\medskip
+%
+%Consider the chain
+%\[
+%V \xrightarrow{\;\id_V\;} V
+%\xrightarrow{\;T\;} V
+%\xrightarrow{\;\id_V\;} V.
+%\]
+%More precisely,
+%\[
+%T_\gamma = \id_{\beta}^{\gamma}\circ T\circ\id_{\gamma}^{\beta},
+%\]
+%where $\id_{\beta}^{\gamma}$ denotes the identity map viewed as
+%``change of basis'' from $\beta$-coordinates to $\gamma$-coordinates
+%(and $\id_{\gamma}^{\beta}$ is its inverse).
+%
+%By the lemma,
+%\[
+%[T]_\gamma
+%=
+%[\id_V]_{\beta}^{\gamma}\,[T]_\beta\,[\id_V]_{\gamma}^{\beta}.
+%\]
+%If we set
+%\[
+%P = [\id_V]_{\gamma}^{\beta},
+%\]
+%then $P$ is invertible and
+%\[
+%[T]_\gamma = P^{-1}[T]_\beta P.
+%\]
+%We say that $[T]_\beta$ is \emph{similar} to $[T]_\gamma$.
+%
+%\section*{Similarity of matrices}
+%
+%\begin{defn}
+%	Let $A,B\in\Mat_n(\mathbb{F})$.
+%	We say that $A$ is \emph{similar} to $B$ if there exists an invertible
+%	matrix $P\in\Mat_n(\mathbb{F})$ such that
+%	\[
+%	B = P^{-1} A P.
+%	\]
+%	We denote this relation by $B\sim A$.
+%\end{defn}
+%
+%\begin{prop}\label{prop:similar-basis}
+%	Let $A,B\in\Mat_n(\mathbb{F})$.
+%	Then $B\sim A$ if and only if there exists a basis $\beta$ of
+%	$\mathbb{F}^n$ such that
+%	\[
+%	[L_A]_\beta = B,
+%	\]
+%	where
+%	\[
+%	L_A:\mathbb{F}^n\to\mathbb{F}^n,\qquad x\mapsto Ax.
+%	\]
+%\end{prop}
+%
+%\begin{proof}
+%	($\Rightarrow$)
+%	Suppose $B = P^{-1} A P$ for some invertible
+%	$P\in\Mat_n(\mathbb{F})$.
+%	Let $\varepsilon_n=\{e_1,\dots,e_n\}$ be the standard basis of
+%	$\mathbb{F}^n$, and let $p_j$ be the $j$-th column of $P$.
+%	Set
+%	\[
+%	\beta = \{p_1,\dots,p_n\}.
+%	\]
+%	Then $\beta$ is a basis of $\mathbb{F}^n$, and by the previous
+%	discussion
+%	\[
+%	P = [\id_{\mathbb{F}^n}]_{\beta}^{\varepsilon_n}.
+%	\]
+%	
+%	By the formula for change of basis of the matrix of a linear map, we
+%	obtain
+%	\[
+%	[L_A]_\beta
+%	=
+%	P^{-1}[L_A]_{\varepsilon_n} P
+%	=
+%	P^{-1} A P
+%	=
+%	B.
+%	\]
+%	
+%	\medskip
+%	
+%	($\Leftarrow$)
+%	Conversely, suppose there is a basis $\beta$ of $\mathbb{F}^n$ such
+%	that $[L_A]_\beta = B$.
+%	Let $P$ be the coordinate change matrix from $\beta$ to the standard
+%	basis $\varepsilon_n$:
+%	\[
+%	P = [\id_{\mathbb{F}^n}]_{\beta}^{\varepsilon_n}.
+%	\]
+%	Then, again by the change-of-basis formula,
+%	\[
+%	B = [L_A]_\beta
+%	= P^{-1}[L_A]_{\varepsilon_n} P
+%	= P^{-1} A P.
+%	\]
+%	Thus $B\sim A$.
+%\end{proof}
+
+
+\vfill
+\begin{thebibliography}{9}
+	\bibitem{abstract_algebra_g}
+	수학의 즐거움, Enjoying Math. ``수학 공부, 기초부터 대학원 수학까지, 27. 추상대수학에서 선형대수학으로 : 대칭군과 행렬식의 정의 symmetric group and def of determinant'' YouTube Video, 27:07. Published 
+	October 29, 2019. URL: \url{https://www.youtube.com/watch?v=UIlC9ikSpNc&t=1026s}.
+\end{thebibliography}
+\end{document}
