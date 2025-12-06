@@ -1,0 +1,121 @@
+\begin{tcolorbox}
+Let $C_0$ be the positively oriented circle $|z-z_0|=R$. Show that \[
+\int_{C_0} (z - z_0)^{n-1}\,\d z =
+\begin{cases}
+		0, & n=\pm1,\pm2,\dots \\
+		2\pi i, & n=0.
+	\end{cases}
+\]
+\end{tcolorbox}
+\begin{proof}[\sol]
+Parametrize $C_0$ by $
+z(t)=z_0+Re^{it}$ ($t\in[0,2\pi]$) then $dz=iRe^{it}\,\d t$ and
+\[
+\int_{C_0} (z-z_0)^{\,n-1}\,\d z
+=\int_{0}^{2\pi} (Re^{it})^{\,n-1}\, iRe^{it}\,\d t
+= iR^{n}\int_{0}^{2\pi} e^{int}\,\d t.
+\] \begin{enumerate}[(1)]
+		\item If $n\neq0$, then \[
+		\int_{0}^{2\pi} e^{int}\,\d t=\left[\frac{1}{in}e^{int}\right]_{0}^{2\pi}=\frac{e^{in2\pi}-1}{in}=\frac{1-1}{in}=0,\qquad\text{so the integral is $0$.}
+		\] 
+		\item If $n=0$, then $e^{int}\equiv 1$ and the integral equals $iR^{0}\int_{0}^{2\pi} 1\,\d t=2\pi i$.
+	\end{enumerate}
+\end{proof}
+
+\begin{tcolorbox}
+Let $C$ be the boundary of the square with sides $x=\pm 2$, $y=\pm 2$, oriented positively. Show that
+\[
+\int_C \frac{\cos z}{z(z^2+8)}\,dz = \frac{i\pi}{4},\qquad
+\int_C \frac{\cosh z}{z^4}\,dz = 0,\qquad
+\int_C \frac{\tan(z/2)}{(z-x_0)^2}\,dz = i\pi \sec^2\!\left(\frac{x_0}{2}\right),
+\] where $-2<x_0<2$.
+\end{tcolorbox}
+\begin{proof}[\sol]
+Let $C$ be the positively oriented boundary of the square $\{x+iy:\ |x|\le2,\ |y|\le2\}$.
+\begin{center}
+\begin{tikzpicture}[scale=.9]
+\tikzset{
+		axis/.style={black, line cap=round, -Stealth},
+		box/.style={thick, blue!65},
+		orient/.style={-{Latex}, blue!65, thick}
+	}
+\draw[axis] (-3.0,0) -- (3.0,0) node[right] {$\Re z$};
+\draw[axis] (0,-3.0) -- (0,3.0) node[above] {$\Im z$};
+% square boundary |x|<=2, |y|<=2
+\draw[box] (-2,-2) rectangle (2,2);
+% CCW orientation arrows (midpoints of edges)
+\draw[orient] ( 0, 2) -- ++(-1.1,0);
+\draw[orient] ( 2, 0) -- ++(0,1.1);
+\draw[orient] ( 0,-2) -- ++(1.1,0);
+\draw[orient] (-2, 0) -- ++(0, -1.1);
+\end{tikzpicture}
+\end{center}
+\begin{enumerate}[(1)]
+\item $\displaystyle \int_C \frac{\cos z}{z(z^2+8)}\,dz$.\quad
+The integrand is meromorphic with simple poles at $z=0$ and $z=\pm 2\sqrt2\,i$. Only $z=0$ is inside $C$. Around $z=0$, \[
+\cos z=1-\frac{z^2}{2}+\frac{z^4}{4!}-\cdots,\qquad
+\frac{1}{z(z^2+8)}=\frac{1}{z^3+8z}=\frac{1}{8z}\,\frac{1}{1+z^2/8}
+=\frac{1}{8z}\Bigl(1-\frac{z^2}{8}+\frac{z^4}{8^2}-\cdots\Bigr).
+\] Thus, \[
+\Res_{z=0}\frac{\cos z}{z(z^2+8)}
+=\Res_{z=0}\left(\frac{1}{8z}\Bigl(1-\frac{z^2}{8}+\frac{z^4}{8^2}-\cdots\Bigr)\Bigl(1-\frac{z^2}{2}+\frac{z^4}{4!}-\cdots\Bigr)\right)
+%		=\lim_{z\to0}\frac{\cos z}{z^2+8}
+=\frac{1}{8}.
+\]
+By the residue theorem,
+\[
+\int_C \frac{\cos z}{z(z^2+8)}\,dz
+=2\pi i\cdot\frac18
+=\frac{i\pi}{4}.
+\]
+\item $\displaystyle \int_C \frac{\cosh z}{z^4}\,dz$.\quad
+Here the only singularity is at $z=0$ (order $4$).
+Using
+\[
+\cosh z=1+\frac{z^2}{2!}+\frac{z^4}{4!}+\cdots,
+\qquad
+\frac{\cosh z}{z^4}=\frac{1}{z^4}+\frac{1}{2}\frac{1}{z^2}+\frac{1}{4!}+\cdots,
+\]
+there is no $1/z$ term; hence $\Res_{z=0}(\cosh z/z^4)=0$, and therefore
+\[
+\int_C \frac{\cosh z}{z^4}\,dz=0.
+\]
+\item $\displaystyle \int_C \frac{\tan(z/2)}{(z-x_0)^2}\,dz$ with $-2<x_0<2$.\quad 	We know that \[
+\tan w = \frac{\sin w}{\cos w},
+\] so the poles of $\tan w$ occur exactly where $\cos w = 0$ and $\sin w \neq 0$. The zeros of $\cos w$ are \[
+w = \frac{\pi}{2} + k\pi = \frac{(2k+1)\pi}{2}, \quad k \in \mathbb{Z}.
+\] Now consider $\tan\!\left(\frac{z}{2}\right)$. Let $
+w = \frac{z}{2}$. The poles of $\tan(z/2)$ occur where $w$ is a pole of $\tan w$, i.e.\ where
+\[
+\frac{z}{2} = \frac{(2k+1)\pi}{2}, \quad k \in \mathbb{Z}.
+\] So the poles of $\tan(z/2)$ are precisely at $z = (2k+1)\pi$ with $k\in\mathbb{Z}$. Since \[
+|(2k+1)\pi| \ge \pi > 2,
+\]
+none of these poles lie inside or on $C$. Hence $\tan(z/2)$ is analytic on and inside $C$. The only singularity of the integrand ${\tan(z/2)}/{(z - x_0)^2}$ inside $C$ is at $z = x_0$.
+Since $\tan(z/2)$ is analytic at $z = x_0$, we may expand it in a Taylor series about $x_0$: \begin{align*}
+	\tan\!\left(\frac{z}{2}\right)
+	&= \tan\!\left(\frac{x_0}{2}\right)
+	+ \left.\frac{\d}{\d z}\tan\left(\frac{z}{2}\right)\right|_{z = x_0} (z - x_0)
+	+ \cdots\\
+	&=\tan\!\left(\frac{x_0}{2}\right)
+	+ \frac12 \sec^2\!\left(\frac{x_0}{2}\right) (z - x_0)
+	+ \cdots.
+\end{align*}
+Dividing by $(z - x_0)^2$ gives the Laurent series
+\[
+\frac{\tan(z/2)}{(z - x_0)^2}
+= \frac{\tan(x_0/2)}{(z - x_0)^2}
++ \frac12 \sec^2\!\left(\frac{x_0}{2}\right)\frac{1}{z - x_0}
++ \cdots.
+\] Thus, we obtain \[
+\operatorname{Res}_{z=x_0}\!\left(\frac{\tan(z/2)}{(z - x_0)^2}\right)
+= \frac12 \sec^2\!\left(\frac{x_0}{2}\right).
+\]
+By the residue theorem,
+\[
+\int_C \frac{\tan(z/2)}{(z - x_0)^2}\,dz
+= 2\pi i \cdot \frac12 \sec^2\!\left(\frac{x_0}{2}\right)
+= i\pi \sec^2\!\left(\frac{x_0}{2}\right).
+\]
+\end{enumerate}
+\end{proof}

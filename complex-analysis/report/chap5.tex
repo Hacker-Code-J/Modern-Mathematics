@@ -1,0 +1,221 @@
+\begin{tcolorbox}
+Show that the limit of a convergent complex sequence is unique by appealing to the corresponding result for a sequence of real numbers.
+\end{tcolorbox}
+\begin{proof}[\sol]
+	We want to show that \begin{center}
+		``If a complex sequence $\set{z_n}$ converges to both $L$ and $M$ in $\mathbb{C}$, then $L=M$.''
+	\end{center}
+	Write $z_n=x_n+iy_n$, $L=a+ib$, $M=c+id$ with $x_n,y_n,a,b,c,d\in\mathbb{R}$.
+	Assume that \[
+	z_n\to L\quad\text{and}\quad z_n\to M
+	\] as $n\to\infty$. Taking real and imaginary parts, \[
+	x_n=\Re z_n \to \Re L=a \quad\text{and}\quad x_n=\Re z_n \to \Re M=c,
+	\] \[
+	y_n=\Im z_n \to \Im L=b \quad\text{and}\quad y_n=\Im z_n \to \Im M=d.
+	\]
+	By the \emph{uniqueness of limits for real sequences}, these imply $a=c$ and $b=d$. Hence \[
+	L=a+ib=c+id=M.
+	\]
+\end{proof}
+
+\begin{tcolorbox}
+Show that \[
+\sum_{n=1}^{\infty} z_n=S\implies \sum_{n=1}^{\infty} \overline{z_n}=\overline{S}.
+\]
+\end{tcolorbox}
+\begin{proof}[\sol]
+	Let $s_N:=\sum_{n=1}^{N} z_n$ be the partial sums. By hypothesis $s_N\to S$ as $N\to\infty$.
+	Consider the conjugated partial sums
+	\[
+	\overline{s_N}=\overline{\sum_{n=1}^{N} z_n}=\sum_{n=1}^{N}\overline{z_n},
+	\]
+	so $\{\overline{s_N}\}$ are the partial sums of $\sum_{n=1}^{\infty}\overline{z_n}$.
+	Since complex conjugation is continuous (indeed, an isometry: $|\overline{w}-\overline{z}|=|w-z|$),
+	we have $\overline{s_N}\to\overline{S}$. Therefore the series $\sum_{n=1}^{\infty}\overline{z_n}$ converges and
+	\[
+	\sum_{n=1}^{\infty}\overline{z_n}=\lim_{N\to\infty}\sum_{n=1}^{N}\overline{z_n}
+	=\lim_{N\to\infty}\overline{s_N}=\overline{S}.
+	\]
+\end{proof}
+
+\newpage
+\begin{tcolorbox}
+Derive the Taylor series representation \[
+\frac{1}{1-z}=\sum_{n=0}^{\infty}\frac{(z-i)^n}{(1-i)^{\,n+1}},\qquad |z-i|<\sqrt{2}.
+\] 
+\end{tcolorbox}
+\begin{proof}[\sol]
+	Note that \[
+	\frac{1}{1-z}
+	=\frac{1}{(1-i)-(z-i)}
+	=\frac{1}{1-i}\cdot\frac{1}{1-\left(\frac{z-i}{1-i}\right)}.
+	\] For \(\left|\dfrac{z-i}{1-i}\right|<1\) (i.e. \(|z-i|<|1-i|=\sqrt{2}\)), expand the geometric series:
+	\[
+	\frac{1}{1-w}=\sum_{n=0}^{\infty} w^{n}\quad (|w|<1),\qquad
+	w=\frac{z-i}{1-i}.
+	\] Hence \[
+	\frac{1}{1-z}
+	=\frac{1}{1-i}\sum_{n=0}^{\infty}\left(\frac{z-i}{1-i}\right)^n
+	=\sum_{n=0}^{\infty}\frac{(z-i)^n}{(1-i)^{\,n+1}},
+	\]
+	which converges for \(|z-i|<\sqrt{2}\).
+	
+	\medskip
+	
+	\begin{center}
+		\begin{tikzpicture}[>=Latex,scale=1]
+			\tikzset{
+				axis/.style={black, line cap=round},
+				disk/.style={draw=blue!70, fill=blue!8, thick, opacity=.25, dashed},
+				unit/.style={draw=green!60!black, fill=green!8, thick, opacity=.25, dashed},
+				note/.style={gray!60, font=\small},
+				title/.style={font=\small},
+				point/.style={black, fill=black},
+				maparrow/.style={-{Latex}, thick}
+			}
+			% ================= LEFT: z-plane =================
+			\begin{scope}
+				% axes
+				\draw[axis] (-3.2,0) -- (3.2,0) node[right] {$\Re z$};
+				\draw[axis] (0,-2.2) -- (0,3.0) node[above] {$\Im z$};
+				\node[title] at (0,-2.5) {$z$-plane: expansion about $z=i$};
+				% disk centered at i with radius sqrt(2)
+				\def\R{1.4142}
+				\draw[disk] (0,1) circle (\R);
+				% key points: i and 1
+				\fill[point] (0,1) circle (2.2pt) node[above left] {$i$};
+				\fill[point] (1,0) circle (2.2pt) node[below right] {$1$};	
+				% show that 1 is on the boundary: |1-i|=sqrt(2)
+				\draw[gray!55,dashed] (0,1) -- (1,0);
+				\node[note] at (0.7,0.7) {$|1-i|=\sqrt{2}$};	
+				% a sample z inside the disk
+				\coordinate (Z) at (0.6,1.6);
+				\fill (Z) circle (2.0pt) node[above right] {$z$};
+			\end{scope}
+			% mapping arrow
+			\draw[maparrow] (4.6,1.2) -- (6.2,1.2)
+			node[midway,above] {$\displaystyle w=\frac{z-i}{\,1-i\,}$};
+			
+			% ================= RIGHT: w-plane =================
+			\begin{scope}[xshift=9.2cm]
+				% axes
+				\draw[axis] (-2.7,0) -- (2.7,0) node[right] {$\Re w$};
+				\draw[axis] (0,-2.2) -- (0,3) node[above] {$\Im w$};
+				\node[title] at (0,-2.5) {$w$-plane: geometric series region};
+				
+				% unit disk |w|<1
+				\draw[unit] (0,0) circle (1);
+				
+				% images of key points: i -> 0, 1 -> 1
+				\fill[point] (0,0) circle (2.2pt) node[below] {$w( i)=0$};
+				\fill[point] (1,0) circle (2.2pt) node[above right] {$w(1)=1$};
+				
+				% image of sample z
+				% For Z=(0.6,1.6): z-i=(0.6,0.6), 1-i=(1,-1) so w=(0.6+0.6i)/(1-i)=0.6i
+				\coordinate (W) at (0,0.6);
+				\fill (W) circle (2.0pt) node[above right] {$w$};
+			\end{scope}
+		\end{tikzpicture}
+	\end{center}
+\end{proof}
+
+\begin{tcolorbox}
+Show that the two Laurent series in powers of $z$ that represent the function \[
+f(z)=\frac{1}{z(1+z^2)}
+\] are\[
+\sum_{n=0}^{\infty}(-1)^{n+1} z^{2n+1}+\frac{1}{z}\quad(0<|z|<1),
+\qquad
+\sum_{n=1}^{\infty}\frac{(-1)^{n+1}}{z^{2n+1}}\quad(1<|z|<\infty).
+\]
+\end{tcolorbox}
+\begin{proof}[\sol]
+	\begin{enumerate}[(1)]
+		\item (\(0<|z|<1\))\quad Since \[
+		\frac{1}{1+z^2}=\frac{1}{1-(-z^2)}=\sum_{n=0}^\infty (-z^2)^n=\sum_{n=0}^\infty (-1)^n z^{2n}\qquad(|z|<1),
+		\] we have \begin{align*}
+			\frac{1}{z(1+z^2)}=\frac{1}{z}\sum_{n=0}^\infty (-1)^n z^{2n}
+			&=\sum_{n=0}^\infty (-1)^n z^{2n-1}\\
+			&=\frac{1}{z}+\left(-z\right)+z^3+(-z^5)+z^7+\cdots\\
+			&=\frac{1}{z}+\sum_{n=0}^\infty (-1)^{n+1} z^{2n+1}.
+		\end{align*}
+		Therefore the Laurent series on \(0<|z|<1\) is $\displaystyle \sum_{n=0}^{\infty}(-1)^{n+1} z^{2n+1}+\frac{1}{z}$.
+		\item (\(1<|z|<\infty\))\quad Since \[
+		\frac{1}{1+z^2}=\frac{1}{z^2}\,\frac{1}{1+z^{-2}}=\frac{1}{z^2}\,\frac{1}{1-(-z^{-2})}
+		=\frac{1}{z^2}\sum_{n=0}^\infty (-1)^n z^{-2n}\qquad(|z|>1),
+		\] we obtain \begin{align*}		
+			\frac{1}{z(1+z^2)}=\frac{1}{z}\cdot\frac{1}{z^2}\sum_{n=0}^\infty (-1)^n z^{-2n}
+			&=\sum_{n=0}^\infty \frac{(-1)^n}{z^{2n+3}}\\
+			&=\frac{1}{z^3}+\frac{-1}{z^5}+\frac{1}{z^7}+\frac{-1}{z^9}+\cdots \\
+			&=\sum_{n=1}^\infty \frac{(-1)^{n+1}}{z^{2n+1}},
+		\end{align*} Hence the Laurent series is $\displaystyle \sum_{n=1}^{\infty}\frac{(-1)^{n+1}}{z^{2n+1}}$ on \(1<|z|<\infty\).
+	\end{enumerate} 
+\end{proof}
+
+\begin{tcolorbox}
+ Let $a\in\R$, where $-1<a<1$. Then the Laurent series representation $a/(z-a)$ is \[
+\frac{a}{z-a}=\sum_{n=1}^{\infty}\frac{a^{n}}{z^{n}},\qquad |a|<|z|<\infty.
+\]
+After writing $z=e^{i\theta}$ in the above equation, equate real parts and then imaginary parts on each side of the result to derive the summation formulas:
+\[
+\sum_{n=1}^{\infty} a^n \cos(n\theta)=\frac{a\cos\theta-a^2}{1-2a\cos\theta+a^2}\quad\text{and}\quad
+\sum_{n=1}^{\infty} a^n \sin(n\theta)=\frac{a\sin\theta}{1-2a\cos\theta+a^2}.
+\]
+\end{tcolorbox}
+	\begin{proof}[\sol]
+	For $|a|<|z|$, we know that
+	\[
+	\frac{a}{z-a}
+	=\frac{a}{z}\,\frac{1}{1-a/z}
+	=\frac{a}{z}\,\sum_{n=0}^\infty\left(\frac{a}{z}\right)^n
+	=\sum_{n=0}^\infty\left(\frac{a}{z}\right)^{n+1}
+	=\sum_{n=1}^{\infty}\frac{a^{n}}{z^{n}}.
+	\] Set $z=e^{i\theta}$ (so $|a|<|z|=1$). Then
+	\[
+	\frac{a}{e^{i\theta}-a}=\sum_{n=1}^{\infty} a^n e^{-in\theta}
+	=\sum_{n=1}^{\infty} a^n\bigl(\cos(n\theta)-i\sin(n\theta)\bigr).
+	\]
+	Note that \begin{align*}
+		\frac{a}{e^{i\theta}-a}
+		=\frac{e^{-i\theta}}{e^{-i\theta}}\cdot\frac{a}{e^{i\theta}-a}
+		=\frac{a e^{-i\theta}}{1-a e^{-i\theta}}
+		=\frac{a e^{-i\theta}(1-a e^{i\theta})}{(1-a e^{i\theta})(1-a e^{-i\theta})}
+		&=\frac{a e^{-i\theta}(1-a e^{i\theta})}{1-a(e^{i\theta}+e^{-i\theta})+a^2e^{i\theta-i\theta}}\\
+		&=\frac{a\,(e^{-i\theta}-a)}{1-2a\cos\theta+a^2}\\
+		&=\frac{a\,(\cos\theta-i\sin\theta-a)}{1-2a\cos\theta+a^2}\\
+		&=\frac{a(\cos\theta-a)-i\,a\sin\theta}{1-2a\cos\theta+a^2}.
+	\end{align*} Thus, we obtain \[
+	\sum_{n=1}^{\infty} a^n\bigl(\cos(n\theta)-i\sin(n\theta)\bigr)=\frac{a}{e^{i\theta}-a}=\frac{a(\cos\theta-a)-i\,a\sin\theta}{1-2a\cos\theta+a^2}.
+	\] Therefore \[
+	\sum_{n=1}^{\infty} a^n \cos(n\theta)=\frac{a\cos\theta-a^2}{1-2a\cos\theta+a^2},\qquad
+		\sum_{n=1}^{\infty} a^n \sin(n\theta)=\frac{a\sin\theta}{1-2a\cos\theta+a^2},
+	\]
+	valid for $-1<a<1$ (indeed $1-2a\cos\theta+a^2=(1-a e^{i\theta})(\overline{1-a e^{i\theta}})=|1-ae^{i\theta}|^2>0$).
+\end{proof}
+
+\begin{tcolorbox}
+With the aid of series, show that the function $f$ defined by means of the equations \[
+f(z)=\begin{cases}
+	(\sin z)/z &: z\neq 0\\
+	1 &: z = 0
+\end{cases}\] is entire. Use this result to establish the limit \[
+\lim_{z\to0}\frac{\sin z}{z}=1.
+\]
+\end{tcolorbox}
+\begin{proof}[\sol]
+	The Maclaurin series of $\sin z$ (entire) is
+	\[
+	\sin z=\sum_{n=0}^{\infty}(-1)^n\frac{z^{2n+1}}{(2n+1)!}\,.
+	\]
+	For $z\neq 0$, divide by $z$:
+	\[
+	\frac{\sin z}{z}=\sum_{n=0}^{\infty}(-1)^n\frac{z^{2n}}{(2n+1)!}
+	=1-\frac{z^{2}}{3!}+\frac{z^{4}}{5!}-\cdots .
+	\]
+	This is a power series with infinite radius of convergence, hence defines an entire function
+	\[
+	F(z):=\sum_{n=0}^{\infty}(-1)^n\frac{z^{2n}}{(2n+1)!}.
+	\]
+	Note that $F(0)=1$, and for $z\neq 0$ we have $F(z)=\sin z/z$. Therefore $f\equiv F$ on $\mathbb{C}$; in particular, $f$ is entire (the singularity at $0$ is removable). By continuity of $F$ at $0$, \[
+	\lim_{z\to 0}\frac{\sin z}{z}=\lim_{z\to 0}F(z)=F(0)=1.
+	\]
+\end{proof}

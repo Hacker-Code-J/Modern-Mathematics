@@ -1,0 +1,207 @@
+\documentclass[11pt,openany]{article}
+
+\usepackage{mathtools, commath}
+% Packages for formatting
+\usepackage[margin=1in]{geometry}
+\usepackage{fancyhdr}
+\usepackage{enumerate}
+\usepackage{graphicx}
+\usepackage{kotex}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage[dvipsnames,table]{xcolor}
+\usepackage{amssymb, amsfonts}
+
+\usepackage{arydshln} % Include this package
+% Fonts
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{newpxtext,newpxmath}
+\usepackage{sectsty}
+
+% Define colors
+\definecolor{TealBlue1}{HTML}{0077c2}
+\definecolor{TealBlue2}{HTML}{00a5e6}
+\definecolor{TealBlue3}{HTML}{b3e0ff}
+\definecolor{TealBlue4}{HTML}{00293c}
+\definecolor{TealBlue5}{HTML}{e6f7ff}
+
+\definecolor{thmcolor}{RGB}{231, 76, 60}
+\definecolor{defcolor}{RGB}{52, 152, 219}
+\definecolor{lemcolor}{RGB}{155, 89, 182}
+\definecolor{corcolor}{RGB}{46, 204, 113}
+\definecolor{procolor}{RGB}{241, 196, 15}
+
+\usepackage{color,soul}
+\usepackage{soul}
+\newcommand{\mathcolorbox}[2]{\colorbox{#1}{$\displaystyle #2$}}
+\usepackage{cancel}
+\newcommand\crossout[3][black]{\renewcommand\CancelColor{\color{#1}}\cancelto{#2}{#3}}
+\newcommand\ncrossout[2][black]{\renewcommand\CancelColor{\color{#1}}\cancel{#2}}
+
+\usepackage{hyperref}
+\usepackage{booktabs}
+
+% Chapter formatting
+\definecolor{titleTealBlue}{RGB}{0,53,128}
+\usepackage{titlesec}
+\titleformat{\section}
+{\normalfont\sffamily\Large\bfseries\color{titleTealBlue!100!gray}}{\thesection}{1em}{}
+\titleformat{\subsection}
+{\normalfont\sffamily\large\bfseries\color{titleTealBlue!50!gray}}{\thesubsection}{1em}{}
+
+%Tcolorbox
+\usepackage[most]{tcolorbox}
+\usepackage{multirow}
+\usepackage{multicol}
+
+%Tikzpicture
+\usepackage{tikz-cd}
+\usetikzlibrary{positioning}
+\usetikzlibrary{angles, quotes}
+\usetikzlibrary{patterns,patterns.meta}
+
+\usepackage[linesnumbered,ruled]{algorithm2e}
+\usepackage{algpseudocode}
+\usepackage{setspace}
+\SetKwComment{Comment}{/* }{ */}
+\SetKwProg{Fn}{Function}{:}{end}
+\SetKw{End}{end}
+\SetKw{DownTo}{downto}
+
+% Define a new environment for algorithms without line numbers
+\newenvironment{algorithm2}[1][]{
+	% Save the current state of the algorithm counter
+	\newcounter{tempCounter}
+	\setcounter{tempCounter}{\value{algocf}}
+	% redefine the algorithm numbering (remove prefix)
+	\renewcommand{\thealgocf}{}
+	\begin{algorithm}
+	}{
+	\end{algorithm}
+	% Restore the algorithm counter state
+	\setcounter{algocf}{\value{tempCounter}}
+}
+
+\usepackage{adjustbox}
+% Header and footer formatting
+\pagestyle{fancy}
+\fancyhead{}
+\fancyhf{}
+\rhead{Student ID: \textbf{F2025014}\quad Name: \textbf{지용현}}%\rule{3cm}{0.4pt}}
+\lhead{\textcolor{TealBlue2}{\textbf{[2025 Fall] Complex Analysis}}}
+% Define footer
+\newcommand{\footer}[1]{
+\begin{flushright}
+	\vspace{2em}
+	\includegraphics[width=3cm]{school_logo.jpg} \\
+	\vspace{1em}
+	\textcolor{TealBlue2}{\large\textbf{#1}}
+\end{flushright}
+}
+%\rfoot{\large Department of Information Security, Cryptogrphy and Mathematics, Kookmin Uni.\includegraphics[height=1.5cm]{school_logo.jpg}}
+\fancyfoot{}
+\fancyfoot[C]{-\thepage-}
+
+\newcommand{\ie}{\textnormal{i.e.}}
+\newcommand{\rsa}{\mathsf{RSA}}
+\newcommand{\rsacrt}{\mathsf{RSA}\textendash\mathsf{CRT}}
+\newcommand{\inv}[1]{#1^{-1}}
+
+\usepackage{amsthm}
+\newtheorem{axiom}{Axiom}[section]
+\newtheorem{theorem}{Theorem}
+\newtheorem*{theorem*}{Theorem}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}{Corollary}[theorem]
+\newtheorem*{corollary*}{Corollary}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem*{lemma*}{Lemma}
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+\newtheorem*{definition*}{Definition}
+\newtheorem*{note}{Note}
+\newtheorem{remark}{Remark}
+\newtheorem{example}{Example}
+\newtheorem{exercise}{Exercise}[section]
+
+%New Command
+%\newcommand{\set}[1]{\left\{#1\right\}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\nbhd}{\mathcal{N}}
+\newcommand{\Log}{\operatorname{Log}}
+\newcommand{\Arg}{\operatorname{Arg}}
+\newcommand{\pv}{\operatorname{P.V.}}
+
+\newcommand{\of}[1]{\left( #1 \right)} 
+%\newcommand{\abs}[1]{\left\lvert #1 \right\rvert}
+%\newcommand{\norm}[1]{\left\| #1 \right\|}
+
+\newcommand{\sol}{\textcolor{magenta}{\bf Sol}}
+\newcommand{\conjugate}[1]{\overline{#1}}
+
+\newcommand{\res}{\operatorname{res}}
+\DeclareMathOperator*{\Res}{\operatorname{Res}}
+
+\renewcommand{\Re}{\operatorname{Re}}
+\renewcommand{\Im}{\operatorname{Im}}
+
+\newcommand{\cyclic}[1]{\langle #1 \rangle}
+\newcommand{\uniform}{\overset{\$}{\leftarrow}}
+
+\newcommand{\Sol}{{\color{magenta}\normalfont\bfseries\text{Sol}}}
+\renewcommand{\d}{\mathrm{d}} % For the exterior derivative 'd'
+
+
+\tcbset{
+%	colframe=myframecolor, % Set default frame color
+	colback=white,    % Set default background color
+	% You can add other default options here, e.g., arc=2mm, boxrule=0.5mm, etc.
+}
+
+\setstretch{1.25}
+\begin{document}
+\pagenumbering{arabic}
+\begin{center}
+	\Huge\textbf{Complex Analysis}\\
+	\vspace{0.5em}
+	\normalsize{\today}\\
+%	\vspace{0.5em}
+%	\large\quad\textbf{F2025014\qquad Ji, Yonghyeon}\\
+	\vspace{0.5em}
+\end{center}
+\tableofcontents
+
+\section{Complex numbers}
+\input{chap1}
+
+\newpage
+\section{Analytic functions}
+\input{chap2}
+
+\newpage
+\section{Elementary functions}
+\input{chap3}
+
+\newpage
+\section{Integrals}
+\input{chap4}
+
+\newpage
+\section{Series}
+\input{chap5}
+
+\newpage
+\section{Residues and Poles}
+\input{chap6}
+
+\footer{Department of Cyber Security\\
+	Kookmin University}
+
+\end{document}

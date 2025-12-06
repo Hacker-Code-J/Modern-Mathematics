@@ -1,0 +1,616 @@
+\section{Integrals}
+
+\subsection{Definite Integrals of Complex-Valued Functions}
+
+\defbox[Derivative]{
+	\begin{definition}\label{def:derivative}
+		If $w(t)=u(t)+iv(t)$ with real-valued $u,v$, the derivative is
+		\[
+		\dv{t}w(t)=w'(t)=u'(t)+iv'(t),
+		\]
+		whenever $u'$ and $v'$ exist. If $z_0=x_0+iy_0$ is constant, then
+		\[
+		\dv{t}\big[z_0w(t)\big]=z_0\,w'(t),\qquad
+		\dv{t}\,e^{z_0t}=z_0\,e^{z_0t}.
+		\]
+\end{definition}}
+
+\begin{observation}[No mean value theorem for derivatives]
+	If $w(t)$ is continuous on $[a,b]$ and differentiable on $(a,b)$, there need \emph{not} exist $c\in(a,b)$ with
+	\[
+	w'(c)=\frac{w(b)-w(a)}{b-a}.
+	\]
+	For $w(t)=e^{it}$ on $[0,2\pi]$, we have $\abs{w'(t)}=1$ but $[w(2\pi)-w(0)]/(2\pi)=0$. 
+\end{observation}
+
+\begin{definition}[Definite integral]\label{def:defint}
+	For $w(t)=u(t)+iv(t)$,
+	\[
+	\int_a^b w(t)\,dt
+	=\int_a^b u(t)\,dt \;+\; i\int_a^b v(t)\,dt,
+	\]
+	with analogous definitions for improper integrals.
+\end{definition}
+
+\begin{example}
+	\[
+	\int_0^1 (1+it)^2\,dt
+	=\int_0^1(1-t^2)\,dt+i\int_0^1 2t\,dt
+	=\frac{2}{3}+i.
+	\]
+\end{example}
+
+\begin{theorem}[Additivity]
+	For $a\le c\le b$,
+	\[
+	\int_a^b w(t)\,dt=\int_a^c w(t)\,dt+\int_c^b w(t)\,dt.
+	\]
+\end{theorem}
+
+\newpage
+\thmbox[Fundamental Theorem of Calculus]{
+	\begin{theorem}\label{thm:FTC}
+		If $W'(t)=w(t)$ and $W,w$ are continuous on $[a,b]$, then \[
+		\int_a^b w(t)\,dt=W(b)-W(a).
+		\]
+\end{theorem}}
+\begin{example}
+	Since $\dv{t}\!\big(e^{it}/i\big)=e^{it}$,
+	\[
+	\int_0^{\pi/4}e^{it}\,dt=\left[\frac{e^{it}}{i}\right]_{0}^{\pi/4}
+	=\frac{1}{\sqrt2}+i\!\left(1-\frac{1}{\sqrt2}\right).
+	\]
+\end{example}
+
+\begin{remark}[No mean value theorem for integrals]
+	There need not be $c\in(a,b)$ with \[
+	w(c)=\frac{1}{b-a}\int_a^bw(t)\,dt
+	\] when $w$ is complex-valued.
+\end{remark}
+
+\subsection{Contours}
+
+\defbox[Arc]{
+	\begin{definition}\label{def:arc}
+		An \emph{arc} $C$ is a set $z(t)=x(t)+iy(t)$, $a\le t\le b$, where $x,y$ are continuous.
+\end{definition}}
+
+\begin{definition}[Simple arc / Jordan curve]
+	$C$ is \emph{simple} if $z(t_1)\ne z(t_2)$ for $t_1\ne t_2$. If $C$ is simple with $z(a)=z(b)$, it is a \emph{simple closed curve} (Jordan curve). Positive orientation is counterclockwise.
+\end{definition}
+
+\begin{example}
+	The polygonal line from $0$ to $1+i$ to $2+i$ is a simple arc; $z=e^{i\theta}$, $0\le\theta\le2\pi$, is a positively oriented unit circle; $z=z_0+Re^{i\theta}$ is a circle centered at $z_0$ of radius $R$. Traversing $z=e^{-i\theta}$ reverses orientation; $z=e^{i2\theta}$ traverses the unit circle twice.
+\end{example}
+
+\begin{observation}[Arc length]
+	If $z'(t)=x'(t)+iy'(t)$ is continuous on $[a,b]$, then
+	\[
+	L(C)=\int_a^b \abs{z'(t)}\,dt,\qquad
+	\abs{z'(t)}=\left([x'(t)]^2+[y'(t)]^2\right)^{1/2}.
+	\]
+	The unit tangent is $T=z'(t)/\abs{z'(t)}$ where $z'(t)\neq0$; such an arc is \emph{smooth}.
+\end{observation}
+
+\defbox[Smooth arc and contour]{
+	\begin{definition}\label{def:contour}
+		An arc is \emph{smooth} if $z'(t)$ is continuous on $[a,b]$ and nonzero on $(a,b)$. A \emph{contour} (piecewise smooth arc) is a finite concatenation of smooth arcs. A contour with identical initial and final points is a \emph{simple closed contour}.
+\end{definition}}
+
+\thmbox[Jordan Curve Theorem]{
+	\begin{theorem}
+		A simple closed curve $C$ is the boundary of exactly two domains: a bounded interior and an unbounded exterior.
+\end{theorem}}
+
+\subsection{Contour Integrals}
+
+\defbox[Contour integral]{
+	\begin{definition}\label{def:contint}
+		If $C$ is given by $z=z(t)$, $a\le t\le b$, and $f$ is (piecewise) continuous on $C$, define
+		\[
+		\int_C f(z)\,dz \;=\;\int_a^b f(z(t))\,z'(t)\,dt.
+		\]
+		This is invariant under reparametrization of $C$.
+\end{definition}}
+
+\probox[Linearity]{
+	\begin{proposition}
+		For a contour $C$ and constant $z_0$,
+		\[
+		\int_C z_0 f(z)\,dz=z_0\!\int_C f(z)\,dz,\qquad
+		\int_C [f(z)+g(z)]\,dz=\int_C f+\int_C g.
+		\]
+\end{proposition}}
+
+\probox[Orientation reversal]{
+	\begin{proposition}
+		If $-C$ is $C$ with reversed direction, then
+		\[
+		\int_{-C} f(z)\,dz = -\int_C f(z)\,dz.
+		\]
+\end{proposition}}
+
+\probox[Additivity over legs]{
+	\begin{proposition}
+		If $C=C_1+C_2$ (concatenation), then
+		\[
+		\int_C f(z)\,dz=\int_{C_1} f+\int_{C_2} f.
+		\]
+\end{proposition}}
+
+\begin{example}[Half-circle integral]
+	Let $C:\; z=2e^{i\theta}$, $-\pi/2\le\theta\le\pi/2$ (right half of $\abs{z}=2$). Then
+	\[
+	\int_C z\,dz
+	=\int_{-\pi/2}^{\pi/2} 2e^{i\theta}(2ie^{i\theta})\,d\theta
+	=4i\int_{-\pi/2}^{\pi/2} e^{2i\theta}\,d\theta
+	=4\pi i.
+	\]
+\end{example}
+
+\begin{example}[Polygonal and diagonal paths]
+	Let $f(z)=y-x- i\,3x^2$ with $z=x+iy$. With $C_1:$ $O\to A\to B$ (up then right) and $C_2:$ $O\to B$ along $y=x$, one finds
+	\[
+	\int_{C_1}\!f(z)\,dz=\frac{1-i}{2},\qquad
+	\int_{C_2}\!f(z)\,dz=1-i,\qquad
+	\int_{C_1-C_2}\!f(z)\,dz=\frac{-1+i}{2}.
+	\]
+\end{example}
+
+\begin{example}[Path-independence for $f(z)=z$]
+	For any smooth arc $C$ from $z_1$ to $z_2$,
+	\[
+	\int_C z\,dz=\frac{z_2^2-z_1^2}{2}.
+	\]
+	Hence the value depends only on endpoints, so the same holds for any piecewise smooth contour by telescoping the legs.
+\end{example}
+
+\begin{example}[Square-root branch on a semicircle]
+	Let $C:\; z=3e^{i\theta}$, $0\le\theta\le\pi$ and take the branch $z^{1/2}=\exp\big(\tfrac12\log z\big)$ on $\abs{z}>0$, $0<\arg z<2\pi$. Then $z^{1/2}$ is piecewise continuous on $C$ and
+	\[
+	\int_C z^{1/2}\,dz
+	=3\sqrt{3}\,i\int_0^{\pi} e^{i(3\theta/2)}\,d\theta
+	=-2\sqrt3\,(1+i).
+	\]
+\end{example}
+
+\begin{example}[Power integral on a circle]
+	On the principal branch $z^{a-1}=\exp[(a-1)\Log z]$ with $\abs{z}>0$, $-\pi<\Arg z<\pi$, for $C:\; z=Re^{i\theta}$, $-\pi<\theta<\pi$,
+	\[
+	\int_C z^{a-1}\,dz
+	=iR^{a}\!\int_{-\pi}^{\pi} e^{ia\theta}\,d\theta
+	=\frac{i\,2R^{a}}{a}\,\sin(a\pi).
+	\]
+	If $a=n\in\mathbb{Z}\setminus\{0\}$, this vanishes; for $a=0$ it yields
+	\[
+	\int_C \frac{1}{z}\,dz
+	=\int_{-\pi}^{\pi} \frac{i\,Re^{i\theta}}{Re^{i\theta}}\,d\theta
+	=2\pi i.
+	\]
+\end{example}
+
+\newpage
+\subsection{Upper Bounds for Moduli of Contour Integrals}
+
+\lembox{
+	\begin{lemma}\label{lem:scalarbound}
+		If $w(t)$ is piecewise continuous on $[a,b]$, then
+		\[
+		\left|\int_a^b w(t)\,dt\right|\le \int_a^b \abs{w(t)}\,dt.
+		\]
+\end{lemma}}
+
+\thmbox[ML-inequality]{
+	\begin{theorem}\label{thm:ML}
+		Let $C$ be a contour of length $L=b-a$, and suppose $f$ is piecewise continuous on $C$ with $\abs{f(z)}\le M$ on $C$. Then
+		\[
+		\left|\int_C f(z)\,dz\right|\le ML(=M(b-a)).
+		\]
+\end{theorem}}
+
+\begin{example}
+	On the quarter-circle $C:\abs{z}=2$ from $2$ to $2i$,
+	\[
+	\left|\int_C \frac{z+4}{z^3-1}\,dz\right|
+	\le \frac{6}{7}\cdot \frac{\pi}{2}\cdot 2
+	= \frac{6\pi}{7},
+	\]
+	since $\abs{z+4}\le6$, $\abs{z^3-1}\ge7$, and $L=\pi$.
+\end{example}
+
+\begin{example}[Large semicircle vanishing]
+	Let $C_R:\; z=Re^{i\theta}$, $0\le\theta\le\pi$, and take $z^{1/2}=\exp\big(\tfrac12\log z\big)$ on $\abs{z}>0$, $-\pi/2<\theta<3\pi/2$. Then
+	\[
+	\left|\int_{C_R}\frac{z^{1/2}}{z^2+1}\,dz\right|
+	\le \max_{C_R}\frac{\sqrt{R}}{R^2-1}\cdot (\pi R)
+	=\frac{\pi R\sqrt{R}}{R^2-1}\xrightarrow[R\to\infty]{}0.
+	\]
+	Hence $\displaystyle \lim_{R\to\infty}\int_{C_R}\frac{z^{1/2}}{z^2+1}\,dz=0$.
+\end{example}
+
+\subsection{Antiderivatives and Path Independence}
+
+\thmbox{
+	\begin{theorem}\label{thm:anti-equivalences}
+		Let $f$ be continuous on a domain $D\subset\C$. The following are equivalent:
+		\begin{enumerate}[(1)]
+			\item $f$ has an antiderivative $F$ on $D$;
+			\item For any $z_1,z_2\in D$ and any contour $C$ in $D$ from $z_1$ to $z_2$,
+			\[
+			\int_C f(z)\,dz=F(z_2)-F(z_1);
+			\]
+			\item $\displaystyle \int_C f(z)\,dz=0$ for every closed contour $C$ in $D$.
+		\end{enumerate}
+\end{theorem}}
+
+\begin{example}
+	$f(z)=z^2$ has antiderivative $F(z)=z^3/3$ on $\C$; thus for any contour $0\to 1+i$,
+	\[
+	\int_0^{1+i} z^2\,dz=\left[\frac{z^3}{3}\right]_0^{1+i}
+	=\frac{2}{3}(-1+i).
+	\]
+\end{example}
+
+\begin{example}
+	$f(z)=z^{-2}$ is continuous on $\C\setminus\{0\}$ with antiderivative $F(z)=-1/z$ on $\abs{z}>0$. Therefore for the circle $z=2e^{i\theta}$,
+	\[
+	\int_{|z|=2}\frac{1}{z^2}\,dz=0.
+	\]
+\end{example}
+
+\begin{example}[Using branches of $\log$ for $1/z$]
+	On the right semicircle $C_1:\; z=2e^{i\theta}$, $-\pi/2\le\theta\le\pi/2$, the principal branch
+	\[
+	\Log z=\ln r + i\varphi\quad (r>0,\ -\pi<\varphi<\pi)
+	\]
+	is an antiderivative of $1/z$, hence
+	\[
+	\int_{C_1}\frac{1}{z}\,dz=\Log(2i)-\Log(-2i)=\pi i.
+	\]
+	On the left semicircle $C_2:\; \pi/2\le\theta\le 3\pi/2$ using the branch
+	\[
+	\log z=\ln r + i\theta\quad (r>0,\ 0<\theta<2\pi),
+	\]
+	we likewise obtain
+	\[
+	\int_{C_2}\frac{1}{z}\,dz=\log(-2i)-\log(2i)=\pi i.
+	\]
+	Therefore $\displaystyle \oint_{|z|=2}\frac{1}{z}\,dz=2\pi i$.
+\end{example}
+
+%\vspace{1em}
+%\noindent\textbf{References.} Content adapted from the provided lecture slides for \emph{Complex Variables and Applications, Chapter 4: Integrals (Part I)}. :contentReference[oaicite:0]{index=0}
+%
+
+\newpage
+%\section{Integrals: Part II}
+\subsection{Cauchy--Goursat Theorem}
+
+We begin with the real-variable result which motivates Cauchy's theorem.
+\thmbox[Green's Theorem]{\label{thm:greens}
+	\begin{theorem}
+		Let $C(=\partial R)$ be a positively oriented simple closed contour in the plane, and let $R$ be the region it encloses. Suppose $P(x,y),Q(x,y)$ are continuous on $C\cup R$ and have continuous first partial derivatives $P_x,P_y,Q_x,Q_y$ there. Then \[
+		\int_{C=\partial R} P(x,y)\,\d x + Q(x,y)\,\d y = \iint_R \left(\frac{\partial Q}{\partial x} - \frac{\partial P}{\partial y}\right)\,\d x\,\d y = \iint_R \left(\frac{\partial Q}{\partial x} - \frac{\partial P}{\partial y}\right)\,\d A.
+		\]
+\end{theorem}}
+This gives rise to one of the central theorems of complex integration.
+
+\thmbox[Cauchy's Theorem (elementary form)]{
+	\begin{theorem}
+		Let $f$ be analytic and $f'$ continuous in a simply connected domain $D\subset\C$. If $C$ is a positively oriented simple closed contour in $D$, then \[
+		\int_C f(z)\,dz = 0.
+		\]
+\end{theorem}}
+\begin{remark}
+	Let $f=u+iv$ and $z=z(t)=x(t)+iy(t)$ ($\d z=dx+idy$). Then \begin{align*}
+		\int f(z)\d z &= \int (u\d x - v\d y+i(vdx+u \d y))\\
+		&= \int (udx-vdy)+i\int(vdx+udy) \\
+		&= \iint_D
+	\end{align*}
+\end{remark}
+
+\begin{example}
+	Let $C$ be any simple closed contour. The function $f(z)=e^{z^3}$ is entire. Hence
+	\[
+	\int_C e^{z^3}\,dz = 0.
+	\]
+\end{example}
+
+\newpage\noindent
+To remove the hypothesis ``$f'$ is continuous'', we use a covering lemma.
+
+%\lembox{[Covering Lemma]{
+	\begin{lemma}\label{lem:cover}
+		Let $f$ be analytic throughout a closed region $R$ consisting of the interior of a positively oriented simple closed contour $C$ together with the points of $C$ itself. For any $\varepsilon>0$, the region $R$ can be covered by finitely many (possibly partial) squares indexed by $j=1,\dots,n$ such that in each square there is a point $z_j$ with
+		\[
+		\left| \frac{f(z)-f(z_j)}{z-z_j} - f'(z_j) \right| < \varepsilon
+		\]
+		for all $z$ in that square distinct from $z_j$.
+	\end{lemma}
+	%}
+
+\thmbox[Cauchy--Goursat Theorem]{
+	\begin{theorem}\label{thm:CG}
+		If $f$ is analytic at all points on and inside a positively oriented simple closed contour $C$, then
+		\[
+		\int_C f(z)\,dz = 0.
+		\]
+\end{theorem}}
+
+\subsection{Integrals on Simply and Multiply Connected Domains}
+
+\defbox[Simply connected domain]{
+	\begin{definition}
+		A domain $D\subset\C$ is \emph{simply connected} if every simple closed contour contained in $D$ encloses only points of $D$ (equivalently: any closed contour in $D$ can be continuously deformed to a point while remaining in $D$).
+\end{definition}}
+
+\begin{example}
+	The interior of a simple closed curve is simply connected. The annulus
+	\[
+	\{z: r<|z|<R\}
+	\]
+	is not simply connected because closed contours can wind around the missing center point.
+\end{example}
+
+\begin{definition}[Multiply connected domain]
+	A domain that is not simply connected is called \emph{multiply connected}.
+\end{definition}
+
+\thmbox[Cauchy on simply connected domains]{
+	\begin{theorem}\label{thm:simple}
+		If $f$ is analytic throughout a simply connected domain $D$, then
+		\[
+		\int_C f(z)\,dz = 0
+		\]
+		for every closed contour $C$ contained in $D$.
+\end{theorem}}
+
+\begin{example}
+	Let $C$ be any closed contour in the disk $\{z:|z|<2\}$. Consider
+	\[
+	f(z) = \frac{z e^z}{(z^2+9)^5}.
+	\]
+	The poles at $z=\pm 3i$ lie outside $|z|<2$. On $|z|<2$ the function $f$ is analytic. Hence
+	\[
+	\int_C \frac{z e^z}{(z^2+9)^5}\,dz = 0.
+	\]
+\end{example}
+
+The following result ties together antiderivatives, path-independence, and zero integral over closed contours.
+
+\begin{theorem}[Equivalence]\label{thm:equiv}
+	Let $f$ be continuous on a domain $D$. The following are equivalent:
+	\begin{enumerate}
+		\item $f$ has an antiderivative $F$ on $D$;
+		\item For any $z_1,z_2\in D$, and any contour $C$ in $D$ from $z_1$ to $z_2$,
+		\[
+		\int_C f(z)\,dz = F(z_2)-F(z_1);
+		\]
+		\item For every closed contour $C$ in $D$,
+		\[
+		\int_C f(z)\,dz = 0.
+		\]
+	\end{enumerate}
+\end{theorem}
+
+\begin{corollary}
+	If $f$ is analytic throughout a simply connected domain $D$, then $f$ has an antiderivative on $D$.
+\end{corollary}
+
+\begin{remark}
+	Since the entire plane $\C$ is simply connected, every entire function possesses an entire antiderivative.
+\end{remark}
+
+\subsubsection*{Multiply connected case}
+\thmbox[Cauchy for multiply connected regions]{
+	\begin{theorem}\label{thm:mult}
+		Suppose
+		\begin{enumerate}
+			\item $C$ is a positively oriented simple closed contour;
+			\item $C_1,\dots,C_n$ are negatively oriented (clockwise) simple closed contours interior to $C$, pairwise disjoint, and their interiors do not intersect;
+			\item $f$ is analytic on $C$, on each $C_k$, and on the region consisting of points inside $C$ and outside all $C_k$.
+		\end{enumerate}
+		Then
+		\[
+		\int_C f(z)\,dz + \sum_{k=1}^n \int_{C_k} f(z)\,dz = 0.
+		\]
+\end{theorem}}
+
+\corbox[Deformation of Paths]{
+	\begin{corollary}
+		Let $C_1$ and $C_2$ be positively oriented simple closed contours with $C_1$ inside $C_2$. If $f$ is analytic on and between these contours, then
+		\[
+		\int_{C_1} f(z)\,dz = \int_{C_2} f(z)\,dz.
+		\]
+\end{corollary}}
+
+\begin{example}
+	Let $C$ be any positively oriented simple closed contour around the origin. Then
+	\[
+	\int_C \frac{1}{z}\,dz = 2\pi i.
+	\]
+	Indeed, by deformation we may replace $C$ by the unit circle.
+\end{example}
+
+\newpage
+\subsection{Cauchy Integral Formula}
+
+We now reach one of the most powerful formulas in complex analysis.
+\thmbox[Cauchy Integral Formula]{
+	\begin{theorem}\label{thm:CIF}
+		Let $f$ be analytic on and inside a positively oriented simple closed contour $C$, and let $z_0$ be a point interior to $C$. Then \[
+		f(z_0) = \frac{1}{2\pi i} \int_C \frac{f(z)}{z - z_0}\,dz.
+		\]
+\end{theorem}}
+\begin{remark}
+	\begin{align*}
+		\int_C \frac{f(z)}{z - z_0}\,dz&=\int_C\frac{f(z)-f(z_0)+f(z_0)}{z-z_0}\\
+		&=\int_C \frac{f(z)-f(z_0)}{z - z_0}\,dz+\int_C \frac{f(z_0)}{z - z_0}\,dz
+	\end{align*}
+\end{remark}
+
+\begin{remark}
+	This formula shows that the values of $f$ inside $C$ are \emph{completely determined} by the values of $f$ on $C$.
+\end{remark}
+
+\begin{observation}
+	Written as
+	\[
+	\int_C \frac{f(z)}{z - z_0}\,dz = 2\pi i\,f(z_0),
+	\]
+	the formula is very convenient for evaluating contour integrals.
+\end{observation}
+
+\begin{example}
+	Let $C$ be the positively oriented circle $|z|=2$. Consider
+	\[
+	\int_C \frac{z}{(9 - z^2)(z + i)}\,dz.
+	\]
+	Write $f(z)=\dfrac{z}{9 - z^2}$, which is analytic on $|z|\le 2$, and $z_0 = -i$ lies inside $C$. Then
+	\[
+	\int_C \frac{f(z)}{z - (-i)}\,dz
+	= 2\pi i\, f(-i)
+	= 2\pi i \cdot \frac{-i}{9 - (-i)^2}
+	= 2\pi i \cdot \frac{-i}{9+1}
+	= \frac{\pi}{5}.
+	\]
+\end{example}
+
+\subsubsection{Cauchy formulas for derivatives}
+\thmbox[Cauchy formula for $f'$]{
+	\begin{theorem}
+		Under the hypotheses of Theorem~\ref{thm:CIF}, for $z$ interior to $C$,
+		\[
+		f'(z) = \frac{1}{2\pi i} \int_C \frac{f(s)}{(s - z)^2}\,ds.
+		\]
+\end{theorem}}
+\begin{remark}
+	\begin{align*}
+		f(z)-\frac{1}{2\pi i}\int_C\frac{f(s)}{s-z}dz &\implies f'(z)=\frac{df}{dz}=\frac{d}{dz}\left(\frac{1}{2\pi i}\int_C\frac{f(s)}{s-z}\ ds\right)
+	\end{align*}
+\end{remark}
+
+\corbox[Cauchy formula for higher derivatives]{
+	\begin{corollary}
+		If $f$ is analytic on and inside $C$, then for $n=1,2,\dots$,
+		\[
+		f^{(n)}(z) = \frac{n!}{2\pi i} \int_C \frac{f(s)}{(s - z)^{n+1}}\,ds.
+		\]
+		Equivalently,
+		\[
+		\int_C \frac{f(s)}{(s - z)^{n+1}}\,ds = \frac{2\pi i}{n!} f^{(n)}(z).
+		\]
+\end{corollary}}
+
+\begin{example}
+	Let $C$ be the positively oriented unit circle $|z|=1$. Evaluate
+	\[
+	\int_C \frac{e^{2z}}{z^4}\,dz.
+	\]
+	Here $f(z)=e^{2z}$ is analytic everywhere and we want the coefficient corresponding to $(s-0)^{-4}$. Take $z=0$ and $n=3$ in the corollary:
+	\[
+	\int_C \frac{f(s)}{s^{4}}\,ds
+	= \frac{2\pi i}{3!} f^{(3)}(0).
+	\]
+	But $f^{(3)}(z) = 2^3 e^{2z} = 8 e^{2z}$, so $f^{(3)}(0)=8$. Hence
+	\[
+	\int_C \frac{e^{2z}}{z^4}\,dz = \frac{2\pi i}{6}\cdot 8 = \frac{8\pi i}{3}.
+	\]
+\end{example}
+
+\begin{example}
+	Let $f(z)=1$. Then
+	\[
+	\int_C \frac{1}{z-z_0}\,dz = 2\pi i,\qquad
+	\int_C \frac{1}{(z-z_0)^{n+1}}\,dz = 0,\quad n=1,2,\dots
+	\]
+	whenever $z_0$ is inside $C$.
+\end{example}
+
+\newpage
+\subsection{Consequences of the Cauchy Integral Formula}
+\subsubsection{Analyticity of derivatives}
+\thmbox{\begin{theorem}
+		If $f$ is analytic at a point $z_0$, then all derivatives $f^{(n)}$ exist and are analytic at $z_0$.
+\end{theorem}}
+
+\corbox{
+	\begin{corollary}
+		If $f(z)=u(x,y)+iv(x,y)$ is analytic at $z_0$, then $u$ and $v$ have continuous partial derivatives of all orders in a neighborhood of $z_0$.
+\end{corollary}}
+
+\subsection{Morera's Theorem}
+
+\begin{theorem}[Morera]\label{thm:morera}
+	Let $f$ be continuous on a domain $D$. If
+	\[
+	\int_C f(z)\,dz = 0
+	\]
+	for every closed contour $C$ in $D$, then $f$ is analytic throughout $D$.
+\end{theorem}
+
+\subsubsection{Cauchy's Inequalities}
+
+\begin{theorem}[Cauchy's inequality]\label{thm:cauchyineq}
+	Suppose $f$ is analytic on and inside the circle $C_R=\{z:|z-z_0|=R\}$, and let
+	\[
+	M_R = \max_{|z-z_0|=R} |f(z)|.
+	\]
+	Then for $n=0,1,2,\dots$,
+	\[
+	|f^{(n)}(z_0)| \le \frac{n!\, M_R}{R^n}.
+	\]
+\end{theorem}
+
+\newpage
+\subsection{Liouville's Theorem and the Fundamental Theorem of Algebra}
+\thmbox[Liouville]{
+	\begin{theorem}\label{thm:liouville}
+		If $f$ is entire and bounded in the whole complex plane, then $f$ is constant.
+\end{theorem}}
+
+\thmbox[Fundamental Theorem of Algebra]{
+	\begin{theorem}\label{thm:FTA}
+		Let
+		\[
+		P(z)=a_0+a_1 z + \dots + a_n z^n,\qquad a_n\neq 0,\ n\ge 1,
+		\]
+		be a complex polynomial. Then $P$ has at least one zero in $\C$.
+\end{theorem}}
+
+\begin{remark}
+	It follows that any polynomial of degree $n$ can be factored into linear factors:
+	\[
+	P(z)=c(z-z_1)(z-z_2)\cdots(z-z_n),\qquad c,z_k\in\C.
+	\]
+\end{remark}
+
+\subsection{Maximum Modulus Principle}
+
+\begin{lemma}
+	Suppose $f$ is analytic in a disk $|z-z_0|<\varepsilon$ and $|f(z)|\le |f(z_0)|$ for all such $z$. Then $f$ is constant in that disk.
+\end{lemma}
+
+\begin{theorem}[Maximum Modulus Principle]\label{thm:MMP}
+	If $f$ is analytic and non-constant in a domain $D$, then $|f(z)|$ has no maximum value in $D$.
+\end{theorem}
+
+\begin{corollary}
+	Let $f$ be continuous on a closed bounded region $R$, analytic and non-constant on the interior of $R$. Then $\max_{z\in R} |f(z)|$ is attained on the boundary of $R$, not in the interior.
+\end{corollary}
+
+\begin{remark}
+	If $f=u+iv$ is analytic, then $u$ is harmonic. The corollary implies a maximum principle for $u$ as well.
+\end{remark}
+
+\begin{example}
+	Let $R=\{0\le x\le \pi,\ 0\le y\le 1\}$ and $f(z)=\sin z$. Since
+	\[
+	\sin z = \sin x \cosh y + i \cos x \sinh y,
+	\]
+	we have
+	\[
+	|f(z)|^2 = \sin^2 x + \sinh^2 y.
+	\]
+	On $R$, $\sin^2 x$ is largest at $x=\pi/2$ and $\sinh^2 y$ is largest at $y=1$, so the maximum of $|f(z)|$ on $R$ is attained at $z=\pi/2 + i$ and nowhere in the interior.
+\end{example}

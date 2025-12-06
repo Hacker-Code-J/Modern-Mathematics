@@ -1,0 +1,158 @@
+\section{Complex Numbers}
+
+\subsection{Complex Numbers}
+
+\begin{definition}[Complex numbers and parts]
+	A complex number is an ordered pair $(x,y)\in\R^2$, denoted $z=(x,y)$ or $z=x+iy$, with \emph{real part} $\Re z=x$ and \emph{imaginary part} $\Im z=y$.
+\end{definition}
+
+\begin{remark}
+	Two complex numbers are equal iff they have the same real and imaginary parts.
+\end{remark}
+
+\begin{definition}[Algebra]
+	For $z_1=(x_1,y_1)$ and $z_2=(x_2,y_2)$,
+	\[
+	z_1+z_2=(x_1+x_2,\,y_1+y_2),\qquad
+	z_1z_2=(x_1x_2-y_1y_2,\,x_1y_2+y_1x_2).
+	\]
+	Let $i=(0,1)$. then $i^2=-1$ and every $z$ can be written $x+iy$.
+\end{definition}
+
+\begin{remark}[Basic properties]
+	The complex numbers satisfy the usual commutative, associative, and distributive laws; $0=(0,0)$ and $1=(1,0)$ are additive/multiplicative identities. For $z\ne0$, the multiplicative inverse is
+	\[
+	z^{-1}=\frac{\bar z}{|z|^2}=\frac{x-iy}{x^2+y^2}.
+	\]
+	If $z_2\ne0$,
+	\[
+	\frac{z_1}{z_2}=\frac{x_1x_2+y_1y_2}{x_2^2+y_2^2}+i\,\frac{y_1x_2-x_1y_2}{x_2^2+y_2^2}.
+	\]
+\end{remark}
+
+\begin{definition}[Binomial formula]
+	For $n\in\mathbb{N}$ and $z_1,z_2\in\C$,
+	\[
+	(z_1+z_2)^n=\sum_{k=0}^n \binom{n}{k}\,z_1^{\,k}z_2^{\,n-k}.
+	\]
+\end{definition}
+
+\subsection{Vectors and Moduli}
+
+\begin{definition}[Modulus and distance]
+	For $z=x+iy$, the \emph{modulus} is $|z|=\sqrt{x^2+y^2}$. The distance between $z_1=(x_1,y_1)$ and $z_2=(x_2,y_2)$ is $|z_1-z_2|=\sqrt{(x_1-x_2)^2+(y_1-y_2)^2}$.
+\end{definition}
+
+\begin{remark}
+	The circle of center $z_0$ and radius $R>0$ is $\{z:|z-z_0|=R\}$.
+\end{remark}
+
+\subsection{Complex Conjugation}
+
+\begin{definition}[Conjugate]
+	For $z=x+iy$, the \emph{conjugate} is $\bar z=x-iy$.
+\end{definition}
+
+\begin{theorem}[Conjugation identities]
+	For any $z,z_1,z_2\in\C$ (with $z_2\ne0$),
+	\[
+	\overline{\bar z}=z,\quad |z|=|\bar z|,\quad
+	\overline{z_1\pm z_2}=\bar z_1\pm\bar z_2,\quad
+	\overline{z_1z_2}=\bar z_1\,\bar z_2,\quad
+	\overline{\frac{z_1}{z_2}}=\frac{\bar z_1}{\bar z_2},
+	\]
+	\[
+	\Re z=\frac{z+\bar z}{2},\quad \Im z=\frac{z-\bar z}{2i},\quad
+	|z|^2=z\bar z,
+	\quad |z_1z_2|=|z_1||z_2|.
+	\]
+\end{theorem}
+
+\begin{theorem}[Triangle inequality]
+	For all $z_1,z_2\in\C$,
+	\[
+	|z_1+z_2|\le |z_1|+|z_2|.
+	\]
+	Consequently, $|z_1+z_2|\ge\big||z_1|-|z_2|\big|$ and for any $n\in\mathbb{N}$,
+	\[
+	\Big|\sum_{k=1}^n z_k\Big|\le \sum_{k=1}^n |z_k|.
+	\]
+\end{theorem}
+
+\subsection{Polar and Exponential Form}
+
+\begin{definition}[Polar form, argument]
+	For $z\ne0$, write $z=r(\cos\theta+i\sin\theta)=re^{i\theta}$ with $r=|z|$ and any \emph{argument} $\theta\in\arg z=\{\Arg z+2\pi k:k\in\mathbb{Z}\}$, where $\Arg z\in(-\pi,\pi]$ is the principal value. (For $z=0$, $\theta$ is undefined.)
+\end{definition}
+
+\begin{definition}[Euler's formula]
+	$e^{i\theta}=\cos\theta+i\sin\theta\quad(\theta\in\R)$.
+\end{definition}
+
+\begin{remark}[Parametrizing circles]
+	The circle $|z|=R$ has parametrization $z=Re^{i\theta}$, $0\le\theta\le2\pi$. The circle $|z-z_0|=R$ has $z=z_0+Re^{i\theta}$.
+\end{remark}
+
+\subsection{Products, Powers, and Arguments}
+
+\begin{proposition}[Product/quotient in polar form]
+	If $z_j=r_je^{i\theta_j}$ $(j=1,2)$ with $r_j>0$, then
+	\[
+	z_1z_2=r_1r_2\,e^{i(\theta_1+\theta_2)},\qquad
+	\frac{z_1}{z_2}=\frac{r_1}{r_2}\,e^{i(\theta_1-\theta_2)},\qquad
+	z^{-1}=\frac{1}{r}\,e^{-i\theta}.
+	\]
+	For $n\in\mathbb{Z}$, $z^n=r^{\,n}e^{in\theta}$.
+\end{proposition}
+
+\begin{corollary}[de Moivre]
+	For $n\in\mathbb{Z}$, $(\cos\theta+i\sin\theta)^{n}=\cos(n\theta)+i\sin(n\theta)$.
+\end{corollary}
+
+\begin{theorem}[Arguments]
+	If $z_j=r_je^{i\theta_j}$ $(j=1,2)$, then $\arg(z_1z_2)=\arg z_1+\arg z_2$ and $\arg\!\left(\frac{z_1}{z_2}\right)=\arg z_1-\arg z_2$ (mod $2\pi$). Using principal values requires care at the branch cut.
+\end{theorem}
+
+\subsection{Roots of Complex Numbers}
+
+\begin{theorem}[All $n$th roots]\label{thm:nthroots}
+	Let $z_0=r_0e^{i\theta_0}\ne0$ and $n\in\mathbb{N}$. The solutions of $z^n=z_0$ are
+	\[
+	z_k=\sqrt[n]{r_0}\;\exp\!\left(i\,\frac{\theta_0+2\pi k}{n}\right),\qquad k=0,1,\dots,n-1.
+	\]
+	These $n$ distinct roots lie on the circle $|z|=\sqrt[n]{r_0}$ at equal angular spacing $2\pi/n$. The root with $k=0$ (when $\theta_0=\Arg z_0$) is the \emph{principal root}.
+\end{theorem}
+
+\begin{remark}[Roots of unity]
+	For $z_0=1$, the $n$th roots are $e^{2\pi i k/n}$, $k=0,\dots,n-1$.
+\end{remark}
+
+\begin{example}[Cube roots of $-8i$]
+	Since $-8i=8\,e^{-i\pi/2}$, the cube roots are $2\,e^{i(-\pi/6+2\pi k/3)}$, $k=0,1,2$.
+\end{example}
+
+\subsection{Regions in the Complex Plane}
+
+\begin{definition}[Neighborhoods]
+	An $\varepsilon$-neighborhood of $z_0$ is $\{z:|z-z_0|<\varepsilon\}$. The \emph{deleted} (punctured) neighborhood is $\{z:0<|z-z_0|<\varepsilon\}$.
+\end{definition}
+
+\begin{definition}[Interior, exterior, boundary]
+	A point $z_0$ is an interior point of $S$ if some neighborhood of $z_0$ lies in $S$; an exterior point if some neighborhood lies in $S^{c}$; otherwise $z_0$ is on the boundary $\partial S$.
+\end{definition}
+
+\begin{definition}[Open/closed, closure]
+	A set is \emph{open} if it contains none of its boundary points; \emph{closed} if it contains all of them. The \emph{closure} $\overline{S}$ is $S\cup\partial S$.
+\end{definition}
+
+\begin{definition}[Connected, domain, region]
+	An open set $S$ is \emph{connected} if any two points can be joined by a polygonal line lying in $S$. A nonempty connected open set is a \emph{domain}. A \emph{region} is a domain together with some (possibly all or none) of its boundary points.
+\end{definition}
+
+\begin{definition}[Boundedness]
+	$S$ is \emph{bounded} if $S\subset\{z:|z|<R\}$ for some $R>0$.
+\end{definition}
+
+\begin{definition}[Accumulation points]
+	A point $z_0$ is an accumulation point of $S$ if every deleted neighborhood of $z_0$ contains a point of $S$. A set is closed iff it contains all its accumulation points.
+\end{definition}

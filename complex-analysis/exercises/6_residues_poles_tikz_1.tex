@@ -1,0 +1,62 @@
+\documentclass[tikz,border=6pt]{standalone}
+\usepackage{pgfplots}
+\usepgfplotslibrary{groupplots}
+\pgfplotsset{compat=1.18}
+\usepgfplotslibrary{colormaps}
+\usetikzlibrary{arrows, arrows.meta, calc}
+\usetikzlibrary{decorations.markings}
+
+
+\usepackage{amssymb,amsmath,mathtools}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{newpxtext,newpxmath}
+\usepackage{sectsty}
+
+\renewcommand{\Re}{\operatorname{\mathrm{Re}}}
+\renewcommand{\Im}{\operatorname{\mathrm{Im}}}
+
+\begin{document}
+\begin{tikzpicture}[scale=5,>=Stealth]
+	%%%%%%%%%%%%%%%%  z-plane (domain)  %%%%%%%%%%%%%%%%
+	\begin{scope}
+		\draw[->] (-4,0) -- (4,0) node[right] {$\Re z$};
+		\draw[->] (0,-4) -- (0,4) node[above] {$\Im z$};
+		
+		% oriented circle |z|=3 : z(t)=3e^{it}
+		\draw[thick,->,domain=0:6.28318,samples=200]
+		plot ({3*cos(\x r)},{3*sin(\x r)});
+		\node at (3.2,0.5) {$|z|=3$};
+		\node at (0,4.3) {$\text{Domain in }z$-plane};
+		
+		% singularity at 0 (double pole)
+		\draw[thick] (0,0) circle (0.08);
+		\node[below left] at (0,0) {$0$};
+		\node[below] at (0,-0.6) {double pole};
+	\end{scope}
+	
+	% arrow from domain to codomain
+	\draw[->,thick] (4.3,0) -- (5.3,0)
+	node[midway,above] {$w=f(z)=\dfrac{e^{-z}}{z^2}$};
+	
+	%%%%%%%%%%%%%%%%  w-plane (codomain)  %%%%%%%%%%%%%%%%
+	\begin{scope}[shift={(9,0)}]
+		\draw[->] (-4,0) -- (4,0) node[right] {$\Re w$};
+		\draw[->] (0,-4) -- (0,4) node[above] {$\Im w$};
+		
+		% image of |z|=3: w(t) = f(3e^{it})
+		\draw[thick,->,domain=0:6.28318,samples=400,smooth]
+		plot ({
+			(1.0/9.0)*exp(-3*cos(\x r)) *
+			cos((2*\x + 3*sin(\x r)) r)
+		},{
+			-(1.0/9.0)*exp(-3*cos(\x r)) *
+			sin((2*\x + 3*sin(\x r)) r)
+		});
+		
+		\node at (2.5,3.2) {$w(t)=f(3e^{it})$};
+		\node at (0,4.3) {$\text{Codomain in }w$-plane};
+	\end{scope}
+\end{tikzpicture}
+\end{document}

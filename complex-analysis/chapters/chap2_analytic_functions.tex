@@ -1,0 +1,189 @@
+\section{Analytic Functions}
+\subsection{Functions of a Complex Variable}
+
+\begin{definition}[Function and domain]
+	Let $S\subset\C$. A \emph{function} $f$ on $S$ assigns to each $z\in S$ a complex number $w=f(z)$. The set $S$ is the \emph{domain} (domain of definition) of $f$. As real functions, we write $f(z)=u(x,y)+iv(x,y)$ for $z=x+iy$; in polar form, $f(z)=u(r,\theta)+iv(r,\theta)$. \end{definition}
+
+\begin{definition}[Polynomials and rational functions]
+	If $n\in\mathbb{Z}_{\ge0}$ and $a_0,\dots,a_n\in\C$ with $a_n\neq0$, the polynomial
+	\[
+	P(z)=a_0+a_1z+\cdots+a_n z^n
+	\]
+	has degree $n$. A \emph{rational function} is $P(z)/Q(z)$, defined where $Q(z)\neq0$.
+\end{definition}
+
+\begin{example}[Single-valued choice of a multiple-valued expression]
+	For $z\neq0$ with $z=re^{i\theta}$ ($-\pi<\theta\le\pi$), the square root has two values $z^{1/2}=\pm\sqrt{r}\,e^{i\theta/2}$. Selecting the ``$+$'' value defines a single-valued branch on $\C^\times$; setting $f(0)=0$ extends it to $z=0$ (not analytic there). 
+\end{example}
+
+\subsection{Mappings}
+
+\begin{definition}[Mapping, image, range, inverse image]
+	Viewing $f$ as a mapping $f:S\to\C$, the \emph{image} of $z$ is $w=f(z)$; the image of $T\subset S$ is $f(T)$; the \emph{range} is $f(S)$. The \emph{inverse image} of $w_0$ is $\{z\in S:f(z)=w_0\}$.
+\end{definition}
+
+\begin{observation}[Basic geometric actions]
+	\begin{itemize}[leftmargin=1.5em]
+		\item $w=z+1$ translates one unit to the right.
+		\item $w=iz=re^{i(\theta+\pi/2)}$ rotates by $\pi/2$ counterclockwise.
+		\item $w=\bar z=x-iy$ reflects across the real axis.
+	\end{itemize}
+\end{observation}
+
+\begin{example}[$w=z^2$ as a mapping]
+	With $z=x+iy$, we have $w=u+iv$ where $u=x^2-y^2$, $v=2xy$. The first quadrant region $\{x\ge0,\,y\ge0,\,xy\le1\}$ maps onto the horizontal strip $\{0\le v\le2\}$.
+\end{example}
+
+\subsubsection*{Mapping by the exponential}
+If $w=e^z=e^{x+iy}=e^x(\cos y+i\sin y)=\rho e^{i\theta}$, then $\rho=e^x$ and $\theta=y$. Thus vertical lines $\{x=\text{const}\}$ map to circles $\{|w|=\text{const}\}$ and horizontal lines $\{y=\text{const}\}$ map to rays $\{\arg w=\text{const}\}$.
+
+\subsection{Limits and Related Theorems}
+
+\begin{definition}[Limit]
+	Let $f$ be defined on a deleted neighborhood of $z_0$. We say $\displaystyle\lim_{z\to z_0}f(z)=w_0$ if for each $\varepsilon>0$ there exists $\delta>0$ such that $|f(z)-w_0|<\varepsilon$ whenever $0<|z-z_0|<\delta$.
+\end{definition}
+
+\begin{theorem}[Uniqueness of limits]
+	If the limit $\lim_{z\to z_0} f(z)$ exists, it is unique.\end{theorem}
+
+\begin{example}
+	For $f(z)=\tfrac{i}{2}z$ on $|z|<1$, $\lim_{z\to1}f(z)=\tfrac{i}{2}$. For $f(z)=\bar z/z$, $\lim_{z\to0}f(z)$ does \emph{not} exist: approaching along the real axis gives $1$, along the imaginary axis gives $-1$.
+\end{example}
+
+\begin{theorem}[Limit laws]
+	If $\lim_{z\to z_0} f(z)=f_0$ and $\lim_{z\to z_0} g(z)=g_0$, then
+	\[
+	\lim_{z\to z_0}\big(f+g\big)=f_0+g_0,\quad
+	\lim_{z\to z_0} f\,g=f_0g_0,\quad
+	\lim_{z\to z_0}\frac{f}{g}=\frac{f_0}{g_0}\ (g_0\neq0).
+	\]
+	In particular, polynomials are continuous: $\lim_{z\to z_0}P(z)=P(z_0)$.
+\end{theorem}
+
+\subsubsection{Limits involving $\infty$}
+Neighborhoods of $\infty$ are exteriors of large disks. One has
+\[
+\lim_{z\to z_0} f(z)=\infty \iff \lim_{z\to z_0}\frac{1}{f(z)}=0,\qquad
+\lim_{z\to\infty} f(z)=w_0 \iff \lim_{z\to0} f\!\left(\tfrac1z\right)=w_0,
+\]
+and $\lim_{z\to\infty} f(z)=\infty \iff \lim_{z\to0} \frac{1}{f(1/z)}=0$.
+
+\subsection{Continuity}
+
+\begin{definition}[Continuity]
+	$f$ is continuous at $z_0$ if $\lim_{z\to z_0}f(z)=f(z_0)$. It is continuous on a region $R$ if continuous at each $z_0\in R$.
+\end{definition}
+
+\begin{theorem}[Basic properties]
+	Composition of continuous functions is continuous. If $f$ is continuous and $f(z_0)\neq0$, then $f$ is nonzero on some neighborhood of $z_0$. If $f=u+iv$, then $f$ is continuous at $z_0$ iff $u$ and $v$ are continuous there. If $R$ is closed and bounded and $f$ continuous on $R$, then $|f|$ attains a maximum on $R$ (boundedness).
+\end{theorem}
+
+\subsection{Derivatives}
+
+\begin{definition}[Complex derivative]
+	If $f$ is defined on a neighborhood of $z_0$, the derivative at $z_0$ is
+	\[
+	f'(z_0)=\lim_{z\to z_0}\frac{f(z)-f(z_0)}{z-z_0}
+	=\lim_{\Delta z\to0}\frac{\Delta w}{\Delta z},\quad \Delta w=f(z_0+\Delta z)-f(z_0),
+	\]
+	when the limit exists.
+\end{definition}
+
+\begin{theorem}[Consequences]
+	If $f'(z_0)$ exists then $f$ is continuous at $z_0$. Moreover,
+	\[
+	\frac{d}{dz}c=0,\qquad \frac{d}{dz}z=1,\qquad \frac{d}{dz}[c f]=c f',\qquad
+	\frac{d}{dz}z^n=n z^{n-1}\ (n\in\mathbb{Z},\ z\neq0\text{ if }n<0),
+	\]
+	and the sum/product/quotient rules and chain rule hold exactly as in calculus.
+\end{theorem}
+
+\begin{example}
+	$f(z)=z^2\Rightarrow f'(z)=2z$. The function $f(z)=\bar z$ has no complex derivative anywhere. The function $f(z)=|z|^2$ has derivative only at $z=0$ (value $0$).
+\end{example}
+
+\subsection{Cauchy--Riemann Equations}
+
+Let $f=u+iv$ with $u,v$ real-valued.
+
+\begin{theorem}[Cauchy--Riemann (CR) equations]
+	If $f'(z_0)$ exists then the first partials of $u,v$ exist at $(x_0,y_0)$ and satisfy
+	\[
+	u_x(x_0,y_0)=v_y(x_0,y_0),\qquad u_y(x_0,y_0)=-v_x(x_0,y_0),
+	\]
+	and $f'(z_0)=u_x(x_0,y_0)+i\,v_x(x_0,y_0)$.
+\end{theorem}
+
+\begin{theorem}[Sufficient conditions]
+	If $u_x,u_y,v_x,v_y$ exist in a neighborhood of $z_0$, are continuous at $z_0$, and satisfy the CR equations at $z_0$, then $f'(z_0)$ exists and equals $u_x+i v_x$.
+\end{theorem}
+
+\begin{example}
+	$f(z)=z^2=x^2-y^2+i\,2xy$ satisfies CR everywhere and $f'(z)=2z$. For $f(z)=|z|^2=x^2+y^2$, the CR equations force $(x,y)=(0,0)$; hence $f'$ exists only at $0$. For $f(z)=e^z=e^x(\cos y+i\sin y)$ we have $f'(z)=e^z$ for all $z$.
+\end{example}
+
+\subsubsection*{CR equations in polar coordinates}
+If $f=u(r,\theta)+iv(r,\theta)$ near $z_0=r_0e^{i\theta_0}\neq0$, the polar CR system is
+\[
+u_r=\frac1r v_\theta,\qquad v_r=-\frac1r u_\theta,
+\]
+and $f'(z_0)=e^{-i\theta_0}\big(u_r(r_0,\theta_0)+i\,v_r(r_0,\theta_0)\big)$.
+
+\subsection{Analytic Functions}
+
+\begin{definition}[Analytic/entire/singularity]
+	$f$ is \emph{analytic} at $z_0$ if it has a derivative at every point of some neighborhood of $z_0$. If analytic at every point of $\C$, $f$ is \emph{entire}. If $f$ fails to be analytic at $z_0$ but is analytic arbitrarily close to $z_0$, then $z_0$ is a \emph{singular point} (singularity) of $f$.
+\end{definition}
+
+\begin{theorem}[Algebra and composition]
+	Sums and products of analytic functions are analytic; a quotient $f/g$ is analytic where $g\neq0$. If $f$ is analytic in $D$ and $g$ is analytic on $f(D)$, then $g\circ f$ is analytic in $D$ with $(g\circ f)'=(g'\circ f)\,f'$.
+\end{theorem}
+
+\begin{theorem}[Zero derivative]
+	If $f'(z)=0$ for all $z$ in a domain $D$, then $f$ is constant on $D$.
+\end{theorem}
+
+\begin{example}
+	\[
+	f(z)=\frac{z^3+4}{(z^2-3)(z^2+1)}
+	\]
+	is analytic on $\C\setminus\{\pm\sqrt{3},\,\pm i\}$. Also $f(z)=\cosh x\cos y+i\sinh x\sin y$ is entire since CR holds everywhere.
+\end{example}
+
+\begin{theorem}[Conjugate tests]
+	If $f$ and $\bar f$ are both analytic in $D$, then $f$ is constant in $D$. If $f$ is analytic in $D$ and $|f|$ is constant, then $f$ is constant.
+\end{theorem}
+
+\subsection{Harmonic Functions}
+
+\begin{definition}[Harmonicity]
+	A real function $h(x,y)$ is \emph{harmonic} on a domain if it has continuous second partials and satisfies Laplace's equation
+	\[
+	\Delta h=h_{xx}+h_{yy}=0.
+	\]
+\end{definition}
+
+\begin{theorem}[Harmonic components]
+	If $f=u+iv$ is analytic in $D$, then $u$ and $v$ are harmonic in $D$. Conversely, if $u$ and $v$ are harmonic and satisfy the CR equations in $D$, then $f=u+iv$ is analytic in $D$; $v$ is then a \emph{harmonic conjugate} of $u$.
+\end{theorem}
+
+\begin{example}
+	$f(z)=\dfrac{i}{z^2}$ is analytic on $\C\setminus\{0\}$; writing it as
+	\[
+	\frac{i}{z^2}=\frac{2xy+i(x^2-y^2)}{(x^2+y^2)^2}=u+iv,
+	\]
+	both $u$ and $v$ are harmonic away from the origin. For $u(x,y)=y^3-3x^2y$, a harmonic conjugate is $v(x,y)=-3xy^2+x^3+C$.
+\end{example}
+
+\subsubsection*{Uniqueness and reflection}
+\begin{lemma}[Identity lemma]
+	If $f$ is analytic in $D$ and vanishes on a set with a limit point in $D$ (e.g.\ a subdomain or line segment), then $f\equiv0$ in $D$.
+\end{lemma}
+
+\begin{theorem}[Uniqueness from values]
+	An analytic function in $D$ is uniquely determined in $D$ by its values on any subdomain or line segment contained in $D$.
+\end{theorem}
+
+\begin{theorem}[Reflection principle (real axis)]
+	Let $D$ contain a symmetric neighborhood of a real segment. Then $f(\bar z)=\overline{f(z)}$ in $D$ iff $f(x)\in\R$ for all $x$ on that segment.
+\end{theorem}

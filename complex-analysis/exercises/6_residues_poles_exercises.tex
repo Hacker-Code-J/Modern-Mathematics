@@ -1,0 +1,489 @@
+\subsection{Exercises}
+\begin{enumerate}[\bf 1.]
+	\item %(Residue-theorem evaluations on $|z|=3$)\; 
+	Use Cauchy's residue theorem to evaluate integral of each these functions around the circle $|z|=3$ in the positive sense: \[
+	\frac{e^{-z}}{z^2},\qquad
+	\frac{e^{-z}}{(z-1)^2},\qquad
+	z^2 \exp\left(\frac{1}{z}\right),\qquad
+	\frac{z+1}{z^2-2z}.
+	\] (Answers: $-2\pi i$, $-2\pi i/e$, $\pi i/3$, $2\pi i$.)
+	\begin{proof}[\sol]
+		All integrals are $\displaystyle \int_{|z|=3} (\cdot)\,d z$ with positive orientation.
+		\begin{enumerate}[(1)]
+			\item \(\displaystyle \int_{|z|=3} \frac{e^{-z}}{z^2}\,\d z\).\quad
+			Let $f(z) = e^{-z}$. Then $f$ is entire (analytic everywhere), and the only
+			singularity of the integrand inside $|z|=3$ is a pole of order $2$ at $z=0$.
+			By Cauchy's integral formula for the first derivative, 
+%			if $f$ is analytic on and inside a simple closed contour $C$ and $z_0$ is interior to $C$, then
+			\[
+			f'(z_0) = \frac{1}{2\pi i} \int_{|z|=3} \frac{f(z)}{(z - z_0)^2}\,\d z.\implies \int_{|z|=3} \frac{f(z)}{(z - z_0)^2}\,\d z = 2\pi i\, f'(z_0).
+			\] With $z_0 = 0$,
+			\[
+			\int_{|z|=3} \frac{e^{-z}}{z^2}\,\d z = 2\pi i\, f'(0)=2\pi i\cdot \frac{\d}{\d z} e^{-z}\Big|_{z=0}=2\pi i\cdot -e^{-z}\big|_{z=0}=2\pi i\cdot (-1)=-2\pi i.
+			\]
+			\item \(\displaystyle \int \frac{e^{-z}}{(z-1)^2}\,\d z\).\quad
+			Let $f(z) = e^{-z}$, which is entire. The integrand has a pole of order
+			$2$ at $z=1$. Since $|1|<3$, this singularity lies inside the circle $|z|=3$,
+			and there are no other singularities inside the contour. By Cauchy's integral formula for the first derivative, with $z_0=1$,
+			\[
+			\int_{|z|=3} \frac{f(z)}{(z-1)^2}\,\d z = 2\pi i\cdot f'(1)=2\pi i\cdot (-e^{-z})\big|_{z=1}=2\pi i\cdot\left(-\frac{1}{e}\right)=\frac{-2\pi i}{e}.
+			\]
+			\item \(\displaystyle \int_{|z|=3} z^2 \exp\!\left(\frac{1}{z}\right)\,\d z\).\quad
+			The only singularity of the integrand is at $z=0$, due to
+			the factor $e^{1/z}$. This is an essential singularity at $z=0$, which lies
+			inside the contour $|z|=3$. We use the residue theorem:
+%			If $f$ has isolated singularities $z_1,\dots,z_n$
+%			inside a simple closed contour $C$, and is analytic on $C$, then
+			\[
+			\int_C f(z)\,dz = 2\pi i \sum_{k=1}^n \operatorname{Res}(f, z_k).
+			\]
+			Here there is only one singularity at $z=0$, so
+			\[
+			\int_{|z|=3} z^2 \exp\!\left(\frac{1}{z}\right)\,\d z = 2\pi i \,\operatorname{Res}\!\left(z^2 e^{1/z}, 0\right).
+			\]
+			To find the residue, expand $\exp\left(\frac{1}{z}\right)$ in a Laurent series around $z=0$:
+			\begin{align*}
+			\exp\left(\frac{1}{z}\right) &= \sum_{n=0}^\infty \frac{1}{n!}\left(\frac{1}{z}\right)^n
+			= 1 + \frac{1}{z} + \frac{1}{2!z^2} + \frac{1}{3!z^3} + \cdots,\\
+			z^2 \exp\left(\frac{1}{z}\right)
+			&= z^2 \left(1 + \frac{1}{z} + \frac{1}{2!z^2} + \frac{1}{3!z^3} + \cdots\right)\\
+			&= z^2 + z + \frac{1}{2!} + \frac{1}{3!}\frac{1}{z} + \frac{1}{4!}\frac{1}{z^2} + \cdots.
+			\end{align*} The residue at $z=0$ is $
+			\operatorname{Res}\!\left(z^2 e^{1/z},0\right) = \frac{1}{3!} = \frac{1}{6}$. Therefore \[
+			\int_{|z|=3} z^2 \exp\!\left(\frac{1}{z}\right)\,\d z = 2\pi i \cdot \frac{1}{6} = \frac{\pi i}{3}.
+			\]
+			\item \(\displaystyle \int_{|z|=3} \frac{z+1}{z^2-2z}\,\d z=\int \frac{z+1}{z(z-2)}\,\d z\).\quad
+			The singularities are simple poles at $z=0$ and $z=2$. 
+%			Both of these points satisfy $|z|<3$, hence they lie inside the contour $|z|=3$.
+			We can either compute residues directly or use partial fraction decomposition: \begin{align*}
+			\frac{z+1}{z(z-2)} = \frac{A}{z} + \frac{B}{z-2} &\implies z+1 = A(z-2) + Bz\\
+			&\implies z+1 = (A+B)\,z - 2A\\
+			&\implies \begin{cases}
+				A + B = 1,\\
+				-2A = 1.
+			\end{cases}\\
+			&\implies A=-1/2\quad\text{and}\quad B=3/2.
+			\end{align*} Thus \[
+			\frac{z+1}{z^2 - 2z}
+			= -\frac{1}{2z} + \frac{3}{2(z-2)}.
+			\]
+			Now the integral becomes
+			\[
+			\int \frac{z+1}{z(z-2)}\,\d z = \int_{|z|=3} \left(-\frac{1}{2z} + \frac{3}{2(z-2)}\right)\,dz
+			= -\frac{1}{2} \int_{|z|=3} \frac{1}{z}\,dz
+			+ \frac{3}{2} \int_{|z|=3} \frac{1}{z-2}\,dz.
+			\] Note that \[
+			\int_{|z|=3} \frac{1}{z}\,dz = 2\pi i
+			\quad\text{and}\quad
+			\int_{|z|=3} \frac{1}{z-2}\,dz = 2\pi i,
+			\] since both $z=0$ and $z=2$ lie inside $|z|=3$. Therefore
+			\[
+			\int \frac{z+1}{z(z-2)}\,\d z = -\frac{1}{2} \cdot 2\pi i + \frac{3}{2} \cdot 2\pi i
+			= -\pi i + 3\pi i = 2\pi i.
+			\]
+		\end{enumerate}
+	\end{proof}
+	\newpage
+	\item Show that the singular point of each of the following functions is a pole. \[
+	f(z)=\frac{1-\cosh z}{z^3},\quad g(z)=\frac{1-\exp(2z)}{z^4},\quad h(z)=\frac{\exp(2z)}{(z-1)^2}.
+	\] Determine the order $m$ of that pole and the corresponding residue $B$.
+	
+	(Answers: $f(z)$: $m=1$, $B=-1/2$; $g(z)$: $m=3$, $B=-{4}/{3}$; $h(z)$: $m=2$, $B=2e^2$.)
+	\begin{proof}[\sol]
+		\ \begin{enumerate}[(1)]
+			\item $\displaystyle f(z)=\frac{1-\cosh z}{z^3}$ at $z=0$.\quad
+			Note that
+			\begin{align*}
+			\cosh z&=1+\frac{1}{2!}\,z^2+\frac{1}{4!}\,z^4+\frac{1}{6!}\,z^6+\cdots,\\
+			1-\cosh z&= -\frac{1}{2}\,z^2-\frac{1}{4!}\,z^4-\frac{1}{6!}\,z^6-\cdots,\\
+			\frac{1-\cosh z}{z^3}&= -\frac{1}{2}\,\frac{1}{z}-\frac{1}{4!}\,z+\frac{1}{6!}\,z^3+\cdots.
+			\end{align*}
+			Hence the singularity is a \emph{simple pole} ($m=1$) with residue $
+			B=\Res_{z=0} f = -\frac{1}{2}.$
+			\item $\displaystyle g(z)=\frac{1-\exp(2z)}{z^4}$ at $z=0$.
+			Note that \begin{align*}
+				\exp(2z)&=1+2z+\frac{(2z)^2}{2!}+\frac{(2z)^3}{3!}+\frac{(2z)^4}{4!}+\cdots \\
+				&=1+2z+2z^2+\frac{4}{3}z^3+\frac{2}{3}z^4+\cdots,\\
+				1-\exp(2z)&= -\Big(2z+2z^2+\frac{4}{3}z^3+\frac{2}{3}z^4+\cdots\Big),\\
+				\frac{1-\exp(2z)}{z^4}&= -\frac{2}{z^3}-\frac{2}{z^2}-\frac{4}{3}\,\frac{1}{z}-\frac{2}{3}+\cdots.
+			\end{align*} Thus we have a pole of order $3$ ($m=3$) with residue $
+			B=\Res_{z=0} g = -\frac{4}{3}.$
+			\item $\displaystyle h(z)=\frac{\exp(2)}{(z-1)^2}$ at $z=1$.\quad
+			Let $w:=z-1$, i.e., $z=1+w$. Then \begin{align*}
+			\exp(2z)&=\exp(2(1+w))=\exp(2)\,\exp(2w)\\
+			&=\exp(2)\left(1+2w+\frac{2^2}{2!}w^2+\frac{2^3}{3!}w^3+\cdots\right),\\
+			\frac{\exp(2z)}{(z-1)^2}
+			&=\frac{\exp(2)}{w^2}\left(1+2w+\frac{2^2}{2!}w^2+\cdots\right)
+			=\exp(2)\left(\frac{1}{w^2}+\frac{2}{w}+\frac{2^2}{2!}+\cdots\right).
+			\end{align*}
+			Therefore the singularity is a pole of order $2$ ($m=2$) with residue $
+			B=\Res_{z=1} h = 2\exp(2).$
+		\end{enumerate}
+	\end{proof}
+	\item Show that \begin{align*}
+		\Res_{z=-1}\frac{z^{1/4}}{z+1}&=\frac{1+i}{\sqrt2} &(\abs{z}>0,\; 0<\arg z<2\pi),\\
+		\Res_{z=i}\frac{\Log\; z}{(z^2+1)^2}&=\frac{\pi+2i}{8},&\\
+		\Res_{z=i}\frac{z^{1/2}}{(z^2+1)^2}&=\frac{1-i}{8\sqrt2} &(\abs{z}>0,\; 0<\arg z<2\pi).
+	\end{align*}
+	\begin{proof}[\sol]
+		\ \begin{enumerate}[(1)]
+			\item \textbf{(Residue of $f_1(z)=\dfrac{z^{1/4}}{z+1}$ at $z=-1$)}\quad We work with the branch \[
+			|z|>0,\quad 0<\arg z<2\pi,
+			\] so the branch cut is along the positive real axis, and \[
+			z^{1/4} = \exp(\frac14 \Log z),\qquad
+			\Log\; z = \ln|z| + i\arg z,\quad 0<\arg z<2\pi.
+			\] 	At $z=-1$ we have $|-1|=1$ and $\arg(-1)=\pi$, hence \[
+			\Log(-1) = \ln 1 + i\pi = i\pi,
+			\] and therefore \[
+			z^{1/4}\big|_{z=-1}=(-1)^{1/4} = \exp\left(i\frac{\pi}{4}\right)
+			= \cos\frac{\pi}{4} + i\sin\frac{\pi}{4}
+			= \frac{1+i}{\sqrt2}.
+			\] 	The integrand $\displaystyle f_1(z) = \frac{z^{1/4}}{z+1}$ has a simple pole at $z=-1$, and $z^{1/4}$ is analytic at $z=-1$ on this branch. Consider \[
+			g(z):=(z+1)\,f_1(z) = (z+1)\,\frac{z^{1/4}}{z+1} = z^{1/4}.
+			\] Since $z^{1/4}$ is analytic at $z=-1$, the function $(z+1)f_1(z)$ is analytic
+			at $z=-1$. Therefore it has a Taylor expansion around $z=-1$:
+			\[
+			(z+1)f_1(z) = z^{1/4}
+			= a_0 + a_1(z+1) + a_2(z+1)^2 + \cdots,\quad\text{with}\quad a_n=\frac{g^{(n)}(-1)}{n!}\;(n=0,1,2,\dots),
+			\]
+			valid for $z$ near $-1$. Dividing both sides by $(z+1)$, we get a Laurent
+			expansion for $f_1$ at $z=-1$:
+			\[
+			f_1(z)
+			= \frac{a_0}{z+1} + a_1 + a_2(z+1) + \cdots.
+			\]
+			By definition, the residue of $f_1$ at $z=-1$ is $
+			\Res_{z=-1} f_1(z) = a_0$. Thus \[
+			\Res_{z=-1}\frac{z^{1/4}}{z+1}
+			=a_0=\frac{g^{(0)}(-1)}{0!}
+			= \lim_{z\to-1}(z+1)\frac{z^{1/4}}{z+1}
+			= (-1)^{1/4}
+			= \frac{1+i}{\sqrt2}.
+			\]
+%			\begin{center}
+%				\begin{tikzpicture}[>=Latex,scale=1]
+%					\tikzset{
+%						axis/.style={black, line cap=round},
+%						cut/.style={orange!85!black, very thick},
+%						domain/.style={draw=none, fill=orange!10},
+%						pole/.style={red!70, draw=red!70, thick},
+%						analpt/.style={blue!65, fill=blue!65},
+%						note/.style={gray!60, font=\small},
+%						title/.style={font=\small}
+%					}
+%					
+%					% ===================== LEFT: z-plane (branch & pole) =====================
+%					\begin{scope}
+%						% axes
+%						\draw[axis] (-3.4,0) -- (3.6,0) node[right] {$\Re z$};
+%						\draw[axis] (0,-2.6) -- (0,2.8) node[above] {$\Im z$};			
+%						% branch cut along positive real axis
+%						\draw[cut] (0,0) -- (3.4,0);
+%						\node[note] at (2.6,0.35) {branch cut};
+%						
+%						% optional: indicate admissible arguments by two thin rays just above/below the cut
+%						\draw[gray!50, dashed] (0,0) -- (3.2,0.18);
+%						\draw[gray!50, dashed] (0,0) -- (3.2,-0.18);
+%						
+%						% the point z = -1
+%						\fill[analpt] (-1,0) circle (2.4pt) node[below] {$-1$};
+%						% small neighborhood disk showing analyticity of z^{1/4} at -1
+%						\draw[blue!65, dashed] (-1,0) circle (0.5);
+%						%				\node[note,anchor=west] at (-2.9,-2.2)
+%						%				{$\Log z=\ln|z|+i\arg z,\ 0<\arg z<2\pi$;\quad $\arg(-1)=\pi$\\
+%							%					$\Log(-1)=i\pi$,\quad $(-1)^{1/4}=e^{\frac14\Log(-1)}=e^{i\pi/4}$};
+%						
+%						% the function f(z) = z^{1/4}/(z+1) has a simple pole at z=-1
+%						\draw[pole] (-1,0) circle (8pt);
+%						\node[note] at (-1.1,0.9) {simple pole of $f$ at $-1$};
+%						
+%						%				% residue computation tag
+%						%				\node[note,draw,rounded corners=2pt,fill=gray!5,align=left] at (1.9,1.8)
+%						%				{$\displaystyle \Res_{z=-1}\frac{z^{1/4}}{z+1}
+%							%					=\lim_{z\to-1}(z+1)\frac{z^{1/4}}{z+1}
+%							%					=(-1)^{1/4}=\frac{1+i}{\sqrt2}.$};
+%					\end{scope}
+%					
+%					% ===================== RIGHT: w-plane (value of (-1)^{1/4}) =====================
+%					\begin{scope}[xshift=9.2cm]
+%						% axes
+%						\draw[axis] (-2.4,0) -- (2.6,0) node[below right] {$\Re w$};
+%						\draw[axis] (0,-2.4) -- (0,2.6) node[left] {$\Im w$};
+%						\node[title] at (0,2.95)
+%						{$w=z^{1/4}=e^{\frac14\Log z}$ \quad (value at $z=-1$)};
+%						
+%						% unit circle
+%						\draw[gray!45] (0,0) circle (2.0);
+%						
+%						% angle arc for pi/4
+%						\draw[gray!55,->] (1.3,0) arc[start angle=0,end angle=45,radius=1.3];
+%						\node[note] at (1.4,0.5) {$\frac{\pi}{4}$};
+%						
+%						% point w = e^{i\pi/4} = (cos, sin) = (√2/2, √2/2)
+%						\coordinate (W) at (0.7071,0.7071);
+%						\fill[blue!65] (W) circle (2.6pt);
+%						\draw[gray!55,dashed] (0,0) -- (W);
+%						%				\node[note,anchor=west] at (0.78,0.74)
+%						%				{$(-1)^{1/4}=e^{i\pi/4}=\dfrac{1+i}{\sqrt2}$};
+%					\end{scope}	
+%				\end{tikzpicture}
+%			\end{center}
+			\item \textbf{(Residue of $f_2(z)=\dfrac{\Log z}{(z^2+1)^2}$ at $z=i$)}\quad 
+			We factor $z^2+1 = (z-i)(z+i)$, so near $z=i$, \[
+			(z^2+1)^2 = (z-i)^2(z+i)^2.
+			\]
+			Hence \[
+			f_2(z) = \frac{\Log z}{(z-i)^2(z+i)^2}
+			= \frac{g(z)}{(z-i)^2},\qquad
+			g(z) := \frac{\Log z}{(z+i)^2}.
+			\]
+			The function $g$ is analytic at $z=i$. Thus $z=i$ is a double pole of $f$ of the form $f_2(z) = g(z)/(z-i)^2$ with $g$ analytic at $i$. Then \[
+			\Res_{z=i} f_2(z) = \Res_{z=i} \frac{g(z)}{(z-i)^2} = \frac{g^{(1)}(i)}{1!}=g'(i).
+			\] Compute $g'(i)$: \begin{align*}
+				g'(i)=\frac{d}{dz}g(z)\Bigg|_{z=i}&=\frac{d}{dz}\left((\Log z)(z+i)^{-2}\right)\Bigg|_{z=i}\\
+				&=\left[\frac{1}{z}(z+i)^{-2} - 2\Log z\,(z+i)^{-3}\right]_{z=i}\\
+				&=\frac{1}{i}\cdot\frac{1}{-4}-2\Log(i)\cdot\frac{1}{-8i}\\
+				&=\frac{-1}{4i}+\frac{1}{4i}\cdot(\ln|i|+i\arg(i))\\
+				&=\frac{i}{4}+\frac{-i}{4}\cdot\left(0+\frac{\pi i}{2}\right)\\
+				&=\frac{2i}{8}+\frac{\pi}{8}\\
+				&=\frac{\pi+2i}{8}.
+			\end{align*}
+			\item \textbf{(Residue of $f_3(z)=\dfrac{z^{1/2}}{(z^2+1)^2}$ at $z=i$)}\quad
+			As before, $
+			(z^2+1)^2 = (z-i)^2(z+i)^2,$
+			so \[
+			f_3(z) = \frac{z^{1/2}}{(z-i)^2(z+i)^2}
+			= \frac{h(z)}{(z-i)^2},\qquad
+			h(z) := \frac{z^{1/2}}{(z+i)^2},
+			\] and $h(z)$ is analytic at $z=i$. Thus $z=i$ is again a double pole of $f_3$, and $\Res_{z=i} f(z) = h'(i).$ Compute $h'(i)$: \begin{align*}
+				h'(i)=\frac{d}{dz}h(z)\Bigg|_{z=i}&=\frac{d}{dz}\left(z^{1/2}(z+i)^{-2}\right)\Bigg|_{z=i}\\
+				&=\left[ \frac{1}{2} z^{-1/2}(z+i)^{-2} - 2 z^{1/2}(z+i)^{-3}\right]_{z=i}\\
+				&=\frac{1}{2}\cdot i^{-1/2}\cdot\frac{1}{-4}-2\cdot i^{1/2}\cdot\frac{1}{-8i}.
+			\end{align*}
+			We need the branch values of $z^{1/2}$ and $z^{-1/2}$ at $z=i$ for $0<\arg z<2\pi$: \begin{align*}
+			i^{1/2} &= \exp(\frac12\Log i)
+			= \exp(\frac12 (\ln|i|+i\arg(i)))
+			= \exp(\frac12 \left(\frac{\pi i}{2}\right))
+			= \exp(i\pi/4)
+			= \cos\frac{\pi}{4} + i\sin\frac{\pi}{4}
+			= \frac{1+i}{\sqrt2},\\
+			i^{-1/2} &= \frac{1}{i^{1/2}}
+			=\frac{1}{\frac{1+i}{\sqrt{2}}}
+			= \frac{\sqrt2}{1+i}
+			= \frac{\sqrt2(1-i)}{(1+i)(1-i)}
+			= \frac{\sqrt2(1-i)}{2}
+			= \frac{1-i}{\sqrt2}.
+			\end{align*}
+			Therefore \begin{align*}
+				h'(i)&=\frac{1}{2}\cdot i^{-1/2}\cdot\frac{1}{-4}-2\cdot i^{1/2}\cdot\frac{1}{-8i}\\
+				&=\frac{-1}{8}\left(\frac{1-i}{\sqrt{2}}\right)+\frac{-i}{4}\left(\frac{1+i}{\sqrt{2}}\right)\\
+				&=\frac{-(1-i)+2(1-i)}{8\sqrt{2}} \\
+				&=\frac{(1-i)}{8\sqrt{2}}
+			\end{align*}
+			Thus
+			\[
+			\Res_{z=i}\frac{z^{1/2}}{(z^2+1)^2}
+			= h'(i)
+			= \frac{1-i}{8\sqrt2}.
+			\]
+		\end{enumerate}
+	\end{proof}
+	\newpage
+	\item Find the value of the integral \[
+	\int_{|z|=3}\frac{z^3\,e^{1/z}}{1+z^3}\,dz
+	\] taken CCW around the circle $\abs{z}=3$. 
+	
+	(Answer: $2\pi i$.)
+	\begin{proof}[\sol]
+	Let \[
+	f(z) = \frac{z^3 e^{1/z}}{1+z^3}.
+	\] Set
+	\[
+	w = \frac{1}{z} \quad\Longrightarrow\quad z = \frac{1}{w},\quad dz = -\frac{1}{w^2}\,dw.
+	\] The circle $|z| = 3$ corresponds to $|w| = 1/3$. As $z$ runs CCW, $w=1/z$ runs clockwise. Therefore,
+	\begin{align*}
+		\int_{|z|=3} f(z)\,dz
+		&= \underbrace{\int_{\substack{|w|=1/3}} 	f\!\left(\frac{1}{w}\right)\left(-\frac{1}{w^2}\,dw\right)}_{\text{CW}}\\
+		&= \underbrace{-\int_{\substack{|w|=1/3}} 	f\!\left(\frac{1}{w}\right)\left(-\frac{1}{w^2}\,dw\right)}_{\text{CCW}}\\
+		&= \int_{|w|=1/3} \frac{f(1/w)}{w^2}\,dw.
+	\end{align*}
+	Since \[
+	f\!\left(\frac{1}{w}\right)
+	= \frac{(1/w)^3 e^{w}}{1 + (1/w)^3}
+	= \frac{\frac{e^w}{w^3}}{\frac{w^3 + 1}{w^3}}
+	= \frac{e^w}{w^3+1},
+	\] we have \[
+	\int_{|z|=3} f(z)\,dz=\int_{|w|=1/3} \left(\frac{1}{w^2}\cdot f\left(\frac{1}{w}\right)\right)\,dw
+	=\int_{|w|=1/3} \frac{e^w}{w^2(w^3+1)}\,dw.
+	\]
+	The only singularity of
+	\[
+	h(w) = \frac{e^w}{w^2(w^3+1)}
+	\]
+	inside the circle $|w|=1/3$ is at $w=0$, since the roots of $w^3+1=0$ are
+	\[
+	w=-1,\quad w=e^{i\pi/3},\quad w=e^{-i\pi/3},
+	\]
+	all of which satisfy $|w|=1$. Hence, by the residue theorem,
+	\[
+	\int_{|z|=3} f(z)\,dz = 2\pi i \,\Res_{w=0} h(w).
+	\]
+	We compute the residue via series expansion. Write \[
+	h(w) = \frac{1}{w^2}\cdot \frac{e^w}{1+w^3}.
+	\] Since \begin{align*}
+		\frac{1}{1+w^3} &= 1 - w^3 + w^6 - w^9 + \cdots \quad (|w|<1)\quad\text{and} \\
+		e^w &= 1 + w + \frac{w^2}{2} + \frac{w^3}{6} + \cdots,
+	\end{align*} we have
+	\[
+	\frac{e^w}{1+w^3}
+	= (1 + w + \frac{w^2}{2} + \frac{w^3}{6} + \cdots)(1 - w^3 + w^6 - \cdots),
+	\] and so \begin{align*}
+		h(w) &= \frac{1}{w^2}\cdot \left(\left(1 + w + \frac{w^2}{2} + \frac{w^3}{6} + \cdots\right)(1 - w^3 + w^6 - \cdots)\right)\\
+		&=\frac{1}{w^2}\left(\left(1 + w + \frac{w^2}{2} + \frac{w^3}{6} + \cdots\right)-
+		\left(w^3 + w^4 + \frac{w^5}{2} + \frac{w^6}{6} + \cdots\right)+
+		\left(w^6 + w^7 + \frac{w^8}{2} + \frac{w^9}{6} + \cdots\right)
+		-\cdots\right)\\
+		&=\left(\frac{1}{w^2} + {\color{red}\frac{1}{w}} + \frac{1}{2} + \frac{w}{6} + \cdots\right)-
+		\left(w^1 + w^2 + \frac{w^3}{2} + \frac{w^4}{6} + \cdots\right)+
+		\left(w^4 + w^5 + \frac{w^6}{2} + \frac{w^7}{6} + \cdots\right)
+		-\cdots.
+	\end{align*}
+	Thus $\Res_{w=0} h(w) = 1$. By the residue theorem, \[
+	\int_{|z|=3}\frac{z^3 e^{1/z}}{1+z^3}\,dz = 2\pi i \,\Res_{w=0} h(w) = 2\pi i \cdot 1 = 2\pi i.
+	\]
+	\end{proof}
+	\newpage
+	\item Let $C$ denote the positively oriented circle $|z|=2$. Show that \[
+	\int_C \tan z\,dz=-4\pi i\quad\text{and}\quad\int_C \frac{dz}{\sinh 2z}=-\pi i.
+	\]
+	\begin{proof}[\sol]
+	\ \begin{enumerate}[(1)]
+		\item We have $\displaystyle\tan z = \frac{\sin z}{\cos z}$. The poles of $\tan z$ are the zeros of $\cos z$, i.e.,
+		\[
+		\cos z = 0 \iff z = \frac{\pi}{2} + k\pi,\quad k\in\mathbb{Z}.
+		\]
+		We need those with $|z|<2$. Numerically,
+		\[
+		\left|\frac{\pi}{2}\right| \approx 1.57 < 2,\quad
+		\left|-\frac{\pi}{2}\right| \approx 1.57 < 2,
+		\]
+		while $\bigl|\frac{3\pi}{2}\bigr| > 2$, etc.
+		So the poles inside $|z|=2$ are $
+		z = \pm\frac{\pi}{2}$. These are simple poles. For a simple pole of a quotient $f/g$ with $g(z_0)=0$, $g'(z_0)\neq 0$,
+		\[
+		\Res_{z=z_0}\tan z=\Res_{z=z_0} \frac{f(z)}{g(z)} =\lim\limits_{z\to z_0}(z-z_0)\frac{f(z)}{g(z)}
+		=\lim\limits_{z\to z_0}\frac{f(z)}{\frac{g(z)}{(z-z_0)}}= \frac{f(z_0)}{g'(z_0)}.
+		\]
+		Here $f(z)=\sin z$, $g(z)=\cos z$, so $g'(z)=-\sin z$. Then \begin{align*}
+			\Res_{z=\frac{\pi}{2}} \tan z
+			&= \frac{\sin(\pi/2)}{\cos'(\pi/2)}
+			= \frac{1}{-\,\sin(\pi/2)}
+			= \frac{1}{-1} = -1\\
+			\Res_{z=-\frac{\pi}{2}} \tan z
+			&= \frac{\sin(-\pi/2)}{\cos'(-\pi/2)}
+			= \frac{-1}{-\,\sin(-\pi/2)}
+			= \frac{-1}{1}
+			= -1.
+		\end{align*}
+		So the sum of residues inside $C$ is
+		\[
+		\Res_{z=\pi/2}\tan z + \Res_{z=-\pi/2}\tan z
+		= -1 + (-1) = -2.
+		\]
+		By the residue theorem,
+		\[
+		\int_C \tan z\,dz
+		= 2\pi i \sum \Res(\tan z)
+		= 2\pi i \cdot (-2)
+		= -4\pi i.
+		\]
+		\item Now consider $\displaystyle
+		\int_C \frac{dz}{\sinh 2z}$. The poles occur where
+		\[
+		\sinh 2z = 0.
+		\]
+		Recall $\sinh w = 0 \iff w = n\pi i$, $n\in\mathbb{Z}$. Thus
+		\[
+		\sinh 2z = 0 \iff 2z = n\pi i \iff z = \frac{n\pi i}{2},\quad n\in\mathbb{Z}.
+		\]
+		We need those with $|z|<2$. We have
+		\[
+		\left|\frac{n\pi i}{2}\right| = \frac{|n|\pi}{2} < 2
+		\quad\Longrightarrow\quad |n| < \frac{4}{\pi}\approx 1.27,
+		\]
+		so the only possibilities are $n = 0, \pm 1$. Hence the poles inside $|z|=2$ are
+		\[
+		z = 0,\quad z = \pm\frac{\pi i}{2}.
+		\]
+		These are simple zeros of $\sinh 2z$, since $
+		\frac{d}{dz}(\sinh 2z) = 2\cosh 2z$ and $\cosh 2z \neq 0$ at these points.
+		We write
+		\[
+		f(z) = \frac{1}{\sinh 2z} = \frac{1}{h(z)},\quad h(z)=\sinh 2z.
+		\]
+		For a simple zero $h(z_0)=0$ with $h'(z_0)\neq 0$, the residue of $1/h(z)$ is
+		\[
+		\Res_{z=z_0} \frac{1}{h(z)} = \frac{1}{h'(z_0)}.
+		\]
+		Here $h'(z) = 2\cosh 2z$, so
+		\[
+		\Res_{z=z_0} \frac{1}{\sinh 2z} = \frac{1}{2\cosh 2z_0}.
+		\]
+		
+		\subsection*{Residue at $z=0$}
+		\[
+		\Res_{z=0} \frac{1}{\sinh 2z}
+		= \frac{1}{2\cosh 0}
+		= \frac{1}{2\cdot 1}
+		= \frac{1}{2}.
+		\]
+		
+		\subsection*{Residue at $z=\frac{\pi i}{2}$}
+		Here $2z = \pi i$:
+		\[
+		\cosh(\pi i) = \cos \pi = -1,
+		\]
+		so
+		\[
+		\Res_{z=\frac{\pi i}{2}} \frac{1}{\sinh 2z}
+		= \frac{1}{2\cosh \pi i}
+		= \frac{1}{2(-1)} = -\frac{1}{2}.
+		\]
+		
+		\subsection*{Residue at $z=-\frac{\pi i}{2}$}
+		Here $2z = -\pi i$:
+		\[
+		\cosh(-\pi i) = \cosh(\pi i) = \cos \pi = -1,
+		\]
+		so
+		\[
+		\Res_{z=-\frac{\pi i}{2}} \frac{1}{\sinh 2z}
+		= \frac{1}{2\cosh(-\pi i)}
+		= \frac{1}{2(-1)}
+		= -\frac{1}{2}.
+		\]
+		
+		\subsection*{Sum of residues and the integral}
+		
+		The sum of residues inside $|z|=2$ is
+		\[
+		\frac{1}{2} - \frac{1}{2} - \frac{1}{2} = -\frac{1}{2}.
+		\]
+		
+		By the residue theorem,
+		\[
+		\int_C \frac{dz}{\sinh 2z}
+		= 2\pi i \sum \Res\left(\frac{1}{\sinh 2z}\right)
+		= 2\pi i \cdot \left(-\frac{1}{2}\right)
+		= -\pi i.
+		\]
+		
+		\[
+		\boxed{\displaystyle \int_C \frac{dz}{\sinh 2z} = -\pi i.}
+		\]
+	\end{enumerate}
+	\end{proof}
+\end{enumerate}
+
+%\vspace{1em}
+%\noindent\textbf{Source.} Adapted from the provided lecture note \emph{Complex Variables and Applications — Chapter 6: Residues and Poles}. :contentReference[oaicite:0]{index=0}

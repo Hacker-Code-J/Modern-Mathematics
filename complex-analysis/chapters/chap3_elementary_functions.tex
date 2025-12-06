@@ -1,0 +1,389 @@
+\section{Elementary Functions}
+\subsection{The Exponential Function}
+
+\defbox[Exponential Function]{
+	\begin{definition}
+		For $z=x+iy\in\C$, define
+		\[
+		e^z = e^{x+iy} = e^x(\cos y + i\sin y),
+		\]
+		where $y$ is in radians. We also write $\exp z$ for $e^z$.
+\end{definition}}
+\thmbox{
+	\begin{theorem}
+		For $z_1,z_2\in\C$,
+		\[
+		e^{z_1+z_2}=e^{z_1}e^{z_2},\qquad \frac{e^{z_1}}{e^{z_2}}=e^{z_1-z_2}.
+		\]
+		Moreover, $e^z$ is entire, satisfies \[
+		\frac{d}{dz}e^z=e^z
+		\] for all $z$, and $e^z\neq 0$ for all $z\in\C$.
+\end{theorem}}
+
+\begin{observation}
+	Writing $e^z=\rho e^{i\theta}$ gives $\rho=e^x$ and $\theta=y$, hence
+	\[
+	|e^z|=e^x,\qquad \arg(e^z)=y+2\pi n\ (n\in\mathbb{Z}).
+	\]
+	Thus $e^{z+2\pi i} = e^z$, so $e^z$ is periodic with pure imaginary period $2\pi i$.
+\end{observation}
+
+\corbox[Euler's Identity]{
+	\begin{corollary}
+		Euler's identity is given by \[
+		e^{i\pi}=-1\quad\text{equivalently,}\quad e^{i\pi}+1=0.
+		\]
+\end{corollary}}
+
+\newpage
+\begin{example}
+	Solve $e^z=1+i$ for $z=x+iy$.
+	\begin{center}
+		\includegraphics[width=\textwidth]{ca-tikz/chap3-1-2.pdf}
+	\end{center}
+	\begin{proof}[\sol]
+		Since $e^z=e^{x+iy}=e^x(\cos y+i\sin y)$ and $1+i=\sqrt{2}\left(\cos\frac{\pi}{4}+i\sin\frac{\pi}{4}\right)$, we have \[
+		e^x=\sqrt{2}\quad\text{and}\quad y=\frac{\pi}{4}+2n\pi\quad (n=0,\pm1,\pm2,\cdots).
+		\] Thus, \[
+		x=\frac{1}{2}\ln 2\quad\text{and}\quad y=\left(2n+\frac{1}{4}\right)\pi\quad (n=0,\pm1,\pm2,\cdots)
+		\] and so \[
+		z=\frac{1}{2}\ln 2 + i\left(2n+\frac{1}{4}\right)\pi\quad (n=0,\pm1,\pm2,\cdots).
+		\]
+	\end{proof}	
+\end{example}
+
+\newpage
+\subsection{The Logarithmic Function}
+
+\begin{observation}
+	To solve \[
+	z=e^w
+	\] for $w$ when $z\neq 0$, write $z=re^{i\theta}$, $w=u+iv$. Then $e^u=r$ and $v=\theta+2\pi n$, hence
+	\[
+	\log z = \ln r + i(\theta+2\pi n),\qquad n\in\mathbb{Z},
+	\]
+	a multiple-valued function with \[
+	e^{\log z}=z
+	\] for $z\neq 0$.
+\end{observation}
+\begin{center}
+	\includegraphics[width=\textwidth]{ca-tikz/chap3-2.pdf}
+\end{center}
+
+\begin{example}
+	If $z=-1-\sqrt3\,i$, then $r=2$ and $\theta=-\tfrac{2\pi}{3}$, so \[
+	\log z = \ln 2 + i\Bigl(-\tfrac{2\pi}{3} + 2\pi n\Bigr),\quad n\in\mathbb{Z}.
+	\]
+\end{example}
+
+\newpage
+\defbox[Argument and Principal Value]{\begin{definition}
+		For $z\neq 0$, the set of all arguments is $\arg z=\{\theta+2\pi n:n\in\mathbb{Z}\}$ when $z=re^{i\theta}$. The principal value $\Arg z$ is the unique $\theta$ with $-\pi<\theta\le \pi$.
+\end{definition}}
+
+\begin{observation}
+	In general,
+	\[
+	\log(e^z)=z+2\pi i\,n,\qquad n\in\mathbb{Z}.
+	\]
+\end{observation}
+
+\begin{definition}[Principal Value of the Logarithm]
+	The principal value is
+	\[
+	\Log z = \ln r + i\theta\quad (z=re^{i\theta},\ r>0,\ -\pi<\theta<\pi).
+	\]
+	Then $\log z=\Log z + 2\pi i\,n$ for $n\in\mathbb{Z}$.
+\end{definition}
+
+\begin{example}
+	$\log 1 = 2\pi i\,n$ with $\Log 1=0$; and $\log(-1)=(2n+1)\pi i$ with $\Log(-1)=\pi i$. The function $\Log z$ is not continuous along the negative real axis.
+\end{example}
+%
+\subsection{Branches and Derivatives of Logarithms}
+
+\begin{observation}
+	Let $\alpha\in\R$. Restrict $\theta$ in
+	\[
+	\log z = \ln r + i\theta\qquad (r>0,\ \alpha<\theta<\alpha+2\pi)
+	\]
+	to obtain a single-valued continuous branch on that domain; it is in fact analytic there.
+\end{observation}
+
+\begin{theorem}
+	For a branch as above,
+	\[
+	\frac{d}{dz}\log z = \frac{1}{z}\qquad(|z|>0,\ \alpha<\arg z<\alpha+2\pi).
+	\]
+	In particular, on the principal branch,
+	\[
+	\frac{d}{dz}\Log z = \frac{1}{z}\qquad(|z|>0,\ -\pi<\Arg z<\pi).
+	\]
+\end{theorem}
+
+\begin{definition}[Branch, Principal Branch, Branch Cut/Point]
+	A \emph{branch} of a multiple-valued $f$ is any single-valued analytic function $F$ whose values are among those of $f$. The \emph{principal branch} of $\log$ is $\Log z$ on $r>0$, $-\pi<\theta<\pi$. A \emph{branch cut} is a curve removed to render a single-valued branch; points on it are singular for that branch. The origin is a branch point for $\log$.
+\end{definition}
+
+\begin{example}
+	$\Log(i^{3})=\Log(-i)=\ln 1 - i\frac{\pi}{2}=-\frac{\pi i}{2}$, while $3\Log i=3\cdot i\frac{\pi}{2}=\frac{3\pi i}{2}$. Hence $\Log(i^{3})\ne 3\Log i$.
+\end{example}
+
+\begin{theorem}
+	For nonzero $z_1,z_2$,
+	\[
+	\log(z_1z_2)=\log z_1+\log z_2,\qquad \arg(z_1z_2)=\arg z_1+\arg z_2,
+	\]
+	and thus $\ln|z_1z_2|+i\arg(z_1z_2)=(\ln|z_1|+i\arg z_1)+(\ln|z_2|+i\arg z_2)$.
+\end{theorem}
+
+\begin{example}
+	Let $z_1=z_2=-1$. Then $\log 1=0$, while $\log(-1)=(2n+1)\pi i$. Equality can require compatible choices of values. Using principal values everywhere may fail: $\Log(z_1z_2)=0$ but $\Log z_1+\Log z_2=2\pi i$.
+\end{example}
+
+\begin{theorem}
+	For nonzero $z_1,z_2$,
+	\[
+	\log\!\left(\frac{z_1}{z_2}\right)=\log z_1-\log z_2.
+	\]
+\end{theorem}
+
+\begin{observation}[Roots via Logarithm]
+	For $z\ne 0$ and $n\in\mathbb{N}$,
+	\[
+	z^{1/n}=\exp\!\Bigl(\tfrac1n\log z\Bigr),
+	\]
+	which gives exactly the $n$ distinct $n$th roots when $k=0,1,\dots,n-1$ are taken in the angles.
+\end{observation}
+
+\subsection{Complex Exponents}
+
+\begin{definition}[Complex Power]
+	For $z\ne 0$ and $c\in\C$,
+	\[
+	z^{\,c}=e^{c\,\log z},
+	\]
+	a multiple-valued function in general.
+\end{definition}
+
+\begin{example}
+	\[
+	i^{-2i}=e^{-2i\log i},\qquad \log i = \ln 1 + i\Bigl(\frac{\pi}{2}+2\pi n\Bigr)=\Bigl(2n+\tfrac12\Bigr)\pi i.
+	\]
+	Hence $i^{-2i}=\exp\!\bigl((4n+1)\pi\bigr)$, which are real numbers.
+\end{example}
+
+\begin{observation}
+	Since $1/e^z=e^{-z}$, we have $z^{-c}=\exp(-c\log z)$ and in particular $1/i^{2i}=i^{-2i}=\exp\!\bigl((4n+1)\pi\bigr)$.
+\end{observation}
+
+\begin{observation}
+	Fix a branch $\log z=\ln r+i\theta$ on $\alpha<\theta<\alpha+2\pi$. Then $z^{\,c}=\exp\bigl(c\log z\bigr)$ is single-valued and analytic there, and
+	\[
+	\frac{d}{dz}z^{\,c}=c\,z^{\,c-1}\qquad(|z|>0,\ \alpha<\arg z<\alpha+2\pi).
+	\]
+	The principal value is $\mathrm{P.V.}\,z^{\,c}=\exp\bigl(c\,\Log z\bigr)$.
+\end{observation}
+
+\begin{example}
+	\[
+	\mathrm{P.V.}\,(-i)^i=\exp\!\bigl(i\,\Log(-i)\bigr)=\exp\!\left(i\left[\ln 1 - i\frac{\pi}{2}\right]\right)=e^{\pi/2}.
+	\]
+	For $z^{2/3}$ on the principal branch ($-\pi<\Arg z<\pi$),
+	\[
+	\mathrm{P.V.}\,z^{2/3}=r^{2/3}\!\left(\cos\frac{2\varphi}{3}+i\sin\frac{2\varphi}{3}\right)\quad(z=re^{i\varphi}).
+	\]
+\end{example}
+
+\begin{example}
+	Let $z_1=1+i$, $z_2=1-i$, $z_3=-1-i$. Then
+	\[
+	(z_1z_2)^i=e^{i\ln 2},\qquad z_1^{\,i}=e^{-\pi/4}\,e^{i(\ln 2)/2},\qquad z_2^{\,i}=e^{\pi/4}\,e^{i(\ln 2)/2},
+	\]
+	so $(z_1z_2)^i=z_1^{\,i}z_2^{\,i}$. But
+	\[
+	(z_2z_3)^i=e^{-\pi}\,e^{i\ln 2},\qquad z_3^{\,i}=e^{3\pi/4}\,e^{i(\ln 2)/2},
+	\]
+	whence $(z_2z_3)^i = z_2^{\,i}z_3^{\,i}e^{-2i}$, showing branch subtleties.
+\end{example}
+
+\begin{definition}[Exponential with Base $c\neq 0$]
+	For fixed $c\in\C\setminus\{0\}$ and a chosen value of $\log c$, define
+	\[
+	c^{\,z}=e^{z\log c}.
+	\]
+	Then $c^{\,z}$ is entire and $\dfrac{d}{dz}c^{\,z}=c^{\,z}\log c$.
+\end{definition}
+
+\subsection{Trigonometric Functions}
+
+\begin{definition}
+	For $z\in\C$,
+	\[
+	\cos z = \frac{e^{iz}+e^{-iz}}{2},\qquad
+	\sin z = \frac{e^{iz}-e^{-iz}}{2i}.
+	\]
+\end{definition}
+
+\begin{theorem}
+	The functions $\sin z$ and $\cos z$ are entire and satisfy
+	\[
+	\frac{d}{dz}\sin z=\cos z,\qquad \frac{d}{dz}\cos z=-\sin z,
+	\]
+	and remain odd/even respectively: $\sin(-z)=-\sin z$, $\cos(-z)=\cos z$. Moreover $e^{iz}=\cos z + i\sin z$.
+\end{theorem}
+
+\begin{theorem}[Formulas]
+	For $z,z_1,z_2\in\C$,
+	\begin{gather*}
+		\sin(z_1+z_2)=\sin z_1\cos z_2+\cos z_1\sin z_2,\quad
+		\cos(z_1+z_2)=\cos z_1\cos z_2-\sin z_1\sin z_2,\\
+		\sin 2z=2\sin z\cos z,\quad \cos 2z=\cos^2 z-\sin^2 z,\\
+		\sin(z+\tfrac{\pi}{2})=\cos z,\quad \cos(z-\tfrac{\pi}{2})=-\cos z,\\
+		\sin^2 z+\cos^2 z=1,\quad \sin(z+\pi)=-\sin z,\ \cos(z+\pi)=-\cos z,\\
+		\sin(z+2\pi)=\sin z,\quad \cos(z+2\pi)=\cos z.
+	\end{gather*}
+\end{theorem}
+
+\begin{observation}
+	For real $y$,
+	\[
+	\cos(iy)=\cosh y,\qquad \sin(iy)=i\sinh y.
+	\]
+	Writing $z=x+iy$,
+	\[
+	\sin z=\sin x\,\cosh y+i\cos x\,\sinh y,\quad
+	\cos z=\cos x\,\cosh y - i\sin x\,\sinh y.
+	\]
+\end{observation}
+
+\begin{remark}
+	$\sin z$ and $\cos z$ are unbounded on $\C$.
+\end{remark}
+
+\begin{observation}[Zeros]
+	$\sin z=0$ iff $z=n\pi$; $\cos z=0$ iff $z=\frac{\pi}{2}+n\pi$ for $n\in\mathbb{Z}$.
+\end{observation}
+
+\begin{definition}
+	Define
+	\[
+	\tan z=\frac{\sin z}{\cos z},\quad \cot z=\frac{\cos z}{\sin z},\quad
+	\sec z=\frac{1}{\cos z},\quad \csc z=\frac{1}{\sin z}.
+	\]
+\end{definition}
+
+\begin{theorem}
+	\[
+	\frac{d}{dz}\tan z=\sec^2 z,\quad
+	\frac{d}{dz}\sec z=\sec z\,\tan z,\quad
+	\frac{d}{dz}\cot z=-\csc^2 z,\quad
+	\frac{d}{dz}\csc z=-\csc z\,\cot z.
+	\]
+\end{theorem}
+
+\begin{observation}
+	$\tan z$ and $\sec z$ are analytic off $z=\frac{\pi}{2}+n\pi$; $\cot z$ and $\csc z$ are analytic off $z=n\pi$.
+\end{observation}
+
+\subsection{Hyperbolic Functions}
+
+\begin{definition}
+	\[
+	\sinh z=\frac{e^z-e^{-z}}{2},\qquad \cosh z=\frac{e^z+e^{-z}}{2}.
+	\]
+\end{definition}
+
+\begin{theorem}
+	$\sinh z$ and $\cosh z$ are entire and $\dfrac{d}{dz}\sinh z=\cosh z$, $\dfrac{d}{dz}\cosh z=\sinh z$.
+\end{theorem}
+
+\begin{theorem}
+	For $z=x+iy$ and $z_1,z_2\in\C$,
+	\begin{gather*}
+		-i\,\sinh(iz)=\sin z,\quad \cosh(iz)=\cos z,\quad
+		-i\,\sin(iz)=\sinh z,\quad \cos(iz)=\cosh z,\\
+		\sinh(-z)=-\sinh z,\quad \cosh(-z)=\cosh z,\quad
+		\cosh^2 z-\sinh^2 z=1,\\
+		\sinh(z_1+z_2)=\sinh z_1\cosh z_2+\cosh z_1\sinh z_2,\\
+		\cosh(z_1+z_2)=\cosh z_1\cosh z_2+\sinh z_1\sinh z_2,\\
+		\sinh z=\sinh x\cos y+i\cosh x\sin y,\\
+		\cosh z=\cosh x\cos y+i\sinh x\sin y,\\
+		|\sinh z|^2=\sinh^2 x+\sin^2 y,\quad |\cosh z|^2=\cosh^2 x+\cos^2 y.
+	\end{gather*}
+\end{theorem}
+
+\begin{remark}
+	$\sinh z$ and $\cosh z$ are periodic with period $2\pi i$.
+\end{remark}
+
+\begin{observation}[Zeros]
+	$\sinh z=0$ iff $z=n\pi i$; $\cosh z=0$ iff $z=(\tfrac{\pi}{2}+n\pi)i$ ($n\in\mathbb{Z}$).
+\end{observation}
+
+\begin{definition}
+	Define $\tanh z=\dfrac{\sinh z}{\cosh z}$ (analytic where $\cosh z\neq 0$). Set $\coth z=1/\tanh z$, $\operatorname{sech}z=1/\cosh z$, $\operatorname{csch}z=1/\sinh z$.
+\end{definition}
+
+\begin{theorem}
+	\[
+	\frac{d}{dz}\tanh z=\operatorname{sech}^2 z,\quad
+	\frac{d}{dz}\operatorname{sech}z=-\operatorname{sech}z\,\tanh z,\quad
+	\frac{d}{dz}\coth z=-\operatorname{csch}^2 z,\quad
+	\frac{d}{dz}\operatorname{csch}z=-\operatorname{csch}z\,\coth z.
+	\]
+\end{theorem}
+
+\newpage
+\subsection{Inverse Trigonometric and Hyperbolic Functions}
+
+\begin{observation}
+	To define $\sin^{-1}z$, write \[
+	z=\sin w=\dfrac{e^{iw}-e^{-iw}}{2i}.
+	\] Then \begin{align*}
+		e^{iw}-e^{-iw}&=2iz\\
+		(e^{iw})^2-2iz-1&=0\\
+	\end{align*} Solving the quadratic in $e^{iw}$ yields
+	\[
+	e^{iw}=iz+(1-z^2)^{1/2},
+	\]
+	where $(1-z^2)^{1/2}$ is double-valued.
+\end{observation}
+
+\defbox{
+	\begin{definition}
+		Multiple-valued inverses: \begin{align*}
+			\sin^{-1}z&=-i\,\log\bigl[\,iz+(1-z^2)^{1/2}\bigr], \\ \\
+			\cos^{-1}z&=-i\,\log\bigl[\,z+i(1-z^2)^{1/2}\bigr],\\ \\
+			\tan^{-1}z&=\frac{i}{2}\log\!\left(\frac{i+z}{i-z}\right).
+		\end{align*}
+		With specific branches of $\sqrt{\cdot}$ and $\log$, these become single-valued and analytic on suitable domains.
+\end{definition}}
+\vfill
+\thmbox{
+	\begin{theorem}[Derivatives]
+		\[
+		\frac{d}{dz}\sin^{-1}z=\frac{1}{(1-z^2)^{1/2}},\qquad
+		\frac{d}{dz}\cos^{-1}z=-\frac{1}{(1-z^2)^{1/2}},\qquad
+		\frac{d}{dz}\tan^{-1}z=\frac{1}{1+z^2}.
+		\]
+\end{theorem}}
+
+\newpage
+\begin{example}
+	\[
+	\sin^{-1}(-i)=-i\,\log\bigl(1\pm\sqrt2\,\bigr).
+	\]
+	Since $\log(1+\sqrt2)=\ln(1+\sqrt2)+2\pi i\,n$ and $\log(1-\sqrt2)=\ln(\sqrt2-1)+(2n+1)\pi i$ with $\ln(\sqrt2-1)=-\ln(1+\sqrt2)$, the values of $\sin^{-1}(-i)$ are
+	\[
+	n\pi + i(-1)^{n+1}\ln(1+\sqrt2),\qquad n\in\mathbb{Z}.
+	\]
+\end{example}
+
+\begin{observation}[Inverse Hyperbolic Functions]
+	\[
+	\sinh^{-1}z=\log\bigl[z+(z^2+1)^{1/2}\bigr],\quad
+	\cosh^{-1}z=\log\bigl[z+(z^2-1)^{1/2}\bigr],\quad
+	\tanh^{-1}z=\frac12\log\!\left(\frac{1+z}{1-z}\right).
+	\]
+\end{observation}

@@ -1,0 +1,216 @@
+\begin{tcolorbox}
+Show that $f(z)=\exp(\overline{z})$ is not analytic anywhere. \textit{(Hint: use the Cauchy--Riemann equations.)}
+\end{tcolorbox}
+\begin{proof}[\sol]
+	(\textbf{Proof via Cauchy--Riemann equations}) Write \(z=x+iy\). Then \[
+	f(z)=e^{\overline z}=e^{x-iy}=e^{x}\bigl(\cos y-i\sin y\bigr),
+	\] so \[
+	u(x,y)=e^{x}\cos y,\qquad v(x,y)=-e^{x}\sin y.
+	\] Then \[
+	u_x=e^{x}\cos y,\quad u_y=-e^{x}\sin y,\qquad
+	v_x=-e^{x}\sin y,\quad v_y=-e^{x}\cos y.
+	\] If \(f\) is complex differentiable at \((x,y)\), the Cauchy--Riemann equations would hold: \[
+	u_x=v_y \quad\text{and}\quad u_y=-\,v_x.
+	\] That is, \begin{align*}
+		u_x=v_y&\implies e^x\cos y=-e^x\cos y&\implies \cos y=0, \\
+		u_y=-v_x&\implies -e^x\sin y=e^x\sin y&\implies \sin y=0.
+	\end{align*}
+	There is no \(y\in\mathbb{R}\) with \(\cos y=0\) and \(\sin y=0\) simultaneously. Hence the Cauchy--Riemann equations fail at every point, so \(f\) is nowhere analytic.
+	
+	\medskip\noindent
+	(\textbf{Proof via Wirtinger derivatives})
+	Using \(\partial/\partial z=\tfrac12(\partial_x- i\,\partial_y)\) and
+	\(\partial/\partial\overline z=\tfrac12(\partial_x+ i\,\partial_y)\),
+	one checks directly that \[
+	\frac{\partial f}{\partial z}=0,
+	\qquad
+	\frac{\partial f}{\partial \overline z}=e^{\overline z}\neq 0\ \text{ for all } z.
+	\]
+	A function is holomorphic iff \(\partial f/\partial \overline z\equiv 0\) on its domain. Since this is not the case, \(f\) is nowhere holomorphic.
+\end{proof}
+\vfill
+\begin{tcolorbox}
+Show that $f(z)=\Log(z-i)$ is analytic except on portion $x\leq 0$ of the line $y=1$ and that the function
+\[
+f(z)=\frac{\Log(z+4)}{z^2+i}
+\] is analytic everywhere except at the points $\pm{(1-i)}/{\sqrt2}$ and on the portion $x\leq -4$ of the real axis.
+\end{tcolorbox}
+\begin{proof}[\sol]
+	Consider $\Log\; z=\ln|z|+i\Arg\; z$, the principal branch of the complex logarithm,
+	with $\Arg\; z\in(-\pi,\pi)$, so that $\Log$ is analytic on \begin{align*}
+		\mathbb{C}\setminus(-\infty,0] &= \C\setminus\set{z\in\C:\Re z\leq 0\land\Im z=0}\\
+		&=\{\, z\in\mathbb{C} : \Re z>0\lor \Im z\neq 0\,\}.
+	\end{align*} Then
+	\begin{enumerate}[(1)]
+		\item Since $\Log$ is analytic on $\mathbb{C}\setminus(-\infty,0]$ and the map $z\mapsto z-i$ is entire,
+		the composition $z\mapsto \Log(z-i)$ is analytic precisely where $z-i\notin(-\infty,0]$.
+		Equivalently, \begin{align*}
+			z-i\in(-\infty,0] &\iff \Re(z-i)\le 0 \text{ and } \Im(z-i)=0 \\
+			&\iff \Re(x+i(y-1))=x\le 0 \text{ and } \Im(x+i(y-1))=y-1=0.
+		\end{align*}
+		That is, $f(z):=\Log(z-i)$ is analytic on $\mathbb{C}\setminus\{\,x+iy:\; x\le 0,\ y=1\}$. 
+		%i.e. it is analytic except on the portion $x\le0$ of the line $y=1$.
+		\begin{center}
+			\begin{tikzpicture}[>=Latex,scale=1.05]
+				\draw[gray!20, dashed] (-4,-1) grid (4,3);
+				% axes
+				\draw[->] (-4.2,0) -- (4.2,0) node[right] {$\Re z=x$};
+				\draw[->] (0,-1) -- (0,2.6) node[above] {$\Im z=y$};
+				\node at (0,-2.2) {$f(z)=\Log(z-i)$};
+				% a few reference gridlines for context
+				\draw[gray!40] (-4.0, 1.0) -- (4.0, 1.0) node[right] {$y=1$};
+				\draw[gray!40] ( 1.0,2.4) -- ( 1.0, -1) node[below] {$x=1$};
+				% branch cut in z-plane: y = 1, x <= 0  (comes from w=z-i \in (-\infty,0])
+				\draw[ultra thick,red!70] (-4.0,1.0) -- (0.0,1.0) node[midway,above] {$\;x\le 0,\ y=1$ (excluded)};
+				\fill[red!70] (0.0,1.0) circle (2pt); % includes endpoint x=0
+				% legend
+				\node[align=left,anchor=west] at (-4.0,-2.9)
+				{Analytic domain: $\ \C \setminus \{(x,y)\mid y=1,\ x\le 0\}$.};
+			\end{tikzpicture}
+		\end{center}
+		\item The numerator $z\mapsto \Log(z+4)$ is analytic wherever $z+4\notin(-\infty,0]$, i.e., $z\notin\intoc{-\infty,-4}$. In other words, $\Log(z+4)$ is analytic on \[
+		\C\setminus\intoc{-\infty,-4}=\C\setminus\set{z\in\C:\Re z\leq -4\land \Im z = 0}=\set{z\in\C:\Re z>-4\lor \Im z\neq 0 }
+		\] $\C\setminus\intoc{-\infty}$ for
+		$z\notin(-\infty,-4]$, which is the portion $x\le -4$ of the real axis.
+		The denominator $z^2+i$ vanishes exactly at the zeros of $z^2=-i$, namely
+		\[
+		z=\pm(-i)^{1/2}=\pm e^{-i\pi/4}=\pm\frac{1-i}{\sqrt2}.
+		\]
+		Therefore $g$ is analytic on the domain where the numerator is analytic and the denominator is nonzero, i.e.
+		\[
+		\mathbb{C}\setminus\Big( (-\infty,-4]\ \cup\ \{\pm\tfrac{1-i}{\sqrt2}\}\Big),
+		\]
+		which is exactly the stated set.
+		
+		$g(z):=\dfrac{\Log(z+4)}{z^2+i}$ is analytic on
+		\[
+		\mathbb{C}\setminus\Big(\{\,x+iy:\; y=0,\ x\le -4\,\}\ \cup\ \{\pm\tfrac{1-i}{\sqrt2}\}\Big),
+		\]
+		i.e. everywhere except at the branch cut $x\le -4$ on the real axis and at the two points $\pm{(1-i)}/{\sqrt2}$.
+		
+		\begin{center}
+			\begin{tikzpicture}[>=Latex,scale=1.05]
+%				\draw[gray!20, dashed] (-4,-4) grid (4,4);
+				% axes
+				\draw[->] (-6.2,0) -- (4.2,0) node[right] {$\Re z=x$};
+				\draw[->] (0,-1.2) -- (0,3.2) node[above] {$\Im z=y$};
+%				\node at (0,-3.5) {$g(z)=\dfrac{\Log(z+4)}{z^2+i}$};
+				% branch cut from Log(z+4): real axis x <= -4
+				\draw[very thick,red!70] (-6.0,0.0) -- (-4.0,0.0) node[midway,above] {$\ (-\infty,-4]$ (excluded)};
+				\fill[red!70] (-4.0,0.0) circle (2pt); % includes endpoint x=-4
+				% poles from z^2+i=0: z = ±(1 - i)/√2  ≈ (±0.7071, ∓0.7071)
+				\draw[red!80,very thick] ( 0.7071,-0.7071) +(0.12,0.12) -- +(-0.12,-0.12);
+				\draw[red!80,very thick] ( 0.7071,-0.7071) +(-0.12,0.12) -- +(0.12,-0.12);
+				\node[red!80,anchor=west] at (0.78,-0.70) {$\ \ \tfrac{1-i}{\sqrt2}$};
+				\draw[red!80,very thick] (-0.7071, 0.7071) +(0.12,0.12) -- +(-0.12,-0.12);
+				\draw[red!80,very thick] (-0.7071, 0.7071) +(-0.12,0.12) -- +(0.12,-0.12);
+				\node[red!80,anchor=east] at (-0.78,0.70) {$\tfrac{-1+i}{\sqrt2}\ $};
+				\draw[red!80,very thick, dotted] ( 0.7071,0) -- ( 0.7071,-0.7071);
+				\draw[red!80,very thick, dotted] ( 0,-0.7071) -- ( 0.7071,-0.7071);
+				\draw[red!80,very thick, dotted] ( -0.7071,0.7071) -- ( -0.7071,0);
+				\draw[red!80,very thick, dotted] ( 0,0.7071) -- ( -0.7071,0.7071);
+				%					% legend
+				%					\node[align=left,anchor=west] at (-6.0,-2.7)
+				%					{Analytic domain: $\ \C\setminus\big((-\infty,-4]\cup\{\pm\tfrac{1-i}{\sqrt2}\}\big)$.};
+			\end{tikzpicture}
+		\end{center}
+	\end{enumerate}
+\end{proof}
+
+\begin{tcolorbox}
+Show that the function $\ln(x^2+y^2)$ is harmonic in every domain that does not contain the origin.
+\end{tcolorbox}
+\begin{proof}[\sol]
+	%		We need to show that $u(x,y) = \ln(x^2 + y^2)$
+	%		satisfies Laplace’s equation \[
+	%		u_{xx} + u_{yy} = 0
+	%		\] at every point $(x,y)\neq(0,0)$. 
+	For $(x,y)\neq(0,0)$, we can differentiate: \begin{align*}
+		u_x &= \frac{\partial}{\partial x}\ln(x^2 + y^2) = \frac{2x}{x^2 + y^2},\\
+		u_y &= \frac{\partial}{\partial y}\ln(x^2 + y^2) = \frac{2y}{x^2 + y^2}.
+	\end{align*} And then \begin{align*}
+		u_{xx}
+		&= \frac{2(x^2 + y^2) - 2x\cdot 2x}{(x^2 + y^2)^2}
+		= \frac{2(x^2 + y^2) - 4x^2}{(x^2 + y^2)^2}
+		= \frac{-2x^2 + 2y^2}{(x^2 + y^2)^2} \\
+		u_{yy}
+		&= \frac{2(x^2 + y^2) - 2y\cdot 2y}{(x^2 + y^2)^2}
+		= \frac{2(x^2 + y^2) - 4y^2}{(x^2 + y^2)^2}
+		= \frac{2x^2 - 2y^2}{(x^2 + y^2)^2}.
+	\end{align*}	
+	Now compute the Laplacian: \[
+	u_{xx} + u_{yy}
+	= \frac{-2x^2 + 2y^2}{(x^2 + y^2)^2}+
+	\frac{2x^2 - 2y^2}{(x^2 + y^2)^2}
+	= \frac{(-2x^2 + 2y^2) + (2x^2 - 2y^2)}{(x^2 + y^2)^2}
+	= \frac{0}{(x^2 + y^2)^2}
+	= 0
+	\] for all $(x,y)\neq(0,0)$.
+	%		So $\ln(x^2 + y^2)$ is harmonic at every point where it is twice continuously differentiable --- that is, on any domain that does not contain the origin (since at ((0,0)) the function is not even defined, and our derivatives blow up).	
+	%		Therefore, **(\ln(x^2 + y^2)) is harmonic in every domain that does not contain the origin.**
+	
+	\medskip\noindent
+	(\textbf{Proof via Wirtinger-operator})
+	Let $z=x+iy$ and
+	\[
+	u(x,y)=\ln(x^2+y^2)=\ln(\abs{z}^2)=\ln(z\bar z).
+	\]
+	Recall the Wirtinger operators $
+	\partial:=\tfrac12(\partial_x-i\,\partial_y)$ and
+	$\bar\partial:=\tfrac12(\partial_x+i\,\partial_y),$
+	so that the Laplacian satisfies
+	\[
+	\Delta=\partial_{xx}+\partial_{yy}=4\,\partial\bar\partial=4\,\bar\partial\partial.
+	\]
+	On $\mathbb{C}\setminus\{0\}$ the chain rule gives \begin{align*}
+		\partial u
+		&=\partial\big(\ln(z\bar z)\big)
+		=\frac{1}{z\bar z}\,\partial(z\bar z)
+		=\frac{1}{z\bar z}\,\bar z
+		=\frac{1}{z},\\
+		\bar\partial u
+		&=\bar\partial\big(\ln(z\bar z)\big)
+		=\frac{1}{z\bar z}\,\bar\partial(z\bar z)
+		=\frac{1}{z\bar z}\,z
+		=\frac{1}{\bar z}.
+	\end{align*}
+	Therefore, $\displaystyle
+	\Delta u
+	=4\,\partial\bar\partial u
+	=4\,\partial\!\left(\frac{1}{\bar z}\right)
+	=0$ on $\mathbb{C}\setminus\{0\}$. 
+\end{proof}
+
+\begin{tcolorbox}
+Show that $\cosh^2 z-\sinh^2 z=1$ and $\sinh z+\cosh z=e^z$.
+\end{tcolorbox}
+\begin{proof}[\sol]
+	Recall the exponential definitions (valid for all $z\in\mathbb{C}$):
+	\[
+	\cosh z=\frac{e^{z}+e^{-z}}{2},\qquad
+	\sinh z=\frac{e^{z}-e^{-z}}{2}.
+	\]
+	
+	\medskip
+	\noindent\textbf{(1) $\cosh^2 z-\sinh^2 z=1$.}
+	\[
+	\cosh^2 z-\sinh^2 z
+	=\left(\frac{e^{z}+e^{-z}}{2}\right)^{\!2}
+	-\left(\frac{e^{z}-e^{-z}}{2}\right)^{\!2}
+	=\frac{(e^{z}+e^{-z})^2-(e^{z}-e^{-z})^2}{4}.
+	\]
+	Expanding,
+	\[
+	(e^{z}+e^{-z})^2-(e^{z}-e^{-z})^2
+	=e^{2z}+2+e^{-2z}-(e^{2z}-2+e^{-2z})=4,
+	\]
+	so $\cosh^2 z-\sinh^2 z=\frac{4}{4}=1$.
+	
+	\medskip
+	\noindent\textbf{(2) $\sinh z+\cosh z=e^{z}$.}
+	\[
+	\sinh z+\cosh z
+	=\frac{e^{z}-e^{-z}}{2}+\frac{e^{z}+e^{-z}}{2}
+	=e^{z}.
+	\]
+\end{proof}

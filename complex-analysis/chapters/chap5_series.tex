@@ -1,0 +1,234 @@
+\section{Series}
+
+\subsection{Convergence of Sequences}
+
+\begin{definition}[Limit of a sequence]
+	A sequence $(z_n)$ of complex numbers converges to $z\in\C$ if for each $\varepsilon>0$ there exists $N\in\mathbb{N}$ such that
+	\[
+	|z_n-z|<\varepsilon\qquad(n>N).
+	\]
+	We write $\lim_{n\to\infty} z_n=z$. If no such $z$ exists, the sequence \emph{diverges}.
+\end{definition}
+
+\begin{remark}[Uniqueness]
+	A complex sequence has at most one limit.
+\end{remark}
+
+\begin{theorem}[Componentwise convergence]
+	Let $z_n=x_n+i y_n$ and $z=x+iy$. Then
+	\[
+	\lim_{n\to\infty} z_n=z
+	\quad\Longleftrightarrow\quad
+	\lim_{n\to\infty} x_n=x\ \ \text{and}\ \ \lim_{n\to\infty} y_n=y.
+	\]
+\end{theorem}
+
+\begin{example}
+	(a) $z_n=\dfrac{1}{n^3}+i \ \Rightarrow\ \lim z_n=i$. \quad
+	(b) $z_n=-2+i\dfrac{(-1)^n}{n^2}\ \Rightarrow\ \lim z_n=-2$.
+\end{example}
+
+\begin{observation}[Polar view]
+	Writing $z_n=r_n e^{i\theta_n}$ with $r_n=|z_n|$ and $\theta_n=\Arg z_n$, one may have $r_n\to r$ while $(\theta_n)$ fails to converge (e.g.\ even/odd subsequences approaching $\pm\pi$).
+\end{observation}
+
+\newpage
+\subsection{Convergence of Series}
+\defbox[Series and sum]{
+	\begin{definition}
+		A series $\sum_{n=1}^{\infty} z_n$ converges to $S$ if the partial sums $S_N=\sum_{n=1}^{N} z_n$ satisfy $S_N\to S$. Then $\sum_{n=1}^\infty z_n=S$.
+\end{definition}}
+
+\thmbox[Componentwise]{
+	\begin{theorem}
+		If $z_n=x_n+i y_n$ and $S=X+iY$, then \[
+		\sum_{n=1}^{\infty} z_n=S
+		\quad\Longleftrightarrow\quad
+		\sum_{n=1}^{\infty} x_n=X\ \ \text{and}\ \ \sum_{n=1}^{\infty} y_n=Y.
+		\]
+\end{theorem}}
+
+\begin{remark}[Necessary test and boundedness]
+	If $\sum z_n$ converges, then $z_n\to0$ (the $n$th-term test). In particular, the terms are bounded: there exists $M$ with $|z_n|\le M$ for all $n$.
+\end{remark}
+
+\begin{definition}[Absolute convergence]
+	$\sum z_n$ is \emph{absolutely convergent} if $\sum |z_n|$ converges. Absolute convergence implies convergence.
+\end{definition}
+
+\begin{remark}[Remainders]
+	If $S=\sum_{n=1}^\infty z_n$, the remainder after $N$ terms is $\rho_N=S-S_N$. Then $S_N\to S$ iff $\rho_N\to 0$.
+\end{remark}
+
+\subsection{Power Series and Taylor Series}
+\defbox[Power series centered at $z_0$]{
+	\begin{definition}
+		\[
+		\sum_{n=0}^{\infty} a_n (z-z_0)^n=a_0+a_1(z-z_0)+a_2(z-z_0)^2+\cdots,
+		\]
+		with $a_n,z_0\in\C$.
+\end{definition}}
+
+\thmbox[Taylor series]{
+	\begin{theorem}\label{thm:Taylor}
+		If $f$ is analytic on $|z-z_0|<R_0$, then for $|z-z_0|<R_0$,
+		\[
+		f(z)=\sum_{n=0}^{\infty} a_n (z-z_0)^n,\qquad a_n=\frac{f^{(n)}(z_0)}{n!}.
+		\]
+		For $z_0=0$ this is the \emph{Maclaurin series}.
+\end{theorem}}
+
+\begin{example}
+	Since $e^z$ is entire,
+	\[
+	e^z=\sum_{n=0}^{\infty}\frac{z^n}{n!},\qquad
+	z^2 e^{3z}=\sum_{n=0}^{\infty}\frac{3^{\,n-2}}{(n-2)!}\,z^{n}\quad(\text{interpreting }(n-2)!=\infty \text{ for }n<2\text{ gives zero terms}).
+	\]
+	Also
+	\[
+	\sin z=\sum_{n=0}^{\infty}\frac{(-1)^n z^{2n+1}}{(2n+1)!},\quad
+	\cos z=\sum_{n=0}^{\infty}\frac{(-1)^n z^{2n}}{(2n)!},
+	\]
+	\[
+	\sinh z=\sum_{n=0}^{\infty}\frac{z^{2n+1}}{(2n+1)!},\quad
+	\cosh z=\sum_{n=0}^{\infty}\frac{z^{2n}}{(2n)!}.
+	\]
+\end{example}
+
+\begin{example}[Geometric series]
+	For $f(z)=\dfrac{1}{1-z}$ we have
+	\[
+	\frac{1}{1-z}=\sum_{n=0}^{\infty} z^n,\qquad |z|<1,
+	\]
+	and similarly $\dfrac{1}{1+z}=\sum_{n=0}^{\infty}(-1)^n z^n$ for $|z|<1$.
+\end{example}
+
+\subsection{Laurent Series}
+
+\begin{remark}
+	At a point $z_0$ where $f$ is not analytic, Taylor series may fail; on an annulus $R_1<|z-z_0|<R_2$ one often has a two-sided power expansion (Laurent series).
+\end{remark}
+
+\begin{theorem}[Laurent]\label{thm:Laurent}
+	If $f$ is analytic on the annulus $R_1<|z-z_0|<R_2$ and $C$ is any positively oriented simple closed contour around $z_0$ lying in that annulus, then on $R_1<|z-z_0|<R_2$,
+	\[
+	f(z)=\sum_{n=0}^{\infty} a_n (z-z_0)^n+\sum_{n=1}^{\infty} \frac{b_n}{(z-z_0)^n}
+	=\sum_{n=-\infty}^{\infty} c_n (z-z_0)^n,
+	\]
+	with
+	\[
+	c_n=\frac{1}{2\pi i}\int_C \frac{f(\zeta)}{(\zeta-z_0)^{n+1}}\,d\zeta\qquad (n\in\mathbb{Z}).
+	\]
+	If $f$ is analytic on $|z-z_0|<R_2$ then $b_n=0$ and Laurent reduces to Taylor.
+\end{theorem}
+
+\begin{example}
+	Since $e^z=\sum_{n=0}^\infty \dfrac{z^n}{n!}$ for all $z$, we get
+	\[
+	e^{1/z}=\sum_{n=0}^{\infty}\frac{1}{n!}\,\frac{1}{z^n},\qquad 0<|z|<\infty.
+	\]
+	The coefficient of $(z^{-1})$ is $1$, hence for any positively oriented simple closed contour $C$ around $0$,
+	\[
+	\int_C e^{1/z}\,dz = 2\pi i.
+	\]
+\end{example}
+
+\begin{example}[Partial fractions across annuli]
+	Let
+	\[
+	f(z)=\frac{-1}{(z-1)(z-2)}=\frac{1}{z-1}-\frac{1}{z-2}.
+	\]
+	Three Laurent expansions in powers of $z$ arise:
+	\begin{align*}
+		|z|<1:&\quad f(z)= -\sum_{n=0}^{\infty} z^{n}+\sum_{n=0}^{\infty}\frac{z^{n}}{2^{\,n+1}}
+		= \sum_{n=0}^{\infty}\Big(\frac{1}{2^{\,n+1}}-1\Big) z^{n},\\[2pt]
+		1<|z|<2:&\quad f(z)= \sum_{n=0}^{\infty}\frac{1}{z^{n+1}}+\sum_{n=0}^{\infty}\frac{z^{n}}{2^{\,n+1}}
+		= \sum_{n=1}^{\infty}\frac{1}{z^{n}}+\sum_{n=0}^{\infty}\frac{z^{n}}{2^{\,n+1}},\\[2pt]
+		|z|>2:&\quad f(z)= \sum_{n=1}^{\infty}\frac{1-2^{\,n-1}}{z^{n}}.
+	\end{align*}
+\end{example}
+
+%\begin{example}
+%	Find the Laurent series
+%\end{example}
+
+\subsection{Absolute and Uniform Convergence of Power Series}
+
+\begin{theorem}[Absolute convergence inside any interior circle]
+	If a power series $\sum_{n=0}^{\infty} a_n (z-z_0)^n$ converges at some $z_1\ne z_0$, then it converges absolutely for all $|z-z_0|<|z_1-z_0|$.
+\end{theorem}
+
+\begin{definition}[Circle of convergence]
+	The largest open disk centered at $z_0$ on which the series converges is the \emph{circle of convergence}. Its radius is the \emph{radius of convergence}.
+\end{definition}
+
+\begin{theorem}[Uniform convergence on closed interior disks]
+	If $|z_1-z_0|=R_1$ lies strictly inside the circle $|z-z_0|=R$, then the series is uniformly convergent on the closed disk $|z-z_0|\le R_1$.
+\end{theorem}
+
+\subsection{Consequences for Sums of Power/Laurent Series}
+$\wedge$
+\begin{theorem}[Continuity and analyticity]\label{thm:cont-anal}
+	Inside the circle of convergence, the sum $S(z)=\sum_{n=0}^{\infty} a_n (z-z_0)^n$ is continuous and analytic.
+\end{theorem}
+
+\begin{remark}[Exterior series]
+	If $\sum_{n=1}^{\infty} \dfrac{b_n}{(z-z_0)^n}$ converges at $z_1\ne z_0$, then it converges absolutely to a continuous function on $\{|z-z_0|>|z_1-z_0|\}$ (the exterior of the circle through $z_1$).
+\end{remark}
+
+\begin{remark}[Laurent on annuli]
+	If
+	\[
+	f(z)=\sum_{n=0}^{\infty} a_n (z-z_0)^n+\sum_{n=1}^{\infty}\frac{b_n}{(z-z_0)^n}
+	\]
+	is valid on $R_1<|z-z_0|<R_2$, then both series converge uniformly on any closed annulus $R_1+\varepsilon \le |z-z_0|\le R_2-\varepsilon$ ($\varepsilon>0$).
+\end{remark}
+
+\begin{theorem}[Termwise integration on interior contours]
+	Let $C$ be a contour inside the circle of convergence of $\sum_{n=0}^{\infty} a_n (z-z_0)^n$ and $f$ continuous on $C$. Then
+	\[
+	\int_C f(z)\,\sum_{n=0}^{\infty} a_n (z-z_0)^n\,dz
+	=\sum_{n=0}^{\infty} a_n \int_C f(z)(z-z_0)^n\,dz.
+	\]
+\end{theorem}
+
+\begin{corollary}
+	The sum $S(z)$ is analytic inside its circle of convergence and may be integrated term by term on interior contours.
+\end{corollary}
+
+\begin{example}
+	Define
+	\[
+	f(z)=
+	\begin{cases}
+		\dfrac{e^{z}-1}{z},& z\ne 0,\\[4pt]
+		1,& z=0.
+	\end{cases}
+	\]
+	Since $e^{z}-1=\sum_{n=1}^\infty \dfrac{z^{n}}{n!}$, we obtain $f(z)=\sum_{n=1}^\infty \dfrac{z^{n-1}}{n!}$ for all $z$ with the limit at $0$ equal to $1$. Thus $f$ is entire and continuous at $0$.
+\end{example}
+
+\begin{theorem}[Termwise differentiation]
+	Inside the circle of convergence,
+	\[
+	\frac{d}{dz}\sum_{n=0}^{\infty} a_n (z-z_0)^n
+	= \sum_{n=1}^{\infty} n a_n (z-z_0)^{n-1}.
+	\]
+\end{theorem}
+
+\begin{theorem}[Uniqueness of Taylor/Laurent expansions]
+	If a power series in $(z-z_0)$ equals $f(z)$ on a disk, it is the Taylor series of $f$. If a doubly-infinite series $\sum_{n=-\infty}^{\infty} c_n (z-z_0)^n$ equals $f$ on an annulus, it is the Laurent expansion of $f$ on that annulus.
+\end{theorem}
+
+\begin{corollary}[Cauchy product]
+	If
+	\[
+	f(z)=\sum_{n=0}^{\infty} a_n (z-z_0)^n,\qquad
+	g(z)=\sum_{n=0}^{\infty} b_n (z-z_0)^n
+	\]
+	converge on $|z-z_0|<R$, then
+	\[
+	f(z)g(z)=\sum_{n=0}^{\infty}\Bigg(\sum_{k=0}^{n} a_k b_{n-k}\Bigg)(z-z_0)^n,\qquad |z-z_0|<R.
+	\]
+\end{corollary}
+

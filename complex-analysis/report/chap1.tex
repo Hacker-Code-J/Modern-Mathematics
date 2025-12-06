@@ -1,0 +1,267 @@
+\begin{tcolorbox}
+Verify that $\sqrt{2}\,|z|\ge |\Re z|+|\Im z|$.
+\end{tcolorbox}
+	\begin{proof}[\Sol]
+	Let $z=x+iy$, so that $x=\Re z$, $y=\Im z$, and $\lvert z\rvert=\sqrt{x^2+y^2}$. Then
+	\begin{align*}
+		\sqrt{2}\,\lvert z\rvert \;\ge\; \lvert \Re z\rvert+\lvert \Im z\rvert&\iff\sqrt{2}\,\sqrt{x^2+y^2}\;\ge\;\lvert x\rvert+\lvert y\rvert\\
+		&\iff 2(x^2+y^2)\;\ge\;(\lvert x\rvert+\lvert y\rvert)^2\\
+		&\iff 2(x^2+y^2)\;\ge\;x^2+y^2+2\lvert x\rvert\lvert y\rvert\quad(\because |x|^2=x^2,\; |y|^2=y^2)\\
+		&\iff x^2+y^2\;\ge\;2\lvert x\rvert\lvert y\rvert\quad\text{by subtracting $x^2+y^2$ from both sides}\\
+		&\iff x^2+y^2\;\ge\;2\sqrt{x^2y^2} \\
+		&\iff \frac{x^2+y^2}{2}\;\ge\;\sqrt{x^2y^2} \\
+		&\iff \frac{a+b}{2}\;\ge\;\sqrt{ab}\quad\text{by setting $a:=x^2$ and $b:=y^2$;\quad (AM-GM inequality)} \\
+	\end{align*}
+	Hence it holds.
+	\begin{center}
+		\begin{tikzpicture}[scale=2.75, >=Stealth]
+			% axes
+			\draw[->] (-1.8,0) -- (1.8,0) node[right] {$\Re z$};
+			\draw[->] (0,-1.8) -- (0,1.8) node[above] {$\Im z$};
+			
+			% unit circle |z|=1
+			\draw[ultra thick,blue!70] (0,0) circle (1);
+			%	\draw[ultra thick,blue!70, opacity=.5] (0,0) circle (0.7207);
+			\node[blue!70] at (0,1.1) {$|z|=1$};
+			
+			% diamond |x|+|y|=sqrt(2)  (vertices at (±√2,0),(0,±√2))
+			% use √2 ≈ 1.4142
+			\draw[ultra thick,cyan] ( 1.4142,0) -- (0, 1.4142) -- (-1.4142,0) -- (0,-1.4142) -- cycle;
+			\node[cyan] at (0,1.55) {$|x|+|y|=\sqrt{2}$};
+			
+			% equality rays y=±x
+			\draw[dashed,gray!60] (-1,-1) -- (1,1);
+			\draw[dashed,gray!60] (-1, 1) -- (1,-1);
+			\node[gray!60] at (1.25,1.05) {$y=x$};
+			\node[gray!60] at (1.25,-1.05) {$y=-x$};
+			
+			\foreach \X/\Y in {0.7071/0.7071, 0.7071/-0.7071, -0.7071/0.7071, -0.7071/-0.7071}{
+				\fill[teal] (\X,\Y) circle (0.03);
+			}
+			\node[teal,anchor=east] at (-0.74,-0.74) {Equality Point
+				%		$\bigl(\tfrac{1}{\sqrt2},\tfrac{1}{\sqrt2}\bigr)$
+			};
+			
+			% a sample point on the circle (theta = 30°)
+			% coordinates: (cos 30°, sin 30°) ≈ (0.8660, 0.5)
+			\fill[red] (0.8660,0.5000) circle (0.03);
+			\draw[red,->,thick] (0,0) -- (0.8660,0.5000) node[right] {$z=x+iy$};
+			
+			% helper projections to visualize |x| and |y|
+			\draw[red!70,densely dashed] (0.8660,0) -- (0.8660,0.5000);
+			\draw[red!70,densely dashed] (0,0.5000) -- (0.8660,0.5000);
+			\node[red!70] at (0.86,-0.10) {$x=\Re z$};
+			\node[red!70, left] at (0,0.50) {$y=\Im z$};
+			
+			% AM-GM derivation (compact)
+			\node[align=left,draw,rounded corners=1pt,inner sep=2pt,anchor=west] at (1.75,1.2)
+			{$\displaystyle |x||y|\le\frac{x^2+y^2}{2}\ \ (\text{AM--GM on }x^2,y^2)$\\[2pt]
+				$\displaystyle \implies\ (x^2+y^2)\le (2|x||y|)$\\[2pt]
+				$\displaystyle \implies\ 2\cdot (x^2+y^2)\le(x^2+y^2)+(2|x||y|)$\\[2pt]
+				$\displaystyle \implies\ (|x|+|y|)^2\le 2(x^2+y^2)$\\[2pt]
+				$\displaystyle \overset{\sqrt{\;\cdot\;}}{\implies}\ |x|+|y|\le \sqrt{2}\,|z|$\\[2pt]
+				$\displaystyle \implies\ |\Re z|+|\Im z|\le \sqrt{2}\,|z|.$};
+		\end{tikzpicture}
+	\end{center}
+\end{proof}
+\begin{tcolorbox}
+By factoring $z^4-4z+3$ into two quadratic factors show that if $z$ lies on the circle $|z|=2$, then \[
+\left|\frac{1}{z^4-4z^2+3}\right|\le \frac13.
+\]
+\end{tcolorbox}
+\begin{proof}[\Sol]
+	Since $z^4-4z^2+3 \;=\; (z^2-1)(z^2-3)$, we have \[
+	\left\lvert z^4-4z^2+3 \right\rvert
+	= \lvert z^2-1\rvert\,\lvert z^2-3\rvert.
+	\]
+	For $\lvert z\rvert=2$ one has $\lvert z^2\rvert=\lvert z\rvert^2=4$. By the triangle inequality,
+	\[
+	\lvert z^2-1\rvert \;\ge\; \bigl|\,\lvert z^2\rvert-\lvert 1\rvert\,\bigr| = \lvert 4-1\rvert = 3,
+	\qquad
+	\lvert z^2-3\rvert \;\ge\; \bigl|\,\lvert z^2\rvert-\lvert 3\rvert\,\bigr| = \lvert 4-3\rvert = 1.
+	\]
+	Hence
+	\[
+	\lvert z^4-4z^2+3\rvert \;\ge\; 3\cdot 1 \;=\; 3,
+	\]
+	and therefore
+	\[
+	\left\lvert\frac{1}{z^4-4z^2+3}\right\rvert \;=\; \frac{1}{\lvert z^4-4z^2+3\rvert} \;\le\; \frac{1}{3}.
+	\]
+	
+	\begin{center}
+		\begin{tikzpicture}[>=Latex,scale=.85]
+			
+			%================ z-plane =================
+			\begin{scope}
+				% axes
+				\draw[->] (-3.2,0) -- (3.2,0) node[right] {$\Re z$};
+				\draw[->] (0,-3.2) -- (0,3.2) node[above] {$\Im z$};
+				\node at (0,-3.5) {$z$-plane};
+				
+				% circle |z|=2
+				\draw[thick,blue!70] (0,0) circle (2);
+				\node[blue!70] at (0.75,2.25) {$|z|=2$};
+				
+				% sample point z with |z|=2, angle ~20°
+				% coordinates: 2*(cos20, sin20) ≈ (1.8794, 0.6840)
+				\fill[blue] (1.8794,0.6840) circle (2pt)
+				node[anchor=west] {$z$};
+				
+				% mapping arrow
+				\draw[->,thick] (4.5,0) -- (6,0) node[midway,above] {$f(z)=z^2$};
+			\end{scope}
+			
+			%================ w-plane =================
+			\begin{scope}[xshift=10.5cm]
+				% axes
+				\draw[->] (-4.2,0) -- (5.2,0) node[right] {$\Re f(z)$};
+				\draw[->] (0,-3.2) -- (0,3.2) node[above] {$\Im f(z)$};
+				\node at (0,-3.5) {$f(z)$-plane};
+				
+				% circle |w|=4
+				\draw[thick,blue!70] (0,0) circle (4);
+				\node[blue!70] at (5,0.3) {$|f(z)|=4$};
+				
+				% two real points 1 and 3
+				\fill (1,0) circle (1.6pt) node[below] {$1$};
+				\fill (3,0) circle (1.6pt) node[below] {$3$};;
+				\fill (4,0) circle (1.6pt) node[below] {$4$};
+				
+				% image point w = z^2 (angle doubles: ~40°), coords 4*(cos40, sin40) ≈ (3.0640, 2.5712)
+				\fill[red] (3.0640,2.5712) circle (2.2pt) node[above right] {$f(z)=z^2$};
+				\draw[red,->,thick] (0,0) -- (3.0640,2.5712);
+				
+				% distances |w-1| and |w-3|
+				\draw[magenta, dashed] (3.0640,2.5712) -- (1,0) node[midway,above left] {$|f(z)-1|$};
+				\draw[magenta, dashed] (3.0640,2.5712) -- (3,0) node[midway,right] {$|f(z)-3|$};
+				
+				% triangle-inequality lower bounds along the radial (origin->w) direction
+				% show the radial segment length 4, and compare to 1 and 3
+				\draw[dashed,gray!70] (0,0) -- (3.0640,2.5712); % radius 4
+				% project the points 1 and 3 to the radial line via concentric circles
+				\draw[gray!40] (0,0) circle (1);
+				\draw[gray!40] (0,0) circle (3);
+				
+				% double-arrows indicating |4-1|=3 and |4-3|=1 on the radial line
+				% place them near the ray with small offsets for clarity
+				% marker for 0->1
+				\draw[<->,gray!70] (-0.10,0.10) -- (-0.7071,0.7071)
+				node[midway,above right] {$1$};
+				% marker for 1->3
+				\draw[<->,gray!70] (-0.7771,0.7771) -- (-2.1213,2.1213)
+				node[midway,above right] {$2$};
+				% marker for 3->4
+				\draw[<->,gray!70] (-2.1913,2.1913) -- (-2.8284,2.8284)
+				node[midway,above right] {$1$};
+				%		% marker for 0->4 (whole radius)
+				%		\node[gray!70] at (-1.9,1.2) {$|w|=4$};
+				
+				%		% inequality reminders near the base points
+				%		\node[align=left,gray!60] at (0.9,1.3)
+				%		{$|w-1| \ge \bigl||w|-1\bigr|=3$};
+				%		\node[align=left,gray!60] at (2.6,-1.1)
+				%		{$|w-3| \ge \bigl||w|-3\bigr|=1$};
+				
+				%		% product and reciprocal bounds
+				%		\node[draw,rounded corners=2pt,align=left,anchor=west] at (-3.0,-2.4)
+				%		{$\displaystyle |(w-1)(w-3)| \ge 3\cdot1=3$\\[4pt]
+					%			$\displaystyle \left|\frac{1}{(w-1)(w-3)}\right| \le \frac{1}{3}$};
+			\end{scope}
+		\end{tikzpicture}
+	\end{center}
+\end{proof}
+\begin{tcolorbox}
+Prove that the usual formula solves the quadratic equation \[
+az^2+bz+c=0\quad (a\neq 0)
+\] when the coefficient $a$,$b$, and $c$ are complex numbers. Specifically, by completing the square on the left-hand side, derive the \textbf{quadratic formula} \[
+z=\frac{-b+\sqrt{b^2-4ac}}{2a},
+\] where both square roots are to be considered when $b^2-4ac\neq 0$. Use this result to find the roots of the equation \[
+z^2+2z+(1-i)=0.
+\]
+\end{tcolorbox}
+\begin{proof}[\Sol]
+	Since  \[
+	az^2+bz+c
+	= a\!\left(z^2+\frac{b}{a}z\right)+c
+	= a\!\left(z+\frac{b}{2a}\right)^{\!2}-a\!\left(\frac{b}{2a}\right)^{\!2}+c
+	= a\!\left(z+\frac{b}{2a}\right)^{\!2}-\frac{b^2}{4a}+c,
+	\] we have
+	\[
+	a\!\left(z+\frac{b}{2a}\right)^{\!2}=\frac{b^2}{4a}-c
+	\quad\Longleftrightarrow\quad
+	\left(z+\frac{b}{2a}\right)^{\!2}=\frac{b^2-4ac}{4a^2}.
+	\]
+	Taking square roots of both sides yields \[
+	z+\frac{b}{2a}=\,\frac{\sqrt{\,b^2-4ac\,}}{2a},\quad\text{whence}\quad z=\frac{-b+\sqrt{\,b^2-4ac\,}}{2a}.
+	\] Consider $z^2+2z+(1-i)$ with \(a=1\), \(b=2\), and \(c=1-i\). The discriminant is \[
+	\Delta=b^2-4ac=4-4(1-i)=4i.
+	\] Since \[
+	\sqrt{i}=\frac{1+i}{\sqrt{2}}\quad\left(\text{indeed},\; \left(\frac{1+i}{\sqrt{2}}\right)^2=\frac{1+2i-1}{2}=i\right),
+	\] we may take $\sqrt{\Delta}=\sqrt{4i}=2\sqrt{i}= \sqrt{2}\,(1+i)$.
+	Therefore \[
+	z=\frac{-2\pm \sqrt{4i}}{2}
+	= -1 \pm \sqrt{i}
+	= -1 \pm \frac{1+i}{\sqrt{2}}.
+	\] Thus the roots are \[
+	z_1=-1+\frac{1+i}{\sqrt{2}},
+	\qquad
+	z_2=-1-\frac{1+i}{\sqrt{2}}.
+	\] Note that $z_1,z_2$ are roots of $(z+1)^2=i$.
+	
+	\begin{center}
+		\adjustbox{scale=.7,center}{
+		\begin{tikzpicture}[>=Latex, scale=4.0]
+			% Axes
+			\draw[->] (-1.2,0) -- (1.2,0) node[right] {$\Re z$};
+			\draw[->] (0,-1.2) -- (0,1.2) node[above] {$\Im z$};
+			% Center at -1 + 0i (from completing the square: (z+1)^2 = i)
+			\fill (-1,0) circle (0.02) node[below] {$-1$};
+			\draw[gray!60] (0,0) circle (1);
+			\draw[blue,->, ultra thick] (0,0) -- (0.7071,0.7071)
+			node[above right] {$\sqrt{i}=\dfrac{1+i}{\sqrt2}$};
+			\filldraw[blue] (0.7071,0.7071) circle (.75pt);
+			\node[blue] at (0.45,0.18) {$\arg=\tfrac{\pi}{4}$};
+			\draw[cyan,->, ultra thick] (0,0) -- (0,1)
+			node[left] {$i=(\sqrt{i})^2$};
+			\filldraw[cyan] (0,1) circle (.75pt);
+			\node[cyan] at (.2,0.8) {$\arg=\tfrac{\pi}{2}$};
+			\draw[teal,->,ultra thick] (0,0) -- (-.7071,-.7071);
+			% Roots as endpoints on the circle
+			\fill[teal] (-.7071,-.7071) circle (0.03)
+			node[below left] {$-\dfrac{1+i}{\sqrt2}$};
+			\node[teal] at (-.45,-.18) {$\arg=-\tfrac{\pi}{4}$};
+			\begin{scope}[xshift=3.75cm]
+				% Axes
+				\draw[->] (-2.2,0) -- (1.2,0) node[right] {$\Re z$};
+				\draw[->] (0,-1.2) -- (0,1.2) node[above] {$\Im z$};
+				% Center at -1 + 0i (from completing the square: (z+1)^2 = i)
+				\node[above, red] at (-1,.25) {$(z+1)^2 = i$};
+				\fill (-1,0) circle (0.02) node[below] {$-1$};
+				% Guide: circle of radius 1/sqrt(2) centered at -1
+				% 1/sqrt(2) ≈ 0.7071
+				%\draw[gray!60] (-1,0) circle (0.7071);
+				\draw[gray!60] (-1,0) circle (1);
+				\draw[gray!60] (0,0) circle (1);
+				%\node[gray!60] at (-0.35,0.12) {$r=\tfrac{1}{\sqrt2}$};
+				% Direction line for sqrt(i): 45 degrees through the center (-1,0)
+				\draw[dashed,gray!60] (-1-1.2,-1.2) -- (-1+1.2,1.2);
+				%\node[gray!60] at (-0.35,0.58) {$\arg=\tfrac{\pi}{4}$};
+				\node[blue] at (0.45,0.18) {$\arg=\tfrac{\pi}{4}$};
+				% The vector sqrt(i) drawn at the origin (reference)
+				\draw[blue,->,thick] (0,0) -- (0.7071,0.7071)
+				node[above right] {$\sqrt{i}=\dfrac{1+i}{\sqrt2}$};
+				%\node[blue] at (0.22,0.18) {$\tfrac{1}{\sqrt2}$};
+				% Same vector translated to start at -1 (to locate z1)
+				\draw[blue,->,thick] (-1,0) -- (-0.2929,0.7071);
+				% Opposite direction (to locate z2)
+				\draw[blue,->,thick] (-1,0) -- (-1.7071,-0.7071);
+				% Roots as endpoints on the circle
+				\fill[red] (-0.2929, 0.7071) circle (0.03)
+				node[above right] {$z_1=-1+\dfrac{1+i}{\sqrt2}$};
+				\fill[red] (-1.7071,-0.7071) circle (0.03)
+				node[below left] {$z_2=-1-\dfrac{1+i}{\sqrt2}$};
+			\end{scope}
+		\end{tikzpicture}}
+	\end{center}
+\end{proof}

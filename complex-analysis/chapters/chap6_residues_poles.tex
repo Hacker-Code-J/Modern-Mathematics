@@ -1,0 +1,334 @@
+\section{Residues and Poles}
+
+\subsection{Isolated Singular Points}
+
+\defbox[Singular and isolated singular points]{
+\begin{definition}
+\ \begin{itemize}
+	\item A point $z_0\in\C$ is a \emph{singular point} of a function $f$ if $f$ fails to be analytic at $z_0$ but is analytic at some point in every neighborhood of $z_0$. 
+	\item A singular point $z_0\in\C$ is said to be \emph{isolated} if there exists $\varepsilon>0$ such that $f$ is analytic on the punctured disk (deleted neighborhood) $0<|z-z_0|<\varepsilon$.
+\end{itemize} 
+\end{definition}}
+
+\begin{example}
+	The function \[
+	\frac{z+1}{z^3(z^2+1)}=\frac{z+1}{z^3(z+i)(z-i)}
+	\] has three isolated singular points at $z=0$ and $z=\pm i$. 
+	\begin{center}
+	\begin{tikzpicture}[>=Latex,scale=1.05]
+		\tikzset{
+			axis/.style={->, black, line cap=round},
+			note/.style={gray!60, font=\small, align=left},
+			singpt/.style={red!70, draw=red!70, fill=white, very thick}, % singular point (hole)
+			annbdry/.style={draw=green!60!black, dashed, thick},          % boundary of punctured disk
+			tick/.style={black, fill=black}
+		}
+		% axes
+		\draw[axis] (-3.4,0) -- (3.4,0) node[right] {$\Re z$};
+		\draw[axis] (0,-2.6) -- (0,2.8) node[above] {$\Im z$};
+		% --- singular point z0 = 0 ---
+		\draw[annbdry] (0,0) circle (0.55);                     % boundary of punctured disk
+		\fill[white] (0,0) circle (0.09);                        % show "deleted" center
+		\draw[singpt] (0,0) circle (0.09);
+%		\node[note,anchor=west] at (0.65,0.15)
+%		{$z_0=0$ \quad (pole; singular, but $f$ analytic on $0<|z|<\varepsilon$)};
+		% --- singular point z0 = i ---
+		\draw[annbdry] (0,1) circle (0.45);
+		\fill[white] (0,1) circle (0.09);
+		\draw[singpt] (0,1) circle (0.09);
+%		\node[note,anchor=west] at (0.65,1.1)
+%		{$z_0=i$ \quad (pole; isolated)};
+		% --- singular point z0 = -i ---
+		\draw[annbdry] (0,-1) circle (0.45);
+		\fill[white] (0,-1) circle (0.09);
+		\draw[singpt] (0,-1) circle (0.09);
+%		\node[note,anchor=west] at (0.65,-0.9)
+%		{$z_0=-i$ \quad (pole; isolated)};
+		% labels for points
+		\fill[tick] (0,0) circle (0.01) node[below right] {$0$};
+		\fill[tick] (0,1) circle (0.01) node[right] {$i$};
+		\fill[tick] (0,-1) circle (0.01) node[right] {$-i$};
+	\end{tikzpicture}
+	\end{center}
+\end{example}
+
+\begin{example}
+	The principal branch of \[
+\Log z=\ln r+i\theta\qquad (r>0,\; -\pi<\theta<\pi)
+\] has a singularity at $0$ that is \emph{not} isolated because any deleted neighborhood intersects the negative real axis where the branch is undefined. Also, $\displaystyle f(z)=\frac{1}{\sin(\pi/z)}$ has singularities at $0$ and $z=1/n$ ($n=\pm1,\pm2,\dots$); each $1/n$ is isolated, but $0$ is not.
+\begin{center}
+	\begin{tikzpicture}[>=Latex,scale=1]
+		\tikzset{
+			axis/.style={gray!40, line cap=round},
+			title/.style={font=\small},
+			note/.style={gray!60, font=\small},
+			iso/.style={red!70, fill=red!70},              % isolated singularity point
+			noniso/.style={red!70, draw=red!70, thick},    % boundary/non-isolated marking
+			cut/.style={red!70, very thick},               % branch cut
+			domainshade/.style={blue!6},                   % domain shading
+			circlethin/.style={draw=gray!60, dashed}
+		}
+		
+		% ========== Panel 1: (z+1)/(z(z^2+1)) — isolated at 0, ±i ==========
+		\begin{scope}
+			% axes
+			\draw[axis] (-3.2,0) -- (3.2,0) node[below right] {$\Re z$};
+			\draw[axis] (0,-3.2) -- (0,3.2) node[left] {$\Im z$};
+			\node[title] at (0,3.5)
+			{$\displaystyle \frac{z+1}{z(z^2+1)}$:$\ \text{isolated singularities at } 0,\ \pm i$};
+			
+			% points: 0 and ±i
+			\fill[iso] (0,0) circle (2.3pt) node[below right] {$0$};
+			\fill[iso] (0,1) circle (2.3pt) node[above right] {$i$};
+			\fill[iso] (0,-1) circle (2.3pt) node[below right] {$-i$};
+			
+			% small dashed neighborhoods to emphasize 'isolated'
+			\draw[circlethin] (0,0) circle (0.55);
+			\draw[circlethin] (0,1) circle (0.55);
+			\draw[circlethin] (0,-1) circle (0.55);
+			
+			\node[note,anchor=west] at (-3.1,-2.6)
+			{Each singular point has a disk around it containing no other singularities $\Rightarrow$ isolated.};
+		\end{scope}
+		
+		% ========== Panel 2: principal Log — non-isolated at 0 due to branch cut ==========
+		\begin{scope}[xshift=9.2cm]
+			% axes
+			\draw[axis] (-3.6,0) -- (3.2,0) node[below right] {$\Re z$};
+			\draw[axis] (0,-3.2) -- (0,3.2) node[left] {$\Im z$};
+			\node[title] at (0,3.5)
+			{$\Log z=\ln r + i\Arg z,\ \Arg z\in(-\pi,\pi)$: non-isolated at $0$};
+			
+			% branch cut on (-∞,0]
+			\draw[cut] (-3.6,0) -- (0,0);
+			\node[note] at (-2.2,0.35) {branch cut $(-\infty,0]$};
+			
+			% mark 0 and show any punctured neighborhood meets the cut
+			\draw[circlethin,fill=blue] (0,0) circle (1.1);
+			\fill[white] (0,0) circle (0.06); % punctured feel (not required but illustrative)
+			\draw[noniso] (0,0) circle (2.3pt);
+			\node[note,anchor=west] at (0.2,0.2) {$0$};
+			
+			\node[note,align=left] at (-3.1,-2.6)
+			{Any deleted neighborhood of $0$ intersects the negative real axis\\
+				where $\Log$ is undefined $\Rightarrow$ singularity at $0$ is \emph{not} isolated.};
+		\end{scope}
+		
+		% ========== Panel 3: 1/sin(π/z) — poles at 1/n accumulating at 0 ==========
+		\begin{scope}[xshift=18.4cm]
+			% axes
+			\draw[axis] (-3.2,0) -- (3.2,0) node[below right] {$\Re z$};
+			\draw[axis] (0,-2.8) -- (0,2.8) node[left] {$\Im z$};
+			\node[title] at (0,3.2)
+			{$\displaystyle f(z)=\frac{1}{\sin(\pi/z)}$:\ isolated at $1/n$, non-isolated at $0$};
+			
+			% mark poles at z = 1/n on real axis, n = ±1..±5 (schematic)
+			\foreach \n in {1,2,3,4,5}{
+				\fill[iso] ({1/(\n)},0) circle (2.1pt);
+				\fill[iso] ({-1/(\n)},0) circle (2.1pt);
+			}
+			\node[note] at (1.1,0.35) {$1$};
+			\node[note] at (0.52,0.35) {$\frac12$};
+			\node[note] at (0.36,0.35) {$\frac13$};
+			\node[note] at (-1.1,0.35) {$-1$};
+			\node[note] at (-0.52,0.35) {$-\frac12$};
+			
+			% accumulation at 0
+			\draw[circlethin] (0,0) circle (0.45);
+			\node[note,anchor=west] at (0.12,0.2) {$0$};
+			\node[note,align=left] at (-3.1,-2.4)
+			{Each $1/n$ is isolated, but the set of poles accumulates at $0$;\\
+				hence $0$ is a \emph{non-isolated} singularity (essential for $f$).};
+		\end{scope}
+	\end{tikzpicture}
+\end{center} 
+\end{example}
+
+%\begin{remark}
+%	If $f$ is analytic inside a positively oriented simple closed contour $C$ except at finitely many points $z_1,\dots,z_n$, those points are necessarily isolated, and their deleted neighborhoods can be chosen to lie entirely inside $C$. It is also convenient to treat $\infty$ as an isolated singular point when $f$ is analytic for $R_1<|z|<\infty$. 
+%\end{remark}
+%
+%\section{Residues}
+%
+%\begin{observation}[Laurent expansion near an isolated singularity]
+%	If $z_0$ is an isolated singular point, then on $0<|z-z_0|<R$,
+%	\[
+%	f(z)=\sum_{n=0}^{\infty} a_n (z-z_0)^n+\sum_{n=1}^{\infty}\frac{b_n}{(z-z_0)^n}.
+%	\]
+%\end{observation}
+%
+%\begin{definition}[Residue]
+%	The coefficient $b_1$ in the Laurent expansion is the \emph{residue} of $f$ at $z_0$:
+%	\[
+%	\Res_{z=z_0} f=\frac{1}{2\pi i}\int_C f(z)\,dz,
+%	\]
+%	where $C$ is any positively oriented simple closed contour around $z_0$ lying in the punctured disk. Also,
+%	\[
+%	\int_C \frac{1}{z-z_0}\,dz=2\pi i,\qquad 
+%	\int_C \frac{1}{(z-z_0)^{n+1}}\,dz=0\ (n\ge1).
+%	\]
+%\end{definition}
+%
+%\begin{example}\label{ex:z2sin1z}
+%	On $|z|=1$,
+%	\[
+%	\int_{|z|=1} z^2\sin\!\Big(\frac{1}{z}\Big)\,dz
+%	=2\pi i\,\Res_{z=0}\Big[z^2\sin\!\Big(\frac{1}{z}\Big)\Big].
+%	\]
+%	Since $\sin w = w-\frac{w^3}{3!}+\frac{w^5}{5!}-\cdots$, we get
+%	\[
+%	z^2\sin\!\Big(\frac{1}{z}\Big)=z-\frac{1}{3!z}+\frac{1}{5!z^{3}}-\cdots,
+%	\]
+%	so the residue is $-1/3!$ and the integral equals $-\dfrac{\pi i}{3}$.
+%\end{example}
+%
+%\begin{example}
+%	\[
+%	\int_{|z|=1} \exp\!\Big(\frac{1}{z^2}\Big)\,dz=0
+%	\]
+%	because $\exp(1/z^2)=1+\frac{1}{z^2}+\frac{1}{2!z^4}+\cdots$ has no $1/z$ term.
+%\end{example}
+%
+%\begin{example}
+%	Evaluate $\displaystyle \int_{|z-2|=1}\frac{dz}{z(z-2)^4}$. Expanding at $z=2$,
+%	\[
+%	\frac{1}{z(z-2)^4}
+%	=\frac{1}{(z-2)^4}\,\frac{1}{2+(z-2)}
+%	=\sum_{n=0}^{\infty}\frac{(-1)^n}{2^{n+1}}(z-2)^{n-4},
+%	\]
+%	so the residue is the coefficient of $(z-2)^{-1}$, namely $-\frac{1}{16}$. Hence the integral equals $-\,\dfrac{\pi i}{8}$.
+%\end{example}
+%
+%\section{Cauchy’s Residue Theorem}
+%
+%\begin{theorem}[Residue Theorem]
+%	Let $C$ be a positively oriented simple closed contour and assume $f$ is analytic on and inside $C$ except at finitely many isolated singular points $z_1,\dots,z_n$ inside $C$. Then
+%	\[
+%	\int_C f(z)\,dz=2\pi i\sum_{k=1}^{n}\Res_{z=z_k} f.
+%	\]
+%\end{theorem}
+%
+%\begin{example}
+%	On $|z|=2$, compute
+%	\[
+%	\int_C \frac{5z-2}{z(z-1)}\,dz.
+%	\]
+%	There are simple poles at $0$ and $1$. A quick series check (or the formula in Theorem~\ref{thm:simple-pole-by-quotient} below) gives residues $2$ at $0$ and $3$ at $1$, so the integral equals $2\pi i(2+3)=10\pi i$.
+%\end{example}
+%
+%\subsection*{Residue at infinity}
+%If $f$ is analytic in the finite plane except at finitely many singular points inside $C$, then
+%\[
+%\int_C f(z)\,dz
+%=2\pi i\,\Res_{z=0}\!\left[\frac{1}{z^2}\,f\!\Big(\frac{1}{z}\Big)\right].
+%\]
+%
+%\section{The Three Types of Isolated Singular Points}
+%
+%\begin{definition}[Principal part]
+%	In the Laurent expansion at $z_0$, the series $\sum_{n\ge1} b_n/(z-z_0)^n$ is the \emph{principal part}.
+%\end{definition}
+%
+%\begin{definition}[Pole and order]
+%	If only finitely many $b_n$ are nonzero, then $z_0$ is a \emph{pole}; if the last nonzero term is $b_m/(z-z_0)^m$ with $m\ge1$, the pole has \emph{order} $m$ (order $1$ = simple pole).
+%\end{definition}
+%
+%\begin{example}
+%	$\displaystyle \frac{z^2-2z+3}{z-2}=2+(z-2)+\frac{3}{z-2}$ has a simple pole at $z=2$ with residue $3$. The function $\displaystyle \frac{1}{z^2(1+z)}=\frac{1}{z^2}-\frac{1}{z}+1-\cdots$ has a pole of order $2$ at $0$ with residue $-1$. Also $\displaystyle \frac{\sinh z}{z^4}=\frac{1}{z^3}+\frac{1}{3!z}+\cdots$ has a pole of order $3$ at $0$ and residue $1/6$.
+%\end{example}
+%
+%\begin{definition}[Removable singularity]
+%	If all $b_n=0$ (i.e.\ no principal part), then $z_0$ is \emph{removable}. E.g.\ $\displaystyle \frac{1-\cos z}{z^2}=\frac12-\frac{z^2}{4!}+\cdots$ is analytic near $0$ after setting the value $1/2$ at $z=0$.
+%\end{definition}
+%
+%\begin{definition}[Essential singularity]
+%	If infinitely many $b_n$ are nonzero, $z_0$ is \emph{essential}. For example, $e^{1/z}=1+\frac1z+\frac1{2!z^2}+\cdots$ has an essential singularity at $0$.
+%\end{definition}
+%
+%\section{Residues at Poles}
+%
+%\begin{theorem}[Computing residues at poles]\label{thm:pole-phi}
+%	An isolated singular point $z_0$ is a pole of order $m$ iff
+%	\[
+%	f(z)=\frac{\phi(z)}{(z-z_0)^m},
+%	\]
+%	with $\phi$ analytic and $\phi(z_0)\ne 0$. Then
+%	\[
+%	\Res_{z=z_0} f=
+%	\begin{cases}
+%		\phi(z_0), & m=1,\\[3pt]
+%		\dfrac{\phi^{(m-1)}(z_0)}{(m-1)!}, & m\ge 2.
+%	\end{cases}
+%	\]
+%\end{theorem}
+%
+%\begin{example}
+%	$\displaystyle f(z)=\frac{z+1}{z^2+9}$ has simple poles at $\pm 3i$. Writing $f(z)=\dfrac{\phi(z)}{z-3i}$ with $\phi(z)=\dfrac{z+1}{z+3i}$, we get $\Res_{z=3i}f=\phi(3i)=\dfrac{3-i}{6}$ and $\Res_{z=-3i}f=\dfrac{3+i}{6}$. 
+%\end{example}
+%
+%\begin{example}
+%	For $\displaystyle f(z)=\frac{z^3+2z}{(z-i)^3}$, we have $m=3$ and $\phi(z)=z^3+2z$, so $\Res_{z=i} f=\dfrac{\phi''(i)}{2!}=3i$.
+%\end{example}
+%
+%\begin{example}
+%	With the branch $\log z=\ln r+i\theta$ ($r>0$, $0<\theta<2\pi$), the function $\displaystyle f(z)=\frac{(\log z)^3}{z^2+1}$ has a simple pole at $z=i$ and
+%	\[
+%	\Res_{z=i} f=\frac{(\log z)^3}{z+i}\Bigg|_{z=i}=-\frac{\pi^3}{16}.
+%	\]
+%\end{example}
+%
+%\begin{example}
+%	Beware misidentification of the order: $\displaystyle \frac{\sinh z}{z^4}$ has order $3$ at $0$, not $4$, because of the series in the previous section; the residue is $1/6$. For $\displaystyle f(z)=\frac{1}{z(e^z-1)}$, one finds a pole of order $2$ at $0$ with $\Res_{z=0} f=-\tfrac12$.
+%\end{example}
+%
+%\section{Zeros of Analytic Functions}
+%
+%\begin{definition}[Zero of order $m$]
+%	If $f$ is analytic at $z_0$, and $f(z_0)=\cdots=f^{(m-1)}(z_0)=0$ but $f^{(m)}(z_0)\ne0$, then $f$ has a \emph{zero of order $m$} at $z_0$; equivalently,
+%	\[
+%	f(z)=(z-z_0)^m g(z)
+%	\]
+%	with $g$ analytic and $g(z_0)\ne0$.
+%\end{definition}
+%
+%\begin{example}
+%	$f(z)=z(e^z-1)$ has a zero of order $2$ at $z=0$ since $f(0)=f'(0)=0$ and $f''(0)=2\ne0$; writing $f(z)=z^2 g(z)$ defines an entire $g$ with $g(0)=1$.
+%\end{example}
+%
+%\begin{theorem}[Isolated zeros and identity principle]
+%	If $f$ is analytic near $z_0$ and not identically zero there, then $f(z)\ne0$ on some punctured neighborhood of $z_0$. If $f$ vanishes on a domain (or a line segment with accumulation in the domain), then $f\equiv0$ on that neighborhood.
+%\end{theorem}
+%
+%\section{Zeros and Poles of a Quotient}
+%
+%\begin{theorem}\label{thm:quotient-order}
+%	Let $p$ and $q$ be analytic at $z_0$, with $p(z_0)\ne0$ and $q$ having a zero of order $m$ at $z_0$. Then $p/q$ has a pole of order $m$ at $z_0$.
+%\end{theorem}
+%
+%\begin{theorem}[Simple pole and residue]\label{thm:simple-pole-by-quotient}
+%	If $p,q$ are analytic at $z_0$, $p(z_0)\ne0$, $q(z_0)=0$, and $q'(z_0)\ne0$, then $z_0$ is a simple pole of $p/q$ and
+%	\[
+%	\Res_{z=z_0}\frac{p(z)}{q(z)}=\frac{p(z_0)}{q'(z_0)}.
+%	\]
+%\end{theorem}
+%
+%\begin{example}
+%	Let $z_0=1+i$ and $f(z)=\dfrac{z}{z^4+4}$. Since $q(z)=z^4+4$ has a simple zero at $z_0$, 
+%	\[
+%	\Res_{z=z_0} f=\frac{z_0}{q'(z_0)}=\frac{z_0}{4z_0^3}=\frac{1}{8i}=-\frac{i}{8}.
+%	\]
+%\end{example}
+%
+%\section{Behavior Near Isolated Singular Points}
+%
+%\begin{theorem}
+%	If $z_0$ is a pole of $f$, then $\displaystyle \lim_{z\to z_0} f(z)=\infty$.
+%\end{theorem}
+%
+%\begin{theorem}[Riemann’s removable singularity criterion]
+%	If $f$ is analytic and bounded on $0<|z-z_0|<\varepsilon$, then either $f$ is analytic at $z_0$ (removable singularity) or can be redefined at $z_0$ to make it analytic.
+%\end{theorem}
+%
+%\begin{theorem}[Casorati--Weierstrass]
+%	If $z_0$ is an essential singularity of $f$, then in every deleted neighborhood of $z_0$ the image of $f$ is dense in $\C$ (indeed, arbitrarily close to any $w_0\in\C$).
+%\end{theorem}
