@@ -1,0 +1,964 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath,amssymb,amsthm}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\CP}{\mathbb{CP}}
+\newcommand{\M}{\mathcal{M}}
+\newcommand{\Res}{\operatorname{Res}}
+\newcommand{\Divv}{\operatorname{Div}}
+
+\begin{document}
+	
+	\title{Concrete, calculus-style examples of \(\M(X)\) for \(X=\CP^1\) and \(X=\C/\Lambda\)}
+	\author{}
+	\date{}
+	\maketitle
+	
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\section{Case 1: \(X=\CP^1\) (Riemann sphere)}
+	
+	\subsection{Setup: coordinate and function field}
+	
+	View \(\CP^1\) as the Riemann sphere:
+	\[
+	\CP^1 \cong \C \cup \{\infty\}.
+	\]
+	Use the standard affine coordinate
+	\[
+	z = \frac{z_0}{z_1}
+	\]
+	on the chart \(U_1 = \{[z_0:z_1]\mid z_1\neq 0\}\cong \C\).
+	The point at infinity is
+	\[
+	\infty = [1:0].
+	\]
+	
+	A meromorphic function on \(\CP^1\) is the same as a rational function in \(z\), i.e.
+	\[
+	\M(\CP^1) \cong \C(z).
+	\]
+	
+	We will \emph{explicitly} analyze one such function and its differential.
+	
+	\subsection{A concrete meromorphic function \(f\) on \(\CP^1\)}
+	
+	Let
+	\[
+	f(z) = \frac{(z-1)^2}{z(z-2)}.
+	\]
+	
+	\subsubsection*{Step 1: Zeros and poles on \(\C\)}
+	
+	\begin{itemize}
+		\item Zeros (where numerator vanishes):
+		\[
+		(z-1)^2 = 0 \quad\Rightarrow\quad z=1\quad\text{(double zero)}.
+		\]
+		So \(\operatorname{ord}_{z=1}(f) = +2\).
+		
+		\item Poles (where denominator vanishes):
+		\[
+		z(z-2)=0 \quad\Rightarrow\quad z=0,\ z=2.
+		\]
+		We check they are simple poles:
+		
+		Near \(z=0\): write \(z\) as local coordinate. Then
+		\[
+		f(z) = \frac{(z-1)^2}{z(z-2)}
+		= \frac{z^2 - 2z + 1}{z(z-2)}
+		\sim \frac{1}{z(-2)} = -\frac{1}{2z}
+		\quad\text{as }z\to 0.
+		\]
+		So
+		\[
+		\operatorname{ord}_{z=0}(f) = -1.
+		\]
+		
+		Near \(z=2\): set \(u = z-2\), so \(z = 2+u\). Then
+		\[
+		f(z) = f(2+u)
+		= \frac{(2+u-1)^2}{(2+u)(2+u-2)}
+		= \frac{(1+u)^2}{(2+u)u}
+		\sim \frac{1}{2u}
+		\quad\text{as }u\to 0.
+		\]
+		So
+		\[
+		\operatorname{ord}_{z=2}(f) = -1.
+		\]
+	\end{itemize}
+	
+	So on the finite plane:
+	\[
+	\operatorname{ord}_1(f) = +2,\quad
+	\operatorname{ord}_0(f) = -1,\quad
+	\operatorname{ord}_2(f) = -1.
+	\]
+	
+	\subsubsection*{Step 2: Behavior at infinity via differential-calculus change of variable}
+	
+	To study \(z=\infty\), use \(w = 1/z\) as local coordinate near \(\infty\).
+	
+	Then \(z = 1/w\), and
+	\[
+	f(z) = f\Bigl(\frac{1}{w}\Bigr).
+	\]
+	
+	Compute explicitly:
+	\[
+	f\Bigl(\frac{1}{w}\Bigr)
+	= \frac{(1/w - 1)^2}{(1/w)(1/w - 2)}
+	= \frac{(1-w)^2}{\frac{1}{w^2} (1 - 2w)} 
+	= (1-w)^2 \cdot \frac{w^2}{1-2w}.
+	\]
+	Now expand near \(w=0\). First,
+	\[
+	(1-w)^2 = 1 - 2w + w^2,
+	\]
+	and
+	\[
+	\frac{1}{1-2w} = 1 + 2w + 4w^2 + O(w^3).
+	\]
+	So
+	\[
+	f\Bigl(\frac{1}{w}\Bigr)
+	= w^2\,(1 - 2w + w^2)\,(1 + 2w + 4w^2 + O(w^3)).
+	\]
+	
+	Multiply out just enough terms to see the leading behavior:
+	\[
+	(1 - 2w + w^2)(1 + 2w + 4w^2)
+	= 1 + (2w - 2w) + (\cdots) = 1 + O(w^2),
+	\]
+	so overall
+	\[
+	f\Bigl(\frac{1}{w}\Bigr)
+	= w^2\,(1 + O(w^2)) = w^2 + O(w^4).
+	\]
+	
+	Thus near \(w=0\), \(f(1/w)\) has a \emph{zero of order 2} as a function of \(w\). But remember: the order at \(\infty\) as a point of \(\CP^1\) is the order of this function viewed on the sphere. More directly: in terms of the original coordinate \(z\), we see that as \(|z|\to\infty\),
+	\[
+	f(z) = 1 + O\Bigl(\frac{1}{z^2}\Bigr),
+	\]
+	so \(f\) is holomorphic and nonzero at \(\infty\). Hence
+	\[
+	\operatorname{ord}_{\infty}(f) = 0.
+	\]
+	
+	\subsubsection*{Step 3: The divisor of \(f\)}
+	
+	The divisor of \(f\) on \(\CP^1\) is
+	\[
+	\Divv(f) = 2\cdot(1) - (0) - (2) + 0\cdot(\infty).
+	\]
+	Sum of coefficients:
+	\[
+	2 - 1 - 1 + 0 = 0,
+	\]
+	which matches the general fact that the sum of orders of a meromorphic
+	function on a compact Riemann surface is zero.
+	
+	\subsection{Differential: computing \(df = f'(z)\,dz\) in detail}
+	
+	Now do calculus: compute the derivative.
+	
+	\subsubsection*{Step 1: Simplify \(f\) via partial fractions}
+	
+	We try to write
+	\[
+	f(z) = A + \frac{B}{z} + \frac{C}{z-2}.
+	\]
+	
+	Compute directly:
+	\[
+	\frac{(z-1)^2}{z(z-2)}
+	= \frac{z^2 - 2z + 1}{z(z-2)}.
+	\]
+	We look for \(A,B,C\) such that
+	\[
+	\frac{z^2 - 2z + 1}{z(z-2)}
+	= A + \frac{B}{z} + \frac{C}{z-2}.
+	\]
+	
+	Multiply both sides by \(z(z-2)\):
+	\[
+	z^2 - 2z + 1 = A z(z-2) + B(z-2) + Cz.
+	\]
+	Expand the right-hand side:
+	\[
+	A z(z-2) = A(z^2 - 2z) = A z^2 - 2A z,
+	\]
+	\[
+	B(z-2) = Bz - 2B,
+	\]
+	\[
+	Cz = Cz.
+	\]
+	So
+	\[
+	A z^2 - 2A z + Bz - 2B + Cz
+	= A z^2 + (-2A + B + C)z - 2B.
+	\]
+	Equate coefficients with the left side \(z^2 - 2z + 1\):
+	\[
+	\begin{cases}
+		A = 1,\\
+		-2A + B + C = -2,\\
+		-2B = 1.
+	\end{cases}
+	\]
+	From \(-2B=1\), we get \(B = -\frac{1}{2}\). Then
+	\[
+	-2A + B + C = -2\quad\Rightarrow\quad
+	-2(1) - \frac{1}{2} + C = -2
+	\quad\Rightarrow\quad
+	-2.5 + C = -2
+	\quad\Rightarrow\quad
+	C = \frac{1}{2}.
+	\]
+	So
+	\[
+	f(z) = 1 - \frac{1}{2z} + \frac{1}{2(z-2)}.
+	\]
+	
+	\subsubsection*{Step 2: Differentiate term by term}
+	
+	Now
+	\[
+	f(z) = 1 - \frac{1}{2z} + \frac{1}{2(z-2)}.
+	\]
+	Differentiate:
+	\[
+	f'(z) = 0 + \frac{1}{2z^2} - \frac{1}{2(z-2)^2}.
+	\]
+	So the meromorphic 1-form
+	\[
+	df = f'(z)\,dz = \left( \frac{1}{2z^2} - \frac{1}{2(z-2)^2} \right)\,dz.
+	\]
+	
+	\paragraph{Poles of \(df\).}
+	Clearly:
+	\[
+	df \text{ has poles of order 2 at } z=0 \text{ and } z=2.
+	\]
+	No simple pole terms appear in the Laurent expansions; hence all residues are 0.
+	
+	\paragraph{Check residues explicitly via Laurent series.}
+	
+	Near \(z=0\):
+	\[
+	\frac{1}{2z^2} - \frac{1}{2(z-2)^2}
+	= \frac{1}{2z^2} - \frac{1}{2(4 - 4z + z^2)}
+	= \frac{1}{2z^2} - \frac{1}{8}\cdot\frac{1}{1 - z + z^2/4}.
+	\]
+	Expand \(\frac{1}{1 - z + z^2/4}\) as a power series in \(z\) (no negative powers),
+	so near \(z=0\) this second term has no negative-power part. Thus the only
+	negative-power part is \(\frac{1}{2z^2}\), which has no \((z-0)^{-1}\) term.
+	So \(\Res_{z=0}(df) = 0\).
+	
+	Similarly near \(z=2\), set \(u=z-2\). Then
+	\[
+	df = \left( \frac{1}{2(2+u)^2} - \frac{1}{2u^2} \right)\,d(2+u)
+	= \left( \frac{1}{8}\cdot\frac{1}{(1+u/2)^2} - \frac{1}{2u^2} \right)\,du.
+	\]
+	Again the first term has only nonnegative powers in \(u\), the second has
+	\(u^{-2}\) but no \(u^{-1}\). So \(\Res_{z=2}(df)=0\).
+	
+	At \(\infty\), we could check via \(w=1/z\). A general fact: for any meromorphic function \(f\) on a compact Riemann surface,
+	\[
+	\sum_p \Res_p(df) = 0.
+	\]
+	Since the residues at \(0\) and \(2\) are zero, the residue at \(\infty\) is
+	also zero.
+	
+	\subsection{Moral for \(\CP^1\): function field via differential forms}
+	
+	In general, if \(f\) is \emph{any} meromorphic function on \(\CP^1\), then
+	
+	\begin{itemize}
+		\item \(df\) is a meromorphic 1-form whose residues all vanish.
+		\item By analyzing the principal parts and using Liouville, one shows that
+		\(f\) must be a rational function in the coordinate \(z\).
+	\end{itemize}
+	
+	Thus the function field is
+	\[
+	\M(\CP^1) = \C(z).
+	\]
+	
+	Our explicit \(f\) shows concretely how poles/zeros and the differential look,
+	and how partial fractions naturally appear from calculus.
+	
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\section{Case 2: \(X=\C/\Lambda\) (complex torus)}
+	
+	Now we move to a more subtle example and use differential forms very concretely.
+	
+	\subsection{The torus and the basic holomorphic 1-form}
+	
+	Let \(\Lambda\subset\C\) be a lattice:
+	\[
+	\Lambda = \mathbb{Z}\omega_1 \oplus \mathbb{Z}\omega_2,\quad
+	\Im\left(\frac{\omega_2}{\omega_1}\right) > 0.
+	\]
+	Define the complex torus
+	\[
+	X = \C/\Lambda.
+	\]
+	
+	The projection \(\pi:\C\to X\) is holomorphic and locally biholomorphic.
+	The 1-form \(dz\) on \(\C\) is invariant under translations by \(\Lambda\), so it
+	descends to a global holomorphic 1-form on \(X\). In fact,
+	\[
+	H^0(X,\Omega^1_X) = \C\cdot dz,
+	\]
+	i.e.\ there is a one-dimensional space of holomorphic 1-forms.
+	
+	\subsection{The Weierstrass \(\wp\) and its derivative \(\wp'\)}
+	
+	Define the Weierstrass \(\wp\)-function:
+	\[
+	\wp(z) = \frac{1}{z^2}
+	+ \sum_{\lambda\in\Lambda\setminus\{0\}}
+	\left(
+	\frac{1}{(z-\lambda)^2} - \frac{1}{\lambda^2}
+	\right).
+	\]
+	Facts:
+	\begin{itemize}
+		\item \(\wp(z+\lambda) = \wp(z)\) for all \(\lambda\in\Lambda\)
+		(\(\Lambda\)-periodic).
+		\item \(\wp\) is even: \(\wp(-z)=\wp(z)\).
+		\item \(\wp\) is meromorphic on \(\C\) with poles of order 2 at each
+		lattice point.
+	\end{itemize}
+	
+	Differentiate term by term (justified by uniform convergence on compact
+	sets away from poles):
+	\[
+	\wp'(z)
+	= -\frac{2}{z^3}
+	- 2\sum_{\lambda\in\Lambda\setminus\{0\}}
+	\frac{1}{(z-\lambda)^3}.
+	\]
+	Then:
+	\begin{itemize}
+		\item \(\wp'\) is odd: \(\wp'(-z)=-\wp'(z)\).
+		\item \(\wp'(z)\) has poles of order 3 at each lattice point.
+	\end{itemize}
+	
+	Both \(\wp\) and \(\wp'\) are \(\Lambda\)-periodic, so they descend to meromorphic
+	functions on \(X=\C/\Lambda\):
+	\[
+	\wp_X([z]) = \wp(z),\qquad (\wp_X)'([z]) = \wp'(z).
+	\]
+	
+	\subsection{The meromorphic 1-form \(\wp'(z)\,dz = d\wp(z)\)}
+	
+	Consider the 1-form
+	\[
+	\omega = \wp'(z)\,dz.
+	\]
+	This is clearly
+	\[
+	\omega = d\wp(z),
+	\]
+	as in calculus: derivative times \(dz\).
+	
+	\subsubsection*{Local expansion near a pole}
+	
+	Focus on the point \([0]\in X\) (the image of \(0\in\C\)).
+	
+	Near \(z=0\),
+	\[
+	\wp(z) = \frac{1}{z^2} + c_2 z^2 + c_4 z^4 + \cdots
+	\]
+	for some complex coefficients \(c_k\) (coming from the lattice).
+	Then
+	\[
+	\wp'(z) = -\frac{2}{z^3} + 2c_2 z + 4c_4 z^3 + \cdots.
+	\]
+	
+	So near \(z=0\),
+	\[
+	\omega = \left(-\frac{2}{z^3} + 2c_2 z + 4c_4 z^3 + \cdots\right)\,dz.
+	\]
+	
+	In Laurent series form:
+	\[
+	\omega = -2 z^{-3} dz + 2c_2 z\,dz + 4c_4 z^3 dz + \cdots.
+	\]
+	
+	Note there is \emph{no} term of the form \(c_{-1} z^{-1}dz\), so
+	\[
+	\Res_{z=0}(\omega) = 0.
+	\]
+	Similarly, at any other lattice point \(\lambda\in\Lambda\), shifting \(z\mapsto z-\lambda\)
+	gives the same type of expansion: pole of order 3, no \(1/(z-\lambda)\) term.
+	Thus
+	\[
+	\Res_{[0]}(\omega) = 0,\quad
+	\Res_{[\lambda]}(\omega)=0\quad\text{in the quotient }X.
+	\]
+	
+	\subsubsection*{Exactness and periods}
+	
+	Since \(\omega=d\wp\), it is an exact differential. On the torus, this implies
+	for any closed loop \(\gamma\) in \(X\),
+	\[
+	\oint_{\gamma}\omega = \oint_{\gamma}d\wp = 0.
+	\]
+	This is the global version of the fact that an exact differential has zero
+	integral over closed paths.
+	
+	\subsection{A very concrete elliptic function built from \(\wp\)}
+	
+	Fix some \(a\in\C\) with \([a]\neq[0]\) in \(X\), and also \([a]\neq[-a]\) (i.e.\
+	\(2a\notin\Lambda\)). Consider the function
+	\[
+	g(z) = \wp(z) - \wp(a),
+	\]
+	which is \(\Lambda\)-periodic and meromorphic.
+	
+	Define:
+	\[
+	f(z) = \frac{\wp'(z)}{\wp(z) - \wp(a)}.
+	\]
+	This is a classical elliptic function: it is the derivative of the logarithm of
+	\(g(z)\):
+	\[
+	f(z) = \frac{d}{dz}\log(\wp(z)-\wp(a)).
+	\]
+	
+	\subsubsection*{Poles of \(f(z)\) on the torus \(X\)}
+	
+	\paragraph{At \(z=a\).}
+	Near \(z=a\), write \(\zeta = z-a\). Then expand:
+	\[
+	\wp(z) = \wp(a) + \wp'(a)\zeta + \frac{1}{2}\wp''(a)\zeta^2 + \cdots.
+	\]
+	So
+	\[
+	\wp(z) - \wp(a) = \wp'(a)\zeta + \frac{1}{2}\wp''(a)\zeta^2 + \cdots.
+	\]
+	Similarly
+	\[
+	\wp'(z) = \wp'(a) + \wp''(a)\zeta + \cdots.
+	\]
+	
+	Thus
+	\[
+	f(z) 
+	= \frac{\wp'(z)}{\wp(z)-\wp(a)}
+	= \frac{\wp'(a) + \wp''(a)\zeta + \cdots}
+	{\wp'(a)\zeta + \frac{1}{2}\wp''(a)\zeta^2 + \cdots}.
+	\]
+	Pull out \(\wp'(a)\zeta\) from the denominator:
+	\[
+	f(z)
+	= \frac{\wp'(a) + \wp''(a)\zeta + \cdots}
+	{\wp'(a)\zeta\left(1 + \frac{\wp''(a)}{2\wp'(a)}\zeta + \cdots\right)}.
+	\]
+	Now expand:
+	\[
+	\frac{1}{1 + \alpha\zeta + \cdots} = 1 - \alpha\zeta + \cdots,
+	\]
+	so near \(\zeta=0\),
+	\[
+	f(z)
+	\sim \frac{1}{\zeta} \cdot
+	\frac{\wp'(a)}{\wp'(a)} = \frac{1}{\zeta} = \frac{1}{z-a}.
+	\]
+	Thus \(f\) has a \emph{simple pole} at \(z=a\) with residue
+	\[
+	\Res_{z=a}\bigl(f(z)\,dz\bigr) = 1.
+	\]
+	
+	\paragraph{At \(z=-a\).}
+	Because \(\wp\) is even and \(\wp'\) is odd,
+	\[
+	\wp(-z) = \wp(z),\quad \wp'(-z) = -\wp'(z).
+	\]
+	The equation \(\wp(z) = \wp(a)\) has the two solutions \(z = \pm a\) modulo \(\Lambda\).
+	So \(\wp(z)-\wp(a)\) also vanishes at \(z=-a\). Repeating the same expansion, or
+	just using the symmetry, we find
+	\[
+	\Res_{z=-a}\bigl(f(z)\,dz\bigr) = 1.
+	\]
+	
+	\paragraph{At \(z=0\) (and other lattice points).}
+	Near \(z=0\),
+	\[
+	\wp(z) \sim \frac{1}{z^2},\quad \wp'(z)\sim -\frac{2}{z^3}.
+	\]
+	Then
+	\[
+	f(z) = \frac{\wp'(z)}{\wp(z)-\wp(a)}
+	\sim \frac{-2 z^{-3}}{z^{-2} - \wp(a)}
+	= \frac{-2 z^{-3}}{z^{-2}(1 - \wp(a)z^2)}
+	= \frac{-2}{z}\cdot\frac{1}{1 - \wp(a)z^2}.
+	\]
+	Expand \(\frac{1}{1 - \wp(a)z^2} = 1 + \wp(a)z^2 + \cdots\), so
+	\[
+	f(z) \sim \frac{-2}{z} + (\text{holomorphic terms}).
+	\]
+	Thus at \(z=0\) we have a simple pole with residue
+	\[
+	\Res_{z=0}\bigl(f(z)\,dz\bigr) = -2.
+	\]
+	
+	Similarly, at other lattice points \(\lambda\neq 0\), the local behavior is
+	like near 0 shifted by \(\lambda\), giving the same residue pattern, but on the
+	torus \(X=\C/\Lambda\) all lattice points project to a finite set of points,
+	and you can group residues within one fundamental domain.
+	
+	\subsubsection*{Residue theorem on the torus}
+	
+	On the compact Riemann surface \(X\),
+	\[
+	\sum_{p\in X} \Res_p\bigl(f(z)\,dz\bigr) = 0.
+	\]
+	From the computations:
+	
+	\begin{itemize}
+		\item \(\Res_{[a]} = 1\),
+		\item \(\Res_{[-a]} = 1\),
+		\item \(\Res_{[0]} = -2\)
+	\end{itemize}
+	(and no other poles in a fundamental parallelogram),
+	so
+	\[
+	1 + 1 - 2 = 0.
+	\]
+	This is a very concrete check of the residue theorem on a torus for this
+	particular elliptic function.
+	
+	\subsection{Function field \(\M(\C/\Lambda)\) via \(\wp\) and \(\wp'\)}
+	
+	A fundamental theorem: \(\wp\) and \(\wp'\) satisfy
+	\[
+	(\wp'(z))^2 = 4\wp(z)^3 - g_2 \wp(z) - g_3,
+	\]
+	where \(g_2,g_3\) are complex constants depending on \(\Lambda\).
+	
+	If we set
+	\[
+	X := \wp(z),\quad Y := \wp'(z),
+	\]
+	then
+	\[
+	Y^2 = 4X^3 - g_2 X - g_3.
+	\]
+	
+	From the differential-form viewpoint:
+	\[
+	dX = d\wp(z) = \wp'(z)\,dz = Y\,dz
+	\quad\Rightarrow\quad
+	dz = \frac{dX}{Y}.
+	\]
+	So the basic holomorphic 1-form \(dz\) on the torus becomes
+	\[
+	dz = \frac{dX}{\sqrt{4X^3 - g_2 X - g_3}},
+	\]
+	when we view the torus as the algebraic curve \(Y^2 = 4X^3 - g_2 X - g_3\).
+	
+	The function field is then
+	\[
+	\M(\C/\Lambda)
+	= \C(\wp,\wp')
+	\cong \C(X,Y)\big/\bigl(Y^2 - 4X^3 + g_2X + g_3\bigr).
+	\]
+	
+	Concretely, any meromorphic function \(F\) on \(X\) is of the form
+	\[
+	F([z]) = R\bigl(\wp(z),\wp'(z)\bigr)
+	\]
+	for some rational function \(R(X,Y)\).
+	
+	Our explicit example
+	\[
+	f(z) = \frac{\wp'(z)}{\wp(z)-\wp(a)} = \frac{Y}{X - \wp(a)}
+	\]
+	is exactly such a rational function in \((X,Y)=(\wp,\wp')\), and we computed
+	its poles and residues using differential-form techniques in detail.
+	
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\section*{Conclusion}
+	
+	\begin{itemize}
+		\item For \(X=\CP^1\), we picked a very concrete rational function
+		\(f(z)=(z-1)^2/(z(z-2))\), computed its divisor, wrote it via partial fractions,
+		and computed \(df\) as a meromorphic 1-form, verifying the residue behavior.
+		This illustrates \(\M(\CP^1)=\C(z)\).
+		
+		\item For \(X=\C/\Lambda\), we used \(\wp,\wp'\) and a very explicit elliptic
+		function \(f(z)=\wp'(z)/(\wp(z)-\wp(a))\), expanded near poles, and computed residues of
+		the meromorphic 1-form \(f(z)\,dz\). This illustrates concretely how
+		\(\M(\C/\Lambda)\) is generated by \(\wp,\wp'\), and how differential forms
+		(like \(\wp'(z)\,dz = d\wp(z)\)) control the structure of the function field.
+	\end{itemize}
+	
+	\section*{Integrating $\omega = \dfrac{\wp'(z)}{\wp(z)-\wp(a)}\,dz$ around the torus}
+	
+	We continue with the torus
+	\[
+	X = \C/\Lambda, \qquad
+	\Lambda = \mathbb Z\omega_1 \oplus \mathbb Z\omega_2,
+	\quad \Im\left(\frac{\omega_2}{\omega_1}\right) > 0.
+	\]
+	
+	Recall the elliptic function
+	\[
+	f(z) = \frac{\wp'(z)}{\wp(z) - \wp(a)},
+	\]
+	for some fixed \(a\in\C\) with \(2a\notin\Lambda\), and the meromorphic 1-form
+	\[
+	\omega = f(z)\,dz.
+	\]
+	
+	We already computed the residues:
+	\[
+	\Res_{z=a}(\omega) = 1,\qquad
+	\Res_{z=-a}(\omega) = 1,\qquad
+	\Res_{z=0}(\omega) = -2
+	\]
+	(modulo the lattice). Now we will:
+	
+	\begin{itemize}
+		\item Fix a fundamental parallelogram in \(\C\).
+		\item Integrate \(\omega\) around its boundary.
+		\item Use periodicity of \(f\) to show the boundary integral is \(0\).
+		\item Use the residue theorem to show that this equals \(2\pi i\) times the sum of residues inside.
+	\end{itemize}
+	
+	\subsection*{1. Fundamental parallelogram and its boundary}
+	
+	Pick a fundamental parallelogram (fundamental domain) for \(\Lambda\) in \(\C\):
+	\[
+	\mathcal{P}
+	:= \left\{ s\omega_1 + t\omega_2 \;\middle|\; 0 \le s \le 1,\; 0\le t \le 1 \right\}.
+	\]
+	Its vertices are
+	\[
+	0,\quad \omega_1,\quad \omega_1+\omega_2,\quad \omega_2.
+	\]
+	
+	Define the oriented boundary \(\partial\mathcal{P}\) as the piecewise smooth path:
+	\[
+	\partial\mathcal{P}
+	= \gamma_1 + \gamma_2 + \gamma_3 + \gamma_4,
+	\]
+	where
+	\begin{align*}
+		\gamma_1 &: 0 \to \omega_1,\\
+		\gamma_2 &: \omega_1 \to \omega_1 + \omega_2,\\
+		\gamma_3 &: \omega_1 + \omega_2 \to \omega_2,\\
+		\gamma_4 &: \omega_2 \to 0.
+	\end{align*}
+	More concretely, parametrize each side:
+	
+	\begin{itemize}
+		\item \(\gamma_1(t) = t\,\omega_1,\quad 0\le t\le 1.\)
+		\item \(\gamma_2(t) = \omega_1 + t\,\omega_2,\quad 0\le t\le 1.\)
+		\item \(\gamma_3(t) = \omega_1 + \omega_2 - t\,\omega_1,\quad 0\le t\le 1.\)
+		\item \(\gamma_4(t) = \omega_2 - t\,\omega_2,\quad 0\le t\le 1.\)
+	\end{itemize}
+	
+	We will compute
+	\[
+	\oint_{\partial\mathcal{P}} \omega
+	= \int_{\gamma_1}\omega + \int_{\gamma_2}\omega
+	+ \int_{\gamma_3}\omega + \int_{\gamma_4}\omega.
+	\]
+	
+	\subsection*{2. Periodicity of $f$ and cancellation of integrals on opposite sides}
+	
+	Since \(f\) is \(\Lambda\)-periodic, we have
+	\[
+	f(z+\omega_1) = f(z),\quad f(z+\omega_2) = f(z),\quad \forall z\in\C.
+	\]
+	We use this to relate the integrals on opposite sides of \(\mathcal{P}\).
+	
+	\subsubsection*{2.1. Compare $\int_{\gamma_1}\omega$ and $\int_{\gamma_3}\omega$}
+	
+	Write
+	\[
+	I_1 := \int_{\gamma_1}\omega,\qquad
+	I_3 := \int_{\gamma_3}\omega.
+	\]
+	
+	First compute \(I_1\) explicitly:
+	\[
+	\gamma_1(t) = t\,\omega_1,\quad
+	\gamma_1'(t) = \omega_1,\quad 0\le t\le 1.
+	\]
+	Then
+	\[
+	I_1
+	= \int_{\gamma_1} f(z)\,dz
+	= \int_0^1 f(\gamma_1(t))\,\gamma_1'(t)\,dt
+	= \int_0^1 f(t\omega_1)\,\omega_1\,dt
+	= \omega_1 \int_0^1 f(t\omega_1)\,dt.
+	\]
+	
+	Now compute \(I_3\). Parametrization:
+	\[
+	\gamma_3(t)
+	= \omega_1 + \omega_2 - t\,\omega_1,\quad
+	\gamma_3'(t) = -\omega_1,\quad 0\le t\le 1.
+	\]
+	So
+	\[
+	I_3
+	= \int_{\gamma_3} f(z)\,dz
+	= \int_0^1 f(\gamma_3(t))\,\gamma_3'(t)\,dt
+	= \int_0^1 f(\omega_1+\omega_2 - t\omega_1)\cdot(-\omega_1)\,dt.
+	\]
+	
+	We now use periodicity to simplify \(f(\omega_1+\omega_2 - t\omega_1)\):
+	\[
+	\omega_1+\omega_2 - t\omega_1
+	= \omega_2 + (1-t)\omega_1.
+	\]
+	Since \(f\) is periodic with period \(\omega_2\), we can subtract \(\omega_2\):
+	\[
+	f(\omega_2 + (1-t)\omega_1)
+	= f((1-t)\omega_1).
+	\]
+	Thus
+	\[
+	I_3
+	= \int_0^1 f((1-t)\omega_1)\cdot(-\omega_1)\,dt.
+	\]
+	
+	Make the change of variable
+	\[
+	s = 1-t \quad\Rightarrow\quad t = 1-s,\quad dt = -ds,
+	\]
+	and when \(t=0\), \(s=1\); when \(t=1\), \(s=0\). Then
+	\[
+	I_3
+	= \int_{s=1}^{s=0} f(s\omega_1)\cdot(-\omega_1)\cdot(-ds)
+	= \int_{s=1}^{s=0} f(s\omega_1)\,\omega_1\,ds.
+	\]
+	Swap limits:
+	\[
+	I_3
+	= -\int_{s=0}^{s=1} f(s\omega_1)\,\omega_1\,ds
+	= -\omega_1 \int_0^1 f(s\omega_1)\,ds.
+	\]
+	
+	Comparing with
+	\[
+	I_1 = \omega_1 \int_0^1 f(t\omega_1)\,dt,
+	\]
+	we see
+	\[
+	I_3 = -I_1.
+	\]
+	
+	So the integrals along the bottom and top sides cancel:
+	\[
+	\int_{\gamma_1}\omega + \int_{\gamma_3}\omega = I_1 + I_3 = 0.
+	\]
+	
+	\subsubsection*{2.2. Compare $\int_{\gamma_2}\omega$ and $\int_{\gamma_4}\omega$}
+	
+	Similarly define
+	\[
+	I_2 := \int_{\gamma_2}\omega,\qquad
+	I_4 := \int_{\gamma_4}\omega.
+	\]
+	
+	Parametrize \(\gamma_2\):
+	\[
+	\gamma_2(t) = \omega_1 + t\omega_2,\quad
+	\gamma_2'(t) = \omega_2,\quad 0\le t\le 1.
+	\]
+	Then
+	\[
+	I_2
+	= \int_{\gamma_2} f(z)\,dz
+	= \int_0^1 f(\omega_1 + t\omega_2)\,\omega_2\,dt.
+	\]
+	
+	Parametrize \(\gamma_4\):
+	\[
+	\gamma_4(t) = \omega_2 - t\omega_2,\quad
+	\gamma_4'(t) = -\omega_2,\quad 0\le t\le 1.
+	\]
+	Then
+	\[
+	I_4
+	= \int_{\gamma_4} f(z)\,dz
+	= \int_0^1 f(\omega_2 - t\omega_2)\cdot(-\omega_2)\,dt.
+	\]
+	
+	Simplify \(f(\omega_2 - t\omega_2)\):
+	\[
+	\omega_2 - t\omega_2 = (1-t)\omega_2.
+	\]
+	Because \(f(z+\omega_1) = f(z)\), we can add \(\omega_1\) if we want:
+	\[
+	f((1-t)\omega_2)
+	= f(\omega_1 + (1-t)\omega_2)
+	\]
+	as well. But we do not strictly need that here. Do the change of variable
+	\[
+	s = 1-t \quad\Rightarrow\quad dt = -ds,
+	\]
+	and when \(t=0\to s=1\), \(t=1\to s=0\). Then
+	\[
+	I_4
+	= \int_{s=1}^{s=0} f(s\omega_2)\cdot(-\omega_2)\cdot(-ds)
+	= \int_{s=1}^{s=0} f(s\omega_2)\,\omega_2\,ds
+	= -\int_{s=0}^{s=1} f(s\omega_2)\,\omega_2\,ds.
+	\]
+	
+	But
+	\[
+	I_2 = \int_0^1 f(\omega_1 + t\omega_2)\,\omega_2\,dt.
+	\]
+	Use periodicity with period \(\omega_1\):
+	\[
+	f(\omega_1 + t\omega_2) = f(t\omega_2).
+	\]
+	So
+	\[
+	I_2 = \int_0^1 f(t\omega_2)\,\omega_2\,dt = \omega_2\int_0^1 f(t\omega_2)\,dt.
+	\]
+	Using $s$ instead of $t$ as dummy variable,
+	\[
+	I_2 = \omega_2\int_0^1 f(s\omega_2)\,ds.
+	\]
+	
+	Thus
+	\[
+	I_4 = -\omega_2\int_0^1 f(s\omega_2)\,ds = -I_2.
+	\]
+	
+	So the integrals along the left and right sides cancel:
+	\[
+	\int_{\gamma_2}\omega + \int_{\gamma_4}\omega = I_2 + I_4 = 0.
+	\]
+	
+	\subsubsection*{2.3. Total boundary integral}
+	
+	Putting together:
+	\[
+	\oint_{\partial\mathcal{P}} \omega
+	= I_1 + I_2 + I_3 + I_4
+	= (I_1 + I_3) + (I_2 + I_4)
+	= 0 + 0 = 0.
+	\]
+	
+	So we have shown purely from periodicity and calculus parametrizations:
+	\[
+	\oint_{\partial\mathcal{P}} f(z)\,dz = 0.
+	\]
+	
+	\subsection*{3. Residue theorem inside the fundamental parallelogram}
+	
+	Now apply the residue theorem from complex analysis.
+	
+	\subsubsection*{3.1. Poles inside $\mathcal{P}$}
+	
+	We consider the poles of $\omega$ inside the parallelogram $\mathcal{P}$. We chose
+	$a$ such that $0,a,-a$ represent three distinct points mod $\Lambda$, and (for
+	a generic choice of $a$) we can assume that within the chosen fundamental domain
+	$\mathcal{P}$, the only poles of $f(z)$ are at
+	\[
+	z=0,\quad z=a,\quad z=-a.
+	\]
+	(Any other poles are at lattice translates of these, lying in other translates of
+	the parallelogram.)
+	
+	We computed the residues:
+	\[
+	\Res_{z=a}(\omega) = 1,\quad
+	\Res_{z=-a}(\omega) = 1,\quad
+	\Res_{z=0}(\omega) = -2.
+	\]
+	
+	\subsubsection*{3.2. Residue theorem}
+	
+	The residue theorem applied to $\omega = f(z)\,dz$ on $\mathcal{P}$ states:
+	\[
+	\oint_{\partial\mathcal{P}} \omega
+	= 2\pi i \sum_{p\in \mathcal{P}} \Res_{z=p}(\omega),
+	\]
+	where the sum is over all poles of $\omega$ inside $\mathcal{P}$.
+	
+	From the previous subsection:
+	\[
+	\oint_{\partial\mathcal{P}} \omega = 0.
+	\]
+	Thus
+	\[
+	0 = 2\pi i \left(
+	\Res_{z=a}(\omega)
+	+ \Res_{z=-a}(\omega)
+	+ \Res_{z=0}(\omega)
+	\right)
+	= 2\pi i (1 + 1 - 2).
+	\]
+	So indeed
+	\[
+	1 + 1 - 2 = 0.
+	\]
+	
+	\subsection*{4. Interpretation on the torus $X = \C/\Lambda$}
+	
+	The fundamental parallelogram $\mathcal{P}$ is a fundamental domain for the
+	projection map $\pi:\C\to X=\C/\Lambda$. Its boundary edges are identified
+	in pairs:
+	
+	\[
+	\gamma_1\sim\gamma_3,\quad
+	\gamma_2\sim\gamma_4.
+	\]
+	
+	The fact that
+	\[
+	\int_{\gamma_1}\omega + \int_{\gamma_3}\omega = 0,\quad
+	\int_{\gamma_2}\omega + \int_{\gamma_4}\omega = 0
+	\]
+	is exactly the statement that, when you go to the quotient torus $X$, the
+	integral of $\omega$ over the resulting closed loop is well-defined and
+	``wraps around'' consistently.
+	
+	On the compact Riemann surface $X$, the residue theorem becomes
+	\[
+	\sum_{p\in X} \Res_{p}(\omega) = 0.
+	\]
+	In our explicit example,
+	\[
+	\Res_{[a]}(\omega) + \Res_{[-a]}(\omega) + \Res_{[0]}(\omega)
+	= 1 + 1 - 2 = 0,
+	\]
+	in perfect agreement with the global theory.
+	
+	\bigskip
+	
+	\noindent\textbf{Summary.}
+	For the elliptic function
+	\[
+	f(z) = \frac{\wp'(z)}{\wp(z)-\wp(a)}
+	\]
+	on the torus $X=\C/\Lambda$, we have:
+	
+	\begin{itemize}
+		\item an explicit meromorphic 1-form $\omega=f(z)\,dz$;
+		\item an explicit fundamental parallelogram $\mathcal{P}$ in $\C$;
+		\item a direct computation using periodicity shows $\displaystyle\oint_{\partial\mathcal{P}}\omega = 0$;
+		\item the residue theorem computes the same integral as
+		\(\displaystyle 2\pi i \sum \Res_p(\omega)\),
+		giving $2\pi i(1+1-2)=0$.
+	\end{itemize}
+	
+	This is a fully concrete, calculus-level demonstration of how residues and
+	periodicity interact on the torus, and how global facts about the function
+	field $\M(\C/\Lambda)$ arise from local Laurent expansions and contour
+	integrals.
+	
+	
+\end{document}

@@ -1,0 +1,244 @@
+% !TEX TS-program = pdflatex
+\documentclass[11pt, a4paper]{article}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{mathtools}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+
+\newcommand{\CP}{\mathbb{CP}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\M}{\mathcal{M}}
+
+\begin{document}
+	
+	\section*{The isomorphism \(\M(\CP^1)\cong\C(x)\)}
+	
+	We explain carefully why the field of meromorphic functions on
+	\(\CP^1\) is isomorphic to the field \(\C(x)\) of rational functions in
+	one variable.
+	
+	\subsection*{1. Setup: charts on \(\CP^1\)}
+	
+	View \(\CP^1\) as the Riemann sphere. Consider the standard affine chart
+	\[
+	U_1 = \{[z_0:z_1]\in\CP^1 \mid z_1\neq 0\},
+	\]
+	with coordinate map
+	\[
+	\phi_1 : U_1 \longrightarrow \C,\qquad
+	\phi_1([z_0:z_1]) = \frac{z_0}{z_1}.
+	\]
+	We write
+	\[
+	x := \phi_1,
+	\]
+	and think of \(x\) as the \emph{coordinate function} on \(U_1\).
+	This function extends meromorphically to all of \(\CP^1\), with a simple
+	pole at \(\infty = [1:0]\).
+	
+	\medskip
+	
+	We define the field of meromorphic functions on \(\CP^1\) as
+	\[
+	\M(\CP^1)
+	=
+	\{ F:\CP^1\to\CP^1 \mid F \text{ holomorphic}\},
+	\]
+	viewing a meromorphic function as a holomorphic map into \(\CP^1\)
+	(via the usual convention ``finite value \(\mapsto [f(p):1]\), pole
+	\(\mapsto [1:0]\)'').
+	
+	On the other hand, the field \(\C(x)\) is
+	\[
+	\C(x)
+	=
+	\left\{
+	\frac{p(x)}{q(x)}
+	\;\middle|\;
+	p,q \in \C[x],\ q\not\equiv 0
+	\right\}\Big/\sim,
+	\]
+	where \(\frac{p}{q}\sim\frac{p'}{q'}\) if \(p(x)q'(x)=p'(x)q(x)\).
+	
+	\subsection*{2. From \(\C(x)\) to \(\M(\CP^1)\)}
+	
+	\begin{lemma}
+		Every rational function \(R(x)\in\C(x)\) defines a meromorphic function
+		\(F_R\in\M(\CP^1)\).
+	\end{lemma}
+	
+	\begin{proof}
+		Write
+		\[
+		R(x) = \frac{p(x)}{q(x)},\quad p,q\in\C[x],\ q\not\equiv 0.
+		\]
+		
+		\paragraph{On the affine chart \(U_1\).}
+		For a point \([z_0:z_1]\in U_1\), set \(x([z_0:z_1])=z_0/z_1=:z\).
+		We \emph{define} \(F_R\) on \(U_1\) by
+		\[
+		\phi_1\big(F_R([z_0:z_1])\big) = R\big(\phi_1([z_0:z_1])\big) = R(z),
+		\]
+		i.e.
+		\[
+		F_R|_{U_1} = \phi_1^{-1}\circ R\circ\phi_1.
+		\]
+		Concretely, for \(z_1\neq 0\) and \(R(z)\neq\infty\),
+		\[
+		F_R([z_0:z_1]) = [R(z_0/z_1):1],
+		\]
+		and if \(R(z)=\infty\) (i.e.\ \(q(z)=0\)), we set
+		\[
+		F_R([z_0:z_1]) = [1:0].
+		\]
+		
+		\paragraph{Global description via homogeneous polynomials.}
+		Let
+		\[
+		m = \max\{\deg p,\,\deg q\},
+		\]
+		and define homogeneous polynomials of degree \(m\) by
+		\[
+		P(z_0,z_1) = z_1^m\, p\!\left(\frac{z_0}{z_1}\right),
+		\qquad
+		Q(z_0,z_1) = z_1^m\, q\!\left(\frac{z_0}{z_1}\right).
+		\]
+		Then we set, for \([z_0:z_1]\in\CP^1\),
+		\[
+		F_R([z_0:z_1]) =
+		\begin{cases}
+			[P(z_0,z_1):Q(z_0,z_1)], & Q(z_0,z_1)\neq 0,\\[4pt]
+			[1:0], & Q(z_0,z_1)=0.
+		\end{cases}
+		\]
+		This is well-defined on projective space and holomorphic everywhere
+		(homogeneous polynomials define holomorphic maps on \(\CP^1\)).
+		
+		On the chart \(U_1\), this construction coincides with
+		\(\phi_1^{-1}\circ R\circ\phi_1\). Thus \(F_R\) is a meromorphic function
+		on \(\CP^1\) (equivalently, a holomorphic map \(\CP^1\to\CP^1\)).
+		
+	\end{proof}
+	
+	Hence we have a well-defined map
+	\[
+	\Phi:\C(x)\longrightarrow \M(\CP^1),\qquad
+	R\longmapsto F_R.
+	\]
+	
+	One checks directly that \(\Phi\) respects addition and multiplication,
+	so \(\Phi\) is a field homomorphism.
+	
+	\subsection*{3. Meromorphic functions on \(\CP^1\) are rational}
+	
+	\begin{lemma}
+		Every meromorphic function on \(\CP^1\) (i.e.\ holomorphic map
+		\(\CP^1\to\CP^1\) in the affine chart) is a rational function in the
+		coordinate \(x\).
+	\end{lemma}
+	
+	\begin{proof}[Sketch]
+		Let \(G\in\M(\CP^1)\). Consider the affine chart \(U_1\subset\CP^1\)
+		with coordinate \(x\), and restrict \(G\) to \(U_1\). On the open set
+		\[
+		V := G^{-1}(U_1)\subseteq\CP^1,
+		\]
+		we can view the composition
+		\[
+		g := \phi_1\circ G : V\to\C
+		\]
+		as a holomorphic function. The complement \(\CP^1\setminus V =
+		G^{-1}(\infty)\) is finite, so \(g\) has only finitely many poles in the
+		coordinate \(x\), and possibly a pole at \(\infty\).
+		
+		Thus, via the coordinate \(x\), \(g\) is a meromorphic function on the
+		Riemann sphere \(\C\cup\{\infty\}\). A standard result in complex
+		analysis says that such a meromorphic function is a rational function:
+		\[
+		g(x) = R(x)\in\C(x).
+		\]
+		
+		Concretely, one proves this by constructing a rational function with the
+		same poles and principal parts as \(g\), and then showing that their
+		difference is entire and bounded on \(\C\cup\{\infty\}\), hence
+		constant. Therefore \(g(x)\) is rational.
+	\end{proof}
+	
+	Applying this to \(G\), we obtain a unique \(R(x)\in\C(x)\) such that
+	\[
+	\phi_1\circ G = R\circ \phi_1
+	\quad\text{on }U_1.
+	\]
+	
+	\subsection*{4. From \(\M(\CP^1)\) to \(\C(x)\)}
+	
+	Define
+	\[
+	\Psi:\M(\CP^1)\longrightarrow \C(x)
+	\]
+	by
+	\[
+	\Psi(G) = R(x),
+	\]
+	where \(R(x)\) is the rational function given by the lemma, i.e.\ the
+	unique function satisfying
+	\[
+	\phi_1\circ G = R\circ \phi_1
+	\quad\text{on }U_1.
+	\]
+	
+	This is a well-defined field homomorphism (composition of meromorphic
+	maps corresponds to composition of rational functions).
+	
+	\subsection*{5. \(\Phi\) and \(\Psi\) are inverse isomorphisms}
+	
+	We now check that \(\Phi\) and \(\Psi\) are inverses.
+	
+	\begin{itemize}
+		\item For \(R(x)\in\C(x)\),
+		\[
+		\Psi(\Phi(R)) = \Psi(F_R) = \text{(the rational function corresponding to }F_R).
+		\]
+		But on \(U_1\),
+		\[
+		\phi_1\circ F_R = R\circ\phi_1,
+		\]
+		by construction of \(F_R\). Hence \(\Psi(F_R)=R\), so
+		\[
+		\Psi\circ\Phi = \mathrm{id}_{\C(x)}.
+		\]
+		
+		\item For \(G\in\M(\CP^1)\), let \(R=\Psi(G)\in\C(x)\). Then
+		\[
+		\phi_1\circ G = R\circ \phi_1
+		\quad\text{on }U_1.
+		\]
+		But on \(U_1\), we also have by definition
+		\[
+		F_R = \phi_1^{-1}\circ R\circ \phi_1.
+		\]
+		So \(G\) and \(F_R\) agree on the nonempty open set \(U_1\).
+		Since both are holomorphic maps \(\CP^1\to\CP^1\), the identity theorem
+		implies \(G\equiv F_R\) on all of \(\CP^1\).
+		Thus
+		\[
+		\Phi(\Psi(G)) = F_{\Psi(G)} = G,
+		\]
+		so
+		\[
+		\Phi\circ\Psi = \mathrm{id}_{\M(\CP^1)}.
+		\]
+	\end{itemize}
+	
+	Therefore \(\Phi\) and \(\Psi\) are inverse field isomorphisms.
+	
+	\begin{theorem}
+		The field of meromorphic functions on \(\CP^1\) is isomorphic to the
+		field of rational functions in one variable:
+		\[
+		\boxed{\M(\CP^1)\;\cong\;\C(x).}
+		\]
+	\end{theorem}
+	
+\end{document}

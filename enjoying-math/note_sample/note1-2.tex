@@ -1,0 +1,216 @@
+% !TEX TS-program = pdflatex
+\documentclass[11pt, a4paper]{article}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{mathtools}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+
+\newcommand{\CP}{\mathbb{CP}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\M}{\mathcal{M}}
+
+\begin{document}
+	
+\subsection*{Step 0: What are the two objects?}
+
+\begin{itemize}
+	\item \(\C(x)\): the field of rational functions in one variable \(x\):
+	\[
+	\C(x)
+	=
+	\left\{
+	\frac{p(x)}{q(x)}
+	\;\middle|\;
+	p,q\in\C[x],\ q\not\equiv 0
+	\right\}\Big/\sim,
+	\]
+	where \(\frac{p}{q}\sim\frac{p'}{q'}\) if \(p(x)q'(x)=p'(x)q(x)\).
+	
+	\item \(\M(\CP^1)\): the field of meromorphic functions on the Riemann sphere
+	\(\CP^1\). We view a meromorphic function as a holomorphic map
+	\[
+	F:\CP^1\to\CP^1
+	\]
+	(finite values in \(\C\) are written as \([F(p):1]\), poles as \([1:0]\)).
+\end{itemize}
+
+We want a \emph{field isomorphism}
+\[
+\Phi:\C(x)\xrightarrow{\ \simeq\ }\M(\CP^1).
+\]
+
+\subsection*{Step 1: Fix the affine chart on \(\CP^1\)}
+
+Consider the standard chart
+\[
+U_1 := \{[z_0:z_1]\in\CP^1 \mid z_1\neq 0\},
+\qquad
+\phi_1:U_1\to\C,\quad
+\phi_1([z_0:z_1]) = \frac{z_0}{z_1}.
+\]
+We write
+\[
+x := \phi_1,
+\]
+and think of \(x\) as a \emph{coordinate function} on \(U_1\). It extends
+meromorphically to all of \(\CP^1\) with a simple pole at \(\infty=[1:0]\).
+
+Intuitively: \(U_1 \simeq \C\) and \(x\) is the coordinate \(z\).
+
+\subsection*{Step 2: From \(\C(x)\) to \(\M(\CP^1)\)}
+
+Let
+\[
+R(x) = \frac{p(x)}{q(x)} \in \C(x),\quad p,q\in\C[x],\ q\not\equiv 0.
+\]
+
+\paragraph{2a. Define \(F_R\) on the affine chart \(U_1\).}
+
+Take a point \([z_0:z_1]\in U_1\). Write
+\[
+x([z_0:z_1]) = \phi_1([z_0:z_1]) = \frac{z_0}{z_1} =: z.
+\]
+
+We \emph{define} a map \(F_R\) on \(U_1\) by
+\[
+\phi_1\big(F_R([z_0:z_1])\big) = R\big(\phi_1([z_0:z_1])\big) = R(z),
+\]
+i.e.
+\[
+F_R|_{U_1} = \phi_1^{-1}\circ R\circ \phi_1.
+\]
+
+Concretely, for \(z_1\neq 0\) and \(R(z)\neq\infty\),
+\[
+F_R([z_0:z_1]) = [R(z_0/z_1):1].
+\]
+If \(R(z)=\infty\) (i.e.\ \(q(z)=0\)), we set
+\[
+F_R([z_0:z_1]) = [1:0].
+\]
+
+So on \(\CP^1\setminus\{\infty\}\cong\C\), \(F_R\) is just ``apply \(R\) in the
+coordinate \(x\)''.
+
+\paragraph{2b. Extend \(F_R\) globally using homogeneous polynomials.}
+
+Let
+\[
+m = \max\{\deg p,\,\deg q\},
+\]
+and define homogeneous polynomials of degree \(m\) by
+\[
+P(z_0,z_1) = z_1^m\, p\!\left(\frac{z_0}{z_1}\right),
+\qquad
+Q(z_0,z_1) = z_1^m\, q\!\left(\frac{z_0}{z_1}\right).
+\]
+Then for any \([z_0:z_1]\in\CP^1\), define
+\[
+F_R([z_0:z_1]) =
+\begin{cases}
+	[P(z_0,z_1):Q(z_0,z_1)], & Q(z_0,z_1)\neq 0,\\[4pt]
+	[1:0], & Q(z_0,z_1)=0.
+\end{cases}
+\]
+
+Facts:
+\begin{itemize}
+	\item \([P:Q]\) is a well-defined point of \(\CP^1\) (projective coordinates).
+	\item Since \(P,Q\) are homogeneous polynomials, this gives a holomorphic
+	map \(\CP^1\to\CP^1\).
+	\item On \(U_1\), this agrees with \(\phi_1^{-1}\circ R\circ\phi_1\).
+\end{itemize}
+
+Thus \(F_R\) is a meromorphic function on \(\CP^1\), i.e.\ \(F_R\in\M(\CP^1)\).
+
+\paragraph{2c. Define the map \(\Phi\).}
+
+We have a function
+\[
+\Phi:\C(x)\longrightarrow \M(\CP^1),\qquad
+\Phi(R)=F_R.
+\]
+One checks directly:
+\[
+\Phi(R_1+R_2) = \Phi(R_1)+\Phi(R_2),\qquad
+\Phi(R_1R_2) = \Phi(R_1)\,\Phi(R_2),
+\]
+so \(\Phi\) is a field homomorphism.
+
+\subsection*{Step 3: Every meromorphic function on \(\CP^1\) is rational}
+
+Now we go in the other direction.
+
+Let \(F\in \M(\CP^1)\), so \(F:\CP^1\to\CP^1\) is holomorphic.
+
+\paragraph{3a. Restrict to the affine chart \(\CP^1\setminus\{\infty\}\cong\C\).}
+
+On the chart \(U_1\) with coordinate \(x=\phi_1\), consider
+\[
+f := \phi_1\circ F\circ \phi_1^{-1} : \C\cup\{\infty\}\to\C\cup\{\infty\}.
+\]
+
+In words: write \(F\) in the coordinate \(x\). Then \(f\) is a meromorphic
+function on the Riemann sphere \(\C\cup\{\infty\}\).
+
+\paragraph{3b. Use the theorem from complex analysis.}
+
+A standard result: a meromorphic function on the Riemann sphere
+\(\C\cup\{\infty\}\) is a rational function. Therefore there exists some
+\(R(x)\in\C(x)\) such that
+\[
+f(x) = R(x)\quad\text{for all }x\in\C\cup\{\infty\}.
+\]
+
+Translating back through \(\phi_1\), this means
+\[
+\phi_1\circ F\circ \phi_1^{-1} = R
+\quad\Longleftrightarrow\quad
+F = \phi_1^{-1}\circ R\circ \phi_1 = F_R.
+\]
+
+Thus every \(F\in\M(\CP^1)\) is of the form \(F_R\) for a unique \(R\in\C(x)\).
+
+\subsection*{Step 4: \(\Phi\) is an isomorphism}
+
+We already defined
+\[
+\Phi:\C(x)\to\M(\CP^1),\quad R\mapsto F_R.
+\]
+
+\begin{itemize}
+	\item \textbf{Injective:} If \(\Phi(R_1)=\Phi(R_2)\), then
+	\(F_{R_1}=F_{R_2}\). On \(U_1\simeq\C\),
+	\[
+	\phi_1\circ F_{R_1} = R_1\circ\phi_1,\qquad
+	\phi_1\circ F_{R_2} = R_2\circ\phi_1.
+	\]
+	So \(R_1=R_2\) as functions on \(\C\), hence as elements of \(\C(x)\).
+	Therefore \(R_1=R_2\).
+	
+	\item \textbf{Surjective:} Given any \(F\in\M(\CP^1)\), Step~3 produced a
+	unique \(R\in\C(x)\) with \(F=F_R\). So every \(F\) is in the image of
+	\(\Phi\).
+\end{itemize}
+
+Hence \(\Phi\) is a bijective field homomorphism:
+\[
+\boxed{\C(x)\;\cong\;\M(\CP^1)}.
+\]
+
+\subsection*{Step 5: Intuitive summary}
+
+\begin{itemize}
+	\item The chart \(\phi_1\) identifies \(\CP^1\setminus\{\infty\}\) with \(\C\).
+	\item A rational function \(R(x)\) is just an ordinary meromorphic function on
+	\(\C\cup\{\infty\}\).
+	\item Using \(\phi_1\), we can transport \(R\) to a map \(F_R:\CP^1\to\CP^1\),
+	which is meromorphic on the sphere.
+	\item Conversely, any meromorphic map \(F:\CP^1\to\CP^1\) becomes a
+	meromorphic \(f\) on \(\C\cup\{\infty\}\), hence a rational function \(R(x)\).
+\end{itemize}
+
+So “rational functions in the variable \(x\)” and “meromorphic functions on the
+Riemann sphere” are two different \emph{descriptions} of the same field.
+\end{document}

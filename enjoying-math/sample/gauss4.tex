@@ -1,0 +1,124 @@
+% Stereographic and cylindrical map projections
+% Author: Tomasz M. Trzeciak
+% Source: LaTeX-Community.org 
+%         <http://www.latex-community.org/viewtopic.php?f=4&t=2111>
+\documentclass{article}
+\usepackage{tikz}
+\usetikzlibrary{calc,fadings,decorations.pathreplacing}
+\usepackage{verbatim}
+\usepackage{verbatim}
+\usepackage[active,tightpage]{preview}
+\PreviewEnvironment{tikzpicture}
+\setlength\PreviewBorder{5pt}%
+\begin{comment}
+
+:Title: Stereographic and cylindrical map projections
+:Tags: 3D
+:Slug: map-projections
+:Grid: 2x2
+
+Examples inspired by the thread at comp.text.tex about `how to convert some hand
+drawn pictures into programmatic 3D sketches`__.
+
+.. __: http://groups.google.com/group/comp.text.tex/browse_thread/thread/a03baf5d6fa64865/f7e7b903f1d87a6a
+
+The sketches present stereographic and cylindrical map projections and they
+pose some interesting challenges for doing them with a 2D drawing package PGF/TikZ.
+
+The main idea is to draw in selected 3D planes and then project onto the canvas
+coordinate system with an appriopriate transformation. Some highlights:
+
+- usage of pgf math engine for calculation of projection transformations and
+  transitions points from visible (solid lines) to invisible (dashed lines) on
+  meridians and latitude circles
+- definition of 3D plane transformation with expanded styles so that they are robust
+  against redefinition of macros used in their construction
+- usage of named coordinates (nodes) for definition of characteristic points in
+  local coordinate systems so that they are accessible outside of their plane of
+  definition
+- calculation of intersections points with TikZ intersection coordinate system
+- usage of 'to' path operation instead of 'arc' for marking angles to allow for
+  easy positioning of text labels on the curve
+- 3D lighting effects with shading
+
+:Author: Tomasz M. Trzeciak
+:Source: LaTeX-Community.org_
+
+.. _LaTeX-Community.org: http://www.latex-community.org/viewtopic.php?f=4&t=2111
+
+\end{comment}
+
+%% helper macros
+
+\newcommand\pgfmathsinandcos[3]{%
+  \pgfmathsetmacro#1{sin(#3)}%
+  \pgfmathsetmacro#2{cos(#3)}%
+}
+\newcommand\LongitudePlane[3][current plane]{%
+  \pgfmathsinandcos\sinEl\cosEl{#2} % elevation
+  \pgfmathsinandcos\sint\cost{#3} % azimuth
+  \tikzset{#1/.estyle={cm={\cost,\sint*\sinEl,0,\cosEl,(0,0)}}}
+}
+\newcommand\LatitudePlane[3][current plane]{%
+  \pgfmathsinandcos\sinEl\cosEl{#2} % elevation
+  \pgfmathsinandcos\sint\cost{#3} % latitude
+  \pgfmathsetmacro\yshift{\cosEl*\sint}
+  \tikzset{#1/.estyle={cm={\cost,0,0,\cost*\sinEl,(0,\yshift)}}} %
+}
+\newcommand\DrawLongitudeCircle[2][1]{
+  \LongitudePlane{\angEl}{#2}
+  \tikzset{current plane/.prefix style={scale=#1}}
+   % angle of "visibility"
+  \pgfmathsetmacro\angVis{atan(sin(#2)*cos(\angEl)/sin(\angEl))} %
+  \draw[current plane] (\angVis:1) arc (\angVis:\angVis+180:1);
+  \draw[current plane,dashed] (\angVis-180:1) arc (\angVis-180:\angVis:1);
+}
+\newcommand\DrawLatitudeCircle[2][1]{
+  \LatitudePlane{\angEl}{#2}
+  \tikzset{current plane/.prefix style={scale=#1}}
+  \pgfmathsetmacro\sinVis{sin(#2)/cos(#2)*sin(\angEl)/cos(\angEl)}
+  % angle of "visibility"
+  \pgfmathsetmacro\angVis{asin(min(1,max(\sinVis,-1)))}
+  \draw[current plane] (\angVis:1) arc (\angVis:-\angVis-180:1);
+  \draw[current plane,dashed] (180-\angVis:1) arc (180-\angVis:\angVis:1);
+}
+
+%% document-wide tikz options and styles
+
+\tikzset{%
+  >=latex, % option for nice arrows
+  inner sep=0pt,%
+  outer sep=2pt,%
+  mark coordinate/.style={inner sep=0pt,outer sep=0pt,minimum size=3pt,
+    fill=black,circle}%
+}
+
+\begin{document}
+
+\begin{tikzpicture} % "THE GLOBE" showcase
+
+\def\Rone{2.5} % sphere1 radius
+\def\Rtwo{4} % sphere1 radius
+\def\angEl{35} % elevation angle
+\filldraw[ball color=white] (0,0) circle (\Rone);
+\foreach \t in {-80,-60,...,80} { \DrawLatitudeCircle[\Rtwo]{\t} }
+\foreach \t in {-5,-35,...,-175} { \DrawLongitudeCircle[\Rtwo]{\t} }
+
+\def\angEl{25} % elevation angle
+\def\angPhi{-40} % longitude of point P
+\def\angPhitwo{-180} % longitude of point Q
+
+\def\angBeta{30} % latitude of point  P and Q
+        
+\LongitudePlane[pzplane]{\angEl}{\angPhi}
+\LongitudePlane[pqplane]{\angEl}{\angPhitwo}
+
+\path[pzplane] (\Rtwo,0) coordinate (P);
+\path[pqplane] (\Rone,0) coordinate (Q);
+
+\coordinate [mark coordinate](O) at (0,0);
+\draw[->, very thick] (O) -- (P) node[above]{$R_E$};
+\draw[->, very thick] (O) -- (Q) node[left]{$r$};
+\end{tikzpicture}
+
+\end{document} 

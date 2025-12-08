@@ -1,0 +1,867 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{mathtools}
+
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\CP}{\mathbb{CP}}
+\newcommand{\M}{\mathcal{M}}
+\newcommand{\Res}{\operatorname{Res}}
+\newcommand{\Divv}{\operatorname{Div}}
+\newcommand{\degd}{\operatorname{deg}}
+
+\begin{document}
+	
+	\title{Extremely Detailed Explanation of $\M(\CP^1)\cong\C(z)$ and\\
+		Why $\M(X)\cong\C(z)\iff X\cong\CP^1$}
+	\author{}
+	\date{}
+	\maketitle
+	
+	\tableofcontents
+	
+	\bigskip
+	
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\section{Basic objects and philosophy}
+	
+	We work over $\C$. There are three levels of structure:
+	
+	\begin{itemize}
+		\item \textbf{Complex-analytic / calculus}: holomorphic and meromorphic
+		functions, Laurent series, residues, contour integrals.
+		\item \textbf{Algebraic}: rational functions $p(z)/q(z)$, projective
+		coordinates, divisors, function fields.
+		\item \textbf{Riemann surface theory}: compact Riemann surfaces,
+		meromorphic maps $X\to\CP^1$, degree, genus.
+	\end{itemize}
+	
+	Our main goals:
+	
+	\begin{enumerate}
+		\item Show in detail:
+		\[
+		\M(\CP^1) \cong \C(z),
+		\]
+		i.e.\ every meromorphic function on the Riemann sphere is a rational
+		function in one variable.
+		
+		\item Show:
+		\[
+		\M(X)\cong\C(z) \quad\Longleftrightarrow\quad X\cong\CP^1
+		\]
+		for a compact Riemann surface $X$.
+	\end{enumerate}
+	
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\section{Analytic / calculus side: $\M(\CP^1)=\C(z)$}
+	
+	\subsection{Identifying $\CP^1$ with the Riemann sphere}
+	
+	As a set,
+	\[
+	\CP^1 = \{[z_0:z_1]\neq [0:0]\}/\sim, \qquad
+	[z_0:z_1]\sim[\lambda z_0:\lambda z_1],\ \lambda\neq 0.
+	\]
+	
+	Analytically, we identify
+	\[
+	\CP^1 \cong \widehat{\C} := \C\cup\{\infty\}
+	\]
+	as follows:
+	
+	\begin{itemize}
+		\item Affine chart $U_1 = \{[z_0:z_1]\mid z_1\neq 0\}$ with coordinate
+		\[
+		z = \frac{z_0}{z_1}: U_1\to\C.
+		\]
+		\item The point at infinity $[1:0]$ corresponds to the symbol $\infty$.
+	\end{itemize}
+	
+	So we think of $\CP^1$ as the complex plane plus one extra point at infinity.
+	
+	\subsection{Meromorphic functions and meromorphic $1$-forms}
+	
+	A \emph{meromorphic function} on $\CP^1$ is a function
+	\[
+	f:\CP^1\to\CP^1
+	\]
+	that is holomorphic except possibly at isolated points where it can have
+	poles (but NO essential singularities).
+	
+	On $\C\subset\CP^1$ we can write $f$ as an ordinary meromorphic function
+	$f(z)$ (holomorphic except for isolated poles). At $\infty$ we use
+	coordinate $w=1/z$; then
+	\[
+	F(w) := f\!\left(\frac{1}{w}\right)
+	\]
+	is meromorphic on a deleted neighborhood of $w=0$ and has a pole or removable
+	singularity there.
+	
+	We attach to $f$ the meromorphic $1$-form
+	\[
+	\omega = f(z)\,dz.
+	\]
+	Integrals of $\omega$ around closed curves encode information about $f$
+	(residues, principal parts).
+	
+	\subsection{Simple explicit example to see everything}
+	
+	Consider
+	\[
+	f(z) = \frac{1}{z^2(z-1)}
+	\]
+	as a meromorphic function on $\widehat{\C}=\C\cup\{\infty\}$.
+	
+	\subsubsection{Poles and orders (calculus style)}
+	
+	\paragraph{At $z=0$.}
+	Clearly $z=0$ is a pole because the denominator has $z^2$. Write
+	\[
+	f(z) = \frac{1}{z^2(z-1)}.
+	\]
+	Near $z=0$, $(z-1)\approx -1$, so
+	\[
+	f(z) \sim \frac{1}{z^2\cdot(-1)} = -\frac{1}{z^2}.
+	\]
+	Thus $f$ has a pole of order $2$ at $z=0$.
+	
+	\paragraph{At $z=1$.}
+	Set $u=z-1$. Then $z=u+1$, so
+	\[
+	f(z) = \frac{1}{(u+1)^2 u}.
+	\]
+	Near $u=0$, $(u+1)^2\approx 1$, so
+	\[
+	f(z) \sim \frac{1}{u} = \frac{1}{z-1}.
+	\]
+	So $z=1$ is a simple pole (order $1$).
+	
+	\paragraph{At $\infty$.}
+	We analyze $z\to\infty$. As $|z|\to\infty$,
+	\[
+	f(z) = \frac{1}{z^2(z-1)} = \frac{1}{z^3(1-1/z)}.
+	\]
+	Expand $\frac{1}{1-1/z} = 1 + \frac{1}{z} + \frac{1}{z^2} + \dots$, so
+	\[
+	f(z) = \frac{1}{z^3}\Bigl(1 + \frac{1}{z} + \cdots\Bigr)
+	= \frac{1}{z^3} + O\!\Bigl(\frac{1}{z^4}\Bigr).
+	\]
+	Thus $f(z)\to 0$ as $z\to\infty$, and in fact has a zero of order $3$ at
+	$\infty$; equivalently, it's holomorphic at $\infty$ and $f(\infty)=0$.
+	
+	\subsubsection{Partial fraction decomposition and derivative}
+	
+	We try to write
+	\[
+	f(z) = \frac{1}{z^2(z-1)} = \frac{A}{z} + \frac{B}{z^2} + \frac{C}{z-1}.
+	\]
+	Multiply by $z^2(z-1)$:
+	\[
+	1 = A z(z-1) + B(z-1) + Cz^2.
+	\]
+	
+	Compute:
+	\[
+	A z(z-1) = A(z^2 - z) = A z^2 - A z,
+	\]
+	\[
+	B(z-1) = Bz - B,
+	\]
+	\[
+	Cz^2 = Cz^2.
+	\]
+	So
+	\[
+	A z^2 - A z + Bz - B + Cz^2
+	= (A+C)z^2 + (-A+B)z - B.
+	\]
+	We want this equal to $1$ for all $z$, meaning:
+	\[
+	(A+C)z^2 + (-A+B)z - B
+	= 0\cdot z^2 + 0\cdot z + 1.
+	\]
+	So we must have
+	\[
+	A + C = 0,\quad -A + B = 0,\quad -B = 1.
+	\]
+	From $-B=1$ we get $B=-1$. Then $-A + (-1)=0\Rightarrow A=-1$. Then
+	$A+C=0\Rightarrow C=1$.
+	
+	So
+	\[
+	f(z) =
+	\frac{-1}{z} + \frac{-1}{z^2} + \frac{1}{z-1}.
+	\]
+	
+	Now compute the derivative:
+	\[
+	f'(z)
+	= \frac{d}{dz}\left(-\frac{1}{z} - \frac{1}{z^2} + \frac{1}{z-1}\right)
+	= \frac{1}{z^2} + \frac{2}{z^3} - \frac{1}{(z-1)^2}.
+	\]
+	Then
+	\[
+	df = f'(z)\,dz
+	= \left(\frac{1}{z^2} + \frac{2}{z^3} - \frac{1}{(z-1)^2}\right)\,dz.
+	\]
+	
+	Poles of $df$:
+	\begin{itemize}
+		\item At $z=0$: order $3$ pole (from $2/z^3$ and $1/z^2$), residue $0$
+		(no $1/z$ term).
+		\item At $z=1$: order $2$ pole, residue $0$.
+		\item At $\infty$: since $f$ is holomorphic at $\infty$, $df$ is also
+		holomorphic there and residue $0$.
+	\end{itemize}
+	
+	This matches the general fact: $df$ always has \emph{total residue $0$}.
+	
+	\subsection{General analytic proof that $\M(\CP^1)=\C(z)$}
+	
+	Now let $f$ be \emph{any} meromorphic function on $\widehat{\C}$.
+	
+	\subsubsection{Step 1: finitely many poles}
+	
+	Because $\CP^1$ is compact and poles are isolated, $f$ has only finitely many
+	poles:
+	\[
+	\{a_1,\dots,a_N\} \subset \C\cup\{\infty\}.
+	\]
+	
+	\subsubsection{Step 2: Laurent expansions at each pole}
+	
+	At each finite pole $a_j\in\C$, there is a small circle $\gamma_j$ around $a_j$
+	enclosing no other poles, and a Laurent expansion
+	\[
+	f(z) = \sum_{n=-m_j}^{\infty} c_{j,n}(z-a_j)^n, \quad 0<|z-a_j|<\varepsilon,
+	\]
+	with $m_j\ge 1$. Coefficients are given by integrals:
+	\[
+	c_{j,n} = \frac{1}{2\pi i} \oint_{\gamma_j}
+	\frac{f(\zeta)}{(\zeta - a_j)^{n+1}}\,d\zeta.
+	\]
+	
+	The principal part at $a_j$ is
+	\[
+	\operatorname{PP}_{a_j}(f)(z)
+	:= \sum_{n=-m_j}^{-1} c_{j,n}(z-a_j)^n.
+	\]
+	
+	At $\infty$, in coordinate $w=1/z$:
+	\[
+	F(w) := f\!\left(\frac{1}{w}\right)
+	= \sum_{n=-M}^{\infty} b_n w^n
+	\]
+	for some $M\ge 0$, and
+	\[
+	b_n = \frac{1}{2\pi i}\oint_{|\xi|=\rho}
+	\frac{F(\xi)}{\xi^{n+1}}\,d\xi.
+	\]
+	The principal part at $\infty$ is
+	\[
+	\operatorname{PP}_\infty(f)(w)
+	:= \sum_{n=-M}^{-1} b_n w^n.
+	\]
+	In terms of $z=1/w$, this is a polynomial $P(z)$.
+	
+	\subsubsection{Step 3: Build a rational function $R(z)$}
+	
+	Define
+	\[
+	R(z) := P(z) + \sum_{j=1}^N \operatorname{PP}_{a_j}(f)(z).
+	\]
+	
+	Concretely,
+	\[
+	R(z) = \sum_{k=1}^M \tilde b_k z^k
+	+ \sum_{j=1}^N\sum_{k=1}^{m_j} \frac{c_{j,-k}}{(z-a_j)^k}.
+	\]
+	
+	It is clear that $R(z)$ is a rational function in $z$, i.e.\ belongs to
+	$\C(z)$.
+	
+	By construction:
+	\begin{itemize}
+		\item At each finite pole $a_j$, the principal part of $R$ coincides with
+		that of $f$.
+		\item At $\infty$, the principal part of $R$ coincides with that of $f$.
+	\end{itemize}
+	
+	\subsubsection{Step 4: The difference $g=f-R$ is holomorphic everywhere}
+	
+	Set
+	\[
+	g(z) := f(z) - R(z).
+	\]
+	At each finite pole $a_j$, the negative-power terms in the Laurent expansion
+	cancel, so $g$ has no pole there (holomorphic at $a_j$).
+	
+	At $\infty$, using $w=1/z$, $f$ and $R$ have the same principal part in $w$,
+	so $g$ has no negative powers in $w$ and is holomorphic at $w=0$
+	(i.e.\ at $\infty$).
+	
+	Therefore $g$ is holomorphic on all of $\CP^1=\widehat{\C}$. A holomorphic
+	function on a compact Riemann surface is constant (by the maximum modulus
+	principle or Liouville), so $g(z)\equiv C$ for some $C\in\C$.
+	
+	Thus
+	\[
+	f(z) = R(z) + C.
+	\]
+	
+	Since $R(z)\in\C(z)$, we conclude
+	\[
+	f(z)\in \C(z).
+	\]
+	
+	\begin{center}
+		\fbox{\(\displaystyle
+			\M(\CP^1) = \C(z).
+			\)}
+	\end{center}
+	
+	This is the \emph{calculus} argument: it uses Laurent series, integrals for
+	coefficients, residues, and Liouville.
+	
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\section{Algebraic / projective viewpoint on $\M(\CP^1)$}
+	
+	Now we give a more algebraic description.
+	
+	\subsection{Affine chart and coordinate function $z$}
+	
+	On the chart
+	\[
+	U_1 = \{[z_0:z_1]\in\CP^1\mid z_1\neq 0\},
+	\]
+	we define
+	\[
+	z = \frac{z_0}{z_1}:U_1\to\C.
+	\]
+	
+	This $z$ is a holomorphic function on $U_1$. On $\CP^1$ it extends
+	\emph{meromorphically} with a single simple pole at the point $[1:0]$
+	(i.e.\ $\infty$).
+	
+	The function $z$ generates the field $\C(z)$ of rational functions.
+	
+	\subsection{Rational functions as homogeneous maps}
+	
+	Let $R(z) = p(z)/q(z)$ with $p,q\in\C[z]$, $q\not\equiv 0$. Set
+	\[
+	m = \max\{\deg p,\deg q\}.
+	\]
+	Define homogeneous polynomials:
+	\[
+	P(z_0,z_1) = z_1^m p\!\left(\frac{z_0}{z_1}\right),\quad
+	Q(z_0,z_1) = z_1^m q\!\left(\frac{z_0}{z_1}\right).
+	\]
+	Then $P,Q$ are homogeneous of degree $m$, and we define a map
+	\[
+	F_R:\CP^1\to\CP^1,\qquad
+	F_R([z_0:z_1]) =
+	\begin{cases}
+		[P(z_0,z_1):Q(z_0,z_1)], & Q(z_0,z_1)\neq 0,\\[4pt]
+		[1:0], & Q(z_0,z_1)=0.
+	\end{cases}
+	\]
+	
+	This is well-defined: scaling $(z_0,z_1)$ by $\lambda\neq 0$ scales both
+	$P$ and $Q$ by $\lambda^m$, so the projective point $[P:Q]$ is the same.
+	
+	On the affine chart $U_1$, with $z=z_0/z_1$, we have
+	\[
+	F_R([z:1]) = [p(z):q(z)],
+	\]
+	and in the chart where $q(z)\neq 0$, this corresponds to
+	\[
+	\frac{p(z)}{q(z)} = R(z).
+	\]
+	
+	So any rational function $R(z)$ yields a meromorphic map $F_R:\CP^1\to\CP^1$.
+	
+	\subsection{Conversely: maps $\CP^1\to\CP^1$ are rational}
+	
+	Conversely, any holomorphic map $F:\CP^1\to\CP^1$ between projective lines is
+	given by homogeneous polynomials of the same degree:
+	\[
+	F([z_0:z_1]) = [P(z_0,z_1):Q(z_0,z_1)],
+	\]
+	where $P,Q$ are homogeneous of the same degree and have no common factor.
+	Restricting to $U_1$ with $z=z_0/z_1$,
+	\[
+	F([z:1]) = [P(z,1):Q(z,1)];
+	\]
+	if $Q(z,1)\neq 0$ then in the affine chart we get
+	\[
+	F([z:1]) \mapsto \frac{P(z,1)}{Q(z,1)} \in \C,
+	\]
+	which is a rational function of $z$.
+	
+	Therefore, algebraically,
+	\[
+	\M(\CP^1)
+	= \{\text{meromorphic maps }\CP^1\to\CP^1\}
+	\cong \C(z).
+	\]
+	
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\section{General compact Riemann surface $X$ and $\M(X)$}
+	
+	Now consider an arbitrary compact Riemann surface $X$.
+	
+	\subsection{Non-constant meromorphic functions and maps $X\to\CP^1$}
+	
+	A non-constant meromorphic function $f$ on $X$ corresponds to a holomorphic map
+	\[
+	f:X\to\CP^1
+	\]
+	defined by
+	\[
+	f(p) =
+	\begin{cases}
+		[f(p):1], & f(p)\text{ finite},\\[4pt]
+		[1:0], & f(p)=\infty.
+	\end{cases}
+	\]
+	
+	This map is \emph{finite-to-one}: for a generic point $w\in\CP^1$, the preimage
+	$f^{-1}(w)$ consists of finitely many points, counted with multiplicity. The
+	number of points in a generic fiber is the \emph{degree} of $f$, denoted
+	$\degd(f)$.
+	
+	Locally, in coordinates, near a point $p\in X$, we can choose $z$ as a local
+	coordinate on $X$ at $p$ and $\zeta$ as a local coordinate on $\CP^1$ at
+	$f(p)$ so that
+	\[
+	\zeta = f(z) = z^k + (\text{higher order terms}),
+	\]
+	with $k\ge 1$. The integer $k$ is the local degree (ramification index) at $p$.
+	Summing these local degrees over $f^{-1}(w)$ for generic $w$ gives $\degd(f)$.
+	
+	\subsection{Function field extension viewpoint}
+	
+	The map $f:X\to\CP^1$ induces a field embedding
+	\[
+	f^*:\M(\CP^1)\hookrightarrow \M(X),
+	\]
+	by pullback: if $R(z)\in\M(\CP^1)\cong\C(z)$, then
+	\[
+	f^*(R) := R\circ f \in \M(X).
+	\]
+	
+	Thus we get an inclusion
+	\[
+	\C(z)\hookrightarrow \M(X).
+	\]
+	
+	A deep theorem (from the theory of compact Riemann surfaces / algebraic
+	curves) says:
+	\[
+	[\M(X):\C(z)] = \degd(f),
+	\]
+	i.e.\ the degree of the field extension equals the topological degree of the
+	map $f$. Intuitively, each branch contributes one ``copy'' of $\C(z)$ in the
+	extension.
+	
+	\subsection{If $\M(X)\cong\C(z)$, then $X\cong\CP^1$}
+	
+	Suppose we have \emph{as fields}:
+	\[
+	\M(X)\cong\C(z).
+	\]
+	
+	This means that $\M(X)$ is a purely transcendental extension of $\C$ of
+	transcendence degree $1$, with no nontrivial algebraic relations besides those
+	already in $\C(z)$.
+	
+	Pick any non-constant meromorphic function $f\in\M(X)$. The map
+	\[
+	f:X\to\CP^1
+	\]
+	is non-constant, hence of some degree $d\ge 1$. The induced extension
+	\[
+	\C(z)\hookrightarrow \M(X)
+	\]
+	has degree $d$. But by assumption $\M(X)\cong\C(z)$, so as a field extension,
+	$[\M(X):\C(z)]=1$. Therefore, $\degd(f)=1$.
+	
+	So we have a non-constant map $f:X\to\CP^1$ of degree $1$.
+	
+	\subsubsection*{Degree $1$ implies biholomorphism}
+	
+	We claim a holomorphic map $f:X\to\CP^1$ of degree $1$ between compact Riemann
+	surfaces must be an isomorphism of Riemann surfaces.
+	
+	\begin{itemize}
+		\item Since $f$ is non-constant holomorphic, it is open and its image is an
+		open connected subset of $\CP^1$.
+		\item Compactness of $X$ plus continuity of $f$ implies $f(X)$ is compact,
+		hence closed in $\CP^1$.
+		\item $\CP^1$ is connected, so the only nonempty closed and open subset is
+		all of $\CP^1$. Thus $f$ is surjective.
+		\item $\degd(f)=1$ means that for a generic point $w\in\CP^1$, the fiber
+		$f^{-1}(w)$ consists of exactly one point (counted with multiplicity).
+		Roughly speaking, this means $f$ is ``one-to-one almost everywhere''.
+		\item One can show (using local behavior and that there is no branching if
+		the total degree is $1$) that $f$ is globally one-to-one.
+		\item A bijective holomorphic map between compact Riemann surfaces has a
+		holomorphic inverse (since the inverse map is continuous, and by
+		Riemann surface theory it is analytic). So $f$ is a biholomorphism.
+	\end{itemize}
+	
+	Therefore $X\cong\CP^1$ as Riemann surfaces.
+	
+	\begin{center}
+		\fbox{\(
+			\M(X)\cong\C(z) \;\Longrightarrow\; X\cong\CP^1.
+			\)}
+	\end{center}
+	
+	\subsection{Conversely, if $X\cong\CP^1$, then $\M(X)\cong\C(z)$}
+	
+	Conversely, if we know $X\cong\CP^1$ (as Riemann surfaces), then by definition
+	there is a biholomorphism $\varphi:X\to\CP^1$. Pullback of meromorphic
+	functions along $\varphi$ gives a field isomorphism
+	\[
+	\M(\CP^1) \xrightarrow{\ \cong\ } \M(X),
+	\]
+	and we already know $\M(\CP^1)\cong\C(z)$. Hence
+	\[
+	\M(X) \cong \C(z).
+	\]
+	
+	\subsection{Genus and the ``only genus 0 curve'' viewpoint}
+	
+	There is a more geometric / topological characterization.
+	
+	\begin{itemize}
+		\item The \emph{genus} $g(X)$ is the number of ``holes'' of $X$ as a
+		topological surface: $g(\CP^1)=0$, $g(\C/\Lambda)=1$, etc.
+		\item Analytically, $g(X) = \dim_{\C} H^0(X,\Omega^1_X)$, the dimension of
+		the space of holomorphic $1$-forms on $X$.
+		\item One can show: $g(X)=0$ if and only if $X\cong\CP^1$.
+		\item For such a genus-$0$ surface $X$, every meromorphic function behaves
+		like a rational function in some coordinate, so $\M(X)\cong\C(z)$.
+	\end{itemize}
+	
+	Thus we have an equivalence of three properties:
+	
+	\[
+	X\cong\CP^1
+	\quad\Longleftrightarrow\quad
+	g(X)=0
+	\quad\Longleftrightarrow\quad
+	\M(X)\cong\C(z).
+	\]
+	
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\section{Final summary}
+	
+	\begin{itemize}
+		\item \textbf{Calculus viewpoint:} On the Riemann sphere, any meromorphic
+		function $f$ has finitely many poles. Around each pole we can write a
+		Laurent series, whose principal part coefficients are given by integrals
+		of the $1$-form $f(z)\,dz$. Using these principal parts, we build a
+		rational function $R(z)$ with the same local behavior at all poles (finite
+		and infinity). The difference $f-R$ is holomorphic everywhere on the
+		compact sphere, hence constant. Therefore $f$ is rational, and
+		\[
+		\M(\CP^1) = \C(z).
+		\]
+		
+		\item \textbf{Algebraic / projective viewpoint:} The affine coordinate
+		$z=z_0/z_1$ on $\CP^1$ is a meromorphic function with a simple pole at
+		infinity. Rational functions $R(z)=p(z)/q(z)$ can be expressed via
+		homogeneous polynomials $P,Q$ on $\CP^1$, giving meromorphic maps
+		$F_R:\CP^1\to\CP^1$. Conversely, any meromorphic map between projective
+		lines arises this way. Thus $\M(\CP^1)\cong\C(z)$ as fields.
+		
+		\item \textbf{Characterization via function fields:} For any compact Riemann
+		surface $X$, non-constant meromorphic functions $f:X\to\CP^1$ induce field
+		embeddings $\C(z)\hookrightarrow\M(X)$ and finite extensions of fields.
+		If $\M(X)\cong\C(z)$, the extension has degree $1$, so $f$ has degree $1$,
+		hence is a biholomorphism $X\cong\CP^1$. Conversely, if $X\cong\CP^1$,
+		then obviously $\M(X)\cong\C(z)$.
+	\end{itemize}
+	
+	Thus both analytically and algebraically, \emph{the Riemann sphere is the
+		unique compact Riemann surface whose function field is $\C(z)$}. 
+	
+	
+	
+	\newpage
+	\section{Why we use $\CP^1$ (not $\C$) for meromorphic functions}
+	
+	In this section, $X$ denotes a compact Riemann surface.
+	
+	\subsection{Holomorphic maps $X\to\C$ are constant}
+	
+%	\begin{lemma}\label{lem:compact_to_C_constant}
+		Let $X$ be a compact Riemann surface and $f:X\to\C$ a holomorphic map.
+		Then $f$ is constant.
+%	\end{lemma}
+	
+	\begin{proof}
+		Since $f$ is continuous and $X$ is compact, the image $f(X)\subset\C$ is
+		compact in $\C$. In particular, $f(X)$ is bounded.
+		
+		But a bounded holomorphic function on a connected open subset of $\C$ must
+		be constant by Liouville's theorem. To connect this with $f$, proceed as
+		follows.
+		
+		Let $p\in X$. Choose a local coordinate chart
+		\[
+		\varphi:U\subset X \longrightarrow V\subset\C,
+		\]
+		with $p\in U$ and $\varphi(p)=0$. In this chart, the restriction of $f$ to
+		$U$ looks like a holomorphic function
+		\[
+		f\circ\varphi^{-1} : V \to \C
+		\]
+		which is bounded by the global boundedness of $f$. By Liouville's theorem
+		on $V$ (considering extensions to entire functions or using the maximum
+		modulus principle locally), this local holomorphic function must be constant
+		on $V$.
+		
+		Since $X$ is connected and covered by such coordinate charts, we conclude
+		$f$ is constant on $X$.
+	\end{proof}
+	
+%	\begin{corollary}
+		There is no nonconstant holomorphic map $f:\CP^1\to\C$.
+%	\end{corollary}
+	
+	\begin{proof}
+		The Riemann sphere $\CP^1$ is compact, and the previous lemma applies.
+	\end{proof}
+	
+	\subsection{Meromorphic functions and maps to $\CP^1$}
+	
+	Recall that a point of $\CP^1$ can be written as $[z_0:z_1]$. We have the
+	standard affine chart
+	\[
+	i:\C \hookrightarrow \CP^1,\qquad
+	i(z) = [z:1],
+	\]
+	and the point at infinity
+	\[
+	\infty := [1:0]\in \CP^1.
+	\]
+	
+%	\begin{definition}
+		A \emph{meromorphic function} on $X$ is a holomorphic map
+		\[
+		F:X\to\CP^1.
+		\]
+		Points $p\in X$ with $F(p)\neq\infty$ are called \emph{finite values}, and
+		points $p$ with $F(p)=\infty$ are called \emph{poles} of $F$.
+%	\end{definition}
+	
+	On the open set $U:=F^{-1}(\CP^1\setminus\{\infty\})$, we can compose with
+	the inverse of $i$ to obtain an honest holomorphic function
+	\[
+	f := i^{-1}\circ F : U \to \C,
+	\]
+	which is the usual local expression of a meromorphic function.
+	
+	\subsection{Why $F$ usually cannot factor via $i:\C\to\CP^1$}
+	
+	You might try to define meromorphic functions as compositions
+	\[
+	F = i\circ f,\qquad f:X\to\C,
+	\]
+	with $f$ holomorphic. We now show why this only produces \emph{constant}
+	functions when $X$ is compact.
+	
+%	\begin{proposition}\label{prop:factor_through_C}
+		Let $X$ be a compact Riemann surface and let
+		\[
+		F:X\to\CP^1
+		\]
+		be a nonconstant holomorphic map (so $F$ is a nonconstant meromorphic
+		function on $X$). Then $F$ \emph{does not} factor through the inclusion
+		$i:\C\hookrightarrow\CP^1$; i.e.\ there is no holomorphic
+		$f:X\to\C$ such that
+		\[
+		F = i\circ f.
+		\]
+%	\end{proposition}
+	
+	\begin{proof}
+		Suppose, for contradiction, that such an $f$ exists:
+		\[
+		F = i\circ f,\quad f:X\to\C\ \text{holomorphic}.
+		\]
+		Since $X$ is compact, Lemma~\ref{lem:compact_to_C_constant} implies that
+		$f$ is constant, say $f\equiv c\in\C$.
+		
+		Then
+		\[
+		F(p) = i(f(p)) = i(c) = [c:1]
+		\]
+		for all $p\in X$, so $F$ is constant as a map $X\to\CP^1$. This contradicts
+		the assumption that $F$ is nonconstant.
+		
+		Hence no nonconstant holomorphic map $F:X\to\CP^1$ can factor through
+		$i:\C\hookrightarrow\CP^1$.
+	\end{proof}
+	
+	In other words, if we tried to define
+	\[
+	\M(X) \stackrel{?}{=} \{\,i\circ f \mid f:X\to\C\ \text{holomorphic}\,\}
+	\]
+	for a compact Riemann surface $X$, then by the Lemma and Proposition above the
+	right-hand side would consist \emph{only of constants}. This would lose all
+	interesting meromorphic functions.
+	
+	This is why the correct, global definition of meromorphic function on a
+	compact Riemann surface $X$ necessarily uses $\CP^1$ as the target.
+	
+	\subsection{Correct equivalence: meromorphic functions $=$ maps to $\CP^1$}
+	
+	We now record the standard equivalence in precise form.
+	
+%	\begin{proposition}\label{prop:mero_holo_CP1}
+		Let $X$ be a Riemann surface. Then:
+		\begin{enumerate}
+			\item If $F:X\to\CP^1$ is holomorphic, then $F$ is a meromorphic
+			function on $X$ in the usual sense (holomorphic except at isolated
+			poles).
+			\item Conversely, if $f$ is meromorphic on $X$ in the usual sense, there
+			exists a unique holomorphic map $F:X\to\CP^1$ such that
+			\[
+			F(p) =
+			\begin{cases}
+				[f(p):1], & \text{$p$ not a pole of $f$},\\[4pt]
+				[1:0], & \text{$p$ a pole of $f$}.
+			\end{cases}
+			\]
+		\end{enumerate}
+		Thus there is a natural one-to-one correspondence:
+		\[
+		\M(X)
+		\;\cong\;
+		\{\,F:X\to\CP^1 \mid F \text{ holomorphic}\,\}.
+		\]
+%	\end{proposition}
+	
+	\begin{proof}
+		(Sketch of (1)) Let $F:X\to\CP^1$ be holomorphic. For a point $p\in X$ with
+		$F(p)\neq[1:0]$ (finite value), choose the affine chart
+		\[
+		\phi_1:\CP^1\setminus\{[1:0]\}\to\C,\quad [z_0:z_1]\mapsto z_0/z_1,
+		\]
+		and set $f = \phi_1\circ F$ on a neighborhood of $p$. Then $f$ is holomorphic
+		there. If $F(p)=[1:0]$ (infinite value), use the other chart
+		\[
+		\phi_0:\CP^1\setminus\{[0:0:1]\}\to\C,\quad [z_0:z_1]\mapsto z_1/z_0,
+		\]
+		and check that in this chart $F$ has a pole. Hence $F$ is meromorphic in the
+		usual sense.
+		
+		(Sketch of (2)) Conversely, if $f$ is meromorphic on $X$, then on the open
+		set where $f$ is finite, define
+		\[
+		F(p) = [f(p):1],
+		\]
+		and at poles set $F(p)=[1:0]$. Using local coordinates near a pole, one checks
+		that this $F$ is holomorphic in a neighborhood of each point of $X$. This
+		gives a holomorphic map $F:X\to\CP^1$. Uniqueness is clear from the defining
+		formula.
+	\end{proof}
+	
+	\noindent
+	So the right way to think is:
+	
+	\begin{center}
+		\emph{A meromorphic function on $X$ is a holomorphic map $X\to\CP^1$, not a
+			map $X\to\C$ composed with the inclusion $\C\hookrightarrow\CP^1$.}
+	\end{center}
+
+\newpage
+\section*{The Riemann sphere as a conic in $\CP^2$}
+
+Consider $\CP^1$ as the Riemann sphere with affine coordinate $z$ on the chart
+$[z:1]\in\CP^1\setminus\{\infty\}$. On this affine chart we have holomorphic
+functions
+\[
+f(z) = z,\qquad g(z) = z^2,
+\]
+which satisfy the polynomial relation
+\[
+P(x,y) := y - x^2,\qquad P(f(z),g(z)) = g(z)-f(z)^2 = 0.
+\]
+Thus the map
+\[
+\phi:\C \longrightarrow \C^2,\qquad z\longmapsto (x,y)=(f(z),g(z))=(z,z^2)
+\]
+has image contained in the affine algebraic curve
+\[
+C_{\mathrm{aff}} := \{(x,y)\in\C^2 \mid y-x^2=0\},
+\]
+the parabola $y=x^2$. Conversely, every point on this parabola is of the form
+$(x,y)=(t,t^2)$, so $\phi$ is a bijection $\C\simeq C_{\mathrm{aff}}$ of
+complex manifolds.
+
+\subsection*{Homogenization and the projective conic}
+
+Let $[X:Y:Z]$ be homogeneous coordinates on $\CP^2$. On the affine chart
+$Z\neq 0$ we set
+\[
+x = \frac{X}{Z},\qquad y = \frac{Y}{Z}.
+\]
+The affine equation $y-x^2=0$ becomes
+\[
+\frac{Y}{Z} - \left(\frac{X}{Z}\right)^2 = 0.
+\]
+Multiplying by $Z^2$ gives the homogeneous equation
+\[
+YZ - X^2 = 0.
+\]
+Thus the projective closure of the parabola is the conic
+\[
+C := \{[X:Y:Z]\in\CP^2 \mid YZ = X^2\}.
+\]
+
+(Equivalently, one often uses the isomorphic conic $XZ=Y^2$, obtained by
+renaming coordinates; this is the standard form for the image of the
+Veronese embedding below.)
+
+\subsection*{The Veronese embedding}
+
+We now consider $\CP^1$ with homogeneous coordinates $[u:v]$ and the degree--2
+Veronese embedding
+\[
+\nu_2:\CP^1 \longrightarrow \CP^2,\qquad
+[u:v] \longmapsto [X:Y:Z] = [u^2 : uv : v^2].
+\]
+A direct computation shows that the image of $\nu_2$ lies on the conic
+\[
+XZ = Y^2.
+\]
+Indeed, for $[X:Y:Z]=[u^2:uv:v^2]$ we have
+\[
+XZ = (u^2)(v^2) = u^2 v^2,\qquad Y^2 = (uv)^2 = u^2 v^2,
+\]
+so $XZ-Y^2=0$ is identically satisfied.
+
+On the affine chart $Z\neq 0$ (set $Z=1$), the equation $XZ=Y^2$ becomes
+$x = y^2$ with $x=X/Z$, $y=Y/Z$. This is (up to swapping $x$ and $y$) the
+same parabola $y=x^2$ considered above.
+
+One checks that $\nu_2$ is injective, and as every point of the conic $XZ=Y^2$
+has the form $[u^2:uv:v^2]$ for some $[u:v]\in\CP^1$, the map $\nu_2$ induces
+a biholomorphism
+\[
+\CP^1 \xrightarrow{\ \sim\ } C.
+\]
+
+In particular, the Riemann sphere $S^2\simeq\CP^1$ can be viewed equivalently
+as the smooth projective conic $C\subset\CP^2$ given by $XZ=Y^2$, and the
+coordinate $z$ on $\CP^1$ corresponds to the parameter that maps $z$ to the
+point $(x,y)=(z^2,z)$ on the parabola in the affine chart.
+
+	
+\end{document}

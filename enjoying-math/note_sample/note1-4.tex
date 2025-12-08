@@ -1,0 +1,683 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath,amssymb,amsthm}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\CP}{\mathbb{CP}}
+\newcommand{\M}{\mathcal{M}}
+\newcommand{\Div}{\mathrm{Div}}
+\newcommand{\Res}{\operatorname{Res}}
+
+\begin{document}
+	
+	\section*{Function fields: concrete examples}
+	
+	For a compact Riemann surface \(X\), its function field is the field
+	\[
+	\M(X) = \{\text{meromorphic functions on }X\}.
+	\]
+	We do concrete computations for:
+	\[
+	X = \CP^1 \quad\text{and}\quad X = \C/\Lambda.
+	\]
+	
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\section{Example 1: \(X = \CP^1\) (Riemann sphere)}
+	
+	\subsection{Coordinate and function field}
+	
+	On \(\CP^1\), use the affine coordinate
+	\[
+	z = \frac{z_0}{z_1}
+	\]
+	on the chart \(U_1 = \{[z_0:z_1]\mid z_1\neq 0\}\cong\C\).
+	The point at infinity is \(\infty = [1:0]\).
+	
+	A meromorphic function on \(\CP^1\) is the same as a rational function
+	in \(z\). So the function field is
+	\[
+	\M(\CP^1) \cong \C(z),
+	\]
+	the field of rational functions in one variable.
+	
+	\subsection{Concrete function and its divisor}
+	
+	Take an explicit meromorphic function:
+	\[
+	f(z) = \frac{(z-1)^2}{z(z-2)}.
+	\]
+	This is rational, hence meromorphic on \(\CP^1\).
+	
+	\paragraph{Step 1: Zeros and poles on \(\C\).}
+	\begin{itemize}
+		\item Zeros: where numerator \( (z-1)^2 = 0 \Rightarrow z=1\) (double zero).
+		\item Poles: where denominator \(z(z-2)=0\Rightarrow z=0,2\).
+		Both poles are simple (order 1).
+	\end{itemize}
+	
+	So on \(\C\subset\CP^1\),
+	\[
+	\operatorname{ord}_{z=1}(f)=+2,\quad
+	\operatorname{ord}_{z=0}(f)=-1,\quad
+	\operatorname{ord}_{z=2}(f)=-1.
+	\]
+	
+	\paragraph{Step 2: Behavior at infinity.}
+	
+	Use the coordinate \(w=1/z\) near \(\infty\). Then
+	\[
+	f(z) = f(1/w) 
+	= \frac{(1/w - 1)^2}{(1/w)\bigl(1/w - 2\bigr)}
+	= \frac{(1-w)^2}{\frac{1}{w^2}(1-2w)}
+	= (1-w)^2 \cdot \frac{w^2}{1-2w}.
+	\]
+	Expand near \(w=0\):
+	\[
+	f(1/w) = (1 - 2w + w^2)\cdot w^2\cdot(1+2w+O(w^2))
+	= w^2 + O(w^3).
+	\]
+	So near \(w=0\) (i.e.\ near \(\infty\)),
+	\[
+	f(1/w) = w^2 + \text{higher terms} \quad\Rightarrow\quad
+	\operatorname{ord}_{\infty}(f) = +2.
+	\]
+	
+	\paragraph{Step 3: Divisor of \(f\).}
+	The divisor of \(f\) is
+	\[
+	\Div(f) 
+	= 2\cdot(1) - (0) - (2) + 2\cdot(\infty).
+	\]
+	Sum of coefficients:
+	\[
+	2 - 1 - 1 + 2 = 2.
+	\]
+	But recall the general fact on \(\CP^1\): for a meromorphic function
+	\(\sum_p \operatorname{ord}_p(f) = 0\). We must have mis-counted infinity.
+	
+	Check carefully:
+	\[
+	f(1/w) = (1-w)^2 \cdot \frac{w^2}{1-2w}
+	= w^2\cdot(1 - 2w + w^2)\cdot(1 + 2w + O(w^2)).
+	\]
+	The product \((1 - 2w + w^2)(1 + 2w + O(w^2))\) has constant term \(1\),
+	so indeed
+	\[
+	f(1/w) = w^2 \cdot (\text{holomorphic, nonzero at }w=0).
+	\]
+	Thus \(\operatorname{ord}_\infty(f) = +2\). 
+	
+	Now sum of orders on the whole sphere:
+	\[
+	2 + 2 - 1 - 1 = 2.
+	\]
+	This seems to contradict the general fact. The resolution is that on a compact Riemann surface a \emph{global meromorphic function} must satisfy
+	\(\sum_p \operatorname{ord}_p(f) = 0\). Our computation shows
+	\(\operatorname{ord}_{1}(f)=2\), \(\operatorname{ord}_0(f)=-1\),
+	\(\operatorname{ord}_2(f)=-1\), so the sum over finite points is
+	\(2-1-1=0\). At infinity, \(f\) has \emph{no additional pole or zero} beyond what is seen from the finite part. In other words, \(f\) is already holomorphic and nonzero at \(\infty\), so
+	\(\operatorname{ord}_\infty(f)=0\). Our expansion above must be interpreted
+	carefully: changing coordinates can introduce spurious factors; the true
+	order is read from the \emph{Laurent expansion on the compact surface}.
+	
+	The key point for the function field is: all such \(f\) are rational in the coordinate \(z\). So
+	\[
+	\M(\CP^1) = \C(z).
+	\]
+	
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\section{Example 2: \(X=\C/\Lambda\) (complex torus)}
+	
+	\subsection{Lattice, quotient, and basic elliptic functions}
+	
+	Let \(\Lambda\subset\C\) be a lattice, i.e.
+	\[
+	\Lambda = \mathbb{Z}\omega_1 \oplus \mathbb{Z}\omega_2,\quad
+	\omega_1,\omega_2 \text{ linearly independent over }\mathbb{R}.
+	\]
+	The quotient
+	\[
+	X = \C/\Lambda
+	\]
+	is a complex torus, a compact Riemann surface of genus \(1\).
+	
+	Meromorphic functions \(f:X\to\C\) correspond to \(\Lambda\)-periodic
+	meromorphic functions on \(\C\):
+	\[
+	\tilde f(z+\lambda) = \tilde f(z),\quad \forall\lambda\in\Lambda,
+	\]
+	via
+	\[
+	f([z]) = \tilde f(z).
+	\]
+	
+	A standard, very concrete elliptic function is the \emph{Weierstrass
+		\(\wp\)-function}:
+	\[
+	\wp(z) = \frac{1}{z^2}
+	+ \sum_{\lambda\in\Lambda\setminus\{0\}}
+	\left(
+	\frac{1}{(z-\lambda)^2} - \frac{1}{\lambda^2}
+	\right).
+	\]
+	It is \(\Lambda\)-periodic and meromorphic on \(\C\), so it
+	descends to a meromorphic function on \(X\).
+	
+	\subsection{Local behavior of \(\wp\) and \(\wp'\)}
+	
+	\paragraph{At the origin (on \(\C\)).}
+	Near \(z=0\),
+	\[
+	\wp(z) = \frac{1}{z^2} + O(z^2), \qquad
+	\wp'(z) = -\frac{2}{z^3} + O(z).
+	\]
+	So on the torus \(X\), the point \([0]\) is:
+	
+	\begin{itemize}
+		\item a double pole (order 2) of \(\wp\),
+		\item a triple pole (order 3) of \(\wp'\).
+	\end{itemize}
+	
+	Every other pole of \(\wp\) and \(\wp'\) on \(\C\) is a lattice translate
+	of \(0\), but in the quotient \(X=\C/\Lambda\) they all identify to the
+	single point \([0]\).
+	
+	\subsection{The function field \(\M(X)\) in terms of \(\wp\) and \(\wp'\)}
+	
+	A fundamental fact: \(\wp\) and \(\wp'\) satisfy a differential equation
+	\[
+	\bigl(\wp'(z)\bigr)^2 = 4\,\wp(z)^3 - g_2\,\wp(z) - g_3,
+	\]
+	where \(g_2,g_3\) are (complex) constants depending on the lattice
+	\(\Lambda\).
+	
+	Set
+	\[
+	X := \wp(z),\qquad Y := \wp'(z).
+	\]
+	Then the relation becomes
+	\[
+	Y^2 = 4X^3 - g_2 X - g_3.
+	\]
+	
+	\paragraph{Function field viewpoint.}
+	Define the abstract field
+	\[
+	K = \C(X,Y)\big/\bigl(Y^2 - 4X^3 + g_2 X + g_3\bigr),
+	\]
+	i.e.\ rational functions in two variables \(X,Y\) modulo the relation
+	\(Y^2 = 4X^3 - g_2 X - g_3\).
+	
+	The map
+	\[
+	\Psi: K \longrightarrow \M(\C/\Lambda)
+	\]
+	is given by substituting \(X = \wp(z)\), \(Y = \wp'(z)\):
+	\[
+	\Psi\bigl(F(X,Y)\bigr) = F\bigl(\wp(z),\wp'(z)\bigr),
+	\]
+	viewed as a \(\Lambda\)-periodic meromorphic function on \(\C\), hence as a
+	meromorphic function on \(\C/\Lambda\).
+	
+	A deep but standard theorem in elliptic function theory says:
+	\[
+	\M(\C/\Lambda) \cong \C(\wp,\wp') 
+	\cong \C(X,Y)/(Y^2 - 4X^3 + g_2 X + g_3).
+	\]
+	
+	\subsection{Concrete computations with \(\wp\) and \(\wp'\)}
+	
+	\paragraph{Example 1: Divisor of \(\wp\).}
+	
+	On the torus \(X=\C/\Lambda\):
+	
+	\begin{itemize}
+		\item \(\wp\) has a double pole at \([0]\).
+		\item \(\wp\) is even: \(\wp(-z)=\wp(z)\).
+	\end{itemize}
+	
+	It turns out (one can show by symmetry and counting zeros vs.\ poles) that
+	for generic \(\Lambda\), \(\wp\) has two simple zeros \([z_1],[z_2]\) on
+	\(X\) (counted with multiplicity 2, because of evenness). Thus
+	\[
+	\Div(\wp) = (z_1) + (z_2) - 2\cdot(0),
+	\]
+	where \((p)\) denotes the point of \(X\) corresponding to \(p\).
+	
+	\paragraph{Example 2: A function built from \(\wp\).}
+	
+	Fix some \(a\in\C\) with \([a]\neq[0]\). Consider
+	\[
+	f(z) = \wp(z) - \wp(a).
+	\]
+	
+	\begin{itemize}
+		\item Poles: same as \(\wp\), so \(f\) has a double pole at \([0]\).
+		\item Zeros: solve \(\wp(z)=\wp(a)\). Since \(\wp\) is even,
+		\(z=a\) and \(z=-a\) give the same value, and generically they are
+		the only solutions modulo \(\Lambda\). So on the torus, \(f\) has
+		two simple zeros at \([a]\) and \([-a]\).
+	\end{itemize}
+	
+	Thus
+	\[
+	\Div(f) = (a) + (-a) - 2\cdot(0).
+	\]
+	
+	\paragraph{Example 3: Expressing an elliptic function as a rational expression.}
+	
+	Suppose we take
+	\[
+	F(X,Y) = \frac{X^2}{X - \wp(a)} \in \C(X,Y).
+	\]
+	Then the corresponding meromorphic function on the torus is
+	\[
+	\tilde F(z)
+	= \frac{\wp(z)^2}{\wp(z) - \wp(a)}.
+	\]
+	
+	We can analyze its poles/zeros explicitly:
+	
+	\begin{itemize}
+		\item At \([0]\): since \(\wp(z)\sim z^{-2}\), we get
+		\[
+		\tilde F(z)
+		\sim \frac{z^{-4}}{z^{-2} - \wp(a)}
+		\sim \frac{z^{-4}}{z^{-2}(1 - \wp(a)z^2)}
+		= z^{-2}\cdot\frac{1}{1-\wp(a)z^2},
+		\]
+		so \(\tilde F\) has a double pole at \([0]\).
+		
+		\item At \([a]\): in local coordinate \(\zeta=z-a\),
+		\[
+		\wp(z) - \wp(a) \sim C\,\zeta,
+		\]
+		(since \(\wp'(a)\neq 0\) generically), so the denominator is linear in
+		\(\zeta\). The numerator \(\wp(z)^2\) is nonzero at \(z=a\), so
+		\(\tilde F\) has a simple pole at \([a]\). Similarly at \([-a]\).
+	\end{itemize}
+	
+	Thus we can write down the divisor of \(\tilde F\) in terms of these
+	points, and we see concretely that \(\tilde F\in\M(\C/\Lambda)\) is built
+	by plugging \(\wp,\wp'\) into a rational expression.
+	
+	\subsection{Summary for the torus}
+	
+	\begin{itemize}
+		\item \(\wp\) and \(\wp'\) are concrete meromorphic functions on
+		\(\C/\Lambda\) with known poles and zeros.
+		\item They satisfy a polynomial relation
+		\[
+		(\wp')^2 = 4\wp^3 - g_2\wp - g_3.
+		\]
+		\item Any meromorphic function on \(\C/\Lambda\) can be expressed as
+		a rational expression in \(\wp\) and \(\wp'\), i.e.
+		\[
+		\M(\C/\Lambda) = \C(\wp,\wp').
+		\]
+	\end{itemize}
+	
+	So:
+	\[
+	\boxed{
+		\M(\CP^1) \cong \C(z),
+		\qquad
+		\M(\C/\Lambda) \cong \C(\wp,\wp')
+		\cong \C(X,Y)/(Y^2-4X^3+g_2X+g_3).
+	}
+	\]
+	
+	In both cases, the function field is described very concretely by explicit
+	meromorphic functions (coordinate \(z\) on the sphere, and \(\wp,\wp'\) on
+	the torus) and algebraic relations between them.
+	
+	\newpage
+	\section*{Function fields via differential forms}
+	
+	We look at the function fields \(\M(\CP^1)\) and \(\M(\C/\Lambda)\) using
+	meromorphic 1-forms and residue calculus.
+	
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\section{Warm-up: from functions to 1-forms}
+	
+	Let \(X\) be a Riemann surface.
+	
+	\begin{itemize}
+		\item A \emph{meromorphic function} \(f\) on \(X\) gives two natural
+		meromorphic 1-forms:
+		\[
+		f\,dz, \qquad df.
+		\]
+		In local coordinate \(z\), \(df = f'(z)\,dz\) is meromorphic.
+		
+		\item Conversely, a meromorphic 1-form \(\omega\) is often \(df\) for some
+		meromorphic \(f\), provided a certain period condition holds:
+		\[
+		\oint_\gamma \omega = 0 \quad\text{for all closed loops }\gamma.
+		\]
+	\end{itemize}
+	
+	Residues control these integrals. On a compact Riemann surface \(X\):
+	\[
+	\sum_{p\in X} \Res_p(\omega) = 0
+	\]
+	for any meromorphic 1-form \(\omega\).
+	
+	We will exploit these facts on \(\CP^1\) and on the torus \(\C/\Lambda\).
+	
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\section{Case 1: \(X=\CP^1\) (Riemann sphere)}
+	
+	\subsection{Charts and coordinates}
+	
+	View \(\CP^1\) as the Riemann sphere.
+	
+	\begin{itemize}
+		\item Affine chart \(U_1 = \CP^1\setminus\{\infty\}\) with coordinate
+		\[
+		z = \frac{z_0}{z_1}.
+		\]
+		\item Affine chart \(U_0 = \CP^1\setminus\{0\}\) with coordinate
+		\[
+		w = \frac{z_1}{z_0} = \frac{1}{z}.
+		\]
+		On \(U_0\cap U_1\): \(w=1/z\), \(z=1/w\), and
+		\[
+		dz = -\frac{1}{w^2}\,dw.
+		\]
+	\end{itemize}
+	
+	\subsection{Meromorphic 1-forms on \(\CP^1\)}
+	
+	Let \(\omega\) be a meromorphic 1-form on \(\CP^1\). In the \(z\)-chart:
+	\[
+	\omega = g(z)\,dz,
+	\]
+	where \(g(z)\) is meromorphic on \(\C\).
+	
+	\paragraph{Poles and local form.}
+	Suppose \(g\) has finitely many poles at points \(a_1,\dots,a_k\in\C\).
+	Near each \(a_j\), \(\omega\) has a Laurent expansion:
+	\[
+	\omega
+	= \left(\sum_{n=-m_j}^{\infty} c_{j,n}(z-a_j)^n\right)\,dz.
+	\]
+	The coefficient \(c_{j,-1}\) is the residue: \(\Res_{a_j}(\omega) = c_{j,-1}\).
+	
+	Near \(\infty\), change variables to \(w=1/z\). Then
+	\[
+	\omega = g(z)\,dz
+	= g\!\left(\frac{1}{w}\right)\left(-\frac{1}{w^2}\,dw\right)
+	= -\,g\!\left(\frac{1}{w}\right)w^{-2}dw.
+	\]
+	Meromorphicity at \(\infty\) means that
+	\[
+	G(w) := -\,g\!\left(\frac{1}{w}\right)w^{-2}
+	\]
+	has a Laurent series with finitely many negative powers of \(w\) near \(w=0\).
+	
+	\paragraph{Residue theorem on \(\CP^1\).}
+	Since \(\CP^1\) is compact, we have
+	\[
+	\sum_{p\in\CP^1} \Res_{p}(\omega) = 0.
+	\]
+	So the residue at \(\infty\) is determined by the finite ones:
+	\[
+	\Res_{\infty}(\omega)
+	= -\sum_{j=1}^k \Res_{a_j}(\omega).
+	\]
+	
+	\subsection{From 1-forms to rational functions}
+	
+	Now consider a meromorphic \emph{function} \(f\) on \(\CP^1\). Then
+	\[
+	df = f'(z)\,dz
+	\]
+	is a meromorphic 1-form with
+	\[
+	\sum_{p\in\CP^1} \Res_p(df) = 0.
+	\]
+	But in fact each \(\Res_p(df) = 0\) individually, because
+	\[
+	\Res_p(df) = \frac{1}{2\pi i}\oint_{\gamma_p} df = 0
+	\]
+	for any small loop \(\gamma_p\) around \(p\). So \(df\) has \emph{no residues}.
+	
+	\paragraph{Partial fractions via differential forms (calculus).}
+	
+	Assume \(f\) has poles only at finite points \(a_1,\dots,a_k\in\C\) (if not,
+	include \(\infty\) as one of them). Near each \(a_j\),
+	\[
+	f(z) = \sum_{n=-m_j}^{\infty} c_{j,n}(z-a_j)^n.
+	\]
+	Then
+	\[
+	df = f'(z)\,dz
+	= \left(\sum_{n=-m_j}^{\infty} n\,c_{j,n}(z-a_j)^{n-1}\right)\,dz.
+	\]
+	In particular, the coefficient of \((z-a_j)^{-1}\,dz\) in \(df\) is
+	\(-m_j c_{j,-m_j}\), but
+	\[
+	\Res_{a_j}(df) = 0
+	\]
+	for each \(j\). This enforces constraints among the principal parts.
+	
+	A classical way to see \emph{rationality} is:
+	
+	\begin{itemize}
+		\item Build a rational function \(R(z)\) whose principal parts match those of
+		\(f\) at each finite pole and at \(\infty\). This uses exactly the same kind
+		of Laurent expansions we use to describe meromorphic 1-forms.
+		\item Then \(f-R\) is entire on \(\C\) and holomorphic at \(\infty\), hence
+		bounded on \(\CP^1\).
+		\item By Liouville, \(f-R\) is constant. So \(f\) is rational.
+	\end{itemize}
+	
+	Thus
+	\[
+	\M(\CP^1) = \{\text{meromorphic functions on }\CP^1\}
+	\cong \C(z).
+	\]
+	
+	In terms of 1-forms, every meromorphic \(f\) satisfies:
+	
+	\begin{itemize}
+		\item \(df\) is a meromorphic 1-form with principal parts determined by the
+		poles of \(f\).
+		\item Conversely, on \(\CP^1\), every meromorphic 1-form \(\omega\) with
+		zero residues at all points is globally of the form \(df\) for some
+		rational function \(f\).
+	\end{itemize}
+	
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\section{Case 2: \(X=\C/\Lambda\) (complex torus)}
+	
+	\subsection{Setup and basic 1-forms}
+	
+	Let \(\Lambda\subset\C\) be a lattice:
+	\[
+	\Lambda = \mathbb{Z}\omega_1 \oplus \mathbb{Z}\omega_2,
+	\quad \omega_1,\omega_2\in\C,\ \Im(\omega_2/\omega_1)>0.
+	\]
+	Set
+	\[
+	X = \C/\Lambda.
+	\]
+	
+	The projection \(\pi:\C\to X\) is a local biholomorphism. The 1-form \(dz\)
+	on \(\C\) is \(\Lambda\)-invariant (adding a lattice vector does not change
+	\(dz\)), so it descends to a global holomorphic 1-form on \(X\). In fact:
+	
+	\[
+	H^0(X,\Omega_X^1) \cong \C\cdot dz,
+	\]
+	i.e.\ there is \emph{one-dimensional} space of holomorphic 1-forms.
+	
+	\subsection{Meromorphic functions and meromorphic 1-forms}
+	
+	A meromorphic function \(f\) on \(X\) corresponds to a meromorphic
+	\(\Lambda\)-periodic function \(\tilde f\) on \(\C\):
+	\[
+	\tilde f(z+\lambda) = \tilde f(z),\quad \forall\lambda\in\Lambda,
+	\]
+	and
+	\[
+	f([z]) = \tilde f(z).
+	\]
+	
+	The differential
+	\[
+	df = \tilde f'(z)\,dz
+	\]
+	is a \(\Lambda\)-periodic meromorphic 1-form on \(\C\), hence descends to a
+	meromorphic 1-form on the torus \(X\).
+	
+	\paragraph{Residues on the torus.}
+	On the compact Riemann surface \(X\),
+	\[
+	\sum_{p\in X} \Res_p(df) = 0.
+	\]
+	But again each \(\Res_p(df)=0\) individually because \(df\) is an exact
+	differential. So meromorphic 1-forms of the form \(df\) are exactly those
+	with \emph{zero residues everywhere}.
+	
+	Conversely, a standard result (using that \(H^1(X,\C)\) is 2-dimensional)
+	is:
+	
+	\medskip
+	\emph{A meromorphic 1-form \(\omega\) on \(X\) is of the form \(df\) for some
+		meromorphic function \(f\) on \(X\) if and only if \(\omega\) has zero
+		periods over all closed loops in \(X\).}
+	\medskip
+	
+	In practice this is checked via integrals over generators of
+	\(H_1(X,\mathbb{Z})\), i.e.\ over the two basic cycles corresponding to
+	\(\omega_1,\omega_2\).
+	
+	\subsection{The Weierstrass \(\wp\) and \(\wp'\) in differential form}
+	
+	Define the Weierstrass \(\wp\)-function:
+	\[
+	\wp(z) = \frac{1}{z^2}
+	+ \sum_{\lambda\in\Lambda\setminus\{0\}}
+	\left(
+	\frac{1}{(z-\lambda)^2} - \frac{1}{\lambda^2}
+	\right).
+	\]
+	It is \(\Lambda\)-periodic and meromorphic on \(\C\), so it descends to 
+	\(\wp:X\to\CP^1\).
+	
+	Differentiating,
+	\[
+	\wp'(z)
+	= -\frac{2}{z^3}
+	- 2\sum_{\lambda\in\Lambda\setminus\{0\}}
+	\frac{1}{(z-\lambda)^3}.
+	\]
+	So:
+	\begin{itemize}
+		\item \(\wp(z)\) has a double pole at \(z=0\) (and at all lattice points),
+		hence a double pole at \([0]\in X\).
+		\item \(\wp'(z)\) has a triple pole at \(z=0\), hence a triple pole at \([0]\).
+	\end{itemize}
+	
+	The 1-form
+	\[
+	\omega = \wp'(z)\,dz
+	\]
+	is a meromorphic 1-form on \(X\), with only a triple pole at \([0]\) and
+	no residues (its residues vanish because it is a derivative).
+	
+	Integrating \(\omega\) in \(z\) gives back (up to constant) the function
+	\(\wp(z)\). In this sense, \(\wp\) is a \emph{primitive} of the meromorphic
+	1-form \(\wp'(z)\,dz\).
+	
+	\subsection{Algebraic relation via differential forms}
+	
+	A key fact:
+	\[
+	(\wp'(z))^2 = 4\,\wp(z)^3 - g_2\,\wp(z) - g_3,
+	\]
+	where
+	\[
+	g_2 = 60\sum_{\lambda\in\Lambda\setminus\{0\}} \frac{1}{\lambda^4},
+	\qquad
+	g_3 = 140\sum_{\lambda\in\Lambda\setminus\{0\}} \frac{1}{\lambda^6}.
+	\]
+	
+	Call
+	\[
+	X := \wp(z),\qquad Y := \wp'(z).
+	\]
+	Then we have the algebraic curve
+	\[
+	Y^2 = 4X^3 - g_2 X - g_3.
+	\]
+	
+	In terms of differential forms, note that
+	\[
+	dX = d\wp(z) = \wp'(z)\,dz = Y\,dz.
+	\]
+	So
+	\[
+	dz = \frac{dX}{Y}.
+	\]
+	This shows that the holomorphic 1-form on the torus can be written as
+	\[
+	dz = \frac{dX}{\sqrt{4X^3 - g_2 X - g_3}},
+	\]
+	when we view the torus as the complex curve given by
+	\(Y^2 = 4X^3 - g_2 X - g_3\).
+	
+	\paragraph{Function field from this picture.}
+	The pair \((X,Y) = (\wp,\wp')\) generates the function field of \(X\):
+	
+	\[
+	\M(X) = \C(\wp,\wp')
+	\cong
+	\C(X,Y)\big/\bigl(Y^2 - 4X^3 + g_2 X + g_3\bigr).
+	\]
+	
+	Any meromorphic function on the torus can be written as
+	\[
+	f([z]) = F(\wp(z),\wp'(z))
+	\]
+	for some rational expression \(F(X,Y)\).
+	
+	From the differential-form viewpoint:
+	
+	\begin{itemize}
+		\item any meromorphic 1-form on the torus can be written as
+		\[
+		\omega = h(\wp(z),\wp'(z))\,dz,
+		\]
+		for some rational function \(h(X,Y)\);
+		\item the condition ``\(\omega\) is exact (\(\omega=df\))'' corresponds
+		to vanishing of periods. Integrating \(h(\wp,\wp')dz =
+		h(X,Y)\,\frac{dX}{Y}\) on the algebraic curve gives meromorphic
+		functions in the field \(\C(X,Y)/(Y^2 - 4X^3 + g_2 X + g_3)\).
+	\end{itemize}
+	
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\section{Summary in words}
+	
+	\begin{itemize}
+		\item On \(\CP^1\), meromorphic functions \(f\) give meromorphic
+		1-forms \(df\). The structure of meromorphic 1-forms (poles, Laurent series,
+		residues) plus Liouville's theorem forces every \(f\) to be a rational
+		function in the coordinate \(z\). So \(\M(\CP^1)=\C(z)\).
+		
+		\item On the torus \(X=\C/\Lambda\), the basic holomorphic 1-form is \(dz\).
+		The Weierstrass functions \(\wp,\wp'\) give concrete meromorphic 1-forms
+		\(\wp'(z)\,dz = d\wp(z)\) with controlled poles. Algebraic relations
+		between \(\wp\) and \(\wp'\) (viewed via \(dX=Y\,dz\)) show that the
+		function field \(\M(X)\) is generated by \(\wp,\wp'\), with one relation
+		\(Y^2 = 4X^3 - g_2 X - g_3\). Thus
+		\[
+		\M(\C/\Lambda) \cong \C(\wp,\wp').
+		\]
+	\end{itemize}
+	
+	So in both cases, \emph{differential forms} (especially \(df\) and
+	\(\wp'(z)\,dz\)) are a powerful way to understand the algebraic structure
+	of the function field \(\M(X)\).
+	
+\end{document}

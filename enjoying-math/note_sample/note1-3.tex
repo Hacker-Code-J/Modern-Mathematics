@@ -1,0 +1,217 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath,amssymb,amsthm}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\CP}{\mathbb{CP}}
+\newcommand{\M}{\mathcal{M}}
+
+\begin{document}
+	
+	\section*{Calculus / differential-form viewpoint on \(\C(x)\simeq \M(\CP^1)\)}
+	
+	We want to show:
+	\[
+	\M(\CP^1) \;\cong\; \C(x),
+	\]
+	using mainly complex analysis (Laurent series, Liouville, change of
+	variables) and a bit of differential-form language.
+	
+	\subsection*{1. Charts on \(\CP^1\) and the coordinate \(x\)}
+	
+	Think of \(\CP^1\) as the Riemann sphere \(\C\cup\{\infty\}\).
+	Use two standard charts:
+	
+	\begin{itemize}
+		\item \(U_1 = \CP^1\setminus\{\infty\}\) with coordinate
+		\[
+		z = \frac{z_0}{z_1} : U_1\to\C.
+		\]
+		We call this coordinate \(x\). So \(x=z\) on \(\C\).
+		
+		\item \(U_0 = \CP^1\setminus\{0\}\) with coordinate
+		\[
+		w = \frac{z_1}{z_0} : U_0\to\C,
+		\]
+		so that on the overlap \(U_0\cap U_1\) we have
+		\[
+		w = \frac{1}{z},\qquad z=\frac{1}{w}.
+		\]
+		Here \(w\) is a coordinate near \(\infty\) (since \(\infty=[1:0]\)
+		corresponds to \(w=0\)).
+	\end{itemize}
+	
+	\subsection*{2. Meromorphic functions and meromorphic 1-forms}
+	
+	A \emph{meromorphic function} \(f\) on \(\CP^1\) is the same as a
+	holomorphic map
+	\[
+	F:\CP^1\to\CP^1,
+	\]
+	whose restriction to \(\C\subset\CP^1\) is an ordinary meromorphic function
+	\(f(z)\) on \(\C\), and with some allowed behavior at \(\infty\).
+	
+	From the viewpoint of calculus/differential forms, you often look at the
+	1-form
+	\[
+	\omega = f(z)\,dz.
+	\]
+	On \(\C\), this is a meromorphic 1-form. To extend \(f\) (or \(\omega\)) to the
+	sphere, we must check what happens near \(\infty\). That means rewriting
+	everything in the coordinate \(w=1/z\).
+	
+	On the overlap:
+	\[
+	z = \frac{1}{w},\qquad dz = -\frac{1}{w^2}\,dw.
+	\]
+	Thus
+	\[
+	\omega = f(z)\,dz
+	= f\!\left(\frac{1}{w}\right)\cdot\left(-\frac{1}{w^2}\,dw\right)
+	= -\,f\!\left(\frac{1}{w}\right)\,w^{-2}\,dw.
+	\]
+	So the expression of \(\omega\) near \(\infty\) (in the coordinate \(w\)) is
+	\[
+	\omega = G(w)\,dw,\qquad
+	G(w) = -\,f\!\left(\frac{1}{w}\right)\,w^{-2}.
+	\]
+	
+	\emph{Meromorphicity at \(\infty\)} means: \(G(w)\) has a Laurent series at
+	\(w=0\) with only finitely many negative powers.
+	
+	\subsection*{3. Global calculus proof that meromorphic on \(\CP^1\) is rational}
+	
+	Let \(f:\CP^1\to\CP^1\) be meromorphic. Restricting to \(\C\subset\CP^1\),
+	we view \(f\) as a meromorphic function \(f(z)\) on \(\C\).
+	
+	\begin{itemize}
+		\item On a compact Riemann surface like \(\CP^1\), a meromorphic function
+		has only finitely many poles. So there exist points
+		\(a_1,\dots,a_k\in\C\cup\{\infty\}\) and positive integers \(m_j\) such that
+		all poles of \(f\) lie at the \(a_j\).
+		
+		\item For each finite pole \(a_j\in\C\) (with local coordinate \(z-a_j\)),
+		\(f\) has a Laurent expansion
+		\[
+		f(z) = \sum_{n=-m_j}^{\infty} c_{j,n}\,(z-a_j)^n
+		\]
+		near \(z=a_j\). Its \emph{principal part} at \(a_j\) is
+		\[
+		P_j(z) := \sum_{n=-m_j}^{-1} c_{j,n}\,(z-a_j)^n.
+		\]
+		
+		\item Near \(\infty\), change variables to \(w=1/z\). Then
+		\[
+		f(z) = f\!\left(\tfrac{1}{w}\right)
+		\]
+		has a Laurent expansion in \(w\):
+		\[
+		f\!\left(\tfrac{1}{w}\right) = \sum_{n=-M}^{\infty} b_n\,w^n,
+		\]
+		with finitely many negative powers \(w^n\) (this is the definition of
+		``meromorphic at \(\infty\)''). Equivalently,
+		\[
+		f(z) = \sum_{n=-M}^{\infty} b_n\,z^{-n}
+		\]
+		for large \(|z|\). Its principal part at \(\infty\) is
+		\[
+		P_\infty(z) := \sum_{n=-M}^{-1} b_n\,z^{-n}.
+		\]
+	\end{itemize}
+	
+	Now define a \emph{rational function} \(R(z)\) by summing all principal parts:
+	\[
+	R(z) = \sum_{j=1}^k P_j(z) + P_\infty(z).
+	\]
+	This is a rational function because it is a finite sum of expressions of
+	the form \((z-a_j)^{-n}\) and powers of \(z\) (which are all rational).
+	
+	Then consider
+	\[
+	g(z) := f(z) - R(z).
+	\]
+	By construction:
+	
+	\begin{itemize}
+		\item At each finite pole \(a_j\), \(g\) has no negative powers in its
+		Laurent expansion, hence is holomorphic at \(a_j\).
+		\item At \(\infty\), subtracting the principal part \(P_\infty(z)\) removes
+		all negative powers in the expansion in \(w=1/z\), so \(g\) is
+		holomorphic at \(\infty\) as well.
+	\end{itemize}
+	
+	Thus \(g\) is entire on \(\C\) and \emph{holomorphic at \(\infty\)}. Being
+	holomorphic at \(\infty\) means exactly that \(g\) is \emph{bounded} for large
+	\(|z|\). By Liouville’s theorem:
+	\[
+	g \text{ entire and bounded } \Longrightarrow g \text{ is constant.}
+	\]
+	
+	So there exists \(C\in\C\) such that
+	\[
+	f(z) = R(z) + C.
+	\]
+	But \(R(z)+C\) is still rational, so \(f\) is a rational function:
+	\[
+	f(z)\in\C(z).
+	\]
+	
+	Therefore, any meromorphic function \(f\) on \(\CP^1\) is a rational function
+	in the coordinate \(x=z\). This shows \(\M(\CP^1) \subset \C(x)\), and the
+	converse inclusion (every rational function defines a meromorphic map
+	\(\CP^1\to\CP^1\)) is straightforward. Hence
+	\[
+	\M(\CP^1) \cong \C(x).
+	\]
+	
+	\subsection*{4. Differential-form language (optional viewpoint)}
+	
+	Instead of looking directly at \(f\), one may look at the meromorphic
+	1-form
+	\[
+	\omega = f(z)\,dz.
+	\]
+	
+	\begin{itemize}
+		\item At each finite pole \(a_j\), \(\omega\) has a Laurent expansion
+		\[
+		\omega = \left( \sum_{n=-m_j}^{\infty} c_{j,n}(z-a_j)^n \right)\,dz.
+		\]
+		Its residue at \(a_j\) is \(c_{j,-1}\).
+		
+		\item Near \(\infty\), write \(z=1/w\), \(dz=-w^{-2}dw\). Then
+		\[
+		\omega = f(1/w)\,dz = -\,f(1/w)\,w^{-2}dw.
+		\]
+		Meromorphicity at \(\infty\) is the condition that the coefficient of
+		\(dw\) has only finitely many negative powers of \(w\).
+		
+		\item On a compact Riemann surface (like \(\CP^1\)), the sum of the
+		residues of any meromorphic 1-form is zero:
+		\[
+		\sum_{p\in\CP^1} \operatorname{Res}_p(\omega) = 0.
+		\]
+		This is a global version of the Cauchy integral theorem.
+	\end{itemize}
+	
+	The partial fractions decomposition of \(f\) can be seen as reconstructing
+	\(\omega\) from its local principal parts (residues, higher-order terms) at
+	each pole, then subtracting this from the given \(\omega\) to get a
+	holomorphic 1-form on \(\CP^1\). But any global holomorphic 1-form on
+	\(\CP^1\) must be zero, so what remains is just a constant multiple of \(dz\),
+	which corresponds to the polynomial part of \(f\). This reproduces the same
+	``\(f = \text{rational} + \text{constant}\)'' conclusion.
+	
+	\medskip
+	
+	In summary, from a calculus/differential-forms viewpoint:
+	
+	\begin{itemize}
+		\item Meromorphic \(f\) on \(\CP^1\) has finitely many poles (including
+		possibly \(\infty\)).
+		\item Using Laurent expansions and the change of variables \(w=1/z\), we
+		build a rational function \(R(z)\) with the same principal parts as \(f\).
+		\item Their difference \(g=f-R\) is entire and bounded at \(\infty\), hence
+		constant by Liouville.
+		\item Therefore \(f\) is rational: \(\M(\CP^1)=\C(x)\).
+	\end{itemize}
+	
+\end{document}

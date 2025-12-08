@@ -1,0 +1,799 @@
+% pdflatex -shell-escape software-analysis-main.tex
+\documentclass[12pt,openany]{book}
+
+\input{preambles/packages}
+\input{preambles/theorem}
+\input{preambles/layout}
+\input{preambles/tcolorbox}
+\input{preambles/tikz}
+\input{preambles/algorithm}
+\input{preambles/listing}
+\input{preambles/commands}
+
+\newcommand{\CP}{\mathbb{CP}}
+\newcommand{\M}{\mathcal{M}}
+
+\begin{document}
+\input{rc-titlepage}
+\tableofcontents
+\newpage
+
+\chapter{Elliptic Curve and Torus}
+\section{Note 1: Meromorphic Function and Order}
+
+\newpage
+\section{Note 2: Meromorphic $f\in\C^X$ and Holomorphic $F\in(\CP^1)^X$}
+Given a meromorphic $f:X\to\C$ on a Riemann surface $X$, we define \[
+\fullfunction{F}{X}{\CP^1}{p}{F(p)=\begin{cases}
+[f(p):1] &\text{if $p$ is not a pole} \\
+[1:0] &\text{if $p$ is a pole}
+\end{cases}}
+\]
+\begin{figure}[h!]\centering
+\includegraphics[scale=1]{tikzs/X_to_CP1}
+\end{figure}
+
+\medskip\noindent
+In other word, \begin{figure}[h!]\centering
+% https://q.uiver.app/#q=WzAsOCxbMCwwLCJYIl0sWzIsMCwiXFxtYXRoYmJ7Q30iXSxbNCwwLCJcXG1hdGhiYntDUH1eMSJdLFswLDEsInBfe1xcdGV4dHtub24tcG9sZX19Il0sWzAsMiwicV97XFx0ZXh0e3BvbGV9fSJdLFsyLDEsImYocCkiXSxbNCwxLCJbZihwKToxXSJdLFs0LDIsIlsxOjBdIl0sWzAsMSwiZiJdLFsxLDIsImkiXSxbMyw1LCIiLDAseyJzdHlsZSI6eyJ0YWlsIjp7Im5hbWUiOiJtYXBzIHRvIn19fV0sWzUsNiwiIiwwLHsic3R5bGUiOnsidGFpbCI6eyJuYW1lIjoibWFwcyB0byJ9fX1dLFs0LDcsIiIsMCx7InN0eWxlIjp7InRhaWwiOnsibmFtZSI6Im1hcHMgdG8ifX19XV0=
+\[\begin{tikzcd}
+	X && {\mathbb{C}} && {\mathbb{CP}^1} \\
+	{p_{\text{non-pole}}} && {f(p)} && {[f(p)\;\text{:}\;1]} \\
+	{q_{\text{pole}}} &&&& {[1\;\text{:}\;0]}
+	\arrow["f", from=1-1, to=1-3]
+	\arrow["i", from=1-3, to=1-5]
+	\arrow[maps to, from=2-1, to=2-3]
+	\arrow[maps to, from=2-3, to=2-5]
+	\arrow[maps to, from=3-1, to=3-5]
+\end{tikzcd}\]
+\end{figure}
+
+\newpage
+% Examples: meromorphic f and holomorphic F:X->CP^1
+\subsection{Example 1: \(X = \mathbb{CP}^1\) (Riemann sphere)}
+We view \(\mathbb{CP}^1\) as the Riemann sphere. On the affine chart \[
+U_1 = \{[z_0:z_1]\in\mathbb{CP}^1 \mid z_1\neq 0\},
+\] we use the coordinate $z = {z_0}/{z_1}.$ The point at infinity is \(\infty = [1:0]\).
+
+On \(\mathbb{CP}^1\), a meromorphic function is the same as a rational function.
+Take for instance
+\[
+f(z) = \frac{z^2 - 1}{z - 2}.
+\]
+This is meromorphic on \(\mathbb{CP}^1\), with a simple pole at \(z=2\), and (possibly) a pole at \(\infty\).
+
+Define
+\[
+F:\mathbb{CP}^1\to\mathbb{CP}^1,\qquad
+F(p) =
+\begin{cases}
+	[f(p):1], & p \text{ not a pole of } f,\\[4pt]
+	[1:0], & p \text{ a pole of } f.
+\end{cases}
+\]
+
+Concretely, for \(p=[z:1]\) with \(z\neq 2\),
+\[
+F([z:1]) = [f(z):1] = \left[\dfrac{z^2-1}{z-2}:1\right],
+\]
+and at the pole \(p=[2:1]\),
+\[
+F([2:1]) = [1:0].
+\]
+Similarly one checks the value at \(\infty=[1:0]\) using the behavior of \(f(z)\) as
+\(|z|\to\infty\).
+
+To see that \(F\) is holomorphic, we use the usual charts on \(\mathbb{CP}^1\):
+
+\begin{itemize}
+	\item \textbf{At a non-pole point \(p\).} Suppose \(p\) is not a pole of \(f\).
+	Then \(f\) is holomorphic near \(p\) and finite there, so \(F(p)=[f(p):1]\in U_1\).
+	Let
+	\[
+	w = \frac{z_0}{z_1}:U_1\to\mathbb{C}
+	\]
+	be the affine coordinate on \(U_1\). In this chart,
+	\[
+	(w\circ F)(q) = \frac{z_0}{z_1}\Big|_{F(q)} = f(q),
+	\]
+	which is holomorphic in any local coordinate around \(p\). Hence \(F\) is holomorphic at non-poles.
+	
+	\item \textbf{At a pole \(p\).} Let \(p\) be a pole of order \(m>0\). Choose a local
+	coordinate \(z\) on \(\mathbb{CP}^1\) with \(z(p)=0\). Then
+	\[
+	f(z) = z^{-m} g(z),\qquad g \text{ holomorphic, } g(0)\neq 0.
+	\]
+	Here \(F(p)=[1:0]\). Use the chart
+	\[
+	U_0 = \{[z_0:z_1]\in\mathbb{CP}^1 \mid z_0\neq 0\},
+	\]
+	with coordinate
+	\[
+	u = \frac{z_1}{z_0} : U_0\to\mathbb{C}.
+	\]
+	For \(z\neq 0\) near \(p\),
+	\[
+	F(z) = [f(z):1] = [z^{-m}g(z):1].
+	\]
+	Multiplying homogeneous coordinates by \(z^m\) (which does not change the point in
+	projective space), we get
+	\[
+	[z^{-m}g(z):1] = [g(z):z^m].
+	\]
+	Thus, in the chart \(U_0\),
+	\[
+	(u\circ F)(z) = \frac{z^m}{g(z)}.
+	\]
+	Since \(g(z)\) is holomorphic with \(g(0)\neq 0\), the function
+	\(\dfrac{1}{g(z)}\) is holomorphic near \(0\), and hence
+	\[
+	\frac{z^m}{g(z)}
+	\]
+	is holomorphic near \(0\) (and vanishes to order \(m\)). Therefore \(F\) is holomorphic at the pole \(p\).
+\end{itemize}
+
+Since we have holomorphicity in local charts at every point of \(\mathbb{CP}^1\),
+\(F:\mathbb{CP}^1\to\mathbb{CP}^1\) is a holomorphic map.
+
+
+\bigskip
+\bigskip
+
+
+\subsection{Example 2: \(X = \mathbb{C}/\Lambda\) (complex torus)}
+
+Let \(\Lambda\subset\mathbb{C}\) be a lattice and consider the complex torus
+\[
+X = \mathbb{C}/\Lambda.
+\]
+The quotient map is
+\[
+\pi:\mathbb{C}\to X,\qquad \pi(z) = [z].
+\]
+
+A meromorphic function \(f:X\to\mathbb{C}\) corresponds to a \(\Lambda\)-periodic
+meromorphic function \(\tilde f:\mathbb{C}\to\mathbb{C}\) satisfying
+\[
+\tilde f(z+\lambda) = \tilde f(z),\quad \forall\,\lambda\in\Lambda,
+\]
+and
+\[
+f([z]) = \tilde f(z).
+\]
+
+A standard example is the Weierstrass \(\wp\)-function \(\wp:\mathbb{C}\to\mathbb{C}\),
+which is \(\Lambda\)-periodic and meromorphic with double poles at lattice points.
+Thus it descends to a meromorphic
+\[
+f:X\to\mathbb{C},\qquad f([z]) = \wp(z).
+\]
+
+We define
+\[
+F:X\to\mathbb{CP}^1,\qquad
+F(p) =
+\begin{cases}
+	[f(p):1], & p \text{ not a pole of } f,\\[4pt]
+	[1:0], & p \text{ a pole of } f.
+\end{cases}
+\]
+
+For our example \(f([z])=\wp(z)\):
+
+\begin{itemize}
+	\item \(\wp(z)\) has poles precisely at lattice points \(z\in\Lambda\),
+	which all represent the same point on the torus, usually denoted \([0]\).
+	\item For \([z]\neq[0]\), we set \(F([z]) = [\wp(z):1]\).
+	\item At \([0]\), we set \(F([0]) = [1:0]\).
+\end{itemize}
+
+\subsubsection{Local coordinate on the torus near a pole}
+
+To get a local coordinate near \([0]\in X\), choose a small disc
+\(D\subset\mathbb{C}\) around \(0\) such that
+\(\pi|_D:D\to \pi(D)\) is a biholomorphism.
+Then
+\[
+\varphi:\pi(D)\to\mathbb{C},\qquad \varphi([z]) = z,
+\]
+is a local coordinate on \(X\) near \([0]\).
+
+The local behavior of \(\wp(z)\) at \(z=0\) is
+\[
+\wp(z) = \frac{1}{z^2} + \text{holomorphic terms},
+\]
+so more precisely,
+\[
+\wp(z) = z^{-2} g(z),\qquad g(z)\ \text{holomorphic, } g(0)\neq 0.
+\]
+Thus, for the induced \(f\),
+\[
+f([z]) = \wp(z) = z^{-2} g(z),
+\]
+so \(f\) has a pole of order \(m=2\) at \([0]\).
+
+\subsubsection{Holomorphicity of \(F\) at the pole \([0]\)}
+
+As before, we use the chart around \([1:0]\in\mathbb{CP}^1\):
+\[
+U_0 = \{[z_0:z_1]\mid z_0\neq 0\},\qquad
+u = \frac{z_1}{z_0}:U_0\to\mathbb{C}.
+\]
+
+For \(z\neq 0\) small, we have \(p=[z]\neq[0]\) and
+\[
+F([z]) = [f([z]):1] = [\wp(z):1] = [z^{-2}g(z):1].
+\]
+Multiplying the homogeneous coordinates by \(z^2\) gives
+\[
+[z^{-2}g(z):1] = [g(z):z^2].
+\]
+So in the chart \(U_0\),
+\[
+(u\circ F)([z]) = \frac{z^2}{g(z)}.
+\]
+
+Since \(g(z)\) is holomorphic with \(g(0)\neq 0\), the function
+\(\dfrac{1}{g(z)}\) is holomorphic near \(0\), and hence \(\dfrac{z^2}{g(z)}\)
+is holomorphic near \(0\) and vanishes at \(z=0\). In the local coordinate
+\(\varphi([z])=z\) on \(X\), the expression
+\[
+u\circ F\circ \varphi^{-1}(z) = \frac{z^2}{g(z)}
+\]
+is holomorphic, so \(F\) is holomorphic at the pole \([0]\).
+
+At a non-pole point \([z_0]\in X\), the same argument as in Example~1 applies:
+\(f\) is holomorphic and finite, and in the affine chart
+\[
+U_1 = \{[z_0:z_1]\mid z_1\neq 0\},\qquad w = \frac{z_0}{z_1},
+\]
+we have
+\[
+(w\circ F)([z]) = f([z]) = \wp(z),
+\]
+which is holomorphic in the local coordinate on \(X\).
+
+\subsubsection{Conclusion}
+
+For both examples \(X=\mathbb{CP}^1\) and \(X=\mathbb{C}/\Lambda\), the construction
+\[
+f:X\to\mathbb{C}\ \text{meromorphic} \quad\longmapsto\quad
+F:X\to\mathbb{CP}^1,\quad
+F(p)=
+\begin{cases}
+	[f(p):1], & p \text{ not a pole},\\[4pt]
+	[1:0], & p \text{ a pole},
+\end{cases}
+\]
+produces a holomorphic map \(F:X\to\mathbb{CP}^1\). This concretely illustrates
+the general principle that a meromorphic function on a Riemann surface is the same
+as a holomorphic map to \(\mathbb{CP}^1\).
+
+
+\newpage
+We start with a meromorphic function
+\[
+f:X\to\mathbb{C}
+\]
+on a Riemann surface \(X\), and define a map
+\[
+F:X\to\mathbb{CP}^1
+\]
+by
+\[
+F(p)=
+\begin{cases}
+	[f(p):1], & p \text{ not a pole of } f,\\[4pt]
+	[1:0], & p \text{ a pole of } f.
+\end{cases}
+\]
+
+You’re asking: \textbf{why is this \(F\) holomorphic as a map of Riemann surfaces?}
+
+\bigskip
+
+%-----------------------------------------
+\section*{1. Definition to remember}
+
+A map \(F:X\to Y\) between Riemann surfaces is \textbf{holomorphic} if, for every point
+\(p\in X\), you can choose local coordinates
+\begin{itemize}
+	\item \(\varphi\): neighborhood of \(p\to \mathbb{C}\),
+	\item \(\psi\): neighborhood of \(F(p)\to \mathbb{C}\),
+\end{itemize}
+such that the coordinate expression
+\[
+\psi \circ F \circ \varphi^{-1} : \text{(open in }\mathbb{C})\to \mathbb{C}
+\]
+is an ordinary holomorphic function.
+
+So we need to check this around:
+\begin{enumerate}
+	\item a point where \(f\) is holomorphic (no pole),
+	\item a point where \(f\) has a pole.
+\end{enumerate}
+
+\bigskip
+
+%-----------------------------------------
+\section*{2. Case 1: \(p\) is \textbf{not} a pole (easy)}
+
+If \(p\) is not a pole, then \(f\) is holomorphic near \(p\) and finite there.
+
+\begin{itemize}
+	\item On \(X\): choose any local coordinate \(z\) with \(z(p)=0\).
+	\item On \(\mathbb{CP}^1\): since \(F(p)=[f(p):1]\) has second coordinate \(\neq 0\),
+	it lies in the chart
+	\[
+	U_1 = \{[z_0:z_1]\mid z_1\neq 0\}
+	\]
+	with coordinate
+	\[
+	w = \frac{z_0}{z_1} : U_1\to\mathbb{C}.
+	\]
+\end{itemize}
+
+Then on some neighborhood of \(p\),
+\[
+(w\circ F)(q) = \frac{z_0}{z_1}\Big|_{F(q)}
+= \frac{f(q)}{1}
+= f(q),
+\]
+which is holomorphic in \(z\).
+
+So \(\psi\circ F\circ\varphi^{-1} = f\) is holomorphic \(\Rightarrow F\) is holomorphic at non-pole points.
+
+\bigskip
+
+%-----------------------------------------
+\section*{3. Case 2: \(p\) is a \textbf{pole} of order \(m>0\)}
+
+This is the interesting part.
+
+Let \(p\) be a pole of \(f\) of order \(m\). Choose a local coordinate \(z\) on \(X\)
+with \(z(p)=0\). By the definition of meromorphic:
+\[
+f(z) = z^{-m} g(z),
+\]
+where \(g\) is holomorphic and \(g(0)\neq 0\).
+
+By definition,
+\[
+F(p) = [1:0] \in \mathbb{CP}^1.
+\]
+
+Now we must look at a chart of \(\mathbb{CP}^1\) that contains \([1:0]\). That is:
+\[
+U_0 = \{[z_0:z_1]\mid z_0\neq 0\},
+\]
+with coordinate
+\[
+u = \frac{z_1}{z_0} : U_0\to\mathbb{C},
+\]
+and in this chart \([1:0]\) corresponds to \(u=0\).
+
+For \(z \neq 0\) near \(p\),
+\[
+F(z) = [f(z):1] = [z^{-m}g(z):1].
+\]
+
+Multiply homogeneous coordinates by \(z^m\) (allowed in projective space):
+\[
+[z^{-m}g(z):1] = [g(z):z^m].
+\]
+
+So in the chart \(U_0\) we have:
+\[
+u(F(z)) = \frac{z^m}{g(z)}.
+\]
+
+Now, check holomorphicity:
+\begin{itemize}
+	\item \(g(z)\) is holomorphic with \(g(0)\neq 0\) \(\Rightarrow 1/g(z)\) is holomorphic near \(0\).
+	\item \(z^m\) is holomorphic.
+	\item The product \(z^m \cdot \dfrac{1}{g(z)}\) is holomorphic near \(0\).
+\end{itemize}
+
+So
+\[
+u\circ F(z) = \frac{z^m}{g(z)}
+\]
+is an ordinary holomorphic function of \(z\) on a neighborhood of \(0\), and it extends to \(z=0\) with value \(0\).
+
+Thus, in local coordinates,
+\[
+\psi\circ F\circ\varphi^{-1} = u\circ F
+\]
+is holomorphic at \(z=0\). Therefore, \textbf{\(F\) is holomorphic at the pole \(p\)}.
+
+\bigskip
+
+%-----------------------------------------
+\section*{4. Conclusion}
+
+We have checked:
+\begin{itemize}
+	\item At non-poles: in the chart \(U_1\), \(w\circ F = f\) is holomorphic.
+	\item At poles: in the chart \(U_0\), \(u\circ F = z^m/g(z)\) is holomorphic.
+\end{itemize}
+
+So at \textbf{every} point \(p\in X\), we can choose charts making the coordinate expression
+of \(F\) holomorphic. That’s exactly the definition:
+\[
+\boxed{F:X\to\mathbb{CP}^1\ \text{is holomorphic.}}
+\]
+
+This is why we can safely say:
+%\[
+%\text{“A meromorphic function on }X\text{ is the same as a holomorphic map }X\to\mathbb{CP}^1.”}
+%\]
+
+
+
+\newpage
+\section{Note 3: The Isomorphism $\mathcal{M}(\CP^1)\simeq\C(x)$}
+We explain that the field of meromorphic functions on
+\(\CP^1\) is isomorphic to the field \(\C(x)\) of rational functions in
+one variable.
+\[
+\mathcal M(X)
+=
+\left\{
+\,\overline{i\circ f}\in(\mathbb{CP}^1)^X
+\;\middle|\;
+f \text{ meromorphic on }X
+\right\},
+\] \[
+\mathcal M(X)
+=
+\{\,F:X\to\mathbb{CP}^1 \mid F \text{ holomorphic}\,\}.
+\]
+
+\subsection{Charts on $\CP^1$ and Field of Meromorphic Functions}
+View $\CP^1$ as the Riemann sphere. Consider the standard affine chart \[
+U_1 = \{[z_0:z_1]\in\mathbb{CP}^1 \mid z_1\neq 0\}
+\] with coordinate map \[
+\fullfunction{\phi_1}{U_1}{\C}{[z_0:z_1]}{\displaystyle\frac{z_0}{z_1}}.
+\]
+\begin{figure}[h!]\centering
+	\includegraphics[scale=1.5]{tikzs/CP1_chart}
+\end{figure}
+
+\medskip\noindent
+We write
+\[
+x := \phi_1,
+\]
+and think of \(x\) as the \emph{coordinate function} on \(U_1\).
+This function extends meromorphically to all of \(\CP^1\), with a simple
+pole at \(\infty = [1:0]\).
+
+We define the field of meromorphic functions on \(\CP^1\) as
+\[
+\M(\CP^1)
+=
+\{ F:\CP^1\to\CP^1 \mid F \text{ holomorphic}\},
+\]
+viewing a meromorphic function as a holomorphic map into \(\CP^1\)
+(via the usual convention ``finite value \(\mapsto [f(p):1]\), pole
+\(\mapsto [1:0]\)'').
+
+On the other hand, the field \(\C(x)\) is
+\[
+\C(x)
+=
+\left\{
+\frac{p(x)}{q(x)}
+\;\middle|\;
+p,q \in \C[x],\ q\not\equiv 0
+\right\}\Big/\sim,
+\]
+where \(\frac{p}{q}\sim\frac{p'}{q'}\) if \(p(x)q'(x)=p'(x)q(x)\).
+
+
+\newpage
+
+\newpage
+\medskip\noindent
+Here \(\phi_1\) is a biholomorphism between \(U_1\) and \(\mathbb{C}\), its inverse is \[
+\fullfunction{\phi_1^{-1}}{\C}{U_1}{z}{[z:1]}.
+\]
+We’ll write
+\[
+x := \phi_1
+\]
+and think of \(x\) as the \emph{coordinate function} on \(U_1\). It extends meromorphically
+to all of \(\mathbb{CP}^1\) with a simple pole at \([1:0]\) (the point at infinity).
+
+\bigskip
+
+%-----------------------------------------
+\section*{1. Describe both sides with \(\phi_1\)}
+
+\subsection*{Side 1: \(\mathcal{M}(\mathbb{CP}^1)\)}
+
+We use the “holomorphic map to \(\mathbb{CP}^1\)” definition:
+\[
+\mathcal{M}(\mathbb{CP}^1)
+=
+\left\{
+F:\mathbb{CP}^1\to\mathbb{CP}^1 \ \middle|\ F\ \text{holomorphic}
+\right\}.
+\]
+
+We want to use \(\phi_1\), so whenever the image of \(F\) lies in \(U_1\), we can look at
+\[
+\phi_1\circ F : \ (\text{some open set}) \to\mathbb{C}.
+\]
+That’s just the “affine coordinate” of the value of \(F\).
+
+\subsection*{Side 2: \(\mathbb{C}(x)\)}
+
+\[
+\mathbb{C}(x)
+=
+\left\{
+\frac{p(x)}{q(x)}
+\ \middle|\
+p(x),q(x)\in\mathbb{C}[x],\ q(x)\not\equiv 0
+\right\}
+\Big/\sim,
+\]
+where \(\frac{p}{q}\sim\frac{p'}{q'}\) iff \(p(x)q'(x)=p'(x)q(x)\).
+
+Here the symbol \(x\) is exactly your coordinate function
+\[
+x = \phi_1 : U_1\to\mathbb{C}.
+\]
+
+\bigskip
+
+%-----------------------------------------
+\section*{2. Map \(\mathbb{C}(x) \to \mathcal{M}(\mathbb{CP}^1)\) using \(\phi_1\)}
+
+Take a rational function
+\[
+R(x) = \frac{p(x)}{q(x)} \in \mathbb{C}(x).
+\]
+
+\noindent\textbf{On the affine chart \(U_1\):}
+
+Given a point \([z_0:z_1]\in U_1\), write
+\[
+x([z_0:z_1]) = \phi_1([z_0:z_1]) = z_0/z_1 =: z.
+\]
+
+We \emph{define} a map \(F_R:\mathbb{CP}^1\to\mathbb{CP}^1\) by saying on \(U_1\),
+\[
+\phi_1\big(F_R([z_0:z_1])\big) = R\big(\phi_1([z_0:z_1])\big) = R(z).
+\]
+
+In other words,
+\[
+F_R|_{U_1} = \phi_1^{-1}\circ R\circ \phi_1.
+\]
+
+Concretely:
+\[
+F_R([z_0:z_1]) = [R(z_0/z_1):1]
+\quad\text{(for }z_1\neq 0,\ R(z)\neq\infty\text{)}.
+\]
+
+At points where \(R(z)=\infty\) (i.e.\ \(q(z)=0\)), we set
+\[
+F_R([z_0:z_1]) = [1:0].
+\]
+
+This defines \(F_R\) on \(U_1\cup\{\infty\}\), but one must check it is \emph{holomorphic at \(\infty\)}.
+Using homogeneous polynomials is a cleaner way:
+
+\begin{itemize}
+	\item Let \(\deg p\le m,\ \deg q\le m\). Define
+	\[
+	P(z_0,z_1) = z_1^m p(z_0/z_1),\quad
+	Q(z_0,z_1) = z_1^m q(z_0/z_1),
+	\]
+	homogeneous of degree \(m\).
+	\item Then set
+	\[
+	F_R([z_0:z_1]) =
+	\begin{cases}
+		[P(z_0,z_1):Q(z_0,z_1)], & Q(z_0,z_1)\neq 0,\\[4pt]
+		[1:0], & Q(z_0,z_1)=0.
+	\end{cases}
+	\]
+\end{itemize}
+
+This is well-defined and holomorphic on all of \(\mathbb{CP}^1\). In the chart \(U_1\), this is
+exactly \(\phi_1^{-1}\circ R\circ\phi_1\).
+
+So we get a map
+\[
+\Phi:\mathbb{C}(x) \to \mathcal{M}(\mathbb{CP}^1),\quad
+R \mapsto F_R.
+\]
+
+\bigskip
+
+%-----------------------------------------
+\section*{3. Use \(\phi_1\) to go backwards: from \(F\) to \(R(x)\)}
+
+Now take any
+\[
+F \in \mathcal{M}(\mathbb{CP}^1),
+\quad F:\mathbb{CP}^1\to\mathbb{CP}^1\ \text{holomorphic}.
+\]
+
+We want to show: \emph{there exists a unique rational function \(R(x)\in\mathbb{C}(x)\) such that}
+\[
+F = F_R.
+\]
+
+Using \(\phi_1\):
+
+\begin{enumerate}
+	\item Consider the open set where the image of \(F\) stays inside \(U_1\):
+	\[
+	V := F^{-1}(U_1) \subset \mathbb{CP}^1.
+	\]
+	
+	\item On \(V\), define
+	\[
+	f := \phi_1\circ F : V\to\mathbb{C}.
+	\]
+	
+	In local coordinates, \(f\) is holomorphic. So \(f\) is a holomorphic function on the
+	Riemann surface \(V\).
+	
+	\item The complement \(\mathbb{CP}^1\setminus V = F^{-1}(\infty)\) is a \emph{finite set}
+	(preimages of the point \([1:0]\) under a holomorphic map from a compact Riemann surface).
+	At those points, we’ll see \(f\) has poles. So in the chart \(\phi_1\), \(f\) is a
+	\emph{meromorphic function on \(\mathbb{C}\)} with finitely many poles.
+\end{enumerate}
+
+Now, via \(\phi_1\), we can identify \(\mathbb{CP}^1\setminus\{\infty\}\) with \(\mathbb{C}\). Under this,
+\(F\) becomes a meromorphic function
+\[
+\tilde f : \mathbb{C}\to\mathbb{C}\cup\{\infty\},
+\]
+which has only finitely many poles (coming from \(F^{-1}(\infty)\)) and maybe a pole at \(\infty\).
+
+From standard complex analysis:
+
+\begin{quote}
+	A meromorphic function on \(\mathbb{CP}^1\) (i.e.\ on \(\mathbb{C}\cup\{\infty\}\)) is \emph{rational}.
+\end{quote}
+
+Concretely, we do the principal-part argument \emph{in the coordinate \(\phi_1\)}:
+
+\begin{itemize}
+	\item In the \(x\)-coordinate (i.e.\ using \(\phi_1\) as your chart), \(f(x)\) has Laurent expansions
+	at each finite pole \(x=a_j\).
+	\item You build a rational function \(R(x)\) whose principal parts match those of \(f\) at all
+	finite poles and at \(\infty\).
+	\item Then \(f(x)-R(x)\) is entire and holomorphic at \(\infty\), so it’s constant. So
+	\(f(x)=R(x)+C\), still rational.
+\end{itemize}
+
+Thus there exists some \(R(x)\in\mathbb{C}(x)\) such that
+\[
+f(x) = R(x) \quad\text{as meromorphic functions on }\mathbb{C}\cup\{\infty\}.
+\]
+
+But \(f = \phi_1\circ F\) and \(R\circ \phi_1\) have the same values on \(U_1\), so
+\[
+\phi_1\circ F = R\circ\phi_1 \quad\text{on }U_1,
+\]
+hence
+\[
+F|_{U_1} = \phi_1^{-1}\circ R\circ\phi_1 = F_R|_{U_1}.
+\]
+
+Both \(F\) and \(F_R\) are holomorphic maps \(\mathbb{CP}^1\to\mathbb{CP}^1\) that agree on the
+nonempty open set \(U_1\), so by the identity theorem they agree everywhere:
+\[
+F = F_R.
+\]
+
+So every \(F\in\mathcal{M}(\mathbb{CP}^1)\) comes from a unique \(R\in\mathbb{C}(x)\). That’s surjectivity
+and injectivity of \(\Phi\).
+
+\bigskip
+
+%-----------------------------------------
+\section*{4. Summary in your language}
+
+Using your chart
+\[
+\phi_1:U_1\to\mathbb{C},\quad [z_0:z_1]\mapsto z_0/z_1,
+\]
+we have:
+
+\begin{itemize}
+	\item Define \(x:=\phi_1\). This is a meromorphic function on \(\mathbb{CP}^1\) with one pole at \([1:0]\).
+	\item Given \(R(x)\in\mathbb{C}(x)\), we define a holomorphic map \(F_R:\mathbb{CP}^1\to\mathbb{CP}^1\) by
+	\[
+	F_R = \phi_1^{-1}\circ R\circ\phi_1 \quad\text{on }U_1,
+	\]
+	extended holomorphically to \(\infty\).
+	\item Given a holomorphic \(F:\mathbb{CP}^1\to\mathbb{CP}^1\), its coordinate expression
+	\[
+	f = \phi_1\circ F\circ \phi_1^{-1} : \mathbb{C}\cup\{\infty\}\to\mathbb{C}\cup\{\infty\}
+	\]
+	is a meromorphic function on the sphere, hence a rational function \(R(x)\). Then \(F=F_R\).
+\end{itemize}
+
+So precisely:
+\[
+\boxed{
+	\mathcal{M}(\mathbb{CP}^1)
+	=
+	\{F:\mathbb{CP}^1\to\mathbb{CP}^1\ \text{holomorphic}\}
+	\ \cong\
+	\{R(x)\in\mathbb{C}(x)\}
+}
+\]
+and the chart \(\phi_1\) is the bridge that makes this identification explicit.
+
+
+
+%	\chapter{Introduction}
+%	\input{chapter/mm-chap1}
+%	
+%	\newpage
+%	\chapter{Quadratic Formula and Peano Axiom}
+%	\input{chapter/mm-chap2}
+%	
+%	\newpage
+%	\chapter{Functions}
+%	\input{chapter/mm-chap3}
+%	
+%	\newpage
+%	\chapter{Group Homomorphism}
+%	\input{chapter/mm-chap4}
+%	
+%	\newpage
+%	\chapter{Linear Algebra and Group}
+%	\input{chapter/mm-chap5}
+%	
+%	From the standpoint of solving equations, the algebraic structures we have discussed are interconnected in the following ways:
+%	
+%	\subsection*{Group}
+%	A \textbf{group} provides a foundation for solving equations involving a single operation. The group structure ensures that every element has an inverse, allowing us to "undo" operations and solve equations. For instance, in the group of integers \( (\mathbb{Z}, +) \), the equation \( x + a = b \) can be solved as \( x = b - a \).
+%	
+%	\subsection*{Ring}
+%	A \textbf{ring} extends the concept of a group by introducing a second operation, typically multiplication, in addition to addition. Rings allow us to solve more complex equations that involve both addition and multiplication. For example, solving polynomial equations \( f(x) = 0 \) where \( f(x) \) is a polynomial with coefficients in a ring \( R \).
+%	
+%	\subsection*{Field}
+%	A \textbf{field} is a ring with additional properties that make division possible (except by zero). This structure is crucial for solving linear equations and systems of linear equations. In a field \( F \), any linear equation \( ax = b \) (where \( a \neq 0 \)) can be solved as \( x = a^{-1}b \), where \( a^{-1} \) is the multiplicative inverse of \( a \).
+%	
+%	\subsection*{Vector Space}
+%	A \textbf{vector space} over a field \( F \) is a set of vectors that can be added together and scaled by elements of \( F \). Vector spaces provide a framework for solving linear systems of equations. Solutions to systems of linear equations can be understood as finding vectors \( \mathbf{x} \in V \) such that \( A\mathbf{x} = \mathbf{b} \), where \( A \) is a matrix and \( \mathbf{b} \) is a vector in \( V \).
+%	
+%	\subsection*{Module}
+%	A \textbf{module} is a generalization of vector spaces where the scalars come from a ring instead of a field. Modules allow us to solve equations in contexts where the coefficients are not from a field, such as systems of linear equations with integer coefficients. For example, solving \( A\mathbf{x} = \mathbf{b} \) where \( A \) is a matrix with entries from a ring \( R \) and \( \mathbf{x}, \mathbf{b} \in M \).
+%	
+%	\subsection*{Algebra}
+%	An \textbf{algebra} over a field \( F \) combines the structures of a vector space and a ring. Algebras provide a framework for solving polynomial equations and other equations involving both addition and multiplication of vectors. In an algebra \( A \), we can solve equations like \( x^2 + ax + b = 0 \) using techniques from both linear algebra and ring theory.
+%	
+%	\subsection*{Summary}
+%	The conceptual connection between these structures is rooted in the increasing complexity and capability they offer for solving equations:
+%	\begin{itemize}
+%		\item \textbf{Groups} provide a way to solve equations with a single operation.
+%		\item \textbf{Rings} introduce a second operation, allowing for more complex equations.
+%		\item \textbf{Fields} enable division, which is essential for solving linear equations.
+%		\item \textbf{Vector spaces} over fields extend these concepts to systems of linear equations.
+%		\item \textbf{Modules} generalize vector spaces to allow coefficients from rings.
+%		\item \textbf{Algebras} integrate vector space and ring structures, enabling the solution of polynomial and other complex equations.
+%	\end{itemize}
+%	
+%	\newpage
+%	\chapter*{LaTex Practice}
+%	\input{latex-practice}
+%	
+%	% Appendix
+%	\newpage
+%	\appendix
+%	\input{appendix/mm-appendix-A}
+	
+\end{document}

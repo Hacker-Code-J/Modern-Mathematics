@@ -1,0 +1,336 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[margin=1in]{geometry}
+
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\CP}{\mathbb{CP}}
+\newcommand{\M}{\mathcal{M}}
+\newcommand{\Res}{\operatorname{Res}}
+
+\begin{document}
+	
+	\title{Why $\M(\CP^1)\cong\C(z)$ via Differential Forms and Integrals}
+	\author{}
+	\date{}
+	\maketitle
+	
+	\section{Setup: $\CP^1$ as the Riemann sphere}
+	
+	We identify the complex projective line with the Riemann sphere:
+	\[
+	\CP^1 \cong \widehat{\C} := \C \cup \{\infty\}.
+	\]
+	On $\C \subset \widehat{\C}$ we use the usual complex coordinate $z$. The point
+	$\infty$ is the ``point at infinity''.
+	
+	A \emph{meromorphic function} on $\CP^1$ is then a function
+	\[
+	f:\widehat{\C}\to\widehat{\C}
+	\]
+	that is holomorphic on $\widehat{\C}$ except for isolated poles (including possibly a pole at $\infty$).
+	
+	Our goal is to prove:
+	\[
+	\M(\CP^1) = \{\text{meromorphic functions on }\CP^1\}
+	\cong \C(z),
+	\]
+	that is, every meromorphic $f$ on $\CP^1$ is a rational function in the
+	coordinate $z$.
+	
+	We will base the proof on:
+	
+	\begin{itemize}
+		\item meromorphic $1$-forms $\omega = f(z)\,dz$,
+		\item residues and contour integrals,
+		\item Laurent expansions defined by integrals.
+	\end{itemize}
+	
+	\section{Meromorphic $1$-forms and residues}
+	
+	Let $f$ be a meromorphic function on $\widehat{\C}$, and consider the meromorphic $1$-form
+	\[
+	\omega = f(z)\,dz.
+	\]
+	For any piecewise smooth closed loop $\gamma$ in $\C$ avoiding the poles of $f$,
+	we can form the integral
+	\[
+	\oint_\gamma \omega = \oint_\gamma f(z)\,dz.
+	\]
+	
+	\subsection{Residues at finite poles (Cauchy point of view)}
+	
+	Let $a\in\C$ be a pole of $f$. Take a small positively oriented circle
+	\[
+	\gamma_a : z = a + r e^{it},\quad 0\le t\le 2\pi,
+	\]
+	small enough that it encloses no other poles of $f$. The \emph{residue} of
+	$\omega$ at $a$ is defined by
+	\[
+	\Res_{z=a}(f(z)\,dz)
+	:= \frac{1}{2\pi i}\oint_{\gamma_a} f(z)\,dz.
+	\]
+	
+	Equivalently, on an annulus $0<|z-a|<\varepsilon$, $f$ has a Laurent
+	expansion
+	\[
+	f(z) = \sum_{n=-m}^{\infty} c_n (z-a)^n,
+	\]
+	then the coefficient $c_{-1}$ of $(z-a)^{-1}$ is the residue:
+	\[
+	\Res_{z=a}(f(z)\,dz) = c_{-1}.
+	\]
+	
+	These coefficients $c_n$ can be obtained from integrals. For each integer $n$,
+	\[
+	c_n = \frac{1}{2\pi i} \oint_{\gamma_a}
+	\frac{f(\zeta)}{(\zeta-a)^{n+1}}\,d\zeta,
+	\]
+	so in particular
+	\[
+	c_{-1} = \frac{1}{2\pi i}\oint_{\gamma_a} f(\zeta)\,d\zeta.
+	\]
+	Thus the principal part of $f$ at a finite pole is determined entirely by
+	integrals of the $1$-form $f(\zeta)\,d\zeta$.
+	
+	\subsection{Residue at infinity}
+	
+	We also need the residue at $\infty$. There are two equivalent ways to define
+	it.
+	
+	\subsubsection*{Method A: change variable $w = 1/z$}
+	
+	Define $w = 1/z$, so $z=1/w$ and $dz = -w^{-2}\,dw$. Let
+	\[
+	F(w) := f\!\left(\frac{1}{w}\right).
+	\]
+	Then the $1$-form $\omega$ in terms of $w$ is
+	\[
+	\omega = f(z)\,dz
+	= f\!\left(\frac{1}{w}\right)\left(-\frac{1}{w^2}\,dw\right)
+	= -F(w)w^{-2}\,dw.
+	\]
+	Since $f$ is meromorphic at $\infty$, the function $F(w)w^{-2}$ has a Laurent
+	expansion near $w=0$:
+	\[
+	F(w)w^{-2} = \sum_{n=-M}^{\infty} a_n w^n
+	\]
+	with finitely many negative powers. Then the residue at $\infty$ is defined as
+	\[
+	\Res_{z=\infty}(f(z)\,dz)
+	:= -\,\Res_{w=0}(F(w)w^{-2}\,dw).
+	\]
+	If
+	\[
+	F(w)w^{-2} = \cdots + a_{-1}w^{-1} + a_0 + a_1 w + \cdots,
+	\]
+	then
+	\[
+	\Res_{z=\infty}(f(z)\,dz) = -a_{-1}.
+	\]
+	
+	\subsubsection*{Method B: big circle and global residue theorem}
+	
+	Let $R$ be so large that the circle
+	\[
+	\Gamma_R: z = Re^{it},\quad 0\le t\le 2\pi,
+	\]
+	encloses all finite poles of $f$. Then the residue theorem on $\C$ gives
+	\[
+	\oint_{\Gamma_R} f(z)\,dz
+	= 2\pi i \sum_{a_j\in\C} \Res_{z=a_j}(f(z)\,dz),
+	\]
+	where the sum is over all finite poles $a_j$ of $f$.
+	
+	On the Riemann sphere $\widehat{\C}$, the \emph{global residue theorem} says:
+	\[
+	\sum_{p\in\widehat{\C}} \Res_p(f(z)\,dz) = 0.
+	\]
+	Thus
+	\[
+	\Res_{z=\infty}(f(z)\,dz)
+	= -\sum_{a_j\in\C} \Res_{z=a_j}(f(z)\,dz).
+	\]
+	So the residue at infinity is completely determined by the residues at finite
+	poles (and vice versa).
+	
+	\section{Meromorphic $f$ on $\widehat{\C}$: poles and Laurent expansions}
+	
+	Let $f$ be a meromorphic function on $\widehat{\C}$.
+	
+	\subsection{Finitely many poles}
+	
+	Since $\widehat{\C}$ is compact and poles are isolated, $f$ has only finitely
+	many poles. Thus there exist points
+	\[
+	a_1,\dots,a_N \in \C\cup\{\infty\}
+	\]
+	such that all poles of $f$ are among these $a_j$.
+	
+	\subsection{Laurent expansions at finite poles (via integrals)}
+	
+	Fix a finite pole $a_j\in\C$. There exists a small circle $\gamma_j$ around
+	$a_j$ enclosing no other poles. On an annulus $0<|z-a_j|<\varepsilon$, $f$ has
+	a Laurent expansion
+	\[
+	f(z) = \sum_{n=-m_j}^\infty c_{j,n}(z-a_j)^n,
+	\]
+	where $m_j\ge 1$ and $c_{j,-m_j}\neq 0$. Each coefficient is given by
+	\[
+	c_{j,n} = \frac{1}{2\pi i} \oint_{\gamma_j}
+	\frac{f(\zeta)}{(\zeta-a_j)^{n+1}}\,d\zeta.
+	\]
+	
+	The \emph{principal part} of $f$ at $a_j$ is
+	\[
+	\operatorname{PP}_{a_j}(f)(z)
+	:= \sum_{n=-m_j}^{-1} c_{j,n}(z-a_j)^n.
+	\]
+	This is a finite sum of negative powers of $(z-a_j)$, with coefficients
+	defined by integrals of $f(\zeta)\,d\zeta$.
+	
+	\subsection{Laurent expansion at infinity (via integrals)}
+	
+	At $\infty$, use $w = 1/z$ as local coordinate. Define
+	\[
+	F(w) := f\!\left(\frac{1}{w}\right).
+	\]
+	Since $f$ is meromorphic at $\infty$, there is an integer $M\ge 0$ and
+	coefficients $b_n$ such that
+	\[
+	F(w) = \sum_{n=-M}^\infty b_n w^n
+	\]
+	for $0<|w|<\varepsilon$. These $b_n$ are also given by Cauchy integrals:
+	\[
+	b_n = \frac{1}{2\pi i} \oint_{|\xi|=\rho} 
+	\frac{F(\xi)}{\xi^{n+1}}\,d\xi,
+	\]
+	for sufficiently small $\rho>0$.
+	
+	The \emph{principal part} at $\infty$ is
+	\[
+	\operatorname{PP}_\infty(f)(w)
+	:= \sum_{n=-M}^{-1} b_n w^n.
+	\]
+	In terms of the original variable $z=1/w$, note that $w^{-k} = z^k$, so
+	$\operatorname{PP}_\infty(f)$ corresponds to a \emph{polynomial} in $z$:
+	\[
+	P(z) = \sum_{k=1}^M \tilde b_k\,z^k.
+	\]
+	
+	\section{Constructing a rational function $R(z)$ with the same principal parts}
+	
+	We now build a single rational function $R(z)$ that has exactly the same
+	principal parts as $f$ at each pole $a_j$ (including $\infty$).
+	
+	\subsection{Definition of $R(z)$}
+	
+	For each finite pole $a_j\in\C$, write the principal part as
+	\[
+	\operatorname{PP}_{a_j}(f)(z)
+	= \sum_{k=1}^{m_j} \frac{c_{j,-k}}{(z-a_j)^k}.
+	\]
+	For the pole at $\infty$, we have a polynomial $P(z)$ as above.
+	
+	Define
+	\[
+	R(z) :=
+	P(z) + \sum_{j=1}^N \operatorname{PP}_{a_j}(f)(z)
+	= P(z) + \sum_{j=1}^N\sum_{k=1}^{m_j} \frac{c_{j,-k}}{(z-a_j)^k}.
+	\]
+	
+	Each term is a rational function in $z$. Hence
+	\[
+	R(z) \in \C(z).
+	\]
+	
+	By construction:
+	
+	\begin{itemize}
+		\item At each finite pole $a_j$, $f$ and $R$ have the same principal part.
+		\item At $\infty$, $f$ and $R$ also have the same principal part.
+	\end{itemize}
+	
+	\section{The difference $g = f - R$ is holomorphic everywhere}
+	
+	Define
+	\[
+	g(z) := f(z) - R(z).
+	\]
+	
+	\subsection{Behavior at finite points}
+	
+	At each finite pole $a_j\in\C$, $f$ and $R$ have the same principal part, so
+	the negative powers in the Laurent expansion cancel. Thus near $a_j$ we have
+	\[
+	g(z) = \sum_{n=0}^\infty d_{j,n}(z-a_j)^n,
+	\]
+	i.e.\ $g$ is holomorphic at $a_j$.
+	
+	At points where $f$ (hence $R$) is already holomorphic, clearly $g$ is also
+	holomorphic. Therefore $g$ is holomorphic on all of $\C$.
+	
+	\subsection{Behavior at infinity}
+	
+	At $\infty$, in the coordinate $w=1/z$, $f$ and $R$ have the same principal
+	part in $w$. Thus the Laurent expansion of $g(1/w)$ at $w=0$ has no negative
+	powers:
+	\[
+	g\!\left(\frac{1}{w}\right)
+	= \sum_{n=0}^\infty d_n w^n.
+	\]
+	So $g$ is holomorphic at $w=0$, i.e.\ at $z=\infty$.
+	
+	Therefore $g$ is holomorphic at every point of $\widehat{\C}$. In other words,
+	$g$ is a global holomorphic function
+	\[
+	g:\CP^1\to\C.
+	\]
+	
+	\section{Holomorphic on $\CP^1$ implies constant}
+	
+	The Riemann sphere $\CP^1$ is compact. A holomorphic function on a compact
+	Riemann surface is bounded. By the maximum modulus principle (or Liouville's
+	theorem), such a function must be constant.
+	
+	Therefore there exists $C\in\C$ with
+	\[
+	g(z) \equiv C,
+	\]
+	i.e.
+	\[
+	f(z) = R(z) + C.
+	\]
+	
+	Since $R(z)\in\C(z)$, we conclude that $f(z)$ is also rational:
+	\[
+	f(z) \in \C(z).
+	\]
+	
+	This proves that \emph{every} meromorphic function on $\CP^1$ is a rational
+	function in $z$.
+	
+	\section{Conclusion}
+	
+	We have shown, using only:
+	
+	\begin{itemize}
+		\item meromorphic $1$-forms $\omega = f(z)\,dz$,
+		\item residues, defined as contour integrals,
+		\item Laurent coefficients extracted from integrals,
+		\item and the maximum modulus principle on the compact surface $\CP^1$,
+	\end{itemize}
+	
+	that
+	\[
+	\M(\CP^1) = \C(z).
+	\]
+	
+	Thus there is an isomorphism of fields
+	\[
+	\M(\CP^1) \xrightarrow{\ \cong\ } \C(z),
+	\]
+	sending a meromorphic function $f$ on the sphere to its expression as a
+	rational function in the affine (stereographic) coordinate $z$.
+	
+\end{document}
+``
