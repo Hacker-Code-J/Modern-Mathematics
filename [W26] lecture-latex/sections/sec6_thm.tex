@@ -1,0 +1,208 @@
+\subsection{Theorems, Definitions, and Proofs}
+
+\subsubsection{Using the \texttt{amsthm} Package}
+
+Mathematical writing often needs structured statements such as definitions, theorems, lemmas, corollaries, and remarks.
+In \LaTeX{}, the most standard tool for this is the \texttt{amsthm} package, which provides:
+
+\begin{itemize}
+	\item theorem-like environments with automatic numbering,
+	\item consistent formatting (bold theorem headings, italic theorem body, etc.),
+	\item a built-in \texttt{proof} environment that automatically prints a QED symbol.
+\end{itemize}
+In our preamble, we define theorem-style environments like this:
+\begin{lstlisting}
+\usepackage{amsthm}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\theoremstyle{remark}
+\newtheorem*{remark}{Remark}
+\end{lstlisting}
+
+
+%\subsection{What Each Line Means}
+%
+%\begin{itemize}
+%	\item \verb|\usepackage{amsthm}| loads the theorem framework.
+%	\item \verb|\newtheorem{theorem}{Theorem}[chapter]| creates an environment named \texttt{theorem}.
+%	Its printed title is “Theorem”, and it resets numbering each chapter.
+%	So you get Theorem 1.1, 1.2, then Theorem 2.1, etc.
+%	\item \verb|\newtheorem{lemma}[theorem]{Lemma}| makes \texttt{lemma} share the same counter as \texttt{theorem}.
+%	That means a lemma can be Lemma 2.3 right after Theorem 2.2.
+%	\item \verb|\newtheorem{definition}[theorem]{Definition}| and \verb|\newtheorem{corollary}[theorem]{Corollary}|
+%	do the same counter-sharing for definitions and corollaries.
+%	\item \verb|\theoremstyle{remark}| switches to a different style (usually non-italic body text).
+%	\item \verb|\newtheorem*{remark}{Remark}| creates an unnumbered environment \texttt{remark}.
+%	The star \verb|*| means “no numbering”.
+%\end{itemize}
+%
+%\subsection{Numbered vs. Unnumbered Statements}
+%
+%\begin{itemize}
+%	\item Use numbered statements for items you will reference later.
+%	\item Use unnumbered statements for short comments, informal notes, or one-off remarks.
+%\end{itemize}
+%
+%\section{Basic Environments}
+%
+%A good theorem section begins with clear definitions.
+%Definitions tell the reader what words mean before you prove anything about them.
+%
+%\begin{definition}[Even Number]
+%	An integer $n$ is called \emph{even} if there exists an integer $k$ such that $n = 2k$.
+%\end{definition}
+%
+%\subsection{Theorem Statements}
+%
+%A theorem states a mathematical fact you will justify with a proof.
+%
+%\begin{theorem}[Sum of Evens]
+%	The sum of two even integers is even.
+%\end{theorem}
+%
+%\subsection{The \texttt{proof} Environment}
+%
+%The \texttt{proof} environment:
+%\begin{itemize}
+%	\item prints the word “Proof” automatically,
+%	\item formats the proof body appropriately,
+%	\item adds a QED symbol at the end.
+%\end{itemize}
+%
+%\begin{proof}
+%	Let $a = 2m$ and $b = 2n$ for some integers $m$ and $n$.
+%	Then $a + b = 2m + 2n = 2(m + n)$, which is divisible by $2$.
+%	Therefore, $a + b$ is even.
+%\end{proof}
+%
+%\subsection{Common Proof Patterns (Useful for Beginners)}
+%
+%\begin{itemize}
+%	\item \textbf{Direct proof}: assume definitions and manipulate algebraically (as above).
+%	\item \textbf{Contradiction}: assume the opposite and derive an impossibility.
+%	\item \textbf{Contrapositive}: prove “not $B$ implies not $A$” instead of “$A$ implies $B$”.
+%	\item \textbf{Induction}: prove a base case and an induction step.
+%\end{itemize}
+%
+%\section{More Structures}
+%
+%Many textbooks use multiple statement types, each with a specific role:
+%
+%\begin{itemize}
+%	\item A \textbf{lemma} is a smaller result used to prove a later theorem.
+%	\item A \textbf{corollary} is a quick consequence of a theorem.
+%	\item A \textbf{remark} is commentary, intuition, or a warning.
+%\end{itemize}
+%
+%\begin{lemma}[Basic Algebra]
+%	If $a^2 = b^2$, then $a = b$ or $a = -b$.
+%\end{lemma}
+%
+%\begin{corollary}
+%	If $x^2 = 9$, then $x = 3$ or $x = -3$.
+%\end{corollary}
+%
+%\begin{remark}
+%	You can group lemmas, theorems, definitions, and corollaries under the same counter by specifying the shared counter in square brackets.
+%	This improves navigability: statements appear in one consistent numbering sequence.
+%\end{remark}
+%
+%\subsection{Referencing Theorems and Definitions}
+%
+%In real writing, you should label key statements and refer back to them later.
+%Use \verb|\label| inside the theorem-like environment, then refer using \verb|\ref|.
+%
+%\begin{example}[Label and reference]
+%	\begin{verbatim}
+%		\begin{theorem}\label{thm:sum-even}
+%			The sum of two even integers is even.
+%		\end{theorem}
+%		
+%		By Theorem~\ref{thm:sum-even}, we conclude that ...
+%	\end{verbatim}
+%\end{example}
+%
+%\section{Proof Formatting Tips}
+%
+%Good proofs are not only correct; they are readable.
+%Here are practical formatting rules:
+%
+%\begin{itemize}
+%	\item Use short paragraphs: each paragraph should represent one logical step.
+%	\item Define variables clearly: introduce $m$ and $n$ before using them.
+%	\item Avoid long inline equations: if an expression becomes hard to read inline, move it to display math.
+%	\item Let \LaTeX{} close proofs automatically with the QED symbol, unless you need to place it manually.
+%\end{itemize}
+%
+%\subsection{Manual QED Placement (Optional)}
+%
+%If your proof ends with a displayed equation, sometimes you want the QED symbol at the end of the last line.
+%You can place it with \verb|\qedhere| (inside the final display).
+%
+%\begin{example}[QED at the end of a display]
+%	\begin{verbatim}
+%		\begin{proof}
+%			...
+%			\[
+%			a + b = 2(m+n). \qedhere
+%			\]
+%		\end{proof}
+%	\end{verbatim}
+%\end{example}
+%
+%\section{Example: The Pythagorean Theorem}
+%
+%A theorem statement should be clean and precise:
+%
+%\begin{theorem}[Pythagorean Theorem]
+%	In a right triangle with legs $a$ and $b$ and hypotenuse $c$, we have:
+%	\[
+%	c^2 = a^2 + b^2
+%	\]
+%\end{theorem}
+%
+%\begin{proof}
+%	There are many geometric and algebraic proofs.
+%	One standard approach compares the areas of squares constructed on the three sides and shows the area identity implies the formula.
+%\end{proof}
+%
+%\subsection{Improving Proof Quality (Writing Tip)}
+%
+%In advanced writing, you should:
+%\begin{itemize}
+%	\item state the proof strategy in the first sentence (e.g., “We argue by contradiction.”),
+%	\item justify non-obvious steps,
+%	\item avoid vague endings like “obvious” unless it truly is immediate.
+%\end{itemize}
+%
+%\section{Exercises}
+%
+%\begin{exercise}
+%	Define your own:
+%	\begin{itemize}
+%		\item A definition for a prime number (as an integer greater than $1$ with exactly two positive divisors).
+%		\item A theorem stating: “If $p$ is prime and $p$ divides $ab$, then $p$ divides $a$ or $p$ divides $b$.”
+%		\item A brief proof using basic divisibility ideas.
+%	\end{itemize}
+%\end{exercise}
+%
+%\begin{exercise}
+%	Create a labeled theorem and refer to it later:
+%	\begin{itemize}
+%		\item Write a theorem of your choice and label it (e.g., \verb|\label{thm:my-result}|).
+%		\item Write a second theorem whose proof references the first using \verb|Theorem~\ref{thm:my-result}|.
+%	\end{itemize}
+%\end{exercise}
+%
+%\begin{exercise}
+%	Write one proof in each style:
+%	\begin{itemize}
+%		\item direct proof,
+%		\item proof by contradiction.
+%	\end{itemize}
+%	Use the \texttt{proof} environment for both and keep each proof under 10 lines.
+%\end{exercise}

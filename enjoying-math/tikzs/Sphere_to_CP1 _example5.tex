@@ -1,4 +1,5 @@
 \documentclass[tikz,border=5pt]{standalone}
+\usetikzlibrary{arrows,arrows.meta}
 \usepackage{amssymb,amsmath}
 \usetikzlibrary{calc}
 \newcommand{\C}{\mathbb{C}}
@@ -100,10 +101,99 @@
 \node[above] at (#4I)  {$[i:1]$};
 \node[below] at (#4MI) {$[-i:1]$};
 }
+
+\begin{scope}[shift={(0,12)}]
+	% Left and right spheres
+	\SphereThreeD{-3.25}{0}{1.75}{A}
+	\node at (0,3) {2-dimensional Complex Projective Space $\mathbb{P}(\C^2)=\mathbb{CP}^1$};
+	
+	\begin{scope}[shift={(1,0)}]
+	\draw[thick] (0,-1) -- (2.5,-1) -- (3.5,0) -- (1,0) -- cycle;
+	\draw[-] (.5,-.5) -- (3, -.5);
+	\filldraw (.5,-.5) circle (2pt) node[left] {$-1=[-1\;\text{:}\;1]$};
+	\filldraw (3,-.5) circle (2pt) node[right] {$1=[1\;\text{:}\;1]$};
+	\draw[-] (1.25,-1) -- (2.25, 0);
+	\filldraw (1.25,-1) circle (2pt) node[below] {$-i=[-i\;\text{:}\;1]$};
+	\filldraw (2.25,0) circle (2pt) node[above] {$i=[i\;\text{:}\;1]$};
+	
+	\filldraw (1.75,-.5) circle (2pt);
+	\node at (0,.5) {$0=[0\;\text{:}\;1]$};
+	\draw[>=Latex, ->] (.8,.5) to[bend left] (1.75,-.5);
+	
+	\filldraw[red] (1.75,.75) circle (2pt) node[above] {$\infty=[1\;\text{:}\;0]$};
+	
+	\node[align=right] at (1.25,-2.25) {$U_1=\left\{[z_0\;\text{:}\; z_1]\;\text{:}\;z_1\neq 0\right\}$\\
+	$=\left\{[\tfrac{z_0}{z_1}\;\text{:}\; 1]\;\text{:}\;z_1\neq 0\right\}$};
+	\end{scope}
+
+	\draw[>=Stealth,->] (6,0) -- (9,0) node[midway,above] {
+		$\begin{array}{cccc}
+			\phi_1\;\text{:}\; & U_1 & \to & \C \\
+			&[z_0\;\text{:}\;z_1]&\mapsto& z:=\tfrac{z_0}{z_1}
+		\end{array}$
+	};
+	\node[below=3,align=left] at (7.5,0) {
+		$\phi_1([z_0\;\text{:}\;z_1])$\\ [4pt]
+		$=\phi_1([\tfrac{z_0}{z_1}\;\text{:}\;1])$\\ [4pt]
+		$=\frac{z_0}{z_1}$
+	};
+	
+	\begin{scope}[shift={(12,0)}]
+	% Draw a square region for C
+	\draw[thick] (-2,-2) rectangle (2,2);
+	\node at (0,3) {Complex Plane $\mathbb{C}$};
+	% Light grid inside
+	\foreach \x in {-1,0,1}
+	\draw[gray!40] (\x,-2) -- (\x,2);
+	\foreach \y in {-1,0,1}
+	\draw[gray!40] (-2,\y) -- (2,\y);
+	
+	\draw (0,0) circle (1cm);
+	\filldraw (0,0) circle (2pt) node[above right] {$0=0/1$};
+	\filldraw (0,1) circle (2pt) node[right] {$i=i/1$};
+	\filldraw (0,-1) circle (2pt) node[right] {$-i=-i/1$};
+	\filldraw (1,0) circle (2pt) node[below] {$1=1/1$};
+	\filldraw (-1,0) circle (2pt) node[below] {$-1=-1/1$};
+	
+	% Axes
+	\draw[->] (-2.1,0) -- (2.1,0) node[right] {\(\Re z\)};
+	\draw[->] (0,-2.1) -- (0,2.1) node[above] {\(\Im z\)};
+	% image of p under f
+	\fill (-1.25,0.8) circle (1.5pt) node[above] {\(z=\tfrac{z_0}{z_1}\)};
+	\end{scope}
+\end{scope}
+\node at (5,8.5) {\Large\colorbox{-blue}{``Every meromorphic function on $\CP^1$ is a rational function in this coordinate $z$, i.e., $\mathcal{M}(\CP^1)\simeq\C(z)$''}};
+
+%\begin{scope}[shift={(0,4)}]
+%\node at (-5,0) {$R(z)\in\C(z)$};
+%	
+%% Draw a square region for C
+%\draw[thick] (-2,-2) rectangle (2,2);
+%\node at (0,3) {Complex Plane $\mathbb{C}$};
+%% Light grid inside
+%\foreach \x in {-1,0,1}
+%\draw[gray!40] (\x,-2) -- (\x,2);
+%\foreach \y in {-1,0,1}
+%\draw[gray!40] (-2,\y) -- (2,\y);
+%
+%\draw (0,0) circle (1cm);
+%\filldraw (0,0) circle (2pt) node[above right] {$0=0/1$};
+%\filldraw (0,1) circle (2pt) node[right] {$i=i/1$};
+%\filldraw (0,-1) circle (2pt) node[right] {$-i=-i/1$};
+%\filldraw (1,0) circle (2pt) node[below] {$1=1/1$};
+%\filldraw (-1,0) circle (2pt) node[below] {$-1=-1/1$};
+%
+%% Axes
+%\draw[->] (-2.1,0) -- (2.1,0) node[right] {\(\Re z\)};
+%\draw[->] (0,-2.1) -- (0,2.1) node[above] {\(\Im z\)};
+%% image of p under f
+%\fill (-1.25,0.8) circle (1.5pt) node[above] {\(z=\tfrac{z_0}{z_1}\)};
+%\end{scope}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Panel 1: R(z) = z  (identity)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{scope}[shift={(0,6)}]
+\begin{scope}[shift={(0,5)}]
 \node[above] at (0,2.1) {$R(z)=z$};
 	\node[below,align=center] at (0,-2.25) {
 %		$R(z)=z\leftrightarrow F([z_0:z_1])=[z_1:z_0]$ \\ [12pt]
@@ -129,7 +219,7 @@
 \draw[->,thick,cyan,dashed] (1.5,.6125) to (3.25,.6125);
 \draw[->,thick,cyan] (AMI) to (BMI);
 \end{scope}
-\begin{scope}[shift={(0,-2)}]
+\begin{scope}[shift={(0,-3)}]
 \node[above] at (0,2.1) {$F([z_0:z_1])=[z_1:z_0]$};
 %\node[below,align=center] at (0,-4) {
 %	$R(0)=0\leftrightarrow F([1:0])=[0:1]$\\ [4pt]
@@ -156,31 +246,47 @@
 \end{scope}
 
 
-%========================================
-% Diagram 1: R(z) = z  <->  F([z0:z1]) = [z1:z0]
-% (as written by the user)
-%========================================
-\begin{scope}[shift={(10,4)}]
-% Title
-\node[above] at (0,2.0) {$R(z) = z \quad\Longleftrightarrow\quad
-	F([z_0:z_1]) = [z_1:z_0]$};
-% C -> C
-\node[cplane] (CL1) at (-1,1) {$\C$};
-\node[cplane] (CR1) at ( 1,1) {$\C$};
-\draw[->] (CL1) -- (CR1)
-node[midway,above=8] {$R(z)=z$};
-% CP^1 -> CP^1
-\node[cp1] (CP1L1) at (-1,-2) {$\CP^1$};
-\node[cp1] (CP1R1) at ( 1,-2) {$\CP^1$};
-\draw[->] (CP1L1) -- (CP1R1)
-node[midway,below=20] {$F([z_0:z_1])=[z_1:z_0]$};
+%%========================================
+%% Diagram 1: R(z) = z  <->  F([z0:z1]) = [z1:z0]
+%% (as written by the user)
+%%========================================
+%\begin{scope}[shift={(12,3)}]
+%% Title
+%\node[above] at (0,2.0) {$R(z) = z \quad\Longleftrightarrow\quad
+%	F([z_0:z_1]) = [z_1:z_0]$};
+%% C -> C
+%\node[cplane] (CL1) at (-1,1) {$\C$};
+%\node[cplane] (CR1) at ( 1,1) {$\C$};
+%\draw[->] (CL1) -- (CR1)
+%node[midway,above=8] {$R(z)=z$};
+%% CP^1 -> CP^1
+%\node[cp1] (CP1L1) at (-1,-2) {$\CP^1$};
+%\node[cp1] (CP1R1) at ( 1,-2) {$\CP^1$};
+%\draw[->] (CP1L1) -- (CP1R1)
+%node[midway,below=20] {$F([z_0:z_1])=[z_1:z_0]$};
+%
+%% Vertical arrows: affine chart z = z0/z1
+%\draw[->] (CL1) -- (CP1L1)
+%node[midway,left] {\(\displaystyle z\mapsto[1:z]=[1:\tfrac{z_1}{z_0}]\)};
+%\draw[->] (CR1) -- (CP1R1)
+%node[midway,right] {\(\displaystyle z\mapsto[z:1]=[\tfrac{z_0}{z_1}:1]\)};
+%\end{scope}
 
-% Vertical arrows: affine chart z = z0/z1
-\draw[->] (CL1) -- (CP1L1)
-node[midway,left] {\(\displaystyle z\mapsto[1:z]=[1:\tfrac{z_1}{z_0}]\)};
-\draw[->] (CR1) -- (CP1R1)
-node[midway,right] {\(\displaystyle z\mapsto[z:1]=[\tfrac{z_0}{z_1}:1]\)};
-\end{scope}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Panel 2: R(z) = 1/z  (inversion)

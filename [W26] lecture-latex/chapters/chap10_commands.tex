@@ -1,0 +1,95 @@
+\chapter{Custom Commands and Macros}
+
+\section{Why Define Custom Commands?}
+
+Custom commands:
+\begin{itemize}
+	\item Reduce repetition
+	\item Make documents easier to maintain
+	\item Clarify meaning through notation
+\end{itemize}
+
+\section{Defining New Commands}
+
+Use the \verb|\newcommand| macro in the preamble to define your own commands.
+
+\subsection*{Syntax}
+
+\begin{verbatim}
+	\newcommand{\name}{replacement text}
+	\newcommand{\name}[n]{replacement with #1 to #n}
+\end{verbatim}
+
+\subsection*{Examples}
+
+\begin{verbatim}
+	\newcommand{\R}{\mathbb{R}}      % Real numbers
+	\newcommand{\vect}[1]{\mathbf{#1}}  % Bold vectors
+	\newcommand{\abs}[1]{\left|#1\right|}  % Absolute value
+\end{verbatim}
+
+\subsection*{Usage}
+
+%\begin{itemize}
+%	\item $\R$ denotes the set of real numbers
+%	\item $\vect{v}$ is a vector
+%	\item $\abs{x}$ gives the absolute value of $x$
+%\end{itemize}
+
+\section{Optional Arguments}
+
+You can define optional arguments using \verb|\newcommand| with defaults:
+
+\begin{verbatim}
+	\newcommand{\set}[2][n]{\{#2_1, #2_2, \dots, #2_#1\}}
+\end{verbatim}
+
+\begin{itemize}
+	\item \verb|\set{a}| produces $\{a_1, a_2, \dots, a_n\}$
+	\item \verb|\set[3]{x}| produces $\{x_1, x_2, x_3\}$
+\end{itemize}
+
+\section{Renewing Existing Commands}
+
+To override an existing command (use with caution):
+
+\begin{verbatim}
+	\renewcommand{\phi}{\varphi}
+\end{verbatim}
+
+\section{Declaring Math Operators}
+
+For defining math-style functions:
+
+\begin{verbatim}
+	\DeclareMathOperator{\Var}{Var}
+	\DeclareMathOperator*{\argmax}{arg\,max}
+\end{verbatim}
+
+Usage:
+%\[
+%\Var(X) \qquad \argmax_{x \in A} f(x)
+%\]
+
+\section{Best Practices}
+
+\begin{itemize}
+	\item Prefix your custom commands to avoid naming conflicts.
+	\item Use clear, descriptive names (e.g., \verb|\vect| instead of \verb|\v|).
+	\item Avoid redefining built-in commands unless absolutely necessary.
+\end{itemize}
+
+\section{Exercise}
+
+\begin{exercise}
+	In a LaTeX document:
+	\begin{itemize}
+		\item Define the following custom commands:
+		\begin{itemize}
+			\item \verb|\Z| for $\mathbb{Z}$
+			\item \verb|\norm{x}| for $\left\|x\right\|$
+			\item \verb|\inner{u}{v}| for inner product $\langle u, v \rangle$
+		\end{itemize}
+		\item Use each command in a math environment.
+	\end{itemize}
+\end{exercise}

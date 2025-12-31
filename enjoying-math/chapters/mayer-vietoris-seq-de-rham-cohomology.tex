@@ -1,0 +1,1246 @@
+Choose $\set[1]{V^k}_{k=0}^3$ and isomorphisms $\Phi^k:V^k\to\Omega^k(U)$ such that \[
+\Phi^{k+1}\circ d^k=d\circ\Phi^k
+\] where $d^0=\nabla$, $d^1=\nabla\times$, $d^2=\nabla\cdot$, and $d$ is exterior derivative.
+
+\newpage
+\section{Why the spaces $V^0,V^1,V^2,V^3$ are chosen as scalar and vector fields}
+
+\subsection{Axiomatic goal}
+
+\begin{definition}[Design requirement: transport of the de Rham differential]
+	Let $U\subseteq \R^{3}$ be open and $\kk\in\{\R,\C\}$.
+	Let $(V^\bullet,d_V)$ be a cochain complex of $\kk$-vector spaces concentrated in degrees $0,1,2,3$,
+	i.e.\ $V^n=0$ for $n\notin\{0,1,2,3\}$.
+	We say that $(V^\bullet,d_V)$ \emph{models the de Rham complex on $U$ via identifications}
+	if there exist $\kk$-linear isomorphisms
+	\[
+	\Phi^{k}:V^{k}\xrightarrow{\cong}\Omega^{k}(U)\qquad(k=0,1,2,3)
+	\]
+	such that for all $k\in\{0,1,2\}$ the following diagram commutes:
+	\[
+	\begin{tikzcd}[column sep=large,row sep=large]
+		V^{k} \arrow[r,"d_V^{k}"] \arrow[d,"\Phi^{k}"',"\cong"] &
+		V^{k+1} \arrow[d,"\Phi^{k+1}"',"\cong"]\\
+		\Omega^{k}(U) \arrow[r,"d"] &
+		\Omega^{k+1}(U).
+	\end{tikzcd}
+	\]
+	Equivalently,
+	\[
+	\Phi^{k+1}\circ d_V^{k}=d\circ \Phi^{k}\qquad(k=0,1,2).
+	\]
+\end{definition}
+
+\subsection{Canonical identifications in Euclidean $\R^{3}$}
+
+\begin{definition}[Scalar fields]
+	Define
+	\[
+	V^{0}:=C^\infty(U;\kk),\qquad V^{3}:=C^\infty(U;\kk).
+	\]
+\end{definition}
+
+\begin{remark}
+	By definition of differential forms, $\Omega^{0}(U)=C^\infty(U;\kk)$.
+	Moreover, fixing the standard orientation with volume form
+	\[
+	\mathrm{vol}:=dx_1\wedge dx_2\wedge dx_3,
+	\]
+	every $3$-form is uniquely of the form $h\,\mathrm{vol}$ with $h\in C^\infty(U;\kk)$, hence
+	\[
+	\Omega^{3}(U)\cong C^\infty(U;\kk)
+	\]
+	via $h\mapsto h\,\mathrm{vol}$.
+\end{remark}
+
+\begin{definition}[Vector fields and the Euclidean musical isomorphism]
+	Define the $\kk$-vector space of (smooth) vector fields
+	\[
+	\mathfrak{X}(U;\kk):=C^\infty(U;\kk^{3}).
+	\]
+	Endow $U$ with the standard Euclidean metric $g=\sum_{i=1}^{3} dx_i\otimes dx_i$.
+	Define the $\kk$-linear isomorphism
+	\[
+	\flat:\mathfrak{X}(U;\kk)\xrightarrow{\cong}\Omega^{1}(U)
+	\]
+	by the coordinate formula
+	\[
+	(P,Q,R)^\flat:=P\,dx_1+Q\,dx_2+R\,dx_3.
+	\]
+	Define
+	\[
+	V^{1}:=\mathfrak{X}(U;\kk)=C^\infty(U;\kk^{3}).
+	\]
+\end{definition}
+
+\begin{definition}[Hodge star and the identification $\Omega^{2}\cong \mathfrak{X}$]
+	With the Euclidean metric and orientation, let
+	\[
+	*:\Omega^{k}(U)\to\Omega^{3-k}(U)
+	\]
+	be the Hodge star.
+	Define the $\kk$-linear isomorphism
+	\[
+	\Psi:\mathfrak{X}(U;\kk)\xrightarrow{\cong}\Omega^{2}(U),
+	\qquad
+	\Psi(G):=*(G^\flat).
+	\]
+	In coordinates, for $G=(A,B,C)$ one has
+	\[
+	\Psi(A,B,C)=A\,dx_2\wedge dx_3+B\,dx_3\wedge dx_1+C\,dx_1\wedge dx_2.
+	\]
+	Define
+	\[
+	V^{2}:=\mathfrak{X}(U;\kk)=C^\infty(U;\kk^{3}).
+	\]
+\end{definition}
+
+\subsection{Compatibility with grad, curl, div}
+
+\begin{definition}[The grad--curl--div differentials]
+	Define $\kk$-linear maps
+	\[
+	\nabla:V^{0}\to V^{1},\qquad
+	\nabla\times:V^{1}\to V^{2},\qquad
+	\nabla\cdot:V^{2}\to V^{3}
+	\]
+	by the standard coordinate formulas
+	\[
+	\nabla f=(\partial_1 f,\partial_2 f,\partial_3 f),
+	\]
+	\[
+	\nabla\times(P,Q,R)=(\partial_2 R-\partial_3 Q,\ \partial_3 P-\partial_1 R,\ \partial_1 Q-\partial_2 P),
+	\]
+	\[
+	\nabla\cdot(A,B,C)=\partial_1 A+\partial_2 B+\partial_3 C.
+	\]
+\end{definition}
+
+\begin{proposition}[Commuting transport and forced shapes of $V^k$]
+	Let $\Phi^{0},\Phi^{1},\Phi^{2},\Phi^{3}$ be defined by
+	\[
+	\Phi^{0}=\id_{C^\infty(U;\kk)},\qquad
+	\Phi^{1}=\flat,\qquad
+	\Phi^{2}=\Psi,\qquad
+	\Phi^{3}(h)=h\,\mathrm{vol}.
+	\]
+	Then
+	\[
+	\Phi^{1}\circ\nabla=d\circ\Phi^{0},\qquad
+	\Phi^{2}\circ(\nabla\times)=d\circ\Phi^{1},\qquad
+	\Phi^{3}\circ(\nabla\cdot)=d\circ\Phi^{2}.
+	\]
+	Consequently, the grad--curl--div complex
+	\[
+	0\to V^{0}\xrightarrow{\nabla}V^{1}\xrightarrow{\nabla\times}V^{2}\xrightarrow{\nabla\cdot}V^{3}\to 0
+	\]
+	is (via $\Phi^\bullet$) a transported model of the de Rham complex
+	\[
+	0\to\Omega^{0}(U)\xrightarrow{d}\Omega^{1}(U)\xrightarrow{d}\Omega^{2}(U)\xrightarrow{d}\Omega^{3}(U)\to 0.
+	\]
+\end{proposition}
+
+\begin{proof}
+	The equalities are verified by direct coordinate computation.
+	Explicitly, for $f\in C^\infty(U;\kk)$,
+	\[
+	d(f)=\sum_{i=1}^{3}\partial_i f\,dx_i = (\nabla f)^\flat = \Phi^{1}(\nabla f).
+	\]
+	For $F=(P,Q,R)\in V^{1}$ one computes
+	\[
+	d(F^\flat)
+	=(\partial_2 R-\partial_3 Q)\,dx_2\wedge dx_3
+	+(\partial_3 P-\partial_1 R)\,dx_3\wedge dx_1
+	+(\partial_1 Q-\partial_2 P)\,dx_1\wedge dx_2
+	=\Psi(\nabla\times F)=\Phi^{2}(\nabla\times F),
+	\]
+	and for $G=(A,B,C)\in V^{2}$ one computes
+	\[
+	d(\Psi(G))=(\partial_1A+\partial_2B+\partial_3C)\,dx_1\wedge dx_2\wedge dx_3
+	=(\nabla\cdot G)\,\mathrm{vol}=\Phi^{3}(\nabla\cdot G).
+	\]
+\end{proof}
+
+\subsection{Uniqueness up to constant changes of basis}
+
+\begin{theorem}[Uniqueness up to $\GL_{3}(\kk)$ in degrees $1$ and $2$]
+	Let $\widetilde{\Phi}^{0},\widetilde{\Phi}^{1},\widetilde{\Phi}^{2},\widetilde{\Phi}^{3}$ be any linear isomorphisms
+	\[
+	\widetilde{\Phi}^{k}:V^{k}\xrightarrow{\cong}\Omega^{k}(U)\qquad(k=0,1,2,3)
+	\]
+	such that
+	\[
+	\widetilde{\Phi}^{1}\circ\nabla=d\circ\widetilde{\Phi}^{0},\qquad
+	\widetilde{\Phi}^{2}\circ(\nabla\times)=d\circ\widetilde{\Phi}^{1},\qquad
+	\widetilde{\Phi}^{3}\circ(\nabla\cdot)=d\circ\widetilde{\Phi}^{2},
+	\]
+	and assume $\widetilde{\Phi}^{0}=\id$ and $\widetilde{\Phi}^{3}(h)=h\,\mathrm{vol}$.
+	Then there exists a constant matrix $A\in \GL_{3}(\kk)$ such that, after identifying
+	$V^{1}=V^{2}=C^\infty(U;\kk^{3})$, one has
+	\[
+	\widetilde{\Phi}^{1}=\flat\circ A,\qquad \widetilde{\Phi}^{2}=\Psi\circ A,
+	\]
+	where $A$ acts pointwise on $C^\infty(U;\kk^{3})$ by $(AF)(x)=A(F(x))$.
+\end{theorem}
+
+\begin{proof}
+	Define linear automorphisms $T^{1}:=\flat^{-1}\circ\widetilde{\Phi}^{1}$ and $T^{2}:=\Psi^{-1}\circ\widetilde{\Phi}^{2}$
+	of $C^\infty(U;\kk^{3})$.
+	The relations $\widetilde{\Phi}^{1}\circ\nabla=d\circ\id=\flat\circ\nabla$ and
+	$\widetilde{\Phi}^{2}\circ(\nabla\times)=d\circ\widetilde{\Phi}^{1}=\Psi\circ(\nabla\times)\circ T^{1}$
+	imply
+	\[
+	T^{1}\circ\nabla=\nabla,\qquad T^{2}\circ(\nabla\times)=(\nabla\times)\circ T^{1}.
+	\]
+	A standard linear-algebra/analysis argument shows that any $\kk$-linear endomorphism of
+	$C^\infty(U;\kk^{3})$ commuting with all partial derivatives must be given by pointwise multiplication by
+	a constant matrix in $\GL_{3}(\kk)$; denote this matrix by $A$.
+	Then $T^{1}=A$ and the second commutation forces $T^{2}=A$ as well.
+	Hence $\widetilde{\Phi}^{1}=\flat\circ A$ and $\widetilde{\Phi}^{2}=\Psi\circ A$.
+\end{proof}
+
+\begin{remark}
+	The theorem formalizes the statement that, once one fixes the canonical identifications in degrees $0$ and $3$,
+	the identifications in degrees $1$ and $2$ are unique up to an invertible constant change of basis of $\kk^{3}$.
+\end{remark}
+
+\newpage
+\section{The grad--curl--div cochain complex and its cohomology}
+
+\subsection{Vector spaces and linear maps}
+
+\begin{definition}[Spaces of smooth fields]
+	Let $U\subseteq \R^{3}$ be an open set and fix a field $\kk\in\{\R,\C\}$.
+	Define $\kk$-vector spaces
+	\[
+	V^{0}:=C^\infty(U;\kk),\qquad
+	V^{1}:=C^\infty(U;\kk^{3}),\qquad
+	V^{2}:=C^\infty(U;\kk^{3}),\qquad
+	V^{3}:=C^\infty(U;\kk),
+	\]
+	with pointwise addition and scalar multiplication.
+	For all $n\in\Z\setminus\{0,1,2,3\}$ set $V^{n}:=0$.
+\end{definition}
+
+\begin{definition}[Differentials: $\nabla$, $\nabla\times$, $\nabla\cdot$]
+	Write $(x_1,x_2,x_3)$ for the standard coordinates on $\R^{3}$ and $\partial_i:=\frac{\partial}{\partial x_i}$.
+	Define $\kk$-linear maps
+	\[
+	d^{0}:V^{0}\to V^{1},\qquad d^{1}:V^{1}\to V^{2},\qquad d^{2}:V^{2}\to V^{3}
+	\]
+	by the following formulas:
+	\begin{align*}
+		d^{0}(f) &:= \nabla f := (\partial_{1}f,\partial_{2}f,\partial_{3}f),\\
+		d^{1}(P,Q,R) &:= \nabla\times(P,Q,R) :=
+		\bigl(\partial_{2}R-\partial_{3}Q,\ \partial_{3}P-\partial_{1}R,\ \partial_{1}Q-\partial_{2}P\bigr),\\
+		d^{2}(A,B,C) &:= \nabla\cdot(A,B,C) := \partial_{1}A+\partial_{2}B+\partial_{3}C.
+	\end{align*}
+	For all $n\in\Z\setminus\{0,1,2\}$ define $d^{n}:V^{n}\to V^{n+1}$ to be the zero map.
+\end{definition}
+
+\begin{proposition}[The grad--curl--div complex]
+	The sequence
+	\[
+	0\longrightarrow V^{0}\xrightarrow{\,d^{0}=\nabla\,} V^{1}\xrightarrow{\,d^{1}=\nabla\times\,} V^{2}
+	\xrightarrow{\,d^{2}=\nabla\cdot\,} V^{3}\longrightarrow 0
+	\]
+	is a cochain complex, i.e.\ $d^{1}\circ d^{0}=0$ and $d^{2}\circ d^{1}=0$.
+	Equivalently,
+	\[
+	\nabla\times(\nabla f)=0\quad \forall f\in C^\infty(U;\kk),
+	\qquad
+	\nabla\cdot(\nabla\times F)=0\quad \forall F\in C^\infty(U;\kk^3).
+	\]
+\end{proposition}
+
+\begin{proof}
+	Let $f\in C^\infty(U;\kk)$. Then
+	\[
+	(\nabla\times \nabla f)_1
+	=\partial_{2}(\partial_{3}f)-\partial_{3}(\partial_{2}f)=0
+	\]
+	by commutativity of mixed partials; similarly $(\nabla\times\nabla f)_2=(\nabla\times\nabla f)_3=0$.
+	Hence $d^{1}d^{0}=0$.
+	
+	Let $F=(P,Q,R)\in C^\infty(U;\kk^3)$. Then
+	\begin{align*}
+		\nabla\cdot(\nabla\times F)
+		&=\partial_1(\partial_2R-\partial_3Q)+\partial_2(\partial_3P-\partial_1R)+\partial_3(\partial_1Q-\partial_2P)\\
+		&=\partial_1\partial_2R-\partial_1\partial_3Q+\partial_2\partial_3P-\partial_2\partial_1R+\partial_3\partial_1Q-\partial_3\partial_2P\\
+		&=0
+	\end{align*}
+	again by commutativity of mixed partial derivatives and cancellation. Thus $d^{2}d^{1}=0$.
+\end{proof}
+
+\subsection{Cohomology and interpretation}
+
+\begin{definition}[Cocycles, coboundaries, cohomology]
+	Let $(V^\bullet,d)$ be the grad--curl--div cochain complex above.
+	For each $n\in\Z$ define
+	\[
+	Z^{n}:=\ker(d^{n})\subseteq V^{n},\qquad
+	B^{n}:=\im(d^{n-1})\subseteq V^{n},
+	\qquad
+	H^{n}(V^\bullet):=Z^{n}/B^{n}.
+	\]
+\end{definition}
+
+\begin{proposition}[Cohomology groups of the grad--curl--div complex]
+	With the conventions $d^{-1}=0$ and $d^{3}=0$ one has:
+	\begin{align*}
+		H^{0}(V^\bullet)
+		&\cong \ker(\nabla)=\{f\in C^\infty(U;\kk):\nabla f=0\},\\[4pt]
+		H^{1}(V^\bullet)
+		&\cong \ker(\nabla\times)/\im(\nabla)
+		=\dfrac{\{F\in C^\infty(U;\kk^3):\nabla\times F=0\}}{\{\nabla f:f\in C^\infty(U;\kk)\}},\\[10pt]
+		H^{2}(V^\bullet)
+		&\cong \ker(\nabla\cdot)/\im(\nabla\times)
+		=\dfrac{\{G\in C^\infty(U;\kk^3):\nabla\cdot G=0\}}{\{\nabla\times F:F\in C^\infty(U;\kk^3)\}},\\[10pt]
+		H^{3}(V^\bullet)
+		&\cong V^{3}/\im(\nabla\cdot)
+		=\dfrac{C^\infty(U;\kk)}{\{\nabla\cdot G:G\in C^\infty(U;\kk^3)\}}.
+	\end{align*}
+\end{proposition}
+
+\begin{remark}[Interpretation]
+	$H^{1}$ measures curl-free vector fields modulo gradients (obstructions to global scalar potentials).
+	$H^{2}$ measures divergence-free vector fields modulo curls (obstructions to global vector potentials).
+	$H^{3}$ measures functions modulo divergences.
+\end{remark}
+
+\subsection{Identification with the de Rham complex (formal transport)}
+
+\begin{definition}[de Rham complex]
+	Let $\Omega^{k}(U)$ denote the $\kk$-vector space of smooth differential $k$-forms on $U$.
+	The exterior derivative is a $\kk$-linear map
+	\[
+	d:\Omega^{k}(U)\to \Omega^{k+1}(U)
+	\]
+	satisfying $d\circ d=0$.
+	The associated cohomology spaces are
+	\[
+	H^{k}_{\mathrm{dR}}(U):=\ker\bigl(d:\Omega^{k}(U)\to \Omega^{k+1}(U)\bigr)\Big/\im\bigl(d:\Omega^{k-1}(U)\to \Omega^{k}(U)\bigr).
+	\]
+\end{definition}
+
+\begin{definition}[Musical isomorphism and Hodge star (Euclidean)]
+	Equip $U\subseteq\R^{3}$ with the standard Euclidean metric and orientation.
+	Let $\flat:C^\infty(U;\kk^3)\to\Omega^{1}(U)$ denote the metric identification (``lowering an index'').
+	Let $*: \Omega^{k}(U)\to\Omega^{3-k}(U)$ denote the Hodge star operator.
+\end{definition}
+
+\begin{proposition}[Commuting diagram with de Rham]
+	Define linear isomorphisms
+	\[
+	\Phi^{0}:V^{0}\xrightarrow{\cong}\Omega^{0}(U),\quad \Phi^{0}(f)=f,
+	\]
+	\[
+	\Phi^{1}:V^{1}\xrightarrow{\cong}\Omega^{1}(U),\quad \Phi^{1}(F)=F^{\flat},
+	\]
+	\[
+	\Phi^{2}:V^{2}\xrightarrow{\cong}\Omega^{2}(U),\quad \Phi^{2}(G)=*(G^{\flat}),
+	\]
+	\[
+	\Phi^{3}:V^{3}\xrightarrow{\cong}\Omega^{3}(U),\quad \Phi^{3}(h)=h\,dx_{1}\wedge dx_{2}\wedge dx_{3}.
+	\]
+	Then the following diagram commutes:
+	\[
+	\begin{tikzcd}[column sep=large,row sep=large]
+		0 \arrow[r] &
+		V^{0} \arrow[r,"\nabla"] \arrow[d,"\Phi^{0}"',"\cong"] &
+		V^{1} \arrow[r,"\nabla\times"] \arrow[d,"\Phi^{1}"',"\cong"] &
+		V^{2} \arrow[r,"\nabla\cdot"] \arrow[d,"\Phi^{2}"',"\cong"] &
+		V^{3} \arrow[r] \arrow[d,"\Phi^{3}"',"\cong"] &
+		0\\
+		0 \arrow[r] &
+		\Omega^{0}(U) \arrow[r,"d"] &
+		\Omega^{1}(U) \arrow[r,"d"] &
+		\Omega^{2}(U) \arrow[r,"d"] &
+		\Omega^{3}(U) \arrow[r] &
+		0
+	\end{tikzcd}
+	\]
+	Consequently, for each $k\in\{0,1,2,3\}$ there is an induced isomorphism
+	\[
+	H^{k}(V^\bullet)\cong H^{k}_{\mathrm{dR}}(U).
+	\]
+\end{proposition}
+
+\begin{corollary}[Contractible case]
+	If $U$ is contractible (e.g.\ $U$ is star-shaped), then
+	\[
+	H^{k}(V^\bullet)=0\ \text{for all }k\in\{1,2,3\},
+	\]
+	and if $U$ is connected then $H^{0}(V^\bullet)\cong \kk$.
+\end{corollary}
+
+\newpage
+\section{The grad--curl--div cochain complex and its identification with the de Rham complex}
+
+\subsection{The grad--curl--div cochain complex}
+
+\begin{definition}[Spaces and differentials]
+	Let $U\subseteq \R^{3}$ be open and fix $\kk\in\{\R,\C\}$.
+	Define $\kk$-vector spaces
+	\[
+	V^{0}:=C^\infty(U;\kk),\quad
+	V^{1}:=C^\infty(U;\kk^{3}),\quad
+	V^{2}:=C^\infty(U;\kk^{3}),\quad
+	V^{3}:=C^\infty(U;\kk).
+	\]
+	Write $(x_1,x_2,x_3)$ for the standard coordinates and $\partial_i:=\frac{\partial}{\partial x_i}$.
+	Define $\kk$-linear maps
+	\[
+	d^{0}:V^{0}\to V^{1},\qquad d^{1}:V^{1}\to V^{2},\qquad d^{2}:V^{2}\to V^{3}
+	\]
+	by
+	\begin{align*}
+		d^{0}(f)&:=\nabla f:=(\partial_1 f,\partial_2 f,\partial_3 f),\\
+		d^{1}(P,Q,R)&:=\nabla\times(P,Q,R):=
+		(\partial_2 R-\partial_3 Q,\ \partial_3 P-\partial_1 R,\ \partial_1 Q-\partial_2 P),\\
+		d^{2}(A,B,C)&:=\nabla\cdot(A,B,C):=\partial_1 A+\partial_2 B+\partial_3 C.
+	\end{align*}
+\end{definition}
+
+\begin{proposition}[Cochain complex condition]
+	One has $d^{1}\circ d^{0}=0$ and $d^{2}\circ d^{1}=0$. Hence
+	\[
+	0\longrightarrow V^{0}\xrightarrow{\ \nabla\ } V^{1}\xrightarrow{\ \nabla\times\ } V^{2}\xrightarrow{\ \nabla\cdot\ } V^{3}\longrightarrow 0
+	\]
+	is a cochain complex.
+\end{proposition}
+
+\begin{proof}
+	This follows immediately from the computations
+	\[
+	\nabla\times(\nabla f)=0,\qquad \nabla\cdot(\nabla\times F)=0,
+	\]
+	which are verified componentwise using commutativity of mixed partial derivatives.
+\end{proof}
+
+\subsection{Cohomology of the grad--curl--div complex}
+
+\begin{definition}[Cohomology]
+	For each $n\in\{0,1,2,3\}$ define
+	\[
+	Z^{n}:=\Ker(d^{n})\subseteq V^{n},\qquad B^{n}:=\im(d^{n-1})\subseteq V^{n},
+	\qquad H^{n}(V^\bullet):=Z^{n}/B^{n},
+	\]
+	with the conventions $d^{-1}=0$ and $d^{3}=0$.
+\end{definition}
+
+\begin{proposition}[Concrete description]
+	One has canonical identifications
+	\begin{align*}
+		H^{0}(V^\bullet)
+		&\cong \Ker(\nabla),\\[4pt]
+		H^{1}(V^\bullet)
+		&\cong \Ker(\nabla\times)\big/\im(\nabla),\\[6pt]
+		H^{2}(V^\bullet)
+		&\cong \Ker(\nabla\cdot)\big/\im(\nabla\times),\\[6pt]
+		H^{3}(V^\bullet)
+		&\cong V^{3}\big/\im(\nabla\cdot).
+	\end{align*}
+\end{proposition}
+
+\subsection{Differential forms on \(U\subseteq\mathbb{R}^3\)}
+
+\begin{definition}[de Rham complex]
+	Let $\Omega^{k}(U)$ be the $\kk$-vector space of smooth $k$-forms on $U$.
+	The exterior derivative is the $\kk$-linear map
+	\[
+	d:\Omega^{k}(U)\to\Omega^{k+1}(U)
+	\]
+	characterized in coordinates by the usual rules (graded Leibniz rule and $d(dx_i)=0$),
+	and satisfies $d\circ d=0$.
+	The $k$-th de Rham cohomology is
+	\[
+	H^{k}_{\mathrm{dR}}(U):=\Ker\bigl(d:\Omega^{k}(U)\to\Omega^{k+1}(U)\bigr)\Big/\im\bigl(d:\Omega^{k-1}(U)\to\Omega^{k}(U)\bigr).
+	\]
+\end{definition}
+
+\subsection{Explicit formulas for \(\flat\) and \(*\)}
+
+\begin{definition}[Euclidean musical isomorphisms]
+	Endow $U\subseteq\R^3$ with the standard Euclidean metric
+	$g=\sum_{i=1}^{3} dx_i\otimes dx_i$.
+	Define the $\kk$-linear map (``lowering an index'')
+	\[
+	\flat: C^\infty(U;\kk^3)\to \Omega^{1}(U)
+	\]
+	by the coordinate formula
+	\[
+	(P,Q,R)^\flat := P\,dx_1 + Q\,dx_2 + R\,dx_3.
+	\]
+	Its inverse $\sharp:\Omega^{1}(U)\to C^\infty(U;\kk^3)$ is given by
+	\[
+	(a_1 dx_1+a_2 dx_2+a_3 dx_3)^\sharp := (a_1,a_2,a_3).
+	\]
+\end{definition}
+
+\begin{definition}[Hodge star in \(\R^3\)]
+	Fix the standard orientation, with volume form
+	\[
+	\mathrm{vol}:=dx_1\wedge dx_2\wedge dx_3\in\Omega^{3}(U).
+	\]
+	Define the Hodge star operator $*:\Omega^{k}(U)\to\Omega^{3-k}(U)$ by specifying its values on the standard basis:
+	\begin{align*}
+		*&1=\mathrm{vol},\\
+		&*dx_1=dx_2\wedge dx_3,\quad *dx_2=dx_3\wedge dx_1,\quad *dx_3=dx_1\wedge dx_2,\\
+		&*(dx_2\wedge dx_3)=dx_1,\quad *(dx_3\wedge dx_1)=dx_2,\quad *(dx_1\wedge dx_2)=dx_3,\\
+		&*\mathrm{vol}=1,
+	\end{align*}
+	and extending \(\kk\)-linearly.
+\end{definition}
+
+\subsection{Transport of the de Rham differential to grad--curl--div}
+
+\begin{definition}[The comparison isomorphisms \(\Phi^k\)]
+	Define \(\kk\)-linear isomorphisms
+	\[
+	\Phi^{0}:V^{0}\xrightarrow{\cong}\Omega^{0}(U),\quad \Phi^{0}(f):=f,
+	\]
+	\[
+	\Phi^{1}:V^{1}\xrightarrow{\cong}\Omega^{1}(U),\quad \Phi^{1}(F):=F^\flat,
+	\]
+	\[
+	\Phi^{2}:V^{2}\xrightarrow{\cong}\Omega^{2}(U),\quad \Phi^{2}(G):=*(G^\flat),
+	\]
+	\[
+	\Phi^{3}:V^{3}\xrightarrow{\cong}\Omega^{3}(U),\quad \Phi^{3}(h):=h\,\mathrm{vol}.
+	\]
+\end{definition}
+
+\begin{proposition}[Commutativity of the comparison diagram]
+	For all $f\in V^{0}$, $F\in V^{1}$, $G\in V^{2}$, one has
+	\[
+	\Phi^{1}(\nabla f)=d(\Phi^{0}(f)),\qquad
+	\Phi^{2}(\nabla\times F)=d(\Phi^{1}(F)),\qquad
+	\Phi^{3}(\nabla\cdot G)=d(\Phi^{2}(G)).
+	\]
+	Equivalently, the diagram of cochain complexes commutes:
+	\[
+	\begin{tikzcd}[column sep=large,row sep=large]
+		0 \arrow[r] &
+		V^{0} \arrow[r,"\nabla"] \arrow[d,"\Phi^{0}"',"\cong"] &
+		V^{1} \arrow[r,"\nabla\times"] \arrow[d,"\Phi^{1}"',"\cong"] &
+		V^{2} \arrow[r,"\nabla\cdot"] \arrow[d,"\Phi^{2}"',"\cong"] &
+		V^{3} \arrow[r] \arrow[d,"\Phi^{3}"',"\cong"] &
+		0\\
+		0 \arrow[r] &
+		\Omega^{0}(U) \arrow[r,"d"] &
+		\Omega^{1}(U) \arrow[r,"d"] &
+		\Omega^{2}(U) \arrow[r,"d"] &
+		\Omega^{3}(U) \arrow[r] &
+		0.
+	\end{tikzcd}
+	\]
+\end{proposition}
+
+\begin{proof}
+	\emph{Step 1: grad.}
+	Let $f\in V^{0}=C^\infty(U;\kk)$. Then
+	\[
+	d(\Phi^{0}(f))=d(f)=\partial_1 f\,dx_1+\partial_2 f\,dx_2+\partial_3 f\,dx_3
+	=(\nabla f)^\flat=\Phi^{1}(\nabla f).
+	\]
+	
+	\emph{Step 2: curl.}
+	Let $F=(P,Q,R)\in V^{1}$. Then $\Phi^{1}(F)=F^\flat=P\,dx_1+Q\,dx_2+R\,dx_3$, hence
+	\begin{align*}
+		d(\Phi^{1}(F))
+		&=d(P)\wedge dx_1+d(Q)\wedge dx_2+d(R)\wedge dx_3\\
+		&=(\partial_1 P\,dx_1+\partial_2 P\,dx_2+\partial_3 P\,dx_3)\wedge dx_1\\
+		&\qquad+(\partial_1 Q\,dx_1+\partial_2 Q\,dx_2+\partial_3 Q\,dx_3)\wedge dx_2\\
+		&\qquad+(\partial_1 R\,dx_1+\partial_2 R\,dx_2+\partial_3 R\,dx_3)\wedge dx_3.
+	\end{align*}
+	Using $dx_i\wedge dx_i=0$ and $dx_j\wedge dx_i=-dx_i\wedge dx_j$, this simplifies to
+	\begin{align*}
+		d(\Phi^{1}(F))
+		&=(\partial_2 P)\,dx_2\wedge dx_1+(\partial_3 P)\,dx_3\wedge dx_1\\
+		&\quad+(\partial_1 Q)\,dx_1\wedge dx_2+(\partial_3 Q)\,dx_3\wedge dx_2\\
+		&\quad+(\partial_1 R)\,dx_1\wedge dx_3+(\partial_2 R)\,dx_2\wedge dx_3\\
+		&=(\partial_2 R-\partial_3 Q)\,dx_2\wedge dx_3
+		+(\partial_3 P-\partial_1 R)\,dx_3\wedge dx_1
+		+(\partial_1 Q-\partial_2 P)\,dx_1\wedge dx_2.
+	\end{align*}
+	On the other hand,
+	\[
+	\nabla\times F=
+	(\partial_2 R-\partial_3 Q,\ \partial_3 P-\partial_1 R,\ \partial_1 Q-\partial_2 P),
+	\]
+	so
+	\begin{align*}
+		\Phi^{2}(\nabla\times F)
+		&=*((\nabla\times F)^\flat)\\
+		&=*(\,(\partial_2 R-\partial_3 Q)\,dx_1+(\partial_3 P-\partial_1 R)\,dx_2+(\partial_1 Q-\partial_2 P)\,dx_3\,)\\
+		&=(\partial_2 R-\partial_3 Q)\,dx_2\wedge dx_3
+		+(\partial_3 P-\partial_1 R)\,dx_3\wedge dx_1
+		+(\partial_1 Q-\partial_2 P)\,dx_1\wedge dx_2.
+	\end{align*}
+	Comparing, $d(\Phi^{1}(F))=\Phi^{2}(\nabla\times F)$.
+	
+	\emph{Step 3: div.}
+	Let $G=(A,B,C)\in V^{2}$. Then
+	\[
+	\Phi^{2}(G)=*(G^\flat)=*(A\,dx_1+B\,dx_2+C\,dx_3)
+	=A\,dx_2\wedge dx_3+B\,dx_3\wedge dx_1+C\,dx_1\wedge dx_2.
+	\]
+	Therefore
+	\begin{align*}
+		d(\Phi^{2}(G))
+		&=d(A)\wedge dx_2\wedge dx_3+d(B)\wedge dx_3\wedge dx_1+d(C)\wedge dx_1\wedge dx_2\\
+		&=(\partial_1 A\,dx_1+\partial_2 A\,dx_2+\partial_3 A\,dx_3)\wedge dx_2\wedge dx_3\\
+		&\quad+(\partial_1 B\,dx_1+\partial_2 B\,dx_2+\partial_3 B\,dx_3)\wedge dx_3\wedge dx_1\\
+		&\quad+(\partial_1 C\,dx_1+\partial_2 C\,dx_2+\partial_3 C\,dx_3)\wedge dx_1\wedge dx_2\\
+		&=(\partial_1 A)\,dx_1\wedge dx_2\wedge dx_3
+		+(\partial_2 B)\,dx_2\wedge dx_3\wedge dx_1
+		+(\partial_3 C)\,dx_3\wedge dx_1\wedge dx_2\\
+		&=(\partial_1 A+\partial_2 B+\partial_3 C)\,dx_1\wedge dx_2\wedge dx_3\\
+		&=(\nabla\cdot G)\,\mathrm{vol}
+		=\Phi^{3}(\nabla\cdot G).
+	\end{align*}
+	This completes the proof.
+\end{proof}
+
+\begin{corollary}[Cohomology identification]
+	The maps $\Phi^{k}$ induce isomorphisms on cohomology:
+	\[
+	H^{k}(V^\bullet)\cong H^{k}_{\mathrm{dR}}(U)\qquad (k=0,1,2,3).
+	\]
+\end{corollary}
+
+\begin{remark}[Topology and ``potential'' obstructions]
+	Under the identification above, $H^{1}(V^\bullet)$ measures curl-free fields modulo gradients, and
+	$H^{2}(V^\bullet)$ measures divergence-free fields modulo curls.
+	If $U$ is contractible (e.g.\ star-shaped), then $H^{k}_{\mathrm{dR}}(U)=0$ for $k\ge 1$, hence
+	$H^{1}(V^\bullet)=H^{2}(V^\bullet)=H^{3}(V^\bullet)=0$.
+\end{remark}
+
+\newpage
+\section{Cochain complexes and grad--curl--div as de Rham cohomology in $\R^{3}$}
+
+\subsection{Formal construction of differential forms on an open set of $\R^{3}$}
+
+\begin{definition}[Coordinate ring of smooth functions]
+	Let $U\subseteq \R^{3}$ be open. For a field $\kk\in\{\R,\C\}$ define
+	\[
+	\Omega^{0}(U):=C^\infty(U;\kk),
+	\]
+	viewed as a commutative unital $\kk$-algebra under pointwise operations.
+\end{definition}
+
+\begin{definition}[The $\kk$-vector spaces $\Omega^{1}(U),\Omega^{2}(U),\Omega^{3}(U)$]
+	Let $(x_1,x_2,x_3)$ be the standard coordinate functions on $U$.
+	Define $\Omega^{1}(U)$ to be the free $\Omega^{0}(U)$-module with basis $\{dx_1,dx_2,dx_3\}$, i.e.
+	\[
+	\Omega^{1}(U):=\Omega^{0}(U)\,dx_1 \oplus \Omega^{0}(U)\,dx_2 \oplus \Omega^{0}(U)\,dx_3.
+	\]
+	Define $\Omega^{2}(U)$ to be the free $\Omega^{0}(U)$-module with basis
+	$\{dx_1\wedge dx_2,\ dx_2\wedge dx_3,\ dx_3\wedge dx_1\}$, i.e.
+	\[
+	\Omega^{2}(U):=\Omega^{0}(U)\,(dx_1\wedge dx_2)\oplus
+	\Omega^{0}(U)\,(dx_2\wedge dx_3)\oplus
+	\Omega^{0}(U)\,(dx_3\wedge dx_1).
+	\]
+	Define $\Omega^{3}(U)$ to be the free $\Omega^{0}(U)$-module of rank $1$ with basis
+	\[
+	\mathrm{vol}:=dx_1\wedge dx_2\wedge dx_3,
+	\qquad
+	\Omega^{3}(U):=\Omega^{0}(U)\,\mathrm{vol}.
+	\]
+\end{definition}
+
+\begin{definition}[Wedge product on coordinate forms]
+	Define a $\kk$-bilinear map
+	\[
+	\wedge:\Omega^{p}(U)\times \Omega^{q}(U)\to \Omega^{p+q}(U)
+	\]
+	by imposing the following axioms:
+	\begin{enumerate}
+		\item $\wedge$ is $\Omega^{0}(U)$-bilinear in the sense that for $f\in\Omega^{0}(U)$ and forms $\alpha,\beta$
+		\[
+		(f\alpha)\wedge\beta=f(\alpha\wedge\beta),\qquad \alpha\wedge(f\beta)=f(\alpha\wedge\beta);
+		\]
+		\item $\wedge$ is associative;
+		\item on basis elements it is alternating:
+		\[
+		dx_i\wedge dx_i=0,\qquad dx_i\wedge dx_j=-\,dx_j\wedge dx_i\quad(i\neq j);
+		\]
+		\item $1\in\Omega^{0}(U)$ acts as a unit: $1\wedge\alpha=\alpha=\alpha\wedge 1$ for all $\alpha$.
+	\end{enumerate}
+\end{definition}
+
+\begin{remark}[Coordinate expansions]
+	Every $\alpha\in\Omega^{1}(U)$ has a unique expression
+	\[
+	\alpha=a_1\,dx_1+a_2\,dx_2+a_3\,dx_3\qquad(a_i\in\Omega^{0}(U)),
+	\]
+	every $\beta\in\Omega^{2}(U)$ has a unique expression
+	\[
+	\beta=b_{12}\,dx_1\wedge dx_2+b_{23}\,dx_2\wedge dx_3+b_{31}\,dx_3\wedge dx_1
+	\qquad(b_{ij}\in\Omega^{0}(U)),
+	\]
+	and every $\gamma\in\Omega^{3}(U)$ has a unique expression $\gamma=c\,\mathrm{vol}$ with $c\in\Omega^{0}(U)$.
+\end{remark}
+
+\subsection{Formal definition of the exterior derivative}
+
+\begin{definition}[Exterior derivative in coordinates]
+	Define $\kk$-linear maps
+	\[
+	d:\Omega^{k}(U)\to\Omega^{k+1}(U)\qquad(k=0,1,2)
+	\]
+	by the following coordinate rules.
+	\begin{enumerate}
+		\item If $f\in\Omega^{0}(U)$, define
+		\[
+		df:=\partial_1 f\,dx_1+\partial_2 f\,dx_2+\partial_3 f\,dx_3\in\Omega^{1}(U).
+		\]
+		\item If $\alpha=a_1dx_1+a_2dx_2+a_3dx_3\in\Omega^{1}(U)$, define
+		\begin{align*}
+			d\alpha
+			&:=da_1\wedge dx_1+da_2\wedge dx_2+da_3\wedge dx_3\\
+			&=(\partial_2 a_1-\partial_1 a_2)\,dx_1\wedge dx_2
+			+(\partial_3 a_2-\partial_2 a_3)\,dx_2\wedge dx_3
+			+(\partial_1 a_3-\partial_3 a_1)\,dx_3\wedge dx_1
+			\in\Omega^{2}(U).
+		\end{align*}
+		\item If $\beta=b_{12}dx_1\wedge dx_2+b_{23}dx_2\wedge dx_3+b_{31}dx_3\wedge dx_1\in\Omega^{2}(U)$, define
+		\begin{align*}
+			d\beta
+			&:=db_{12}\wedge dx_1\wedge dx_2+db_{23}\wedge dx_2\wedge dx_3+db_{31}\wedge dx_3\wedge dx_1\\
+			&=(\partial_3 b_{12}+\partial_1 b_{23}+\partial_2 b_{31})\,dx_1\wedge dx_2\wedge dx_3
+			\in\Omega^{3}(U).
+		\end{align*}
+	\end{enumerate}
+	Finally define $d:\Omega^{3}(U)\to 0$ to be the zero map.
+\end{definition}
+
+\begin{proposition}[Graded Leibniz rule]
+	For all $p,q\ge 0$ with $p+q\le 3$, and all $\alpha\in\Omega^{p}(U)$, $\beta\in\Omega^{q}(U)$, one has
+	\[
+	d(\alpha\wedge\beta)=d\alpha\wedge\beta+(-1)^{p}\alpha\wedge d\beta.
+	\]
+\end{proposition}
+
+\begin{proposition}[$d^2=0$]
+	The maps $d:\Omega^{k}(U)\to\Omega^{k+1}(U)$ satisfy $d\circ d=0$, i.e.
+	\[
+	d^{2}=0:\Omega^{k}(U)\to\Omega^{k+2}(U)\qquad\text{for }k=0,1,2.
+	\]
+\end{proposition}
+
+\begin{proof}
+	It suffices to check $d(df)=0$ for $f\in\Omega^{0}(U)$ and $d(d\alpha)=0$ for $\alpha\in\Omega^{1}(U)$.
+	The coordinate formulas show each coefficient is a sum of mixed second derivatives which cancel by
+	$\partial_i\partial_j=\partial_j\partial_i$.
+\end{proof}
+
+\begin{definition}[de Rham cochain complex and cohomology]
+	The sequence
+	\[
+	0\to \Omega^{0}(U)\xrightarrow{d}\Omega^{1}(U)\xrightarrow{d}\Omega^{2}(U)\xrightarrow{d}\Omega^{3}(U)\to 0
+	\]
+	is a cochain complex. Its cohomology vector spaces are
+	\[
+	H^{k}_{\mathrm{dR}}(U):=\Ker\bigl(d:\Omega^{k}(U)\to\Omega^{k+1}(U)\bigr)\Big/\im\bigl(d:\Omega^{k-1}(U)\to\Omega^{k}(U)\bigr).
+	\]
+\end{definition}
+
+\subsection{grad, curl, div as transported differentials}
+
+\begin{definition}[Vector-field spaces and vector-calculus differentials]
+	Let $V^{0}:=C^\infty(U;\kk)$, $V^{1}:=C^\infty(U;\kk^{3})$, $V^{2}:=C^\infty(U;\kk^{3})$, $V^{3}:=C^\infty(U;\kk)$.
+	Define
+	\[
+	\nabla:V^{0}\to V^{1},\qquad \nabla\times:V^{1}\to V^{2},\qquad \nabla\cdot:V^{2}\to V^{3}
+	\]
+	by
+	\begin{align*}
+		\nabla f&:=(\partial_1 f,\partial_2 f,\partial_3 f),\\
+		\nabla\times(P,Q,R)&:=(\partial_2 R-\partial_3 Q,\ \partial_3 P-\partial_1 R,\ \partial_1 Q-\partial_2 P),\\
+		\nabla\cdot(A,B,C)&:=\partial_1A+\partial_2B+\partial_3C.
+	\end{align*}
+\end{definition}
+
+\begin{definition}[Explicit identifications $\Phi^k$]
+	Equip $U$ with the Euclidean metric and standard orientation.
+	Define linear isomorphisms
+	\[
+	\Phi^{0}:V^{0}\xrightarrow{\cong}\Omega^{0}(U),\quad \Phi^{0}(f)=f,
+	\]
+	\[
+	\Phi^{1}:V^{1}\xrightarrow{\cong}\Omega^{1}(U),\quad \Phi^{1}(P,Q,R)=P\,dx_1+Q\,dx_2+R\,dx_3,
+	\]
+	\[
+	\Phi^{2}:V^{2}\xrightarrow{\cong}\Omega^{2}(U),\quad \Phi^{2}(A,B,C)=A\,dx_2\wedge dx_3+B\,dx_3\wedge dx_1+C\,dx_1\wedge dx_2,
+	\]
+	\[
+	\Phi^{3}:V^{3}\xrightarrow{\cong}\Omega^{3}(U),\quad \Phi^{3}(h)=h\,dx_1\wedge dx_2\wedge dx_3.
+	\]
+\end{definition}
+
+\begin{proposition}[Diagram commutativity: explicit proof]
+	For all $f\in V^{0}$, $F\in V^{1}$, $G\in V^{2}$,
+	\[
+	\Phi^{1}(\nabla f)=d(\Phi^{0}(f)),\qquad
+	\Phi^{2}(\nabla\times F)=d(\Phi^{1}(F)),\qquad
+	\Phi^{3}(\nabla\cdot G)=d(\Phi^{2}(G)).
+	\]
+	Equivalently, the following diagram commutes:
+	\[
+	\begin{tikzcd}[column sep=large,row sep=large]
+		0 \arrow[r] &
+		V^{0} \arrow[r,"\nabla"] \arrow[d,"\Phi^{0}"',"\cong"] &
+		V^{1} \arrow[r,"\nabla\times"] \arrow[d,"\Phi^{1}"',"\cong"] &
+		V^{2} \arrow[r,"\nabla\cdot"] \arrow[d,"\Phi^{2}"',"\cong"] &
+		V^{3} \arrow[r] \arrow[d,"\Phi^{3}"',"\cong"] &
+		0\\
+		0 \arrow[r] &
+		\Omega^{0}(U) \arrow[r,"d"] &
+		\Omega^{1}(U) \arrow[r,"d"] &
+		\Omega^{2}(U) \arrow[r,"d"] &
+		\Omega^{3}(U) \arrow[r] &
+		0.
+	\end{tikzcd}
+	\]
+\end{proposition}
+
+\begin{proof}
+	\emph{(i) grad.}
+	For $f\in V^{0}$,
+	\[
+	d(\Phi^{0}(f))=df=\partial_1 f\,dx_1+\partial_2 f\,dx_2+\partial_3 f\,dx_3=\Phi^{1}(\nabla f).
+	\]
+	
+	\emph{(ii) curl.}
+	Let $F=(P,Q,R)\in V^{1}$. Then $\Phi^{1}(F)=Pdx_1+Qdx_2+Rdx_3$. Hence
+	\begin{align*}
+		d(\Phi^{1}(F))
+		&=d(P)\wedge dx_1+d(Q)\wedge dx_2+d(R)\wedge dx_3\\
+		&=(\partial_2R-\partial_3Q)\,dx_2\wedge dx_3
+		+(\partial_3P-\partial_1R)\,dx_3\wedge dx_1
+		+(\partial_1Q-\partial_2P)\,dx_1\wedge dx_2.
+	\end{align*}
+	By definition,
+	\[
+	\nabla\times F=(\partial_2R-\partial_3Q,\ \partial_3P-\partial_1R,\ \partial_1Q-\partial_2P),
+	\]
+	so
+	\[
+	\Phi^{2}(\nabla\times F)
+	=(\partial_2R-\partial_3Q)\,dx_2\wedge dx_3
+	+(\partial_3P-\partial_1R)\,dx_3\wedge dx_1
+	+(\partial_1Q-\partial_2P)\,dx_1\wedge dx_2.
+	\]
+	Thus $d(\Phi^{1}(F))=\Phi^{2}(\nabla\times F)$.
+	
+	\emph{(iii) div.}
+	Let $G=(A,B,C)\in V^{2}$. Then
+	\[
+	\Phi^{2}(G)=A\,dx_2\wedge dx_3+B\,dx_3\wedge dx_1+C\,dx_1\wedge dx_2.
+	\]
+	Hence
+	\begin{align*}
+		d(\Phi^{2}(G))
+		&=d(A)\wedge dx_2\wedge dx_3+d(B)\wedge dx_3\wedge dx_1+d(C)\wedge dx_1\wedge dx_2\\
+		&=(\partial_1A+\partial_2B+\partial_3C)\,dx_1\wedge dx_2\wedge dx_3
+		=\Phi^{3}(\nabla\cdot G).
+	\end{align*}
+\end{proof}
+
+\subsection{Cohomology on the vector-calculus side}
+
+\begin{definition}[Cohomology of grad--curl--div]
+	Define $d^{0}:=\nabla$, $d^{1}:=\nabla\times$, $d^{2}:=\nabla\cdot$, and extend by $d^{-1}=0$, $d^{3}=0$.
+	Define
+	\[
+	Z^{n}:=\Ker(d^{n}),\qquad B^{n}:=\im(d^{n-1}),\qquad H^{n}(V^\bullet):=Z^{n}/B^{n}
+	\quad (n=0,1,2,3).
+	\]
+	Equivalently,
+	\begin{align*}
+		H^{0}(V^\bullet)&=\Ker(\nabla),\\
+		H^{1}(V^\bullet)&=\Ker(\nabla\times)\big/\im(\nabla),\\
+		H^{2}(V^\bullet)&=\Ker(\nabla\cdot)\big/\im(\nabla\times),\\
+		H^{3}(V^\bullet)&=C^\infty(U;\kk)\big/\im(\nabla\cdot).
+	\end{align*}
+\end{definition}
+
+\begin{corollary}[Identification with de Rham cohomology]
+	For each $k\in\{0,1,2,3\}$, the isomorphisms $\Phi^{k}$ induce canonical isomorphisms
+	\[
+	H^{k}(V^\bullet)\cong H^{k}_{\mathrm{dR}}(U).
+	\]
+\end{corollary}
+
+\begin{remark}[Contractible domains]
+	If $U$ is contractible, then $H^{k}_{\mathrm{dR}}(U)=0$ for $k\ge 1$ and (if $U$ is connected) $H^{0}_{\mathrm{dR}}(U)\cong \kk$.
+	Consequently $H^{1}(V^\bullet)=H^{2}(V^\bullet)=H^{3}(V^\bullet)=0$ and $H^{0}(V^\bullet)\cong\kk$.
+\end{remark}
+
+
+
+\newpage
+\section{Cochain complexes of vector spaces}
+
+\begin{definition}[Graded vector space]
+	Fix a field $\kk$.
+	A \emph{$\Z$-graded $\kk$-vector space} is a family $V^\bullet=\{V^n\}_{n\in\Z}$ of $\kk$-vector spaces.
+\end{definition}
+
+\begin{definition}[Cochain complex]
+	A \emph{cochain complex of $\kk$-vector spaces} is a pair $(V^\bullet,d)$ where
+	\begin{enumerate}
+		\item $V^\bullet=\{V^n\}_{n\in\Z}$ is a $\Z$-graded $\kk$-vector space;
+		\item $d=\{d^n\}_{n\in\Z}$ is a family of $\kk$-linear maps
+		\[
+		d^n:V^n\longrightarrow V^{n+1}\qquad(n\in\Z)
+		\]
+		such that
+		\[
+		d^{n+1}\circ d^n = 0\qquad\text{for all }n\in\Z.
+		\]
+	\end{enumerate}
+	In diagrammatic form, one writes
+	\[
+	\cdots \xrightarrow{d^{n-2}} V^{n-1}\xrightarrow{d^{n-1}} V^n\xrightarrow{d^n}V^{n+1}\xrightarrow{d^{n+1}}\cdots,
+	\qquad d^n d^{n-1}=0.
+	\]
+\end{definition}
+
+\begin{remark}[The condition $d^{n+1}d^n=0$]
+	For each $n\in\Z$ the equality $d^{n+1}\circ d^n=0$ is an equality of $\kk$-linear maps
+	$V^n\to V^{n+2}$. Equivalently,
+	\[
+	\forall v\in V^n,\quad d^{n+1}\bigl(d^n(v)\bigr)=0.
+	\]
+\end{remark}
+
+\section{Cocycles, coboundaries, and cohomology}
+
+\begin{definition}[Cocycles and coboundaries]
+	Let $(V^\bullet,d)$ be a cochain complex.
+	For each $n\in\Z$ define the subspaces
+	\[
+	Z^n(V^\bullet):=\ker(d^n)\subseteq V^n,
+	\qquad
+	B^n(V^\bullet):=\im(d^{n-1})\subseteq V^n.
+	\]
+	Elements of $Z^n(V^\bullet)$ are called \emph{$n$-cocycles}, and elements of
+	$B^n(V^\bullet)$ are called \emph{$n$-coboundaries}.
+\end{definition}
+
+\begin{lemma}[Coboundaries are cocycles]
+	For every $n\in\Z$ one has $B^n(V^\bullet)\subseteq Z^n(V^\bullet)$.
+\end{lemma}
+
+\begin{proof}
+	Let $x\in B^n(V^\bullet)$. By definition, $\exists\,y\in V^{n-1}$ such that $x=d^{n-1}(y)$.
+	Then
+	\[
+	d^n(x)=d^n\!\bigl(d^{n-1}(y)\bigr)=\bigl(d^n\circ d^{n-1}\bigr)(y)=0,
+	\]
+	hence $x\in\ker(d^n)=Z^n(V^\bullet)$.
+\end{proof}
+
+\begin{definition}[Cohomology]
+	Let $(V^\bullet,d)$ be a cochain complex.
+	For each $n\in\Z$ the \emph{$n$-th cohomology vector space} is the quotient
+	\[
+	H^n(V^\bullet):=Z^n(V^\bullet)\big/ B^n(V^\bullet)
+	=\ker(d^n)\big/\im(d^{n-1}).
+	\]
+\end{definition}
+
+\begin{remark}[Cohomology classes and equivalence relation]
+	Fix $n\in\Z$. Define a binary relation $\sim$ on $Z^n(V^\bullet)$ by
+	\[
+	z\sim z' \;\;\Longleftrightarrow\;\; z-z'\in B^n(V^\bullet).
+	\]
+	Then $\sim$ is an equivalence relation on $Z^n(V^\bullet)$ (reflexive, symmetric, transitive),
+	and the quotient set $Z^n(V^\bullet)/{\sim}$ inherits a unique $\kk$-vector space structure
+	for which the canonical projection $Z^n(V^\bullet)\to Z^n(V^\bullet)/{\sim}$ is $\kk$-linear.
+	Under this identification one has
+	\[
+	Z^n(V^\bullet)/{\sim}\;\cong\; Z^n(V^\bullet)\big/ B^n(V^\bullet)=H^n(V^\bullet).
+	\]
+\end{remark}
+
+\section{Functoriality}
+
+\begin{definition}[Morphism of cochain complexes]
+	Let $(V^\bullet,d_V)$ and $(W^\bullet,d_W)$ be cochain complexes of $\kk$-vector spaces.
+	A \emph{morphism of cochain complexes} (or \emph{cochain map})
+	$f:(V^\bullet,d_V)\to(W^\bullet,d_W)$ is a family of $\kk$-linear maps
+	\[
+	f^n:V^n\to W^n\qquad(n\in\Z)
+	\]
+	such that
+	\[
+	d_W^n\circ f^n = f^{n+1}\circ d_V^n\qquad\text{for all }n\in\Z.
+	\]
+\end{definition}
+
+\begin{proposition}[Induced map on cohomology]
+	Let $f:(V^\bullet,d_V)\to(W^\bullet,d_W)$ be a cochain map.
+	For each $n\in\Z$ there exists a unique $\kk$-linear map
+	\[
+	H^n(f):H^n(V^\bullet)\to H^n(W^\bullet)
+	\]
+	such that for every $z\in Z^n(V^\bullet)$ one has
+	\[
+	H^n(f)\bigl([z]\bigr)=[f^n(z)].
+	\]
+\end{proposition}
+
+\begin{proof}
+	First, if $z\in Z^n(V^\bullet)$ then
+	\[
+	d_W^n\bigl(f^n(z)\bigr)= (d_W^n\circ f^n)(z)=(f^{n+1}\circ d_V^n)(z)=f^{n+1}(0)=0,
+	\]
+	so $f^n(z)\in Z^n(W^\bullet)$ and $[f^n(z)]$ is defined.
+	
+	To check well-definedness on cohomology classes: if $[z]=[z']$ in $H^n(V^\bullet)$ then
+	$z-z'\in B^n(V^\bullet)$, so $\exists\,y\in V^{n-1}$ with $z-z'=d_V^{n-1}(y)$.
+	Hence
+	\[
+	f^n(z)-f^n(z')=f^n(z-z')=f^n\!\bigl(d_V^{n-1}(y)\bigr)
+	=(f^n\circ d_V^{n-1})(y)=(d_W^{n-1}\circ f^{n-1})(y)\in \im(d_W^{n-1})=B^n(W^\bullet).
+	\]
+	Thus $[f^n(z)]=[f^n(z')]$ in $H^n(W^\bullet)$, so the formula defines a function
+	$H^n(f)$.
+	
+	Linearity follows because the quotient map $Z^n(V^\bullet)\to H^n(V^\bullet)$ is linear
+	and $f^n$ is linear. Uniqueness holds because every class in $H^n(V^\bullet)$ has a cocycle representative.
+\end{proof}
+
+\section{Finite-dimensional dimension formula}
+
+\begin{proposition}[Dimension identity]
+	Assume each $V^n$ is finite-dimensional. Then for all $n\in\Z$,
+	\[
+	\dim_\kk H^n(V^\bullet)=\dim_\kk \ker(d^n) - \dim_\kk \im(d^{n-1})
+	= \nullity(d^n)-\rank(d^{n-1}).
+	\]
+\end{proposition}
+
+\begin{proof}
+	Since $B^n(V^\bullet)\subseteq Z^n(V^\bullet)$, the quotient $H^n(V^\bullet)=Z^n/B^n$
+	is a vector space and
+	\[
+	\dim_\kk H^n(V^\bullet)=\dim_\kk Z^n(V^\bullet)-\dim_\kk B^n(V^\bullet).
+	\]
+	By definition $Z^n=\ker(d^n)$ and $B^n=\im(d^{n-1})$, giving the stated formula.
+\end{proof}
+
+\begin{example}[Two-step complex]
+	Let $V^0,V^1,V^2$ be $\kk$-vector spaces and let $d^0:V^0\to V^1$, $d^1:V^1\to V^2$ be linear maps
+	satisfying $d^1d^0=0$. Extend by $V^n=0$ for $n\notin\{0,1,2\}$ and $d^n=0$ otherwise.
+	Then
+	\[
+	H^0 \cong \ker(d^0),\qquad
+	H^1 \cong \ker(d^1)/\im(d^0),\qquad
+	H^2 \cong V^2/\im(d^1),
+	\]
+	and $H^n=0$ for $n\notin\{0,1,2\}$.
+\end{example}
+
+
+\newpage
+\begin{definition}[Graded object]
+	Let $\mathcal{A}$ be an abelian category. A \emph{$\Z$-graded object} of $\mathcal{A}$ is a family
+	$A^\bullet = \{A^k\}_{k\in\Z}$ of objects of $\mathcal{A}$.
+\end{definition}
+
+\begin{definition}[Cochain complex]
+	A \emph{cochain complex} in $\mathcal{A}$ is a pair $(A^\bullet,d)$ consisting of a $\Z$-graded object
+	$A^\bullet$ and morphisms
+	\[
+	d^k : A^k \longrightarrow A^{k+1} \qquad (k\in\Z)
+	\]
+	such that
+	\[
+	d^{k+1}\circ d^k = 0 \qquad \text{for all } k\in\Z.
+	\]
+	We write the complex as
+	\[
+	\cdots \xrightarrow{d^{k-2}} A^{k-1}\xrightarrow{d^{k-1}} A^k\xrightarrow{d^k} A^{k+1}\xrightarrow{d^{k+1}} \cdots .
+	\]
+\end{definition}
+
+\begin{definition}[Morphisms of cochain complexes]
+	Let $(A^\bullet,d_A)$ and $(B^\bullet,d_B)$ be cochain complexes in $\mathcal{A}$.
+	A \emph{morphism of complexes} (or \emph{cochain map})
+	$f:(A^\bullet,d_A)\to(B^\bullet,d_B)$ is a family of morphisms
+	\[
+	f^k: A^k \to B^k \qquad (k\in\Z)
+	\]
+	such that
+	\[
+	d_B^k\circ f^k = f^{k+1}\circ d_A^k \qquad \text{for all }k\in\Z.
+	\]
+\end{definition}
+
+\section{Cocycles, coboundaries, and cohomology}
+
+\begin{definition}[Cocycles and coboundaries]
+	Let $(A^\bullet,d)$ be a cochain complex in an abelian category $\mathcal{A}$.
+	Define
+	\[
+	Z^k(A^\bullet) := \ker(d^k)\subseteq A^k,
+	\qquad
+	B^k(A^\bullet) := \im(d^{k-1})\subseteq A^k.
+	\]
+\end{definition}
+
+\begin{lemma}[Boundaries are cycles]
+	For every $k\in\Z$ one has $B^k(A^\bullet)\subseteq Z^k(A^\bullet)$.
+\end{lemma}
+
+\begin{proof}
+	Let $x\in B^k(A^\bullet)$. Then $x=d^{k-1}(y)$ for some $y\in A^{k-1}$, hence
+	\[
+	d^k(x)=d^k(d^{k-1}(y))=(d^k\circ d^{k-1})(y)=0
+	\]
+	by the defining condition $d^k\circ d^{k-1}=0$. Therefore $x\in\ker(d^k)=Z^k(A^\bullet)$.
+\end{proof}
+
+\begin{definition}[Cohomology]
+	The \emph{$k$-th cohomology object} of $(A^\bullet,d)$ is
+	\[
+	H^k(A^\bullet) := Z^k(A^\bullet)\big/ B^k(A^\bullet)
+	= \ker(d^k)\big/\im(d^{k-1}).
+	\]
+\end{definition}
+
+\begin{remark}[Cohomology classes]
+	If $\mathcal{A}=\Ab$ (or $R$-$\Mod$), elements of $H^k(A^\bullet)$ are classes $[\alpha]$ with
+	$\alpha\in Z^k(A^\bullet)$, and $[\alpha]=[\alpha']$ iff $\alpha-\alpha' \in B^k(A^\bullet)$, i.e.\ iff
+	$\alpha-\alpha' = d^{k-1}\beta$ for some $\beta\in A^{k-1}$.
+\end{remark}
+
+\section{Exactness}
+
+\begin{definition}[Exactness]
+	A cochain complex $(A^\bullet,d)$ is \emph{exact at $A^k$} if
+	\[
+	\im(d^{k-1}) = \ker(d^k).
+	\]
+	It is \emph{exact} if it is exact at every degree.
+\end{definition}
+
+\begin{proposition}[Exactness and vanishing cohomology]
+	A cochain complex $(A^\bullet,d)$ is exact if and only if $H^k(A^\bullet)=0$ for all $k\in\Z$.
+\end{proposition}
+
+\begin{proof}
+	By definition,
+	\[
+	H^k(A^\bullet)=0 \iff \ker(d^k)=\im(d^{k-1}).
+	\]
+	Thus vanishing of all cohomology objects is equivalent to exactness in every degree.
+\end{proof}
+
+\section{Homotopy of cochain maps}
+
+\begin{definition}[Cochain homotopy]
+	Let $f,g:(A^\bullet,d_A)\to(B^\bullet,d_B)$ be cochain maps.
+	A \emph{cochain homotopy} from $f$ to $g$ is a family of morphisms
+	\[
+	h^k: A^k \to B^{k-1} \qquad (k\in\Z)
+	\]
+	such that
+	\[
+	f^k-g^k = d_B^{k-1}\circ h^k + h^{k+1}\circ d_A^k
+	\qquad\text{for all }k\in\Z.
+	\]
+	We write $f\simeq g$ if there exists such a homotopy.
+\end{definition}
+
+\begin{proposition}[Homotopic maps induce the same map on cohomology]
+	If $f\simeq g$, then $H^k(f)=H^k(g)$ for all $k\in\Z$.
+\end{proposition}
+
+\begin{proof}
+	Let $\alpha\in Z^k(A^\bullet)$, so $d_A^k(\alpha)=0$. Then
+	\[
+	(f^k-g^k)(\alpha)=d_B^{k-1}(h^k(\alpha)) + h^{k+1}(d_A^k(\alpha))
+	= d_B^{k-1}(h^k(\alpha)),
+	\]
+	so $f^k(\alpha)-g^k(\alpha)\in \im(d_B^{k-1})=B^k(B^\bullet)$.
+	Hence $[f^k(\alpha)]=[g^k(\alpha)]$ in $H^k(B^\bullet)$.
+\end{proof}
+
+\section{Mapping cone and long exact sequence}
+
+\begin{definition}[Shift]
+	Given a complex $(A^\bullet,d_A)$, its \emph{shift} $A[1]^\bullet$ is defined by
+	\[
+	A[1]^k := A^{k+1}, \qquad d_{A[1]}^k := -\,d_A^{k+1}.
+	\]
+\end{definition}
+
+\begin{definition}[Mapping cone]
+	Let $f:(A^\bullet,d_A)\to(B^\bullet,d_B)$ be a cochain map.
+	The \emph{mapping cone} $\mathrm{Cone}(f)$ is the complex with
+	\[
+	\mathrm{Cone}(f)^k := B^k \oplus A^{k+1}
+	\]
+	and differential
+	\[
+	d_{\mathrm{Cone}(f)}^k(b,a) := \bigl(d_B^k(b) + f^{k+1}(a),\, -d_A^{k+1}(a)\bigr).
+	\]
+\end{definition}
+
+\begin{lemma}
+	$\mathrm{Cone}(f)$ is a cochain complex, i.e.\ $d_{\mathrm{Cone}(f)}^{k+1}\circ d_{\mathrm{Cone}(f)}^k=0$.
+\end{lemma}
+
+\begin{proof}
+	A direct computation using $d_B\circ d_B=0$, $d_A\circ d_A=0$, and $d_B\circ f=f\circ d_A$.
+\end{proof}
+
+\begin{proposition}[Short exact sequence of complexes]
+	There is a natural short exact sequence of complexes
+	\[
+	0 \longrightarrow B^\bullet \xrightarrow{i} \mathrm{Cone}(f)^\bullet \xrightarrow{p} A[1]^\bullet \longrightarrow 0,
+	\]
+	where $i(b)=(b,0)$ and $p(b,a)=a$ in each degree.
+\end{proposition}
+
+\begin{theorem}[Long exact sequence in cohomology]
+	Let $0\to X^\bullet \to Y^\bullet \to Z^\bullet \to 0$ be a short exact sequence of cochain complexes in an abelian category.
+	Then there exist connecting morphisms $\delta^k:H^k(Z^\bullet)\to H^{k+1}(X^\bullet)$ such that
+	\[
+	\cdots \to H^k(X^\bullet)\to H^k(Y^\bullet)\to H^k(Z^\bullet)\xrightarrow{\delta^k} H^{k+1}(X^\bullet)\to H^{k+1}(Y^\bullet)\to \cdots
+	\]
+	is exact.
+\end{theorem}
+
+\begin{remark}[Explicit connecting morphism in $\Ab$ or $R$-$\Mod$]
+	Suppose $0\to X^\bullet \xrightarrow{u} Y^\bullet \xrightarrow{v} Z^\bullet\to 0$ is degreewise exact.
+	Given $[z]\in H^k(Z^\bullet)$ with $z\in Z^k(Z^\bullet)$, choose $y\in Y^k$ with $v(y)=z$.
+	Then $v(d_Y^k y)=d_Z^k(v(y))=d_Z^k(z)=0$, hence $d_Y^k y\in \ker(v)=\im(u)$.
+	Choose $x\in X^{k+1}$ with $u(x)=d_Y^k y$ and set $\delta^k([z]) := [x]\in H^{k+1}(X^\bullet)$.
+	One checks $\delta^k$ is well-defined and yields exactness.
+\end{remark}
+
+\section{Examples}
+
+\begin{example}[de Rham complex]
+	For a smooth manifold $M$, the graded $\mathbb{R}$-vector space $\Omega^\bullet(M)$ with exterior derivative
+	$d:\Omega^k(M)\to\Omega^{k+1}(M)$ satisfies $d\circ d=0$, hence forms a cochain complex.
+	Its cohomology is
+	\[
+	H^k_{\mathrm{dR}}(M) := \ker\bigl(d:\Omega^k(M)\to\Omega^{k+1}(M)\bigr)\Big/\im\bigl(d:\Omega^{k-1}(M)\to\Omega^k(M)\bigr).
+	\]
+\end{example}
+
+\begin{example}[Singular cochains]
+	Let $X$ be a topological space and $G\in\Ab$.
+	Let $C_k(X)$ be the singular chain group and define $C^k(X;G):=\Hom(C_k(X),G)$.
+	The coboundary $\delta:C^k(X;G)\to C^{k+1}(X;G)$ satisfies $\delta^2=0$.
+	The cohomology $H^k(C^\bullet(X;G))$ is the singular cohomology $H^k(X;G)$.
+\end{example}

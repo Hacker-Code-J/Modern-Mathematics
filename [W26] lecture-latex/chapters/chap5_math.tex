@@ -1,0 +1,111 @@
+\chapter{Mathematical Typesetting}
+
+\section{Why LaTeX is Powerful for Mathematics}
+
+One of the strongest reasons to use LaTeX is its ability to typeset mathematics clearly and professionally. Mathematical notation in LaTeX is precise, readable, and consistent across documents.
+
+\section{Inline and Display Mathematics}
+
+\subsection{Inline Mathematics}
+
+Inline mathematics is used inside a sentence and must be enclosed in dollar signs.  
+For example, the famous equation $E = mc^2$ appears naturally within text.
+
+\begin{example}
+	The quadratic polynomial $ax^2 + bx + c$ has degree $2$.
+\end{example}
+
+\subsection{Displayed Mathematics}
+
+Displayed mathematics is used for important equations that appear on their own line.
+
+\begin{equation}
+	E = mc^2
+\end{equation}
+
+\section{Superscripts and Subscripts}
+
+\begin{itemize}
+	\item Superscripts use the caret symbol: $x^2$, $a^{n+1}$
+	\item Subscripts use the underscore symbol: $a_1$, $b_{ij}$
+\end{itemize}
+
+\begin{example}
+	The sequence $a_n = n^2$ grows quadratically.
+\end{example}
+
+\section{Fractions and Roots}
+
+\begin{itemize}
+	\item Fractions: $\frac{a}{b}$
+	\item Nested fractions: $\frac{1}{1 + \frac{1}{x}}$
+	\item Square roots: $\sqrt{2}$
+	\item General roots: $\sqrt[n]{x}$
+\end{itemize}
+
+\begin{example}
+	The solution is $x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}$.
+\end{example}
+
+\section{Greek Letters}
+
+Greek letters are frequently used in mathematics and science.
+
+\begin{itemize}
+	\item Lowercase: $\alpha$, $\beta$, $\gamma$, $\delta$, $\epsilon$
+	\item Uppercase: $\Gamma$, $\Delta$, $\Theta$, $\Lambda$
+\end{itemize}
+
+\section{Common Mathematical Symbols}
+
+\begin{itemize}
+	\item Summation: $\sum_{i=1}^{n} i$
+	\item Product: $\prod_{k=1}^{n} k$
+	\item Integrals: $\int_0^1 x^2 \, dx$
+	\item Limits: $\lim_{x \to 0} \frac{\sin x}{x}$
+\end{itemize}
+
+\section{Aligned Equations}
+
+Use the \texttt{align} environment to align multiple equations.
+
+\begin{align}
+	x + y &= 10 \\
+	2x - y &= 3
+\end{align}
+
+\section{Matrices}
+
+Matrices are written using matrix environments.
+
+\begin{equation}
+	A =
+	\begin{pmatrix}
+		1 & 2 \\
+		3 & 4
+	\end{pmatrix}
+\end{equation}
+
+\section{Cases}
+
+Piecewise-defined functions use the \texttt{cases} environment.
+
+\begin{equation}
+	f(x) =
+	\begin{cases}
+		x^2, & x \geq 0 \\
+		-x, & x < 0
+	\end{cases}
+\end{equation}
+
+\section{Exercise}
+
+\begin{exercise}
+	Typeset the following in LaTeX:
+	\begin{itemize}
+		\item The binomial formula $(a+b)^2 = a^2 + 2ab + b^2$
+		\item A $2 \times 3$ matrix
+		\item The definite integral $\int_0^\pi \sin x \, dx$
+		\item A piecewise function with two cases
+	\end{itemize}
+\end{exercise}

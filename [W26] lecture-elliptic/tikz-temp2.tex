@@ -1,0 +1,326 @@
+% !TEX TS-program = pdflatex
+% TikZ visualizations for each major “FTC-family” theorem.
+% Compiles with pdfLaTeX.
+\documentclass[tikz,border=6pt]{standalone}
+\usepackage{amsmath,amssymb}
+\usetikzlibrary{arrows.meta,calc,decorations.markings,positioning}
+
+\begin{document}
+	
+	% ---------- Common styles ----------
+	\tikzset{
+		>=Latex,
+		panel/.style={rounded corners=10pt, line width=0.6pt, draw=black!35, fill=black!2},
+		title/.style={font=\bfseries\Large},
+		formula/.style={font=\bfseries\normalsize},
+		axis/.style={line width=0.6pt, draw=black!70},
+		curve/.style={line width=1.1pt, draw=black},
+		faint/.style={draw=black!35},
+		fillarea/.style={fill=black!10, draw=none},
+		boundaryloop/.style={
+			line width=1.1pt, draw=black,
+			postaction={decorate},
+			decoration={markings, mark=at position 0.70 with {\arrow{Latex[length=3mm]}}}
+		},
+		boundaryarrow/.style={line width=1.1pt, draw=black, -{Latex[length=3mm]}},
+		vfield/.style={-{Latex[length=2.2mm]}, draw=black!65, line width=0.5pt},
+		note/.style={font=\bfseries\normalsize, text=black!75}
+	}
+	
+	% Layout: each figure is its own panel; copy any single tikzpicture into your cover if preferred.
+	
+	% ============================================================
+	% 1) FTC Part I (Accumulation): F(x)=∫_a^x f(t)dt  =>  F'(x)=f(x)
+	% ============================================================
+	\begin{tikzpicture}
+		\path[panel] (0,0) rectangle (12,6);
+		
+		\node[title, anchor=west] at (0.6,5.45) {FTC I (Accumulation)};
+		\node[formula, anchor=west] at (0.6,4.85)
+		{$\displaystyle F(x)=\int_a^x f(t)\,dt \quad\Rightarrow\quad F'(x)=f(x)$};
+		
+		% Axes
+		\draw[axis] (1.0,1.0) -- (1.0,4.2);
+		\draw[axis] (1.0,1.0) -- (11.3,1.0);
+		\node at (11.45,0.85) {$x$};
+		\node at (0.85,4.35) {$y$};
+		
+		% Curve y=f(x)
+		\draw[curve]
+		plot[smooth] coordinates {(1.4,1.3) (2.2,1.8) (3.2,3.2) (4.2,2.6) (5.6,3.4) (7.4,2.2) (9.8,3.0) (11.0,2.4)};
+		\node[font=\normalsize] at (10.6,3.55) {$y=f(x)$};
+		
+		% a and x markers
+		\coordinate (A) at (2.1,1.0);
+		\coordinate (X) at (7.8,1.0);
+		\node[font=\normalsize] at (2.1,0.65) {$a$};
+		\node[font=\normalsize] at (7.8,0.65) {$x$};
+		\fill (A) circle (1.4pt);
+		\fill (X) circle (1.4pt);
+		
+		% Vertical guides to curve
+		\draw[faint] (A) -- (2.1,1.75);
+		\draw[faint] (X) -- (7.8,2.25);
+		
+		% Shaded area from a to x
+		\path[fillarea]
+		(A) --
+		plot[smooth] coordinates {(2.1,1.75) (3.2,3.2) (4.2,2.6) (5.6,3.4) (7.4,2.2) (7.8,2.25)}
+		-- (X) -- cycle;
+		
+		% “rate at x equals height f(x)”
+		\draw[boundaryarrow] (7.8,1.0) -- (7.8,2.25);
+		\node[note, anchor=west] at (8.15,2.25) {$F'(x)=f(x)$};
+		
+		\node[note, anchor=west] at (1.2,4.4) {Interior $\rightarrow$ boundary: accumulated area $\rightarrow$ endpoint rate};
+	\end{tikzpicture}
+	
+	\bigskip
+	
+	% ============================================================
+	% 2) FTC Part II (Evaluation): ∫_a^b f'(x)dx = f(b)-f(a)
+	% ============================================================
+	\begin{tikzpicture}
+		\path[panel] (0,0) rectangle (12,6);
+		
+		\node[title, anchor=west] at (0.6,5.45) {FTC II (Evaluation)};
+		\node[formula, anchor=west] at (0.6,4.85)
+		{$\displaystyle \int_a^b f'(x)\,dx = f(b)-f(a)$};
+		
+		% Axes
+		\draw[axis] (1.0,1.0) -- (1.0,4.2);
+		\draw[axis] (1.0,1.0) -- (11.3,1.0);
+		\node at (11.45,0.85) {$x$};
+		\node at (0.85,4.35) {$y$};
+		
+		% Plot y=f'(x)
+		\draw[curve]
+		plot[smooth] coordinates {(1.4,2.2) (2.4,2.9) (3.4,3.6) (4.7,2.4) (6.0,3.2) (7.2,2.0) (8.8,2.7) (11.0,2.3)};
+		\node[font=\normalsize] at (10.5,3.75) {$y=f'(x)$};
+		
+		% a, b
+		\coordinate (A) at (2.4,1.0);
+		\coordinate (B) at (9.2,1.0);
+		\node[font=\normalsize] at (2.4,0.65) {$a$};
+		\node[font=\normalsize] at (9.2,0.65) {$b$};
+		\fill (A) circle (1.4pt);
+		\fill (B) circle (1.4pt);
+		
+		% Shaded integral region under f'
+		\path[fillarea]
+		(A) --
+		plot[smooth] coordinates {(2.4,2.9) (3.4,3.6) (4.7,2.4) (6.0,3.2) (7.2,2.0) (8.8,2.7) (9.2,2.55)}
+		-- (B) -- cycle;
+		
+		% Endpoint difference annotation (conceptual)
+		\draw[boundaryarrow] (9.9,1.6) -- (9.9,3.6);
+		\node[note, anchor=west] at (10.1,2.6) {$f(b)-f(a)$};
+		
+		\node[note, anchor=west] at (1.2,4.4) {Interior sum of rates $\rightarrow$ boundary net change};
+	\end{tikzpicture}
+	
+	\bigskip
+	
+	% ============================================================
+	% 3) Fundamental Theorem of Line Integrals: ∫_C ∇φ·dr = φ(B)-φ(A)
+	% ============================================================
+	\begin{tikzpicture}
+		\path[panel] (0,0) rectangle (12,6);
+		
+		\node[title, anchor=west] at (0.6,5.45) {Fundamental Theorem of Line Integrals};
+		\node[formula, anchor=west] at (0.6,4.85)
+		{$\displaystyle \int_C \nabla\phi\cdot d\mathbf r=\phi(B)-\phi(A)$};
+		
+		% A simple “potential landscape” via level curves
+		\foreach \r in {0.9,1.4,1.9,2.4} {
+			\draw[faint] (6.2,2.1) circle (\r);
+		}
+		\node[font=\normalsize, text=black!60] at (6.2,4.9) {level sets of $\phi$};
+		
+		% Gradient field arrows (radial)
+		\foreach \ang in {0,30,...,330} {
+			\draw[vfield] ($(6.2,2.1)+({2.2*cos(\ang)},{2.2*sin(\ang)})$) --
+			($(6.2,2.1)+({2.55*cos(\ang)},{2.55*sin(\ang)})$);
+		}
+		\node[font=\normalsize] at (9.7,2.25) {$\nabla\phi$};
+		
+		% Path C from A to B
+		\coordinate (A) at (3.0,1.5);
+		\coordinate (B) at (10.2,3.9);
+		
+		\draw[boundaryloop]
+		(A) .. controls (4.2,3.8) and (7.2,0.8) .. (B);
+		\node[font=\normalsize] at (6.1,1.0) {$C$};
+		
+		\fill (A) circle (1.6pt) node[font=\normalsize, anchor=north east] {$A$};
+		\fill (B) circle (1.6pt) node[font=\normalsize, anchor=south west] {$B$};
+		
+		\node[note, anchor=west] at (1.2,4.25)
+		{Gradient along $C$ $\rightarrow$ endpoint potential difference};
+	\end{tikzpicture}
+	
+	\bigskip
+	
+	% ============================================================
+	% 4) Green’s Theorem: ∬_R (∂Q/∂x-∂P/∂y)dA = ∮_{∂R} Pdx+Qdy
+	% ============================================================
+	\begin{tikzpicture}
+		\path[panel] (0,0) rectangle (12,6);
+		
+		\node[title, anchor=west] at (0.6,5.45) {Green's Theorem (Planar)};
+		\node[formula, anchor=west] at (0.6,4.85)
+		{$\displaystyle \oint_{\partial R} P\,dx+Q\,dy=\iint_R\!\Big(\frac{\partial Q}{\partial x}-\frac{\partial P}{\partial y}\Big)\,dA$};
+		
+		% Axes
+		\draw[axis] (1.2,1.0) -- (1.2,4.2);
+		\draw[axis] (1.2,1.0) -- (11.3,1.0);
+		\node at (11.45,0.85) {$x$};
+		\node at (1.05,4.35) {$y$};
+		
+		% Region R
+		\path[fill=black!10, draw=black, line width=1.0pt]
+		(6.2,1.6)
+		.. controls (4.6,1.2) and (3.4,2.2) .. (3.9,3.4)
+		.. controls (4.4,4.6) and (6.4,4.6) .. (7.6,4.0)
+		.. controls (9.0,3.3) and (8.8,2.0) .. (7.9,1.7)
+		.. controls (7.3,1.5) and (6.7,1.5) .. (6.2,1.6) -- cycle;
+		
+		% Oriented boundary ∂R
+		\draw[boundaryloop]
+		(6.2,1.6)
+		.. controls (4.6,1.2) and (3.4,2.2) .. (3.9,3.4)
+		.. controls (4.4,4.6) and (6.4,4.6) .. (7.6,4.0)
+		.. controls (9.0,3.3) and (8.8,2.0) .. (7.9,1.7)
+		.. controls (7.3,1.5) and (6.7,1.5) .. (6.2,1.6) -- cycle;
+		
+		% Small rotational “curl” glyphs inside
+		\foreach \x/\y in {5.0/2.4,6.0/3.2,7.0/2.6,6.6/2.0} {
+			\draw[vfield] (\x,\y) arc[start angle=210,end angle=520,radius=0.25];
+		}
+		
+		\node[font=\normalsize] at (6.2,3.1) {$R$};
+		\node[font=\normalsize, anchor=west] at (8.2,3.95) {$\partial R$};
+		
+		\node[note, anchor=west] at (1.2,4.4)
+		{Interior curl density $\rightarrow$ boundary circulation};
+	\end{tikzpicture}
+	
+	\bigskip
+	
+	% ============================================================
+	% 5) Stokes’ Theorem: ∬_S (∇×F)·n dS = ∮_{∂S} F·dr
+	% ============================================================
+	\begin{tikzpicture}
+		\path[panel] (0,0) rectangle (12,6);
+		
+		\node[title, anchor=west] at (0.6,5.45) {Stokes' Theorem (Surface)};
+		\node[formula, anchor=west] at (0.6,4.85)
+		{$\displaystyle \oint_{\partial S}\mathbf F\cdot d\mathbf r=\iint_S (\nabla\times\mathbf F)\cdot\mathbf n\,dS$};
+		
+		% Pseudo-3D surface patch S (ellipse-like)
+		\coordinate (C) at (6.2,2.6);
+		\path[fill=black!10, draw=black, line width=1.0pt]
+		($(C)+(-2.6,-0.4)$)
+		.. controls ($(C)+(-1.8,1.2)$) and ($(C)+(1.2,1.4)$) .. ($(C)+(2.3,0.5)$)
+		.. controls ($(C)+(3.1,-0.2)$) and ($(C)+(1.8,-1.4)$) .. ($(C)+(0.0,-1.0)$)
+		.. controls ($(C)+(-1.5,-0.8)$) and ($(C)+(-2.2,-0.9)$) .. ($(C)+(-2.6,-0.4)$) -- cycle;
+		
+		% Oriented boundary curve ∂S
+		\draw[boundaryloop]
+		($(C)+(-2.6,-0.4)$)
+		.. controls ($(C)+(-1.8,1.2)$) and ($(C)+(1.2,1.4)$) .. ($(C)+(2.3,0.5)$)
+		.. controls ($(C)+(3.1,-0.2)$) and ($(C)+(1.8,-1.4)$) .. ($(C)+(0.0,-1.0)$)
+		.. controls ($(C)+(-1.5,-0.8)$) and ($(C)+(-2.2,-0.9)$) .. ($(C)+(-2.6,-0.4)$);
+		
+		\node[font=\normalsize] at (6.0,2.65) {$S$};
+		\node[font=\normalsize, anchor=west] at (8.7,3.55) {$\partial S$};
+		
+		% Normal vector n
+		\draw[boundaryarrow] ($(C)+(0.4,0.1)$) -- ++(0,1.6)
+		node[font=\normalsize, anchor=west] {$\mathbf n$};
+		
+%		% Curl “swirls” on the surface
+%		\foreach \p in {(-0.8,0.2),(0.3,0.45),(1.2,-0.1)}{
+%			\draw[vfield] ($(C)+\p$) arc[start angle=200,end angle=530,radius=0.28];
+%		}
+%		\node[font=\normalsize] at (9.6,1.75) {$\nabla\times\mathbf F$};
+		
+%		\node[note, anchor=west] at (1.2,4.35)
+%		{Curl flux through $S$ $\rightarrow$ circulation on $\partial S$};
+	\end{tikzpicture}
+	
+	\bigskip
+	
+	% ============================================================
+	% 6) Divergence Theorem: ∬_{∂V} F·n dS = ∭_V (∇·F) dV
+	% ============================================================
+	\begin{tikzpicture}
+		\path[panel] (0,0) rectangle (12,6);
+		
+		\node[title, anchor=west] at (0.6,5.45) {Divergence Theorem (Gauss)};
+		\node[formula, anchor=west] at (0.6,4.85)
+		{$\displaystyle \iint_{\partial V}\mathbf F\cdot \mathbf n\,dS=\iiint_V (\nabla\cdot\mathbf F)\,dV$};
+		
+		% Closed surface ∂V as a “sphere” (circle)
+		\coordinate (C) at (6.2,2.55);
+		\path[fill=black!10, draw=black, line width=1.0pt] (C) circle (1.9);
+		
+		% Outward normals / flux arrows
+		\foreach \ang in {15,55,95,135,175,215,255,295,335}{
+			\draw[boundaryarrow]
+			($(C)+({1.9*cos(\ang)},{1.9*sin(\ang)})$) --
+			($(C)+({2.55*cos(\ang)},{2.55*sin(\ang)})$);
+		}
+		\node[font=\normalsize, anchor=west] at (8.4,3.95) {$\partial V$};
+		\node[font=\normalsize] at (6.2,2.55) {$V$};
+		
+		% Sources/sinks hint inside (divergence)
+		\node[font=\bfseries\Large] at ($(C)+(-0.4,0.3)$) {$+$};
+		\node[font=\bfseries\Large] at ($(C)+(0.6,-0.2)$) {$+$};
+		\node[font=\bfseries\Large] at ($(C)+(0.1,0.8)$) {$+$};
+		\node[font=\normalsize] at (9.4,2.3) {$\nabla\cdot\mathbf F$};
+		
+		\node[note, anchor=west] at (1.2,4.35)
+		{Interior sources/sinks $\rightarrow$ boundary flux};
+	\end{tikzpicture}
+	
+	\bigskip
+	
+	% ============================================================
+	% 7) Generalized Stokes: ∫_{∂Ω} ω = ∫_Ω dω
+	% ============================================================
+	\begin{tikzpicture}
+		\path[panel] (0,0) rectangle (12,6);
+		
+		\node[title, anchor=west] at (0.6,5.45) {Generalized Stokes (Unified Form)};
+		\node[formula, anchor=west] at (0.6,4.85)
+		{$\displaystyle \int_{\partial\Omega}\omega=\int_{\Omega} d\omega$};
+		
+		% Abstract manifold Ω as a filled blob
+		\path[fill=black!10, draw=black, line width=1.0pt]
+		(6.2,1.45)
+		.. controls (4.4,1.1) and (3.4,2.3) .. (4.0,3.6)
+		.. controls (4.8,5.0) and (6.9,4.9) .. (8.0,4.1)
+		.. controls (9.2,3.3) and (9.0,2.0) .. (8.2,1.6)
+		.. controls (7.5,1.3) and (6.8,1.3) .. (6.2,1.45) -- cycle;
+		
+		% Boundary orientation on ∂Ω
+		\draw[boundaryloop]
+		(6.2,1.45)
+		.. controls (4.4,1.1) and (3.4,2.3) .. (4.0,3.6)
+		.. controls (4.8,5.0) and (6.9,4.9) .. (8.0,4.1)
+		.. controls (9.2,3.3) and (9.0,2.0) .. (8.2,1.6)
+		.. controls (7.5,1.3) and (6.8,1.3) .. (6.2,1.45) -- cycle;
+		
+		\node[font=\normalsize] at (6.3,3.1) {$\Omega$};
+		\node[font=\normalsize, anchor=west] at (8.5,4.2) {$\partial\Omega$};
+		
+		% Labels for ω and dω
+		\node[font=\normalsize] at (4.6,2.35) {$d\omega$ (interior)};
+		\node[font=\normalsize] at (9.1,2.15) {$\omega$ (boundary)};
+		
+		\node[note, anchor=west] at (1.2,4.35)
+		{One theorem to rule them all: boundary integral equals integral of a derivative};
+	\end{tikzpicture}
+	
+\end{document}

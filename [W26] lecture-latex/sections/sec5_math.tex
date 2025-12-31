@@ -1,0 +1,268 @@
+\subsection{Mathematical Typesetting}
+
+Mathematics is one of the strongest reasons to use \LaTeX{}. Compared to ordinary word processors,
+\LaTeX{} typesets formulas with consistent spacing, professional symbol shapes, and stable numbering.
+Once we learn the patterns, we can write math quickly and keep it readable in both short notes and long theses.
+
+A major advantage is that \LaTeX{} treats math as a structured language:
+we build expressions from commands (like \verb|\frac| or \verb|\sum|) rather than trying to align symbols manually.
+
+\subsubsection{Inline and Display Mathematics}
+
+We distinguish two modes: inline math (inside a sentence) and display math (on its own line).
+
+\medskip
+
+\paragraph{Inline Mathematics} Inline math is used inside a sentence.
+\begin{example}
+\;\medskip	
+	
+\begin{lstlisting}
+The quadratic polynomial $ax^2 + bx + c$ has degree $2$.
+\end{lstlisting}
+\begin{lstlisting}
+The quadratic polynomial \(ax^2 + bx + c\) has degree \(2\).
+\end{lstlisting}
+The quadratic polynomial $ax^2 + bx + c$ has degree $2$.
+\end{example}
+
+\medskip
+
+\paragraph{Displayed Mathematics}
+
+Displayed math is used for important equations that appear on their own line.
+We list display math forms such as \verb|\[...\]| (and also mentions \verb|$$...$$|).
+\begin{example}
+\;\medskip	
+	
+\begin{lstlisting}
+	The quadratic polynomial $$ax^2 + bx + c$$ has degree $2$.
+\end{lstlisting}
+\begin{lstlisting}
+	The quadratic polynomial \[ax^2 + bx + c\] has degree \(2\).
+\end{lstlisting}
+The quadratic polynomial $$ax^2 + bx + c$$ has degree $2$.
+\end{example}
+
+\newpage
+\subsubsection{Numbered vs. Unnumbered Display Math}
+
+\begin{itemize}
+	\item Use \texttt{equation} when you want a number you can reference later.
+	\item Use an unnumbered display (commonly \verb|\[...\]|) for one-off formulas you will not reference.
+\end{itemize}
+
+\begin{example}[Numbered display]
+\;\medskip
+
+\begin{lstlisting}
+\begin{equation}
+	\int_0^\infty e^{-x^2}\,dx = \frac{\sqrt{\pi}}{2}
+\end{equation}
+\end{lstlisting}
+\begin{equation}
+	\int_0^\infty e^{-x^2}\,dx = \frac{\sqrt{\pi}}{2}
+\end{equation}
+\end{example}
+
+\begin{example}[Unnumbered display]
+\;\medskip
+
+\begin{lstlisting}
+\[
+\int_0^\infty e^{-x^2}\,dx = \frac{\sqrt{\pi}}{2}
+\]
+\end{lstlisting}
+	\[
+	\int_0^\infty e^{-x^2}\,dx = \frac{\sqrt{\pi}}{2}
+	\]
+\end{example}
+
+\subsubsection{Superscripts and Subscripts}
+
+Superscripts and subscripts are fundamental.
+
+\begin{itemize}
+	\item Superscripts use \verb|^|: $x^2$, $a^{n+1}$.
+	\item Subscripts use \verb|_|: $a_1$, $b_{ij}$.
+\end{itemize}
+
+\begin{example}
+\;\medskip
+
+\begin{lstlisting}
+The sequence $a_n = n^2$ grows quadratically.
+\end{lstlisting}
+The sequence $a_n = n^2$ grows quadratically.
+\end{example}
+
+\begin{remark}
+\;
+\begin{itemize}
+	\item \verb*|a_12| means $a_1 2$ (subscript applies only to $1$).
+	\item \verb*|a_{12}| means $a_{12}$ with subscript $12$.
+\end{itemize}
+\end{remark}
+
+
+
+\subsubsection{Fractions and Roots}
+
+Fractions and roots are also highlighted as essential commands.
+%\begin{itemize}
+%	\item Fractions: $\frac{a}{b}$.
+%	\item Nested fractions: $\frac{1}{1 + \frac{1}{x}}$.
+%	\item Square roots: $\sqrt{2}$.
+%	\item General roots: $\sqrt[n]{x}$.
+%\end{itemize}
+
+\begin{example}
+\;\medskip
+
+\begin{lstlisting}
+The solution is $x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}$.
+\end{lstlisting}
+The solution is $x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}$.
+\end{example}
+
+%\subsection{Spacing in Integrals}
+%
+%In display integrals you will often see a small space before \verb|dx|:
+%\[
+%\int_0^1 x^2\,dx
+%\]
+%The command \verb|\,| inserts a thin space, improving readability.
+%
+%\section{Greek Letters}
+%
+%Greek letters are frequently used in science and math; the reference lists examples such as \verb|\alpha|, \verb|\beta|, \verb|\gamma|:contentReference[oaicite:6]{index=6}.
+%
+%\begin{itemize}
+%	\item Lowercase: $\alpha$, $\beta$, $\gamma$, $\delta$, $\epsilon$.
+%	\item Uppercase: $\Gamma$, $\Delta$, $\Theta$, $\Lambda$.
+%\end{itemize}
+%
+%\subsection{A Useful Note About Shapes}
+%
+%Some letters have variant forms that appear often in textbooks (e.g., $\epsilon$ vs. $\varepsilon$, $\phi$ vs. $\varphi$).
+%You can choose whichever matches your course style.
+%
+%\section{Common Mathematical Symbols}
+%
+%The reference notes highlight symbols like \verb|\sum|, \verb|\int|, and \verb|\sqrt| as core commands:contentReference[oaicite:7]{index=7}.
+%
+%\begin{itemize}
+%	\item Summation: $\sum_{i=1}^{n} i$.
+%	\item Product: $\prod_{k=1}^{n} k$.
+%	\item Integrals: $\int_0^1 x^2 \, dx$.
+%	\item Limits: $\lim_{x \to 0} \frac{\sin x}{x}$.
+%\end{itemize}
+%
+%\subsection{Relations and Logic Symbols (Very Common)}
+%
+%You will also frequently use:
+%\begin{itemize}
+%	\item equality and inequality: $=$, $\neq$, $<$, $\leq$, $\geq$,
+%	\item set membership: $\in$, $\notin$,
+%	\item implication: $\Rightarrow$, $\Leftrightarrow$.
+%\end{itemize}
+%
+%\section{Aligned Equations}
+%
+%When you want several equations aligned (often at the equals sign),
+%use the \texttt{align} environment. The reference notes show this exact pattern:contentReference[oaicite:8]{index=8}.
+%
+%\begin{align}
+%	x + y &= 10 \\
+%	2x - y &= 3
+%\end{align}
+%
+%\subsection{How \texttt{align} Works}
+%
+%\begin{itemize}
+%	\item Use \verb|&| to mark alignment points (usually before $=$).
+%	\item Use \verb|\\| to end each line.
+%\end{itemize}
+%
+%\begin{example}[Two identities aligned]
+%	\begin{align}
+%		(a+b)^2 &= a^2 + 2ab + b^2 \\
+%		(a-b)^2 &= a^2 - 2ab + b^2
+%	\end{align}
+%\end{example}
+%(This matches the aligned-equations example in the reference notes:contentReference[oaicite:9]{index=9}.)
+%
+%\section{Numbered Equations, Labels, and References}
+%
+%For important results, you often want numbering and cross-references.
+%The reference notes show how to label an equation and refer to it using \verb|\eqref|:contentReference[oaicite:10]{index=10}.
+%
+%\begin{example}[Label and reference]
+%	\begin{verbatim}
+%		\begin{equation}
+%			E = mc^2
+%			\label{eq:einstein}
+%		\end{equation}
+%		As seen in Eq.~\eqref{eq:einstein}.
+%	\end{verbatim}
+%\end{example}
+%
+%\subsection{Best Practice for Labels}
+%
+%Use consistent prefixes:
+%\begin{itemize}
+%	\item \verb|eq:| for equations,
+%	\item \verb|fig:| for figures,
+%	\item \verb|tab:| for tables.
+%\end{itemize}
+%
+%\section{Matrices}
+%
+%Matrices are written using matrix environments. A common one is \texttt{pmatrix}, which uses parentheses.
+%
+%\begin{equation}
+%	A =
+%	\begin{pmatrix}
+%		1 & 2 \\
+%		3 & 4
+%	\end{pmatrix}
+%\end{equation}
+%
+%\subsection{Matrix Quick Rules}
+%
+%\begin{itemize}
+%	\item Use \verb|&| to separate columns.
+%	\item Use \verb|\\| to end each row.
+%\end{itemize}
+%
+%\section{Cases}
+%
+%Piecewise-defined functions use the \texttt{cases} environment:
+%
+%\begin{equation}
+%	f(x) =
+%	\begin{cases}
+%		x^2, & x \geq 0 \\
+%		-x, & x < 0
+%	\end{cases}
+%\end{equation}
+%
+%\subsection{Why \texttt{cases} is Useful}
+%
+%\texttt{cases} automatically aligns conditions in a neat column and produces the standard brace layout used in textbooks.
+%
+%\section{Exercises}
+%
+%\begin{exercise}
+%	Typeset the following in \LaTeX{}:
+%	\begin{itemize}
+%		\item The binomial formula $(a+b)^2 = a^2 + 2ab + b^2$.
+%		\item A $2 \times 3$ matrix using a matrix environment.
+%		\item The definite integral $\int_0^\pi \sin x \, dx$ (include a thin space before $dx$).
+%		\item A piecewise function with two cases using \texttt{cases}.
+%	\end{itemize}
+%\end{exercise}
+%
+%\begin{exercise}
+%	Write a short paragraph that includes at least five inline formulas (using dollar signs), and then rewrite the same content using at least two displayed equations for readability. Explain which version you prefer and why, using the “inline vs. display” idea from the reference notes:contentReference[oaicite:11]{index=11}.
+%\end{exercise}

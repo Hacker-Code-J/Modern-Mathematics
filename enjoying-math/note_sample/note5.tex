@@ -1,0 +1,545 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage[margin=1in]{geometry}
+
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\K}{\mathbb{K}}
+\newcommand{\dd}{\mathrm{d}}
+\newcommand{\Om}{\Omega}
+\newcommand{\coker}{\operatorname{coker}}
+\newcommand{\im}{\operatorname{im}}
+%\newcommand{\ker}{\operatorname{ker}}
+\newcommand{\id}{\mathrm{id}}
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+\newtheorem{remark}{Remark}
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{proposition}{Proposition}
+\newtheorem{corollary}{Corollary}
+
+\begin{document}
+	
+	\section*{Mayer--Vietoris as ``gluing'' in grad--curl--div language (with explicit connecting map)}
+	
+	\subsection*{1. The de Rham complex and the vector-calculus complex}
+	
+	Let $M$ be a smooth manifold. The de Rham complex is
+	\[
+	0 \longrightarrow \Omega^0(M)
+	\xrightarrow{\ \dd\ }
+	\Omega^1(M)
+	\xrightarrow{\ \dd\ }
+	\Omega^2(M)
+	\xrightarrow{\ \dd\ }
+	\Omega^3(M)
+	\longrightarrow \cdots
+	\]
+	and its cohomology is
+	\[
+	H^k_{\mathrm{dR}}(M) \;=\; \frac{\ker\bigl(\dd:\Omega^k(M)\to\Omega^{k+1}(M)\bigr)}
+	{\im\bigl(\dd:\Omega^{k-1}(M)\to\Omega^k(M)\bigr)}.
+	\]
+	
+	\medskip
+	On an oriented Riemannian $3$-manifold (in particular on domains in $\R^3$), using the metric and Hodge star and the standard identifications
+	\[
+	\Omega^0 \leftrightarrow \{\text{scalar fields}\},\quad
+	\Omega^1 \leftrightarrow \{\text{vector fields}\},\quad
+	\Omega^2 \leftrightarrow \{\text{vector fields}\},\quad
+	\Omega^3 \leftrightarrow \{\text{scalar densities}\},
+	\]
+	the operator $\dd$ corresponds (up to conventional sign/identification choices) to the familiar grad--curl--div chain
+	\[
+	\Omega^0 \xrightarrow{\dd\;\sim\;\nabla}
+	\Omega^1 \xrightarrow{\dd\;\sim\;\nabla\times}
+	\Omega^2 \xrightarrow{\dd\;\sim\;\nabla\cdot}
+	\Omega^3,
+	\]
+	so $\dd^2=0$ corresponds to
+	\[
+	\nabla\times(\nabla f)=0,\qquad \nabla\cdot(\nabla\times A)=0.
+	\]
+	
+	\subsection*{2. The gluing short exact sequence of complexes}
+	
+	Let $M=U\cup V$ be an open cover. For each $k\ge 0$ define maps
+	\[
+	r:\Omega^k(M)\to\Omega^k(U)\oplus\Omega^k(V),\qquad
+	r(\omega)=(\omega|_U,\omega|_V),
+	\]
+	and
+	\[
+	\delta:\Omega^k(U)\oplus\Omega^k(V)\to\Omega^k(U\cap V),\qquad
+	\delta(\alpha,\beta)=\alpha|_{U\cap V}-\beta|_{U\cap V}.
+	\]
+	
+	\begin{proposition}[Gluing exact sequence at the cochain level]
+		For each $k$ there is a short exact sequence of vector spaces
+		\[
+		0 \longrightarrow \Omega^k(M)
+		\xrightarrow{\ r\ }
+		\Omega^k(U)\oplus\Omega^k(V)
+		\xrightarrow{\ \delta\ }
+		\Omega^k(U\cap V)
+		\longrightarrow 0,
+		\]
+		and these assemble into a short exact sequence of cochain complexes
+		\[
+		0 \to \Omega^\bullet(M)\xrightarrow{r}\Omega^\bullet(U)\oplus\Omega^\bullet(V)\xrightarrow{\delta}\Omega^\bullet(U\cap V)\to 0
+		\]
+		because $\dd$ commutes with restriction and hence with $r,\delta$.
+	\end{proposition}
+	
+	\begin{remark}[Calculus interpretation: ``agree on the overlap'']
+		A pair of local fields $(\alpha,\beta)\in\Omega^k(U)\oplus\Omega^k(V)$ lies in $\ker(\delta)$
+		iff $\alpha$ and $\beta$ \emph{agree on} $U\cap V$. Equivalently, they \emph{glue} to a global
+		$k$-form on $M$. Thus the short exact sequence above is the formal encoding of the basic
+		principle: global objects are exactly compatible local objects on an open cover.
+	\end{remark}
+	
+	\subsection*{3. Mayer--Vietoris long exact sequence}
+	
+	\begin{theorem}[Mayer--Vietoris for de Rham cohomology]
+		The short exact sequence of cochain complexes in \S2 induces a long exact sequence in cohomology:
+		\[
+		\cdots \to H^{k-1}_{\mathrm{dR}}(U\cap V)
+		\xrightarrow{\ \partial\ }
+		H^{k}_{\mathrm{dR}}(M)
+		\xrightarrow{\ (r_U^\ast,r_V^\ast)\ }
+		H^{k}_{\mathrm{dR}}(U)\oplus H^{k}_{\mathrm{dR}}(V)
+		\xrightarrow{\ \delta^\ast\ }
+		H^{k}_{\mathrm{dR}}(U\cap V)
+		\xrightarrow{\ \partial\ }
+		H^{k+1}_{\mathrm{dR}}(M)\to\cdots
+		\]
+		where $\delta^\ast([\alpha],[\beta])=[\alpha|_{U\cap V}-\beta|_{U\cap V}]$.
+	\end{theorem}
+	
+	\subsection*{4. Explicit formula for the connecting morphism $\partial$ (the ``overlap mismatch'' map)}
+	
+	Fix a smooth partition of unity subordinate to the cover: choose $\rho_U,\rho_V\in C^\infty(M)$ such that
+	\[
+	\rho_U+\rho_V=1,\qquad \operatorname{supp}(\rho_U)\subset U,\qquad \operatorname{supp}(\rho_V)\subset V.
+	\]
+	
+	\begin{proposition}[Concrete representative of $\partial$]
+		Let $[\eta]\in H^{k-1}_{\mathrm{dR}}(U\cap V)$ with $\dd\eta=0$ on $U\cap V$.
+		Extend $\eta$ to forms $\tilde\eta_U\in\Omega^{k-1}(U)$ and $\tilde\eta_V\in\Omega^{k-1}(V)$
+		satisfying $\tilde\eta_U|_{U\cap V}=\eta=\tilde\eta_V|_{U\cap V}$ (existence holds by locality of forms).
+		Define
+		\[
+		\omega_U \coloneqq \rho_V\cdot \tilde\eta_U\in\Omega^{k-1}(U),\qquad
+		\omega_V \coloneqq -\rho_U\cdot \tilde\eta_V\in\Omega^{k-1}(V).
+		\]
+		Then on $U\cap V$ one has $\omega_U-\omega_V = \eta$ and hence $\delta(\omega_U,\omega_V)=\eta$.
+		Moreover, the pair $(\dd\omega_U,\dd\omega_V)$ agrees on $U\cap V$, so it glues to a global closed $k$-form
+		$\theta\in\Omega^k(M)$. The connecting map is
+		\[
+		\partial([\eta]) \;=\; [\theta]\in H^k_{\mathrm{dR}}(M),
+		\]
+		and this class is independent of all choices (extensions, partition of unity).
+	\end{proposition}
+	
+	\begin{remark}[What $\partial$ \emph{means}]
+		The element $[\eta]\in H^{k-1}(U\cap V)$ can be viewed as a ``transition datum'' on the overlap.
+		The connecting map $\partial$ converts this overlap datum into a \emph{global obstruction class} on $M$:
+		it is precisely the obstruction to gluing primitives/potentials globally.
+	\end{remark}
+	
+	\subsection*{5. Translation to grad--curl--div: the case $k=1$ (curl-free vs global gradient)}
+	
+	Assume we are in the $3$-dimensional vector-calculus setting.
+	
+	\medskip
+	Take $k=1$. Then $H^1_{\mathrm{dR}}$ detects the failure of a curl-free field to be a global gradient.
+	
+	\begin{itemize}
+		\item A class in $H^0_{\mathrm{dR}}(U\cap V)$ is represented by a locally constant function on $U\cap V$
+		(when $U\cap V$ is disconnected, this is where ``different constants on different components'' appears).
+		
+		\item The connecting map
+		\[
+		\partial: H^0_{\mathrm{dR}}(U\cap V)\longrightarrow H^1_{\mathrm{dR}}(M)
+		\]
+		takes an overlap ``constant mismatch'' and outputs a global cohomology class of closed $1$-forms,
+		i.e.\ (under the identifications) a curl-free vector field modulo global gradients.
+	\end{itemize}
+	
+	Concretely, let $c$ be a locally constant function on $U\cap V$. Choose extensions $\tilde c_U\in C^\infty(U)$
+	and $\tilde c_V\in C^\infty(V)$ with $\tilde c_U|_{U\cap V}=c=\tilde c_V|_{U\cap V}$. Then
+	\[
+	\theta \;=\; \dd(\rho_V \tilde c_U) \;=\; -\dd(\rho_U \tilde c_V)
+	\quad\text{on }U\cap V
+	\]
+	glues to a global closed $1$-form on $M$, and $\partial([c])=[\theta]$.
+	In vector-calculus language, $\theta$ corresponds to a curl-free field $F$ (since $\dd\theta=0$ means $\nabla\times F=0$)
+	whose failure to be a global gradient is encoded by the ``jump'' data $c$ on $U\cap V$.
+	
+	\subsection*{6. Worked example: $H^1(S^1)\cong \R$ from overlap-gluing (pure calculus intuition)}
+	
+	Let $M=S^1$. Cover $S^1$ by two open arcs $U,V$ such that $U\cap V$ is a disjoint union of two open arcs,
+	hence has two connected components:
+	\[
+	U\cap V \;=\; W_1 \sqcup W_2.
+	\]
+	Then
+	\[
+	H^0_{\mathrm{dR}}(U)\cong \R,\quad H^0_{\mathrm{dR}}(V)\cong \R,\quad
+	H^0_{\mathrm{dR}}(U\cap V)\cong \R\oplus\R,
+	\]
+	and (since $U,V,U\cap V$ are unions of contractible sets) one has
+	\[
+	H^1_{\mathrm{dR}}(U)=H^1_{\mathrm{dR}}(V)=H^1_{\mathrm{dR}}(U\cap V)=0.
+	\]
+	The Mayer--Vietoris segment for degrees $0$ and $1$ becomes
+	\[
+	0 \to H^0(S^1)
+	\to H^0(U)\oplus H^0(V)
+	\xrightarrow{\ \delta^\ast\ }
+	H^0(U\cap V)
+	\xrightarrow{\ \partial\ }
+	H^1(S^1)
+	\to 0.
+	\]
+	Identify $H^0(U)\oplus H^0(V)\cong \R^2$ and $H^0(U\cap V)\cong \R^2$ by sending a class to its constant value
+	on each connected component. Then
+	\[
+	\delta^\ast(a,b) \;=\; (a-b,\; a-b),
+	\]
+	so $\im(\delta^\ast)=\{(t,t):t\in\R\}$ is the diagonal in $\R^2$. Hence
+	\[
+	H^1_{\mathrm{dR}}(S^1)\;\cong\; \frac{\R^2}{\{(t,t)\}} \;\cong\; \R,
+	\]
+	and the isomorphism is concretely given by the \emph{difference of overlap constants}:
+	\[
+	[(c_1,c_2)] \longmapsto c_1-c_2.
+	\]
+	
+	\medskip
+	\noindent
+	\textbf{Calculus meaning.}
+	Locally on $U$ and $V$, a curl-free $1$-field is a gradient of a potential (angle function).
+	On $U\cap V$, the two local potentials differ by constants; because $U\cap V$ has \emph{two} components,
+	there can be \emph{two} constants. If those constants disagree between the components, you cannot choose
+	potentials that match globally; this is exactly the nontrivial class in $H^1(S^1)$, i.e.\ the global obstruction.
+	
+	\newpage
+	\section*{Extremely detailed computations of $H^1_{\mathrm{dR}}(S^1)$ and $H^1_{\mathrm{dR}}(S^2)$}
+	
+	\subsection*{0. Preliminaries: de Rham cohomology and Mayer--Vietoris}
+	
+	\begin{definition}[de Rham cohomology]
+		For a smooth manifold $M$, define
+		\[
+		H^k_{\mathrm{dR}}(M)\;=\;\frac{\ker(\dd:\Om^k(M)\to\Om^{k+1}(M))}
+		{\im(\dd:\Om^{k-1}(M)\to\Om^k(M))}.
+		\]
+		Elements of $\ker(\dd)$ are called \emph{closed} $k$-forms; elements of $\im(\dd)$ are \emph{exact}.
+	\end{definition}
+	
+	\begin{proposition}[Gluing exact sequence for an open cover]
+		If $M=U\cup V$ is an open cover, then for each $k$ there is a short exact sequence
+		\[
+		0\to \Om^k(M)\xrightarrow{r}\Om^k(U)\oplus\Om^k(V)\xrightarrow{\delta}\Om^k(U\cap V)\to 0
+		\]
+		where $r(\omega)=(\omega|_U,\omega|_V)$ and $\delta(\alpha,\beta)=\alpha|_{U\cap V}-\beta|_{U\cap V}$.
+		Moreover, this is a short exact sequence of \emph{cochain complexes} because $\dd$ commutes with restriction.
+	\end{proposition}
+	
+	\begin{theorem}[Mayer--Vietoris long exact sequence in de Rham cohomology]
+		From the short exact sequence of complexes above, one obtains a long exact sequence
+		\[
+		\cdots\to H^{k-1}(U\cap V)\xrightarrow{\partial}H^k(M)\xrightarrow{(r_U^\ast,r_V^\ast)}
+		H^k(U)\oplus H^k(V)\xrightarrow{\delta^\ast}H^k(U\cap V)\xrightarrow{\partial}H^{k+1}(M)\to\cdots
+		\]
+		where $\delta^\ast([\alpha],[\beta])=[\alpha|_{U\cap V}-\beta|_{U\cap V}]$.
+	\end{theorem}
+	
+	\begin{remark}[Concrete formula for $\partial$ via partition of unity]
+		Fix $\rho_U,\rho_V\in C^\infty(M)$ with $\rho_U+\rho_V=1$ and $\mathrm{supp}(\rho_U)\subset U$,
+		$\mathrm{supp}(\rho_V)\subset V$. If $[\eta]\in H^{k-1}(U\cap V)$ is represented by a closed form $\eta$,
+		choose extensions $\tilde\eta_U\in\Om^{k-1}(U)$ and $\tilde\eta_V\in\Om^{k-1}(V)$ with
+		$\tilde\eta_U|_{U\cap V}=\eta=\tilde\eta_V|_{U\cap V}$. Define
+		\[
+		\omega_U:=\rho_V\,\tilde\eta_U,\qquad \omega_V:=-\rho_U\,\tilde\eta_V.
+		\]
+		Then $\delta(\omega_U,\omega_V)=\eta$, and $(\dd\omega_U,\dd\omega_V)$ agrees on $U\cap V$, hence glues
+		to a global closed $k$-form $\theta$ on $M$. One sets $\partial([\eta]):=[\theta]\in H^k(M)$.
+	\end{remark}
+	
+	\subsection*{1. $H^1_{\mathrm{dR}}(S^1)$: two complementary computations}
+	
+	\subsubsection*{1A. Direct calculation using the angle coordinate}
+	
+	View $S^1\subset\R^2$ with standard angle coordinate $\theta\in\R/2\pi\Z$ and parametrization
+	\[
+	\gamma:\R/2\pi\Z\to S^1,\qquad \gamma(\theta)=(\cos\theta,\sin\theta).
+	\]
+	Then $\Om^1(S^1)$ is a rank-$1$ $C^\infty(S^1)$-module generated by $\dd\theta$ in the sense that any $1$-form
+	$\omega\in\Om^1(S^1)$ can be uniquely written as
+	\[
+	\omega = f(\theta)\,\dd\theta,\qquad f\in C^\infty(S^1).
+	\]
+	
+	\begin{lemma}[All $1$-forms on $S^1$ are closed]
+		If $\omega\in\Om^1(S^1)$, then $\dd\omega=0$.
+	\end{lemma}
+	\begin{proof}
+		On any $1$-manifold, $\Om^2=0$ identically (there are no nonzero $2$-forms), so $\dd:\Om^1\to\Om^2$ is the
+		zero map. Hence every $1$-form is closed.
+	\end{proof}
+	
+	Thus
+	\[
+	H^1_{\mathrm{dR}}(S^1)=\frac{\Om^1(S^1)}{\dd \Om^0(S^1)}.
+	\]
+	So we must characterize which $f(\theta)\dd\theta$ are exact.
+	
+	\begin{lemma}[Exactness criterion by period]
+		Let $\omega=f(\theta)\dd\theta\in\Om^1(S^1)$. Then $\omega$ is exact iff
+		\[
+		\int_{S^1}\omega \;=\; \int_0^{2\pi} f(\theta)\, \dd\theta \;=\; 0.
+		\]
+	\end{lemma}
+	\begin{proof}
+		($\Rightarrow$) If $\omega=\dd g$ for some $g\in C^\infty(S^1)$, then by the fundamental theorem of calculus,
+		\[
+		\int_{S^1}\omega=\int_{S^1}\dd g = 0,
+		\]
+		because the integral of an exact $1$-form over a closed loop is zero.
+		
+		($\Leftarrow$) Assume $\int_0^{2\pi} f(\theta)\,\dd\theta=0$. Define
+		\[
+		G(\theta):=\int_0^\theta f(t)\,\dd t.
+		\]
+		Then $G$ is smooth on $\R$, and $G'(\theta)=f(\theta)$. Moreover,
+		\[
+		G(\theta+2\pi)-G(\theta)=\int_\theta^{\theta+2\pi} f(t)\,\dd t = \int_0^{2\pi} f(t)\,\dd t=0,
+		\]
+		so $G$ is $2\pi$-periodic and thus descends to a smooth function $g\in C^\infty(S^1)$ satisfying
+		$\dd g = f(\theta)\dd\theta=\omega$.
+	\end{proof}
+	
+	\begin{proposition}[The period map identifies $H^1_{\mathrm{dR}}(S^1)\cong\R$]
+		Define the linear map (``period'' or ``circulation'')
+		\[
+		\mathcal{P}:\Om^1(S^1)\to\R,\qquad \mathcal{P}(\omega)=\int_{S^1}\omega.
+		\]
+		Then $\mathcal{P}$ vanishes on exact forms and hence induces a well-defined linear map
+		\[
+		\overline{\mathcal{P}}:H^1_{\mathrm{dR}}(S^1)\to\R,\qquad \overline{\mathcal{P}}([\omega])=\int_{S^1}\omega.
+		\]
+		Moreover, $\overline{\mathcal{P}}$ is an isomorphism. In particular,
+		\[
+		H^1_{\mathrm{dR}}(S^1)\cong\R,\qquad [\dd\theta]\ \text{is a generator with }\int_{S^1}\dd\theta=2\pi.
+		\]
+	\end{proposition}
+	\begin{proof}
+		Well-definedness is immediate because $\int_{S^1}\dd g=0$ for all $g$.
+		
+		Injectivity: If $\overline{\mathcal{P}}([\omega])=0$, then $\int_{S^1}\omega=0$, so by the exactness criterion
+		$\omega$ is exact, hence $[\omega]=0$ in cohomology.
+		
+		Surjectivity: Given $c\in\R$, take $\omega=\frac{c}{2\pi}\dd\theta$. Then
+		\[
+		\overline{\mathcal{P}}([\omega])=\int_{S^1}\frac{c}{2\pi}\dd\theta=\frac{c}{2\pi}\cdot 2\pi=c.
+		\]
+	\end{proof}
+	
+	\begin{remark}[Vector-calculus reading in 1D]
+		On a 1-dimensional manifold, ``curl'' is vacuous and every $1$-form is locally a gradient
+		(Poincar\'e lemma in degree $1$). The obstruction to a \emph{global} potential is exactly the nonzero
+		circulation $\int_{S^1}\omega$, which is the $H^1$ class.
+	\end{remark}
+	
+	\subsubsection*{1B. Mayer--Vietoris computation for $S^1$ (extremely explicit)}
+	
+	Choose an open cover $S^1=U\cup V$ where $U,V$ are open arcs, each diffeomorphic to an interval,
+	such that $U\cap V$ is the disjoint union of \emph{two} open arcs:
+	\[
+	U\cap V = W_1 \sqcup W_2,\qquad W_1\cap W_2=\varnothing.
+	\]
+	(Geometrically: take $U$ and $V$ as two large overlapping arcs whose overlap occurs in two separated regions.)
+	
+	\begin{lemma}[Cohomology of the pieces]
+		Because $U,V,W_1,W_2$ are each diffeomorphic to an open interval, they are contractible. Hence:
+		\[
+		H^0(U)\cong\R,\quad H^0(V)\cong\R,\quad H^0(W_i)\cong\R,\qquad
+		H^1(U)=H^1(V)=H^1(W_i)=0.
+		\]
+		Therefore
+		\[
+		H^0(U\cap V)\cong H^0(W_1)\oplus H^0(W_2)\cong \R\oplus\R,\qquad
+		H^1(U\cap V)=0.
+		\]
+	\end{lemma}
+	
+	Now write out the Mayer--Vietoris long exact sequence in low degrees.
+	The relevant segment is
+	\[
+	0 \to H^0(S^1)\xrightarrow{r^\ast} H^0(U)\oplus H^0(V)
+	\xrightarrow{\delta^\ast} H^0(U\cap V)\xrightarrow{\partial} H^1(S^1)
+	\xrightarrow{r^\ast} H^1(U)\oplus H^1(V)=0.
+	\]
+	Exactness at the last term implies $\partial$ is \emph{surjective}:
+	\[
+	\im(\partial)=H^1(S^1).
+	\]
+	Exactness at $H^0(U\cap V)$ gives
+	\[
+	\ker(\partial)=\im(\delta^\ast).
+	\]
+	Therefore
+	\[
+	H^1(S^1)\;\cong\;\frac{H^0(U\cap V)}{\im(\delta^\ast)}.
+	\]
+	
+	It remains to compute $\delta^\ast$ explicitly on constants.
+	
+	\begin{lemma}[Explicit form of $\delta^\ast$ on $H^0$]
+		Identify
+		\[
+		H^0(U)\oplus H^0(V)\cong \R\oplus\R
+		\]
+		by sending a class to its constant value on each connected set.
+		Similarly, identify
+		\[
+		H^0(U\cap V)\cong \R\oplus\R
+		\]
+		by sending a class to its pair of constants on $(W_1,W_2)$.
+		Then
+		\[
+		\delta^\ast(a,b) = (a-b,\ a-b).
+		\]
+	\end{lemma}
+	\begin{proof}
+		A class in $H^0(U)$ is represented by a locally constant function; since $U$ is connected, it is constant $a$.
+		Similarly $b$ on $V$. On each overlap component $W_i\subset U\cap V$, the difference
+		\[
+		a|_{W_i}-b|_{W_i}=a-b
+		\]
+		is the constant value of the class in $H^0(W_i)$. Hence the pair is $(a-b,a-b)$.
+	\end{proof}
+	
+	Thus
+	\[
+	\im(\delta^\ast)=\{(t,t):t\in\R\}\subset \R^2,
+	\]
+	the diagonal. Consequently
+	\[
+	H^1(S^1)\cong \frac{\R^2}{\{(t,t)\}}\cong \R,
+	\]
+	and a concrete isomorphism is given by the \emph{difference of overlap constants}:
+	\[
+	[(c_1,c_2)] \longmapsto c_1-c_2.
+	\]
+	This exhibits the slogan:
+	\begin{quote}
+		local potentials exist on $U$ and $V$, but their constants of integration on $W_1$ and $W_2$
+		need not match; the mismatch $c_1-c_2$ is the $H^1$ obstruction.
+	\end{quote}
+	
+	\subsection*{2. $H^1_{\mathrm{dR}}(S^2)=0$ (with Mayer--Vietoris and explicit maps)}
+	
+	Let $S^2\subset \R^3$ be the unit sphere. Let $N=(0,0,1)$ (north pole) and $S=(0,0,-1)$ (south pole).
+	Define the standard two-chart cover
+	\[
+	U := S^2\setminus\{S\},\qquad V := S^2\setminus\{N\}.
+	\]
+	Then $U$ and $V$ are each diffeomorphic to $\R^2$ via stereographic projection. Their intersection is
+	\[
+	U\cap V = S^2\setminus\{N,S\}.
+	\]
+	
+	\subsubsection*{2A. Cohomology of $U$, $V$, and $U\cap V$}
+	
+	\begin{lemma}[Cohomology of $U$ and $V$]
+		Since $U\cong\R^2$ and $V\cong\R^2$ are contractible,
+		\[
+		H^0(U)\cong\R,\quad H^0(V)\cong\R,\qquad H^1(U)=H^1(V)=0.
+		\]
+	\end{lemma}
+	
+	\begin{lemma}[Homotopy type and $H^1$ of the overlap]
+		The manifold $U\cap V=S^2\setminus\{N,S\}$ deformation retracts onto the equator $S^1\subset S^2$.
+		Hence
+		\[
+		H^0(U\cap V)\cong\R,\qquad H^1(U\cap V)\cong H^1(S^1)\cong\R.
+		\]
+	\end{lemma}
+	\begin{proof}
+		Geometrically, remove the poles; every remaining point lies on a unique meridian segment crossing the equator.
+		Define a deformation retraction by sliding points along meridians to the equator (keeping longitude fixed).
+		Thus $U\cap V\simeq S^1$, and de Rham cohomology is homotopy invariant, giving the claims.
+	\end{proof}
+	
+	\subsubsection*{2B. Mayer--Vietoris in degrees $0$ and $1$}
+	
+	Write the Mayer--Vietoris long exact sequence in low degrees:
+	\[
+	0 \to H^0(S^2)\xrightarrow{r^\ast} H^0(U)\oplus H^0(V)
+	\xrightarrow{\delta^\ast} H^0(U\cap V)
+	\xrightarrow{\partial} H^1(S^2)
+	\xrightarrow{r^\ast} H^1(U)\oplus H^1(V).
+	\]
+	Substitute the computed groups:
+	\[
+	0 \to \R \xrightarrow{r^\ast} \R\oplus\R
+	\xrightarrow{\delta^\ast} \R
+	\xrightarrow{\partial} H^1(S^2)
+	\xrightarrow{r^\ast} 0\oplus 0 = 0.
+	\]
+	Thus $\partial$ is surjective and
+	\[
+	H^1(S^2)\cong \frac{H^0(U\cap V)}{\im(\delta^\ast)} \cong \frac{\R}{\im(\delta^\ast)}.
+	\]
+	Therefore it suffices to show $\delta^\ast:\R^2\to\R$ is surjective.
+	
+	\begin{lemma}[Explicit computation of $\delta^\ast$ on $H^0$ for $S^2$ cover]
+		Under the identifications $H^0(U)\cong\R$, $H^0(V)\cong\R$, $H^0(U\cap V)\cong\R$ via constants,
+		\[
+		\delta^\ast(a,b)=a-b.
+		\]
+		In particular, $\delta^\ast$ is surjective.
+	\end{lemma}
+	\begin{proof}
+		As in the $S^1$ case, a class in $H^0(U)$ is represented by a constant $a$ on connected $U$, similarly $b$ on $V$.
+		Since $U\cap V$ is connected, the difference $a|_{U\cap V}-b|_{U\cap V}$ is the constant $a-b$ in $H^0(U\cap V)$.
+		Surjectivity: given $c\in\R$, choose $(a,b)=(c,0)$ so $a-b=c$.
+	\end{proof}
+	
+	\begin{corollary}[$H^1_{\mathrm{dR}}(S^2)=0$]
+		Because $\delta^\ast$ is surjective, $\im(\delta^\ast)=\R$, hence
+		\[
+		H^1_{\mathrm{dR}}(S^2)\cong \R/\R = 0.
+		\]
+	\end{corollary}
+	
+	\begin{remark}[Calculus reading: every curl-free tangent field has a global potential on $S^2$]
+		Under the $1$-form/vector-field identification (with a metric), a closed $1$-form corresponds to a curl-free field.
+		The statement $H^1(S^2)=0$ says:
+		\[
+		\text{every closed $1$-form on $S^2$ is exact, i.e.\ every curl-free field is a global gradient.}
+		\]
+		From the Mayer--Vietoris perspective: local potentials exist on $U$ and $V$ (since $H^1(U)=H^1(V)=0$),
+		and because the overlap $U\cap V$ is connected, the only ambiguity is an \emph{additive constant}, which can be
+		adjusted to make the two potentials agree globally. There is no ``two-component mismatch'' as in the $S^1$ case.
+	\end{remark}
+	
+	\subsubsection*{2C. (Optional but illuminating) What happens one degree higher: $H^2(S^2)\cong \R$}
+	
+	Although you asked for $H^1$, it is instructive to record the adjacent MV segment:
+	\[
+	H^1(U)\oplus H^1(V)=0 \longrightarrow H^1(U\cap V)\cong \R
+	\xrightarrow{\partial} H^2(S^2) \longrightarrow H^2(U)\oplus H^2(V)=0.
+	\]
+	Exactness forces $\partial:\R\to H^2(S^2)$ to be an isomorphism, so $H^2(S^2)\cong\R$.
+	This is the formal place where the ``flux/area'' class of the sphere lives.
+	
+	
+\end{document}

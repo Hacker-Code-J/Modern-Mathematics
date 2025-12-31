@@ -1,0 +1,130 @@
+\chapter{Presentations with Beamer}
+
+\section{What is Beamer?}
+
+\texttt{beamer} is a LaTeX document class for creating high-quality presentations. It uses frames (slides) instead of pages and provides built-in themes, templates, and transitions.
+
+\section{Basic Beamer Document}
+
+\begin{verbatim}
+	\documentclass{beamer}
+	\usetheme{Madrid}
+	
+	\title{My First Beamer Presentation}
+	\author{Your Name}
+	\date{\today}
+	
+	\begin{document}
+		
+		\frame{\titlepage}
+		
+		\begin{frame}{Outline}
+			\tableofcontents
+		\end{frame}
+		
+		\section{Introduction}
+		
+		\begin{frame}{Why Beamer?}
+			\begin{itemize}
+				\item Professional slides
+				\item Integrated with math and references
+				\item Fully customizable
+			\end{itemize}
+		\end{frame}
+		
+	\end{document}
+\end{verbatim}
+
+\section{The \texttt{frame} Environment}
+
+Each slide is enclosed in a \texttt{frame}:
+
+\begin{verbatim}
+	\begin{frame}{Slide Title}
+		Slide content goes here.
+	\end{frame}
+\end{verbatim}
+
+You can also use:
+
+\begin{verbatim}
+	\frame{\frametitle{Title} Slide content}
+\end{verbatim}
+
+\section{Itemized and Numbered Lists}
+
+\begin{frame}{Lists}
+	\begin{itemize}
+		\item Bullet 1
+		\item Bullet 2
+	\end{itemize}
+	
+	\begin{enumerate}
+		\item First
+		\item Second
+	\end{enumerate}
+\end{frame}
+
+\section{Math in Beamer}
+
+You can include math just like in articles:
+
+\begin{frame}{Math Example}
+	The quadratic formula:
+	\[
+	x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}
+	\]
+\end{frame}
+
+\section{Themes and Color Schemes}
+
+Use \verb|\usetheme| in the preamble to set the theme:
+
+\begin{verbatim}
+	\usetheme{Madrid}     % clean and simple
+	\usetheme{Boadilla}   % serifed look
+	\usetheme{AnnArbor}   % bold, yellow theme
+	\usetheme{Warsaw}     % darker theme
+\end{verbatim}
+
+You can combine themes with:
+
+\begin{verbatim}
+	\usecolortheme{seahorse}
+\end{verbatim}
+
+\section{Blocks for Emphasis}
+
+%\begin{frame}{Blocks}
+%	\begin{block}{Standard Block}
+%		This is a regular block.
+%	\end{block}
+%	
+%	\begin{alertblock}{Alert Block}
+%		This is a red alert!
+%	\end{alertblock}
+%	
+%	\begin{exampleblock}{Example Block}
+%		This is an example.
+%	\end{exampleblock}
+%\end{frame}
+
+\section{Pause and Uncovering Content}
+
+\begin{itemize}
+	\item \verb|\pause| reveals the next item on each click.
+	\item \verb|\uncover<2->{...}| shows content starting from slide step 2.
+\end{itemize}
+
+\section{Exercise}
+
+\begin{exercise}
+	Create a presentation with:
+	\begin{itemize}
+		\item A title slide and table of contents
+		\item At least two sections with one frame each
+		\item An equation slide
+		\item A block with an important note
+		\item Use the theme \texttt{Warsaw}
+	\end{itemize}
+\end{exercise}

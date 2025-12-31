@@ -1,0 +1,106 @@
+\chapter{Text Formatting and Layout}
+
+\section{Basic Text Commands}
+
+LaTeX provides a variety of text formatting commands to style your writing.
+
+\begin{itemize}
+	\item \verb|\textbf{bold}| → \textbf{bold}
+	\item \verb|\textit{italic}| → \textit{italic}
+	\item \verb|\underline{underline}| → \underline{underline}
+	\item \verb|\emph{emphasized}| → \emph{emphasized} (contextual)
+\end{itemize}
+
+\begin{example}
+	This is \textbf{bold}, \textit{italic}, and \underline{underlined}.
+\end{example}
+
+\section{Paragraphs and Line Breaks}
+
+\begin{itemize}
+	\item A blank line starts a new paragraph.
+	\item Use \verb|\\| for a manual line break.
+\end{itemize}
+
+\begin{example}
+	This is the first line.\\
+	This is the second line.
+\end{example}
+
+\section{Quotes and Verbatim Text}
+
+\begin{itemize}
+	\item Use \verb|\verb| for short inline code: \verb|\LaTeX|.
+	\item Use the \texttt{verbatim} environment for code blocks.
+	\item Use \texttt{quote} or \texttt{quotation} for indented blocks.
+\end{itemize}
+
+\begin{example}
+	\begin{verbatim}
+		\begin{itemize}
+			\item First
+			\item Second
+		\end{itemize}
+	\end{verbatim}
+\end{example}
+
+\section{Text Alignment}
+
+\begin{itemize}
+	\item \verb|\begin{center}...\end{center}| → centered text
+	\item \verb|\begin{flushleft}...\end{flushleft}| → left-aligned
+	\item \verb|\begin{flushright}...\end{flushright}| → right-aligned
+\end{itemize}
+
+\begin{example}
+	\begin{center}
+		This is centered.
+	\end{center}
+\end{example}
+
+\section{Font Sizes}
+
+\LaTeX{} supports relative font sizes:
+
+\begin{itemize}
+	\item \verb|\tiny|, \verb|\scriptsize|, \verb|\footnotesize|
+	\item \verb|\small|, \verb|\normalsize|, \verb|\large|, \verb|\Large|
+	\item \verb|\LARGE|, \verb|\huge|, \verb|\Huge|
+\end{itemize}
+
+\begin{example}
+	{\Large This is large text.}
+\end{example}
+
+\section{Special Characters}
+
+Some characters must be escaped using a backslash:
+
+\begin{tabular}{ll}
+	\verb|\%| & \% (percent) \\
+	\verb|\$| & \$ (dollar) \\
+	\verb|\#| & \# (hash) \\
+	\verb|\_| & \_ (underscore) \\
+	\verb|\&| & \& (ampersand) \\
+	\verb|\{| \verb|\}| & \{ \}, braces
+\end{tabular}
+
+\section{Comments}
+
+Use the percent symbol (\verb|%|) to add comments:
+
+\begin{verbatim}
+	% This is a comment and will not appear in the output
+\end{verbatim}
+
+\section{Exercise}
+
+\begin{exercise}
+	Create a document with:
+	\begin{itemize}
+		\item A centered title using \verb|\begin{center}|
+			\item A paragraph using \verb|\textit| and \verb|\textbf|
+			\item One inline verbatim command using \verb|\verb|
+			\item A list of three escaped special characters
+		\end{itemize}
+	\end{exercise}

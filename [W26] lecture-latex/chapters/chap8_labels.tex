@@ -1,0 +1,106 @@
+\chapter{Cross-Referencing and Labels}
+
+\section{Why Use Cross-References?}
+
+Cross-referencing allows you to:
+\begin{itemize}
+	\item Refer to sections, figures, tables, and equations dynamically
+	\item Automatically update numbers when structure changes
+	\item Improve document navigability, especially in long documents
+\end{itemize}
+
+\section{Basic Labeling Syntax}
+
+Use \verb|\label{key}| to mark a location, and use \verb|\ref{key}| to refer to it later.
+
+\begin{example}
+	\begin{verbatim}
+		\section{Methodology}
+		\label{sec:method}
+		
+		As discussed in Section~\ref{sec:method}, we use...
+	\end{verbatim}
+\end{example}
+
+\section{Referencing Figures and Tables}
+
+\begin{itemize}
+	\item Place \verb|\label| after \verb|\caption|
+	\item Reference with \verb|\ref|
+\end{itemize}
+
+\begin{example}
+	\begin{verbatim}
+		\begin{figure}[h]
+			\centering
+			\includegraphics[width=0.5\textwidth]{plot}
+			\caption{Data trend}
+			\label{fig:trend}
+		\end{figure}
+		
+		See Figure~\ref{fig:trend}.
+	\end{verbatim}
+\end{example}
+
+\section{Referencing Equations}
+
+For numbered equations:
+
+\begin{verbatim}
+	\begin{equation}
+		a^2 + b^2 = c^2
+		\label{eq:pythagoras}
+	\end{equation}
+	
+	From Eq.~\eqref{eq:pythagoras}, we know...
+\end{verbatim}
+
+\section{Referencing Theorems and Definitions}
+
+\begin{example}
+	\begin{verbatim}
+		\begin{theorem}
+			\label{thm:addition}
+			Addition of even numbers is even.
+		\end{theorem}
+		
+		Theorem~\ref{thm:addition} proves the statement.
+	\end{verbatim}
+\end{example}
+
+\section{Hyperlinks with \texttt{hyperref}}
+
+To make all references clickable in the PDF, use the \texttt{hyperref} package:
+
+\begin{verbatim}
+	\usepackage{hyperref}
+\end{verbatim}
+
+\begin{itemize}
+	\item \verb|\href{URL}{text}| — insert a clickable external link
+	\item \verb|\url{URL}| — insert a plain clickable URL
+\end{itemize}
+
+\begin{example}
+	\href{https://www.latex-project.org}{Visit the LaTeX Project}
+\end{example}
+
+\section{Best Practices}
+
+\begin{itemize}
+	\item Prefix label names: \texttt{sec:}, \texttt{fig:}, \texttt{eq:}, \texttt{thm:}, etc.
+	\item Always run \LaTeX{} twice to update references.
+\end{itemize}
+
+\section{Exercise}
+
+\begin{exercise}
+	Write a LaTeX document that includes:
+	\begin{itemize}
+		\item A labeled section titled “Results”
+		\item A numbered and labeled equation
+		\item A figure with caption and label
+		\item A clickable link to an external website
+		\item Proper references using \verb|\ref| and \verb|\eqref|
+	\end{itemize}
+\end{exercise}

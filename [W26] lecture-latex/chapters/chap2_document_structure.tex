@@ -1,0 +1,99 @@
+\chapter{Document Structure and Classes}
+
+\section{Anatomy of a LaTeX Document}
+
+A LaTeX file is a plain text file with the `.tex` extension. It typically has two main parts:
+
+\begin{itemize}
+	\item The \textbf{preamble}, where you set document options and load packages.
+	\item The \textbf{document body}, where you write content.
+\end{itemize}
+
+\begin{example}[Minimal Structure]
+	\begin{verbatim}
+		\documentclass{article}
+		
+		\begin{document}
+			This is a LaTeX document.
+		\end{document}
+	\end{verbatim}
+\end{example}
+
+\section{Document Classes}
+
+The \verb|\documentclass| command defines the type of document.
+
+\begin{itemize}
+	\item \texttt{article} – for short papers, homework, notes
+	\item \texttt{report} – for longer documents with chapters
+	\item \texttt{book} – for writing books with two-sided layout
+	\item \texttt{beamer} – for presentations
+\end{itemize}
+
+\begin{example}
+	\verb|\documentclass[12pt]{report}|
+\end{example}
+
+\section{Class Options}
+
+You can add options to customize your document:
+
+\begin{itemize}
+	\item \texttt{10pt}, \texttt{11pt}, \texttt{12pt} — font size
+	\item \texttt{a4paper}, \texttt{letterpaper} — paper size
+	\item \texttt{twoside}, \texttt{oneside} — page layout
+	\item \texttt{twocolumn} — two-column text
+\end{itemize}
+
+\begin{example}
+	\verb|\documentclass[12pt, a4paper, twoside]{article}|
+\end{example}
+
+\section{Packages}
+
+Packages extend LaTeX’s capabilities. Load them in the preamble:
+
+\begin{verbatim}
+	\usepackage{amsmath, amssymb}
+	\usepackage{graphicx}
+	\usepackage{hyperref}
+\end{verbatim}
+
+\begin{definition}[Package]
+	A LaTeX package is a collection of macros and commands that add functionality. Use \verb|\usepackage{...}| to load it.
+\end{definition}
+
+\section{Skeleton Template}
+
+\begin{example}[Typical Structure]
+	\begin{verbatim}
+		\documentclass[11pt]{article}
+		\usepackage[utf8]{inputenc}
+		\usepackage{amsmath, amssymb}
+		\usepackage{graphicx}
+		\usepackage{hyperref}
+		
+		\title{My First Document}
+		\author{Student Name}
+		\date{\today}
+		
+		\begin{document}
+			\maketitle
+			
+			Hello, LaTeX World!
+			
+		\end{document}
+	\end{verbatim}
+\end{example}
+
+\section{Exercise}
+
+\begin{exercise}
+	Create a new LaTeX file with:
+	\begin{itemize}
+		\item Class: \texttt{report}
+		\item Title: “My LaTeX Project”
+		\item Use packages: \texttt{amsmath}, \texttt{graphicx}, \texttt{hyperref}
+		\item Display a simple sentence: “This is my LaTeX report.”
+	\end{itemize}
+\end{exercise}

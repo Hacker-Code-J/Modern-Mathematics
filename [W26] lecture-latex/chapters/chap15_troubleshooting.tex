@@ -1,0 +1,109 @@
+\chapter{Best Practices and Troubleshooting}
+
+\section{File Organization}
+
+Organize your project as follows for clarity and scalability:
+
+\begin{verbatim}
+	project/
+	│
+	├── main.tex
+	├── chapters/
+	│   ├── intro.tex
+	│   └── conclusion.tex
+	├── figures/
+	│   ├── diagram1.pdf
+	│   └── chart2.png
+	├── bib/
+	│   └── references.bib
+	└── Makefile
+\end{verbatim}
+
+Use \verb|\input{chapters/intro}| or \verb|\include{chapters/conclusion}| to load content modularly.
+
+\section{Use Version Control (Git)}
+
+Track changes and collaborate using Git:
+
+\begin{verbatim}
+	git init
+	git add .
+	git commit -m "Initial LaTeX project"
+\end{verbatim}
+
+\textbf{Ignore build files}: Create a `.gitignore` with:
+
+\begin{verbatim}
+	*.aux
+	*.log
+	*.out
+	*.toc
+	*.bbl
+	*.blg
+\end{verbatim}
+
+\section{Avoiding Common Errors}
+
+\begin{itemize}
+	\item Always match \verb|\begin{...}| with \verb|\end{...}|
+	\item Compile twice (or more) for cross-references and TOC
+	\item Use `\$...\$` for inline math only — never use double-dollar (`\$\$`) signs
+	\item Don’t overload your preamble; only include necessary packages
+\end{itemize}
+
+\section{Helpful Debugging Tips}
+
+\begin{itemize}
+	\item Look at the first error in the `.log` file — others may cascade
+	\item Use Overleaf or an IDE with real-time error highlighting
+	\item Comment out blocks to isolate problems quickly
+	\item Ensure all images exist and are in the correct format (e.g., PDF, PNG, JPG)
+\end{itemize}
+
+\section{Compiler Choices}
+
+\begin{itemize}
+	\item \texttt{pdflatex} — best for simple documents
+	\item \texttt{xelatex} — supports system fonts and Unicode
+	\item \texttt{lualatex} — modern engine with scripting support
+\end{itemize}
+
+\section{Package Conflicts}
+
+If your document won’t compile:
+\begin{itemize}
+	\item Try commenting out recently added packages
+	\item Check package versions
+	\item Avoid loading the same package multiple times
+\end{itemize}
+
+\section{Essential Packages Recap}
+
+\begin{tabular}{ll}
+	\texttt{amsmath, amssymb} & Math environments and symbols \\
+	\texttt{graphicx} & Include images \\
+	\texttt{hyperref} & Clickable references and links \\
+	\texttt{biblatex, biber} & Modern bibliography system \\
+	\texttt{geometry} & Page layout and margins \\
+	\texttt{tikz} & Drawing diagrams
+\end{tabular}
+
+\section{Professional Tips}
+
+\begin{itemize}
+	\item Use \texttt{\textbackslash autoref} (from \texttt{hyperref}) for context-aware references
+	\item Set metadata with \texttt{pdfauthor}, \texttt{pdftitle} via \texttt{hyperref} options
+	\item Define your own math macros in the preamble for consistency
+\end{itemize}
+
+\section{Exercise}
+
+\begin{exercise}
+	Review a LaTeX document you've written and:
+	\begin{itemize}
+		\item Refactor repeated content into macros
+		\item Add version control with Git
+		\item Apply a Makefile or automation script
+		\item Clean up unused packages and files
+	\end{itemize}
+\end{exercise}

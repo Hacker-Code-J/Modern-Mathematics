@@ -1,0 +1,449 @@
+\documentclass[12pt, letterpaper]{article}
+%\usepackage{draftwatermark}
+%\SetWatermarkText{Copyright \copyright\ 2025\\ Ji, Yonghyeon}
+%\SetWatermarkScale{.5}
+%\SetWatermarkColor[gray]{0.9}
+% --- PACKAGES ---
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{mathpazo} % Palatino font
+\usepackage[margin=.85in]{geometry}
+\usepackage{amsmath, amssymb, amsfonts, amsthm}
+\usepackage{esint} % For closed integral symbols
+\usepackage{fancyhdr} 
+\usepackage{xcolor}
+\usepackage{tikz} 
+\usetikzlibrary{arrows.meta,calc,decorations.markings,patterns,positioning}
+\usepackage[most]{tcolorbox} 
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{hyperref}
+
+% --- MACROS FROM YOUR NOTES ---
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\renewcommand{\d}{\mathrm{d}} % Differential d
+\newcommand{\curl}{\mathrm{curl}\,}
+\newcommand{\diver}{\mathrm{div}\,}
+\renewcommand{\vec}[1]{\mathbf{#1}}
+\renewcommand{\d}{\mathrm{d}}
+
+% --- COLORS & STYLE ---
+\definecolor{themecolor}{RGB}{0, 102, 102} % Teal/Dark Cyan (Vector Calc Theme)
+\definecolor{gridcolor}{RGB}{220, 220, 220} 
+
+% --- PAGE HEADER/FOOTER ---
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small \textsc{Riemann Surfaces and Algebraic Curves}}
+\fancyhead[R]{\small Part I --- Multivariable Calculus}
+%\fancyfoot[C]{\small Copyright \copyright\ 2025 Ji, Yonghyeon. All rights reserved.}
+%\fancyfoot[R]{\thepage}
+
+\fancyfoot[L]{\footnotesize Copyright \copyright\ 2025 Ji, Yonghyeon}
+%\fancyfoot[C]{\footnotesize \textit{Part I --- Multivariable Calculus}}
+\fancyfoot[R]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+% --- PROBLEM COMMAND ---
+\newcounter{probcount}
+\newcommand{\makequestion}[2]{
+	\clearpage
+	\stepcounter{probcount}
+	
+	% Problem Box
+	\begin{tcolorbox}[
+		enhanced,
+		colback=white,
+		colframe=themecolor,
+		coltitle=white,
+		fonttitle=\bfseries,
+		title={Problem \theprobcount: #1},
+		sharp corners=south,
+		drop fuzzy shadow,
+		boxrule=0.5mm,
+		top=6mm, bottom=6mm
+		]
+		%\large 
+		#2
+	\end{tcolorbox}
+	
+	% Workspace
+	\vfill
+	\begin{center}
+		\begin{tikzpicture}
+			\draw[step=0.5cm,gridcolor,very thin, dash pattern=on 0.5pt off 1.5pt] (0,0) grid (16,15);
+		\end{tikzpicture}
+	\end{center}
+	\vfill
+}
+
+% --- TITLE PAGE SETUP ---
+\title{
+	\vspace{2cm}
+	\begin{tcolorbox}[colback=themecolor, colframe=themecolor, sharp corners]
+		\centering \color{white}
+		\Huge \textbf{Riemann Surfaces and Algebraic Curves}\\
+		\vspace{0.5em}
+		\Large \textit{A Framework for Understanding Elliptic Curves}
+	\end{tcolorbox}
+	\Large \textbf{Part I --- Multivariable Calculus}
+}
+\author{\textbf{Ji, Yonghyeon}}
+\date{\today}
+\usepackage{pdfpages}
+% --- DOCUMENT START ---
+\begin{document}
+
+% --- 2. Insert the Cover PDF ---
+% 'pages=-' means include all pages (usually just 1 for a cover)
+% 'fitpaper=true' adjusts the document page size to match the cover PDF size exactly
+\includepdf[pages=-, fitpaper=true]{tikzs/cover-image.pdf}
+
+% --- 3. (Optional) Empty page after cover ---
+% If printing double-sided, the back of the cover is usually blank
+\cleardoublepage
+
+\newpage	
+	
+		
+% 1. COVER PAGE
+\begin{titlepage}
+	\centering
+	\maketitle
+	\thispagestyle{empty}
+	
+%	\vspace{1cm}
+	
+	\begin{center}
+		\includegraphics[scale=1]{tikzs/generalized_stokes_on_crs.pdf}
+	\end{center}
+	
+	\vfill
+	\begin{center}
+		\large\bfseries {\scshape WINTER 2026}
+	\end{center}
+\end{titlepage}
+
+\newpage
+%\section*{Preface}
+% Summary table + slogans for the FTC hierarchy (LaTeX-ready)
+% Requires: \usepackage{booktabs,tabularx,amsmath,amssymb}
+% Optional (nice): \usepackage{array} for better column control
+
+\subsection*{The FTC hierarchy}
+\begin{table}[ht]
+	\centering
+	\renewcommand{\arraystretch}{2}
+	\setlength{\tabcolsep}{6pt}
+	\begin{tabularx}{\linewidth}{
+			@{}>{\raggedright\arraybackslash}p{8cm}
+%			>{\raggedright\arraybackslash}X
+%			>{\raggedright\arraybackslash}p{3.1cm}
+%			>{\raggedright\arraybackslash}p{2.6cm}
+%			>{\raggedright\arraybackslash}p{2.6cm}
+			>{\raggedright\arraybackslash}X@{}
+		}
+		\toprule
+		\textbf{Name} &
+		\textbf{Formula} \\ %&
+%		\textbf{Interior} &
+%		\textbf{Boundary} \\ %&
+%		\textbf{Operator} \\
+%		\textbf{Slogan} \\
+		\midrule
+		
+		FTC I (Accumulation) &
+		$\displaystyle \frac{\d}{\d x}\left(\int_a^x f(t)\,\d t\right)=f(x).$ \\
+%		If $F(x)=\displaystyle\int_a^x f(t)\,dt$, then $F'(x)=f(x)$. \\ %&
+%		$[a,x]$ &
+%		Endpoint $x$ (with basepoint $a$) \\ %&
+%%		$\dfrac{d}{dx}$ \\ %&
+%		%\textit{Accumulation differentiates to the integrand.} \\
+		
+		FTC II (Evaluation) &
+		$\displaystyle\int_a^b f'(x)\,\d x=f(b)-f(a)$. \\ %&
+%		$[a,b]$ &
+%		$\{a,b\}$ \\ %&
+%%		$\dfrac{d}{dx}$ \\ %&
+%%		\textit{Integrate a derivative: get endpoint change.} \\
+		
+		Fundamental Theorem of Line Integrals &
+		$\displaystyle\int_C \nabla\phi\cdot \d\mathbf r=\phi(B)-\phi(A)$. \\ %&
+%		Curve $C$ &
+%		Endpoints $A,B$ \\ %&
+%%		$\nabla$ \\ %&
+%%		\textit{Conservative work depends only on endpoints.} \\
+		
+		Green's Theorem &
+		$\displaystyle\oint_{\partial R} P\,\d x+Q\,\d y
+		=\iint_R\!\left(\frac{\partial Q}{\partial x}-\frac{\partial P}{\partial y}\right)\,\d A$. \\ %&
+%		Region $R\subset\mathbb R^2$ &
+%		Simple closed curve $\partial R$ \\ %&
+%%		$\operatorname{curl}_{2D}=\frac{\partial Q}{\partial x}-\frac{\partial P}{\partial y}$ \\ %&
+%%		\textit{Circulation on the boundary equals curl over the interior.} \\
+		
+		Stokes' Theorem (3D) &
+		$\displaystyle\oint_{\partial S}\mathbf F\cdot \d\mathbf r
+		=\iint_S (\nabla\times \mathbf F)\cdot \mathbf n\,\d S$. \\ %&
+%		Oriented surface $S\subset\mathbb R^3$ &
+%		Boundary curve $\partial S$ \\ %&
+%%		$\nabla\times$ \\ %&
+%%		\textit{Boundary circulation equals curl through the surface.} \\
+		
+		Divergence Theorem &
+		$\displaystyle\iint_{\partial V}\mathbf F\cdot \mathbf n\,\d S
+		=\iiint_V (\nabla\cdot \mathbf F)\,\d V$. \\ %&
+%		Volume $V\subset\mathbb R^3$ &
+%		Closed surface $\partial V$ \\ %&
+%%		$\nabla\cdot$ &
+%%		\textit{Flux through the boundary equals divergence in the volume.} \\
+		
+		Generalized Stokes&
+		$\displaystyle \int_{\partial\Omega}\omega=\int_{\Omega} \d \omega$. \\ %&
+%		Oriented $k$-manifold $\Omega$ &
+%		$(k-1)$-manifold $\partial\Omega$ \\ %&
+%%		$d$ (exterior derivative) &
+%%		\textit{The boundary integral is the integral of the derivative.} \\
+		\bottomrule
+	\end{tabularx}
+%	\caption{The FTC hierarchy
+%		%: interior--boundary correspondences.
+%	}
+\end{table}
+
+%% --- Optional: slogans-only block (cover-friendly) ---
+%\begin{itemize}
+%	\item \textbf{FTC I:} Accumulation differentiates to the integrand.
+%	\item \textbf{FTC II:} Integrate a derivative: get endpoint change.
+%	\item \textbf{Line Integrals:} Conservative work depends only on endpoints.
+%	\item \textbf{Green:} Circulation on the boundary equals curl over the interior.
+%	\item \textbf{Stokes:} Boundary circulation equals curl through the surface.
+%	\item \textbf{Divergence:} Flux through the boundary equals divergence in the volume.
+%	\item \textbf{Generalized Stokes:} The boundary integral is the integral of the derivative.
+%\end{itemize}
+
+\vfill
+\subsection*{Copyright}
+\noindent Copyright \copyright\ 2025 by Ji, Yonghyeon All rights reserved. 
+
+No part of this publication may be reproduced, distributed, or transmitted in any form or by any means, including photocopying, recording, or other electronic or mechanical methods, without the prior written permission of the publisher, except in the case of brief quotations embodied in critical reviews and certain other noncommercial uses permitted by copyright law. \\
+
+\medskip
+
+\subsection*{Changelog}
+%\large
+\begin{tabularx}{\textwidth}{@{} llX @{}} % Column widths specified here, change as needed for your content
+	\toprule
+	v1.0 & 2025-12-29 & Initial release. \\
+	%	v1.1 & 20XX-02-27 & Pellentesque iaculis odio vel nisl ullamcorper, nec faucibus ipsum molestie.\\
+	%	v1.2 & 20XX-03-15 & Sed dictum nisl non aliquet porttitor.\\
+	\bottomrule
+\end{tabularx}
+
+\newpage
+\tableofcontents
+
+% 2. PROBLEMS
+\newpage
+\section{Fundamental Theorem of Calculus}
+\begin{tcolorbox}[
+	enhanced,colback=white,
+	colframe=themecolor,coltitle=white,
+	fonttitle=\bfseries,
+	title={Fundamental Theorem for Gradient Fields},
+	sharp corners=south, drop fuzzy shadow,
+	boxrule=0.5mm, top=6mm, bottom=6mm
+	]
+	If $\vec{F}=\nabla f$ is a conservative vector field and $C$ is a smooth curve from $A$ to $B$, then
+	\[ \int_{C}\vec{F}\cdot \d\vec{r}=f(B)-f(A). \]
+\end{tcolorbox}
+\vfill
+\begin{tcolorbox}[
+	enhanced,colback=white,
+	colframe=themecolor,coltitle=white,
+	fonttitle=\bfseries,
+	title={Green's Theorem},
+	sharp corners=south, drop fuzzy shadow,
+	boxrule=0.5mm, top=6mm, bottom=6mm
+	]
+	For a positively oriented, simple closed curve $C$ bounding a region $R$ in the plane,
+	\[ \oint_{C}P~\d x+Q~\d y=\iint_{R}\left(\frac{\partial Q}{\partial x}-\frac{\partial P}{\partial y}\right)\d A. \]
+\end{tcolorbox}
+\vfill
+\begin{tcolorbox}[
+	enhanced,colback=white,
+	colframe=themecolor,coltitle=white,
+	fonttitle=\bfseries,
+	title={Divergence Theorem},
+	sharp corners=south, drop fuzzy shadow,
+	boxrule=0.5mm, top=6mm, bottom=6mm
+	]
+	Let $\vec{F}$ be a vector field defined on a region $E$ with closed boundary surface $S$ (outward-oriented). Then
+	\[ \iiint_{E}\nabla\cdot\vec{F}\; \d V=\iint_{S}\vec{F}\cdot\vec{n}\; \d S. \]
+\end{tcolorbox}
+\vfill
+\begin{tcolorbox}[
+	enhanced,colback=white,
+	colframe=themecolor,coltitle=white,
+	fonttitle=\bfseries,
+	title={Stokes' Theorem},
+	sharp corners=south, drop fuzzy shadow,
+	boxrule=0.5mm, top=6mm, bottom=6mm
+	]
+	Let $S$ be an oriented surface with boundary curve $C$, and let $\vec{F}$ be a vector field. Then
+	\[ \oint_{C}\vec{F}\cdot\d\vec{r}=\iint_{S}(\nabla\times\vec{F})\cdot\d\vec{S}. \]
+\end{tcolorbox}
+\vfill
+\begin{tcolorbox}[
+enhanced,colback=white,
+colframe=themecolor,coltitle=white,
+fonttitle=\bfseries,
+title={Triple Integral},
+sharp corners=south, drop fuzzy shadow,
+boxrule=0.5mm, top=6mm, bottom=6mm
+]
+To integrate a scalar function $f(x,y,z)$ over a region $E$ in $\mathbb{R}^{3},$
+\[ \iiint_{E}f(x,y,z)\; \d V. \]
+\end{tcolorbox}
+
+\newpage
+\subsection{Gradient Vector Fields}
+\begin{enumerate}
+	\item Let $\vec{F}=\langle 2x, 2y \rangle$. Show that $\vec{F}$ is conservative and compute \[
+	\int_{C}\vec{F}\cdot\d\vec{r}
+	\] where $C$ is any path from $(0,0)$ to $(1, 1)$.
+%	\begin{center}
+%	\includegraphics[scale=1]{tikzs/1-1.pdf}
+%	\end{center}
+	
+	\item Determine whether the vector field $\vec{F}=\langle y, x \rangle$ is conservative. If so, find a potential function.
+	
+	\item Let $f(x,y,z)=xyz$. Compute $\nabla f$ and evaluate the line integral of $\nabla f$ over the path from $(1,0,0)$ to $(1,2,3)$.
+	
+	\item Let $\vec{F}=\nabla f$ for $f(x,y)=x^{2}+y^{2}$. Compute the line integral over a circular path from $(1,0)$ to $(0,1)$ and explain the result.
+\end{enumerate}
+
+\medskip
+
+\subsection{Green's Theorem}
+\begin{enumerate}
+	\item Use Green's Theorem to evaluate \[
+	\oint_{C}x~dy-y~dx
+	\] where $C$ is the unit circle oriented counterclockwise.
+	
+	\item Let $\vec{F}=\langle y^{2}, 2xy \rangle$. Use Green's Theorem to evaluate the line integral around the boundary of the square $[0,1]\times[0,1]$.
+	
+	\item Evaluate \[
+	\oint_{C}(x+y)\mathrm{d}x+(x-y)\mathrm{d}y
+	\] where $C$ is the triangle with vertices $(0,0)$, $(1,0)$, $(1, 1)$ oriented counterclockwise.
+	
+	\item Determine if \[
+	\oint_{C}\vec{F}\cdot \d\vec{r}=0
+	\] for $\vec{F}=\langle y, -x \rangle$ around a circle of radius $r$ centered at the origin.
+\end{enumerate}
+
+\newpage
+\subsection{Divergence Theorem}
+\begin{enumerate}
+	\item Let $\vec{F}=\langle x,y,z \rangle$. Use the Divergence Theorem to compute the flux across the surface of the unit sphere.
+	
+	\item Let $\vec{F}=\langle x^{2},y^{2},z^{2} \rangle$. Compute both the divergence and the surface integral over the unit cube $[0, 1]^3$.
+	
+	\item Use the Divergence Theorem to find the outward flux of $\vec{F}=\langle yz,xz,xy \rangle$ through the unit cube.
+	
+	\item Let $\vec{F}=\langle x,-y,z \rangle$. Verify the Divergence Theorem on the upper hemisphere of radius 1 centered at the origin.
+\end{enumerate}
+
+\medskip
+
+\subsection{Stokes' Theorem}
+\begin{enumerate}
+	\item Let $\vec{F}=\langle -y,x,0 \rangle$. Use Stokes' Theorem to compute the circulation around the boundary of the disk $x^{2}+y^{2}\le 1$ in the $xy$-plane.
+	
+	\item Let $\vec{F}=\langle z,0,x \rangle$. Use Stokes' Theorem on the triangular surface with vertices at $(0,0,0)$, $(1,0,0)$, $(0, 1, 0)$.
+	
+	\item Compute both sides of Stokes' Theorem for $\vec{F}=\langle y,z,x \rangle$ on the surface $z=0$ bounded by the unit circle.
+	
+	\item Use Stokes' Theorem to show that \[
+	\oint_{C}\vec{F}\cdot \d\vec{r}=0
+	\] if $\vec{F}$ is the gradient of some scalar field $f$.
+\end{enumerate}
+
+% 2. PROBLEMS
+\newpage
+\section{Differential Forms}
+TBA
+%\makequestion{Line Integrals of Vector Fields}{
+%	Let $\gamma: [a,b] \to \R^2$ be a curve and $\mathbf{F}$ be a vector field. The line integral is defined as:
+%	$$ \int_{\gamma} \mathbf{F} \cdot \d \gamma = \int_a^b \mathbf{F}(\gamma(t)) \cdot \gamma'(t) \, \d t $$
+%	
+%	Let $C$ be the unit circle traversed counterclockwise. Let $\mathbf{F}$ be the vector field:
+%	$$ \mathbf{F}(x,y) = \left( -\frac{y}{x^2+y^2}, \frac{x}{x^2+y^2} \right) $$
+%	Compute $\displaystyle\int_C \mathbf{F} \cdot \d \mathbf{r}$.
+%}
+%
+%\makequestion{Surface Integrals and Flux}{
+%	Let $S$ be a surface in $\R^3$ parametrized by $T(u,v)$. The surface integral is defined via the outward normal vector $\mathbf{N} = \frac{\partial T}{\partial u} \times \frac{\partial T}{\partial v}$:
+%	$$ \iint_S \mathbf{F} \cdot \d S := \iint_D \mathbf{F}(T(u,v)) \cdot \left( \frac{\partial T}{\partial u} \times \frac{\partial T}{\partial v} \right) \d u \d v $$
+%	
+%	\textbf{Exercise:} Compute $\iint_S \mathbf{F} \cdot \d S$ where $\mathbf{F} = (x, y, -z)$ and $S$ is parametrized by:
+%	$$ x = u+2v, \quad y = 2u+v, \quad z = 3u, \quad (0 \le u,v \le 1) $$
+%}
+%
+%\makequestion{Stokes' Theorem Case Study}{
+%	Consider the vector field $\mathbf{F}(x,y,z) = (y, xz, 1)$. We wish to compute the curl integral $\iint_S \curl \mathbf{F} \cdot \d S$ over three different surfaces $S$ that share the same boundary (the unit circle $x^2+y^2=1, z=0$).
+%	
+%	\begin{enumerate}
+%		\item Let $S_1$ be the \textbf{Disk} in the $xy$-plane ($z=0$).
+%		\item Let $S_2$ be the \textbf{Hemisphere} ($x^2+y^2+z^2=1, z \ge 0$).
+%		\item Let $S_3$ be the \textbf{Paraboloid} ($z = 1 - x^2 - y^2, z \ge 0$).
+%	\end{enumerate}
+%	
+%	Calculate the integral for all three cases and explain why the results are identical.
+%}
+%
+%\makequestion{Conservative Fields \& Potentials}{
+%	A vector field $\mathbf{F}$ is called \textit{conservative} if $\mathbf{F} = \nabla f$ for some scalar potential $f$.
+%	
+%	\textbf{Exercise:} Given the vector field:
+%	$$ \mathbf{F}(x,y) = (3x^2 + 6xy, \, 3x^2 + 6y) $$
+%	\begin{enumerate}
+%		\item Find a potential function $f: \R^2 \to \R$ such that $\mathbf{F} = \nabla f$.
+%		\item Using the Fundamental Theorem of Line Integrals, evaluate $\int_C \mathbf{F} \cdot \d \mathbf{r}$ along any path from $(0,0)$ to $(1,1)$.
+%	\end{enumerate}
+%}
+%
+%\makequestion{Differential Forms \& Exterior Derivatives}{
+%	In the language of differential forms, we define the exterior derivative $d$.
+%	
+%	\textbf{Exercise:} Let $\eta$ be a 1-form defined by:
+%	$$ \eta = P \,\d x + Q \,\d y + R \,\d z $$
+%	where $P, Q, R$ are smooth functions of $(x,y,z)$.
+%	
+%	Compute $d\eta$ (the 2-form) and show that the coefficients correspond to the components of $\curl \mathbf{F}$, thus showing that:
+%	$$ \int_{\Omega} d\eta = \iint_S \curl \mathbf{F} \cdot \d S $$
+%}
+%
+%\makequestion{Complexification of Vector Fields}{
+%	We can relate real vector calculus to complex analysis by treating $\R^2$ as $\C$.
+%	
+%	\textbf{Exercise:} Recall the vector field from Problem 1:
+%	$$ \mathbf{F} \cdot \d \mathbf{r} = -\frac{y}{x^2+y^2}\d x + \frac{x}{x^2+y^2}\d y $$
+%	Using the complex variable $z = x+iy$ and $\bar{z} = x-iy$, show that:
+%	$$ \oint_C \mathbf{F} \cdot \d \mathbf{r} = \mathrm{Im} \oint_C \frac{1}{z} \d z $$
+%	and verify the result using the Cauchy Integral Formula.
+%}
+
+% 3. PROBLEMS
+\newpage
+%\section{Potential Functions}
+%TBA
+
+% 3. PROBLEMS
+\newpage
+\section{Winding Numbers and Complexification}
+TBA
+
+\end{document}

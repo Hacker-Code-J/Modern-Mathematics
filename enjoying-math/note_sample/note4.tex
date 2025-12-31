@@ -1,0 +1,917 @@
+% =====================================================================
+% OPTION B (editable, fully re-typeset): closed/exact forms and Poincaré.
+% =====================================================================
+\documentclass[11pt]{book}
+
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage[hidelinks]{hyperref}
+\usepackage[margin=1.2in]{geometry}
+\usepackage{xcolor}
+%\usepackage{enumitem}
+\usepackage{enumerate}
+\usepackage{tcolorbox}
+\tcbset{
+	colback=white,
+	colframe=teal
+}
+
+% ---------- Theorem style ----------
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[chapter]
+\newtheorem{example}{Example}[chapter]
+\newtheorem{exercise}{Exercise}[chapter]
+
+\theoremstyle{plain}
+\newtheorem{theorem}[definition]{Theorem}
+\newtheorem{proposition}[definition]{Proposition}
+\newtheorem{lemma}[definition]{Lemma}
+\newtheorem{corollary}[definition]{Corollary}
+
+%\theoremstyle{remark}
+\newtheorem{remark}[definition]{Remark}
+
+% ---------- Notation ----------
+\newcommand{\sol}{\color{magenta}\normalfont\textbf{Sol}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\id}{\mathrm{id}}
+\newcommand{\dd}{\,\mathrm{d}}
+\newcommand{\Om}{\Omega}
+\newcommand{\pull}[1]{#1^{*}}
+\newcommand{\into}{\mathbin{\lrcorner}}
+\newcommand{\Lie}{\mathcal{L}}
+\newcommand{\seg}[2]{\overline{#1#2}}
+
+\renewcommand{\vec}[1]{\mathbf{#1}}
+\newcommand{\TpM}{T_pM}
+
+\begin{document}
+	
+\chapter{Closed Forms and Exact Forms}
+	
+%	\section{Closed and exact forms}
+%	
+%	Let $A\subseteq \R^{n}$ be open. For each integer $k\ge 0$, write $\Om^{k}(A)$
+%	for the $\R$-vector space of smooth differential $k$-forms on $A$, and
+%	\[
+%	d:\Om^{k}(A)\longrightarrow \Om^{k+1}(A)
+%	\]
+%	for the exterior derivative. Recall that $d\circ d=0$.
+%	
+%	\begin{definition}[Closed and exact]
+%		Let $\omega\in \Om^{k}(A)$.
+%		\begin{enumerate}[label=\textup{(\roman*)},leftmargin=3.2em]
+%			\item $\omega$ is \emph{closed} if $d\omega=0$.
+%			\item $\omega$ is \emph{exact} if there exists $\eta\in \Om^{k-1}(A)$ such that
+%			$\omega=d\eta$ (for $k\ge 1$).
+%		\end{enumerate}
+%	\end{definition}
+%	
+%	\begin{remark}
+%		Exactness implies closedness by $d^{2}=0$. The converse is false on general domains;
+%		the Poincar\'e lemma identifies a large and important class of domains on which the converse holds.
+%	\end{remark}
+%	
+%	\section{Differentiable homotopy and the homotopy formula}
+%	
+%	\begin{definition}[Differentiable homotopy]
+%		Let $A\subseteq \R^{n}$ and $B\subseteq \R^{m}$ be open, and let $g,h:A\to B$ be $C^{\infty}$.
+%		We say that $g$ and $h$ are \emph{differentiably homotopic} if there exists a $C^{\infty}$ map
+%		\[
+%		H:A\times I \longrightarrow B,\qquad I\coloneqq [0,1],
+%		\]
+%		such that $H(x,0)=g(x)$ and $H(x,1)=h(x)$ for all $x\in A$.
+%	\end{definition}
+%	
+%	We write $H_{t}:A\to B$ for the time-$t$ slice $H_{t}(x)\coloneqq H(x,t)$, so that
+%	$H_{0}=g$ and $H_{1}=h$.
+%	
+%	\begin{definition}[Contraction with $\partial/\partial t$ and the homotopy operator]
+%		Let $\eta\in \Om^{k}(B)$ with $k\ge 1$ and let $H:A\times I\to B$ be smooth.
+%		Define a linear map
+%		\[
+%		P_{H}:\Om^{k}(B)\longrightarrow \Om^{k-1}(A)
+%		\]
+%		by
+%		\[
+%		P_{H}(\eta)\;\coloneqq\;\int_{0}^{1}
+%		\Bigl(\,\iota_{\partial/\partial t}\,\pull{H}(\eta)\Bigr)\Big|_{A\times\{t\}}
+%		\,\dd t.
+%		\]
+%		(Here $\iota_{\partial/\partial t}$ denotes interior product with the vector field $\partial/\partial t$
+%		on $A\times I$.)
+%	\end{definition}
+%	
+%	\begin{theorem}[Homotopy formula]
+%		Let $A\subseteq \R^{n}$ and $B\subseteq \R^{m}$ be open, and let $g,h:A\to B$ be
+%		differentiably homotopic via $H:A\times I\to B$. Then for every $k\ge 1$ and every
+%		$\eta\in \Om^{k}(B)$,
+%		\[
+%		d\bigl(P_{H}\eta\bigr)\;+\;P_{H}(d\eta)\;=\;\pull{h}(\eta)\;-\;\pull{g}(\eta).
+%		\]
+%		For $k=0$ (i.e.\ $\eta=f\in C^{\infty}(B)$) one has
+%		\[
+%		P_{H}(df)=\pull{h}(f)-\pull{g}(f).
+%		\]
+%	\end{theorem}
+%	
+%	\begin{proof}
+%		Let $\eta\in\Om^{k}(B)$ with $k\ge 1$. On $A\times I$ we have Cartan's identity
+%		\[
+%		\Lie_{\partial/\partial t}=\;d\circ \iota_{\partial/\partial t}+\iota_{\partial/\partial t}\circ d.
+%		\]
+%		Apply this to $\pull{H}(\eta)$:
+%		\[
+%		\Lie_{\partial/\partial t}\bigl(\pull{H}(\eta)\bigr)
+%		= d\Bigl(\iota_{\partial/\partial t}\pull{H}(\eta)\Bigr)
+%		+ \iota_{\partial/\partial t}\Bigl(d\pull{H}(\eta)\Bigr).
+%		\]
+%		Since exterior differentiation commutes with pullback,
+%		$d\pull{H}(\eta)=\pull{H}(d\eta)$. Restrict to $A\times\{t\}$ and integrate in $t$ from $0$ to $1$:
+%		\begin{align*}
+%			\int_{0}^{1}\frac{\dd}{\dd t}\Bigl(\pull{H_{t}}(\eta)\Bigr)\dd t
+%			&=
+%			\int_{0}^{1} d\Bigl(\iota_{\partial/\partial t}\pull{H}(\eta)\Bigr)\Big|_{A\times\{t\}}\dd t
+%			+
+%			\int_{0}^{1} \Bigl(\iota_{\partial/\partial t}\pull{H}(d\eta)\Bigr)\Big|_{A\times\{t\}}\dd t \\
+%			\pull{H_{1}}(\eta)-\pull{H_{0}}(\eta)
+%			&=
+%			d\left(\int_{0}^{1}\Bigl(\iota_{\partial/\partial t}\pull{H}(\eta)\Bigr)\Big|_{A\times\{t\}}\dd t\right)
+%			+
+%			P_{H}(d\eta).
+%		\end{align*}
+%		The first integral is precisely $P_{H}\eta$, and $H_{1}=h$, $H_{0}=g$, yielding
+%		$d(P_{H}\eta)+P_{H}(d\eta)=\pull{h}(\eta)-\pull{g}(\eta)$.
+%		
+%		For $k=0$, the same computation applied to $df$ gives $P_{H}(df)=\pull{h}(f)-\pull{g}(f)$.
+%	\end{proof}
+%	
+%	\section{Star-convex domains and the Poincar\'e lemma}
+%	
+%	\begin{definition}[Star-convex (star-shaped)]
+%		Let $A\subseteq \R^{n}$ be open. We say $A$ is \emph{star-convex with respect to} $p\in A$
+%		if for every $x\in A$ the line segment
+%		\[
+%		\{(1-t)p+tx:\;t\in[0,1]\}
+%		\]
+%		is contained in $A$.
+%	\end{definition}
+%	
+%	\begin{theorem}[Poincar\'e lemma on star-convex sets]
+%		Let $A\subseteq \R^{n}$ be a star-convex open set. If $\omega\in\Om^{k}(A)$ is closed and $k\ge 1$,
+%		then $\omega$ is exact on $A$.
+%		Equivalently,
+%		\[
+%		H^{k}_{\mathrm{dR}}(A)=0\qquad\text{for all }k\ge 1.
+%		\]
+%	\end{theorem}
+%	
+%	\begin{proof}
+%		Choose $p\in A$ with respect to which $A$ is star-convex. Let $h:A\to A$ be the identity,
+%		and let $g:A\to A$ be the constant map $g(x)\equiv p$. Define a smooth homotopy
+%		\[
+%		H:A\times I\to A,\qquad H(x,t)\coloneqq (1-t)p+tx.
+%		\]
+%		Star-convexity ensures $H(x,t)\in A$ for all $(x,t)\in A\times I$.
+%		
+%		Let $\omega\in\Om^{k}(A)$ be closed with $k\ge 1$. Apply the homotopy formula:
+%		\[
+%		d\bigl(P_{H}\omega\bigr)+P_{H}(d\omega)=\pull{h}(\omega)-\pull{g}(\omega).
+%		\]
+%		Since $d\omega=0$, the left side is $d(P_{H}\omega)$. Since $h=\id$, we have $\pull{h}(\omega)=\omega$.
+%		Since $g$ is constant, $\pull{g}(\omega)=0$ for $k\ge 1$. Therefore
+%		\[
+%		d\bigl(P_{H}\omega\bigr)=\omega,
+%		\]
+%		so $\omega$ is exact, with primitive $\eta\coloneqq P_{H}\omega\in\Om^{k-1}(A)$.
+%	\end{proof}
+%	
+%	\begin{theorem}[Uniqueness of primitives up to lower-order exactness/constancy]
+%		Let $A\subseteq \R^{n}$ be star-convex and let $\omega\in\Om^{k}(A)$ be closed.
+%		\begin{enumerate}[label=\textup{(\roman*)},leftmargin=3.2em]
+%			\item If $k\ge 2$ and $\eta,\eta_{0}\in\Om^{k-1}(A)$ satisfy $d\eta=d\eta_{0}=\omega$,
+%			then $\eta-\eta_{0}$ is exact.
+%			\item If $k=1$ and $f,f_{0}\in C^{\infty}(A)$ satisfy $df=df_{0}=\omega$,
+%			then $f-f_{0}$ is constant on $A$.
+%		\end{enumerate}
+%	\end{theorem}
+%	
+%	\begin{proof}
+%		In either case, $d(\eta-\eta_{0})=0$ (or $d(f-f_{0})=0$). If $k\ge 2$, the Poincar\'e lemma
+%		applied to the closed $(k-1)$-form $\eta-\eta_{0}$ yields exactness.
+%		If $k=1$, $d(f-f_{0})=0$ implies $f-f_{0}$ is locally constant; since $A$ is connected along line segments
+%		from the star point, it is constant on $A$.
+%	\end{proof}
+
+\begin{tcolorbox}[title=\bfseries Star-convex with respect to a point]
+\begin{definition}
+Let $U\subseteq\R^n$ be an open set in $\R^n$. We say that $U$ is \textbf{star-convex} with respect to the point $\textbf{p}$ of $U$ if for each $\textbf{x}\in U$, the line segment joining $\textbf{x}$ and $\textbf{p}$ lines in $U$.
+\end{definition}
+\end{tcolorbox}
+\begin{remark}
+Let $U\subseteq \R^n$ be open and let $\mathbf{p}\in U$.
+We say that $U$ is \emph{star-convex with respect to $\mathbf{p}$} if \[
+\forall\,\mathbf{x}\in U,\ \forall\,t\in[0,1],\qquad (1-t)\mathbf{p}+t\mathbf{x}\in U.
+\] Equivalently, for each $\mathbf{x}\in U$, the line segment \[
+\seg{\mathbf{p}}{\mathbf{x}}
+=\bigl\{(1-t)\mathbf{p}+t\mathbf{x}:t\in[0,1]\bigr\}
+\]
+is contained in $U$.
+\end{remark}
+
+\begin{example}[Star-convex but not convex: an annulus with a slit]\label{ex:slit-annulus}
+	Consider $n=2$ and define the open set
+	\[
+	U \;\coloneqq\;
+	\Bigl\{(x,y)\in\R^2:\ 1<x^2+y^2<4\Bigr\}
+	\ \setminus\
+	\Bigl\{(x,0)\in\R^2:\ 1<x<2\Bigr\}.
+	\]
+	Geometrically, $U$ is the open annulus $\{1<r<2\}$ with the open radial segment on the
+	positive $x$-axis removed. Fix the point
+	\[
+	\mathbf{p}\coloneqq\left(-\frac{3}{2},0\right)\in U.
+	\]
+	Then $U$ is star-convex with respect to $\mathbf{p}$, but $U$ is not convex.
+	\begin{figure}[h!]
+		\centering
+		\includegraphics[scale=1]{note4-tikz1.pdf}
+	\end{figure}
+	\newpage
+	\medskip
+	\noindent\textbf{(i) Star-convexity with respect to $\mathbf{p}$.}
+	For each $\mathbf{x}\in U$, define the line segment parameterization
+	\[
+	\gamma_{\mathbf{x}}(t)\coloneqq (1-t)\mathbf{p}+t\mathbf{x},\qquad t\in[0,1].
+	\]
+	The only obstruction to $\gamma_{\mathbf{x}}([0,1])\subseteq U$ (besides staying between the
+	circles $r=1$ and $r=2$) is crossing the removed slit
+	\[
+	S\coloneqq \{(x,0):1<x<2\}.
+	\]
+	But $S$ lies on the positive $x$-axis, whereas $\mathbf{p}$ lies on the negative $x$-axis.
+	Any segment from $\mathbf{p}$ to a point $\mathbf{x}\in U$ either:
+	\begin{itemize}
+		\item has $y\neq 0$ somewhere along the segment, hence cannot meet $S\subset\{y=0\}$; or
+		\item stays on the $x$-axis, in which case $\mathbf{x}$ must lie on the \emph{negative} $x$-axis
+		(since the positive portion $(1,2)$ has been removed), and again the segment avoids $S$.
+	\end{itemize}
+	Thus $\gamma_{\mathbf{x}}(t)\notin S$ for all $t$, and since both endpoints lie in the annulus
+	$1<r<2$, the entire segment remains in $U$. Hence $U$ is star-convex with respect to $\mathbf{p}$.
+	
+	\medskip
+	\noindent\textbf{(ii) Failure of convexity.}
+	Choose two points on opposite sides of the slit, for instance
+	\[
+	\mathbf{a}\coloneqq(1.6,0.45)\in U,\qquad \mathbf{b}\coloneqq(1.6,-0.45)\in U.
+	\]
+	Then the segment $\seg{\mathbf{a}}{\mathbf{b}}$ is the vertical line at $x=1.6$ and it intersects
+	the removed slit $S$ at $(1.6,0)\notin U$. Hence $\seg{\mathbf{a}}{\mathbf{b}}\nsubseteq U$,
+	so $U$ is not convex.
+\end{example}
+
+\begin{center}
+
+\end{center}
+
+\newpage
+\begin{tcolorbox}[title=\bfseries The Poincar\'{e} lemma]
+\begin{theorem}
+Let $U\subseteq\R^3$ be a star-convex (equivalently, contractible) open set in $\R^3$. If $\omega$ is a closed $k$-form on $U$, then $\omega$ is exact on $U$.
+\end{theorem}
+\end{tcolorbox}
+
+\begin{exercise}
+Translate the Poincare lemma for $k$-forms into theorem about scalar and vector fields in $R^3$. Consider cases $k=0,1,2,3$.
+\begin{proof}[\sol]
+Let $U\subseteq \R^{3}$ be a star-convex (equivalently, contractible) open set.
+Identify differential forms on $U$ with scalar and vector fields via
+\[
+\Om^{0}(U)\cong C^{\infty}(U),\qquad
+\Om^{1}(U)\cong C^{\infty}(U;\R^{3}),\qquad
+\Om^{2}(U)\cong C^{\infty}(U;\R^{3}),\qquad
+\Om^{3}(U)\cong C^{\infty}(U),
+\]
+by the explicit correspondences
+\begin{align*}
+	f\in C^{\infty}(U)
+	&\longleftrightarrow
+	\omega^{(0)} \coloneqq f,\\
+	\mathbf{F}=(P,Q,R)\in C^{\infty}(U;\R^{3})
+	&\longleftrightarrow
+	\omega^{(1)} \coloneqq P\,dx+Q\,dy+R\,dz,\\
+	\mathbf{G}=(U,V,W)\in C^{\infty}(U;\R^{3})
+	&\longleftrightarrow
+	\omega^{(2)} \coloneqq U\,dy\wedge dz+V\,dz\wedge dx+W\,dx\wedge dy,\\
+	g\in C^{\infty}(U)
+	&\longleftrightarrow
+	\omega^{(3)} \coloneqq g\,dx\wedge dy\wedge dz.
+\end{align*}
+Under these identifications, the exterior derivative $d$ corresponds to the grad--curl--div operators:
+\[
+d f \longleftrightarrow \nabla f,\qquad
+d\omega^{(1)} \longleftrightarrow \nabla\times \mathbf{F},\qquad
+d\omega^{(2)} \longleftrightarrow \nabla\cdot \mathbf{G},\qquad
+d\omega^{(3)}=0.
+\]
+Then the Poincar\'e lemma statement
+\[
+\omega\in\Om^{k}(U),\ d\omega=0\ \Longrightarrow\ \exists\,\eta\in\Om^{k-1}(U):\ \omega=d\eta
+\qquad (k\ge 1)
+\]
+is equivalent (degree-by-degree) to the following assertions.
+
+\medskip
+\noindent\textbf{Case $k=0$ (scalar fields).}
+If $f\in C^{\infty}(U)$ satisfies $df=0$ (equivalently $\nabla f=\mathbf{0}$), then $f$ is constant on each
+connected component of $U$.
+
+\medskip
+\noindent\textbf{Case $k=1$ (curl-free vector fields are gradients).}
+If $\mathbf{F}\in C^{\infty}(U;\R^{3})$ satisfies
+\[
+\nabla\times \mathbf{F}=\mathbf{0},
+\]
+then there exists a scalar potential $\phi\in C^{\infty}(U)$ such that
+\[
+\mathbf{F}=\nabla \phi.
+\]
+Moreover, $\phi$ is unique up to addition of a constant on each connected component of $U$.
+
+\medskip
+\noindent\textbf{Case $k=2$ (divergence-free vector fields are curls).}
+If $\mathbf{G}\in C^{\infty}(U;\R^{3})$ satisfies
+\[
+\nabla\cdot \mathbf{G}=0,
+\]
+then there exists a vector potential $\mathbf{A}\in C^{\infty}(U;\R^{3})$ such that
+\[
+\mathbf{G}=\nabla\times \mathbf{A}.
+\]
+Moreover, $\mathbf{A}$ is not unique: if $\psi\in C^{\infty}(U)$ then
+$\nabla\times(\mathbf{A}+\nabla\psi)=\nabla\times\mathbf{A}$.
+
+\medskip
+\noindent\textbf{Case $k=3$ (every $3$-form is exact; every scalar is a divergence).}
+Every $3$-form on $U$ is closed (since $\Om^{4}(U)=0$). Hence for every $g\in C^{\infty}(U)$ there exists
+$\mathbf{G}\in C^{\infty}(U;\R^{3})$ such that
+\[
+\nabla\cdot \mathbf{G}=g.
+\]
+Equivalently, every density $g\,dx\wedge dy\wedge dz$ is the exterior derivative of some $2$-form.
+
+\end{proof}
+\end{exercise}
+
+
+
+\newpage
+\begin{tcolorbox}[title=\bfseries Uniqueness of primitives on star-convex]
+\begin{theorem}
+Let $U\subseteq\R^n$ be a star-convex open set in $\R^n$. Let $\omega$ be a closed $k$-form on $U$. If $k>1$, and if $\eta$ and $\eta_0$ are two $k-1$ forms on $U$ with $d\eta=\omega=d\eta_0$, then \[
+\eta=\eta_0+d\theta
+\] for some $(k-2)$-form $\theta$ on $U$. If $k=1$, and if $f$ and $f_0$ are two $0$-forms on $U$ with $df=\omega=df_0$, then $f=f_0+c$ for some constant $c$.
+\end{theorem}
+\end{tcolorbox}
+\begin{exercise}
+%\begin{theorem}[Uniqueness of primitives on star-convex $U\subset\R^3$ (cases $k=1,2,3$)]
+	\label{thm:uniq-primitives-R3-k123}
+	Let $U\subseteq \R^{3}$ be a star-convex open set. Use the standard identifications
+	\[
+	\Om^{0}(U)\cong C^{\infty}(U),\qquad
+	\Om^{1}(U)\cong C^{\infty}(U;\R^{3}),\qquad
+	\Om^{2}(U)\cong C^{\infty}(U;\R^{3}),\qquad
+	\Om^{3}(U)\cong C^{\infty}(U),
+	\]
+	given concretely by \begin{align*}
+	(P,Q,R)\ &\longleftrightarrow\ P\,dx+Q\,dy+R\,dz,\qquad \\
+	(U,V,W)\ &\longleftrightarrow\ U\,dy\wedge dz+V\,dz\wedge dx+W\,dx\wedge dy,\qquad \\
+	g\ &\longleftrightarrow\ g\,dx\wedge dy\wedge dz,
+	\end{align*}
+	so that the exterior derivative corresponds to the operators
+	\begin{align*}
+	(d:\Om^{0}\to\Om^{1})\ &\longleftrightarrow\ (\nabla),\qquad \\
+	(d:\Om^{1}\to\Om^{2})\ &\longleftrightarrow\ (\nabla\times),\qquad \\
+	(d:\Om^{2}\to\Om^{3})\ &\longleftrightarrow\ (\nabla\cdot).
+	\end{align*}
+	Let $\omega$ be a closed $k$-form on $U$ (so $d\omega=0$). Suppose $\eta,\eta_{0}$ are two $(k-1)$-forms
+	satisfying $d\eta=\omega=d\eta_{0}$. Then, in $\R^{3}$, this statement becomes the following
+	degree-by-degree uniqueness assertions.
+	
+	\medskip
+	\noindent\textbf{Case $k=1$ (scalar potentials for a curl-free vector field).}
+	Let $\mathbf{F}\in C^{\infty}(U;\R^{3})$ satisfy
+	\[
+	\nabla\times \mathbf{F}=\mathbf{0}.
+	\]
+	If $\phi,\phi_{0}\in C^{\infty}(U)$ satisfy
+	\[
+	\nabla\phi=\mathbf{F}=\nabla\phi_{0},
+	\]
+	then there exists a constant $c\in\R$ (on each connected component of $U$) such that
+	\[
+	\phi=\phi_{0}+c.
+	\]
+	Equivalently, scalar potentials of the same vector field are unique up to addition of constants.
+	
+	\medskip
+	\noindent\textbf{Case $k=2$ (vector potentials for a divergence-free vector field).}
+	Let $\mathbf{G}\in C^{\infty}(U;\R^{3})$ satisfy
+	\[
+	\nabla\cdot \mathbf{G}=0.
+	\]
+	If $\mathbf{A},\mathbf{A}_{0}\in C^{\infty}(U;\R^{3})$ satisfy
+	\[
+	\nabla\times \mathbf{A}=\mathbf{G}=\nabla\times \mathbf{A}_{0},
+	\]
+	then there exists a scalar field $\psi\in C^{\infty}(U)$ such that
+	\[
+	\mathbf{A}=\mathbf{A}_{0}+\nabla\psi.
+	\]
+	Equivalently, vector potentials of the same field are unique up to ``gauge'' transformations
+	$\mathbf{A}\mapsto \mathbf{A}+\nabla\psi$.
+	
+	\medskip
+	\noindent\textbf{Case $k=3$ (primitives of a $3$-form / solutions to a divergence equation).}
+	Let $g\in C^{\infty}(U)$ and suppose $\mathbf{H},\mathbf{H}_{0}\in C^{\infty}(U;\R^{3})$ satisfy
+	\[
+	\nabla\cdot \mathbf{H}=g=\nabla\cdot \mathbf{H}_{0}.
+	\]
+	Then there exists a vector field $\mathbf{B}\in C^{\infty}(U;\R^{3})$ such that
+	\[
+	\mathbf{H}=\mathbf{H}_{0}+\nabla\times \mathbf{B}.
+	\]
+	Equivalently, solutions to $\nabla\cdot \mathbf{H}=g$ are unique up to addition of a curl field,
+	because $\nabla\cdot(\nabla\times \mathbf{B})=0$ and (on star-convex $U$) every divergence-free field
+	is a curl.
+%\end{theorem}
+\end{exercise}
+
+\newpage
+\chapter{Differentiable Manifolds and Riemannian Manifolds}
+\begin{exercise}
+Show that if $\vec{v}\in T_p(M)$, then $\vec{v}$ is the velocity vector of some $C^\infty$ curve $\gamma$ in $M$ passing through $p$.
+\begin{proof}[\sol]
+Let $M$ be a smooth manifold, let $p\in M$, and let $\vec v\in T_pM$.
+Then there exist an open interval $I\subset \R$ with $0\in I$ and a $C^\infty$ curve
+$\gamma:I\to M$ such that
+\[
+\gamma(0)=p,\qquad \gamma'(0)=\vec v.
+\]
+Moreover, one may take $I=\R$.
+
+\medskip\noindent
+Choose a smooth chart $(U,\varphi)$ about $p$, with $p\in U$ and
+$\varphi:U\to \varphi(U)\subset \R^n$ a diffeomorphism onto an open set.
+Define
+\[
+a \;\coloneqq\; (d\varphi)_p(\vec v)\in T_{\varphi(p)}\R^n\cong \R^n.
+\]
+Since $\varphi(U)$ is open, there exists $\varepsilon>0$ such that
+\[
+\varphi(p)+t a \in \varphi(U)\qquad \text{for all }|t|<\varepsilon.
+\]
+Define a smooth curve $\widetilde\gamma:(-\varepsilon,\varepsilon)\to \R^n$ by
+\[
+\widetilde\gamma(t)\coloneqq \varphi(p)+t a,
+\]
+and define $\gamma:(-\varepsilon,\varepsilon)\to M$ by
+\[
+\gamma(t)\coloneqq \varphi^{-1}\bigl(\widetilde\gamma(t)\bigr)
+=\varphi^{-1}\bigl(\varphi(p)+t a\bigr).
+\]
+Then $\gamma$ is $C^\infty$ (being the composition of smooth maps) and
+\[
+\gamma(0)=\varphi^{-1}(\varphi(p))=p.
+\]
+
+To prove $\gamma'(0)=\vec v$, let $f\in C^\infty(M)$ be arbitrary. By the chain rule,
+\begin{align*}
+	\left.\frac{d}{dt}\right|_{t=0}(f\circ \gamma)(t)
+	&=
+	\left.\frac{d}{dt}\right|_{t=0}
+	\Bigl( (f\circ \varphi^{-1})\bigl(\varphi(p)+t a\bigr)\Bigr) \\
+	&=
+	d(f\circ \varphi^{-1})_{\varphi(p)}(a).
+\end{align*}
+Substituting $a=(d\varphi)_p(\vec v)$ and using the functoriality of the differential,
+\[
+d(f\circ \varphi^{-1})_{\varphi(p)}\circ (d\varphi)_p
+=
+d\bigl((f\circ \varphi^{-1})\circ \varphi\bigr)_p
+=
+(df)_p,
+\]
+we obtain
+\[
+\left.\frac{d}{dt}\right|_{t=0}(f\circ \gamma)(t)
+=
+(df)_p(\vec v)
+=
+\vec v(f).
+\]
+By the defining characterization of the velocity vector $\gamma'(0)\in T_pM$ as the derivation
+$f\mapsto \left.\frac{d}{dt}\right|_{t=0}(f\circ\gamma)(t)$, this equality for all
+$f\in C^\infty(M)$ implies $\gamma'(0)=\vec v$.
+
+\medskip
+Finally, to obtain a curve defined on all of $\R$, choose $\beta\in C^\infty(\R)$ such that
+\[
+\beta(t)=t\ \text{ for }|t|\ \text{small},\qquad |\beta(t)|<\varepsilon\ \text{ for all }t\in\R.
+\]
+(For example, one may take $\beta(t)=\varepsilon\tanh(t/\varepsilon)$.)
+Define
+\[
+\Gamma(t)\coloneqq \varphi^{-1}\bigl(\varphi(p)+\beta(t)a\bigr),\qquad t\in \R.
+\]
+Then $\Gamma\in C^\infty(\R,M)$, $\Gamma(0)=p$, and $\Gamma'(0)=\vec v$ since $\beta'(0)=1$.
+\end{proof}
+\end{exercise}
+
+\begin{example}[Unit circle version of the chart--pushforward construction]
+Let
+\[
+M=S^1=\{(x,y)\in\R^2:\ x^2+y^2=1\}.
+\]
+Fix the point
+\[
+p=(1,0)\in S^1.
+\]
+Then
+\[
+T_pS^1=\{(0,\lambda):\lambda\in\R\}\subset \R^2.
+\]
+Choose the tangent vector
+\[
+\vec v=(0,1)\in T_pS^1.
+\]
+
+\subsection*{A concrete smooth chart around \(p\)}
+Let
+\[
+U \coloneqq \{(x,y)\in S^1:\ x>0\},
+\]
+an open neighborhood of \(p\) in \(S^1\). Define
+\[
+\varphi:U\to (-1,1),\qquad \varphi(x,y)\coloneqq y.
+\]
+Then \(\varphi\) is a \(C^\infty\) diffeomorphism onto the open interval \((-1,1)\), with inverse
+\[
+\varphi^{-1}:(-1,1)\to U,\qquad \varphi^{-1}(u)=\bigl(\sqrt{1-u^{2}},\,u\bigr).
+\]
+Note that
+\[
+\varphi(p)=\varphi(1,0)=0\in (-1,1).
+\]
+
+\subsection*{Computing \(a=(d\varphi)_p(\vec v)\)}
+Since \(\varphi\) is (the restriction to \(S^1\)) of the ambient coordinate function \((x,y)\mapsto y\),
+the differential at \(p\) satisfies
+\[
+(d\varphi)_p(w)=w_y \qquad \text{for all } w=(w_x,w_y)\in T_pS^1.
+\]
+Hence
+\[
+a\;\coloneqq\;(d\varphi)_p(\vec v)=(d\varphi)_p(0,1)=1\in T_{\varphi(p)}\R\cong \R.
+\]
+
+\subsection*{The straight line in coordinates and its pullback to the manifold}
+Because \(\varphi(U)=(-1,1)\) is open, there exists \(\varepsilon>0\) such that
+\[
+\varphi(p)+t a = 0+t\in (-1,1)\qquad\text{for all }|t|<\varepsilon.
+\]
+For instance, one may take \(\varepsilon=1\).
+
+Define
+\[
+\widetilde\gamma:(-\varepsilon,\varepsilon)\to \R,\qquad
+\widetilde\gamma(t)\coloneqq \varphi(p)+t a = t.
+\]
+Define a curve in \(S^1\) by pulling back via \(\varphi^{-1}\):
+\[
+\gamma:(-\varepsilon,\varepsilon)\to S^1,\qquad
+\gamma(t)\coloneqq \varphi^{-1}\bigl(\widetilde\gamma(t)\bigr)
+=\varphi^{-1}(t)=\bigl(\sqrt{1-t^{2}},\,t\bigr).
+\]
+Then \(\gamma\) is \(C^\infty\) and
+\[
+\gamma(0)=\bigl(\sqrt{1-0},\,0\bigr)=(1,0)=p.
+\]
+
+\subsection*{Verifying \(\gamma'(0)=\vec v\)}
+For any \(f\in C^\infty(S^1)\), the chain rule gives
+\begin{align*}
+	\left.\frac{d}{dt}\right|_{t=0}(f\circ\gamma)(t)
+	&=
+	\left.\frac{d}{dt}\right|_{t=0}
+	\Bigl((f\circ\varphi^{-1})\bigl(\varphi(p)+t a\bigr)\Bigr)\\
+	&=
+	d(f\circ\varphi^{-1})_{\varphi(p)}(a).
+\end{align*}
+Substituting \(a=(d\varphi)_p(\vec v)\) and using functoriality of differentials,
+\[
+d(f\circ\varphi^{-1})_{\varphi(p)}\circ (d\varphi)_p
+=
+d\bigl((f\circ\varphi^{-1})\circ\varphi\bigr)_p
+=
+(df)_p,
+\]
+hence
+\[
+\left.\frac{d}{dt}\right|_{t=0}(f\circ\gamma)(t)
+=
+(df)_p(\vec v)
+=
+\vec v(f).
+\]
+By the defining characterization of the velocity vector \(\gamma'(0)\in T_pS^1\) as the derivation
+\(f\mapsto \left.\frac{d}{dt}\right|_{t=0}(f\circ\gamma)(t)\), it follows that
+\[
+\gamma'(0)=\vec v.
+\]
+(Indeed, differentiating \(\gamma(t)=(\sqrt{1-t^2},t)\) gives \(\gamma'(0)=(0,1)\).)
+
+\subsection*{Extending to a globally defined smooth curve}
+Choose \(\beta\in C^\infty(\R)\) such that
+\[
+\beta(t)=t\ \text{for }|t|\text{ small},\qquad |\beta(t)|<\varepsilon\ \text{for all }t\in\R.
+\]
+For example, if \(\varepsilon=1\), take \(\beta(t)=\tanh(t)\).
+Define
+\[
+\Gamma:\R\to S^1,\qquad
+\Gamma(t)\coloneqq \varphi^{-1}\bigl(\varphi(p)+\beta(t)a\bigr)
+=\varphi^{-1}(\beta(t))
+=\bigl(\sqrt{1-\beta(t)^2},\,\beta(t)\bigr).
+\]
+Then \(\Gamma\in C^\infty(\R,S^1)\), \(\Gamma(0)=p\), and \(\Gamma'(0)=\vec v\), since \(\beta'(0)=1\).
+\end{example}
+
+\begin{tcolorbox}[title=\bfseries The Poincar\'{e} lemma]
+\end{tcolorbox}
+
+\newpage
+\section*{The derivation associated to a tangent vector}
+
+Let $M$ be a $C^\infty$ manifold and let $p\in M$.
+Assume the tangent space $\TpM$ is defined as equivalence classes of $C^\infty$ curves through $p$:
+two curves $\gamma_1,\gamma_2:(-\varepsilon,\varepsilon)\to M$ with $\gamma_i(0)=p$ are equivalent if,
+for some (hence any) chart $(U,\varphi)$ with $p\in U$,
+\[
+\left.\frac{d}{dt}\right|_{t=0}\bigl(\varphi\circ\gamma_1\bigr)(t)
+=
+\left.\frac{d}{dt}\right|_{t=0}\bigl(\varphi\circ\gamma_2\bigr)(t)\in \R^n.
+\]
+Let $\vec v\in \TpM$, and choose a representative curve $\gamma:(-\varepsilon,\varepsilon)\to M$
+with $\gamma(0)=p$ and $[\gamma]=\vec v$.
+
+Define an operator
+\[
+X_{\vec v}:\C^\infty(M)\longrightarrow \R
+\]
+by
+\begin{equation}\label{eq:def-Xv}
+	X_{\vec v}(f)\;\coloneqq\;\left.\frac{d}{dt}\right|_{t=0}\bigl(f\circ\gamma\bigr)(t),
+	\qquad f\in\C^\infty(M).
+\end{equation}
+
+\begin{proposition}[Well-definedness and basic properties of $X_{\vec v}$]
+	\label{prop:Xv}
+	With notation as above:
+	\begin{enumerate}
+		\item[\textup{(a)}] The value $X_{\vec v}(f)$ is independent of the choice of representative curve $\gamma$
+		for $\vec v$. Hence $X_{\vec v}$ is well-defined.
+		\item[\textup{(b)}] The operator $X_{\vec v}$ satisfies:
+		\begin{enumerate}
+			\item[\textup{(1)}] \textbf{Locality:} If $f,g\in \C^\infty(M)$ agree on some neighborhood of $p$, then
+			$X_{\vec v}(f)=X_{\vec v}(g)$.
+			\item[\textup{(2)}] \textbf{Linearity:} For all $a,b\in \R$ and $f,g\in \C^\infty(M)$,
+			\[
+			X_{\vec v}(af+bg)=aX_{\vec v}(f)+bX_{\vec v}(g).
+			\]
+			\item[\textup{(3)}] \textbf{Product rule:} For all $f,g\in \C^\infty(M)$,
+			\[
+			X_{\vec v}(f\cdot g)=X_{\vec v}(f)\,g(p)+f(p)\,X_{\vec v}(g).
+			\]
+		\end{enumerate}
+	\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+	\textbf{(a) Well-definedness.}
+	Let $\gamma_1,\gamma_2:(-\varepsilon,\varepsilon)\to M$ be two $C^\infty$ curves with
+	$\gamma_1(0)=\gamma_2(0)=p$ representing the same tangent vector $\vec v$.
+	By definition of the equivalence relation, there exists (equivalently, for every) chart $(U,\varphi)$
+	about $p$ such that
+	\begin{equation}\label{eq:equal-vel}
+		\left.\frac{d}{dt}\right|_{t=0}\bigl(\varphi\circ\gamma_1\bigr)(t)
+		=
+		\left.\frac{d}{dt}\right|_{t=0}\bigl(\varphi\circ\gamma_2\bigr)(t)\in \R^n.
+	\end{equation}
+	Fix such a chart $(U,\varphi)$ and let $f\in \C^\infty(M)$ be arbitrary.
+	Set $F\coloneqq f\circ \varphi^{-1}\in \C^\infty(\varphi(U))$.
+	For $i=1,2$ and $|t|$ small we have $\gamma_i(t)\in U$ and hence
+	\[
+	(f\circ\gamma_i)(t)=(F\circ \varphi\circ\gamma_i)(t).
+	\]
+	Applying the chain rule in $\R^n$ yields
+	\[
+	\left.\frac{d}{dt}\right|_{t=0}(f\circ\gamma_i)(t)
+	=
+	dF_{\varphi(p)}\!\left(\left.\frac{d}{dt}\right|_{t=0}(\varphi\circ\gamma_i)(t)\right).
+	\]
+	Using \eqref{eq:equal-vel} for the velocities, we conclude
+	\[
+	\left.\frac{d}{dt}\right|_{t=0}(f\circ\gamma_1)(t)
+	=
+	\left.\frac{d}{dt}\right|_{t=0}(f\circ\gamma_2)(t).
+	\]
+	Thus the right-hand side of \eqref{eq:def-Xv} depends only on $\vec v$, not on the representative curve.
+	Therefore $X_{\vec v}$ is well-defined.
+	
+	\medskip
+	\textbf{(b1) Locality.}
+	Assume $f=g$ on a neighborhood $W$ of $p$. Since $\gamma(0)=p$ and $\gamma$ is continuous,
+	there exists $\delta>0$ such that $\gamma((-\delta,\delta))\subset W$.
+	Hence for $|t|<\delta$ we have $(f\circ\gamma)(t)=(g\circ\gamma)(t)$, and therefore
+	\[
+	X_{\vec v}(f)=\left.\frac{d}{dt}\right|_{t=0}(f\circ\gamma)(t)
+	=
+	\left.\frac{d}{dt}\right|_{t=0}(g\circ\gamma)(t)
+	=X_{\vec v}(g).
+	\]
+	
+	\medskip
+	\textbf{(b2) Linearity.}
+	Let $a,b\in \R$ and $f,g\in \C^\infty(M)$. Then for all $t$,
+	\[
+	(af+bg)\circ\gamma
+	=
+	a(f\circ\gamma)+b(g\circ\gamma).
+	\]
+	Differentiate at $t=0$ and use linearity of the derivative in $\R$:
+	\[
+	X_{\vec v}(af+bg)
+	=
+	\left.\frac{d}{dt}\right|_{t=0}\bigl(a(f\circ\gamma)(t)+b(g\circ\gamma)(t)\bigr)
+	=
+	aX_{\vec v}(f)+bX_{\vec v}(g).
+	\]
+	
+	\medskip
+	\textbf{(b3) Product rule.}
+	For all $t$,
+	\[
+	(fg)\circ\gamma=(f\circ\gamma)\,(g\circ\gamma),
+	\]
+	so by the ordinary product rule for functions of one real variable,
+	\begin{align*}
+		X_{\vec v}(fg)
+		&=
+		\left.\frac{d}{dt}\right|_{t=0}\bigl((f\circ\gamma)(t)\,(g\circ\gamma)(t)\bigr) \\
+		&=
+		\left.\frac{d}{dt}\right|_{t=0}(f\circ\gamma)(t)\cdot (g\circ\gamma)(0)
+		+
+		(f\circ\gamma)(0)\cdot \left.\frac{d}{dt}\right|_{t=0}(g\circ\gamma)(t).
+	\end{align*}
+	Since $(g\circ\gamma)(0)=g(\gamma(0))=g(p)$ and $(f\circ\gamma)(0)=f(p)$, this becomes
+	\[
+	X_{\vec v}(fg)=X_{\vec v}(f)\,g(p)+f(p)\,X_{\vec v}(g).
+	\]
+	This proves (1)--(3).
+\end{proof}
+
+
+\section*{A concrete example of $X_{\vec v}$ on the unit circle}
+
+Let
+\[
+M=S^1=\{(x,y)\in\R^2:\ x^2+y^2=1\}.
+\]
+Fix the point
+\[
+p=(1,0)\in S^1,
+\]
+and the tangent vector
+\[
+\vec v=(0,1)\in T_pS^1=\{(0,\lambda):\lambda\in\R\}.
+\]
+A natural smooth curve representing $\vec v$ is the counterclockwise parametrization
+\[
+\gamma(t)=(\cos t,\sin t),\qquad t\in\R.
+\]
+Indeed,
+\[
+\gamma(0)=(1,0)=p,
+\qquad
+\gamma'(0)=(-\sin 0,\cos 0)=(0,1)=\vec v.
+\]
+
+\subsection*{Definition of $X_{\vec v}$ in this example}
+For any $f\in C^\infty(S^1)$ define
+\[
+X_{\vec v}(f)\coloneqq \left.\frac{d}{dt}\right|_{t=0} (f\circ\gamma)(t).
+\]
+Thus, in this concrete situation, $X_{\vec v}(f)$ is literally the directional derivative of $f$
+along $S^1$ at $p$ in the counterclockwise direction.
+
+\subsection*{Concrete computations}
+Let $x,y:S^1\to\R$ be the coordinate restriction functions $x(x,y)=x$, $y(x,y)=y$.
+Then
+\[
+(x\circ\gamma)(t)=\cos t,\qquad (y\circ\gamma)(t)=\sin t,
+\]
+so
+\[
+X_{\vec v}(x)=\left.\frac{d}{dt}\right|_{0}\cos t=0,
+\qquad
+X_{\vec v}(y)=\left.\frac{d}{dt}\right|_{0}\sin t=1.
+\]
+
+Now define two smooth functions on $S^1$ by
+\[
+f(x,y)\coloneqq y,\qquad g(x,y)\coloneqq x\,y.
+\]
+Then
+\[
+(f\circ\gamma)(t)=\sin t,\qquad (g\circ\gamma)(t)=(\cos t)(\sin t),
+\]
+so
+\[
+X_{\vec v}(f)=\left.\frac{d}{dt}\right|_{0}\sin t=1,
+\qquad
+X_{\vec v}(g)=\left.\frac{d}{dt}\right|_{0}(\cos t\sin t)
+=\left.\frac{d}{dt}\right|_{0}\frac{1}{2}\sin(2t)=1.
+\]
+Also
+\[
+f(p)=f(1,0)=0,\qquad g(p)=g(1,0)=0.
+\]
+
+\subsection*{Verification of the three properties in this example}
+
+\paragraph{(1) Locality.}
+Let $f_1,f_2\in C^\infty(S^1)$ and suppose there exists an open arc $W\subset S^1$ containing $p$
+such that $f_1|_{W}=f_2|_{W}$.
+Since $\gamma(0)=p$ and $\gamma$ is continuous, there exists $\delta>0$ such that
+$\gamma((-\delta,\delta))\subset W$.
+Hence $(f_1\circ\gamma)(t)=(f_2\circ\gamma)(t)$ for $|t|<\delta$, and therefore
+\[
+X_{\vec v}(f_1)=\left.\frac{d}{dt}\right|_{0}(f_1\circ\gamma)(t)
+=
+\left.\frac{d}{dt}\right|_{0}(f_2\circ\gamma)(t)=X_{\vec v}(f_2).
+\]
+
+\paragraph{(2) Linearity.}
+For $a,b\in\R$ and $f_1,f_2\in C^\infty(S^1)$,
+\[
+((a f_1+b f_2)\circ\gamma)(t)=a(f_1\circ\gamma)(t)+b(f_2\circ\gamma)(t),
+\]
+so differentiating at $0$ yields
+\[
+X_{\vec v}(a f_1+b f_2)=aX_{\vec v}(f_1)+bX_{\vec v}(f_2).
+\]
+
+\paragraph{(3) Product rule (verified by explicit functions).}
+Take $f(x,y)=y$ and $g(x,y)=xy$ as above. Then
+\[
+X_{\vec v}(fg)=X_{\vec v}(y\cdot xy)=X_{\vec v}(x y^2).
+\]
+Compute:
+\[
+(fg)\circ\gamma(t)=(\sin t)\cdot(\cos t\sin t)=\cos t\,\sin^2 t,
+\]
+hence
+\[
+X_{\vec v}(fg)=\left.\frac{d}{dt}\right|_{0}\bigl(\cos t\,\sin^2 t\bigr)=0.
+\]
+On the other hand,
+\[
+X_{\vec v}(f)\,g(p)+f(p)\,X_{\vec v}(g)= (1)\cdot 0 + 0\cdot (1)=0,
+\]
+so indeed
+\[
+X_{\vec v}(fg)=X_{\vec v}(f)\,g(p)+f(p)\,X_{\vec v}(g).
+\]
+(The general product rule follows from the one-variable product rule for $(f\circ\gamma)(t)$ and
+$(g\circ\gamma)(t)$.)
+
+
+\newpage
+\begin{tcolorbox}[title=\bfseries The Poincar\'{e} lemma]
+\end{tcolorbox}
+
+\begin{tcolorbox}[title=\bfseries The Poincar\'{e} lemma]
+\end{tcolorbox}
+
+\begin{tcolorbox}[title=\bfseries The Poincar\'{e} lemma]
+\end{tcolorbox}
+
+\begin{tcolorbox}[title=\bfseries The Poincar\'{e} lemma]
+\end{tcolorbox}
+
+\begin{tcolorbox}[title=\bfseries The Poincar\'{e} lemma]
+\end{tcolorbox}
+
+	
+\end{document}

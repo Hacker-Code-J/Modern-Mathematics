@@ -1,0 +1,270 @@
+\subsection{Lists and Tables}
+
+\subsubsection{Unordered Lists (Bulleted)}
+
+Use the \texttt{itemize} environment to create bulleted lists. Each list item begins with \verb|\item|.
+
+\begin{example}
+\;\medskip
+
+\begin{lstlisting}
+\begin{itemize}
+	\item Apples
+	\item Bananas
+	\item Cherries
+\end{itemize}
+\end{lstlisting}
+\begin{itemize}
+	\item Apples
+	\item Bananas
+	\item Cherries
+\end{itemize}
+\end{example}
+
+\begin{example}
+We can nest \texttt{itemize} to create sub-bullets.
+\;\medskip
+
+\begin{lstlisting}
+\begin{itemize}
+	\item Fruit
+	\begin{itemize}
+		\item Apples
+		\item Bananas
+	\end{itemize}
+	\item Vegetables
+\end{itemize}
+\end{lstlisting}
+\begin{itemize}
+	\item Fruit
+	\begin{itemize}
+		\item Apples
+		\item Bananas
+	\end{itemize}
+	\item Vegetables
+\end{itemize}
+\end{example}
+%
+%\subsection{Practical Notes (Beginner-Friendly)}
+%
+%\begin{itemize}
+%	\item Use lists when you want readability: requirements, key points, pros/cons.
+%	\item Keep items grammatically consistent (all nouns, or all full sentences).
+%	\item Avoid extremely long items; if needed, split into sub-bullets.
+%\end{itemize}
+%
+
+\newpage
+\subsubsection{Ordered Lists (Numbered)}
+
+Use the \texttt{enumerate} environment for numbered lists. \LaTeX{} automatically handles numbering, which is exactly the beginner-friendly point emphasized in the reference notes.
+
+\begin{example}
+\;\medskip
+
+\begin{lstlisting}
+\begin{enumerate}
+	\item First
+	\item Second
+	\item Third
+\end{enumerate}
+\end{lstlisting}
+\begin{enumerate}
+	\item First
+	\item Second
+	\item Third
+\end{enumerate}
+\end{example}
+
+\begin{example}
+We can nest \texttt{enumerate} just like \texttt{itemize}:
+\begin{lstlisting}
+\begin{enumerate}
+	\item Main step
+	\begin{enumerate}
+		\item Sub-step
+		\item Sub-step
+	\end{enumerate}
+	\item Next main step
+\end{enumerate}
+\end{lstlisting}
+\begin{enumerate}
+	\item Main step
+	\begin{enumerate}
+		\item Sub-step
+		\item Sub-step
+	\end{enumerate}
+	\item Next main step
+\end{enumerate}
+\end{example}
+
+\subsubsection{Description Lists}
+
+Use the \texttt{description} environment when each item needs a label.
+
+\begin{example}
+\;\medskip
+
+\begin{lstlisting}
+\begin{description}
+	\item[Dog] A friendly animal.
+	\item[Cat] A curious animal.
+\end{description}
+\end{lstlisting}
+\begin{description}
+	\item[Dog] A friendly animal.
+	\item[Cat] A curious animal.
+\end{description}
+\end{example}
+
+\subsubsection{Tables}
+
+Tables in \LaTeX{} are typically built in two layers:
+\begin{itemize}
+	\item \texttt{tabular}: the grid itself (rows/columns).
+	\item \texttt{table}: an optional floating wrapper for captions and labels.
+\end{itemize}
+
+\begin{example}
+\;\medskip
+
+\begin{lstlisting}
+\begin{tabular}{|l|c|r|}
+	\hline
+	Name & Age & Score \\
+	\hline
+	Alice & 24 & 95 \\
+	Bob & 22 & 88 \\
+	\hline
+\end{tabular}
+\end{lstlisting}
+\begin{center}
+	\begin{tabular}{|l|c|r|}
+		\hline
+		Name & Age & Score \\
+		\hline
+		Alice & 24 & 95 \\
+		Bob & 22 & 88 \\
+		\hline
+	\end{tabular}
+\end{center}
+\begin{itemize}
+\item \verb|&| separates columns.
+\item \verb|\\| ends a row.
+\item \verb|\hline| draws a horizontal line.
+\end{itemize}
+\end{example}
+
+\paragraph{Alignment Options in Tables}
+The column specification controls alignment:
+
+\begin{itemize}
+	\item \texttt{l} -- left aligned
+	\item \texttt{c} -- centered
+	\item \texttt{r} -- right aligned
+	\item \texttt{|} -- vertical line between columns
+\end{itemize}
+Beyond \texttt{l}, \texttt{c}, \texttt{r}, we will often need fixed-width columns:
+\begin{itemize}
+	\item \verb|p{3cm}|: a paragraph column of width 3cm (text wraps automatically).
+\end{itemize}
+
+%\newpage
+\begin{example}[Fixed-width column]
+\;\medskip	
+	
+\begin{lstlisting}
+\begin{tabular}{|l|p{6cm}|}
+	\hline
+	Term & Explanation \\
+	\hline
+	LaTeX & A document preparation system for professional typesetting. \\
+	\hline
+\end{tabular}
+\end{lstlisting}
+\begin{center}
+\begin{tabular}{|l|p{6cm}|}
+	\hline
+	Term & Explanation \\
+	\hline
+	LaTeX & A document preparation system for professional typesetting. \\
+	\hline
+\end{tabular}
+\end{center}
+\end{example}
+
+\subsubsection{Floating Tables}
+
+A \texttt{table} environment is a \emph{float}: \LaTeX{} may move it to an optimal location for page layout.
+
+%\paragraph{Why Float?}
+%Floating tables:
+%\begin{itemize}
+%	\item prevent ugly page breaks,
+%	\item allow captions and labels,
+%	\item let \LaTeX{} place the table where it fits best.
+%\end{itemize}
+
+\begin{example}
+Standard Pattern: \texttt{table} + \texttt{tabular} + caption/label
+\medskip
+
+\begin{lstlisting}
+\begin{table}[h]
+	\centering
+	\begin{tabular}{lrr}
+		\hline
+		Item & Qty & Price \\
+		\hline
+		Apples & 3 & 1.20 \\
+		Bananas & 5 & 0.80 \\
+		\hline
+	\end{tabular}
+	\caption{Fruit Inventory}
+	\label{tab:fruit}
+\end{table}
+\end{lstlisting}
+		\begin{table}[h]
+	\centering
+	\begin{tabular}{lrr}
+		\hline
+		Item & Qty & Price \\
+		\hline
+		Apples & 3 & 1.20 \\
+		Bananas & 5 & 0.80 \\
+		\hline
+	\end{tabular}
+	\caption{Fruit Inventory}
+	\label{tab:fruit}
+\end{table}
+\end{example}
+
+\paragraph{Placement Options}
+
+The optional argument \verb|[h]| suggests ``place here''. Common options:
+\begin{table}[h!]\centering
+\renewcommand{\arraystretch}{1.25}
+\begin{tabular}{@{}l|l@{}}
+	\toprule[1.2pt]
+	\texttt{h} & here \\ \hline
+	\texttt{t} & top of page \\ \hline
+	\texttt{b} & bottom of page \\ \hline
+	\texttt{p} & float page \\
+	\bottomrule[1.2pt]
+\end{tabular}
+\end{table}	
+\begin{itemize}
+	\item \texttt{h}: here
+	\item \texttt{t}: top of page
+	\item \texttt{b}: bottom of page
+	\item \texttt{p}: float page
+\end{itemize}
+A common practical choice is \verb|[htbp]| to give \LaTeX{} flexibility.
+
+\paragraph{Captions, Labels, and Referencing}
+
+A best practice:
+\begin{itemize}
+	\item Put \verb|\label| after \verb|\caption|.
+	\item Refer to the table using \verb|Table~\ref{tab:fruit}|. (Table~\ref{tab:fruit})
+\end{itemize}

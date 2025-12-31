@@ -1,0 +1,167 @@
+\subsection{Document Structure and Classes}
+
+%\section{Anatomy of a LaTeX Document}
+
+A \LaTeX{} source file is a plain text file, usually saved with the extension \texttt{.tex}.
+When you compile it, \LaTeX{} produces a beautifully typeset output (most commonly a PDF).
+
+\subsubsection{Setup and Content}
+
+A \LaTeX{} document is built from two main parts:
+\begin{itemize}
+	\item \textbf{Preamble} (before \verb|\begin{document}|): chooses the document class and loads packages.
+		\item \textbf{Document body} (between \verb|\begin{document}| and \verb|\end{document}|): contains the content you want printed (text, math, figures, tables, etc.).
+	\end{itemize}
+	This “preamble + body” split is the standard structure shown in the reference material.
+	
+\begin{example}[Minimal Structure]
+\;
+\medskip
+
+\begin{lstlisting}
+\documentclass{article}
+
+\begin{document}
+	This is a LaTeX document.
+\end{document}
+\end{lstlisting}
+\end{example}
+
+	
+\subsubsection{Document Classes}
+
+The first line of a \LaTeX{} file is often the most important:
+\begin{center}
+	\verb|\documentclass[options]{class}|
+\end{center}
+It sets the foundation for the entire document.
+\begin{table}[h!]\centering
+\renewcommand{\arraystretch}{1.25}
+\begin{tabularx}{\textwidth}{@{}l|X@{}}
+\toprule[1.2pt]
+\texttt{article}& best for \textbf{shorter documents} such as papers, essays, homework, and reports.\\ \hline
+\texttt{report}& used for \textbf{longer documents} that need chapters (e.g., theses).\\ \hline
+\texttt{book}& designed for \textbf{books}; supports chapters and is set up for two-sided printing.\\ \hline
+\texttt{beamer}& used for \textbf{presentations}; the output becomes slide-based rather than page-based.\\
+\bottomrule[1.2pt]
+\end{tabularx}
+\end{table}	
+
+\noindent
+Class options customize the class behavior.
+\begin{table}[h!]\centering
+\renewcommand{\arraystretch}{1.25}
+\begin{tabularx}{\textwidth}{@{}l|X@{}}
+	\toprule[1.2pt]
+	\texttt{10pt}, \texttt{11pt}, \texttt{12pt}& base font size (default is commonly \texttt{10pt}). \\ \hline
+	\texttt{a4paper}, \texttt{letterpaper}& paper size \\ \hline
+	\texttt{twocolumn}& two-column layout. \\ \hline
+	\texttt{oneside}, \texttt{twoside}& single-sided or double-sided layout. \\
+	\bottomrule[1.2pt]
+\end{tabularx}
+\end{table}	
+\begin{example}
+	\verb|\documentclass[12pt, a4paper, twoside]{article}|
+\end{example}
+	
+\begin{remark}
+A beginner-friendly recommendation:
+\begin{itemize}
+	\item Use \texttt{11pt} or \texttt{12pt} for readable notes.
+	\item Use the correct paper size for your country/institution.
+	\item Avoid \texttt{twocolumn} until you are comfortable with layout.
+\end{itemize}
+\end{remark}	
+
+\subsubsection{Packages}
+	
+Packages are extensions that add new features and commands. We load them in the preamble using \verb|\usepackage{...}|.
+%\begin{definition}[Package]
+%	A \LaTeX{} package is a collection of macros and commands that adds functionality to \LaTeX{}. Load it using \verb|\usepackage{...}|.
+%\end{definition}
+\medskip
+
+\begin{lstlisting}
+\usepackage{amsmath, amssymb}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\end{lstlisting}
+\begin{table}[h!]\centering
+\renewcommand{\arraystretch}{1.25}
+\begin{tabularx}{\textwidth}{@{}l|X@{}}
+	\toprule[1.2pt]
+	\texttt{amsmath}, \texttt{amssymb}& improved math environments and symbols. \\ \hline
+	\texttt{graphicx}& enables \verb|\includegraphics| for inserting images. \\ \hline
+	\texttt{hyperref}& clickable links and clickable cross-references in the PDF. \\
+	\bottomrule[1.2pt]
+\end{tabularx}
+\end{table}	
+%	The reference notes show \texttt{geometry} as a standard package to control margins easily:contentReference[oaicite:15]{index=15}.
+\begin{example}[Margins with \texttt{geometry}]
+\; \medskip
+
+\begin{lstlisting}
+\usepackage[left=1.5in, right=1.5in, top=1in, bottom=1in]{geometry}
+\end{lstlisting}
+\end{example}
+	
+\subsubsection{Skeleton Template}
+	
+A typical skeleton combines class selection, packages, metadata (title/author/date), and document body commands. The reference provides a standard example.
+
+\begin{example}[Typical Structure]
+\; \medskip
+	
+\begin{lstlisting}
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath, amssymb}
+\usepackage{graphicx}
+\usepackage{hyperref}
+
+\title{My First Document}
+\author{Student Name}
+\date{\today}
+
+\begin{document}
+	\maketitle
+	
+	Hello, LaTeX World!
+	
+\end{document}
+\end{lstlisting}
+\end{example}
+
+%	\begin{itemize}
+%		\item \verb|\documentclass[11pt]{article}| selects the class and base font size:contentReference[oaicite:17]{index=17}.
+%		\item \verb|\usepackage...| loads tools for math, graphics, and hyperlinks:contentReference[oaicite:18]{index=18}.
+%		\item \verb|\title|, \verb|\author|, \verb|\date| define metadata used by \verb|\maketitle|:contentReference[oaicite:19]{index=19}.
+%		\item \verb|\begin{document}| starts the content and \verb|\end{document}| ends it:contentReference[oaicite:20]{index=20}.
+%	\end{itemize}
+
+%
+%\subsubsection{Exercises}
+%
+%\begin{exercise}
+%	Create a new \LaTeX{} file with:
+%	\begin{itemize}
+%		\item Class: \texttt{report}
+%		\item Title: “My LaTeX Project”
+%		\item Packages: \texttt{amsmath}, \texttt{graphicx}, \texttt{hyperref}
+%		\item A simple sentence: “This is my LaTeX report.”
+%	\end{itemize}
+%	Compile it twice and confirm that the PDF title page appears correctly (reports often differ from articles).
+%\end{exercise}
+%
+%\begin{exercise}
+%	Experiment with class options:
+%	\begin{itemize}
+%		\item Start with \verb|\documentclass[10pt]{article}|
+%		\item Change it to \verb|\documentclass[12pt]{article}|
+%	\end{itemize}
+%	Observe how font size and page feel change. Then try adding \texttt{a4paper} or \texttt{letterpaper} and notice the difference.
+%\end{exercise}
+%
+%\begin{exercise}
+%	Add the \texttt{geometry} package and set custom margins (e.g., left and right larger than top and bottom).
+%\end{exercise}

@@ -1,0 +1,122 @@
+\documentclass[12pt]{article}
+
+% --- 1. Page Setup for Letter Size ---
+\usepackage[letterpaper, margin=0pt]{geometry}
+\usepackage[T1]{fontenc}
+%\usepackage{mathpazo} % Palatino font
+\usepackage{lmodern}
+\usepackage{anyfontsize}
+\usepackage{tikz}
+\usetikzlibrary{calc, fadings, decorations.markings, backgrounds}
+
+% --- 2. Color Palette (Solarized Dark Inspired) ---
+\definecolor{bgbase}{HTML}{002B36}      % Deep Green-Blue
+\definecolor{accentcyan}{HTML}{2AA198}  % Cyan
+\definecolor{accentblue}{HTML}{268BD2}  % Blue
+\definecolor{textlight}{HTML}{FDF6E3}   % Cream
+\definecolor{textdim}{HTML}{93A1A1}     % Dim Grey
+
+\begin{document}
+	
+% No page numbers
+\pagestyle{empty}
+
+\begin{tikzpicture}[remember picture, overlay]
+	
+	% =========================================================
+	% 1. BACKGROUND
+	% =========================================================
+	\fill[bgbase] (current page.south west) rectangle (current page.north east);
+	
+	% Optional: Add subtle "code" texture in background
+	\node[textdim, opacity=0.05, font=\ttfamily\tiny, anchor=north west, align=left, rotate=0] 
+	at ([xshift=0.5in, yshift=-0.5in]current page.north west) 
+	{
+		\\documentclass\{book\} \\
+		\\usepackage\{tikz\} \\
+		\\begin\{document\} \\
+		\% Creating beautiful documents... \\
+		\\section\{Introduction\} \\
+		The art of typesetting...
+	};
+	
+	
+	% =========================================================
+	% 2. ABSTRACT GEOMETRIC ART (The "Wireframe Sphere")
+	% =========================================================
+	% We draw a parametric spirograph/sphere pattern to show off TikZ capabilities
+	\begin{scope}[shift={([xshift=2.5in, yshift=-4in]current page.north west)}, scale=2.5]
+		
+		% Fading circles in background
+		\fill[accentblue, opacity=0.1] (0,0) circle (3.5);
+		\fill[accentcyan, opacity=0.1] (0,0) circle (2.8);
+		
+		% The Wireframe Pattern
+		\draw[accentcyan, thick, opacity=0.6, samples=100, domain=0:360, variable=\t, smooth]
+		plot ({3*cos(\t)}, {3*sin(\t)*cos(2*\t)});
+		
+		\draw[accentblue, thick, opacity=0.6, samples=100, domain=0:360, variable=\t, smooth, rotate=45]
+		plot ({3*cos(\t)}, {3*sin(\t)*cos(2*\t)});
+		
+		\draw[white, thick, opacity=0.4, samples=100, domain=0:360, variable=\t, smooth, rotate=90]
+		plot ({3*cos(\t)}, {3*sin(\t)*cos(2*\t)});
+		
+		\draw[accentcyan!50!white, thick, opacity=0.6, samples=100, domain=0:360, variable=\t, smooth, rotate=135]
+		plot ({3*cos(\t)}, {3*sin(\t)*cos(2*\t)});
+		
+		% Central Core
+		\fill[white, opacity=0.9] (0,0) circle (2pt);
+%		\node[textdim, font=\tiny, anchor=north, yshift=-10pt] {TikZ Render Engine};
+	\end{scope}
+	
+	% =========================================================
+	% 3. TYPOGRAPHY (Modern Sans-Serif)
+	% =========================================================
+	
+	% Main Title
+	\node[anchor=west, align=left] 
+	at ([xshift=1in, yshift=-7.5in]current page.north west) 
+	{
+		\sffamily
+		\fontsize{50}{60}\selectfont \bfseries \textcolor{textlight}{The Art of}\\[0.2em]
+		\fontsize{50}{60}\selectfont \bfseries \textcolor{accentcyan}{Modern \LaTeX}
+	};
+	
+	% Separator Line
+	\draw[accentblue, thick] 
+	([xshift=1in, yshift=-8.5in]current page.north west) -- 
+	([xshift=7.5in, yshift=-8.5in]current page.north west);
+	
+	% Subtitle & Subsubtitle
+	\node[anchor=north west, align=left] 
+	at ([xshift=1in, yshift=-8.7in]current page.north west) 
+	{
+		\sffamily
+		\fontsize{20}{24}\selectfont \textcolor{textlight}{Professional Typesetting \& Vector Graphics}\\[0.5em]
+		\fontsize{14}{18}\selectfont \textcolor{textdim}{From Standard Documents to Advanced TikZ}\\[1.5em]
+		\fontsize{16}{20}\selectfont \textcolor{white}{Ji, Yonghyeon}
+	};
+	
+	% =========================================================
+	% 4. FOOTER / BADGE
+	% =========================================================
+	
+	% "Lecture Notes" Badge (Top Right)
+	\node[
+	fill=accentblue, 
+	text=bgbase, 
+	font=\sffamily\bfseries\small, 
+	anchor=north east, 
+	minimum height=3em, 
+	minimum width=8em
+	] 
+	at ([xshift=0in, yshift=-1in]current page.north east) 
+	{LECTURE NOTES};
+	
+	% Bottom Footer
+	\node[textdim, font=\sffamily\footnotesize, anchor=south] 
+	at ([yshift=0.5in]current page.south) 
+	{A Comprehensive Guide to \LaTeX};
+\end{tikzpicture}
+	
+\end{document}

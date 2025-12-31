@@ -1,0 +1,118 @@
+\documentclass[12pt]{article}
+
+% --- 1. Page Setup for Letter Size ---
+\usepackage[letterpaper, margin=0pt]{geometry} % Zero margins
+\usepackage[T1]{fontenc}
+\usepackage{mathpazo} % Palatino font
+%\usepackage{lmodern}
+\usepackage{anyfontsize}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usepackage{tikz}
+
+% --- Color Palette ---
+\definecolor{darkbg}{HTML}{1A1A2E}      % Deep Navy Background
+\definecolor{titlewhite}{HTML}{EAEAEA}  % Off-white text
+\definecolor{subtitlegrey}{HTML}{B0B0C0}
+\definecolor{accentblue}{HTML}{4A90E2}
+
+\begin{document}
+	
+% No page numbers
+\pagestyle{empty}
+
+\begin{tikzpicture}[remember picture, overlay]
+
+% =========================================================
+% 1. BACKGROUND FILL
+% =========================================================
+% Fill the entire Letter page
+\fill[darkbg] (current page.south west) rectangle (current page.north east);
+
+
+% =========================================================
+% 2. TITLE SECTION (Top Left)
+% =========================================================
+% We anchor relative to the North West corner of the page
+\node[anchor=north west, align=left, inner sep=0] 
+at ([xshift=1in, yshift=-1.5in]current page.north west) 
+{
+	% Main Title
+	\fontsize{40}{48}\selectfont \bfseries \textcolor{titlewhite}{Riemann Surfaces}\\[0.2em]
+	\fontsize{40}{48}\selectfont \bfseries \textcolor{titlewhite}{and Algebraic Curves}\\[0.2em]
+%	\fontsize{40}{48}\selectfont \bfseries \textcolor{titlewhite}{Curves}\\[0.8em]
+	
+	% Subtitle
+	\fontsize{18}{22}\selectfont \textcolor{subtitlegrey}{A framework for understanding Elliptic Curves}\\[0.2em]
+%	\fontsize{18}{22}\selectfont \textcolor{subtitlegrey}{Elliptic Curves}
+	\\ [1em]
+	% Author
+	\fontsize{18}{22}\selectfont \textcolor{white}{Ji, Yonghyeon}
+};
+
+% "Part I" Badge
+\node[
+fill=accentblue, 
+text=white, 
+inner sep=10pt, 
+font=\bfseries\small, 
+anchor=north west,
+rounded corners=2pt
+] 
+at ([xshift=1in, yshift=-5.5in]current page.north west) 
+{PART I --- MULTIVARIABLE CALCULUS};
+
+
+% =========================================================
+% 3. 3D SURFACE PLOT (Bottom Center)
+% =========================================================
+% We place the axis relative to the center of the page, shifted down
+\begin{scope}[shift={([xshift=3in,yshift=0in]current page.center)}]
+	\begin{axis}[
+		hide axis,
+		view={35}{55},            % Angle suitable for vertical layout
+		colormap/viridis,
+		width=18cm, height=16cm,  % Large size to fill bottom
+		z buffer=sort,
+		point meta min=-2, 
+		point meta max=2,
+		anchor=center
+		]
+		% The Monkey Saddle: z = x^3 - 3xy^2
+		\addplot3[
+		surf,
+		shader=interp,
+		domain=-1.6:1.6,
+		y domain=-1.6:1.6,
+		samples=45,
+		opacity=0.9
+		]
+		{x^3 - 3*x*y^2};
+		
+		% Faint mesh overlay
+		\addplot3[
+		mesh,
+		draw=white!15,
+		domain=-1.6:1.6,
+		y domain=-1.6:1.6,
+		samples=25,
+		line width=0.05pt
+		]
+		{x^3 - 3*x*y^2};
+	\end{axis}
+\end{scope}
+
+
+% =========================================================
+% 4. FOOTER (Bottom)
+% =========================================================
+\node[subtitlegrey, font=\normalsize, anchor=south] 
+at ([yshift=0in]current page.south) 
+{
+%	Academic Press $\cdot$ Mathematics Series
+A Comprehensive Guide to Modern Algebraic Geometry
+};
+
+\end{tikzpicture}
+	
+\end{document}

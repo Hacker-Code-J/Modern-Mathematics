@@ -1,0 +1,143 @@
+\documentclass[tikz, border=0pt]{standalone}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usetikzlibrary{arrows.meta, backgrounds, calc, shadings}
+
+% --- Define Custom Colormaps for a "Dramatic" look ---
+\pgfplotsset{
+	colormap={cover_ice_fire}{
+		color(0cm)=(blue!40!black);
+		color(1cm)=(blue!80!cyan);
+		color(2cm)=(cyan!80!white);
+		color(3cm)=(white!90!yellow);
+		color(4cm)=(orange!80!yellow);
+		color(5cm)=(red!80!orange);
+		color(6cm)=(red!50!black)
+	}
+}
+
+\begin{document}
+	% Use a dark background to make the colors pop, typical for modern textbooks
+	\begin{tikzpicture}[
+%		background rectangle/.style={
+%			top color=gray!10!black,
+%			bottom color=gray!30!black,
+%			shading angle=45
+%		},
+%		show background rectangle,
+		font=\sffamily
+		]
+		
+		\begin{axis}[
+			view={120}{30},    % A dramatic, slightly elevated angle
+			axis lines=none,   % Hide axes for a clean artistic look
+			width=16cm, height=14cm,
+			z buffer=sort,     % Ensure correct 3D depth sorting
+			xmin=-2.5, xmax=2.5,
+			ymin=-2.5, ymax=2.5,
+			zmin=-5, zmax=5,
+			colormap name=viridis,
+			]
+			
+			% ==================================================
+			% 1. The Main Surface: A Hyperbolic Paraboloid (Saddle)
+			% Function: z = y^2 - x^2
+			% ==================================================
+			\addplot3[
+			surf,
+			shader=interp,         % Smooth gradient shading
+			opacity=0.9,           % Slight transparency
+			domain=-2.2:2.2,       % Plot domain
+			y domain=-2.2:2.2,
+			samples=50,            % High sample count for smooth look (adjust if memory issues arise)
+			samples y=50,
+			] {y^2 - x^2};
+			
+			% ==================================================
+			% 2. The Vector Field (Flow)
+			% Visualizing a flow over the surface.
+			% We'll use a flow that spirals slightly towards the saddle point for visual interest.
+			% Vector V = <-y - 0.5x, x - 0.5y, dz> (Approximate spiral inflow)
+			% ==================================================
+			\def\sf{0.25} % Scale factor for arrows
+			\addplot3[
+			quiver={
+				u={\sf*(-y - 0.3*x)},    % x-component of vector
+				v={\sf*(x - 0.3*y)},     % y-component of vector
+				w={\sf*(2*y*(x - 0.3*y) - 2*x*(-y - 0.3*x))}, % z-component (chain rule dz = df/dx*u + df/dy*v)
+				scale arrows=1,
+				every arrow/.append style={
+					-Stealth, 
+					opacity=0.6, 
+					color=white!90!cyan, % Light color to contrast with the surface
+					line width=0.8pt
+				}
+			},
+			samples=15, % Fewer samples for arrows to avoid clutter
+			samples y=15,
+			domain=-2:2,
+			y domain=-2:2,
+			] {y^2 - x^2};
+			
+			
+			% ==================================================
+			% 3. Focal Point: Tangent Plane and Normal Vector
+			% Pick a point P at (x_0, y_0) = (1.2, 1.5)
+			% z_0 = 1.5^2 - 1.2^2 = 2.25 - 1.44 = 0.81
+			% Partial dx = -2x = -2.4
+			% Partial dy =  2y =  3.0
+			% Normal Vector N = <-dx, -dy, 1> = <2.4, -3.0, 1>
+			% ==================================================
+			
+			% Define the point P
+			\coordinate (P) at (axis cs: 1.2, 1.5, 0.81);
+			
+			% --- Draw the Normal Vector ---
+%			\draw[->, line width=2.5pt, color=red!90!white, glow={white}] 
+%			(P) -- +(axis direction cs: 2.4, -3.0, 1); 
+%			node[above right, text=white] {\large $\mathbf{n}$};
+			
+			% --- Draw a Patch of the Tangent Plane ---
+			% Plane Eq: z - 0.81 = -2.4(x - 1.2) + 3.0(y - 1.5)
+			% We draw a small square around P lying on this plane.
+			\fill[red, opacity=0.4, shininess=20]
+			(axis cs: 1.2-0.5, 1.5-0.5, {0.81 - 2.4*(-0.5) + 3.0*(-0.5)}) --
+			(axis cs: 1.2+0.5, 1.5-0.5, {0.81 - 2.4*(+0.5) + 3.0*(-0.5)}) --
+			(axis cs: 1.2+0.5, 1.5+0.5, {0.81 - 2.4*(+0.5) + 3.0*(+0.5)}) --
+			(axis cs: 1.2-0.5, 1.5+0.5, {0.81 - 2.4*(-0.5) + 3.0*(+0.5)}) -- cycle;
+			
+			% Mark the point P
+			\fill[red!30!white] (P) circle (2pt);
+			
+		\end{axis}
+		
+%		% ==================================================
+%		% 4. Cover Text Placeholders (Optional Overlay)
+%		% ==================================================
+%		\node[
+%		text=white, 
+%		anchor=north west, 
+%		align=left, 
+%		font=\sffamily\bfseries\huge
+%		] at ($(current bounding box.north west) + (1, -1)$) {
+%			MULTIVARIABLE\\CALCULUS
+%		};
+%		
+%		\node[
+%		text=gray!30, 
+%		anchor=north west, 
+%		font=\sffamily\Large
+%		] at ($(current bounding box.north west) + (1, -3.5)$) {
+%			Early Transcendentals
+%		};
+%		
+%		\node[
+%		text=white, 
+%		anchor=south east, 
+%		font=\sffamily\large
+%		] at ($(current bounding box.south east) + (-1, 1)$) {
+%			Fourth Edition
+%		};
+		
+	\end{tikzpicture}
+\end{document}

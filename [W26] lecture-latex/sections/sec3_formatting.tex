@@ -1,0 +1,102 @@
+\subsection{Text Formatting and Layout}
+
+\subsubsection{Basic Text Commands}
+
+\LaTeX{} offers two main approaches to text styling:
+\begin{itemize}
+	\item \textbf{Direct styling commands} such as \verb|\textbf| and \verb|\textit|.
+	\item \textbf{Logical emphasis} using \verb|\emph|, which adapts to context.
+\end{itemize}
+The most common beginner commands are:
+\begin{itemize}
+	\item \verb|\textbf{bold}| $\rightarrow$ \textbf{bold}
+	\item \verb|\textit{italic}| $\rightarrow$ \textit{italic}
+	\item \verb|\underline{underline}| $\rightarrow$ \underline{underline}
+	\item \verb|\emph{emphasized}| $\rightarrow$ \emph{emphasized}
+\end{itemize}
+A useful rule:
+\begin{itemize}
+	\item Use \verb|\emph| when you mean “emphasize this concept.”
+	\item Use \verb|\textit| or \verb|\textbf| when you want a specific visual style.
+\end{itemize}
+\subsubsection{Paragraphs and Line Breaks}
+In \LaTeX{}, a new paragraph is created by leaving a blank line in your source.
+A manual line break can be forced using \verb|\\|.
+
+\begin{example}
+\;\medskip
+	
+\begin{lstlisting}
+This is the first line.\\
+This is the second line.
+\end{lstlisting}
+\end{example}
+\
+\subsubsection{Quotes and Quotations}
+
+\begin{itemize}
+	\item \texttt{quote}: short quotations (indented, typically one paragraph).
+	\item \texttt{quotation}: longer quotations (indented, with paragraph formatting).
+\end{itemize}
+
+\begin{example}
+\;\medskip	
+	
+\begin{lstlisting}
+\begin{quote}
+	A well-structured document is easier to write and easier to read.
+\end{quote}
+\end{lstlisting}
+\end{example}
+
+\subsubsection{Text Alignment}
+
+Alignment environments are helpful for small blocks of text:
+\begin{itemize}
+	\item \verb|\begin{center}...\end{center}| $\rightarrow$ centered text
+	\item \verb|\begin{flushleft}...\end{flushleft}| $\rightarrow$ left-aligned text
+	\item \verb|\begin{flushright}...\end{flushright}| $\rightarrow$ right-aligned text
+\end{itemize}
+
+\subsubsection{Font Sizes}
+
+\LaTeX{} provides relative font size switches that affect the enclosed group:
+
+\begin{itemize}
+	\item \verb|\tiny|, \verb|\scriptsize|, \verb|\footnotesize|
+	\item \verb|\small|, \verb|\normalsize|, \verb|\large|, \verb|\Large|
+	\item \verb|\LARGE|, \verb|\huge|, \verb|\Huge|
+\end{itemize}
+
+\begin{example}
+\;\medskip
+
+\noindent
+{\tiny This is tiny text.}\\
+{\scriptsize This is scriptsize text.}\\
+{\footnotesize This is footnotesize text.}\\
+{\small This is small text.}\\
+{\normalsize This is normalsize text.}\\
+{\large This is large text.}\\
+{\Large This is Large text.}\\
+{\LARGE This is Large text.}\\
+{\huge This is huge text.}\\
+{\Huge This is Huge text.}
+\end{example}
+
+\subsubsection{Special Characters}
+Some characters are reserved because \LaTeX{} uses them for commands or syntax.
+\begin{center}
+	\begin{tabular}{ll}
+		\verb|\%| & \% (percent) \\
+		\verb|\$| & \$ (dollar) \\
+		\verb|\#| & \# (hash) \\
+		\verb|\_| & \_ (underscore) \\
+		\verb|\&| & \& (ampersand) \\
+		\verb|\{| \verb|\}| & \{ \} (braces) \\
+	\end{tabular}
+\end{center}
+Use \verb|%| to write comments that will not appear in the output PDF:
+\begin{lstlisting}
+% This is a comment and will not appear in the output
+\end{lstlisting}

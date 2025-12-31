@@ -1,0 +1,127 @@
+\chapter{Writing Complex Documents (Books, Theses, Reports)}
+
+\section{Document Classes for Large Projects}
+
+For multi-chapter documents, use:
+
+\begin{itemize}
+	\item \texttt{report} — for theses, academic reports, projects
+	\item \texttt{book} — for books, dissertations (two-sided layout)
+\end{itemize}
+
+\begin{verbatim}
+	\documentclass[12pt]{report}
+\end{verbatim}
+
+\section{Chapter Structure}
+
+These classes support:
+
+\begin{itemize}
+	\item \verb|\chapter{...}| — for top-level divisions
+	\item \verb|\section{...}|, \verb|\subsection{...}|
+	\item \verb|\tableofcontents| — auto-generated TOC
+	\item \verb|\listoffigures|, \verb|\listoftables|
+\end{itemize}
+
+\begin{example}
+	\begin{verbatim}
+		\tableofcontents
+		\chapter{Introduction}
+		\section{Background}
+	\end{verbatim}
+\end{example}
+
+\section{Front Matter and Title Pages}
+
+Add a title page:
+
+\begin{verbatim}
+	\title{My Thesis Title}
+	\author{Author Name}
+	\date{December 2025}
+	
+	\maketitle
+\end{verbatim}
+
+You can manually format front matter like dedication, abstract, and acknowledgements using:
+
+\begin{verbatim}
+	\chapter*{Abstract}
+	This document explores...
+	\addcontentsline{toc}{chapter}{Abstract}
+\end{verbatim}
+
+\section{Customizing Page Numbering}
+
+Use Roman numerals for front matter:
+
+\begin{verbatim}
+	\pagenumbering{roman}
+	% front matter pages here
+	\tableofcontents
+	
+	\cleardoublepage
+	\pagenumbering{arabic}
+	% main content starts here
+	\chapter{Introduction}
+\end{verbatim}
+
+\section{Splitting Into Multiple Files}
+
+For large documents, split chapters into separate `.tex` files.
+
+\begin{verbatim}
+	\input{chapters/introduction}
+	\input{chapters/results}
+\end{verbatim}
+
+Alternatively, use:
+
+\begin{verbatim}
+	\include{chapter1}
+	\include{chapter2}
+\end{verbatim}
+
+\texttt{\textbackslash include} starts on a new page and allows selective compilation via \verb|\includeonly|.
+
+\section{Margins and Layout}
+
+Use the \texttt{geometry} package to set margins:
+
+\begin{verbatim}
+	\usepackage[left=1.5in, right=1in, top=1in, bottom=1in]{geometry}
+\end{verbatim}
+
+\section{Two-Sided Printing}
+
+The \texttt{book} class is optimized for printing. It:
+\begin{itemize}
+	\item Adds blank pages automatically
+	\item Alternates margins for left/right pages
+\end{itemize}
+
+\begin{verbatim}
+	\documentclass[twoside]{book}
+\end{verbatim}
+
+\section{Appendices}
+
+Use \verb|\appendix| to add labeled appendices:
+
+\begin{verbatim}
+	\appendix
+	\chapter{Derivations}
+\end{verbatim}
+
+\section{Exercise}
+
+\begin{exercise}
+	Create a thesis-style document that includes:
+	\begin{itemize}
+		\item Title page and table of contents
+		\item At least two chapters in separate `.tex` files
+		\item One figure, one table, and one equation
+		\item An appendix section
+	\end{itemize}
+\end{exercise}

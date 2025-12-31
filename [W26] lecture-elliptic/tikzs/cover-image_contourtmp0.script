@@ -1,0 +1,1 @@
+unset surface; set cntrparam levels discrete -1, -0.5, 0, 0.5, 1; set contour; set table "cover-image_contourtmp0.table"; splot "cover-image_contourtmp0.dat";

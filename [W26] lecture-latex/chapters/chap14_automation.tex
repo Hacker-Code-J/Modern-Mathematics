@@ -1,0 +1,117 @@
+\chapter{Automation with Makefiles and Scripts}
+
+\section{Why Automate Your Workflow?}
+
+Automation helps when:
+\begin{itemize}
+	\item You have many `.tex` files to compile
+	\item You're using tools like BibTeX, Biber, Glossaries
+	\item You want fast, consistent builds without manual steps
+\end{itemize}
+
+\section{The Compilation Process}
+
+A typical LaTeX project may require multiple commands:
+
+\begin{itemize}
+	\item \texttt{pdflatex main.tex}
+	\item \texttt{bibtex main} or \texttt{biber main}
+	\item \texttt{makeglossaries main}
+	\item \texttt{pdflatex main.tex} (twice)
+\end{itemize}
+
+Manually running these every time is inefficient.
+
+\section{Using Makefiles (Unix/Linux/macOS)}
+
+Create a file named `Makefile` (no extension) in your project directory.
+
+\subsection*{Example Makefile}
+
+```makefile
+FILE = main
+
+all: pdf
+
+pdf:
+pdflatex $(FILE).tex
+biber $(FILE)
+pdflatex $(FILE).tex
+pdflatex $(FILE).tex
+
+clean:
+rm -f *.aux *.bbl *.blg *.log *.out *.toc *.lof *.lot
+```
+
+\subsection*{Usage}
+
+Open terminal and run:
+
+\begin{verbatim}
+	make % builds PDF
+	make clean % removes temp files
+\end{verbatim}
+
+\section{Cross-Platform Script (Batch for Windows)}
+
+Create a file named \texttt{build.bat}:
+
+\begin{verbatim}
+	@echo off
+	pdflatex main.tex
+	biber main
+	pdflatex main.tex
+	pdflatex main.tex
+	pause
+\end{verbatim}
+
+Double-click to run the full build cycle.
+
+\section{Shell Script (Linux/macOS)}
+
+\begin{verbatim}
+	#!/bin/bash
+	pdflatex main.tex
+	biber main
+	pdflatex main.tex
+	pdflatex main.tex
+\end{verbatim}
+
+Make executable:
+
+\begin{verbatim}
+	chmod +x build.sh
+	./build.sh
+\end{verbatim}
+
+\section{Using \texttt{latexmk} (Advanced)}
+
+Install and use \texttt{latexmk}:
+
+\begin{verbatim}
+	latexmk -pdf main.tex % Full auto-build
+	latexmk -c % Clean temporary files
+\end{verbatim}
+
+You can also define a .latexmkrc file for custom rules.
+
+\section{IDE Integration}
+
+Overleaf, TeXstudio, and VS Code (with LaTeX Workshop) support:
+
+\begin{itemize}
+	\item Auto-compilation on save
+	\item Continuous preview
+	\item Custom build sequences
+\end{itemize}
+
+\section{Exercise}
+
+\begin{exercise}
+	In your LaTeX project directory:
+	\begin{itemize}
+		\item Create a Makefile or build.bat to compile your project
+		\item Add a clean command to delete temporary files
+		\item Try using \texttt{latexmk} for automation
+	\end{itemize}
+\end{exercise}

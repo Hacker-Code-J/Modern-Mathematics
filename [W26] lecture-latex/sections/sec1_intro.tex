@@ -1,0 +1,114 @@
+\section{Introduction to \LaTeX}
+\LaTeX{} (often pronounced “Lay-tek” or “Lah-tek”) is a high-quality typesetting system widely used for professional scientific and technical documents.
+
+Instead of formatting text by hand (like in a word processor), we write a plain-text source file and then \emph{compile} it into a polished PDF.
+
+\subsection{What is \LaTeX?}
+\begin{tcolorbox}[colback=white, title={What is \LaTeX?}, colframe=teal]
+\LaTeX{} is a document preparation system based on \TeX{}, designed for producing beautifully typeset documents, especially those containing complex mathematical expressions.
+\end{tcolorbox}
+A helpful way to think about \LaTeX{} is:
+\begin{itemize}
+\item We write \emph{content} and \emph{structure} (sections, theorems, figures, references).
+\item The compiler applies consistent typography and layout rules automatically.
+\end{itemize}
+This separation makes long documents easier to maintain: if we change the structure (add sections, figures, equations), numbering and references can update automatically when compiled again.
+
+\paragraph{What \TeX{} and \LaTeX{} Do}
+
+\begin{itemize}
+\item \TeX{} is the underlying typesetting engine (it focuses on high-quality layout and spacing).
+\item \LaTeX{} is a set of macros and conventions on top of \TeX{} that provides document structure:
+chapters/sections, figures, tables, bibliographies, and many more.
+\end{itemize}
+We usually write \LaTeX{} source and let the engine produce the final PDF.
+
+\paragraph{Why Use \LaTeX?}
+
+People choose \LaTeX{} because it is strong where word processors often become difficult:
+\begin{itemize}
+\item \underline{\textbf{Professional-quality typography}} with consistent formatting across the whole document.
+\item \underline{\textbf{Excellent mathematical rendering}}, for example $a^2 + b^2 = c^2$ and complex formulas.
+\item \underline{\textbf{Automatic numbering and references}} for equations, figures, sections, and bibliographies.
+\item \underline{\textbf{Scales well}} to long reports, theses, and books: structure stays manageable.
+\end{itemize}
+
+\paragraph{When \LaTeX{} Is a Good Fit}
+
+\begin{itemize}
+\item Math-heavy documents (homework, lecture notes, papers).
+\item Reports with many figures/tables and cross-references.
+\item Theses and books with chapters and bibliographies.
+\end{itemize}
+
+\paragraph{When It Might Not Be Necessary}
+
+\begin{itemize}
+\item Very short, simple documents where structure and references do not matter.
+\item Layout-heavy marketing designs (unless you already know advanced packages).
+\end{itemize}
+
+\subsubsection{Compiling a Document}
+
+A \LaTeX{} file is typically saved with the extension \texttt{.tex}. To produce a PDF, you run a compiler (engine) that reads the source and outputs the final document.
+
+\paragraph{The Basic Compile Command}
+
+A common engine is \texttt{pdflatex}. The typical workflow is:
+\begin{lstlisting}
+pdflatex file.tex
+pdflatex file.tex  % run twice to update references
+\end{lstlisting}
+Running twice matters because references (like section numbers, equation numbers, and the table of contents) are resolved across compilation passes.
+
+\paragraph{What Happens During Compilation}
+
+When you compile, \LaTeX{}:
+\begin{itemize}
+\item reads your structure (chapters, sections, lists),
+\item calculates layout (line breaks, page breaks),
+\item assigns numbers (figures, tables, equations),
+\item writes auxiliary files (used to resolve references),
+\item produces a PDF output.
+\end{itemize}
+
+\paragraph{Recommended Tools}
+
+We can write and compile \LaTeX{} using:
+\begin{itemize}
+\item \textbf{Overleaf}: online editor; no installation required.
+\item \textbf{TeX Live}: a full \TeX{} distribution commonly used on Linux/macOS.
+\item \textbf{MiKTeX}: a popular distribution on Windows.
+\end{itemize}
+
+%\subsection{Simple Example}
+%Every \LaTeX{} document has two major parts:
+%\begin{itemize}
+%	\item A \textbf{setup part} (before \verb|\begin{document}|): selects the document type and loads packages.
+%	\item The \textbf{content part} (between \verb|\begin{document}| and \verb|\end{document}|):  actual text, math, figures, etc.
+%\end{itemize}
+%The reference notes show a typical skeleton that includes common packages like math, graphics, and hyperlinks. Here is a beginner-friendly version:
+%
+%\begin{example}[Template]
+%\;
+%
+%\medskip
+%
+%\begin{lstlisting}
+%\documentclass[11pt]{article}
+%\usepackage{amsmath,amssymb}
+%\usepackage{graphicx}
+%\usepackage{hyperref}
+%
+%\title{My First LaTeX Document}
+%\author{Student Name}
+%\date{\today}
+%
+%\begin{document}
+%	\maketitle
+%	
+%	This is a sentence with inline math: $a^2 + b^2 = c^2$.
+%	
+%\end{document}
+%\end{lstlisting}
+%\end{example}

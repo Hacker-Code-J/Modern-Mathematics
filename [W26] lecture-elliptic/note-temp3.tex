@@ -1,0 +1,242 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{kotex} % Required for Korean text
+\usepackage{graphicx}
+\usepackage{hyperref}
+
+% Define Exercise environment
+\theoremstyle{definition}
+\newtheorem{exercise}{Exercise}
+\newtheorem{definition}{Definition}
+\newtheorem{example}{Example}
+
+\title{Complex Analysis \& Vector Calculus Homework Notes}
+\author{}
+\date{}
+
+\begin{document}
+	
+	\maketitle
+	
+	\tableofcontents
+	\newpage
+	
+	\section{Homework 1: Vector Calculus and Differential Forms}
+	
+	\subsection*{Line Integrals for Vector Fields}
+	
+	\begin{definition}
+		Given a curve $\gamma: [a,b] \to \mathbb{R}^2$ (or $\mathbb{R}^3$), let $F$ be a vector field defined on a neighborhood of $\gamma$. It makes sense to talk about $F(\gamma(t)) \cdot \gamma'(t)$ for each $t \in (a,b)$.
+		Define the \textbf{line integral} of a vector field $F$ along a curve $\gamma$ as:
+		\[ \int_{\gamma} F \cdot d\gamma := \int_{a}^{b} F(\gamma(t)) \cdot \gamma'(t) \, dt \]
+	\end{definition}
+	
+	Concretely, if $F(x,y) = (F_1(x,y), F_2(x,y)) \in \mathbb{R}^2$ and $dr = (dx, dy)$:
+	\[ \int_{\gamma} F \cdot d\gamma = \int (F_1, F_2) \cdot (dx, dy) = \int F_1 dx + F_2 dy \]
+	
+	\begin{exercise}
+		Let $C$ be the unit circle traversed in a counterclockwise direction.
+		Let $F(x,y) = \left(-\frac{y}{r^2}, \frac{x}{r^2}\right)$, where $r^2 = x^2 + y^2$.
+		Compute $\int_{C} F \cdot dr$.
+	\end{exercise}
+	
+	\subsection*{Surface Integrals for Vector Fields}
+	
+	Let $S$ be a surface in $\mathbb{R}^3$. Let $F$ be a vector field on $S$.
+	Let $T: D \subseteq \mathbb{R}^2 \to S$ be a parametrization, $(u,v) \mapsto T(u,v)$.
+	Define the outward normal $N$.
+	\[ \iint_{S} F \cdot dS := \iint_{D} F(T(u,v)) \cdot \left( \frac{\partial T}{\partial u} \times \frac{\partial T}{\partial v} \right) dA \]
+	
+	\begin{exercise}
+		Compute $\iint_{S} F \cdot dS$.
+		Here, $F(x,y,z) = (x, y, -z)$.
+		Parametrization: $x = u+v$, $y = v-u$, $z = 3u$ for $0 \le u, v \le 1$.
+	\end{exercise}
+	
+	\begin{exercise}
+		Let $F(x,y,z) = (y, xz, 1)$.
+		Let $C$ be the unit circle in the $xy$-plane, i.e., $x^2+y^2=1$, $z=0$, oriented counterclockwise.
+		Compute $\int_{C} F \cdot dr$.
+	\end{exercise}
+	
+	\begin{exercise}
+		Same $F$ as Exercise 3.
+		Surface $S$ is the disk in the $xy$-plane: $x^2+y^2 \le 1, z=0$.
+		Normal $N = (0,0,1)$.
+		Compute $\iint_{S} \text{curl} F \cdot dS$.
+	\end{exercise}
+	
+	\begin{exercise}
+		Same $F$ as Exercise 3.
+		$S$ is the hemisphere: $x^2+y^2+z^2=1, z \ge 0$.
+		Compute $\iint_{S} \text{curl} F \cdot dS$.
+	\end{exercise}
+	
+	\begin{exercise}
+		Same $F$ as Exercise 3.
+		$S$ is the paraboloid: $z = 1 - x^2 - y^2$, $z \ge 0$.
+		Compute $\iint_{S} \text{curl} F \cdot dS$.
+	\end{exercise}
+	
+	\begin{exercise}
+		Exercise 3부터 Exercise 6까지 결과값이 전부다 같음을 주목하고 왜 그런지 눈치채시오.
+		특히, 스토크스 정리의 특수한 경우로서 그린의 정리를 매우 직관적으로 이해하다.
+		\\
+		(Translation: Notice that the results from Exercise 3 to Exercise 6 are all the same and realize why. In particular, understand Green's Theorem intuitively as a special case of Stokes' Theorem.)
+	\end{exercise}
+	
+	\subsection*{Exterior Derivative and Differential Forms}
+	
+	\begin{definition}[Exterior Derivative]
+		For each smooth function $f$, we say $f$ is a \textbf{0-form}.
+		For coordinates $x_1, \dots, x_n$, define $dx_1, \dots, dx_n$.
+		A \textbf{1-form} is a linear combination $a_1 dx_1 + \dots + a_n dx_n$, where coefficients are smooth functions.
+		For a 0-form $f(x_1, \dots, x_n)$, define:
+		\[ df = \frac{\partial f}{\partial x_1}dx_1 + \dots + \frac{\partial f}{\partial x_n}dx_n \]
+	\end{definition}
+	
+	Define the \textbf{wedge product} $\wedge$ between forms:
+	\begin{itemize}
+		\item $\alpha \wedge \beta = - \beta \wedge \alpha$ (Anticommutativity)
+		\item $\alpha \wedge \alpha = 0$ (e.g., $dx_1 \wedge dx_1 = 0$)
+		\item Associativity: $(\alpha \wedge \beta) \wedge \gamma = \alpha \wedge (\beta \wedge \gamma)$
+	\end{itemize}
+	
+	A \textbf{k-form} $\omega$ can be written as:
+	\[ \omega = \sum_{I} a_I dx_{i_1} \wedge \dots \wedge dx_{i_k} \]
+	Define the $(k+1)$-form $d\omega$ by:
+	\[ d\omega = \sum_{I} da_I \wedge dx_{i_1} \wedge \dots \wedge dx_{i_k} \]
+	\textbf{Fact:} $d(d\omega) = 0$ for any form $\omega$.
+	
+	\textbf{Complex Case:}
+	$z = x + iy$, $dz = dx + i dy$.
+	For $f(z, \bar{z})$, $df = \frac{\partial f}{\partial z} dz + \frac{\partial f}{\partial \bar{z}} d\bar{z}$.
+	
+	\begin{exercise}
+		Compute $d\left( \frac{f(w, \bar{w})}{w-z} dw \right)$.
+		Show that it equals $\frac{1}{w-z} \frac{\partial f}{\partial \bar{w}} d\bar{w} \wedge dw$ for $z \in \Omega$ (bounded domain with smooth boundary).
+	\end{exercise}
+	
+	\subsection*{Theorems in Differential Forms}
+	
+	\begin{itemize}
+		\item \textbf{Fundamental Theorem of Calculus:} $\int_a^b f'(x) dx = f(b) - f(a) \iff \int_{[a,b]} df = \int_{\partial [a,b]} f$.
+		\item \textbf{Fundamental Theorem of Line Integrals (FTLI):} $\int_C \nabla f \cdot dr = f(q) - f(p) \iff \int_C df = \int_{\partial C} f$.
+		\item \textbf{Stokes' Theorem:} $\iint_S \text{curl} F \cdot dS = \int_C F \cdot dr \iff \int_{\Omega} d\eta = \int_{\partial \Omega} \eta$.
+	\end{itemize}
+	
+	\begin{exercise}
+		Let $\eta = P dx + Q dy + R dz$. Compute $d\eta$.
+		Conclude that $\int_{\partial \Omega} \eta = \int_C F \cdot dr$ relates to $\int_{\Omega} d\eta = \iint_S \text{curl} F \cdot dS$.
+	\end{exercise}
+	
+	\begin{exercise}
+		Let $\omega = P dy \wedge dz + Q dz \wedge dx + R dx \wedge dy$. Compute $d\omega$.
+		Conclude this case corresponds to the Divergence Theorem.
+	\end{exercise}
+	
+	\begin{exercise}[Cauchy-Green Formula]
+		Let $\Omega \subseteq \mathbb{C}$ be a bounded domain with smooth boundary $\partial \Omega$. For any $f \in C^1(\bar{\Omega})$:
+		\[ f(z) = \frac{1}{2\pi i} \left[ \int_{\partial \Omega} \frac{f(w)}{w-z} dw - \iint_{\Omega} \frac{\frac{\partial f}{\partial \bar{w}}}{w-z} d\bar{w} \wedge dw \right] \]
+		Prove the formula above.
+	\end{exercise}
+	
+	\newpage
+	
+	\section{Homework 2: Potential Functions}
+	
+	\begin{exercise}
+		Given a vector field $F: \mathbb{R}^2 \to \mathbb{R}^2$, defined by $F(x,y) := (3x^2 + 6xy, 3x^2 + 6y)$.
+		Find a potential function $f: \mathbb{R}^2 \to \mathbb{R}$ of $F$, i.e., $f$ satisfies $F = \nabla f$.
+	\end{exercise}
+	
+	\begin{exercise}
+		Exercise 1을 다른 방법으로 푸시오. (Solve Exercise 1 in a different way.)
+	\end{exercise}
+	
+	\begin{definition}
+		Given a vector field $F$, $\int_C F \cdot dr$ is \textbf{path-independent} for any two points $p, q$, if the integral yields the same value for any path connecting $p$ and $q$.
+	\end{definition}
+	
+	\begin{example}[FTLI]
+		If $F = \nabla f$, then $\int_C F \cdot dr = f(q) - f(p)$, which is path-independent.
+	\end{example}
+	
+	\begin{exercise}
+		다음을 보여라: (Show the following:)
+		$\int_C F \cdot dr$ is path-independent for any two points if and only if $\oint_C F \cdot dr = 0$ for any closed loops $C$.
+	\end{exercise}
+	
+	\begin{exercise}
+		Let $D$ be a connected region in $\mathbb{R}^2$, $F: D \to \mathbb{R}^2$. Assume $F$ satisfies Exercise 3.
+		그러면 $F = \nabla f$ 인 $f$가 존재함을 보여라. (Show that there exists an $f$ such that $F = \nabla f$.)
+		Such an $F$ is called a \textbf{conservative vector field}.
+	\end{exercise}
+	
+	\begin{exercise}
+		Check if the vector field $F$ from HW1 Exercise 1 is a gradient vector field or not.
+	\end{exercise}
+	
+	\newpage
+	
+	\section{Homework 3 / Notes: Winding Numbers}
+	
+	\textbf{Topic: Complex Analysis}
+	
+	Let $F(x,y) = \left( -\frac{y}{x^2+y^2}, \frac{x}{x^2+y^2} \right)$.
+	Consider the path integral $\int_C F \cdot dr$.
+	
+	\subsection*{Example Calculation}
+	Let $C$ be a circle of radius 1 centered at $(2,0)$.
+	Parametrization:
+	\[ x = \cos t + 2, \quad y = \sin t, \quad 0 \le t \le 2\pi \]
+	Then $x^2 + y^2 = (\cos t + 2)^2 + \sin^2 t = \cos^2 t + 4\cos t + 4 + \sin^2 t = 5 + 4\cos t$.
+	Also $dx = -\sin t dt$, $dy = \cos t dt$.
+	
+	\begin{align*}
+		\int_C F \cdot dr &= \int_C \left( -\frac{y}{x^2+y^2} dx + \frac{x}{x^2+y^2} dy \right) \\
+		&= \int_0^{2\pi} \frac{1}{5+4\cos t} \left( -\sin t (-\sin t) + (\cos t + 2)(\cos t) \right) dt \\
+		&= \int_0^{2\pi} \frac{\sin^2 t + \cos^2 t + 2\cos t}{5+4\cos t} dt \\
+		&= \int_0^{2\pi} \frac{1+2\cos t}{5+4\cos t} dt
+	\end{align*}
+	
+	\subsubsection*{Method 1: Using FTLI}
+	If $F = \nabla f$ (locally), and the loop does not enclose the singularity at $(0,0)$, then $\int_C F \cdot dr = 0$.
+	
+	\subsubsection*{Method 2: Direct Calculation}
+	To compute $I = \int_0^{2\pi} \frac{1+2\cos t}{5+4\cos t} dt$.
+	Use substitution $u = \tan(t/2)$.
+	\[ \sin t = \frac{2u}{1+u^2}, \quad \cos t = \frac{1-u^2}{1+u^2}, \quad dt = \frac{2}{1+u^2} du \]
+	Substituting these into the integral:
+	\begin{align*}
+		\frac{1+2\cos t}{5+4\cos t} &= \frac{1 + 2\left(\frac{1-u^2}{1+u^2}\right)}{5 + 4\left(\frac{1-u^2}{1+u^2}\right)} = \frac{(1+u^2) + 2(1-u^2)}{5(1+u^2) + 4(1-u^2)} \\
+		&= \frac{3-u^2}{9+u^2}
+	\end{align*}
+	Thus,
+	\[ I = \int_{-\infty}^{\infty} \frac{3-u^2}{9+u^2} \frac{2}{1+u^2} du \]
+	Evaluating this integral yields $0$ (via Partial Fractions or Residue Calculus).
+	
+	\subsection*{Complexification}
+	Observe that
+	\[ F(x,y) \cdot dr = \frac{-y dx + x dy}{x^2+y^2} \]
+	Let $z = x+iy$. Then $dz = dx + i dy$, $d\bar{z} = dx - i dy$.
+	Using differential forms algebra:
+	\[ \frac{1}{z} dz = \frac{\bar{z}}{z \bar{z}} dz = \frac{x-iy}{x^2+y^2} (dx + i dy) = \frac{x dx + y dy}{x^2+y^2} + i \frac{x dy - y dx}{x^2+y^2} \]
+	Thus,
+	\[ \int_C F \cdot dr = \text{Im} \int_C \frac{1}{z} dz \]
+	
+	\begin{itemize}
+		\item If $C$ encloses the origin (e.g., unit circle centered at 0), $\int_C \frac{1}{z} dz = 2\pi i$, so imaginary part is $2\pi$.
+		\item If $C$ does not enclose the origin (like the example centered at $(2,0)$), the function is analytic inside, so by Cauchy Integral Theorem, integral is 0.
+	\end{itemize}
+	
+	\subsection*{Keywords}
+	\begin{itemize}
+		\item Cauchy Integral Theorem
+		\item Morera's Theorem
+		\item Meaning of Complex Analytic Functions / Cauchy-Riemann Equations / Holomorphic Functions
+	\end{itemize}
+	
+\end{document}

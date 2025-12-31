@@ -1,0 +1,102 @@
+\chapter{Figures and Graphics}
+
+\section{Including Images with \texttt{graphicx}}
+
+To insert images in LaTeX, use the \texttt{graphicx} package:
+
+\begin{verbatim}
+	\usepackage{graphicx}
+\end{verbatim}
+
+\section{Basic Usage: \texttt{\textbackslash includegraphics}}
+
+Use the \verb|\includegraphics| command inside a \texttt{figure} environment to insert images with captions and labels.
+
+\begin{example}[Simple Figure]
+	\begin{verbatim}
+		\begin{figure}[h]
+			\centering
+			\includegraphics[width=0.6\textwidth]{example-image}
+			\caption{An example image}
+			\label{fig:example}
+		\end{figure}
+	\end{verbatim}
+\end{example}
+
+\begin{remark}
+	To compile images successfully:
+	\begin{itemize}
+		\item Use `.png`, `.jpg`, or `.pdf` formats (depending on engine).
+		\item Ensure image files are in the same folder as your `.tex` file.
+	\end{itemize}
+\end{remark}
+
+\section{Controlling Image Size}
+
+You can adjust the size using:
+
+\begin{itemize}
+	\item \verb|width=...| e.g., \verb|width=0.5\textwidth|
+	\item \verb|height=...| e.g., \verb|height=4cm|
+	\item \verb|scale=...| e.g., \verb|scale=0.8|
+\end{itemize}
+
+\begin{example}
+	\verb|\includegraphics[scale=0.5]{diagram}|
+\end{example}
+
+\section{Positioning Figures}
+
+You can use optional arguments for placement:
+
+\begin{itemize}
+	\item \texttt{h} — here
+	\item \texttt{t} — top of page
+	\item \texttt{b} — bottom of page
+	\item \texttt{p} — on a separate page of floats
+\end{itemize}
+
+Example: \verb|\begin{figure}[htbp]|
+	
+	\section{Referencing Figures}
+	
+	Use \verb|\label| and \verb|\ref| to refer to figures.
+	
+	\begin{example}
+		See Figure~\ref{fig:example} for a visual illustration.
+	\end{example}
+	
+	\section{Side-by-Side Images}
+	
+	Use the \texttt{minipage} environment to place multiple images side by side:
+	
+	\begin{example}
+		\begin{verbatim}
+			\begin{figure}[h]
+				\centering
+				\begin{minipage}{0.45\textwidth}
+					\centering
+					\includegraphics[width=\textwidth]{img1}
+					\caption{Image 1}
+				\end{minipage}
+				\hfill
+				\begin{minipage}{0.45\textwidth}
+					\centering
+					\includegraphics[width=\textwidth]{img2}
+					\caption{Image 2}
+				\end{minipage}
+			\end{figure}
+		\end{verbatim}
+	\end{example}
+	
+	\section{Exercise}
+	
+	\begin{exercise}
+		Create a LaTeX document that:
+		\begin{itemize}
+			\item Loads the \texttt{graphicx} package
+			\item Inserts an image of your choice with caption and label
+			\item Places two images side by side
+			\item Refers to the image using \verb|\ref|
+		\end{itemize}
+	\end{exercise}

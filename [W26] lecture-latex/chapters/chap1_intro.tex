@@ -1,0 +1,68 @@
+\chapter{Introduction to \LaTeX}
+
+\section{What is \LaTeX?}
+
+\LaTeX{} (pronounced either “Lay-tek” or “Lah-tek”) is a high-quality typesetting system designed for producing scientific and technical documents. It separates content from formatting, allowing authors to focus on writing rather than visual layout.
+
+\begin{definition}[LaTeX]
+	\LaTeX{} is a document preparation system based on \TeX{}, designed for the creation of beautifully typeset documents, especially those containing complex mathematical expressions.
+\end{definition}
+
+\subsection{Why Use \LaTeX?}
+
+Some benefits of using \LaTeX{} include:
+
+\begin{itemize}
+	\item Professional-quality typesetting
+	\item Excellent mathematical rendering (e.g., $a^2 + b^2 = c^2$)
+	\item Automated references, bibliographies, and table of contents
+	\item Consistent document structure and style
+\end{itemize}
+
+\section{Compiling a Document}
+
+To convert a `.tex` file into a PDF, you need to compile it using a LaTeX engine such as `pdflatex`.
+
+\begin{verbatim}
+	pdflatex file.tex
+	pdflatex file.tex  % Run twice for updated references
+\end{verbatim}
+
+\subsection{Recommended Tools}
+
+\begin{itemize}
+	\item \textbf{Overleaf}: Online editor, no installation required.
+	\item \textbf{TeX Live}: Comprehensive distribution for Linux/macOS.
+	\item \textbf{MiKTeX}: User-friendly distribution for Windows.
+\end{itemize}
+
+\section{Minimal Example}
+
+Every LaTeX document consists of two main parts:
+
+\begin{itemize}
+	\item \textbf{Preamble} (before \verb|\begin{document}|): specifies the document class and packages
+		\item \textbf{Body} (between \verb|\begin{document}| and \verb|\end{document}|): contains the actual content
+	\end{itemize}
+	
+	\begin{example}[Minimal Document]
+		\begin{verbatim}
+			\documentclass{article}
+			
+			\begin{document}
+				Hello, world! $E = mc^2$
+			\end{document}
+		\end{verbatim}
+	\end{example}
+	
+	\section{Chapter Summary}
+	
+	\begin{itemize}
+		\item LaTeX is a powerful typesetting system.
+		\item Compilation turns source code into a PDF.
+		\item Use \verb|pdflatex| or Overleaf to build your documents.
+	\end{itemize}
+	
+	\begin{exercise}
+		Install Overleaf or a local TeX distribution. Create a `.tex` file with a simple "Hello, world!" message and compile it.
+	\end{exercise}

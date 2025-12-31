@@ -1,0 +1,186 @@
+\documentclass[12pt, letterpaper]{article}
+%\usepackage{draftwatermark}
+%\SetWatermarkText{Copyright \copyright\ 2025\\ Ji, Yonghyeon}
+%\SetWatermarkScale{.5}
+%\SetWatermarkColor[gray]{0.9}
+\usepackage{kotex}
+% --- PACKAGES ---
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{mathpazo} % Palatino font
+\usepackage[margin=.85in]{geometry}
+\usepackage{amsmath, amssymb, amsfonts, amsthm}
+\usepackage{esint} % For closed integral symbols
+\usepackage{fancyhdr} 
+\usepackage{xcolor}
+\usepackage{tikz} 
+\usetikzlibrary{arrows.meta,calc,decorations.markings,patterns,positioning}
+\usepackage[most]{tcolorbox} 
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{hyperref}
+\usepackage{multirow}
+
+%\newtheorem{definition}{Definition}[chapter]
+%\newtheorem{theorem}{Theorem}[chapter]
+%\newtheorem{example}{Example}[chapter]
+%\newtheorem{exercise}{Exercise}[chapter]
+%\newtheorem{remark}{Remark}[chapter]
+%\newtheorem{lemma}{Lemma}[chapter]
+%\newtheorem{corollary}{Corollary}[chapter]
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\theoremstyle{definition}
+\newtheorem{example}{Example}[section]
+\newtheorem{exercise}{Exercise}[section]
+
+\theoremstyle{remark}
+\newtheorem*{remark}{Remark}
+
+
+% --- MACROS FROM YOUR NOTES ---
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\renewcommand{\d}{\mathrm{d}} % Differential d
+\newcommand{\curl}{\mathrm{curl}\,}
+\newcommand{\diver}{\mathrm{div}\,}
+\renewcommand{\vec}[1]{\mathbf{#1}}
+\renewcommand{\d}{\mathrm{d}}
+
+% --- COLORS & STYLE ---
+\definecolor{themecolor}{RGB}{0, 102, 102} % Teal/Dark Cyan (Vector Calc Theme)
+\definecolor{gridcolor}{RGB}{220, 220, 220} 
+
+% --- PAGE HEADER/FOOTER ---
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small \textsc{The Art of Modern \LaTeX}}
+\fancyhead[R]{\small Professional Typesetting \& Vector Graphics}
+%\fancyfoot[C]{\small Copyright \copyright\ 2025 Ji, Yonghyeon. All rights reserved.}
+%\fancyfoot[R]{\thepage}
+
+\fancyfoot[L]{\footnotesize Copyright \copyright\ 2025 Ji, Yonghyeon}
+%\fancyfoot[C]{\footnotesize \textit{Part I --- Multivariable Calculus}}
+\fancyfoot[R]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+% --- PROBLEM COMMAND ---
+\newcounter{probcount}
+\newcommand{\makequestion}[2]{
+	\clearpage
+	\stepcounter{probcount}
+	
+	% Problem Box
+	\begin{tcolorbox}[
+		enhanced,
+		colback=white,
+		colframe=themecolor,
+		coltitle=white,
+		fonttitle=\bfseries,
+		title={Problem \theprobcount: #1},
+		sharp corners=south,
+		drop fuzzy shadow,
+		boxrule=0.5mm,
+		top=6mm, bottom=6mm
+		]
+		%\large 
+		#2
+	\end{tcolorbox}
+	
+	% Workspace
+	\vfill
+	\begin{center}
+		\begin{tikzpicture}
+			\draw[step=0.5cm,gridcolor,very thin, dash pattern=on 0.5pt off 1.5pt] (0,0) grid (16,15);
+		\end{tikzpicture}
+	\end{center}
+	\vfill
+}
+
+\renewcommand{\lstlistingname}{Code}
+\lstset{
+	basicstyle=\footnotesize\ttfamily,
+	breaklines=true,
+	frame=single,
+	columns=fullflexible,
+	captionpos=b,
+	postbreak=\mbox{\textcolor{red}{$\hookrightarrow$}\space},
+	numbers=none,
+	tabsize=4
+}
+
+% --- TITLE PAGE SETUP ---
+\title{
+	\vspace{2cm}
+	\begin{tcolorbox}[colback=themecolor, colframe=themecolor, sharp corners]
+		\centering \color{white}
+		\Huge \textbf{The Art of Modern \LaTeX} \\
+		\vspace{0.5em}
+		\Large \textit{Professional Typesetting \& Vector Graphics}
+	\end{tcolorbox}
+%	\normalsize From Standard Documents to Advanced TikZ
+}
+\author{\textbf{Ji, Yonghyeon}}
+\date{\today}
+\usepackage{pdfpages}
+% --- DOCUMENT START ---
+\begin{document}
+
+% --- 2. Insert the Cover PDF ---
+% 'pages=-' means include all pages (usually just 1 for a cover)
+% 'fitpaper=true' adjusts the document page size to match the cover PDF size exactly
+\includepdf[pages=-, fitpaper=true]{tikzs/cover-image.pdf}
+
+% --- 3. (Optional) Empty page after cover ---
+% If printing double-sided, the back of the cover is usually blank
+\cleardoublepage
+
+\newpage	
+	
+		
+% 1. COVER PAGE
+\begin{titlepage}
+	\centering
+	\maketitle
+	\thispagestyle{empty}
+%	\vspace{1cm}
+	\begin{center}
+%		\includegraphics[scale=1]{tikzs/generalized_stokes_on_crs.pdf}
+	\end{center}
+	\vfill
+	\begin{center}
+		\large\bfseries {\scshape WINTER 2026}
+	\end{center}
+\end{titlepage}
+\newpage
+\tableofcontents
+\newpage
+
+\input{sections/sec1_intro}
+\newpage\input{sections/sec2_structure}
+\newpage\input{sections/sec3_formatting}
+\newpage\input{sections/sec4_list}
+\newpage\input{sections/sec5_math}
+\newpage\input{sections/sec6_thm}
+
+%\input{chapters/chap1_intro}
+%\input{chapters/chap2_document_structure}
+%\input{chapters/chap3_formatting}
+%\input{chapters/chap4_lists}
+%\input{chapters/chap5_math}
+%\input{chapters/chap6_thm}
+%\input{chapters/chap7_figures}
+%\input{chapters/chap8_labels}
+%\input{chapters/chap9_citations}
+%\input{chapters/chap10_commands}
+%\input{chapters/chap11_beamer}
+%\input{chapters/chap12_complex_documents}
+%\input{chapters/chap13_tikz}
+%\input{chapters/chap14_automation}
+%\input{chapters/chap15_troubleshooting}
+\end{document}

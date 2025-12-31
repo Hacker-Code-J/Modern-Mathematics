@@ -1,0 +1,80 @@
+\chapter{Theorems, Definitions, and Proofs}
+
+\section{Using the \texttt{amsthm} Package}
+
+To define theorem-style environments in LaTeX, we use the \texttt{amsthm} package.
+
+In your preamble, define environments like so:
+
+\begin{verbatim}
+	\usepackage{amsthm}
+	
+	\newtheorem{theorem}{Theorem}[chapter]
+	\newtheorem{lemma}[theorem]{Lemma}
+	\newtheorem{definition}[theorem]{Definition}
+	\newtheorem{corollary}[theorem]{Corollary}
+	\theoremstyle{remark}
+	\newtheorem*{remark}{Remark}
+\end{verbatim}
+
+\section{Basic Environments}
+
+\begin{definition}[Even Number]
+	An integer $n$ is called \emph{even} if there exists an integer $k$ such that $n = 2k$.
+\end{definition}
+
+\begin{theorem}[Sum of Evens]
+	The sum of two even integers is even.
+\end{theorem}
+
+\begin{proof}
+	Let $a = 2m$ and $b = 2n$ for some integers $m$ and $n$.  
+	Then $a + b = 2m + 2n = 2(m + n)$, which is divisible by $2$.  
+	Therefore, $a + b$ is even.
+\end{proof}
+
+\section{More Structures}
+
+\begin{lemma}[Basic Algebra]
+	If $a^2 = b^2$, then $a = b$ or $a = -b$.
+\end{lemma}
+
+\begin{corollary}
+	If $x^2 = 9$, then $x = 3$ or $x = -3$.
+\end{corollary}
+
+\begin{remark}
+	You can group lemmas, theorems, and corollaries using the same counter by specifying it in square brackets.
+\end{remark}
+
+\section{Proof Formatting Tips}
+
+\begin{itemize}
+	\item Use short paragraphs inside proofs.
+	\item Always close proofs with \verb|\qed| or let LaTeX do it automatically.
+	\item Avoid long inline equations in proofs; prefer display mode if clarity is needed.
+\end{itemize}
+
+\section{Example: The Pythagorean Theorem}
+
+\begin{theorem}[Pythagorean Theorem]
+	In a right triangle with legs $a$, $b$ and hypotenuse $c$, we have:
+	\[
+	c^2 = a^2 + b^2
+	\]
+\end{theorem}
+
+\begin{proof}
+	There are many geometric and algebraic proofs. One method involves comparing the area of squares built on each side.
+\end{proof}
+
+\section{Exercise}
+
+\begin{exercise}
+	Define your own:
+	\begin{itemize}
+		\item A definition for a "prime number"
+		\item A theorem stating: “If $p$ is prime and $p$ divides $ab$, then $p$ divides $a$ or $p$ divides $b$.”
+		\item A brief proof using basic divisibility
+	\end{itemize}
+\end{exercise}

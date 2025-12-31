@@ -21,16 +21,27 @@
 {2.5mm} % Space after theorem head
 {} % Theorem head spec
 
-% Applying custom styles
-\theoremstyle{dotless}
-\newtheorem{theorem}{Theorem}[section] % Theorem environment with section-wise numbering
-\newtheorem{lemma}[theorem]{Lemma} % Lemma shares the counter with theorem
-\newtheorem{corollary}[theorem]{Corollary} % Corollary shares the counter with theorem
+%% Applying custom styles
+%\theoremstyle{dotless}
+%\newtheorem{theorem}{Theorem}[section] % Theorem environment with section-wise numbering
+%\newtheorem{lemma}[theorem]{Lemma} % Lemma shares the counter with theorem
+%\newtheorem{corollary}[theorem]{Corollary} % Corollary shares the counter with theorem
+%
+%\theoremstyle{definitionstyle}
+%\newtheorem*{observation}{\textcolor{Magenta}{Observation}}
+%\newtheorem{definition}{Definition}[chapter] % Definition shares the counter with theorem
+%\newtheorem{example}{Example}[chapter] % Example shares the counter with theorem
+%\newtheorem{exercise}{Exercise}[chapter] % Example shares the counter with theorem
+%\newtheorem{remark}{Remark}[definition] % Remark shares the counter with theorem
+%\newtheorem*{note}{Note}
 
-\theoremstyle{definitionstyle}
-\newtheorem*{observation}{\textcolor{Magenta}{Observation}}
-\newtheorem{definition}{Definition}[chapter] % Definition shares the counter with theorem
-\newtheorem{example}{Example}[chapter] % Example shares the counter with theorem
-\newtheorem{exercise}{Exercise}[chapter] % Example shares the counter with theorem
-\newtheorem{remark}{Remark}[definition] % Remark shares the counter with theorem
-\newtheorem*{note}{Note}
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+\newtheorem{example}[definition]{Example}
+\newtheorem{remark}[definition]{Remark}
+
+\theoremstyle{plain}
+\newtheorem{lemma}[definition]{Lemma}
+\newtheorem{proposition}[definition]{Proposition}
+\newtheorem{theorem}[definition]{Theorem}
+\newtheorem{corollary}[definition]{Corollary}

@@ -1,0 +1,140 @@
+\chapter{Lists, Tables, and Environments}
+
+\section{Unordered Lists (Bulleted)}
+
+Use the \texttt{itemize} environment to create bulleted lists.
+
+\begin{example}
+	\begin{verbatim}
+		\begin{itemize}
+			\item Apples
+			\item Bananas
+			\item Cherries
+		\end{itemize}
+	\end{verbatim}
+\end{example}
+
+\begin{itemize}
+	\item Apples
+	\item Bananas
+	\item Cherries
+\end{itemize}
+
+\section{Ordered Lists (Numbered)}
+
+Use the \texttt{enumerate} environment for numbered lists.
+
+\begin{example}
+	\begin{verbatim}
+		\begin{enumerate}
+			\item First
+			\item Second
+			\item Third
+		\end{enumerate}
+	\end{verbatim}
+\end{example}
+
+\begin{enumerate}
+	\item First
+	\item Second
+	\item Third
+\end{enumerate}
+
+\section{Description Lists}
+
+Use the \texttt{description} environment for labeled items.
+
+\begin{example}
+	\begin{verbatim}
+		\begin{description}
+			\item[Dog] A friendly animal.
+			\item[Cat] A curious animal.
+		\end{description}
+	\end{verbatim}
+\end{example}
+
+\begin{description}
+	\item[Dog] A friendly animal.
+	\item[Cat] A curious animal.
+\end{description}
+
+\section{Tables with \texttt{tabular}}
+
+Use the \texttt{tabular} environment to create tables.
+
+\begin{example}
+	\begin{verbatim}
+		\begin{tabular}{|l|c|r|}
+			\hline
+			Name & Age & Score \\
+			\hline
+			Alice & 24 & 95 \\
+			Bob & 22 & 88 \\
+			\hline
+		\end{tabular}
+	\end{verbatim}
+\end{example}
+
+\begin{center}
+	\begin{tabular}{|l|c|r|}
+		\hline
+		Name & Age & Score \\
+		\hline
+		Alice & 24 & 95 \\
+		Bob & 22 & 88 \\
+		\hline
+	\end{tabular}
+\end{center}
+
+\section{Alignment Options in Tables}
+
+\begin{itemize}
+	\item \texttt{l} – left aligned
+	\item \texttt{c} – centered
+	\item \texttt{r} – right aligned
+	\item \texttt{|} – vertical line between columns
+\end{itemize}
+
+\section{Floating Tables}
+
+For floating tables with captions and labels, use the \texttt{table} environment:
+
+\begin{example}
+	\begin{verbatim}
+		\begin{table}[h]
+			\centering
+			\begin{tabular}{lrr}
+				\hline
+				Item & Qty & Price \\
+				\hline
+				Apples & 3 & 1.20 \\
+				Bananas & 5 & 0.80 \\
+				\hline
+			\end{tabular}
+			\caption{Fruit Inventory}
+			\label{tab:fruit}
+		\end{table}
+	\end{verbatim}
+\end{example}
+
+\section{Custom Environments}
+
+LaTeX also supports custom environments like \texttt{quote}, \texttt{verbatim}, and math environments (coming soon in Chapter 5).
+
+\begin{example}
+	\begin{quote}
+		"LaTeX is worth learning." -- Every LaTeX user
+	\end{quote}
+\end{example}
+
+\section{Exercise}
+
+\begin{exercise}
+	Create a document with:
+	\begin{itemize}
+		\item An unordered list of 3 programming languages
+		\item A table listing 3 students and their scores
+		\item A floating table with a caption and label
+		\item A short quote in the \texttt{quote} environment
+	\end{itemize}
+\end{exercise}

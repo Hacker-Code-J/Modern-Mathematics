@@ -1,0 +1,115 @@
+\chapter{Bibliography and Citations}
+
+\section{Why Cite?}
+
+Citing sources:
+\begin{itemize}
+	\item Gives credit to original authors
+	\item Supports your arguments with reliable references
+	\item Helps readers find more information
+\end{itemize}
+
+\section{Manual Bibliography with \texttt{thebibliography}}
+
+This is the simplest method and requires no external files.
+
+\begin{example}
+	\begin{verbatim}
+		\begin{thebibliography}{9}
+			
+			\bibitem{knuth}
+			D. E. Knuth,
+			\textit{The \TeX{}book},
+			Addison-Wesley, 1984.
+			
+			\bibitem{lamport}
+			L. Lamport,
+			\textit{\LaTeX: A Document Preparation System},
+			2nd ed., Addison-Wesley, 1994.
+			
+		\end{thebibliography}
+	\end{verbatim}
+\end{example}
+
+To cite a reference:
+
+\begin{verbatim}
+	As shown in \cite{knuth}, the TeX system is powerful.
+\end{verbatim}
+
+\section{Using BibTeX (Recommended for Larger Projects)}
+
+With BibTeX, citations are stored in a separate `.bib` file.
+
+\subsection*{Step 1: Create a File \texttt{references.bib}}
+
+```bibtex
+@book{knuth,
+	author    = {Donald E. Knuth},
+	title     = {The TeXbook},
+	year      = {1984},
+	publisher = {Addison-Wesley}
+}
+
+@article{einstein,
+	author  = {Albert Einstein},
+	title   = {Does the Inertia of a Body Depend Upon Its Energy Content?},
+	journal = {Annalen der Physik},
+	year    = {1905}
+}
+```
+
+
+\subsection*{Step 2: In Your LaTeX Document}
+
+\begin{verbatim}
+	\bibliographystyle{plain}
+	\bibliography{references}
+\end{verbatim}
+
+Cite references in the document using:
+
+\begin{verbatim}
+	Einstein explained this in \cite{einstein}.
+\end{verbatim}
+
+\section{Modern Approach: \texttt{biblatex} + \texttt{biber}}
+
+More flexible and recommended for modern documents.
+
+\begin{verbatim}
+	\usepackage[backend=biber, style=alphabetic]{biblatex}
+	\addbibresource{references.bib}
+\end{verbatim}
+
+Then compile using \texttt{pdflatex → biber → pdflatex → pdflatex}.
+
+\subsection*{Cite Commands}
+
+\begin{itemize}
+	\item \verb|\cite{key}| – basic citation
+	\item \verb|\parencite{key}| – citation in parentheses
+	\item \verb|\textcite{key}| – citation as part of the sentence
+\end{itemize}
+
+\section{Citation Styles}
+
+Change the style with the style= option:
+\begin{itemize}
+	\item numeric — [1], [2]
+	\item alphabetic — [Knu84]
+	\item authoryear — (Knuth, 1984)
+	\item apa — APA style
+\end{itemize}
+
+\section{Exercise}
+
+\begin{exercise}
+	Create a document that:
+	\begin{itemize}
+		\item Uses either \texttt{thebibliography} or \texttt{biblatex}
+		\item Adds at least two references (book + article)
+		\item Cites both references in the document body
+		\item Uses a citation style other than the default
+	\end{itemize}
+\end{exercise}
