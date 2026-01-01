@@ -29,10 +29,794 @@
 \newcommand{\nullity}{\operatorname{nullity}}
 %\newcommand{\id}{\mathrm{id}}
 
+\newcommand{\Om}{\Omega}
+\newcommand{\dd}{\,\mathrm{d}}
+\newcommand{\res}{\!\mid}
+\newcommand{\dR}{\mathrm{dR}}
+%\DeclareMathOperator{\im}{im}
+%\DeclareMathOperator{\Ker}{Ker}
+ \newcommand{\grad}{\nabla}
+ \newcommand{\diver}{\operatorname{div}}
+ \newcommand{\curl}{\operatorname{curl}}
+ \newcommand{\flatop}{\flat}   % use v^\flat
+ \newcommand{\sharpop}{\sharp} % use \alpha^\sharp
+ \newcommand{\vol}{\operatorname{vol}}
+ \newcommand{\X}{\mathfrak{X}(\mathbb{R}^3)}
+
+\renewcommand{\emph}[1]{\textbf{#1}}
+
 \begin{document}
 \input{rc-titlepage}
 \tableofcontents
 \newpage
+
+\chapter{De Rham Complex, Short Exact Sequence, and Mayer-Vietoris}
+\section{Grad / Curl / Div}
+
+On $M=\R^3$ (with its standard Euclidean metric and orientation), the exterior derivative
+packages the familiar vector calculus operators:
+
+\begin{table}[h]
+	\centering
+	\renewcommand{\arraystretch}{1.35}
+	\setlength{\tabcolsep}{10pt}
+	\begin{tabular}{
+		@{}>{\raggedright\arraybackslash}p{0.09\linewidth} |
+		>{\raggedright\arraybackslash}p{0.225\linewidth} |
+		>{\raggedright\arraybackslash}p{0.39\linewidth} |
+		>{\raggedright\arraybackslash}p{0.225\linewidth}@{}
+		}
+		\toprule
+		\textbf{Degree} & \textbf{Differential Form} & \textbf{Exterior derivative $d$} & \textbf{Vector calculus} \\
+		\midrule
+		\multirow{2}{*}{$0$-forms} &
+		$f\in \Omega^0(\R^3)$ &
+		$d:\Omega^0(\R^3)\to \Omega^1(\R^3),$
+		& Gradient \\
+		& (scalar field) & $df=f_x\,dx+f_y\,dy+f_z\,dz$
+		& $df \;\leftrightarrow\; \nabla f$ \\ \hline
+%		\addlinespace
+		\multirow{2}{*}{$1$-forms} &
+		$\alpha\in \Omega^1(\R^3)$, &
+		$d:\Omega^1(\R^3)\to \Omega^2(\R^3),$ &
+		Curl (via Hodge star)\\
+		& $\alpha=P\,dx+Q\,dy+R\,dz$ 
+		& $d\alpha=
+		\Big(R_y-Q_z\Big)\,dy\wedge dz
+		+\Big(P_z-R_x\Big)\,dz\wedge dx
+		+\Big(Q_x-P_y\Big)\,dx\wedge dy$
+		& $d\alpha \;\leftrightarrow\; \nabla\times (P,Q,R)$ \\ \hline
+%		\addlinespace
+		\multirow{2}{*}{$2$-forms} &
+		$\beta\in \Omega^2(\R^3)$, &
+		$d:\Omega^2(\R^3)\to \Omega^3(\R^3),$
+		&
+		Divergence
+		\\
+		& $\beta=A\,dy\wedge dz+B\,dz\wedge dx+C\,dx\wedge dy$ 
+		& $d\beta=\big(A_x+B_y+C_z\big)\,dx\wedge dy\wedge dz$
+		& $d\beta \;\leftrightarrow\; \nabla\cdot (A,B,C)$\\
+		\bottomrule
+	\end{tabular}
+	\caption{On $\R^3$ (with Euclidean metric and orientation), the exterior derivative packages grad/curl/div (using the Hodge star to identify $2$-forms with vector fields).}
+\end{table}
+
+\begin{itemize}
+	\item \textbf{Functions} $f\in\Om^0(\R^3)$ correspond to scalar fields.
+	The map
+	\[
+	d:\Om^0(\R^3)\to \Om^1(\R^3)
+	\]
+	corresponds to the \textbf{gradient}:
+	if $f=f(x,y,z)$ then
+	\[
+	df = \frac{\partial f}{\partial x}\,dx+\frac{\partial f}{\partial y}\,dy+\frac{\partial f}{\partial z}\,dz.
+	\]
+	Viewing $1$-forms as vector fields via the Euclidean metric, $df$ corresponds to $\nabla f$.
+	
+	\item \textbf{1-forms} $\alpha\in\Om^1(\R^3)$ correspond (after identifying $1$-forms with vector
+	fields) to vector fields $\mathbf{F}=(P,Q,R)$ via
+	\[
+	\alpha = P\,dx + Q\,dy + R\,dz.
+	\]
+	Then
+	\[
+	d:\Om^1(\R^3)\to \Om^2(\R^3)
+	\]
+	corresponds to \textbf{curl}. Indeed,
+	\[
+	d\alpha
+	= \left(\frac{\partial R}{\partial y}-\frac{\partial Q}{\partial z}\right)\,dy\wedge dz
+	+ \left(\frac{\partial P}{\partial z}-\frac{\partial R}{\partial x}\right)\,dz\wedge dx
+	+ \left(\frac{\partial Q}{\partial x}-\frac{\partial P}{\partial y}\right)\,dx\wedge dy,
+	\]
+	and (using the Hodge star to identify $2$-forms with vector fields) this corresponds to
+	$\nabla\times \mathbf{F}$.
+	
+	\item \textbf{2-forms} $\beta\in\Om^2(\R^3)$ correspond (via the Hodge star) to vector fields
+	$\mathbf{G}=(A,B,C)$ by writing
+	\[
+	\beta = A\,dy\wedge dz + B\,dz\wedge dx + C\,dx\wedge dy.
+	\]
+	Then
+	\[
+	d:\Om^2(\R^3)\to \Om^3(\R^3)
+	\]
+	corresponds to \textbf{divergence}:
+	\[
+	d\beta = \left(\frac{\partial A}{\partial x}+\frac{\partial B}{\partial y}+\frac{\partial C}{\partial z}\right)\,dx\wedge dy\wedge dz,
+	\]
+	which corresponds to $\nabla\cdot \mathbf{G}$.
+\end{itemize}
+
+\begin{table}[h]
+	\centering
+	\renewcommand{\arraystretch}{1.35}
+	\setlength{\tabcolsep}{10pt}
+	\begin{tabular}{
+			@{}>{\raggedright\arraybackslash}p{0.125\linewidth} |
+			>{\raggedright\arraybackslash}p{0.36\linewidth}
+			>{\raggedright\arraybackslash}p{0.40\linewidth}@{}}
+		\toprule
+		\textbf{Operator} & \textbf{Differential form side} & \textbf{Vector field side (via $\flat,\sharp, *$)} \\
+		\midrule
+		Gradient &
+		For $f\in C^\infty(\R^3)=\Omega^0(\R^3)$,
+		\[
+		df\in \Omega^1(\R^3)
+		\]
+		&
+		Define $\grad f\in \mathfrak{X}(\R^3)$ by
+		\[
+		(\grad f)^\flat = df,\qquad
+		\grad f = (df)^\sharp.
+		\]
+		\\
+		\addlinespace
+		Curl &
+		For a vector field $X\in \mathfrak{X}(\R^3)$ with $1$-form $X^\flat\in\Omega^1(\R^3)$,
+		\[
+		d(X^\flat)\in \Omega^2(\R^3)
+		\]
+		&
+		Define $\curl X\in \mathfrak{X}(\R^3)$ by
+		\[
+		(\curl X)^\flat = *\,d(X^\flat),\qquad
+		\curl X = \big(*\,d(X^\flat)\big)^\sharp.
+		\]
+		\\
+		\addlinespace
+		Divergence &
+		For a vector field $X\in \mathfrak{X}(\R^3)$,
+		consider the $2$-form $*X^\flat\in\Omega^2(\R^3)$ and its derivative
+		\[
+		d(*X^\flat)\in\Omega^3(\R^3)
+		\]
+		&
+		Let $\vol$ be the Euclidean volume form. Define $\diver X\in C^\infty(\R^3)$ by
+		\[
+		d(*X^\flat) = (\diver X)\,\vol,\quad
+		\diver X = *\,d(*X^\flat).
+		\]
+		\\
+		\bottomrule
+	\end{tabular}
+	\caption{Coordinate-free grad/curl/div on $(\R^3,g)$ using musical isomorphisms $\flat,\sharp$ and the Hodge star $*$.}
+\end{table}
+
+% ------------------------------------------------------------
+% (Optional) one-line identities showing d^2=0 becomes curl grad=0, div curl=0
+% ------------------------------------------------------------
+\[
+\curl(\grad f)
+= \big(*\,d((df)^\sharp{}^\flat)\big)^\sharp
+= \big(*\,d(df)\big)^\sharp = 0,
+\qquad
+\diver(\curl X)
+= *\,d\big(*(\curl X)^\flat\big)
+= *\,d\big(*(*\,d(X^\flat))\big)=0,
+\]
+where we used $d^2=0$ and $*^2=\pm 1$ on forms in dimension $3$.
+
+%\subsection*{Why $d\circ d=0$ matches ``curl grad = 0'' and ``div curl = 0''}
+The cochain condition $d^{k+1}\circ d^k=0$ becomes, under the above identifications,
+\[
+\nabla\times(\nabla f)=0
+\qquad\text{and}\qquad
+\nabla\cdot(\nabla\times \mathbf{F})=0.
+\]
+In general, the de Rham complex is the coordinate-free framework that explains these
+vector calculus identities.
+
+\subsection*{Cohomology as ``obstructions to being a gradient/curl''}
+In $\R^3$, ``closed'' and ``exact'' specialize as follows:
+\begin{itemize}
+	\item A $1$-form $\alpha$ is \textbf{closed} iff $d\alpha=0$, i.e.\ $\nabla\times\mathbf{F}=0$
+	(irrotational field). It is \textbf{exact} iff $\alpha=df$, i.e.\ $\mathbf{F}=\nabla f$.
+	Thus $H^1_{\dR}$ measures irrotational fields that are not global gradients.
+	\item A $2$-form $\beta$ is \textbf{closed} iff $d\beta=0$, i.e.\ $\nabla\cdot\mathbf{G}=0$
+	(sourceless field). It is \textbf{exact} iff $\beta=d\alpha$, i.e.\ $\mathbf{G}=\nabla\times\mathbf{F}$.
+	Thus $H^2_{\dR}$ measures divergence-free fields that are not global curls.
+\end{itemize}
+On contractible domains (like $\R^3$), the Poincar\'e lemma implies these obstructions vanish:
+$H^k_{\dR}(\R^3)=0$ for $k\ge 1$.
+
+\begin{figure}[h]
+% ------------------------------------------------------------
+% 1) The "big picture" correspondence diagram
+% ------------------------------------------------------------
+\[
+\begin{tikzcd}[column sep=huge,row sep=large]
+	\Om^0(\mathbb{R}^3)
+	\arrow[r,"d"]
+	&
+	\Om^1(\mathbb{R}^3)
+	\arrow[r,"d"]
+	&
+	\Om^2(\mathbb{R}^3)
+	\arrow[r,"d"]
+	&
+	\Om^3(\mathbb{R}^3)
+	\\
+	C^\infty(\mathbb{R}^3)
+	\arrow[u,equal]
+	\arrow[r,"\grad"']
+	&
+	\X
+	\arrow[u,"\flat"',shift right=0.8ex]
+	\arrow[u,"\sharp",shift left=0.8ex]
+	\arrow[r,"\curl"']
+	&
+	\X
+	\arrow[u, "{(*\,\cdot)^\flat}"', shift right=0.8ex]
+	\arrow[u, "{(*\,\cdot)^\sharp}",  shift left=0.8ex]
+	\arrow[r,"\diver"']
+	&
+	C^\infty(\mathbb{R}^3)
+	\arrow[u,"*^{-1}= \pm *"']
+\end{tikzcd}
+\]
+\caption{Vector calculus operators as conjugates of $d$ via $\flat,\sharp,*$ in $\mathbb{R}^3$.}
+\end{figure}
+
+\vspace{1em}
+
+% ------------------------------------------------------------
+% 2) curl = ( * d (·)^flat )^sharp and curl(grad f)=0
+% ------------------------------------------------------------
+\[
+\begin{tikzcd}[column sep=huge,row sep=large]
+C^\infty(\mathbb{R}^3)
+\arrow[r,"\grad"]
+\arrow[d,equal]
+&
+\X
+\arrow[r,"\curl"]
+\arrow[d,"\flat"']
+&
+\X
+\arrow[d,"\flat"']
+\\
+\Om^0(\mathbb{R}^3)
+\arrow[r,"d"']
+&
+\Om^1(\mathbb{R}^3)
+\arrow[r,"{*\,d}"']
+&
+\Om^1(\mathbb{R}^3)
+\end{tikzcd}
+\qquad\Rightarrow\qquad
+\curl(\grad f)
+= \big(*\,d(df)\big)^\sharp
+= \big(*\,d^2 f\big)^\sharp
+=0.
+\]
+
+\vspace{1em}
+
+% ------------------------------------------------------------
+% 3) div = * d * (·)^flat and div(curl X)=0
+% ------------------------------------------------------------
+\[
+\begin{tikzcd}[column sep=huge,row sep=large]
+\X
+\arrow[r,"\curl"]
+\arrow[d,"\flat"']
+&
+\X
+\arrow[r,"\diver"]
+\arrow[d,"\flat"']
+&
+C^\infty(\mathbb{R}^3)
+\arrow[d,equal]
+\\
+\Om^1(\mathbb{R}^3)
+\arrow[r,"d"']
+&
+\Om^2(\mathbb{R}^3)
+\arrow[r,"{d}"']
+&
+\Om^3(\mathbb{R}^3)
+\end{tikzcd}
+\qquad\text{with}\qquad
+\curl X = \big(*\,d(X^\flat)\big)^\sharp,\quad
+\diver Y = *\,d\big(*\,Y^\flat\big).
+\]
+\[
+\Rightarrow\quad
+\diver(\curl X)
+= *\,d\Big(*(\curl X)^\flat\Big)
+= *\,d\Big(*(*\,d(X^\flat))\Big)
+= \pm *\,d(d(X^\flat))
+=0,
+\]
+where the sign comes from $*^2=\pm 1$ on $k$-forms in dimension $3$ (in Euclidean $\mathbb{R}^3$, $*^2=+1$ for all $k$).
+
+
+
+\newpage
+\section*{de Rham Cohomology}
+\defbox[Cochain Complex]{
+Let $M$ be a smooth manifold. A \emph{cochain complex} $(C^\bullet, d^\bullet)$ in $\R$-vector spaces consists of
+\begin{itemize}
+	\item $\R$-vector spaces $C^k$ for each $k\in\mathbb{Z}$,
+	\item $\R$-linear maps (coboundary maps) $d^k: C^k \to C^{k+1}$,
+\end{itemize}
+such that $d^{k+1}\circ d^k = 0$ for all $k$.
+}
+
+\defbox[de Rham cochain complex]{
+For a smooth manifold $M$, the de Rham cochain complex $(\Om^\bullet(M), d)$ is
+\[
+0 \to \Om^0(M) \xrightarrow{d} \Om^1(M) \xrightarrow{d} \Om^2(M) \xrightarrow{d} \cdots,
+%\qquad d\circ d=0,
+\] where \begin{itemize}
+	\item $\Om^k(M)$ is the $\R$-vector space of smooth differential $k$-forms on $M$.
+	\item $d^k := d:\Om^k(M)\to \Om^{k+1}(M)$ is the exterior derivative such that \[
+	d^{k+1}\circ d^k = 0 \quad\text{for all } k\ge 0.
+	\]
+\end{itemize}
+}
+
+\subsection*{The de Rham complex as a cochain complex}
+For a smooth manifold $M$, the de Rham cochain complex is
+\[
+0 \to \Om^0(M) \xrightarrow{d} \Om^1(M) \xrightarrow{d} \Om^2(M) \xrightarrow{d} \cdots,
+\qquad d\circ d=0.
+\]
+In $\R^3$ (with a metric), $d$ corresponds to grad/curl/div after identifying vector fields with differential forms via the Hodge star.
+
+\subsection*{De Rham cohomology}
+\[
+H^k_{\mathrm{dR}}(M)
+:= \frac{Z^k(M)}{B^k(M)}
+= \frac{\ker(d:\Om^k(M)\to \Om^{k+1}(M))}{\mathrm{im}(d:\Om^{k-1}(M)\to \Om^{k}(M))}.
+\]
+This measures global obstructions to writing a closed form as $d(\text{potential})$.
+
+\subsection*{Short exact sequence (SES) of complexes for a cover $M=U\cup V$}
+For each $k$ define
+\[
+\alpha^k:\Om^k(M)\to \Om^k(U)\oplus\Om^k(V),\quad \alpha^k(\omega)=(\omega\res_U,\omega\res_V),
+\]
+\[
+\beta^k:\Om^k(U)\oplus\Om^k(V)\to \Om^k(U\cap V),\quad \beta^k(\eta,\theta)=\eta\res_{U\cap V}-\theta\res_{U\cap V}.
+\]
+Then (for smooth manifolds) one has a short exact sequence
+\[
+0\to \Om^k(M)\xrightarrow{\alpha^k}\Om^k(U)\oplus\Om^k(V)\xrightarrow{\beta^k}\Om^k(U\cap V)\to 0.
+\]
+Middle exactness $\mathrm{im}(\alpha^k)=\ker(\beta^k)$ is the gluing property (sheaf property); surjectivity of $\beta^k$ uses partition of unity.
+Since $d$ commutes with restriction, these assemble into an SES of cochain complexes:
+\[
+0\to \Om^*(M)\xrightarrow{\alpha}\Om^*(U)\oplus\Om^*(V)\xrightarrow{\beta}\Om^*(U\cap V)\to 0.
+\]
+
+\subsection*{Mayer--Vietoris long exact sequence}
+Any SES of cochain complexes yields a long exact sequence in cohomology:
+\[
+\cdots \to H^{k-1}(U\cap V)\xrightarrow{\delta} H^k(M)
+\to H^k(U)\oplus H^k(V)\to H^k(U\cap V)\xrightarrow{\delta} H^{k+1}(M)\to \cdots
+\]
+The connecting map $\delta$ may be written explicitly using a partition of unity $\rho_U+\rho_V=1$:
+for $d\eta=0$ on $U\cap V$,
+\[
+\delta([\eta])=\big[\,d(\rho_V\eta)\,\big]=\big[\,d\rho_V\wedge \eta\,\big]\in H^k(M).
+\]
+
+\bigskip
+\begin{center}
+	\begin{tikzcd}[column sep=large]
+		0 \arrow[r] &
+		\Om^*(M) \arrow[r,"\alpha"] &
+		\Om^*(U)\oplus \Om^*(V) \arrow[r,"\beta"] &
+		\Om^*(U\cap V) \arrow[r] & 0
+	\end{tikzcd}
+\end{center}
+
+\newpage
+\section{Example: The circle $S^1$}
+\subsection{Cover and overlap}
+Let \[
+U=S^1\setminus\{(-1,0)\},\qquad V=S^1\setminus\{(1,0)\}.
+\] Then $U,V$ are contractible; $U\cap V$ has two connected components $A$ (upper arc) and $B$ (lower arc).
+
+\begin{center}
+	\begin{tikzpicture}[scale=2.2, line cap=round, line join=round]
+		% circle
+		\draw[thick] (0,0) circle (1);
+		% removed points
+		\fill (-1,0) circle (0.03) node[left] {$(-1,0)$};
+		\fill ( 1,0) circle (0.03) node[right] {$(1,0)$};
+		
+		% arcs highlighting overlap components (schematic)
+		\draw[very thick, decoration={markings, mark=at position 0.5 with {\arrow{Stealth}}}, postaction={decorate}]
+		(-1,0) arc[start angle=180, end angle=0, radius=1] node[pos=0.5, above=6pt] {$A\subset U\cap V$};
+		\draw[very thick, decoration={markings, mark=at position 0.5 with {\arrow{Stealth}}}, postaction={decorate}]
+		( 1,0) arc[start angle=0, end angle=-180, radius=1] node[pos=0.5, below=6pt] {$B\subset U\cap V$};
+		
+		% labels for U and V
+		\node at (-0.1, 1.25) {$U=S^1\setminus\{(-1,0)\}$};
+		\node at ( 0.1,-1.25) {$V=S^1\setminus\{(1,0)\}$};
+	\end{tikzpicture}
+\end{center}
+
+
+
+\section*{Why stereographic charts? A detailed explanation on $S^1$}
+
+\subsection*{1. Goal: exhibit $U,V$ as coordinate domains}
+Let
+\[
+S^1=\{(x,y)\in\mathbb R^2\mid x^2+y^2=1\},
+\qquad
+U=S^1\setminus\{(-1,0)\},
+\qquad
+V=S^1\setminus\{(1,0)\}.
+\]
+A \emph{(smooth) chart} on the $1$--manifold $S^1$ is a pair $(U,\varphi)$ where
+\[
+\varphi:U\longrightarrow \widetilde U\subset\mathbb R
+\]
+is a homeomorphism (indeed, a diffeomorphism in the smooth category) onto an open set
+$\widetilde U\subset \mathbb R$.
+
+Since removing one point from a circle ``cuts it open'', we expect $U$ and $V$ to be
+diffeomorphic to $\mathbb R$. Stereographic projection gives an explicit, canonical
+diffeomorphism
+\[
+U \xrightarrow{\;\;\varphi\;\;} \mathbb R,
+\qquad
+V \xrightarrow{\;\;\psi\;\;} \mathbb R,
+\]
+with a very simple transition map on $U\cap V$.
+
+\subsection*{2. Geometric definition of stereographic projection on $S^1$}
+Fix the vertical line
+\[
+L=\{(0,t)\in\mathbb R^2\mid t\in\mathbb R\}\cong \mathbb R,
+\qquad (0,t)\leftrightarrow t.
+\]
+\begin{itemize}
+	\item \textbf{Chart on $U$.} For $p=(x,y)\in U$, draw the straight line through the \emph{deleted}
+	point $(-1,0)$ and $p$, and let it intersect $L$. The $t$--coordinate of the intersection
+	is defined to be $\varphi(p)$.
+	
+	\item \textbf{Chart on $V$.} For $p=(x,y)\in V$, draw the straight line through the \emph{deleted}
+	point $(1,0)$ and $p$, intersect with $L$, and define its $t$--coordinate to be $\psi(p)$.
+\end{itemize}
+
+This is called \emph{stereographic projection} (here, from the missing point onto the line $L$).
+
+\subsection*{3. Derivation of the explicit formula for $\varphi$ on $U$}
+Take a point $(x,y)\in S^1$ with $(x,y)\neq (-1,0)$.
+Consider the line through $(-1,0)$ and $(x,y)$:
+\[
+\ell(\lambda)=(-1,0)+\lambda\big((x,y)-(-1,0)\big)
+=(-1,0)+\lambda(x+1,\,y)
+=\big(-1+\lambda(x+1),\ \lambda y\big).
+\]
+We find the intersection with $L$ by imposing $x$--coordinate $=0$:
+\[
+-1+\lambda(x+1)=0
+\quad\Longrightarrow\quad
+\lambda=\frac{1}{x+1}.
+\]
+Then the $y$--coordinate of the intersection point is
+\[
+\lambda y=\frac{y}{x+1}.
+\]
+Identifying $L\cong\mathbb R$ by $(0,t)\leftrightarrow t$, we obtain the chart map
+\[
+\boxed{
+	\varphi:U\to\mathbb R,
+	\qquad
+	\varphi(x,y)=\frac{y}{1+x}.
+}
+\]
+Note that $\varphi$ is well-defined on $U$ because $1+x\neq 0$ precisely when $(x,y)\neq (-1,0)$.
+
+\subsection*{4. Derivation of the explicit formula for $\psi$ on $V$}
+Similarly, for $(x,y)\in V$ consider the line through $(1,0)$ and $(x,y)$:
+\[
+\ell(\lambda)=(1,0)+\lambda\big((x,y)-(1,0)\big)
+=(1,0)+\lambda(x-1,\,y)
+=\big(1+\lambda(x-1),\ \lambda y\big).
+\]
+Intersect with $L$ by setting the $x$--coordinate equal to $0$:
+\[
+1+\lambda(x-1)=0
+\quad\Longrightarrow\quad
+\lambda=-\frac{1}{x-1}=\frac{1}{1-x}.
+\]
+Hence the $y$--coordinate of the intersection is
+\[
+\lambda y=\frac{y}{1-x}.
+\]
+Thus
+\[
+\boxed{
+	\psi:V\to\mathbb R,
+	\qquad
+	\psi(x,y)=\frac{y}{1-x}.
+}
+\]
+This is well-defined on $V$ because $1-x\neq 0$ precisely when $(x,y)\neq (1,0)$.
+
+\subsection*{5. Showing $\varphi$ is a diffeomorphism (by writing an inverse)}
+Let $t\in\mathbb R$. We solve for $(x,y)\in S^1$ such that
+\[
+t=\varphi(x,y)=\frac{y}{1+x}.
+\]
+This gives $y=t(1+x)$. Impose the circle equation $x^2+y^2=1$:
+\[
+x^2+t^2(1+x)^2=1.
+\]
+Expand and collect terms:
+\
+
+
+
+\newpage
+\subsection*{(B) MV computation of $H^*(S^1)$}
+Since $U,V$ are contractible,
+\[
+H^0(U)\cong H^0(V)\cong \R,\qquad H^1(U)=H^1(V)=0.
+\]
+Since $U\cap V=A\sqcup B$ has two components,
+\[
+H^0(U\cap V)\cong \R\oplus \R,\qquad H^1(U\cap V)=0.
+\]
+The relevant MV segment is
+\[
+0\to H^0(S^1)\to H^0(U)\oplus H^0(V)\to H^0(U\cap V)\xrightarrow{\delta} H^1(S^1)\to 0.
+\]
+The map $H^0(U)\oplus H^0(V)\to H^0(U\cap V)$ sends $(a,b)\mapsto (a-b,a-b)$, whose image is the diagonal.
+Hence
+\[
+H^0(S^1)\cong \R,\qquad H^1(S^1)\cong (\R\oplus\R)/\Delta \cong \R.
+\]
+
+\subsection*{(C) Generator and FTLI (grad) obstruction}
+Choose local angle branches $\theta_U$ on $U$ and $\theta_V$ on $V$. Then
+$d\theta_U=d\theta_V$ on $U\cap V$, hence they glue to a global $1$-form $d\theta$ on $S^1$.
+Its period is
+\[
+\int_{S^1} d\theta = 2\pi \neq 0,
+\]
+so $d\theta$ cannot be exact ($\int_\gamma df=0$ for any loop $\gamma$ by the fundamental theorem of line integrals).
+Thus $[d\theta]$ generates $H^1(S^1)\cong \R$.
+
+\begin{center}
+	\begin{tikzcd}[column sep=large]
+		0 \arrow[r] &
+		H^0(S^1) \arrow[r] &
+		H^0(U)\oplus H^0(V) \arrow[r] &
+		H^0(U\cap V) \arrow[r,"\delta"] &
+		H^1(S^1) \arrow[r] & 0
+	\end{tikzcd}
+\end{center}
+
+\newpage
+\section*{2. The sphere $S^2\simeq \mathbb{CP}^1$}
+
+\subsection*{(A) Cover and overlap}
+Let
+\[
+U_N=S^2\setminus\{\text{south pole}\},\qquad U_S=S^2\setminus\{\text{north pole}\},\qquad W=U_N\cap U_S.
+\]
+Then $U_N\simeq \R^2$, $U_S\simeq \R^2$, and $W\simeq S^1\times (0,1)$ (a cylinder).
+
+\begin{center}
+	\begin{tikzpicture}[scale=2.0, line cap=round, line join=round]
+		% sphere drawn as circle
+		\draw[thick] (0,0) circle (1);
+		% poles
+		\fill (0,1) circle (0.03) node[above] {north};
+		\fill (0,-1) circle (0.03) node[below] {south};
+		
+		% labels
+		\node at (-1.25, 0.6) {$U_S=S^2\setminus\{\text{north}\}$};
+		\node at ( 1.25,-0.6) {$U_N=S^2\setminus\{\text{south}\}$};
+		\node at (0,0) {$W=U_N\cap U_S$};
+		\node at (0,0.22) {\small(cylinder)};
+	\end{tikzpicture}
+\end{center}
+
+\subsection*{(B) MV computation of $H^*(S^2)$}
+Contractibility of $U_N,U_S$ gives
+\[
+H^1(U_N)=H^1(U_S)=0,\qquad H^2(U_N)=H^2(U_S)=0.
+\]
+Since $W\simeq S^1\times(0,1)$, we have
+\[
+H^1(W)\cong \R,\qquad H^2(W)=0.
+\]
+The key MV segment is
+\[
+H^1(U_N)\oplus H^1(U_S)\to H^1(W)\xrightarrow{\delta} H^2(S^2)\to H^2(U_N)\oplus H^2(U_S),
+\]
+which collapses to
+\[
+0\to \R \xrightarrow{\delta} H^2(S^2)\to 0,
+\]
+hence
+\[
+H^0(S^2)\cong \R,\qquad H^1(S^2)=0,\qquad H^2(S^2)\cong \R.
+\]
+
+\subsection*{(C) Generator via area form and Stokes (div/curl-type) obstruction}
+In spherical coordinates $(\vartheta,\varphi)$ on $W$,
+\[
+\Omega := \sin\vartheta\, d\vartheta\wedge d\varphi
+\]
+is the standard area form on $S^2$, and
+\[
+\int_{S^2}\Omega = 4\pi \neq 0,
+\]
+so $\Omega$ is not exact (if $\Omega=dA$ globally then $\int_{S^2}\Omega=\int_{S^2}dA=0$ by Stokes).
+
+Moreover, on the two charts one has explicit local potentials
+\[
+A_N=(1-\cos\vartheta)\,d\varphi\ \text{ on }U_N,\qquad
+A_S=-(1+\cos\vartheta)\,d\varphi\ \text{ on }U_S,
+\]
+satisfying $dA_N=dA_S=\Omega$. On the overlap,
+\[
+A_N-A_S=2\,d\varphi,
+\]
+and $[d\varphi]$ generates $H^1(W)\cong \R$. The connecting map sends
+\[
+\delta\big([2\,d\varphi]\big)=[\Omega]\in H^2(S^2).
+\]
+
+\begin{center}
+	\begin{tikzcd}[column sep=large]
+		0 \arrow[r] &
+		H^1(W) \arrow[r,"\delta","\cong"'] &
+		H^2(S^2) \arrow[r] & 0
+	\end{tikzcd}
+\end{center}
+
+\newpage
+\section*{3. The torus $T^2=\R^2/\Z^2$ (complex torus)}
+
+\subsection*{(A) Global closed forms, periods, and the expected answer}
+The forms $dx,dy$ descend to $T^2$ and are closed.
+For the fundamental loops $\gamma_x(t)=(t,0)$ and $\gamma_y(t)=(0,t)$ (mod $\Z^2$),
+\[
+\int_{\gamma_x} dx = 1,\quad \int_{\gamma_y} dx = 0,\qquad
+\int_{\gamma_x} dy = 0,\quad \int_{\gamma_y} dy = 1.
+\]
+Hence $[dx],[dy]\neq 0$ in $H^1(T^2)$ (exact 1-forms have zero periods on loops).
+Also $dx\wedge dy$ is closed and
+\[
+\int_{T^2} dx\wedge dy = 1\neq 0,
+\]
+so $[dx\wedge dy]\neq 0$ in $H^2(T^2)$.
+Thus one expects
+\[
+H^0(T^2)\cong \R,\qquad H^1(T^2)\cong \R^2\langle[dx],[dy]\rangle,\qquad H^2(T^2)\cong \R\langle[dx\wedge dy]\rangle.
+\]
+
+\subsection*{(B) MV cover that recovers these classes}
+Let
+\[
+C_0=\{x\equiv 0 \ (\mathrm{mod}\ 1)\},\qquad C_{1/2}=\{x\equiv \tfrac12 \ (\mathrm{mod}\ 1)\},
+\]
+and define
+\[
+U:=T^2\setminus C_0,\qquad V:=T^2\setminus C_{1/2}.
+\]
+Then $U\simeq S^1$, $V\simeq S^1$, and $U\cap V$ is a disjoint union of two cylinders
+$A\sqcup B$ (two vertical open strips in the fundamental square).
+
+\begin{center}
+	\begin{tikzpicture}[scale=3.0, line cap=round, line join=round]
+		% fundamental domain
+		\draw[thick] (0,0) rectangle (1,1);
+		% identifications
+		\node at (0.5,-0.12) {\scriptsize $y\sim y+1$};
+		\node[rotate=90] at (-0.12,0.5) {\scriptsize $x\sim x+1$};
+		
+		% removed circles: x=0 and x=1/2
+		\draw[very thick] (0,0) -- (0,1);
+		\draw[very thick] (0.5,0) -- (0.5,1);
+		\node[below] at (0,0) {\scriptsize $x=0$};
+		\node[below] at (0.5,0) {\scriptsize $x=\tfrac12$};
+		
+		% overlap components A and B (schematic)
+		\node at (0.25,0.5) {$A$};
+		\node at (0.75,0.5) {$B$};
+		
+		% labels U and V
+		\node[above] at (0.25,1.05) {\scriptsize $U=T^2\setminus C_0$};
+		\node[above] at (0.75,1.05) {\scriptsize $V=T^2\setminus C_{1/2}$};
+	\end{tikzpicture}
+\end{center}
+
+\subsection*{(C) MV segments (what they do)}
+Cohomology of pieces:
+\[
+H^0(U)\cong H^0(V)\cong \R,\qquad H^1(U)\cong H^1(V)\cong \R,
+\]
+\[
+H^0(U\cap V)\cong \R\oplus\R,\qquad H^1(U\cap V)\cong \R\oplus\R,\qquad H^2(U)=H^2(V)=H^2(U\cap V)=0.
+\]
+
+\paragraph{Degree 1: producing $[dx]$ and $[dy]$.}
+The MV segment
+\[
+H^0(U\cap V)\xrightarrow{\delta} H^1(T^2)\to H^1(U)\oplus H^1(V)\to H^1(U\cap V)
+\]
+shows:
+\begin{itemize}
+	\item $\delta$ injects a copy of $\R$ (quotient of $H^0(U\cap V)$ by the diagonal) into $H^1(T^2)$; concretely it produces $[dx]$ from the ``difference of constants'' on the two components $A,B$.
+	\item The kernel of $H^1(U)\oplus H^1(V)\to H^1(U\cap V)$ contributes the second independent class, represented globally by $[dy]$.
+\end{itemize}
+Hence $H^1(T^2)\cong \R^2$.
+
+\paragraph{Degree 2: producing $[dx\wedge dy]$.}
+The MV segment
+\[
+H^1(U\cap V)\xrightarrow{\delta} H^2(T^2)\to 0
+\]
+shows $H^2(T^2)$ is a quotient of $H^1(U\cap V)\cong \R^2$, killing the diagonal; the resulting $1$-dimensional quotient maps onto $H^2(T^2)$, and the nonzero integral
+\[
+\int_{T^2} dx\wedge dy = 1
+\]
+identifies the generator as $[dx\wedge dy]$ (up to sign).
+
+\begin{center}
+	\begin{tikzcd}[column sep=large]
+		H^0(U\cap V) \arrow[r,"\delta"] &
+		H^1(T^2) \arrow[r] &
+		H^1(U)\oplus H^1(V) \arrow[r] &
+		H^1(U\cap V)
+	\end{tikzcd}
+\end{center}
+
+\begin{center}
+	\begin{tikzcd}[column sep=large]
+		H^1(U\cap V) \arrow[r,"\delta"] & H^2(T^2) \arrow[r] & 0
+	\end{tikzcd}
+\end{center}
+
+\bigskip
+\hrule
+\bigskip
+
+\section*{Quick reference: generators and ``potential'' obstructions}
+\begin{itemize}
+	\item $S^1$: generator $[d\theta]\in H^1(S^1)$ detected by $\int_{S^1} d\theta=2\pi$ (FTLI obstruction to being a global gradient).
+	\item $S^2$: generator $[\Omega]\in H^2(S^2)$ detected by $\int_{S^2}\Omega=4\pi$ (Stokes obstruction to being $dA$ globally).
+	\item $T^2$: generators $[dx],[dy]\in H^1(T^2)$ detected by loop periods; generator $[dx\wedge dy]\in H^2(T^2)$ detected by $\int_{T^2}dx\wedge dy=1$.
+\end{itemize}
+
+
+
+
+
 
 \chapter{Mayer–Vietoris Sequence and de Rham Cohomology}
 \input{chapters/mayer-vietoris-seq-de-rham-cohomology}
