@@ -1,0 +1,251 @@
+\documentclass[12pt]{article}
+
+% --- 1. Page Setup for Letter Size ---
+\usepackage[letterpaper,margin=0in]{geometry}
+\usepackage{amsmath, amssymb}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{anyfontsize}
+\usepackage{tikz}
+\usetikzlibrary{
+	calc, fadings, decorations.markings, backgrounds, arrows.meta
+}
+
+% --- 2. Color Palette (Solarized Dark Inspired) ---
+\definecolor{bgbase}{HTML}{002B36}      % Deep Green-Blue
+\definecolor{accentcyan}{HTML}{2AA198}  % Cyan
+\definecolor{accentblue}{HTML}{268BD2}  % Blue
+\definecolor{textlight}{HTML}{FDF6E3}   % Cream
+\definecolor{textdim}{HTML}{93A1A1}     % Dim Grey
+
+% =========================================================
+% 3. Helpers for the NEW ABSTRACT GEOMETRIC ART
+% =========================================================
+
+% A small orbit equation node: bubble + label + formula (math)
+% Usage: \EqNode{<x>}{<y>}{<label>}{<math formula>}
+\newcommand{\EqNode}[4]{%
+	\begin{scope}[shift={(#1,#2)}]
+		\fill[white, opacity=0.03] (0,0) circle (0.44);
+		\draw[white, opacity=0.16, line width=0.9pt] (0,0) circle (0.44);
+		
+%		% tiny "glyph" strokes (purely decorative)
+%		\draw[accentcyan, opacity=0.55, line width=1.0pt] (-0.20,0.06) -- (0.20,0.06);
+%		\draw[accentblue, opacity=0.55, line width=1.0pt] (-0.20,-0.06) -- (0.20,-0.06);
+%		\fill[white, opacity=0.55] (0,0) circle (0.035);
+		
+		% Label + formula (math)
+		\node[textdim, opacity=1, font=\sffamily\tiny, yshift=5pt] at (0,0) {#3};
+		\node[textlight, opacity=1, font=\ttfamily\tiny, yshift=-6pt] at (0,0) {$#4$};
+	\end{scope}%
+}
+
+% A curved-arrow style for "reductions"
+\tikzset{
+	reduction/.style={
+		line width=1.0pt,
+		draw=white,
+		draw opacity=0.16,
+		postaction={
+			decorate,
+			decoration={
+				markings,
+				mark=at position 0.60 with {\arrow[white, opacity=0.25]{Stealth[length=4pt]}}
+			}
+		}
+	}
+}
+
+\begin{document}
+	\pagestyle{empty}
+	
+	\begin{tikzpicture}[remember picture, overlay]
+		
+		% =========================================================
+		% 1. BACKGROUND
+		% =========================================================
+		\fill[bgbase] (current page.south west) rectangle (current page.north east);
+		
+%		% Subtle "crypto/pqc" texture (optional)
+%		\node[
+%		textdim, opacity=1, font=\ttfamily\tiny,
+%		anchor=north west, align=left
+%		]
+%		at ([xshift=0.55in, yshift=-0.55in]current page.north west)
+%		{
+%			\% Classical assumptions \& post-quantum foundations \\
+%			Factoring:\ $N=pq$ \qquad DLP:\ $g^x=h$ \qquad ECC:\ $[x]P=Q$ \\
+%			Lattices:\ $\lambda_1(\Lambda)$,\ $\mathrm{CVP}$ \qquad LWE:\ $As+e\equiv b\ (\bmod\ q)$ \\
+%			Codes:\ $He^T=s$ \qquad Hash:\ $H(m)=H(m')$ \qquad Isogeny:\ $\varphi:E_1\to E_2$
+%		};
+		
+		% =========================================================
+		% 2. NEW ABSTRACT GEOMETRIC ART (embedded hard problems + formulas)
+		%    "Reduction Mandala: lattices + interference + equation orbit"
+		% =========================================================
+		\begin{scope}[shift={([xshift=2.55in, yshift=-4.00in]current page.north west)}, scale=2.55]
+		%[shift={(10,-10)}, scale=2.55]
+			
+			% --- Soft halo (two-tone)
+			\fill[accentblue, opacity=0.11] (0,0) circle (3.60);
+			\fill[accentcyan, opacity=0.09] (0,0) circle (2.90);
+			\fill[black, opacity=0.14] (0,0) circle (3.45);
+			
+			% --- Outer rings
+			\draw[white, opacity=0.10, line width=0.9pt] (0,0) circle (3.15);
+			\draw[white, opacity=0.07, line width=0.9pt] (0,0) circle (2.45);
+			\draw[white, opacity=0.05, line width=0.9pt] (0,0) circle (1.80);
+			
+			% --- Clip the globe
+			\begin{scope}
+				\clip (0,0) circle (3.18);
+				% Dual-lattice field (primal + dual, rotated)
+				\begin{scope}[opacity=0.070]
+					\draw[accentcyan, line width=0.6pt] (-3.4,-3.4) grid[step=0.50] (3.4,3.4);
+				\end{scope}
+				\begin{scope}[rotate=31, opacity=0.055]
+					\draw[accentblue, line width=0.6pt] (-3.4,-3.4) grid[step=0.50] (3.4,3.4);
+				\end{scope}
+
+				\foreach \a in {0,6,...,174} {
+					\pgfmathsetmacro{\op}{0.03 + 0.0008*\a}
+					\begin{scope}[rotate=\a]
+						\draw[accentcyan, opacity=\op, line width=1.0pt, samples=240, smooth, domain=-3.2:3.2]
+						plot (\x, {0.55*sin(0.95*\x r) + 0.12*sin(2.9*\x r + 20)});
+					\end{scope}
+				}
+				
+				% a second, thinner family to create “interference”
+				\foreach \a in {3,9,...,177} {
+					\pgfmathsetmacro{\op}{0.018 + 0.0006*\a}
+					\begin{scope}[rotate=\a]
+						\draw[accentblue, opacity=\op, line width=0.9pt, samples=240, smooth, domain=-3.2:3.2]
+						plot (\x, {0.48*sin(1.05*\x r + 12) + 0.10*sin(3.2*\x r)});
+					\end{scope}
+				}
+
+				
+				% Interference bands (suggesting noise / averaging)
+%				\draw[accentcyan, opacity=0.26, line width=1.1pt, samples=280, smooth, domain=0:360]
+%				plot ({2.60*cos(\x)}, {1.15*sin(\x) + 0.42*sin(3*\x)});
+%				\draw[accentblue, opacity=0.24, line width=1.1pt, samples=280, smooth, domain=0:360]
+%				plot ({1.15*sin(\x) + 0.42*sin(3*\x)}, {2.60*cos(\x)});
+%				\draw[white, opacity=0.12, line width=1.0pt, samples=280, smooth, domain=0:360]
+%				plot ({2.10*cos(\x)}, {0.85*sin(\x) + 0.34*sin(5*\x)});
+%				\draw[white!50!accentblue, opacity=0.12, line width=1.0pt, samples=280, smooth, domain=0:360]
+%				plot ({0.85*sin(\x) + 0.34*sin(5*\x)}, {2.10*cos(\x)});
+				
+				% Central “axioms” (prominent formulas in the core)
+				\fill[white, opacity=0.92] (0,0) circle (2.2pt);
+				\fill[accentcyan, opacity=0.26] (0,0) circle (0.15);
+				\draw[white, opacity=0.15, line width=0.9pt] (0,0) circle (0.32);
+				
+%				\node[textlight, opacity=0.85, font=\sffamily\bfseries\scriptsize] at (0,0.55)
+%				{Hardness};
+%				\node[textdim, opacity=0.80, font=\ttfamily\tiny, align=center] at (0,0.18)
+%				{$\lambda_1(\Lambda)$,\ \ $\mathrm{CVP}(\Lambda,t)$};
+%				\node[textdim, opacity=0.80, font=\ttfamily\tiny, align=center] at (0,-0.05)
+%				{$As+e\equiv b\pmod q$};
+%				\node[textdim, opacity=0.80, font=\ttfamily\tiny, align=center] at (0,-0.28)
+%				{$N=pq\ \ \ \bullet\ \ \ g^x=h$};
+				
+%				% (E) A faint “equation ring” (text-only, integrated)
+%				\draw[white, opacity=0.06, line width=0.9pt] (0,0) circle (1.25);
+%				\node[textdim, opacity=0.25, font=\ttfamily\tiny] at (0, 1.33) {$H(m)=H(m')$};
+%				\node[textdim, opacity=0.25, font=\ttfamily\tiny] at (1.38, 0.00) {$[x]P=Q$};
+%				\node[textdim, opacity=0.25, font=\ttfamily\tiny] at (0,-1.33) {$He^T=s$};
+%				\node[textdim, opacity=0.25, font=\ttfamily\tiny] at (-1.48,0.00) {$\varphi:E_1\to E_2$};
+				
+			\end{scope} % end clip
+		
+%			\begin{scope}[shift={(0,0)}, scale=3]
+%				\draw[white, opacity=0.16, line width=0.9pt] (-1.25,0.40) -- (1.25,0.40);
+%				\draw[white, opacity=0.16, line width=0.9pt] (-1.25,0.10) -- (1.25,0.10);
+%				\draw[white, opacity=0.16, line width=0.9pt] (-1.25,-0.20) -- (1.25,-0.20);
+%				\foreach \xx/\yy in {-0.85/0.40, -0.20/0.10, 0.55/-0.20, 0.95/0.10} {
+%					\draw[accentblue, opacity=0.50, line width=0.9pt] (\xx-0.10,\yy-0.10) rectangle (\xx+0.10,\yy+0.10);
+%				}
+%				\fill[accentcyan, opacity=0.50] (0.15,0.40) circle (0.04);
+%				\draw[white, opacity=0.22, line width=0.9pt] (0.15,0.40) -- (0.15,-0.20);
+%				\draw[accentcyan, opacity=0.50, line width=0.9pt] (0.15,-0.20) circle (0.08);
+%				\draw[accentcyan, opacity=0.50, line width=0.9pt] (0.11,-0.20) -- (0.19,-0.20);
+%				\draw[accentcyan, opacity=0.50, line width=0.9pt] (0.15,-0.24) -- (0.15,-0.16);
+%			\end{scope}
+			
+			% --- OUTER ORBIT OF HARD PROBLEMS (equation bubbles; outside clip OK)
+			%     This is the primary "embedded" formula layer.
+			\def\Rorb{4}
+			\draw[white, opacity=0.08, line width=0.9pt] (0,0) circle (\Rorb);
+			
+			% Connectors (subtle)
+			\foreach \ang in {60, 45, 30, 15, 0, 345, 330, 315} {
+				\draw[white, opacity=0.10, line width=0.9pt] (0,0) -- ({\Rorb*cos(\ang)},{\Rorb*sin(\ang)});
+			}
+			
+			% Place equation nodes (computed coordinates to avoid pgf "shape" errors)
+			\foreach \ang/\lab/\form in {
+				60/{Factoring}/{N=pq},
+%				40/{RSA}/{x\mapsto x^e \bmod N},
+				45/{DLP}/{g^x=h},
+%				20/{ECDLP}/{[x]P=Q},
+				30/{SVP}/{\lambda_1(\Lambda)=\min_{v\in\Lambda\setminus\{0\}}\|v\|},
+				15/{CVP}/{\mathrm{dist}(t,\Lambda)=\min_{v\in\Lambda}\|t-v\|},
+				0/{SIS}/{A\mathbf{x}\equiv 0\ (\bmod\ q),\ \|\mathbf{x}\|\ \text{small}},
+				345/{LWE}/{As+e\equiv b\ (\bmod\ q)},
+				330/{Codes}/{H e^T=s},
+				315/{Isogeny}/{\varphi:E_1\to E_2}
+			}{
+				\pgfmathsetmacro{\xx}{\Rorb*cos(\ang)}
+				\pgfmathsetmacro{\yy}{\Rorb*sin(\ang)}
+				\EqNode{\xx}{\yy}{\lab}{\form}
+			}
+			
+		\end{scope}
+		
+		% =========================================================
+		% 3. TYPOGRAPHY
+		% =========================================================
+		\node[anchor=west, align=left]
+		at ([xshift=1.00in, yshift=-7.45in]current page.north west)
+		{
+			\sffamily
+			\fontsize{38}{46}\selectfont \bfseries \textcolor{textlight}{Hard Problems in}\\[0.22em]
+			\fontsize{38}{46}\selectfont \bfseries \textcolor{accentcyan}{Cryptography}
+		};
+		
+		% Separator Line
+		\draw[accentblue, thick]
+		([xshift=1.00in, yshift=-8.35in]current page.north west) --
+		([xshift=7.85in, yshift=-8.35in]current page.north west);
+		
+		% Subtitle & Author
+		\node[anchor=north west, align=left]
+		at ([xshift=1.00in, yshift=-8.55in]current page.north west)
+		{
+			\sffamily
+			\fontsize{18}{22}\selectfont \textcolor{textlight}{\bfseries Classical Assumptions and Post-Quantum Foundations}\\[0.55em]
+			\fontsize{13}{17}\selectfont \textcolor{textdim}{Factoring $\cdot$ Discrete Log $\cdot$ Lattices $\cdot$ Codes $\cdot$ Hash-Based $\cdot$ Isogenies}\\[1.10em]
+			\fontsize{15}{19}\sffamily\textcolor{white}{\bfseries Ji, Yonghyeon}
+		};
+		
+		% =========================================================
+		% 4. FOOTER / BADGE
+		% =========================================================
+		\node[
+		fill=accentblue,
+		text=bgbase,
+		font=\sffamily\bfseries\small,
+		anchor=north east,
+		minimum height=3em,
+		minimum width=10em
+		]
+		at ([xshift=0in, yshift=-1.00in]current page.north east)
+		{LECTURE NOTES};
+		
+		\node[textdim, font=\sffamily\footnotesize, anchor=south]
+		at ([yshift=0.52in]current page.south)
+		{Classical hardness assumptions and post-quantum reductions};
+		
+	\end{tikzpicture}
+	
+\end{document}

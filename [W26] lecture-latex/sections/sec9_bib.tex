@@ -1,0 +1,225 @@
+\subsection{Bibliography and Citations}
+
+Citations are a core part of academic and technical writing.
+
+\begin{itemize}
+	\item give credit to original authors (avoids plagiarism),
+	\item support claims with reliable evidence,
+	\item help readers locate the sources for verification or further study.
+\end{itemize}
+A good citation system should be:
+\begin{itemize}
+	\item consistent (same style everywhere),
+	\item complete (enough details to find the source),
+	\item easy to maintain (especially in large documents).
+\end{itemize}
+
+\subsubsection{Manual Bibliography with \texttt{thebibliography}}
+This is the simplest approach and works well for:
+\begin{itemize}
+	\item short assignments,
+	\item one-file handouts,
+	\item documents with only a few references.
+\end{itemize}
+
+The reference slides show the standard pattern: \verb|\begin{thebibliography}{...}| and one \verb|\bibitem{key}| per entry.
+	
+\begin{example}
+\;\medskip
+
+\begin{lstlisting}
+\begin{thebibliography}{9}
+	
+	\bibitem{knuth}
+	D. E. Knuth,
+	\emph{The \TeX book},
+	Addison-Wesley, 1984.
+	
+	\bibitem{lamport}
+	L. Lamport,
+	\emph{\LaTeX: A Document Preparation System},
+	2nd ed., Addison-Wesley, 1994.
+	
+\end{thebibliography}
+\end{lstlisting}
+In \verb|\begin{thebibliography}{9}|, the \texttt{9} helps LaTeX reserve space for label widths.
+For small bibliographies (under 10 items), \texttt{9} is common. For up to 99 items, use \texttt{99}.
+\end{example}
+
+\begin{example}[Citing a Manual Entry]
+To cite a reference inside our text, use \verb|\cite{key}|:
+\begin{lstlisting}
+As shown in \cite{knuth}, the TeX system is powerful.
+\end{lstlisting}
+\end{example}
+
+\newpage
+	
+\subsubsection{Using BibTeX (Recommended for Larger Projects)}
+For large projects, BibTeX separates bibliography data into a \texttt{.bib} file. Benefits:
+
+\begin{itemize}
+	\item clean separation between writing and reference data,
+	\item easy reuse of a bibliography database across multiple documents,
+	\item automatic formatting via bibliography styles.
+\end{itemize}
+		
+\begin{example}
+Write BibTeX entries in a file such as \texttt{references.bib}.
+(Shown here as plain text you place in the \texttt{.bib} file.)
+
+\begin{lstlisting}
+@book{knuth,
+	author    = {Donald E. Knuth},
+	title     = {The TeXbook},
+	year      = {1984},
+	publisher = {Addison-Wesley}
+}
+
+@article{einstein,
+	author  = {Albert Einstein},
+	title   = {Does the Inertia of a Body Depend Upon Its Energy Content?},
+	journal = {Annalen der Physik},
+	year    = {1905}
+}
+\end{lstlisting}
+Near the end of your document body (where you want the bibliography to appear):
+\begin{lstlisting}
+\bibliographystyle{plain}
+\bibliography{references}
+\end{lstlisting}
+Cite inside the text as usual:
+\begin{lstlisting}
+Einstein explained this in \cite{einstein}.
+\end{lstlisting}
+\end{example}
+
+\begin{remark}
+A typical compile sequence is:
+\begin{itemize}
+	\item run \texttt{pdflatex} (creates citation requests),
+	\item run \texttt{bibtex} (builds bibliography from \texttt{.bib}),
+	\item run \texttt{pdflatex} twice (resolves references and formatting).
+\end{itemize}
+\end{remark}
+		
+%		If citations show as “??” or the bibliography is empty, it usually means the BibTeX step was skipped or the sequence was incomplete.
+%		
+%		\section{Modern Approach: \texttt{biblatex} + \texttt{biber}}
+%		
+%		For modern documents, \texttt{biblatex} is often preferred because it provides:
+%		\begin{itemize}
+%			\item more flexible citation commands,
+%			\item better style customization,
+%			\item cleaner integration of citations and bibliography formatting.
+%		\end{itemize}
+%		
+%		\subsection{Loading \texttt{biblatex}}
+%		
+%		In your preamble:
+%		
+%		\begin{example}
+%			\begin{verbatim}
+%				\usepackage[backend=biber, style=alphabetic]{biblatex}
+%				\addbibresource{references.bib}
+%			\end{verbatim}
+%		\end{example}
+%		
+%		Then, where you want the bibliography printed:
+%		
+%		\begin{example}
+%			\begin{verbatim}
+%				\printbibliography
+%			\end{verbatim}
+%		\end{example}
+%		
+%		\subsection{Compilation Workflow (Biber)}
+%		
+%		A common compile sequence is:
+%		
+%		\begin{itemize}
+%			\item \texttt{pdflatex} $\rightarrow$ \texttt{biber} $\rightarrow$ \texttt{pdflatex} $\rightarrow$ \texttt{pdflatex}.
+%		\end{itemize}
+%		
+%		\subsection{Cite Commands}
+%		
+%		With \texttt{biblatex}, you gain multiple citation commands:
+%		
+%		\begin{itemize}
+%			\item \verb|\cite{key}| -- basic citation
+%			\item \verb|\parencite{key}| -- citation in parentheses
+%			\item \verb|\textcite{key}| -- citation integrated into the sentence
+%		\end{itemize}
+%		
+%		\section{Citation Styles}
+%		
+%		Citation style controls how citations appear in text and how bibliography entries are formatted.
+%		
+%		\subsection{Common Style Choices}
+%		
+%		\begin{itemize}
+%			\item \texttt{numeric} -- citations like [1], [2]
+%			\item \texttt{alphabetic} -- citations like [Knu84]
+%			\item \texttt{authoryear} -- citations like (Knuth, 1984)
+%			\item \texttt{apa} -- APA-like formatting (requires appropriate style support)
+%		\end{itemize}
+%		
+%		\subsection{Changing the Style in \texttt{biblatex}}
+%		
+%		\begin{example}
+%			\begin{verbatim}
+%				\usepackage[backend=biber, style=authoryear]{biblatex}
+%			\end{verbatim}
+%		\end{example}
+%		
+%		\section{Best Practices}
+%		
+%		\begin{itemize}
+%			\item Use consistent citation keys (e.g., \texttt{knuth1984}, \texttt{einstein1905}).
+%			\item Keep your \texttt{.bib} file clean and reusable across projects.
+%			\item Prefer \texttt{biblatex} for large documents unless your institution requires BibTeX.
+%			\item Compile with the correct sequence (BibTeX or Biber) so references resolve properly.
+%		\end{itemize}
+%		
+%		\section{Troubleshooting}
+%		
+%		\subsection{Citations show as “??”}
+%		
+%		Common causes:
+%		\begin{itemize}
+%			\item you did not run BibTeX/Biber,
+%			\item you did not compile enough times after BibTeX/Biber,
+%			\item the citation key in \verb|\cite{...}| does not match the \texttt{.bib} entry.
+%		\end{itemize}
+%		
+%		\subsection{Bibliography does not appear}
+%		
+%		Check:
+%		\begin{itemize}
+%			\item For BibTeX: did you include both \verb|\bibliographystyle| and \verb|\bibliography|?
+%			\item For biblatex: did you include \verb|\printbibliography|?
+%			\item Are you pointing to the correct \texttt{.bib} filename?
+%		\end{itemize}
+%		
+%		\section{Exercises}
+%		
+%		\begin{exercise}
+%			Create a document that:
+%			\begin{itemize}
+%				\item uses either \texttt{thebibliography} or \texttt{biblatex},
+%				\item adds at least two references (one book and one article),
+%				\item cites both references in the document body using \verb|\cite|,
+%				\item uses a citation style other than the default.
+%			\end{itemize}
+%			For manual bibliographies, follow the standard \texttt{thebibliography} pattern shown in the reference slides:contentReference[oaicite:2]{index=2}.
+%		\end{exercise}
+%		
+%		\begin{exercise}
+%			Create a small \texttt{references.bib} file with three entries:
+%			\begin{itemize}
+%				\item one \texttt{@book},
+%				\item one \texttt{@article},
+%				\item one \texttt{@misc} (for a website or online resource).
+%			\end{itemize}
+%			Then write a short paragraph that cites all three using \verb|\parencite| and \verb|\textcite| (if using \texttt{biblatex}).
+%		\end{exercise}

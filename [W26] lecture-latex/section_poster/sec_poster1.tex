@@ -1,0 +1,285 @@
+A poster is a large-format document (often A0, A1, or 36in $\times$ 48in) designed for fast reading at a distance.
+A good poster is \textbf{not} a paper on a big page. It is a visual summary:
+\begin{itemize}
+	\item a clear title and author line,
+	\item 3--6 main blocks (Problem, Method, Results, Conclusion),
+	\item a few strong figures and one key table,
+	\item minimal text, large fonts, and consistent spacing.
+\end{itemize}
+For beginners, use \textbf{beamerposter} because it is stable, well-documented, and uses the familiar \texttt{beamer} “block” style. 
+%Other popular options:
+%\begin{itemize}
+%	\item \texttt{beamerposter}: flexible blocks and columns; very common in academia.
+%	\item \texttt{tikzposter}: attractive themes; good for visual posters.
+%	\item \texttt{baposter}: classic scientific posters; more manual tuning.
+%\end{itemize}
+%In these notes, we focus on \textbf{beamerposter}.
+
+%\subsection{Goal of This Guide}
+%
+%This guide explains how the following poster template works and how to customize it safely:
+%\begin{itemize}
+%	\item Class: \texttt{beamer} + \texttt{beamerposter}
+%	\item Layout: portrait (vertical), A0, two columns
+%	\item Content containers: \texttt{block}, \texttt{exampleblock}, \texttt{alertblock}
+%\end{itemize}
+%
+%\subsection{What a Poster File Looks Like}
+%
+%A \LaTeX{} poster file typically has:
+%\begin{itemize}
+%	\item a \textbf{setup part} (document class, poster package settings, theme, packages, title info),
+%	\item a \textbf{single poster page} made as one \texttt{frame},
+%	\item a \textbf{layout system} using \texttt{columns} and blocks.
+%\end{itemize}
+%
+\subsection{The Poster Template}
+
+\begin{center}
+\includegraphics[width=\textwidth]{samples/poster.png}
+\end{center}
+\begin{lstlisting}
+\documentclass[final]{beamer}
+
+\usepackage[size=a0,orientation=portrait,scale=1]{beamerposter}
+
+\usetheme{default}
+\usecolortheme{seahorse}
+
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{amsmath,amssymb}
+\usepackage{hyperref}
+
+\title{A \LaTeX{} Poster Example}
+\author{Student Name \and Coauthor Name}
+\institute{Department of Something, University Name \\ \texttt{email@domain.com}}
+\date{Conference / Event, 2026}
+
+\setlength{\parskip}{0.35em}
+
+\begin{document}
+	\begin{frame}[t]
+		% header columns ...
+		% main body columns ...
+	\end{frame}
+\end{document}
+\end{lstlisting}
+
+\subsection{Step 1: Document Class}
+\begin{lstlisting}
+\documentclass[final]{beamer}
+\end{lstlisting}
+\begin{itemize}
+	\item \texttt{beamer} is usually for slides.
+	\item With \texttt{beamerposter}, one \texttt{frame} becomes one large-format poster page.
+	\item \texttt{final} reduces draft-style marks and is appropriate for submission/printing.
+\end{itemize}
+
+\newpage
+\subsection{Step 2: Make It Vertical (Portrait)}
+\begin{lstlisting}
+\usepackage[size=a0,orientation=portrait,scale=1]{beamerposter}
+\end{lstlisting}
+\begin{itemize}
+	\item `\texttt{size=a0}': the poster paper size (A0 is common for conferences).
+	\item `\texttt{orientation=portrait}': vertical poster (taller than wide).
+	\item `\texttt{scale=1}': global scaling of fonts and layout elements.
+\end{itemize}
+
+\begin{table}[h]
+	\centering
+	\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lll}
+		\hline
+		\textbf{Option} & \textbf{Example Value(s)} & \textbf{Meaning / Effect} \\
+		\hline
+		\texttt{size} &
+		\texttt{a0}, \texttt{a1}, \texttt{a2}, \texttt{a3}, \texttt{a4}, \texttt{letter} &
+		Sets the poster paper size. \\
+		\texttt{orientation} &
+		\texttt{portrait}, \texttt{landscape} &
+		Controls layout direction. \\
+		\texttt{scale} &
+		\texttt{0.95}, \texttt{1.0}, \texttt{1.05}, \texttt{1.1} &
+		Global scaling of fonts and layout elements. \\
+		\hline
+	\end{tabular*}
+	\caption{Common \texttt{beamerposter} options for size, orientation, and scale}
+	\label{tab:beamerposter-options}
+\end{table}
+\noindent
+The `\texttt{size}' option sets the poster paper size. Common values include:
+\begin{itemize}
+	\item \texttt{a0}, \texttt{a1}, \texttt{a2}, \texttt{a3}, \texttt{a4} \quad (ISO paper sizes)
+	\item \texttt{letter} \quad (common US sizes)
+\end{itemize}
+The `\texttt{orientation}' option controls whether the poster is vertical or horizontal:
+
+\begin{itemize}
+	\item \texttt{orientation=portrait} \quad (vertical, tall)
+	\item \texttt{orientation=landscape} \quad (horizontal, wide)
+\end{itemize}
+
+\begin{table}[h]
+	\centering
+	\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lll}
+		\hline
+		\textbf{Category} & \textbf{Setting} & \textbf{Description} \\
+		\hline
+		Size (ISO) & \texttt{size=a0} & Very large poster size \\
+		Size (ISO) & \texttt{size=a1} & Large poster size \\
+		Size (ISO) & \texttt{size=a2} & Medium poster size \\
+		Size (ISO) & \texttt{size=a3} & Small poster size \\
+		Size (ISO) & \texttt{size=a4} & Page size (not typical for posters) \\
+		Size (US)  & \texttt{size=letter} & US letter size \\
+		\hline
+		Orientation & \texttt{orientation=portrait} & Vertical poster (taller than wide) \\
+		Orientation & \texttt{orientation=landscape} & Horizontal poster (wider than tall) \\
+		\hline
+	\end{tabular*}
+	\caption{Typical values for \texttt{size} and \texttt{orientation} in \texttt{beamerposter}}
+	\label{tab:beamerposter-size-orientation}
+\end{table}
+
+\newpage
+\subsection{Step 3: Theme and Colors}
+\begin{lstlisting}
+\usetheme{default}
+\usecolortheme{seahorse}
+\end{lstlisting}
+\begin{itemize}
+	\item The theme controls the general style of blocks and typography.
+	\item The color theme changes the colors of block headers and accents.
+	\item Beginners should keep themes simple and prioritize readability.
+\end{itemize}
+%We can replace \verb|default| with many built-in beamer themes. Popular examples:
+%\begin{itemize}
+%	\item \verb|\usetheme{default}|: clean, minimal, safe for posters.
+%	\item \verb|\usetheme{Madrid}|: clear navigation style, common in slides.
+%	\item \verb|\usetheme{Boadilla}|: simple and modern look.
+%	\item \verb|\usetheme{Warsaw}|: darker style, strong contrast.
+%	\item \verb|\usetheme{AnnArbor}|: bold headings, more colorful.
+%\end{itemize}
+%Color themes adjust block headers, accents, and some text colors. Examples:
+%\begin{itemize}
+%	\item \verb|\usecolortheme{seahorse}|: soft, readable tones.
+%	\item \verb|\usecolortheme{dolphin}|: stronger contrast.
+%	\item \verb|\usecolortheme{whale}|: darker, heavier style.
+%	\item \verb|\usecolortheme{orchid}|: more colorful accents.
+%	\item \verb|\usecolortheme{beaver}|: red/brown academic look.
+%\end{itemize}
+\begin{table}[h]
+	\centering
+	\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lll}
+		\hline
+		\textbf{Type} & \textbf{Command} & \textbf{Typical Use / Look} \\
+		\hline
+		Theme & \verb|\usetheme{default}| & Clean, minimal, safe for posters \\
+		Theme & \verb|\usetheme{Madrid}| & Clear navigation style, common in slides \\
+		Theme & \verb|\usetheme{Boadilla}| & Simple, modern look \\
+		Theme & \verb|\usetheme{Warsaw}| & Darker style, strong contrast \\
+		Theme & \verb|\usetheme{AnnArbor}| & Bold headings, more colorful \\
+		\hline
+		Color theme & \verb|\usecolortheme{seahorse}| & Soft, readable tones \\
+		Color theme & \verb|\usecolortheme{dolphin}| & Stronger contrast \\
+		Color theme & \verb|\usecolortheme{whale}| & Darker, heavier style \\
+		Color theme & \verb|\usecolortheme{orchid}| & More colorful accents \\
+		Color theme & \verb|\usecolortheme{beaver}| & Red/brown academic look \\
+		\hline
+	\end{tabular*}
+	\caption{Examples of Beamer themes and color themes for posters}
+	\label{tab:beamer-themes-colorthemes}
+\end{table}
+
+
+\subsection{Step 4: Packages}
+\begin{lstlisting}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{amsmath,amssymb}
+\usepackage{hyperref}
+\end{lstlisting}
+
+\begin{itemize}
+	\item `\texttt{graphicx}': insert images with `\verb|\includegraphics|'.
+	\item `\texttt{booktabs}': clean tables using `\verb|\toprule|', `\verb|\midrule|', `\verb|\bottomrule|'.
+	\item `\texttt{amsmath,amssymb}': better math support (align, symbols, `\verb|\arg\min|' patterns).
+	\item `\texttt{hyperref}': clickable links via `\verb|\href|' and `\verb|\url|'.
+\end{itemize}
+
+\subsection{Step 5: Title, Author, Institute, Date}
+\begin{lstlisting}
+\title{A \LaTeX{} Poster Example}
+\author{Student Name \and Coauthor Name}
+\institute{Department ... \\ \texttt{email@domain.com}}
+\date{Conference / Event, 2026}
+\end{lstlisting}
+
+\subsection{Step 6: One Frame = One Poster Page}
+\begin{lstlisting}
+\begin{document}
+	\begin{frame}[t]
+		...
+	\end{frame}
+\end{document}
+\end{lstlisting}
+\begin{itemize}
+	\item A poster is usually one single \texttt{frame}.
+	\item The option \texttt{[t]} top-aligns the content, which is helpful for column layouts.
+\end{itemize}
+
+\subsection{Step 7: The Header}
+Our header uses \texttt{columns} but only one full-width column:
+\begin{lstlisting}
+\begin{columns}[t]
+	\begin{column}{1.0\textwidth}
+		\begin{block}{}
+			\centering
+			{\VeryHuge \textbf{\inserttitle}\par}
+			\vspace{0.35em}
+			{\Large \insertauthor\par}
+			{\large \insertinstitute\par}
+			{\large \insertdate\par}
+		\end{block}
+	\end{column}
+\end{columns}
+\end{lstlisting}
+\begin{itemize}
+	\item \verb|\inserttitle| prints the value set by \verb|\title|.
+	\item \verb|\insertauthor| prints the value set by \verb|\author|.
+	\item \verb|\insertinstitute| prints the value set by \verb|\institute|.
+	\item \verb|\insertdate| prints the value set by \verb|\date|.
+	\item \verb|\VeryHuge| is useful for posters because titles must be readable from far away.
+\end{itemize}
+
+\subsection{Step 8: The Main Body Layout (Two Columns)}
+\begin{lstlisting}
+\begin{columns}[t]
+	\begin{column}{0.49\textwidth}
+		% left column blocks...
+	\end{column}
+	\begin{column}{0.49\textwidth}
+		% right column blocks...
+	\end{column}
+\end{columns}
+\end{lstlisting}
+Why `\verb|0.49\textwidth|'?
+\begin{itemize}
+	\item It leaves a small gap so the columns do not collide.
+	\item Using \verb|0.50| + \verb|0.50| often causes overflow in posters.
+\end{itemize}
+
+\subsection{Step 9: Block Boxes}
+Beamer provides three useful boxed environments:
+\begin{itemize}
+	\item \texttt{block}: normal content
+	\item \texttt{exampleblock}: examples/demos
+	\item \texttt{alertblock}: emphasis (main result, conclusion, warning)
+\end{itemize}
+Example patterns:
+
+\begin{lstlisting}
+\begin{block}{Title} ... \end{block}
+\begin{exampleblock}{Example} ... \end{exampleblock}
+\begin{alertblock}{Key Message} ... \end{alertblock}
+\end{lstlisting}

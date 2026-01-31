@@ -1,0 +1,105 @@
+% main.tex
+\documentclass[11pt]{article}
+
+% ---------- Packages ----------
+\usepackage[letterpaper,margin=1in]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{mathpazo} % Palatino font
+%\usepackage{microtype}
+%\usepackage{lmodern}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{bbm}           % indicator 1_{}
+\usepackage{hyperref}
+\usepackage{cleveref}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{todonotes}
+\usepackage{booktabs}
+
+% If you want pseudocode:
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
+% If you want cryptography notation:
+\usepackage{cryptocode}  % great for games and proofs (if installed)
+
+\usepackage{pdfpages}
+
+% ---------- Hyperref setup ----------
+\hypersetup{
+	colorlinks=true,
+	linkcolor=blue,
+	citecolor=blue,
+	urlcolor=blue,
+	pdftitle={Hard Problems in Cryptography: Classical and Post-Quantum},
+}
+
+% ---------- Theorem environments ----------
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{game}[theorem]{Game}
+\newtheorem{assumption}[theorem]{Assumption}
+
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{example}[theorem]{Example}
+
+% ---------- Common macros ----------
+\newcommand{\negl}{\mathsf{negl}}
+\newcommand{\poly}{\mathsf{poly}}
+\newcommand{\ppt}{\mathsf{ppt}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\bits}{\{0,1\}}
+\newcommand{\Adv}{\mathsf{Adv}}
+
+% Distributions and sampling
+\newcommand{\getsr}{\xleftarrow{\$}}
+
+% ---------- Bibliography (biblatex) ----------
+\usepackage[
+backend=biber,
+style=alphabetic,
+maxbibnames=99
+]{biblatex}
+\addbibresource{refs.bib}
+
+% ---------- Document ----------
+\title{Hard Problems in Cryptography:\\ Classical Assumptions and Post-Quantum Foundations}
+\author{Ji, Yonghyeon}
+\date{\today}
+
+\begin{document}
+	\includepdf[pages=-, fitpaper=true]{tikzs/cover.pdf}
+	\cleardoublepage
+	\newpage	
+	
+	\maketitle
+	\tableofcontents
+	
+	\section{Preliminaries}
+%	\input{sections/01-preliminaries.tex}
+	
+	\newpage
+	\section{Classical Hard Problems}
+%	\input{sections/02-classical.tex}
+%	
+%	\section{Quantum Threat Model}
+%	\input{sections/03-quantum.tex}
+%	
+%	\section{Post-Quantum Hard Problems}
+%	\input{sections/04-pqc.tex}
+%	
+%	\section{From Hard Problems to Standards}
+%	\input{sections/05-standards.tex}
+	
+	\printbibliography
+\end{document}

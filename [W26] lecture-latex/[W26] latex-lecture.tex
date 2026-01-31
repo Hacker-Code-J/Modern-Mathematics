@@ -20,6 +20,7 @@
 \usepackage{tabularx}
 \usepackage{hyperref}
 \usepackage{multirow}
+ \usepackage{threeparttable}
 
 %\newtheorem{definition}{Definition}[chapter]
 %\newtheorem{theorem}{Theorem}[chapter]
@@ -50,6 +51,8 @@
 \newcommand{\diver}{\mathrm{div}\,}
 \renewcommand{\vec}[1]{\mathbf{#1}}
 \renewcommand{\d}{\mathrm{d}}
+\DeclareMathOperator{\Var}{Var}
+\DeclareMathOperator*{\argmax}{arg\,max}
 
 % --- COLORS & STYLE ---
 \definecolor{themecolor}{RGB}{0, 102, 102} % Teal/Dark Cyan (Vector Calc Theme)
@@ -58,12 +61,12 @@
 % --- PAGE HEADER/FOOTER ---
 \pagestyle{fancy}
 \fancyhf{}
-\fancyhead[L]{\small \textsc{The Art of Modern \LaTeX}}
-\fancyhead[R]{\small Professional Typesetting \& Vector Graphics}
-%\fancyfoot[C]{\small Copyright \copyright\ 2025 Ji, Yonghyeon. All rights reserved.}
+\fancyhead[L]{\small \textsc{The Art of Technical \LaTeX}}
+\fancyhead[R]{\small Modern Typography and Vector Graphics}
+%\fancyfoot[C]{\small Copyright \copyright\ 2026 Ji, Yonghyeon. All rights reserved.}
 %\fancyfoot[R]{\thepage}
 
-\fancyfoot[L]{\footnotesize Copyright \copyright\ 2025 Ji, Yonghyeon}
+\fancyfoot[L]{\footnotesize Copyright \copyright\ 2026 Ji, Yonghyeon}
 %\fancyfoot[C]{\footnotesize \textit{Part I --- Multivariable Calculus}}
 \fancyfoot[R]{\thepage}
 \renewcommand{\headrulewidth}{0.4pt}
@@ -119,9 +122,9 @@
 	\vspace{2cm}
 	\begin{tcolorbox}[colback=themecolor, colframe=themecolor, sharp corners]
 		\centering \color{white}
-		\Huge \textbf{The Art of Modern \LaTeX} \\
+		\Huge \textbf{The Art of Technical \LaTeX} \\
 		\vspace{0.5em}
-		\Large \textit{Professional Typesetting \& Vector Graphics}
+		\Large \textit{Modern Typography and Vector Graphics}
 	\end{tcolorbox}
 %	\normalsize From Standard Documents to Advanced TikZ
 }
@@ -149,24 +152,204 @@
 	\maketitle
 	\thispagestyle{empty}
 %	\vspace{1cm}
-	\begin{center}
-%		\includegraphics[scale=1]{tikzs/generalized_stokes_on_crs.pdf}
-	\end{center}
+%	\begin{center}
+%		\includegraphics[scale=1.5]{tikzs/logo.pdf}
+%	\end{center}
 	\vfill
 	\begin{center}
 		\large\bfseries {\scshape WINTER 2026}
 	\end{center}
 \end{titlepage}
 \newpage
+
+\vfill
+\subsection*{Copyright}
+\noindent Copyright \copyright\ 2026 by Ji, Yonghyeon All rights reserved. 
+
+No part of this publication may be reproduced, distributed, or transmitted in any form or by any means, including photocopying, recording, or other electronic or mechanical methods, without the prior written permission of the publisher, except in the case of brief quotations embodied in critical reviews and certain other noncommercial uses permitted by copyright law. \\
+
+\subsection*{Changelog}
+%\large
+\begin{tabularx}{\textwidth}{@{} llX @{}} % Column widths specified here, change as needed for your content
+	\toprule	
+	v1.1 & 2026-01-19 & Add installation and poster.\\
+	v1.0 & 2026-01-08 & Initial release. \\
+	%	v1.1 & 20XX-02-27 & Pellentesque iaculis odio vel nisl ullamcorper, nec faucibus ipsum molestie.\\
+	%	v1.2 & 20XX-03-15 & Sed dictum nisl non aliquet porttitor.\\
+	\bottomrule
+\end{tabularx}
+\newpage
 \tableofcontents
 \newpage
 
-\input{sections/sec1_intro}
+\section*{0\; Installing \LaTeX{} with TeXworks and TeXstudio}
+A working \LaTeX{} setup has two parts:
+\begin{itemize}
+	\item a \textbf{\LaTeX{} distribution} (compiler + packages), such as \textbf{MiK\TeX{}} or \textbf{\TeX{} Live} (Windows/Linux) and \textbf{Mac\TeX{}} (macOS),
+	\item an \textbf{editor} to write and compile \texttt{.tex} files, such as \textbf{TeXworks} or \textbf{TeXstudio}.
+\end{itemize}
+%After installation, you should be able to:
+%\begin{itemize}
+%	\item run \texttt{pdflatex} (or another engine) from an editor,
+%	\item compile a minimal test document into a PDF,
+%	\item see the PDF update after recompilation.
+%\end{itemize}
+
+\subsection*{0.1\; Windows Installation}
+TBA
+%%\subsubsection{Option A: MiK\TeX{} (Beginner-Friendly on Windows)}
+%\begin{enumerate}
+%	\item Download and install \textbf{MiK\TeX{}} using the official installer.
+%	\item During setup, enable automatic installation of missing packages (useful for beginners).
+%%	\item After installation, open the MiK\TeX{} Console and run:
+%%	\begin{itemize}
+%%		\item update package database,
+%%		\item install updates.
+%%	\end{itemize}
+%\end{enumerate}
+
+
+
+\subsection*{0.2\; Linux Installation}
+\noindent
+\textbf{Debian/Ubuntu:}\;\medskip
+
+\begin{lstlisting}
+sudo apt update
+sudo apt install texlive texlive-latex-extra texlive-fonts-recommended texlive-science
+\end{lstlisting}
+\noindent
+\textbf{Fedora:}\;\medskip
+
+\begin{lstlisting}
+sudo dnf install texlive-scheme-basic texlive-collection-latexextra
+\end{lstlisting}\noindent
+\textbf{Arch Linux:}\;\medskip
+
+\begin{lstlisting}
+sudo pacman -S texlive-core texlive-latexextra texlive-fontsextra
+\end{lstlisting}
+
+\subsubsection*{Install TeXworks (Linux)}
+TeXworks is typically available as a package:
+\begin{lstlisting}
+# Debian/Ubuntu
+sudo apt install texworks
+\end{lstlisting}
+%Then:
+%\begin{enumerate}
+%	\item Open \texttt{test.tex}.
+%	\item Select \texttt{pdfLaTeX}.
+%	\item Click \textbf{Typeset}.
+%\end{enumerate}
+\subsubsection*{Install TeXstudio (Linux)}
+\begin{lstlisting}
+# Debian/Ubuntu
+sudo apt install texstudio
+\end{lstlisting}
+%Then:
+%\begin{enumerate}
+%	\item Open \texttt{test.tex}.
+%	\item Compile with the default build command.
+%\end{enumerate}
+
+\subsection*{0.3\; macOS Installation}
+Mac\TeX{} is a macOS distribution based on \TeX{} Live.
+
+\begin{enumerate}
+	\item Download and install \textbf{Mac\TeX{}} using the official \texttt{.pkg} installer.
+	\item After installation, ensure the \TeX{} binaries are available in your shell environment.
+\end{enumerate}
+A common check in Terminal is:
+\begin{lstlisting}
+pdflatex --version
+\end{lstlisting}
+
+%\subsubsection*{Install TeXworks (macOS)}
+%
+%Depending on your setup, TeXworks may already be available or you may install it separately.
+%Once installed:
+%
+%\begin{enumerate}
+%	\item Open \texttt{test.tex}.
+%	\item Choose \texttt{pdfLaTeX}.
+%	\item Click \textbf{Typeset}.
+%\end{enumerate}
+%
+%\subsubsection*{Install TeXstudio (macOS)}
+%
+%\begin{enumerate}
+%	\item Install \textbf{TeXstudio} (commonly distributed as a macOS app).
+%	\item In TeXstudio settings, ensure the default compiler is \texttt{pdfLaTeX}.
+%	\item Open \texttt{test.tex} and compile.
+%\end{enumerate}
+
+
+%\section{Editor Setup Checklist (TeXworks and TeXstudio)}
+%
+%\subsection{Choose a Compiler}
+%
+%Start with:
+%\begin{itemize}
+%	\item \texttt{pdfLaTeX} for standard documents.
+%\end{itemize}
+%
+%Later (optional):
+%\begin{itemize}
+%	\item \texttt{XeLaTeX} or \texttt{LuaLaTeX} if you need advanced font/Unicode workflows.
+%\end{itemize}
+%
+%\subsection{Enable SyncTeX (Optional but Useful)}
+%
+%SyncTeX lets you jump between source and PDF:
+%\begin{itemize}
+%	\item click in the PDF to go to the corresponding line in the \texttt{.tex},
+%	\item jump from source to the right location in the PDF.
+%\end{itemize}
+%
+%Most editors have this enabled by default or available in preferences.
+%
+%\section{Common Compile Workflows}
+%
+%\subsection{Basic Compile}
+%
+%\begin{itemize}
+%	\item Press compile once for a simple document.
+%\end{itemize}
+%
+%\subsection{When to Compile Twice}
+%
+%Compile twice when you use:
+%\begin{itemize}
+%	\item table of contents,
+%	\item cross-references (Section~\verb|\ref|, Eq.~\verb|\eqref|),
+%	\item citations and bibliography workflows.
+%\end{itemize}
+
+\newpage\input{sections/sec1_intro}
 \newpage\input{sections/sec2_structure}
 \newpage\input{sections/sec3_formatting}
 \newpage\input{sections/sec4_list}
 \newpage\input{sections/sec5_math}
 \newpage\input{sections/sec6_thm}
+\newpage\input{sections/sec7_figure}
+\newpage\input{sections/sec8_label}
+\newpage\input{sections/sec9_bib}
+\newpage\input{sections/sec10_macro}
+
+\newpage
+\section{Posters: Beamerposter}
+\input{section_poster/sec_poster1}
+
+\newpage
+\section{Presentations: Beamer}
+TBA
+
+
+\newpage
+\section{Vector Graphics: TikZ}
+TBA
+
 
 %\input{chapters/chap1_intro}
 %\input{chapters/chap2_document_structure}

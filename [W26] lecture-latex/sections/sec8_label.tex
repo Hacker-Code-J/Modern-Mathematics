@@ -1,0 +1,121 @@
+\subsection{Cross-Referencing and Labels}
+Cross-referencing is one of the most important ``professional writing'' features in \LaTeX{}.
+Instead of hard-coding numbers like ``see Section 3'' or ``see Figure 2'', you create references that update automatically.
+
+Cross-referencing allows you to:
+\begin{itemize}
+	\item refer to sections, figures, tables, theorems, and equations dynamically,
+	\item automatically update numbering when you insert, delete, or reorder content,
+	\item improve navigability in long documents (especially with clickable links in the PDF),
+	\item reduce mistakes (no outdated references after edits).
+\end{itemize}
+This is exactly the workflow emphasized in the reference notes: label items with \verb|\label{...}| and refer with \verb|\ref| or \verb|\eqref|.
+
+\begin{example}[Section Reference]
+\;\medskip
+	
+\begin{lstlisting}
+\section{Methodology}
+\label{sec:method}
+
+As discussed in Section~\ref{sec:method}, we use...
+\end{lstlisting}
+\end{example}
+
+\begin{example}
+\;\medskip
+
+\begin{lstlisting}
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.5\textwidth]{plot}
+	\caption{Data trend}
+	\label{fig:trend}
+\end{figure}
+
+See Figure~\ref{fig:trend}.
+\end{lstlisting}
+This matches the reference approach: caption, label, then \verb|Figure~\ref{...}| in text.
+\end{example}
+
+\begin{example}
+\;\medskip
+
+\begin{lstlisting}
+\begin{table}[h]
+	\centering
+	\begin{tabular}{lrr}
+		\hline
+		Item & Qty & Price \\
+		\hline
+		Apples & 3 & 1.20 \\
+		Bananas & 5 & 0.80 \\
+		\hline
+	\end{tabular}
+	\caption{A neat table}
+	\label{tab:neat}
+\end{table}
+
+See Table~\ref{tab:neat}.
+\end{lstlisting}
+\end{example}
+
+\newpage
+\begin{example}
+Equations are a major reason cross-referencing matters: we often need to cite a specific formula later.
+The reference notes show a numbered equation with \verb|\label| and a reference using \verb|Eq.~\eqref{...}|.
+
+\begin{lstlisting}
+\begin{equation}
+	a^2 + b^2 = c^2
+	\label{eq:pythagoras}
+\end{equation}
+
+From Eq.~\eqref{eq:pythagoras}, we know...	
+\end{lstlisting}
+\end{example}
+
+\begin{example}
+\;\medskip
+
+\begin{lstlisting}
+\begin{theorem}\label{thm:addition}
+	Addition of even numbers is even.
+\end{theorem}
+
+Theorem~\ref{thm:addition} proves the statement.
+\end{lstlisting}
+\end{example}
+
+
+\begin{example}
+To make cross-references clickable in the PDF, load the \texttt{hyperref} package.
+The reference notes also show using \verb|\href{...}{...}| for an external link.
+\begin{itemize}
+	\item \verb|\href{URL}{text}| --- clickable external link text.
+	\item \verb|\url{URL}| --- prints a clickable URL in a monospace-like style.
+\end{itemize}
+\begin{lstlisting}
+...
+\usepackage{hyperref}
+...
+
+\begin{document}
+	...
+	\href{https://www.latex-project.org}{Visit the LaTeX Project}
+	...
+\end{document}
+\end{lstlisting}
+This mirrors the reference example of linking to \verb|latex-project.org| via \verb|\href|.
+\end{example}
+
+\begin{remark}
+Use consistent prefixes:
+\begin{itemize}
+	\item \texttt{sec:} for sections,
+	\item \texttt{fig:} for figures,
+	\item \texttt{tab:} for tables,
+	\item \texttt{eq:} for equations,
+	\item \texttt{thm:} for theorems.
+\end{itemize}
+\end{remark}

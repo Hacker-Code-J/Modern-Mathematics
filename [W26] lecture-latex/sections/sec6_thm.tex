@@ -1,8 +1,68 @@
 \subsection{Theorems, Definitions, and Proofs}
 
-\subsubsection{Using the \texttt{amsthm} Package}
+\subsubsection{Package: \texttt{amsthm}}
 
 Mathematical writing often needs structured statements such as definitions, theorems, lemmas, corollaries, and remarks.
+%\begin{table}[t]
+%	\centering
+%%	\begin{threeparttable}
+%%		\caption{Catalogue of formal statements used in this chapter}
+%		\label{tab:formal-statements}
+%		\begin{tabularx}{\textwidth}{@{}>{\raggedright\bfseries}p{0.175\textwidth}| X@{}}
+%			\toprule
+%			Statement type & Typical role \\ \midrule
+%			Definition     & Introduces terminology and fixes conventions; may specify objects and notation. \\
+%			Theorem        & Principal result; usually of independent interest and proved in full detail. \\
+%			Lemma          & Auxiliary result serving the proof of a theorem; often technical. \\
+%			Corollary      & Immediate consequence of a theorem, typically obtained with minimal additional work. \\
+%			Proposition    & Intermediate result: stronger than a remark, often weaker or more specialized than a theorem. \\
+%			Claim          & Local assertion used within a proof; commonly proved on the spot. \\
+%			Remark         & Explanatory comment, intuition, caveat, or discussion of scope and sharpness. \\
+%			Example        & Concrete instance illustrating definitions or results; may show necessity of hypotheses. \\
+%			Notation       & Declares symbols and conventions to be used subsequently. \\
+%			Assumption     & Standing hypotheses imposed throughout a section/chapter. \\
+%			Observation    & Minor fact or perspective that clarifies structure without warranting theorem status. \\
+%			\bottomrule
+%		\end{tabularx}
+%%		\begin{tablenotes}[para,flushleft]
+%%			\footnotesize
+%%			\emph{Note.} The hierarchy “theorem–proposition–lemma–corollary” is stylistic and varies by author; the guiding principle is readability.
+%%		\end{tablenotes}
+%%	\end{threeparttable}
+%\end{table}
+\begin{table}[h]
+	\setlength{\tabcolsep}{4pt}        % default ~6pt
+	\renewcommand{\arraystretch}{1.25} % default 1.0; keep only slightly >1
+	\centering
+	\begin{threeparttable}
+%		\caption{Catalogue of formal statements}
+		\label{tab:formal-statements}
+		\small
+		\begin{tabularx}{\textwidth}{@{}>{\raggedright\bfseries}p{0.22\textwidth}| X@{}}
+			\toprule[1.2pt]
+			Statement type & Typical role \\ \midrule
+			Definition     & Introduces terminology; fixes conventions and notation. \\ \hline
+			Theorem        & Principal result; proved in full detail. \\ \hline
+			Lemma          & Auxiliary/technical result used in proofs. \\ \hline
+			Corollary      & Immediate consequence of a theorem. \\ \hline
+			Proposition    & Intermediate result; often specialized or less central than a theorem. \\  \hline
+			Claim          & Local assertion inside a proof; proved on the spot. \\  \hline
+			Remark         & Intuition, caveat, discussion of scope or sharpness. \\  \hline
+			Example        & Illustrative instance; may justify hypotheses. \\  \hline
+			Notation       & Declares symbols and standing conventions. \\  \hline
+			Assumption     & Standing hypotheses for a section/chapter. \\  \hline
+			Observation    & Minor fact clarifying structure. \\
+			\bottomrule[1.2pt]
+		\end{tabularx}
+		
+		\begin{tablenotes}[para,flushleft]
+			\footnotesize
+			\emph{Note.} The naming hierarchy is conventional and varies by author; prioritize clarity.
+		\end{tablenotes}
+	\end{threeparttable}
+\end{table}
+
+\noindent
 In \LaTeX{}, the most standard tool for this is the \texttt{amsthm} package, which provides:
 
 \begin{itemize}
@@ -10,7 +70,8 @@ In \LaTeX{}, the most standard tool for this is the \texttt{amsthm} package, whi
 	\item consistent formatting (bold theorem headings, italic theorem body, etc.),
 	\item a built-in \texttt{proof} environment that automatically prints a QED symbol.
 \end{itemize}
-In our preamble, we define theorem-style environments like this:
+
+\begin{example} In our preamble, we define theorem-style environments like this:
 \begin{lstlisting}
 \usepackage{amsthm}
 
@@ -22,163 +83,131 @@ In our preamble, we define theorem-style environments like this:
 \theoremstyle{remark}
 \newtheorem*{remark}{Remark}
 \end{lstlisting}
+\end{example}
 
 
-%\subsection{What Each Line Means}
-%
-%\begin{itemize}
-%	\item \verb|\usepackage{amsthm}| loads the theorem framework.
-%	\item \verb|\newtheorem{theorem}{Theorem}[chapter]| creates an environment named \texttt{theorem}.
-%	Its printed title is “Theorem”, and it resets numbering each chapter.
-%	So you get Theorem 1.1, 1.2, then Theorem 2.1, etc.
-%	\item \verb|\newtheorem{lemma}[theorem]{Lemma}| makes \texttt{lemma} share the same counter as \texttt{theorem}.
-%	That means a lemma can be Lemma 2.3 right after Theorem 2.2.
+\begin{itemize}
+	\item \verb|\usepackage{amsthm}| loads the theorem framework.
+	\item \verb|\newtheorem{theorem}{Theorem}[chapter]| creates an environment named \texttt{theorem}.
+	Its printed title is “Theorem”, and it resets numbering each chapter.
+	So you get Theorem 1.1, 1.2, then Theorem 2.1, etc.
+	\item \verb|\newtheorem{lemma}[theorem]{Lemma}| makes \texttt{lemma} share the same counter as \texttt{theorem}.
+	That means a lemma can be Lemma 2.3 right after Theorem 2.2.
 %	\item \verb|\newtheorem{definition}[theorem]{Definition}| and \verb|\newtheorem{corollary}[theorem]{Corollary}|
 %	do the same counter-sharing for definitions and corollaries.
-%	\item \verb|\theoremstyle{remark}| switches to a different style (usually non-italic body text).
-%	\item \verb|\newtheorem*{remark}{Remark}| creates an unnumbered environment \texttt{remark}.
-%	The star \verb|*| means “no numbering”.
-%\end{itemize}
-%
-%\subsection{Numbered vs. Unnumbered Statements}
-%
-%\begin{itemize}
-%	\item Use numbered statements for items you will reference later.
-%	\item Use unnumbered statements for short comments, informal notes, or one-off remarks.
-%\end{itemize}
-%
-%\section{Basic Environments}
-%
-%A good theorem section begins with clear definitions.
-%Definitions tell the reader what words mean before you prove anything about them.
-%
-%\begin{definition}[Even Number]
-%	An integer $n$ is called \emph{even} if there exists an integer $k$ such that $n = 2k$.
-%\end{definition}
-%
-%\subsection{Theorem Statements}
-%
-%A theorem states a mathematical fact you will justify with a proof.
-%
-%\begin{theorem}[Sum of Evens]
-%	The sum of two even integers is even.
-%\end{theorem}
-%
-%\subsection{The \texttt{proof} Environment}
-%
-%The \texttt{proof} environment:
-%\begin{itemize}
-%	\item prints the word “Proof” automatically,
-%	\item formats the proof body appropriately,
-%	\item adds a QED symbol at the end.
-%\end{itemize}
-%
-%\begin{proof}
-%	Let $a = 2m$ and $b = 2n$ for some integers $m$ and $n$.
-%	Then $a + b = 2m + 2n = 2(m + n)$, which is divisible by $2$.
-%	Therefore, $a + b$ is even.
-%\end{proof}
-%
-%\subsection{Common Proof Patterns (Useful for Beginners)}
-%
-%\begin{itemize}
-%	\item \textbf{Direct proof}: assume definitions and manipulate algebraically (as above).
-%	\item \textbf{Contradiction}: assume the opposite and derive an impossibility.
-%	\item \textbf{Contrapositive}: prove “not $B$ implies not $A$” instead of “$A$ implies $B$”.
-%	\item \textbf{Induction}: prove a base case and an induction step.
-%\end{itemize}
-%
-%\section{More Structures}
-%
-%Many textbooks use multiple statement types, each with a specific role:
-%
-%\begin{itemize}
-%	\item A \textbf{lemma} is a smaller result used to prove a later theorem.
-%	\item A \textbf{corollary} is a quick consequence of a theorem.
-%	\item A \textbf{remark} is commentary, intuition, or a warning.
-%\end{itemize}
-%
-%\begin{lemma}[Basic Algebra]
-%	If $a^2 = b^2$, then $a = b$ or $a = -b$.
-%\end{lemma}
-%
-%\begin{corollary}
-%	If $x^2 = 9$, then $x = 3$ or $x = -3$.
-%\end{corollary}
-%
-%\begin{remark}
-%	You can group lemmas, theorems, definitions, and corollaries under the same counter by specifying the shared counter in square brackets.
-%	This improves navigability: statements appear in one consistent numbering sequence.
-%\end{remark}
-%
-%\subsection{Referencing Theorems and Definitions}
-%
-%In real writing, you should label key statements and refer back to them later.
-%Use \verb|\label| inside the theorem-like environment, then refer using \verb|\ref|.
-%
-%\begin{example}[Label and reference]
-%	\begin{verbatim}
-%		\begin{theorem}\label{thm:sum-even}
-%			The sum of two even integers is even.
-%		\end{theorem}
-%		
-%		By Theorem~\ref{thm:sum-even}, we conclude that ...
-%	\end{verbatim}
-%\end{example}
-%
-%\section{Proof Formatting Tips}
-%
-%Good proofs are not only correct; they are readable.
-%Here are practical formatting rules:
-%
-%\begin{itemize}
-%	\item Use short paragraphs: each paragraph should represent one logical step.
-%	\item Define variables clearly: introduce $m$ and $n$ before using them.
-%	\item Avoid long inline equations: if an expression becomes hard to read inline, move it to display math.
-%	\item Let \LaTeX{} close proofs automatically with the QED symbol, unless you need to place it manually.
-%\end{itemize}
-%
-%\subsection{Manual QED Placement (Optional)}
-%
-%If your proof ends with a displayed equation, sometimes you want the QED symbol at the end of the last line.
-%You can place it with \verb|\qedhere| (inside the final display).
-%
-%\begin{example}[QED at the end of a display]
-%	\begin{verbatim}
-%		\begin{proof}
-%			...
-%			\[
-%			a + b = 2(m+n). \qedhere
-%			\]
-%		\end{proof}
-%	\end{verbatim}
-%\end{example}
-%
-%\section{Example: The Pythagorean Theorem}
-%
-%A theorem statement should be clean and precise:
-%
-%\begin{theorem}[Pythagorean Theorem]
-%	In a right triangle with legs $a$ and $b$ and hypotenuse $c$, we have:
-%	\[
-%	c^2 = a^2 + b^2
-%	\]
-%\end{theorem}
-%
-%\begin{proof}
-%	There are many geometric and algebraic proofs.
-%	One standard approach compares the areas of squares constructed on the three sides and shows the area identity implies the formula.
-%\end{proof}
-%
-%\subsection{Improving Proof Quality (Writing Tip)}
-%
-%In advanced writing, you should:
-%\begin{itemize}
-%	\item state the proof strategy in the first sentence (e.g., “We argue by contradiction.”),
-%	\item justify non-obvious steps,
-%	\item avoid vague endings like “obvious” unless it truly is immediate.
-%\end{itemize}
-%
+	\item \verb|\theoremstyle{remark}| switches to a different style (usually non-italic body text).
+	\item \verb|\newtheorem*{remark}{Remark}| creates an unnumbered environment \texttt{remark}.
+	The star \verb|*| means “no numbering”.
+\end{itemize}
+
+\begin{table}[h]
+	\centering
+	\setlength{\tabcolsep}{4pt}
+	\renewcommand{\arraystretch}{1.05}
+%	\caption{Built-in \texttt{\string\theoremstyle} options in \textsf{amsthm}}
+	\label{tab:amsthm-theoremstyles}
+	\begin{tabular}{@{}l|ll@{}}
+		\toprule[1.2pt]
+		\textbf{\texttt{\string\theoremstyle\{...\}}} & \textbf{Heading} & \textbf{Body} \\ \midrule
+		\texttt{plain}      & Bold (upright) & Italic \\
+		\texttt{definition} & Bold (upright) & Upright (roman) \\
+		\texttt{remark}     & Italic          & Upright (roman) \\
+		\bottomrule[1.2pt]
+	\end{tabular}
+\end{table}
+
+\begin{table}[h]
+	\centering
+	\setlength{\tabcolsep}{4pt}
+	\renewcommand{\arraystretch}{1.25}
+%	\caption{Typical mapping of theorem-like environments to \texttt{\string\theoremstyle}}
+	\label{tab:amsthm-mapping}
+	\begin{tabular}{@{}p{0.275\linewidth}|p{0.125\linewidth}|p{0.6\linewidth}@{}}
+		\toprule[1.2pt]
+		\textbf{Environment (examples)} & \textbf{Style} & \textbf{Rationale} \\ \midrule
+		Theorem, Lemma, & \multirow{2}{*}{\texttt{plain}} & \multirow{2}{*}{Results/proofs read well with italic body.} \\
+		Proposition, Corollary & & \\ \hline
+		Definition, Assumption, & \multirow{2}{*}{\texttt{definition}} & \multirow{2}{*}{Declarative text is usually upright.} \\
+		Notation & & \\ \hline
+		Remark, Observation, & \multirow{2}{*}{\texttt{remark}} & \multirow{2}{*}{Commentary often uses italic heading and upright body.} \\
+		Example & & \\
+		\bottomrule[1.2pt]
+	\end{tabular}
+\end{table}
+
+\paragraph{Numbered vs. Unnumbered Statements}
+
+\begin{itemize}
+	\item Use numbered statements for items you will reference later.
+	\item Use unnumbered statements for short comments, informal notes, or one-off remarks.
+\end{itemize}
+
+\subsubsection{Basic Environments}
+
+A good theorem section begins with clear definitions.
+Definitions tell the reader what words mean before you prove anything about them.
+
+\begin{example}[Definition Statements]
+\;\medskip
+
+\begin{lstlisting}
+\begin{definition}[Even Number]
+	An integer $n$ is called \emph{even} if there exists an integer $k$ such that $n = 2k$.
+\end{definition}
+\end{lstlisting}
+\begin{definition}[Even Number]
+	An integer $n$ is called \emph{even} if there exists an integer $k$ such that $n = 2k$.
+\end{definition}
+\end{example}
+
+\newpage
+\begin{example}[Theorem Statements]
+A theorem states a mathematical fact we will justify with a proof.
+
+\begin{lstlisting}
+\begin{theorem}[Sum of Evens]
+	The sum of two even integers is even.
+\end{theorem}
+\begin{proof}
+	Let $a = 2m$ and $b = 2n$ for some integers $m$ and $n$.
+	Then $a + b = 2m + 2n = 2(m + n)$, which is divisible by $2$.
+	Therefore, $a + b$ is even.
+\end{proof}
+\end{lstlisting}
+\begin{theorem}[Sum of Evens]
+	The sum of two even integers is even.
+\end{theorem}
+\begin{proof}
+	Let $a = 2m$ and $b = 2n$ for some integers $m$ and $n$.
+	Then $a + b = 2m + 2n = 2(m + n)$, which is divisible by $2$.
+	Therefore, $a + b$ is even.
+\end{proof}
+\end{example}
+
+
+\subsubsection{Referencing Theorems and Definitions}
+
+In real writing, we should label key statements and refer back to them later.
+Use \verb|\label| inside the theorem-like environment, then refer using \verb|\ref|.
+
+\begin{example}[Label and reference]
+\;\medskip	
+	
+\begin{lstlisting}
+\begin{theorem}\label{thm:sum-even}
+	The sum of two even integers is even.
+\end{theorem}
+
+By Theorem~\ref{thm:sum-even}, we conclude that ...
+\end{lstlisting}	
+\begin{theorem}\label{thm:sum-even}
+	The sum of two even integers is even.
+\end{theorem}
+
+By Theorem~\ref{thm:sum-even}, we conclude that ...
+\end{example}
+
+
 %\section{Exercises}
 %
 %\begin{exercise}

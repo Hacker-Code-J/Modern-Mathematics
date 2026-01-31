@@ -1,0 +1,53 @@
+\documentclass[tikz,border=5mm]{standalone}
+\usepackage{amssymb}
+\usetikzlibrary{calc}
+
+\begin{document}
+	\begin{tikzpicture}[scale=4, >=stealth]
+		
+		% --- 1. SETUP ---
+		\def\angle{45} 
+		\def\d{0.1} % Size of the right-angle square
+		\coordinate (O) at (0,0);
+		\coordinate (P) at ({\angle}:1); 
+		
+		% Axes
+		\draw[->, gray!40] (-0.2,0) -- (1.5,0) node[right] {$x$};
+		\draw[->, gray!40] (0,-0.2) -- (0,1.5) node[above] {$y$};
+		\draw[thick] (O) circle (1);
+		
+		% --- 2. RADIUS & NORMAL ---
+		\draw[blue, thick, ->] (O) -- (P) node[midway, above left, color=blue] {$p$};
+		
+		% --- 3. THE TANGENT SPACE ---
+		% Tangent direction vector at 45 deg is (-1, 1)
+		% We draw the line
+		\draw[red, thick, dashed] 
+		($(P) + (-0.6, 0.6)$) -- 
+		($(P) + (0.6, -0.6)$);
+		
+		\node[red, anchor=south west, align=left] at ($(P) + (-0.2, 0.6)$) {
+			$T_p S^2 = \{ \mathbf{v} \in \mathbb{R}^3 \mid \mathbf{v} \cdot p = 0 \}$
+		};
+		
+		% --- 4. CORRECT SQUARE MARKER ---
+		% Step 1: Define a point 'R' on the Radius (inward from P)
+		\coordinate (R) at ($(P)!\d!(O)$);
+		
+		% Step 2: Define a point 'T' on the Tangent (perpendicular)
+		% We rotate P around O by 90 degrees to get perpendicular direction, 
+		% then move distance \d from P towards that direction.
+		\coordinate (T) at ($(P)!\d!90:(O)$);
+		
+		% Step 3: The Corner is P + (vector PR) + (vector PT)
+		% We use the calc library to add the vectors
+		\coordinate (Corner) at ($(R) + (T) - (P)$);
+		
+		% Draw the square path
+		\draw[black, thin] (R) -- (Corner) -- (T);
+		
+		% Point P
+		\filldraw (P) circle (0.5pt) node[anchor=south west, xshift=2pt] {$p$};
+		
+	\end{tikzpicture}
+\end{document}

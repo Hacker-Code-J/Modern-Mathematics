@@ -1,0 +1,187 @@
+\subsection{Figures and Graphics}
+
+\subsubsection{Packages: \texttt{graphicx}}
+
+To insert images in \LaTeX{}, you typically load the \texttt{graphicx} package.
+This package provides the command \verb|\includegraphics|, which is the main tool for importing external images.
+\begin{lstlisting}
+\usepackage{graphicx}
+\end{lstlisting}
+A practical beginner rule:
+\begin{itemize}
+	\item Put image files in the same folder as our \texttt{.tex} file, or in a dedicated folder like \texttt{figures/}.
+	\item If using a folder, include it in the path (e.g., \verb|figures/plot.pdf|).
+\end{itemize}
+
+\paragraph{Common File Formats}
+
+Most workflows accept:
+\begin{itemize}
+	\item \texttt{.png}, \texttt{.jpg} for raster images (screenshots, photos),
+	\item \texttt{.pdf} for vector graphics (plots, diagrams exported from tools).
+\end{itemize}
+
+\subsubsection{Basic Usage: \texttt{\textbackslash includegraphics}}
+
+The most common professional pattern is to place an image inside a \texttt{figure} environment,
+center it, add a caption, add a label, and then reference it in the text.
+
+\begin{example}
+\;\medskip	
+	
+\begin{lstlisting}
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=.6\linewidth]{example-image-a}
+	\caption{A sample figure}
+	\label{fig:sample}
+\end{figure}
+See Figure~\ref{fig:sample}.
+\end{lstlisting}
+\begin{itemize}
+	\item \verb|\begin{figure}...\end{figure}| creates a \emph{float} (LaTeX may move it for better layout).
+	\item \verb|\centering| centers the image.
+	\item \verb|\caption| creates a numbered caption.
+	\item \verb|\label| creates a reference key.
+	\item \verb|\ref| prints the correct figure number (and updates automatically if numbering changes).
+\end{itemize}
+\end{example}
+
+\newpage
+\begin{example}[Controlling Image Size]
+\;
+\begin{itemize}
+	\item \verb|width=...| e.g., \verb|width=0.6\textwidth|
+	\item \verb|height=...| e.g., \verb|height=4cm|
+	\item \verb|scale=...| e.g., \verb|scale=0.8|
+\end{itemize}
+
+\begin{lstlisting}
+	...
+	\includegraphics[scale=0.5]{diagram}
+	...
+\end{lstlisting}
+\end{example}
+
+\begin{example}
+For consistent layout, \verb|width=...| is usually the best choice. A common pattern is:
+\begin{itemize}
+	\item \verb|width=\linewidth| inside a minipage or narrow container,
+	\item \verb|width=0.6\textwidth| for a medium figure in normal text.
+\end{itemize}
+If we specify both width and height, the image can stretch.
+A safer pattern is:
+\begin{lstlisting}
+	...
+	\includegraphics[width=0.7\textwidth, keepaspectratio]{plot}
+	...
+\end{lstlisting}
+\end{example}
+
+\subsubsection{Positioning Figures}
+
+Figures are floats, so \LaTeX{} chooses a good placement by default.
+We can provide placement hints with:
+
+\begin{itemize}
+	\item \texttt{h} --- here (approximately)
+	\item \texttt{t} --- top of page
+	\item \texttt{b} --- bottom of page
+	\item \texttt{p} --- on a separate float page
+\end{itemize}
+
+\subsubsection{Referencing Figures}
+	
+Use \verb|\label| and \verb|\ref| to refer to figures.
+The reference notes explicitly demonstrate referencing with \verb|Figure~\ref{...}|.
+	
+\begin{lstlisting}
+See Figure~\ref{fig:sample} for a visual illustration.
+\end{lstlisting}
+Use prefixes:
+\begin{itemize}
+	\item \verb|fig:...| for figures,
+	\item \verb|tab:...| for tables,
+	\item \verb|eq:...| for equations.
+\end{itemize}
+	
+\subsubsection{Side-by-Side Images}
+	
+Side-by-side layouts are useful for comparisons (before/after, method A vs. method B).
+A simple approach is to use \texttt{minipage} blocks inside one \texttt{figure} float.
+	
+\begin{example}
+\;\medskip
+
+\begin{lstlisting}
+\begin{figure}[h]
+	\centering
+	\begin{minipage}{0.48\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{img1}
+		\caption{Image 1}
+		\label{fig:img1}
+	\end{minipage}
+	\hfill
+	\begin{minipage}{0.48\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{img2}
+		\caption{Image 2}
+		\label{fig:img2}
+	\end{minipage}
+\end{figure}
+\end{lstlisting}
+The above produces two captions in one float, which can be acceptable but may look unusual in some styles.
+A more ``textbook/paper'' solution is to use subfigures (commonly via the \texttt{subcaption} package), so we get one main caption plus (a)/(b) subcaptions.
+
+\begin{lstlisting}
+\begin{figure}[h]
+	\centering
+	% subfigure A here
+	% subfigure B here
+	\caption{Comparison of two methods}
+	\label{fig:comparison}
+\end{figure}
+\end{lstlisting}	
+\end{example}	
+
+%	\section{Troubleshooting Figures (Common Beginner Issues)}
+%	
+%	\subsection{File Not Found}
+%	
+%	If you see an error like “File `img1` not found”:
+%	\begin{itemize}
+%		\item check the filename spelling exactly (case-sensitive on many systems),
+%		\item confirm the file is in the correct folder,
+%		\item try specifying the extension explicitly (e.g., \verb|img1.png|).
+%	\end{itemize}
+%	
+%	\subsection{Figure Appears in the Wrong Place}
+%	
+%	This is normal float behavior. Try:
+%	\begin{itemize}
+%		\item using \verb|[htbp]| instead of \verb|[h]|,
+%		\item moving the figure earlier/later in the source,
+%		\item adding a little more text before the figure so LaTeX has flexibility.
+%	\end{itemize}
+%	
+%	\section{Exercise}
+%	
+%	\begin{exercise}
+%		Create a \LaTeX{} document that:
+%		\begin{itemize}
+%			\item loads the \texttt{graphicx} package,
+%			\item inserts an image of your choice with caption and label,
+%			\item refers to the image using \verb|\ref| (e.g., \verb|Figure~\ref{fig:...}|),
+%			\item uses the standard structure shown in the reference pattern:contentReference[oaicite:5]{index=5}.
+%		\end{itemize}
+%	\end{exercise}
+%	
+%	\begin{exercise}
+%		Create a comparison figure:
+%		\begin{itemize}
+%			\item place two images side by side using \texttt{minipage},
+%			\item ensure both images have the same width (use \verb|\linewidth|),
+%			\item write one sentence referencing both figures by number.
+%		\end{itemize}
+%	\end{exercise}

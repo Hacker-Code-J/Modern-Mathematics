@@ -1,0 +1,411 @@
+\documentclass[11pt,openany]{article}
+
+\input{grad-math-preamble}
+\input{tcolorbox}
+\input{theorem}
+\input{tikz}
+\input{grad-math-commands}
+
+
+\usepackage{mathtools}
+
+\renewcommand{\vec}[1]{\mathbf{#1}}
+\renewcommand{\Re}{\operatorname*{Re}}
+\renewcommand{\Im}{\operatorname*{Im}}
+\newcommand{\Mat}{\operatorname{Mat}}
+
+\newcommand{\Sym}{\mathrm{Sym}}
+
+
+%\newcommand{\F}{\mathbb{F}}
+%\newcommand{\R}{\mathbb{R}}
+%\newcommand{\C}{\mathbb{C}}
+%\newcommand{\Span}{\operatorname{span}}
+%\newcommand{\Mat}{\operatorname{Mat}}
+\newcommand{\tr}{\operatorname{tr}}
+\renewcommand{\d}{\mathrm{d}} % For the exterior derivative 'd'
+\newcommand{\pderiv}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\spderiv}[3]{\frac{\partial^2 #1}{\partial #2\partial #3}}
+\newcommand{\GL}{\operatorname{GL}}
+
+
+
+%\newcommand{\basis}{def}
+
+\setstretch{1.25}
+
+\begin{document}
+\pagenumbering{arabic}
+\begin{center}
+	\huge\textbf{Linear Algebra IV}\\
+	\vspace{0.5em}
+	\large{Ji, Yong-hyeon}\\
+	\vspace{0.5em}
+	\normalsize{\today}\\
+\end{center}
+
+\noindent 
+We cover the following topics in this note.
+\begin{itemize}
+	\item Eigenvectors and Diagonalization.
+\end{itemize}
+\hrule\vspace{12pt}
+%\tableofcontents
+\vfill
+
+\newpage
+%\begin{observation}[Choosing a basis to simplify a linear map]
+%Consider a finite-dimensional vector space $V$ over a field $\F$. Let $T:V\to V$ be a linear operator. Let $\basis=\set{\textbf{v}_1,\dots,\textbf{v}_n}$ be a basis of $V$ such that $[T]_{\basis}$ is a diagonal matrix: \[
+%[T]_{\basis}=[T]_{\basis}^{\basis}=\begin{pmatrix}
+%	{\color{blue}d_1} & 0 & \cdots & 0\\
+%	0 & {\color{blue}d_1} & \cdots & 0 \\
+%	\vdots & \vdots & \ddots & \vdots \\
+%	0 & 0 & \cdots & {\color{blue}d_n} \\
+%\end{pmatrix},\quad\ie,\quad T(\textbf{v}_i)=d_i\textbf{v}_i\;\text{with}\; 1\leq i\leq n.
+%\]
+%Then $T$ may be very complicated, but with respect to $[T]_{\basis}$ it looks nice. 
+%%(``$T$ acts by scalars on the coordinate directions''). 
+%\end{observation}
+
+%\begin{example}[Shape operator; Kim, Namho]
+%Let $S^2=\set{x\in\R^3:\norm{x}=1}$. Define the sphere by $f(x,y,z)=x^2+y^2+z^2=1$. Compute \[
+%\nabla f=\left(\pderiv{f}{x},\pderiv{f}{y},\pderiv{f}{z}\right)=(2x,2y,2z).
+%\] Pick any point $p=(x,y,z)$ on the surface. Then the outward unit normal is \[
+%N:S^2\to S^2:p\mapsto N(p)=\frac{\nabla f}{\abs{\nabla f}}=\frac{2p}{\abs{2p}}=\frac{2p}{2}=p.
+%\]
+%\begin{center}
+%\includegraphics[scale=1]{grad-math-tikz/shape_operator_1.pdf}
+%\end{center}
+%Since $N$ is a smooth map between manifolds, at each $p\in S^2$ it has a differential (pushforward) \[
+%(dN)_p:T_pS^2\to T_{N(p)}S^2
+%\] Take any smooth curve $\gamma:N_\varepsilon(0)\to S^2$ with \[
+%\gamma(0)=p,\quad\gamma'(0)=\textbf{v}\in T_pS^2.
+%\] Then \[
+%(dN)_p(\textbf{v})=\frac{d}{dt}\left(N(\gamma(t))\right)\big|_{t=0}.
+%\] We move on the surface in direction $\textbf{v}$, watch how the normal vector changes, and differentiate.
+%
+%The shape operator (Weingarten map) is defined pointwise by \[
+%\fullfunction{S_p}{T_pS^2}{T_{N(p)}S^2}{\textbf{v}}{-(dN)_p(\textbf{v})}.
+%\] Note that \[
+%T_pS^2=\set{\textbf{w}\in R^3:\textbf{w}\cdot N(p)=0}=T_{N(p)}S^2.
+%\] In summary, \[
+%S^2\xrightarrow{N}S^2\quad\Longrightarrow\quad T_pS^2\xrightarrow{(dN)_p} T_{N(p)}S^2\simeq T_pS^2\quad\Longrightarrow\quad S_p=-(dN)_p.
+%\]
+%
+%\newpage
+%Let $U=\intoo{0,\pi}\times\intoo{0,2\pi}\subset\R^2$. Consider the standard spherical parametrization \[
+%\fullfunction{X}{U}{S^2(\subset\R^3)}{(\theta,\phi)}{X(\theta,\phi)=\begin{pmatrix}
+%		\sin\theta\cos\phi\\
+%		\sin\theta\sin\phi\\
+%		\cos\theta
+%	\end{pmatrix}}.
+%\] At $p=X(\theta,\phi)$, the tangent vectors are
+%\[
+%\pderiv{}{\theta}X(\theta,\phi)=
+%\begin{pmatrix}
+%	\cos\theta\cos\phi\\
+%	\cos\theta\sin\phi\\
+%	-\sin\theta
+%\end{pmatrix},
+%\qquad
+%\pderiv{}{\phi}X(\theta,\phi)=
+%\begin{pmatrix}
+%	-\sin\theta\sin\phi\\
+%	\sin\theta\cos\phi\\
+%	0
+%\end{pmatrix}.
+%\]
+%They span $T_pS^2$ for $0<\theta<\pi$.
+%Note that \begin{enumerate}[(i)]
+%	\item $\norm{\pderiv{}{\theta}X}=\sqrt{\cos^2\theta\cos^2\phi+\cos^2\theta\sin^2\phi+\sin^2\theta}=\sqrt{\cos^2\theta(\cos^2\phi+\sin^2\phi)+\sin^2\theta}=1$.
+%	\item $\norm{\pderiv{}{\phi}X}=\sqrt{\sin^2\theta\sin^2\phi+\sin^2\theta\cos^2\phi}=\sqrt{\sin^2\theta(\sin^2\phi+\cos^2\phi)}=\abs{\sin\theta}=\sin\theta$.
+%	\item $\pderiv{}{\theta}X\cdot\pderiv{}{\phi}X=(-\cos\theta\cos\phi\sin\theta\sin\phi)+(\cos\theta\sin\phi\sin\theta\cos\phi)+0=0$.
+%\end{enumerate}
+%Hence an \textbf{orthonormal basis} of $T_pS^2$ is
+%\[
+%e_1:=\pderiv{}{\theta}X,
+%\qquad
+%e_2:=\frac{1}{\sin\theta}\,\pderiv{}{\phi}X.
+%\]
+%\end{example}
+
+
+
+
+
+\newpage
+%\section*{Eigenvectors}
+%\textbf{Def.}
+%A nonzero vector $u\in V$ is called an \emph{eigenvector} of $T$ if
+%\[
+%T(u)=\lambda u \quad\text{for some }\lambda\in\F.
+%\]
+%$\lambda$ is called the \emph{eigenvalue} of $u$.
+%
+%\medskip
+%\textbf{Remark.}
+%If $u\neq 0$ and $T(u)=\lambda u$, then $T(\F u)\subseteq \F u$ (restriction map)
+%\[
+%T|_{\F u}:\F u \to \F u,
+%\]
+%and $T$ acts as scalar multiplication by $\lambda$ on the line $\F u$.
+%
+%\section*{Diagonalizable}
+%\textbf{Def.}
+%$T:V\to V$ is \emph{diagonalizable} if there exists a basis $\beta$ of $V$ such that
+%$[T]_{\beta}$ is diagonal.
+%Equivalently, there is a basis of $V$ consisting of eigenvectors of $T$.
+%
+%\medskip
+%Example (matrices). Let $A\in \Mat_{n\times n}(\F)$ and consider
+%\[
+%L_A:\F^n\to \F^n, \qquad x\mapsto Ax.
+%\]
+%Suppose $L_A$ is diagonalizable. Then there is a basis $P$ of eigenvectors of $L_A$ such that
+%\[
+%[L_A]_P = D \quad\text{(a diagonal matrix)}.
+%\]
+%In matrix language this means
+%\[
+%P^{-1}AP = D \quad\Longleftrightarrow\quad A = PDP^{-1}.
+%\]
+%
+%\medskip
+%Consequently, $L_A$ is diagonalizable iff there exists an invertible $P$ such that $P^{-1}AP$
+%is a diagonal matrix, i.e. $A$ is similar to a diagonal matrix.
+%
+%\medskip
+%\textbf{Def.}
+%A matrix $A\in \Mat_{n\times n}(\F)$ is \emph{diagonalizable} if $A$ is similar to a diagonal matrix,
+%i.e. $\exists\, P\in \GL_n(\F)$ such that
+%\[
+%P^{-1}AP = D \quad\text{(diagonal)}.
+%\]
+%
+%\section*{Example: rotation and dependence on the field}
+%Let $A=R_{90}=\begin{pmatrix}0&-1\\ 1&0\end{pmatrix}$.
+%
+%\medskip
+%\textbf{Case 1: $\F=\R$.}
+%Then there is no nonzero vector $u$ such that $Au=\lambda u$ for some $\lambda\in\R$.
+%Thus $R_{90}$ is not diagonalizable over $\R$.
+%
+%\medskip
+%\textbf{Case 2: $\F=\C$.}
+%Consider $L_A:\C^2\to\C^2$, $x\mapsto Ax$.
+%We want $u\neq 0$ and $\lambda\in\C$ such that
+%\[
+%Au=\lambda u.
+%\]
+%Equivalently,
+%\[
+%(A-\lambda I)u=0.
+%\]
+%There exists a nonzero solution $u$ iff $A-\lambda I$ is not invertible, i.e.
+%\[
+%\det(A-\lambda I)=0.
+%\]
+%We call $\det(A-\lambda I)$ the \emph{characteristic polynomial} of $A$.
+%
+%\medskip
+%More generally, for the rotation matrix
+%\[
+%A=
+%\begin{pmatrix}
+%	\cos\theta & -\sin\theta\\
+%	\sin\theta & \cos\theta
+%\end{pmatrix},
+%\quad
+%A-\lambda I=
+%\begin{pmatrix}
+%	\cos\theta-\lambda & -\sin\theta\\
+%	\sin\theta & \cos\theta-\lambda
+%\end{pmatrix},
+%\]
+%we compute
+%\[
+%\det(A-\lambda I)
+%=(\cos\theta-\lambda)^2+\sin^2\theta
+%=\lambda^2-2(\cos\theta)\lambda+1.
+%\]
+%Over $\C$ this has two distinct roots:
+%\[
+%\lambda_\pm = \cos\theta \pm i\sin\theta.
+%\]
+%So the eigenvalues are $\cos\theta\pm i\sin\theta$.
+%
+%\medskip
+%For $\lambda_+=\cos\theta+i\sin\theta=e^{i\theta}$ one can take an eigenvector
+%\[
+%u_+=\begin{pmatrix}1\\ -i\end{pmatrix},
+%\qquad
+%Au_+=\lambda_+u_+.
+%\]
+%Similarly, for $\lambda_-=\cos\theta-i\sin\theta=e^{-i\theta}$ one can take
+%\[
+%u_-=\begin{pmatrix}1\\ i\end{pmatrix},
+%\qquad
+%Au_-=\lambda_-u_-.
+%\]
+%Hence over $\C$, the rotation matrix is diagonalizable.
+%
+%\medskip
+%We saw that diagonalization indeed depends on the choice of $\F$.
+%
+%\section*{Characteristic polynomial}
+%\textbf{Def.}
+%Let $A\in \Mat_{n\times n}(\F)$. The \emph{characteristic polynomial} of $A$ is
+%\[
+%f_A(\lambda):=\det(A-\lambda I).
+%\]
+%(We often denote it by $\chi_A(\lambda)$.)
+%
+%\section*{Exercise}
+%Show that if
+%\[
+%f_A(\lambda)=\det(A-\lambda I)=(-1)^n\lambda^n + c_{n-1}\lambda^{n-1}+\cdots + c_1\lambda + c_0,
+%\]
+%then
+%\[
+%c_0=\det(A),
+%\qquad
+%c_{n-1}=(-1)^{n-1}\tr(A).
+%\]
+%(Show this by induction; the $\lambda^{n-1}$ coefficient comes from the sum of diagonal entries.)
+
+
+
+
+\newpage
+
+%\section*{Motivation: }
+
+%A key idea is that $T$ may look complicated in one basis but becomes simpler in a more suitable basis.
+%In the best case, the matrix of $T$ becomes diagonal, so that $T$ acts by independent scalings in each coordinate direction.
+
+%\section{Eigenvectors and eigenvalues}
+%
+%\begin{definition}[Eigenvector, eigenvalue]
+%	A nonzero vector $v\in V$ is an \emph{eigenvector} of $T$ if there exists $\lambda\in\F$ such that
+%	\[
+%	T(v)=\lambda v.
+%	\]
+%	The scalar $\lambda$ is called the \emph{eigenvalue} corresponding to $v$:contentReference[oaicite:3]{index=3}.
+%\end{definition}
+%
+%\begin{remark}[One-dimensional invariant subspace]
+%	If $T(v)=\lambda v$ with $v\neq 0$, then the line $\Span(v)$ is $T$-invariant and
+%	\[
+%	T|_{\Span(v)}:\Span(v)\to \Span(v)
+%	\]
+%	acts as scalar multiplication by $\lambda$:contentReference[oaicite:4]{index=4}.
+%\end{remark}
+%
+%\section{Diagonalizable operators and matrices}
+%
+%\begin{definition}[Diagonalizable operator]
+%	We say $T:V\to V$ is \emph{diagonalizable} if there exists a basis of $V$ such that the matrix of $T$
+%	with respect to that basis is diagonal.
+%	Equivalently, $T$ is diagonalizable iff $V$ has a basis consisting of eigenvectors of $T$:contentReference[oaicite:5]{index=5}.
+%\end{definition}
+%
+%\subsection*{Matrices and similarity}
+%Let $A\in \Mat_{n\times n}(\F)$ and consider the linear map $L_A:\F^n\to\F^n$ given by $L_A(x)=Ax$.
+%
+%\begin{proposition}[Diagonalization and similarity]
+%	A matrix $A$ is diagonalizable over $\F$ iff there exists an invertible matrix $P\in \mathrm{GL}_n(\F)$
+%	and a diagonal matrix $D$ such that
+%	\[
+%	P^{-1}AP = D
+%	\qquad\text{equivalently}\qquad
+%	A = PDP^{-1}.
+%	\]
+%	In this case, the columns of $P$ may be taken to be a basis of eigenvectors of $A$:contentReference[oaicite:6]{index=6}.
+%\end{proposition}
+%
+%\begin{remark}
+%	If $A$ and $B$ are similar ($B=P^{-1}AP$), then they represent the same linear operator in two different bases.
+%	Hence diagonalizability is a property of the linear operator (or similarity class), not of a specific matrix form:contentReference[oaicite:7]{index=7}.
+%\end{remark}
+%
+%\section{Characteristic polynomial}
+%Eigenvalues are found by solving the equation
+%\[
+%Av=\lambda v \quad (v\neq 0),
+%\]
+%which is equivalent to
+%\[
+%(A-\lambda I)v=0 \quad (v\neq 0).
+%\]
+%Thus $\lambda$ is an eigenvalue iff $A-\lambda I$ is not invertible, i.e.
+%\[
+%\det(A-\lambda I)=0.
+%\]
+%
+%\begin{definition}[Characteristic polynomial]
+%	For $A\in \Mat_{n\times n}(\F)$, the \emph{characteristic polynomial} of $A$ is
+%	\[
+%	\chi_A(\lambda) := \det(A-\lambda I).
+%	\]
+%	Its roots (in an extension field if necessary) are exactly the eigenvalues of $A$:contentReference[oaicite:8]{index=8}:contentReference[oaicite:9]{index=9}.
+%\end{definition}
+%
+%\section{Example: rotations and dependence on the field}
+%
+%\begin{example}[Rotation by $90^\circ$]
+%	Consider the matrix
+%	\[
+%	R=\begin{pmatrix}0&-1\\[2pt]1&0\end{pmatrix},
+%	\]
+%	which represents rotation by $90^\circ$ in $\R^2$.
+%	Over $\R$, it has no real eigenvectors (no nonzero vector is mapped to a real scalar multiple of itself),
+%	so it is not diagonalizable over $\R$.
+%	Over $\C$, it has eigenvalues $\pm i$ and becomes diagonalizable over $\C$:contentReference[oaicite:10]{index=10}:contentReference[oaicite:11]{index=11}.
+%\end{example}
+%
+%\begin{example}[Rotation by an angle $\theta$]
+%	Let
+%	\[
+%	A=\begin{pmatrix}\cos\theta&-\sin\theta\\[2pt]\sin\theta&\cos\theta\end{pmatrix}.
+%	\]
+%	Then
+%	\[
+%	\chi_A(\lambda)=\det(A-\lambda I)
+%	= \lambda^2 - 2(\cos\theta)\lambda + 1.
+%	\]
+%	Over $\C$, the eigenvalues are
+%	\[
+%	\lambda_{\pm}=\cos\theta \pm i\sin\theta = e^{\pm i\theta},
+%	\]
+%	so if $\theta\not\equiv 0,\pi \pmod{2\pi}$ then the roots are distinct and $A$ is diagonalizable over $\C$.
+%	This illustrates that diagonalizability can depend on the choice of field $\F$:contentReference[oaicite:12]{index=12}.
+%\end{example}
+%
+%\section{Exercise}
+%\begin{exercise}
+%	Let $A\in \Mat_{n\times n}(\F)$ and write
+%	\[
+%	\chi_A(\lambda)=\det(A-\lambda I)=(-1)^n\lambda^n + c_{n-1}\lambda^{n-1}+\cdots + c_1\lambda + c_0.
+%	\]
+%	Show that:
+%	\begin{enumerate}
+%		\item $c_0=\det(A)$,
+%		\item $c_{n-1}=(-1)^{n-1}\tr(A)$.
+%	\end{enumerate}
+%	(Hint: prove by induction on $n$, using expansion of the determinant; the $\lambda^{n-1}$ coefficient comes from the sum of diagonal entries.):contentReference[oaicite:13]{index=13}
+%\end{exercise}
+
+
+\vfill
+\begin{thebibliography}{9}
+	\bibitem{linear_algebra_h}
+	수학의 즐거움, Enjoying Math. ``수학 공부, 기초부터 대학원 수학까지, 31. 선형대수학 (h) 고유벡터와 행렬의 대각화 -1'' YouTube Video, 29:46. Published 
+	November 06, 2019. URL: \url{https://www.youtube.com/watch?v=RSOxa1rI_Kk}.
+%	\bibitem{linear_algebra_i}
+%	수학의 즐거움, Enjoying Math. ``수학 공부, 기초부터 대학원 수학까지, 32. 선형대수학 (i) 고유치와 행렬의 대각화 -2'' YouTube Video, 30:21. Published 
+%	November 08, 2019. URL: \url{https://www.youtube.com/watch?v=bjEuNw0FnPw}.
+%	\bibitem{linear_algebra_j}
+%	수학의 즐거움, Enjoying Math. ``수학 공부, 기초부터 대학원 수학까지, 33. 선형대수학 (j) 행렬의 대각화와 고유공간'' YouTube Video, 29:59. Published 
+%	November 09, 2019. URL: \url{https://www.youtube.com/watch?v=AlTo9fqlSn8}.
+\end{thebibliography}
+\end{document}

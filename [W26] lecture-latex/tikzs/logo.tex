@@ -1,0 +1,48 @@
+\documentclass[tikz,border=5pt]{standalone}
+\usepackage{tikz}
+\usepackage{lmodern} % Essential for good font rendering
+\usetikzlibrary{calc, positioning, shadows.blur, shapes.geometric, decorations.text}
+
+% --- Modern Color Palette ---
+\definecolor{deepTechBlue}{HTML}{0F2027} % Dark background blue
+\definecolor{brightTeal}{HTML}{2C5364}   % Accent tealish blue
+\definecolor{accentCyan}{HTML}{00BCD4}   % Bright highlight cyan
+\definecolor{pureWhite}{HTML}{FFFFFF}
+
+\begin{document}
+\begin{tikzpicture}
+	% 1. Clipping path to ensure everything stays inside the main circle
+	\clip (0,0) circle (3cm);
+	
+	% 2. Background Fill
+	\fill[teal] (0,0) circle (3cm);
+	
+	% 3. Abstract Document Layers (The "Compiling" effect)
+	% Drawn as shifted, rotated rectangles with varying colors/opacity
+	
+	% Layer 1 (Deep background code block)
+	\fill[brightTeal, opacity=0.5, rotate around={-15:(0,0)}] (-1.8,-2) rectangle (1.8, 2.5);
+	
+	% Layer 2 (Mid-ground processing block)
+	\fill[accentCyan, opacity=0.7, rotate around={-5:(0,0)}] (-1.6,-1.8) rectangle (1.6, 2.3);
+	
+	% 4. The Final "Output" Document (Foreground)
+	\begin{scope}[shift={(0,0.2)}, rotate around={5:(0,0)}]
+		% Document Paper shadow
+		\fill[deepTechBlue!50, blur shadow={shadow blur steps=3, shadow xshift=1pt, shadow yshift=-1pt}] (-1.4,-1.8) rectangle (1.4, 2.2);
+		% Document Paper
+		\fill[pureWhite] (-1.5,-1.9) rectangle (1.3, 2.1);
+		
+		% Content on the paper
+		\node[scale=1.8, color=deepTechBlue] at (-0.1, 0.5) {\textbf{\LaTeX}};
+		
+		% Suggestion of lines of text below the logo
+		\foreach \y in {-0.2, -0.5, -0.8} {
+			\fill[deepTechBlue!30] (-1.1, \y) rectangle (0.9, \y-0.15);
+		}
+	\end{scope}
+	
+	% 5. The Outer Ring (drawn last to cover clipped edges cleanly)
+	\draw[accentCyan, line width=4pt] (0,0) circle (3cm);
+\end{tikzpicture}
+\end{document}

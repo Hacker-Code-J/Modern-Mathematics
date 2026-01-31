@@ -1,0 +1,67 @@
+\documentclass[tikz,border=5mm]{standalone}
+\usepackage{amsmath}
+
+\begin{document}
+	\begin{tikzpicture}[scale=4, cap=round, >=stealth]
+		
+		% --- 1. SETUP THE ARC (S^1 as slice of S^2) ---
+		% Draw the upper hemisphere slice
+		\draw[->, gray!50, thick] (-1.2,0) -- (1.2,0) node[right] {$x$};
+		\draw[->, gray!50, thick] (0,-.2) -- (0,1.2) node[above] {$z$};
+		\draw[black, thick] (1,0) arc (0:180:1);
+%		\node[gray, font=\tiny, below left] at (0,0) {$O$};
+		
+		% --- 2. DEFINE POINTS ---
+		% p is the North Pole (0,1)
+		\coordinate (O) at (0,0);
+		\coordinate (P) at (0,1);
+		
+		% q is a point nearby (30 degrees along the curve)
+		% Exact coordinates: (sin 30, cos 30) = (0.5, 0.866)
+		\coordinate (Q) at (0.5, 0.866);
+		
+		% --- 3. DRAW TANGENT VECTOR v ---
+		% At p, tangent is horizontal. Let's make length 0.5 for scale.
+		\draw[blue, thick, ->] (P) -- ++(0.5, 0) node[anchor=south] {$v$};
+		\filldraw (P) circle (0.5pt) node[anchor=south east] {$p$};
+		
+		% --- 4. DRAW NORMALS (N) ---
+		% N_p: Normal at p (Vertical, length 1)
+		% We shorten it slightly for visual clarity vs the axis, say length 0.6
+		\draw[green!60!black, thick, ->] (P) -- ++(0, 0.6) node[anchor=east] {$N_p$};
+		
+		% N_q: Normal at q (Radial)
+		\filldraw (Q) circle (0.3pt) node[anchor=south west] {$q$};
+		\draw[green!60!black, thick, ->] (Q) -- ++(0.3, 0.5196) node[anchor=south] {$N_q$};
+		
+		% --- 5. VISUALIZE THE DERIVATIVE dN ---
+		% To show dN, we must compare N_q and N_p at the SAME starting point.
+		% We transport N_q back to p (ghost vector).
+		\draw[green!60!black, dashed, ->, opacity=0.5] (P) -- ++(0.3, -0.08) node[right, font=\tiny, text=black] {$N_q$ (shifted)};
+		
+		% The Vector dN connects the tip of N_p to the tip of shifted N_q
+		% It points RIGHT.
+		\draw[red, thick, ->] (0, 1.6) -- ++(0.3, -0.08) node[midway, above] {$dN \approx v$};
+		
+		% --- 6. THE SHAPE OPERATOR S_p ---
+		% S_p(v) = -dN
+		% Since dN points RIGHT, S_p points LEFT.
+		\draw[orange, ultra thick, ->] (P) -- ++(-0.5, 0) node[anchor=north] {$\boldsymbol{S_p(v) = -v}$};
+		
+%		% --- 7. ANNOTATIONS ---
+%		% Angle theta showing the tilt
+%		\draw[gray, thin] (0,0) -- (Q);
+%		\draw[gray, ->] (0,0.3) arc (90:60:0.3);
+%		\node[gray, font=\tiny] at (0.15, 0.35) {$\theta$};
+%		
+%		% Legend Box
+%		\node[align=left, fill=white, draw=gray!50, rounded corners] at (-0.8, 0.5) {
+%			\textbf{2D Analysis}:\\
+%			\textcolor{blue}{$\boldsymbol{v}$}: Move East.\\
+%			\textcolor{green!60!black}{$\boldsymbol{N}$}: Tips East.\\
+%			\textcolor{red}{$\boldsymbol{dN}$}: Change is East.\\
+%			\textcolor{orange}{$\boldsymbol{S_p}$}: Reaction is West.
+%		};
+%		
+	\end{tikzpicture}
+\end{document}

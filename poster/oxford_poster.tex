@@ -1,0 +1,364 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% A beamer poster style for the University of Oxford. Atilim Gunes Baydin <gunes@robots.ox.ac.uk>, November 2016.
+% Based on the I6pd2 style created by Thomas Deselaers an Philippe Dreuw.
+%
+% Dreuw & Deselaer's Poster
+% LaTeX Template
+% Version 1.0 (11/04/13)
+%
+% Created by:
+% Philippe Dreuw and Thomas Deselaers
+% http://www-i6.informatik.rwth-aachen.de/~dreuw/latexbeamerposter.php
+%
+% This template has been downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%   PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[final,hyperref={pdfpagelabels=false}]{beamer}
+
+\usepackage[orientation=portrait,size=a0,scale=1.3]{beamerposter} % Use the beamerposter package for laying out the poster with a portrait orientation and an a0 paper size
+
+\usetheme{Oxford}
+
+\usepackage[utf8]{inputenc} % allow utf-8 input
+\usepackage{blindtext}
+\usepackage{amsmath,amsthm,amssymb,latexsym} % For including math equations, theorems, symbols, etc
+\usepackage[document]{ragged2e}
+\usepackage{times}\usefonttheme{professionalfonts}  % Uncomment to use Times as the main font
+\usefonttheme[onlymath]{serif} % Uncomment to use a Serif font within math environments
+%\boldmath % Use bold for everything within the math environment
+\usepackage{booktabs} % Top and bottom rules for tables
+\usepackage{microtype}
+
+\usecaptiontemplate{\small\structure{\insertcaptionname~\insertcaptionnumber: }\insertcaption} % A fix for figure numbering
+
+\newcommand{\shrink}{-15pt}
+
+\def\imagetop#1{\vtop{\null\hbox{#1}}}
+
+\let\oldbibliography\thebibliography
+\renewcommand{\thebibliography}[1]{\oldbibliography{#1}
+\setlength{\itemsep}{-10pt}}
+
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,calc}
+\usepackage{amsmath,amssymb,mathtools}
+
+% ---------- Macros ----------
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Om}{\Omega}
+\newcommand{\cO}{\mathcal{O}}
+\newcommand{\cM}{\mathcal{M}}
+\newcommand{\cK}{\mathcal{K}}
+\newcommand{\cF}{\mathcal{F}}
+\newcommand{\dd}{\,\mathrm{d}}
+\newcommand{\delbar}{\bar{\partial}}
+\newcommand{\Pic}{\mathrm{Pic}}
+\newcommand{\divv}{\mathrm{div}}
+\newcommand{\im}{\mathrm{im}}
+
+
+%----------------------------------------------------------------------------------------
+%   TITLE SECTION 
+%----------------------------------------------------------------------------------------
+\title{\Huge Riemann-Roch Theorem and its Application\\ \LARGE\; - From de Rham to sheaf cohomology, Serre duality -} % Poster title
+\author{\bfseries Ji, Yonghyeon}
+\institute{Department of Cyber Security, University of Kookmin\\\vspace{4mm}
+\texttt{hacker3740@kookmin.ac.kr}}
+
+%----------------------------------------------------------------------------------------
+%   FOOTER TEXT
+%----------------------------------------------------------------------------------------
+\newcommand{\leftfoot}{} % Left footer text
+\newcommand{\rightfoot}{} % Right footer text
+
+
+%----------------------------------------------------------------------------------------
+
+\begin{document}
+\addtobeamertemplate{block end}{}{\vspace*{2ex}} % White space under blocks
+
+\begin{frame}[t] % The whole poster is enclosed in one beamer frame
+
+\begin{columns}[t] % The whole poster consists of three major columns, each of which can be subdivided further with another \begin{columns} block - the [t] argument aligns each column's content to the top
+
+\begin{column}{.01\textwidth}\end{column} % Empty spacer column
+\begin{column}{.49\textwidth} % 1st column
+\begin{block}{Preliminaries I: Vector calculus as a cochain complex}
+	On \(\R^3\), the familiar operators form a complex:
+	\[
+	C^\infty \xrightarrow{\nabla} \Gamma(T^*) \xrightarrow{\nabla\times} \Gamma(\Lambda^2 T^*) \xrightarrow{\nabla\cdot} C^\infty,
+	\] with $(\nabla\times)\circ\nabla=0,\;(\nabla\cdot)\circ(\nabla\times)=0$.
+	The de Rham complex is \((\Om^\bullet(M),d)\): \[\boxed{
+	0\to \Om^0(M)\xrightarrow{d}\Om^1(M)\xrightarrow{d}\Om^2(M)\xrightarrow{d}\cdots}
+	\]
+	Cohomology measures \underline{\emph{\color{red}global obstructions}} to solving \underline{\color{red}\(d\eta=\omega\)}.
+\end{block}  
+
+\begin{block}{Preliminaries II: Local-to-global glueing: Mayer--Vietoris}
+	For \(M=U\cup V\), we uses a partition of unity to build the short exact sequence \[
+	0\to \Om^k(M)\to \Om^k(U)\oplus \Om^k(V)\to \Om^k(U\cap V)\to 0,
+	\]
+	and then the long exact Mayer--Vietoris sequence in cohomology.
+	
+	\medskip
+	
+	This means that ``curl-free locally'' does not imply ``gradient globally'' when topology obstructs global potentials.
+	
+	---
+	
+	Given \(M=U\cup V\), we uses the short exact sequence of de Rham complexes
+	\[
+	0\to \Omega^k(M)\xrightarrow{\alpha^k}\Omega^k(U)\oplus\Omega^k(V)\xrightarrow{\beta^k}\Omega^k(U\cap V)\to 0
+	\]
+	with \(\beta^k(\omega_U,\omega_V)=\omega_U|_{U\cap V}-\omega_V|_{U\cap V}\),
+	and surjectivity is built using a partition of unity \(\{\rho_U,\rho_V\}\).
+	
+	\textbf{Why this belongs on a Riemann--Roch:}
+	\begin{itemize}
+		\item[$\bullet$] Fine sheaves (built from partitions of unity) let we compute sheaf cohomology via resolutions.
+		\item[$\bullet$] This is the conceptual bridge from \texttt{grad/curl/div} (de Rham) to \(\bar\partial\)- and sheaf-cohomological formulas that culminate in Riemann--Roch.
+	\end{itemize}
+\end{block}
+
+\begin{block}{Preliminaries III: From de Rham to Complex Geometry}
+	
+	On a compact Riemann surface \(M\), complex structure refines \(d=\partial+\bar{\partial}\).
+	Holomorphic data live in sheaves:
+	\[
+	\cO \ (\text{holomorphic functions}), \qquad \Omega \ (\text{holomorphic 1-forms}).
+	\]
+	Divisors \(D=\sum_p n_p p\) encode zeros/poles, and determine a line bundle \(\cO(D)\): \[
+	\cO(D)(V)=\{ TBA \}
+	\]
+\end{block}
+
+\begin{block}{Core I: Riemann--Roch (Curves)}
+	Let \(M\) be a compact Riemann surface of genus \(g\), and \(D\) a divisor. Define
+	\[
+	\ell(D)=\dim H^0(M,\cO(D)),\qquad i(D)=\dim H^0(M,\Omega(-D)).
+	\]
+	\textbf{Riemann--Roch:}
+	\[
+	\boxed{\ \ell(D)-i(D)=1-g+\deg D\ } \qquad
+	\text{equivalently}\quad i(D)=\ell(K-D).
+	\]
+\end{block}
+
+\begin{block}{Core II: Cohomological mechanism: Euler characteristic + Serre duality}
+	We derives Riemann--Roch from the Euler characteristic of \(\cO(D)\):\[
+	\chi(\cO(D)):=\dim H^0(M,\cO(D))-\dim H^1(M,\cO(D))=\ell(D)-i(D),
+	\]
+	using Serre duality to identify \(H^1(M,\cO(D))^\ast\simeq I(D)\).
+	\vspace{0.4em}
+	
+	\textbf{Key principle:}
+	\[
+	\chi(\cO(D))=\chi(\cO_M)+\deg D,\qquad \chi(\cO_M)=1-g.
+	\]
+	So \(\chi\) is ``topology + degree,'' while \(\ell(K-D)\) is the global obstruction.
+\end{block}
+
+\begin{block}{Examples}
+	\textbf{Sphere \(\mathbb{P}^1\) (\(g=0\), \(K=-2[\infty]\)).} For \(D=n[\infty]\),
+	\(\ell(D)=n+1\) for \(n\ge -1\) (polynomials of degree \(\le n\)).
+	
+	\medskip
+	\textbf{Elliptic curve (\(g=1\), \(\deg K=0\)).} Riemann--Roch becomes \(\ell(D)-i(D)=\deg D\), and for \(\deg D>0\) one has \(\ell(D)=\deg D\).
+\end{block}
+
+\begin{block}{Topology link: Gauss--Bonnet parallel}
+	We emphasizes the analogy with Gauss--Bonnet:
+	\[
+	\int_M K_{\mathrm{Gauss}}\ \omega = 2\pi\chi(M)=2\pi(2-2g),
+	\]
+	and notes that \(\deg K=2g-2\) mirrors curvature/Euler characteristic.
+\end{block}
+
+\end{column}
+
+\begin{column}{.02\textwidth}\end{column} % Empty spacer column
+\begin{column}{.49\textwidth} % 2nd column
+\begin{block}{Applications I: Algebraic--geometric (AG) codes from Riemann--Roch}
+	Let \(X/\mathbb{F}_q\) be a smooth projective curve of genus \(g\). Choose:
+	\begin{align*}
+		D&=P_1+\cdots+P_n \ (\text{distinct rational points}),\\
+		 G &\ (\text{divisor, }\mathrm{supp}(G)\cap\mathrm{supp}(D)=\emptyset).
+	\end{align*}
+	Define the evaluation code
+	\begin{align*}
+		C_L(D,G)&=\{(f(P_1),\ldots,f(P_n)):\ f\in L(G)\}\subseteq \mathbb{F}_q^n,\\ L(G)&=H^0(X,\cO(G)).
+	\end{align*}
+	\textbf{Dimension:} \(k=\dim C_L(D,G)=\ell(G)-\ell(G-D)\), and for \(\deg G\) sufficiently large,
+	\[
+	\ell(G)=\deg G+1-g,
+	\]
+	as large-degree/embedding discussion.
+	
+	\medskip
+	
+	\textbf{Designed distance:} \(d\ge n-\deg G\). (Standard AG-code bound.)
+\end{block}
+\begin{block}{Example for Applications I: Classic McElice and FALOMA}
+\end{block}
+
+	\begin{block}{Applications II: ``Surface direction'' via Riemann--Roch for surfaces}
+	We states the surface analogue (for a smooth projective surface \(X\) and divisor \(D\)):
+	\[
+	\chi(\cO_X(D))=\chi(\cO_X)+\frac12\bigl(D\cdot D - D\cdot K_X\bigr),
+	\]
+	where \(\cdot\) is the intersection pairing and \(K_X\) is the canonical divisor.
+	
+	\vspace{0.4em}
+	
+%	\textbf{Coding-theory bridge (template):}
+	\begin{itemize}
+		\item \emph{AG surface codes:} evaluate \(H^0(X,\cO_X(D))\) on rational points/curves; use the above \(\chi\) plus vanishing theorems to estimate \(\dim H^0\).
+		\item \emph{Topological/surface codes (quantum):} homological dimension depends on \(H_1\) (genus); the same genus parameter appears in curve Riemann--Roch and in the obstruction term.
+	\end{itemize}
+\end{block}
+
+\begin{block}{The pipeline: Calculus (grad/curl/div) \(\to\) Riemann-Roch}
+	\centering
+	\begin{tikzpicture}[
+		box/.style={draw,rounded corners,fill=black!5,inner sep=6pt,align=center},
+		arr/.style={-Latex,thick}
+		]
+		\node[box] (vr) {\textbf{Vector calculus}\\[-0.1em]\(\nabla,\nabla\times,\nabla\cdot\)};
+		\node[box, right=10mm of vr] (dr) {\textbf{de Rham}\\[-0.1em]\((\Om^\bullet,d)\)};
+		\node[box, right=10mm of dr] (mv) {\textbf{Mayer--Vietoris}\\[-0.1em]PoU glueing};
+		\node[box, below=8mm of mv] (sh) {\textbf{Sheaves}\\[-0.1em]\(\cO(D),\Omega\)};
+		\node[box, left=10mm of sh] (sd) {\textbf{Serre duality}\\[-0.1em]\(H^1(\cO(D))^\ast\)};
+		\node[box, left=10mm of sd] (rr) {\textbf{Riemann--Roch}\\[-0.1em]\(\ell(D)-i(D)=1-g+\deg D\)};
+		
+		\draw[arr] (vr) -- (dr);
+		\draw[arr] (dr) -- (mv);
+		\draw[arr] (mv) -- (sh);
+		\draw[arr] (sh) -- (sd);
+		\draw[arr] (sd) -- (rr);
+	\end{tikzpicture}
+\end{block}
+
+\begin{block}{Vector calculus as a cochain complex}
+On an oriented surface \(M\), smooth differential forms package familiar operators:
+
+\medskip
+\begin{center}
+	\begin{tikzpicture}[scale=1.05, baseline=(current bounding box.center)]
+		\node (o0) at (0,0) {$0$};
+		\node (a0) at (3,0) {$\Omega^0(M)$};
+		\node (a1) at (8,0) {$\Omega^1(M)$};
+		\node (a2) at (13,0) {$\Omega^2(M)$};
+		\node (o3) at (16,0) {$0$};
+		
+		\draw[->, line width=1.2pt] (o0) -- (a0) node[midway, above] {};
+		\draw[->, line width=1.2pt] (a0) -- (a1) node[midway, above] {$d$};
+		\draw[->, line width=1.2pt] (a1) -- (a2) node[midway, above] {$d$};
+		\draw[->, line width=1.2pt] (a2) -- (o3) node[midway, above] {};
+	\end{tikzpicture}
+\end{center}
+
+\begin{itemize}
+	\item \(d:\Omega^0\to\Omega^1\) is the \emph{gradient} operator in disguise.
+	\item \(d:\Omega^1\to\Omega^2\) is the \emph{curl} (scalar curl on a surface).
+	\item The \emph{divergence} is the codifferential \(d^\ast\) (adjoint of \(d\) via a metric).
+	\item The Laplacian \(\Delta = dd^\ast + d^\ast d\) yields \textbf{Hodge decomposition}:
+	\[
+	\Omega^1(M) \;=\; \underbrace{d\Omega^0(M)}_{\text{grad part}}
+	\;\oplus\;
+	\underbrace{d^\ast\Omega^2(M)}_{\text{div part}}
+	\;\oplus\;
+	\underbrace{\mathcal{H}^1(M)}_{\text{harmonic}}
+	\]
+	and \(\mathcal{H}^1(M) \cong H^1_{\mathrm{dR}}(M)\) (closed mod exact).
+\end{itemize}
+
+\vspace{0.5em}
+\textbf{Index-counting slogan:} ``\#(global solutions) $-$ \#(global obstructions)'' is an Euler characteristic.
+
+Riemann--Roch is precisely such an index formula for \(\cO(D)\).
+\begin{center}
+\end{center}
+
+\end{block}
+
+\end{column}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Column 1
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%  \begin{column}{.3\textwidth} % 1st column
+%    \vspace{\shrink}
+%%    \begin{block}{Overview}
+%%	    \begin{itemize}
+%%	         \item Overview 1
+%%	         \item Overview 2
+%%	         \item Overview 3
+%%	         \item Overview 4
+%%	     \end{itemize}
+%%	\end{block}
+%%	\begin{block}{Another block}
+%%	    Block text \cite{le-2016-inference-compilation}...
+%%	\end{block}
+%  \end{column} % End of the 1st column
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Column 2
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%  \begin{column}{.02\textwidth}\end{column} % Empty spacer column
+%
+%  \begin{column}{.3\textwidth} % 2nd column
+%    \vspace{\shrink}
+%    \begin{block}{Method}
+%      \textbf{Method details.} We formulate... $\mathcal S = \{s_1, s_2, s_3, s_4, s_5, s_6 \}$
+%
+%      Image example:
+%%      \begin{center}
+%%        \includegraphics[width=0.9\columnwidth]{ox_brand_cmyk_rev}
+%%      \end{center}
+%    \end{block}
+%
+%  \end{column} % End of the 2nd column
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Column 3
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%  \begin{column}{.02\textwidth}\end{column} % Empty spacer column
+%
+%  \begin{column}{.3\textwidth} % 3rd column
+%
+%	\vspace{\shrink}
+%    \begin{block}{Results}
+%      Results...
+%    \end{block}
+%
+%    \begin{block}{References}
+%      \nocite{*} % Insert publications even if they are not cited in the poster
+%      \linespread{0.928}\selectfont
+%      \footnotesize{\bibliographystyle{unsrt}
+%      \bibliography{oxford_poster}}
+%    \end{block}
+%
+%  \end{column} % End of the 3rd column
+
+  \begin{column}{.01\textwidth}\end{column} % Empty spacer column
+\end{columns} % End of all the columns in the poster
+
+\end{frame} % End of the enclosing frame
+
+\end{document}

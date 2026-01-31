@@ -1,0 +1,199 @@
+\subsection{Custom Commands and Macros}
+As our documents grow, we will repeat the same notation, symbols, and formatting patterns many times.
+Custom commands (macros) let you write once and reuse everywhere.
+
+Suppose we write the real numbers many times as $\mathbb{R}$.
+If we define a macro \verb|\R|, then our source becomes shorter and clearer:
+\begin{itemize}
+	\item without macros: \verb|$\mathbb{R}$|
+	\item with macros: \verb|$\R$|
+\end{itemize}
+
+\subsubsection{Defining New Commands}
+
+Use \verb|\newcommand| in the preamble to define your own commands.
+A command name starts with a backslash and usually uses letters only (e.g., \verb|\R|, \verb|\vect|).
+
+\paragraph{Syntax}
+\;\medskip
+\begin{lstlisting}
+\newcommand{\name}{replacement text}
+\newcommand{\name}[n]{replacement with #1 to #n}
+\end{lstlisting}
+\begin{itemize}
+	\item \verb|\name| is the command we will type in the document.
+	\item \verb|{replacement text}| is what \LaTeX{} will insert when the command is used.
+	\item \verb|[n]| declares the number of required arguments.
+	\item \verb|#1|, \verb|#2|, \dots{} are placeholders for those arguments.
+\end{itemize}
+
+\begin{example}
+\;\medskip
+\begin{lstlisting}
+\newcommand{\R}{\mathbb{R}}                 % real numbers
+\newcommand{\vect}[1]{\mathbf{#1}}          % bold vectors
+\newcommand{\abs}[1]{\left|#1\right|}       % absolute value
+\end{lstlisting}
+Once defined, you can use them in math mode:
+\begin{itemize}
+	\item $\R$ denotes the set of real numbers.
+	\item $\mathbf{v}$ denotes a vector $v$ typeset in bold.
+	\item $\left|{x}\right|$ produces the absolute value of $x$.
+\end{itemize}
+\end{example}
+
+
+\subsubsection{A Note on Math Mode}
+Sometimes we want a command with a default argument.
+we can define an optional argument using \verb|\newcommand| by putting a default value in brackets.
+
+\begin{example}
+\;\medskip
+
+\begin{lstlisting}
+\newcommand{\seq}[2][n]{\{#2_1, #2_2, \dots, #2_#1\}}
+\end{lstlisting}
+\begin{itemize}
+	\item \verb|\seq{a}| produces $\{a_1, a_2, \dots, a_n\}$.
+	\item \verb|\seq[3]{x}| produces $\{x_1, x_2, x_3\}$.
+\end{itemize}
+\end{example}
+
+%\subsection{Best Practice: Keep Optional Arguments Simple}
+%
+%Optional arguments are great for small variations (like a default size, a default exponent limit, etc.).
+%If your macro becomes too complex, consider writing a clearer command name rather than many options.
+%
+%\section{Renewing Existing Commands}
+%
+%\subsection{When You Might Need \texttt{\textbackslash renewcommand}}
+%
+%If a command already exists and you want to redefine it, use \verb|\renewcommand|.
+%For example, some authors prefer $\varphi$ instead of $\phi$:
+%
+%\begin{verbatim}
+%	\renewcommand{\phi}{\varphi}
+%\end{verbatim}
+%
+%\subsection{Warning About Redefinitions}
+%
+%Redefining built-in commands can break packages or change meaning unexpectedly.
+%Use \verb|\renewcommand| only when you are confident:
+%\begin{itemize}
+%	\item you understand the original meaning,
+%	\item you will not confuse collaborators or readers of the source,
+%	\item the redefinition does not conflict with packages you use.
+%\end{itemize}
+%
+%\subsection{Safer Alternative: Make a New Name}
+%
+%Instead of redefining \verb|\phi| globally, you can define your own macro:
+%
+%\begin{verbatim}
+%	\newcommand{\phivar}{\varphi}
+%\end{verbatim}
+%
+%Then use $\phivar$ when you want the variant.
+%
+\subsubsection{Declaring Math Operators}
+%
+%\subsection{Why Operators Need Special Handling}
+%
+Functions like $\sin(x)$, $\log(x)$, and $\lim$ are typeset as operators with correct spacing.
+If we write a function name as plain letters in math mode (like $Var(X)$), spacing and font may look wrong.
+
+\begin{example}
+To define operators with proper spacing and upright font, use \verb|\DeclareMathOperator|:
+\begin{lstlisting}
+	\DeclareMathOperator{\Var}{Var}
+	\DeclareMathOperator*{\argmax}{arg\,max}
+\end{lstlisting}
+Inline usage:
+\begin{itemize}
+	\item $\Var(X)$
+	\item $\argmax_{x \in A} f(x)$
+\end{itemize}
+Display usage (showing typical operator styling):
+\[
+\argmax_{x \in A} f(x)
+\qquad
+\Var(X)
+\]
+\end{example}
+\begin{remark}
+\;
+\begin{itemize}
+	\item \verb|\DeclareMathOperator| behaves like $\sin$: subscripts appear to the side in display math.
+	\item \verb|\DeclareMathOperator*| behaves like $\lim$: subscripts can appear underneath in display math.
+\end{itemize}
+\end{remark}
+
+%\subsection{Usage Examples}
+%
+
+%
+%\section{Best Practices}
+%
+%\subsection{Naming and Organization}
+%
+%\begin{itemize}
+%	\item Use clear, descriptive names (e.g., \verb|\vect| instead of \verb|\v|).
+%	\item Prefer consistent prefixes for project macros (e.g., \verb|\mR|, \verb|\mVect|) to avoid name conflicts.
+%	\item Group macro definitions by purpose (sets, operators, formatting) and comment them.
+%\end{itemize}
+%
+%\subsection{Avoid Conflicts}
+%
+%\begin{itemize}
+%	\item If \verb|\newcommand| gives an error (“already defined”), do not switch to \verb|\renewcommand| immediately.
+%	First check whether a package already uses that name.
+%	\item Prefer longer names if necessary: \verb|\RealNumbers| is safer than \verb|\R| in complex projects.
+%\end{itemize}
+%
+%\subsection{Write Macros That Match Meaning}
+%
+%A macro should represent meaning, not appearance.
+%For example, \verb|\vect{v}| expresses “vector $v$”, not “bold $v$”.
+%If you later decide vectors should be arrows (like $\vec{v}$), you change the macro definition once.
+%
+%\begin{example}[Semantic macro design]
+%	\begin{verbatim}
+%		\newcommand{\vect}[1]{\mathbf{#1}} % now bold
+%		% later you can switch to:
+%		% \newcommand{\vect}[1]{\vec{#1}}  % now arrow style
+%	\end{verbatim}
+%\end{example}
+%
+%\section{Exercises}
+%
+%\begin{exercise}
+%	In a \LaTeX{} document:
+%	\begin{itemize}
+%		\item Define the following custom commands:
+%		\begin{itemize}
+%			\item \verb|\Z| for $\mathbb{Z}$
+%			\item \verb|\norm{#1}| for $\left\|#1\right\|$
+%			\item \verb|\inner{#1}{#2}| for the inner product $\langle #1, #2 \rangle$
+%		\end{itemize}
+%		\item Use each command in a displayed equation and in one sentence with inline math.
+%	\end{itemize}
+%\end{exercise}
+%
+%\begin{exercise}
+%	Define a macro for probability and expectation operators:
+%	\begin{itemize}
+%		\item \verb|\DeclareMathOperator{\E}{\mathbb{E}}| is not correct because \verb|\mathbb| is not plain text.
+%		Instead, create a command \verb|\E| that prints $\mathbb{E}$ and then use it as an operator in expressions like $\E[X]$.
+%	\end{itemize}
+%	Write two example formulas using your macro, including one with a subscript like $\E_{X \sim P}[f(X)]$.
+%\end{exercise}
+%
+%\begin{exercise}
+%	Create a “notation layer” for your document:
+%	\begin{itemize}
+%		\item Define macros for $\mathbb{R}$, $\mathbb{N}$, and $\mathbb{Z}$.
+%		\item Define \verb|\abs| and \verb|\norm|.
+%		\item Rewrite a short paragraph of math so that all sets and absolute values/norms use your macros.
+%	\end{itemize}
+%	Explain (in one paragraph) how this improves maintainability.
+%\end{exercise}

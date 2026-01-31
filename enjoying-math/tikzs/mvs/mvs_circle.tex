@@ -157,4 +157,140 @@
 %\draw[trans] (-3.1,-1.45) to[bend left=10] (3.1,-1.45)
 %node[midway,below] {$\displaystyle \psi\circ\varphi^{-1}(t)=\frac{1}{t}$};
 \end{tikzpicture}
+
+
+
+% Preamble:
+% \usepackage{tikz}
+% \usetikzlibrary{arrows.meta,calc,positioning}
+
+\begin{tikzpicture}[>=Latex,scale=1]
+	
+	% ------------------------------------------------------------
+	% Styles (close to the black/white + gray overlap style)
+	% ------------------------------------------------------------
+	\tikzset{
+		s1/.style={line width=0.9pt},
+		Ustyle/.style={line width=1.0pt,dashed,dash pattern=on 4pt off 3pt},
+		Vstyle/.style={line width=1.0pt,dashed,dash pattern=on 4pt off 3pt},
+		overlap/.style={line width=10pt,draw=gray!35,line cap=round},
+		hole/.style={fill=white,draw=black,line width=0.7pt},
+		axis/.style={->,line width=0.9pt},
+		box/.style={draw=black,dashed,dash pattern=on 4pt off 3pt,
+			line width=0.9pt,rounded corners=7pt},
+		downarr/.style={->,line width=0.9pt},
+		trans/.style={->,line width=0.9pt},
+		grayseg/.style={line width=7pt,draw=gray!35,line cap=round}
+	}
+	
+	% ============================================================
+	% TOP: S^1 \subset R^2 with U, V, and U\cap V = A \sqcup B
+	% ============================================================
+	\begin{scope}[shift={(0,3.6)}]
+		\def\r{1.35}
+		
+		% Coordinate axes in R^2 (comment out if you want a cleaner look)
+		\draw[axis] (-2.0,0) -- (2.0,0) node[right] {$x$};
+		\draw[axis] (0,-2.0) -- (0,2.0) node[above] {$y$};
+		
+		% Circle S^1
+		\draw[s1] (0,0) circle (\r);
+		
+		% Concrete points (-1,0), (1,0) on this drawn circle
+		\coordinate (mone) at (-\r,0);
+		\coordinate (pone) at ( \r,0);
+		
+		% Labels
+		\node[below left]  at (mone) {$(-1,0)$};
+		\node[below right] at (pone) {$(1,0)$};
+		
+		% "Removed points" as holes
+		\draw[hole] (mone) circle (0.09);
+		\draw[hole] (pone) circle (0.09);
+		
+		% U = S^1 \ {(-1,0)} : dashed circle with small gap at 180 degrees
+		\draw[Ustyle] (175:\r) arc (175:360:\r);
+		\draw[Ustyle] (0:\r)   arc (0:5:\r);
+		
+		% V = S^1 \ {(1,0)} : dashed circle with small gap at 0 degrees
+		\draw[Vstyle] (5:\r)    arc (5:180:\r);
+		\draw[Vstyle] (180:\r)  arc (180:355:\r);
+		
+		% Overlap U\cap V = S^1 \ {(-1,0),(1,0)} has two components:
+		% A (upper arc) and B (lower arc), shaded thick gray.
+		\draw[overlap] (10:\r)  arc (10:170:\r);    % A
+		\draw[overlap] (190:\r) arc (190:350:\r);   % B
+		
+		% Redraw circle for crisp boundary
+		\draw[s1] (0,0) circle (\r);
+		
+		% Labels for sets/components
+		\node at (-0.55,0.92) {$U$};
+		\node at ( 0.55,0.92) {$V$};
+		\node at (0, 1.08) {$A$};
+		\node at (0,-1.08) {$B$};
+		
+		% Anchors for arrows to charts
+		\coordinate (uAnchor) at (-0.60,-0.45);
+		\coordinate (vAnchor) at ( 0.60,-0.45);
+	\end{scope}
+	
+	% ============================================================
+	% BOTTOM LEFT: (\tilde U, \varphi) with explicit stereographic formula
+	%   \varphi(x,y) = y/(1+x)  (projection from (-1,0) to x=0 \cong R)
+	% ============================================================
+	\begin{scope}[shift={(-4.2,0)}]
+		% Real line axis
+		\draw[axis] (-2.5,0) -- (2.5,0) node[right] {$\mathbb R$};
+		
+		% Dashed rounded rectangle indicating chart domain (schematic)
+		\draw[box] (-1.85,-0.70) rectangle (1.85,0.70);
+		\node[above] at (0,0.83) {$\tilde U=\mathbb R$};
+		
+		% Two components of overlap in coordinates (A maps to (0,∞), B to (-∞,0))
+		\draw[grayseg] (0.10,0.25) -- (1.65,0.25);     % image of A
+		\draw[grayseg] (-1.65,-0.25) -- (-0.10,-0.25); % image of B
+		
+		% Formula label
+		\node[align=center] at (0,-1.15)
+		{$\displaystyle \varphi:U\to\mathbb R,\qquad \varphi(x,y)=\frac{y}{1+x}$};
+	\end{scope}
+	
+	% ============================================================
+	% BOTTOM RIGHT: (\tilde V, \psi) with explicit stereographic formula
+	%   \psi(x,y) = y/(1-x)  (projection from (1,0) to x=0 \cong R)
+	% ============================================================
+	\begin{scope}[shift={(4.2,0)}]
+		% Real line axis
+		\draw[axis] (-2.5,0) -- (2.5,0) node[right] {$\mathbb R$};
+		
+		% Dashed rounded rectangle indicating chart domain (schematic)
+		\draw[box] (-1.85,-0.70) rectangle (1.85,0.70);
+		\node[above] at (0,0.83) {$\tilde V=\mathbb R$};
+		
+		% Two components of overlap in coordinates
+		\draw[grayseg] (0.10,0.25) -- (1.65,0.25);     % image of A
+		\draw[grayseg] (-1.65,-0.25) -- (-0.10,-0.25); % image of B
+		
+		% Formula label
+		\node[align=center] at (0,-1.15)
+		{$\displaystyle \psi:V\to\mathbb R,\qquad \psi(x,y)=\frac{y}{1-x}$};
+	\end{scope}
+	
+	% ============================================================
+	% Arrows from S^1 down to the charts + transition map
+	% ============================================================
+	\draw[downarr] ($(0,3.6)+(-0.60,-0.45)$) -- (-4.2,1.05)
+	node[midway,left] {$\varphi$};
+	
+	\draw[downarr] ($(0,3.6)+( 0.60,-0.45)$) -- ( 4.2,1.05)
+	node[midway,right] {$\psi$};
+	
+	% Transition map on overlap in coordinates:
+	%   (\psi \circ \varphi^{-1})(t) = 1/t  on  R\setminus{0}.
+	\draw[trans] (-3.2,-1.55) to[bend left=10] (3.2,-1.55)
+	node[midway,below] {$\displaystyle \psi\circ\varphi^{-1}(t)=\frac{1}{t}\quad (t\neq 0)$};
+	
+\end{tikzpicture}
+
 \end{document}
