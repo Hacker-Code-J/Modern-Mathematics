@@ -39,7 +39,7 @@
 \begin{center}
 	\huge\textbf{Linear Algebra IV}\\
 	\vspace{0.5em}
-	\large{Ji, Yong-hyeon}\\
+	\large{Ji Yonghyeon,\; Bae Dongsung}\\
 	\vspace{0.5em}
 	\normalsize{\today}\\
 \end{center}
@@ -48,24 +48,359 @@
 We cover the following topics in this note.
 \begin{itemize}
 	\item Eigenvectors and Diagonalization.
+	\begin{itemize}
+		\item[*] Hessian Matrix
+		\item[*] Differential Equation
+	\end{itemize}
+	\item TBA.
 \end{itemize}
 \hrule\vspace{12pt}
 %\tableofcontents
 \vfill
 
 \newpage
-%\begin{observation}[Choosing a basis to simplify a linear map]
-%Consider a finite-dimensional vector space $V$ over a field $\F$. Let $T:V\to V$ be a linear operator. Let $\basis=\set{\textbf{v}_1,\dots,\textbf{v}_n}$ be a basis of $V$ such that $[T]_{\basis}$ is a diagonal matrix: \[
-%[T]_{\basis}=[T]_{\basis}^{\basis}=\begin{pmatrix}
-%	{\color{blue}d_1} & 0 & \cdots & 0\\
-%	0 & {\color{blue}d_1} & \cdots & 0 \\
-%	\vdots & \vdots & \ddots & \vdots \\
-%	0 & 0 & \cdots & {\color{blue}d_n} \\
-%\end{pmatrix},\quad\ie,\quad T(\textbf{v}_i)=d_i\textbf{v}_i\;\text{with}\; 1\leq i\leq n.
-%\]
-%Then $T$ may be very complicated, but with respect to $[T]_{\basis}$ it looks nice. 
+\begin{observation}[Choosing a basis to simplify a linear map]
+Consider a finite-dimensional vector space $V$ over a field $\F$. Let $T:V\to V$ be a linear operator. 
+Let $\basis=\set{\textbf{v}_1,\dots,\textbf{v}_n}$ be a basis of $V$ such that $[T]_{\basis}$ is a diagonal matrix: 
+\[
+[T]_{\basis}=[T]_{\basis}^{\basis}=\begin{bmatrix}
+	{\color{blue}d_1} & 0 & \cdots & 0\\
+	0 & {\color{blue}d_1} & \cdots & 0 \\
+	\vdots & \vdots & \ddots & \vdots \\
+	0 & 0 & \cdots & {\color{blue}d_n} \\
+\end{bmatrix}_{n\times n},\quad\ie,\quad T(\textbf{v}_i)=d_i\textbf{v}_i\;\text{with}\; 1\leq i\leq n.
+\]
+Then $T$ may be very complicated, but with respect to $[T]_{\basis}$ it looks nice. 
 %%(``$T$ acts by scalars on the coordinate directions''). 
-%\end{observation}
+\end{observation}
+
+\medskip
+
+\defbox[Eigenvector, Eigenvalue]{\begin{definition*}
+	A nonzero vector $\textbf{v}\in V\setminus\set{0}$ is an \emph{eigenvector} of $T$ if there exists $\lambda\in\F$ such that
+	\[
+	T(\textbf{v})=\lambda \textbf{v}.
+	\]
+	The scalar $\lambda$ is called the \emph{eigenvalue} corresponding to $\textbf{v}$.
+\end{definition*}}
+
+%\begin{remark}
+%%	[One-dimensional invariant subspace]
+%	If $T(v)=\lambda v$ with $v\neq 0$, then the line $\Span(v)$ is $T$-invariant and
+%	\[
+%	T|_{\Span(v)}:\Span(v)\to \Span(v)
+%	\]
+%	acts as scalar multiplication by $\lambda$.
+%\end{remark}
+%
+%\section{Diagonalizable operators and matrices}
+
+
+\defbox[Diagonalizable Linear Operator]{
+\begin{definition*}
+	We say $T:V\to V$ is \emph{diagonalizable} if $\exists$ a basis $\basis$ of $V$ such that 
+%	the matrix of $T$ 
+%	with respect to that basis 
+	$[T]_\basis$ is diagonal.
+	Equivalently, $T$ is diagonalizable iff $V$ has a basis consisting of eigenvectors of $T$.
+\end{definition*}}
+\begin{example}[Hessian; Quadratic form diagonalization]
+Note that \begin{itemize}
+	\item Single variable Taylor series: \begin{align*}
+	f(x)
+	&= f(p) + \frac{1}{1!}f'(p)(x-p) + \frac{1}{2!}f''(p)(x-p)^2 + \cdots \\
+	&= \sum_{k=0}^{n}\frac{f^{(k)}(p)}{k!}(x-p)^k + R.
+	\end{align*}
+	\item Two variables Taylor series: \begin{align*}
+	f(x,y) &= f(p,q)
++ \frac{1}{1!}\,f_x(p,q)(x-p) + \frac{1}{1!}\,f_y(p,q)(y-q) \\
+& \quad\;\; + \frac{1}{2!}\,f_{xx}(p,q)(x-p)^2 + \frac{1}{1!}\,f_{xy}(p,q)(x-p)(y-q)
++ \frac{1}{2!}\,f_{yy}(p,q)(y-q)^2 + \cdots
+	\end{align*}
+Let
+\[
+X=\begin{bmatrix}x-p \\ y-q\end{bmatrix},\qquad \nabla f=\begin{bmatrix}
+\pderiv{}{x}f\\ \pderiv{}{y}f
+\end{bmatrix},\qquad
+H=\begin{bmatrix} f_{xx} & f_{xy}\\ f_{yx} & f_{yy}\end{bmatrix}.
+\] Then \begin{align*}
+	f(x,y)&=\mathcolorbox{-blue}{f(p,q)} + \mathcolorbox{-red}{\frac{1}{1!} 
+	\begin{bmatrix}
+		f_x & f_y
+	\end{bmatrix}\begin{bmatrix}x-p\\ y-q\end{bmatrix}}+\mathcolorbox{-green}{
+	\frac{1}{2!}\begin{bmatrix}
+		x-p & y-q
+	\end{bmatrix}\begin{bmatrix} f_{xx} & f_{xy}\\ f_{yx} & f_{yy}\end{bmatrix}
+	\begin{bmatrix}
+		x-p \\ y-q
+	\end{bmatrix}}+R\\
+	&= \mathcolorbox{-blue}{f(p,q)} + \mathcolorbox{-red}{\frac{1}{1!}\,\nabla f^{\,T}X} + \mathcolorbox{-green}{\frac{1}{2!}\,X^{T}HX} + R.
+\end{align*}
+%\newpage\noindent
+Consider $f(x,y)=4x^2+2xy+4y^2$. Then
+\[
+f_{xx}=4,\quad f_{yy}=4,\quad f_{xy}=f_{yx}=2
+\quad\Rightarrow\quad
+H=\begin{bmatrix}4&2\\2&4\end{bmatrix}.
+\]
+Let
+\[
+X=\begin{bmatrix}x\\y\end{bmatrix}
+\quad\Rightarrow\quad
+f=X^{T}HX.
+\]
+Eigenpairs:
+\[
+\lambda_1=6 \ \Rightarrow\ \frac{1}{\sqrt{2}}\begin{bmatrix}1\\1\end{bmatrix},
+\qquad
+\lambda_2=2 \ \Rightarrow\ \frac{1}{\sqrt{2}}\begin{bmatrix}1\\-1\end{bmatrix}.
+\]
+So
+\[
+Q=\frac{1}{\sqrt{2}}
+\begin{bmatrix}
+	1&1\\
+	1&-1
+\end{bmatrix},
+\qquad
+D=\operatorname{diag}(\lambda_1,\lambda_2)=\operatorname{diag}(6,2),
+\qquad
+H=Q^{T}DQ.
+\]
+Hence
+\[
+f=X^THX=X^{T}(Q^{T}DQ)X=(QX)^{T}D(QX).
+\]
+Let $
+QX:=V=\begin{bmatrix}u\\v\end{bmatrix}$ then \[
+u=\frac{x+y}{\sqrt{2}},\qquad \ v=\frac{x-y}{\sqrt{2}}.
+\]
+Then
+\[
+f=V^{T}DV
+=\begin{bmatrix}u\ \ v\end{bmatrix}
+\begin{bmatrix}6&0\\0&2\end{bmatrix}
+\begin{bmatrix}u\\v\end{bmatrix}
+=6u^2+2v^2.
+\] Here, intersection term $(xy)$ disappeared.
+\end{itemize}
+
+\medskip
+
+%\begin{example}[Differential Equation 1]
+%	For the linear system
+%	\[
+%	\begin{cases}
+%		x_1'= a_{11}x_1+a_{12}x_2,\\
+%		x_2'= a_{21}x_1+a_{22}x_2.
+%	\end{cases}\Rightarrow\begin{bmatrix}
+%		x_1'\\ x_2'
+%	\end{bmatrix}=\begin{bmatrix}
+%	a_{11} & a_{12} \\
+%	a_{21} & a_{22}
+%\end{bmatrix}
+%\begin{bmatrix}
+%x_1\\ x_2
+%\end{bmatrix}\left(\Leftrightarrow X'=AX\right),
+%	\] if \(A=PDP^{-1}\) (diagonalizable), set \(Y=P^{-1}X\). Then \(X=PY\), and
+%	\[
+%	X'=PY',\qquad AX=A(PY)=(PDP^{-1})PY=PDY,
+%	\]
+%	so
+%	\[
+%	PY' = PDY \quad\Rightarrow\quad Y'=DY
+%	=\operatorname{diag}(\lambda_1,\lambda_2)\,Y.
+%	\]
+%%	Thus each component solves
+%%	\[
+%%	y_i'=\lambda_i y_i
+%%	\quad\Rightarrow\quad
+%%	y_i=c_i e^{\lambda_i t},
+%%	\qquad
+%%	x=Py.
+%%	\]
+%	
+%	\newpage
+%	\[
+%	x' = Ax,
+%	\qquad
+%	A=\begin{bmatrix}3&1\\1&3\end{bmatrix}.
+%	\]
+%	\[
+%	\lambda=4 \Rightarrow \frac{1}{\sqrt{2}}\begin{bmatrix}1\\1\end{bmatrix},
+%	\qquad
+%	\lambda=2 \Rightarrow \frac{1}{\sqrt{2}}\begin{bmatrix}1\\-1\end{bmatrix}.
+%	\]
+%	Define
+%	\[
+%	u=\frac{x+y}{\sqrt{2}},\qquad v=\frac{x-y}{\sqrt{2}}
+%	\quad\Rightarrow\quad
+%	x=\frac{u+v}{\sqrt{2}},\ \ y=\frac{u-v}{\sqrt{2}}.
+%	\]
+%	Then
+%	\[
+%	\begin{bmatrix}u'\\v'\end{bmatrix}
+%	=
+%	\operatorname{diag}(4,2)\begin{bmatrix}u\\v\end{bmatrix}
+%	=
+%	\begin{bmatrix}4u\\2v\end{bmatrix},
+%	\]
+%	so
+%	\[
+%	u=c_1 e^{4t},\qquad v=c_2 e^{2t}.
+%	\]
+%	With initial data \(x(0)=x_0,\ y(0)=y_0\), \begin{align*}
+%	x(t)=\frac12\Big((x_0+y_0)e^{4t}+(x_0-y_0)e^{2t}\Big),\\
+%	y(t)=\frac12\Big((x_0+y_0)e^{4t}-(x_0-y_0)e^{2t}\Big).
+%	\end{align*}
+%\end{example}
+%
+%\begin{example}[Differential Equation 2] 
+%	Consider $x' = Ax$ with \[
+%	A=\begin{bmatrix}2&1\\0&3\end{bmatrix},
+%	\qquad
+%	x=\begin{bmatrix}x_1\\x_2\end{bmatrix},
+%	\qquad
+%	x_1(0)=a,\ x_2(0)=b.
+%	\] Then
+%	\[
+%	\lambda_1=2 \Rightarrow \begin{bmatrix}1\\0\end{bmatrix},
+%	\qquad
+%	\lambda_2=3 \Rightarrow \begin{bmatrix}1\\1\end{bmatrix}.
+%	\]
+%	So
+%	\[
+%	A=PDP^{-1}=\begin{bmatrix}1&1\\0&1\end{bmatrix}
+%	\operatorname{diag}(2,3)\begin{bmatrix}1&-1\\0&1\end{bmatrix}.
+%	\]
+%	Let \(y=P^{-1}x\). Then
+%	\[
+%	y'=Dy
+%	\quad\Rightarrow\quad
+%	\begin{cases}
+%		y_1=c_1 e^{2t},\\
+%		y_2=c_2 e^{3t}.
+%	\end{cases}
+%	\]
+%	Also
+%	\[
+%	\begin{cases}
+%		y_1=x_1-x_2,\\
+%		y_2=x_2
+%	\end{cases}
+%	\quad\Rightarrow\quad
+%	\begin{cases}	
+%		x_1=y_1+y_2,\quad x_2=y_2.
+%	\end{cases}
+%	\]
+%	With \(c_1=a-b,\ c_2=b\), $\begin{cases}
+%		x_1(t)=(a-b)e^{2t}+be^{3t}, \\
+%		x_2(t)=be^{3t}.
+%	\end{cases}$
+%\end{example}
+
+%For
+%\[
+%x' = Ax,
+%\qquad \text{and } A=PDP^{-1}\ \text{일 때,}
+%\]
+%let \(y=P^{-1}x\) 으로 치환하면 \(x=Py\) 이고,
+%\[
+%Py' = PDP^{-1}x = PDy
+%\quad\Rightarrow\quad
+%y'=Dy=\operatorname{diag}(\lambda_1,\dots,\lambda_n)\,y.
+%\]
+%Thus
+%\[
+%y_i'=\lambda_i y_i
+%\quad\Rightarrow\quad
+%y_i=c_i e^{\lambda_i t},
+%\qquad
+%x=Py.
+%\]
+%
+%\subsection*{Example 1}
+%\[
+%x' = Ax,
+%\qquad
+%A=\begin{bmatrix}3&1\\1&3\end{bmatrix}.
+%\]
+%\[
+%\lambda=4 \Rightarrow \frac{1}{\sqrt{2}}\begin{bmatrix}1\\1\end{bmatrix},
+%\qquad
+%\lambda=2 \Rightarrow \frac{1}{\sqrt{2}}\begin{bmatrix}1\\-1\end{bmatrix}.
+%\]
+%Let
+%\[
+%u=\frac{x+y}{\sqrt{2}},\qquad v=\frac{x-y}{\sqrt{2}}
+%\quad\Rightarrow\quad
+%x=\frac{u+v}{\sqrt{2}},\ \ y=\frac{u-v}{\sqrt{2}}.
+%\]
+%Then
+%\[
+%\begin{bmatrix}u'\\v'\end{bmatrix}
+%=
+%\operatorname{diag}(4,2)\begin{bmatrix}u\\v\end{bmatrix}
+%=
+%\begin{bmatrix}4u\\2v\end{bmatrix},
+%\]
+%so
+%\[
+%u=c_1 e^{4t},\qquad v=c_2 e^{2t}.
+%\]
+%With initial data \(x(0)=x_0,\ y(0)=y_0\),
+%\[
+%x(t)=\frac12\Big((x_0+y_0)e^{4t}+(x_0-y_0)e^{2t}\Big),
+%\]
+%\[
+%y(t)=\frac12\Big((x_0+y_0)e^{4t}-(x_0-y_0)e^{2t}\Big).
+%\]
+%
+%\subsection*{Example 2}
+%\[
+%x' = Ax,
+%\qquad
+%A=\begin{bmatrix}2&1\\0&3\end{bmatrix},
+%\qquad
+%x=\begin{bmatrix}x_1\\x_2\end{bmatrix},
+%\qquad
+%x_1(0)=a,\ x_2(0)=b.
+%\]
+%\[
+%\lambda_1=2 \Rightarrow \begin{bmatrix}1\\0\end{bmatrix},
+%\qquad
+%\lambda_2=3 \Rightarrow \begin{bmatrix}1\\1\end{bmatrix}.
+%\]
+%So
+%\[
+%P=\begin{bmatrix}1&1\\0&1\end{bmatrix},
+%\qquad
+%D=\operatorname{diag}(2,3),
+%\qquad
+%A=PDP^{-1},
+%\qquad
+%P^{-1}=\begin{bmatrix}1&-1\\0&1\end{bmatrix}.
+%\]
+%Let \(y=P^{-1}x\), then \(x=Py\) and
+%\[
+%y'=Dy
+%\quad\Rightarrow\quad
+%y_1=c_1 e^{2t},\qquad y_2=c_2 e^{3t}.
+%\]
+%Also
+%\[
+%y_1=x_1-x_2,\qquad y_2=x_2
+%\quad\Rightarrow\quad
+%x_1=y_1+y_2,\quad x_2=y_2.
+%\]
+%With \(c_1=a-b,\ c_2=b\),
+%\[
+%x_1(t)=(a-b)e^{2t}+be^{3t},
+%\qquad
+%x_2(t)=be^{3t}.
+%\]
+
+\end{example}
 
 %\begin{example}[Shape operator; Kim, Namho]
 %Let $S^2=\set{x\in\R^3:\norm{x}=1}$. Define the sphere by $f(x,y,z)=x^2+y^2+z^2=1$. Compute \[
@@ -94,26 +429,26 @@ We cover the following topics in this note.
 %
 %\newpage
 %Let $U=\intoo{0,\pi}\times\intoo{0,2\pi}\subset\R^2$. Consider the standard spherical parametrization \[
-%\fullfunction{X}{U}{S^2(\subset\R^3)}{(\theta,\phi)}{X(\theta,\phi)=\begin{pmatrix}
+%\fullfunction{X}{U}{S^2(\subset\R^3)}{(\theta,\phi)}{X(\theta,\phi)=\begin{bmatrix}
 %		\sin\theta\cos\phi\\
 %		\sin\theta\sin\phi\\
 %		\cos\theta
-%	\end{pmatrix}}.
+%	\end{bmatrix}}.
 %\] At $p=X(\theta,\phi)$, the tangent vectors are
 %\[
 %\pderiv{}{\theta}X(\theta,\phi)=
-%\begin{pmatrix}
+%\begin{bmatrix}
 %	\cos\theta\cos\phi\\
 %	\cos\theta\sin\phi\\
 %	-\sin\theta
-%\end{pmatrix},
+%\end{bmatrix},
 %\qquad
 %\pderiv{}{\phi}X(\theta,\phi)=
-%\begin{pmatrix}
+%\begin{bmatrix}
 %	-\sin\theta\sin\phi\\
 %	\sin\theta\cos\phi\\
 %	0
-%\end{pmatrix}.
+%\end{bmatrix}.
 %\]
 %They span $T_pS^2$ for $0<\theta<\pi$.
 %Note that \begin{enumerate}[(i)]
@@ -183,7 +518,7 @@ We cover the following topics in this note.
 %\]
 %
 %\section*{Example: rotation and dependence on the field}
-%Let $A=R_{90}=\begin{pmatrix}0&-1\\ 1&0\end{pmatrix}$.
+%Let $A=R_{90}=\begin{bmatrix}0&-1\\ 1&0\end{bmatrix}$.
 %
 %\medskip
 %\textbf{Case 1: $\F=\R$.}
@@ -211,16 +546,16 @@ We cover the following topics in this note.
 %More generally, for the rotation matrix
 %\[
 %A=
-%\begin{pmatrix}
+%\begin{bmatrix}
 %	\cos\theta & -\sin\theta\\
 %	\sin\theta & \cos\theta
-%\end{pmatrix},
+%\end{bmatrix},
 %\quad
 %A-\lambda I=
-%\begin{pmatrix}
+%\begin{bmatrix}
 %	\cos\theta-\lambda & -\sin\theta\\
 %	\sin\theta & \cos\theta-\lambda
-%\end{pmatrix},
+%\end{bmatrix},
 %\]
 %we compute
 %\[
@@ -237,13 +572,13 @@ We cover the following topics in this note.
 %\medskip
 %For $\lambda_+=\cos\theta+i\sin\theta=e^{i\theta}$ one can take an eigenvector
 %\[
-%u_+=\begin{pmatrix}1\\ -i\end{pmatrix},
+%u_+=\begin{bmatrix}1\\ -i\end{bmatrix},
 %\qquad
 %Au_+=\lambda_+u_+.
 %\]
 %Similarly, for $\lambda_-=\cos\theta-i\sin\theta=e^{-i\theta}$ one can take
 %\[
-%u_-=\begin{pmatrix}1\\ i\end{pmatrix},
+%u_-=\begin{bmatrix}1\\ i\end{bmatrix},
 %\qquad
 %Au_-=\lambda_-u_-.
 %\]
@@ -355,7 +690,7 @@ We cover the following topics in this note.
 %\begin{example}[Rotation by $90^\circ$]
 %	Consider the matrix
 %	\[
-%	R=\begin{pmatrix}0&-1\\[2pt]1&0\end{pmatrix},
+%	R=\begin{bmatrix}0&-1\\[2pt]1&0\end{bmatrix},
 %	\]
 %	which represents rotation by $90^\circ$ in $\R^2$.
 %	Over $\R$, it has no real eigenvectors (no nonzero vector is mapped to a real scalar multiple of itself),
@@ -366,7 +701,7 @@ We cover the following topics in this note.
 %\begin{example}[Rotation by an angle $\theta$]
 %	Let
 %	\[
-%	A=\begin{pmatrix}\cos\theta&-\sin\theta\\[2pt]\sin\theta&\cos\theta\end{pmatrix}.
+%	A=\begin{bmatrix}\cos\theta&-\sin\theta\\[2pt]\sin\theta&\cos\theta\end{bmatrix}.
 %	\]
 %	Then
 %	\[
