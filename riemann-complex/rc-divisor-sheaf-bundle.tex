@@ -1,0 +1,632 @@
+\documentclass[11pt,openany]{article}
+
+\input{riemann-complex-preamble}
+\input{riemann-animate}
+\input{tcolorbox}
+\input{theorem}
+\input{tikz}
+\input{riemann-complex-commands}
+\renewcommand{\vec}[1]{\mathbf{#1}}
+\renewcommand{\emph}[1]{\textbf{#1}}
+\renewcommand{\d}{\mathrm{d}} % For the exterior derivative 'd'
+\newcommand{\pderiv}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\spderiv}[3]{\frac{\partial^2 #1}{\partial #2\partial #3}}
+\newcommand{\vect}[1]{\begin{bmatrix} #1 \end{bmatrix}}
+\newcommand{\ord}{\operatorname{ord}}
+
+\newcommand{\circulationsquare}[1]{
+	\draw[thick, gray] #1 rectangle ++(1,1);
+	\begin{scope}[decoration={markings, mark=at position 0.5 with {\arrow{>}}}]
+		\draw[postaction={decorate}, blue] #1 -- ++(1,0);
+		\draw[postaction={decorate}, blue] ++(1,0) -- ++(0,1);
+		\draw[postaction={decorate}, blue] ++(0,1) -- ++(-1,0);
+		\draw[postaction={decorate}, blue] ++(-1,0) -- cycle;
+	\end{scope}
+}
+
+\usepackage{esvect}
+\usepackage{physics}
+
+\setstretch{1.25}
+
+\begin{document}
+\pagenumbering{arabic}
+\begin{center}
+	\huge\textbf{Cartier Divisors, Invertible Sheaves, and Holomorphic Line Bundles}\\
+%	\Large - HW1 -\\
+	\vspace{0.5em}
+	\large{Ji, Yong-hyeon}\\
+%	\large{\ttfamily \url{https://github.com/Hacker-Code-J}}\\
+	\vspace{0.5em}
+	\normalsize{\today}\\
+\end{center} 
+\noindent 
+We cover the following topics in this note.
+\begin{itemize}
+	\item Cartier Divisors
+	\item Invertible Sheaves
+	\item Holomorphic Line Bundles
+\end{itemize}
+%\begin{center}
+%	\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}} l c l}
+%		\hline
+%		\textbf{Vector Calculus (in $\R^2$ or $\R^3$)} & & \textbf{Differential Forms} \\
+%		\hline
+%		Vector Field $\vec F$ & $\iff$ & 1-form $\omega$ \\
+%		Conservative Vector Field ($\vec F = \nabla f$) & $\iff$ & Exact 1-form ($\omega = \d f$) \\
+%		Irrotational Vector Field ($\nabla \times \vec F = \mathbf{0}$) & $\iff$ & Closed 1-form ($\d\omega = 0$) \\
+%		\hline
+%	\end{tabular*}
+%\end{center}
+%
+%\vspace{1em}
+%
+%\begin{framed}
+%	\noindent\textbf{The Fundamental Implication:}
+%	\begin{itemize}
+%		\item \textbf{Conservative $\implies$ Irrotational},\; i.e.,\; \textbf{Exact $\implies$ Closed}\\ (This is always true.)
+%		\item \textbf{Irrotational $\implies$ Conservative},\; i.e,\; \textbf{Closed $\implies$ Exact}\\ (This is only true on ``nice'' domains, e.g., simply connected ones.)
+%	\end{itemize}
+%\end{framed}
+
+
+\tableofcontents
+\newpage
+
+\section{Cartier Divisors $D=\set{(U_\alpha, f_\alpha)}$}
+% Cartier divisors as "winding-form integrals": a compact narrative
+
+\paragraph{Slogan.}
+\emph{A Cartier divisor is a coherent way to package local winding-form data
+	(i.e.\ local orders) so it is independent of choices of local equations.}
+
+\paragraph{Why Riemann surfaces and meromorphic functions?}
+Let $X$ be a Riemann surface.
+A holomorphic coordinate change $w=w(z)$ satisfies $w'(p)\neq 0$, so
+vanishing multiplicity is coordinate-invariant.
+Restricting to \emph{meromorphic} functions excludes essential singularities
+(e.g.\ $e^{1/z}$), ensuring the order at a point is a \emph{finite integer}
+(zeros and poles have finite order).
+
+\paragraph{Order of a meromorphic function.}
+Let $f\in \mathcal M_X(U)$ be nonzero and $p\in U$.
+Choose a local coordinate $z$ with $z(p)=0$. Then there exists a unique $k\in\mathbb Z$
+and a holomorphic $g$ on a neighborhood of $p$ with $g(p)\neq 0$ such that
+\[
+f(z)=z^k g(z).
+\]
+Define
+\[
+\ord_p(f):=k.
+\]
+Equivalently (winding form / logarithmic derivative), for a small positively oriented
+loop $\gamma$ around $p$,
+\[
+\ord_p(f)=\frac{1}{2\pi i}\int_{\gamma}\frac{df}{f}.
+\]
+
+\paragraph{Units do not change order.}
+If $h\in \mathcal O_X^*(V)$ is holomorphic and nowhere vanishing near $p$, then
+$\ord_p(h)=0$ and hence
+\[
+\ord_p(hf)=\ord_p(h)+\ord_p(f)=\ord_p(f).
+\]
+Analytically: on a sufficiently small simply connected neighborhood $W\ni p$,
+there exists a holomorphic logarithm $H$ with $e^{H}=h$, so
+\[
+\frac{dh}{h}=dH
+\quad\Rightarrow\quad
+\int_{\gamma}\frac{dh}{h}=0
+\]
+for every closed loop $\gamma\subset W$ (``FTC for holomorphic primitives'').
+
+\paragraph{Weil divisors (recording integer data at points).}
+A (Weil) divisor on $X$ is a finite formal sum
+\[
+D=\sum_{p\in X} n_p\,p,\qquad n_p\in\mathbb Z,\ \ n_p=0\text{ for all but finitely many }p.
+\]
+For a nonzero meromorphic function $f$, its \emph{principal divisor} is
+\[
+(f):=\sum_{p\in X}\ord_p(f)\,p.
+\]
+
+\paragraph{Cartier divisors (local equations with overlap coherence).}
+A Cartier divisor is given by an open cover $\{U_\alpha\}$ of $X$ and meromorphic functions
+$f_\alpha\in \mathcal M_X^*(U_\alpha)$ such that on overlaps
+$U_{\alpha\beta}:=U_\alpha\cap U_\beta$ one has
+\[
+\frac{f_\alpha}{f_\beta}\in \mathcal O_X^*(U_{\alpha\beta}).
+\]
+This condition \emph{is exactly} what guarantees that the local orders glue:
+for any $p\in U_{\alpha\beta}$,
+\[
+\ord_p(f_\alpha)=\ord_p\!\Bigl(\frac{f_\alpha}{f_\beta}\cdot f_\beta\Bigr)
+=\ord_p\!\Bigl(\frac{f_\alpha}{f_\beta}\Bigr)+\ord_p(f_\beta)=\ord_p(f_\beta),
+\]
+since $\frac{f_\alpha}{f_\beta}$ is a unit.
+
+\paragraph{Winding-form viewpoint on the overlap condition.}
+On $U_{\alpha\beta}$,
+\[
+\frac{df_\alpha}{f_\alpha}-\frac{df_\beta}{f_\beta}
+=\frac{d(f_\alpha/f_\beta)}{(f_\alpha/f_\beta)}.
+\]
+If $f_\alpha/f_\beta$ is a holomorphic unit, then locally it has a holomorphic logarithm,
+so the right-hand side is exact; therefore its integral around a small loop is $0$.
+Hence the winding integrals (and thus the orders) computed from $df_\alpha/f_\alpha$
+and $df_\beta/f_\beta$ agree.
+
+\paragraph{Conclusion.}
+A Cartier divisor can be viewed as a collection of \emph{local winding/ordering data}
+presented by meromorphic ``local equations'' $\{f_\alpha\}$, with the overlap rule
+$f_\alpha/f_\beta\in\mathcal O_X^*$ ensuring the induced integer $\ord_p$ is
+well-defined (choice-independent) at every point.
+
+\newpage
+\section{Invertible Sheaf $\mathcal{O}_X(D)$}
+% Cartier divisor -> invertible sheaf O_X(D)
+
+Let $X$ be a Riemann surface. A Cartier divisor $D$ is given by an open cover
+$\{U_\alpha\}$ and $f_\alpha\in \mathcal M_X^*(U_\alpha)$ such that on overlaps
+$U_{\alpha\beta}:=U_\alpha\cap U_\beta$ one has
+\[
+\frac{f_\alpha}{f_\beta}\in \mathcal O_X^*(U_{\alpha\beta}).
+\]
+
+\paragraph{Definition.}
+Define a subsheaf $\mathcal O_X(D)\subset \mathcal M_X$ by declaring
+\[
+\mathcal O_X(D)\big|_{U_\alpha} := f_\alpha^{-1}\,\mathcal O_X\big|_{U_\alpha}.
+\]
+Equivalently, for $V\subset U_\alpha$,
+\[
+\mathcal O_X(D)(V)=\{\, s\in \mathcal M_X(V)\ :\ f_\alpha s\in \mathcal O_X(V)\,\}.
+\]
+
+\paragraph{Gluing on overlaps.}
+On $U_{\alpha\beta}$,
+\[
+f_\alpha^{-1}\mathcal O_X
+=
+f_\beta^{-1}\left(\frac{f_\beta}{f_\alpha}\right)\mathcal O_X
+=
+f_\beta^{-1}\mathcal O_X,
+\]
+since $\frac{f_\beta}{f_\alpha}\in \mathcal O_X^*(U_{\alpha\beta})$. Hence
+$\mathcal O_X(D)$ is well-defined globally.
+
+\paragraph{Invertibility.}
+Multiplication by $f_\alpha$ yields an isomorphism
+\[
+\mathcal O_X(D)\big|_{U_\alpha} \xrightarrow{\ \cdot f_\alpha\ } \mathcal O_X\big|_{U_\alpha},
+\]
+so $\mathcal O_X(D)$ is locally free of rank $1$, i.e.\ an invertible sheaf.
+
+\paragraph{Transition functions.}
+If $e_\alpha:=f_\alpha^{-1}$ is a local generator of $\mathcal O_X(D)$ on $U_\alpha$, then
+on $U_{\alpha\beta}$,
+\[
+e_\alpha=\left(\frac{f_\beta}{f_\alpha}\right)e_\beta,
+\]
+so the transition functions are $g_{\alpha\beta}:=\frac{f_\beta}{f_\alpha}\in\mathcal O_X^*(U_{\alpha\beta})$.
+
+\paragraph{Logarithmic differentials (winding-form view).}
+On $U_{\alpha\beta}$,
+\[
+\frac{df_\alpha}{f_\alpha}-\frac{df_\beta}{f_\beta}
+=
+\frac{d(f_\alpha/f_\beta)}{(f_\alpha/f_\beta)}.
+\]
+Since $f_\alpha/f_\beta\in \mathcal O_X^*$, locally it admits a holomorphic logarithm,
+so the right-hand side is exact and its integral over small loops is $0$.
+
+
+\newpage
+% Cartier divisors <-> invertible sheaves (Picard group) on a Riemann surface
+
+\section{Cartier divisors and invertible sheaves: the precise dictionary}
+
+Let $X$ be a Riemann surface.
+Write $\mathcal O_X$ for the sheaf of holomorphic functions,
+$\mathcal O_X^*$ for nowhere-vanishing holomorphic functions (units),
+$\mathcal M_X$ for meromorphic functions, and $\mathcal M_X^*$ for nonzero meromorphic functions.
+
+\subsection*{1) Cartier divisors as a quotient sheaf}
+A \emph{Cartier divisor} can be defined as a global section of the quotient sheaf
+\[
+\mathcal M_X^*/\mathcal O_X^*.
+\]
+Concretely, it is given by a cover $\{U_\alpha\}$ and $f_\alpha\in \mathcal M_X^*(U_\alpha)$ such that
+\[
+\frac{f_\alpha}{f_\beta}\in \mathcal O_X^*(U_{\alpha\beta})
+\quad\text{on }U_{\alpha\beta}:=U_\alpha\cap U_\beta,
+\]
+and two such collections $\{f_\alpha\}$ and $\{f'_\alpha\}$ define the same Cartier divisor iff
+$f'_\alpha/f_\alpha\in \mathcal O_X^*(U_\alpha)$ for all $\alpha$.
+
+\subsection*{2) From a Cartier divisor $D$ to the invertible sheaf $\mathcal O_X(D)$}
+Given Cartier data $\{(U_\alpha,f_\alpha)\}$, define
+\[
+\mathcal O_X(D)\big|_{U_\alpha}:= f_\alpha^{-1}\,\mathcal O_X\big|_{U_\alpha}\subset \mathcal M_X\big|_{U_\alpha}.
+\]
+Equivalently, for $V\subset U_\alpha$,
+\[
+\mathcal O_X(D)(V)=\{\, s\in \mathcal M_X(V)\;:\; f_\alpha s\in \mathcal O_X(V)\,\}.
+\]
+On overlaps,
+\[
+f_\alpha^{-1}\mathcal O_X
+=
+f_\beta^{-1}\left(\frac{f_\beta}{f_\alpha}\right)\mathcal O_X
+=
+f_\beta^{-1}\mathcal O_X
+\quad\text{since }\frac{f_\beta}{f_\alpha}\in \mathcal O_X^*,
+\]
+so the local definitions glue. Moreover multiplication by $f_\alpha$ gives an isomorphism
+\[
+\mathcal O_X(D)\big|_{U_\alpha}\xrightarrow{\ \cdot f_\alpha\ }\mathcal O_X\big|_{U_\alpha},
+\]
+hence $\mathcal O_X(D)$ is locally free of rank $1$, i.e.\ an invertible sheaf.
+
+\subsection*{3) From an invertible sheaf to a Cartier divisor}
+Let $\mathcal L$ be an invertible sheaf on $X$.
+Choose a cover $\{U_\alpha\}$ and local frames $e_\alpha$ identifying
+\[
+\mathcal L|_{U_\alpha}\cong \mathcal O_X|_{U_\alpha}.
+\]
+On overlaps $U_{\alpha\beta}$ there are transition functions
+\[
+e_\alpha = g_{\alpha\beta}\, e_\beta,\qquad g_{\alpha\beta}\in \mathcal O_X^*(U_{\alpha\beta}),
+\]
+and $\{g_{\alpha\beta}\}$ is a \v{C}ech $1$-cocycle with values in $\mathcal O_X^*$.
+Now pick meromorphic trivializations $s_\alpha$ of $\mathcal L$ on $U_\alpha$ (nonzero meromorphic sections);
+write $s_\alpha = f_\alpha e_\alpha$ with $f_\alpha\in \mathcal M_X^*(U_\alpha)$.
+Then on overlaps,
+\[
+\frac{f_\alpha}{f_\beta} = g_{\alpha\beta}\in \mathcal O_X^*(U_{\alpha\beta}),
+\]
+so $\{f_\alpha\}$ defines a Cartier divisor. (Intuitively: $\mathcal L$ becomes meromorphically trivial, and the
+failure of holomorphic triviality is measured by the divisor.)
+
+\subsection*{4) Principal divisors correspond to trivial line bundles}
+If $D=(f)$ is principal (coming from a global $f\in \mathcal M_X^*(X)$), take $f_\alpha=f|_{U_\alpha}$.
+Then
+\[
+\mathcal O_X((f)) = f^{-1}\mathcal O_X \cong \mathcal O_X
+\]
+via multiplication by $f$. Thus principal divisors map to the trivial bundle.
+
+\subsection*{5) Picard group and the exact-sequence explanation}
+The \emph{Picard group} is the group of isomorphism classes of invertible sheaves:
+\[
+\mathrm{Pic}(X):=\{\text{invertible sheaves on }X\}/\cong,
+\]
+with tensor product as the group law.
+
+There is a short exact sequence of sheaves of abelian groups
+\[
+1\longrightarrow \mathcal O_X^*\longrightarrow \mathcal M_X^*
+\longrightarrow \mathcal M_X^*/\mathcal O_X^*\longrightarrow 1.
+\]
+Taking cohomology yields a connecting homomorphism
+\[
+\delta:\ H^0\!\left(X,\mathcal M_X^*/\mathcal O_X^*\right)\longrightarrow H^1(X,\mathcal O_X^*).
+\]
+Here
+\[
+H^0\!\left(X,\mathcal M_X^*/\mathcal O_X^*\right)\cong \{\text{Cartier divisors on }X\},
+\qquad
+H^1(X,\mathcal O_X^*)\cong \mathrm{Pic}(X).
+\]
+Under these identifications, $\delta(D)$ is exactly the isomorphism class of the invertible sheaf $\mathcal O_X(D)$.
+
+Moreover, $\ker(\delta)$ consists of divisors that come from global meromorphic functions (principal divisors),
+so one gets the fundamental identification
+\[
+\mathrm{CaCl}(X):=\frac{\{\text{Cartier divisors}\}}{\{\text{principal Cartier divisors}\}}
+\ \cong\ \mathrm{Pic}(X),
+\qquad
+[D]\longmapsto [\mathcal O_X(D)].
+\]
+
+\subsection*{6) How this matches your winding-form intuition}
+On overlaps $U_{\alpha\beta}$, put $u_{\alpha\beta}:=f_\alpha/f_\beta\in \mathcal O_X^*$.
+Then
+\[
+\frac{df_\alpha}{f_\alpha}-\frac{df_\beta}{f_\beta}=\frac{du_{\alpha\beta}}{u_{\alpha\beta}}.
+\]
+Locally (on a small simply connected set) $u_{\alpha\beta}=e^{h_{\alpha\beta}}$ for a holomorphic $h_{\alpha\beta}$, so
+\[
+\frac{du_{\alpha\beta}}{u_{\alpha\beta}}=dh_{\alpha\beta}
+\]
+is exact. Hence small-loop integrals of $\frac{df_\alpha}{f_\alpha}$ agree across overlaps,
+so the local winding/order data glue. The same units $u_{\alpha\beta}$ are also exactly the
+transition functions of the line bundle $\mathcal O_X(D)$:
+\[
+e_\alpha = u_{\beta\alpha}\, e_\beta
+\quad\text{with}\quad u_{\beta\alpha}=f_\beta/f_\alpha\in \mathcal O_X^*.
+\]
+
+% End.
+
+\newpage
+\subsection*{Sheaves and the definition of $\mathcal O_X(D)$}
+
+\paragraph{Definition (presheaf and sheaf).}
+Let $X$ be a topological space. A \emph{presheaf} $\mathcal F$ (of sets / abelian groups / rings / modules)
+assigns to each open set $U\subset X$ an object $\mathcal F(U)$ and to each inclusion $V\subset U$
+a restriction map $\rho_{UV}:\mathcal F(U)\to \mathcal F(V)$, $s\mapsto s|_V$, such that
+\[
+s|_U=s,\qquad (s|_V)|_W=s|_W\quad (W\subset V\subset U).
+\]
+A presheaf is a \emph{sheaf} if for every open cover $U=\bigcup_i U_i$ the following hold:
+
+\smallskip
+\noindent\textbf{(S1) Locality.}
+If $s,t\in \mathcal F(U)$ and $s|_{U_i}=t|_{U_i}$ for all $i$, then $s=t$.
+
+\noindent\textbf{(S2) Gluing.}
+If $s_i\in \mathcal F(U_i)$ satisfy $s_i|_{U_i\cap U_j}=s_j|_{U_i\cap U_j}$ for all $i,j$,
+then there exists a unique $s\in \mathcal F(U)$ such that $s|_{U_i}=s_i$ for all $i$.
+
+\paragraph{Setup.}
+Let $X$ be a Riemann surface. Let $\mathcal O_X$ be the sheaf of holomorphic functions and
+$\mathcal M_X$ the sheaf of meromorphic functions.
+A Cartier divisor $D$ is given by an open cover $\{U_\alpha\}$ and $f_\alpha\in \mathcal M_X^*(U_\alpha)$
+such that on overlaps $U_{\alpha\beta}:=U_\alpha\cap U_\beta$,
+\[
+\frac{f_\alpha}{f_\beta}\in \mathcal O_X^*(U_{\alpha\beta}).
+\]
+
+\paragraph{Definition (the sheaf $\mathcal O_X(D)$).}
+Define a presheaf $\mathcal O_X(D)\subset \mathcal M_X$ by
+\[
+\mathcal O_X(D)(V)
+:=
+\Bigl\{\, s\in \mathcal M_X(V)\ :\ (f_\alpha s)\big|_{V\cap U_\alpha}\in \mathcal O_X(V\cap U_\alpha)\ \forall \alpha \,\Bigr\}
+\]
+for every open $V\subset X$. Restriction maps are the restrictions in $\mathcal M_X$:
+$s\mapsto s|_W$ for $W\subset V$.
+
+\paragraph{Lemma (well-defined on overlaps).}
+On $V\cap U_{\alpha\beta}$, the condition $(f_\alpha s)\in\mathcal O_X$ is equivalent to
+$(f_\beta s)\in\mathcal O_X$.
+
+\paragraph{Proof.}
+On $V\cap U_{\alpha\beta}$,
+\[
+f_\alpha s = \left(\frac{f_\alpha}{f_\beta}\right)(f_\beta s).
+\]
+Since $\frac{f_\alpha}{f_\beta}\in \mathcal O_X^*(U_{\alpha\beta})$, multiplication by this factor
+preserves holomorphicity, hence $f_\alpha s$ is holomorphic iff $f_\beta s$ is holomorphic.
+\qed
+
+\paragraph{Proposition (sheaf property).}
+The presheaf $\mathcal O_X(D)$ is a sheaf (indeed, an $\mathcal O_X$-module subsheaf of $\mathcal M_X$).
+
+\paragraph{Proof.}
+Let $V=\bigcup_i V_i$ be an open cover.
+
+\smallskip
+\noindent\emph{Locality (S1).}
+If $s,t\in\mathcal O_X(D)(V)$ and $s|_{V_i}=t|_{V_i}$ for all $i$, then $s=t$ in $\mathcal M_X(V)$
+because $\mathcal M_X$ is a sheaf. Hence $s=t$ in $\mathcal O_X(D)(V)$.
+
+\smallskip
+\noindent\emph{Gluing (S2).}
+Let $s_i\in\mathcal O_X(D)(V_i)$ satisfy $s_i=s_j$ on $V_i\cap V_j$.
+Since $\mathcal M_X$ is a sheaf, there exists a unique $s\in\mathcal M_X(V)$ with $s|_{V_i}=s_i$.
+We claim $s\in\mathcal O_X(D)(V)$.
+
+Fix $\alpha$. On each $V_i\cap U_\alpha$,
+\[
+(f_\alpha s)|_{V_i\cap U_\alpha}=f_\alpha(s|_{V_i\cap U_\alpha})=f_\alpha(s_i|_{V_i\cap U_\alpha}),
+\]
+and the right-hand side lies in $\mathcal O_X(V_i\cap U_\alpha)$ because $s_i\in\mathcal O_X(D)(V_i)$.
+Moreover these holomorphic functions agree on overlaps because the $s_i$ agree.
+Since $\mathcal O_X$ is a sheaf, they glue to a holomorphic function on $V\cap U_\alpha$.
+Thus $(f_\alpha s)|_{V\cap U_\alpha}\in\mathcal O_X(V\cap U_\alpha)$ for all $\alpha$, i.e.\ $s\in\mathcal O_X(D)(V)$.
+
+Uniqueness follows from uniqueness in $\mathcal M_X$.
+Therefore $\mathcal O_X(D)$ satisfies (S1) and (S2), hence is a sheaf.
+\qed
+
+\newpage
+%=========================================================
+% Sheaf definition + O_X(D) on CP^1 (two-chart explicit)
+%=========================================================
+
+\subsection*{Sheaves and $\mathcal O_{\mathbf{CP}^1}(D)$ on $\mathbf{CP}^1$}
+
+\paragraph{Definition (sheaf).}
+Let $X$ be a topological space. A \emph{presheaf} $\mathcal F$ (of sets / abelian groups / rings / modules)
+assigns to every open set $U\subset X$ an object $\mathcal F(U)$ and to every inclusion $V\subset U$
+a restriction map
+\[
+\mathrm{res}_{U,V}:\mathcal F(U)\to \mathcal F(V),\qquad s\mapsto s|_V,
+\]
+such that $\mathrm{res}_{U,U}=\mathrm{id}$ and $\mathrm{res}_{V,W}\circ \mathrm{res}_{U,V}=\mathrm{res}_{U,W}$
+for $W\subset V\subset U$.
+A presheaf is a \emph{sheaf} if for every open cover $U=\bigcup_i U_i$:
+
+\smallskip
+\noindent\textbf{(S1) Locality.}
+If $s,t\in \mathcal F(U)$ and $s|_{U_i}=t|_{U_i}$ for all $i$, then $s=t$.
+
+\noindent\textbf{(S2) Gluing.}
+If $s_i\in \mathcal F(U_i)$ satisfy $s_i|_{U_i\cap U_j}=s_j|_{U_i\cap U_j}$ for all $i,j$,
+then there exists a unique $s\in \mathcal F(U)$ such that $s|_{U_i}=s_i$ for all $i$.
+
+\paragraph{The standard cover of $\mathbf{CP}^1$.}
+Let $X=\mathbf{CP}^1$ with the standard affine cover
+\[
+U_0=\{[z_0:z_1]\in\mathbf{CP}^1:\ z_0\neq 0\},\qquad
+U_\infty=\{[z_0:z_1]\in\mathbf{CP}^1:\ z_1\neq 0\}.
+\]
+On $U_0$ use the coordinate $z=z_1/z_0\in\mathbf C$, and on $U_\infty$ use $w=z_0/z_1\in\mathbf C$.
+On the overlap $U_0\cap U_\infty$ one has $w=1/z$ and $U_0\cap U_\infty\simeq \mathbf C^*$.
+
+\paragraph{Setup (Cartier divisor).}
+Let $D$ be a Cartier divisor on $X$ given by meromorphic functions
+\[
+f_0\in \mathcal M_X^*(U_0),\qquad f_\infty\in \mathcal M_X^*(U_\infty),
+\]
+such that on the overlap
+\[
+\frac{f_0}{f_\infty}\in \mathcal O_X^*(U_0\cap U_\infty).
+\]
+
+\paragraph{Definition (the presheaf $\mathcal O_X(D)$).}
+For each open set $V\subset X$, define
+\[
+\mathcal O_X(D)(V)
+:=
+\Bigl\{
+s\in \mathcal M_X(V):
+(f_0 s)\big|_{V\cap U_0}\in\mathcal O_X(V\cap U_0),\ 
+(f_\infty s)\big|_{V\cap U_\infty}\in\mathcal O_X(V\cap U_\infty)
+\Bigr\}.
+\]
+Restriction maps are the restrictions in $\mathcal M_X$: for $W\subset V$,
+$\mathrm{res}_{V,W}(s)=s|_W$.
+
+\paragraph{Lemma (overlap consistency).}
+On $V\cap U_0\cap U_\infty$, the condition $(f_0 s)\in\mathcal O_X$ is equivalent to
+$(f_\infty s)\in\mathcal O_X$.
+
+\paragraph{Proof.}
+On $U_0\cap U_\infty$ we have $f_0 = u\, f_\infty$ where
+$u:=f_0/f_\infty\in \mathcal O_X^*(U_0\cap U_\infty)$. Hence
+\[
+f_0 s = u\,(f_\infty s).
+\]
+Since $u$ is holomorphic and nowhere vanishing, multiplication by $u$ preserves holomorphicity.
+Therefore $f_0 s$ is holomorphic iff $f_\infty s$ is holomorphic. \qed
+
+\paragraph{Proposition (sheaf property on $\mathbf{CP}^1$).}
+The presheaf $\mathcal O_X(D)$ is a sheaf (indeed, an $\mathcal O_X$-module subsheaf of $\mathcal M_X$).
+
+\paragraph{Proof.}
+Let $V=\bigcup_i V_i$ be an open cover.
+
+\smallskip
+\noindent\emph{Locality (S1).}
+If $s,t\in\mathcal O_X(D)(V)$ and $s|_{V_i}=t|_{V_i}$ for all $i$, then $s=t$ in $\mathcal M_X(V)$
+because $\mathcal M_X$ is a sheaf. Hence $s=t$ in $\mathcal O_X(D)(V)$.
+
+\smallskip
+\noindent\emph{Gluing (S2).}
+Let $s_i\in\mathcal O_X(D)(V_i)$ satisfy $s_i=s_j$ on $V_i\cap V_j$.
+Since $\mathcal M_X$ is a sheaf, there exists a unique $s\in\mathcal M_X(V)$ with $s|_{V_i}=s_i$.
+We show $s\in\mathcal O_X(D)(V)$.
+
+On $V\cap U_0$, the open cover $\{V_i\cap U_0\}_i$ satisfies
+\[
+(f_0 s)|_{V_i\cap U_0}=f_0(s|_{V_i\cap U_0})=f_0(s_i|_{V_i\cap U_0})\in \mathcal O_X(V_i\cap U_0),
+\]
+because $s_i\in\mathcal O_X(D)(V_i)$. These holomorphic functions agree on overlaps
+(since the $s_i$ agree), hence glue (by the sheaf property of $\mathcal O_X$) to a holomorphic function
+on $V\cap U_0$. Thus $(f_0 s)|_{V\cap U_0}\in \mathcal O_X(V\cap U_0)$.
+The same argument on $V\cap U_\infty$ shows $(f_\infty s)|_{V\cap U_\infty}\in \mathcal O_X(V\cap U_\infty)$.
+Therefore $s\in\mathcal O_X(D)(V)$.
+
+Uniqueness is inherited from uniqueness in $\mathcal M_X$. \qed
+
+\paragraph{Example: $D=n[\infty]$ gives $\mathcal O(n)$.}
+Let $D=n[\infty]$. Take $f_0=1$ on $U_0$ and $f_\infty=w^n$ on $U_\infty$.
+On $U_0\cap U_\infty$,
+\[
+\frac{f_0}{f_\infty}=\frac{1}{w^n}=z^n\in \mathcal O_X^*(\mathbf C^*),
+\]
+so this is Cartier data.
+Then $s\in \mathcal O(n)(X)$ iff $s$ is holomorphic on $U_0\simeq \mathbf C$ and $w^n s$ is holomorphic
+at $w=0$ (i.e.\ at $\infty$), hence $s$ is a polynomial in $z$ of degree $\le n$.
+Consequently,
+\[
+H^0(\mathbf{CP}^1,\mathcal O(n))\cong \langle 1,z,\dots,z^n\rangle.
+\]
+
+\newpage
+%=========================================================
+% Why we consider f_\alpha s in the definition of O_X(D)
+% (local frame + order/winding interpretation + CP^1 example)
+%=========================================================
+
+\subsection*{Why the condition $f_\alpha s\in \mathcal O_X$?}
+
+\paragraph{Setup.}
+Let $X$ be a Riemann surface and let $D$ be a Cartier divisor represented by
+$\{(U_\alpha,f_\alpha)\}$ with $f_\alpha\in\mathcal M_X^*(U_\alpha)$ and
+$f_\alpha/f_\beta\in\mathcal O_X^*(U_{\alpha\beta})$.
+
+\paragraph{1) Local-frame (line bundle) viewpoint.}
+On $U_\alpha$ define the local generator (frame)
+\[
+e_\alpha := f_\alpha^{-1}.
+\]
+The intended meaning of $\mathcal O_X(D)$ is: ``sections are holomorphic multiples of the local frame.''
+Thus a section $s$ on $V\subset U_\alpha$ should be of the form
+\[
+s = h\cdot e_\alpha = h\cdot f_\alpha^{-1}
+\quad\text{for some } h\in \mathcal O_X(V).
+\]
+Rearranging gives
+\[
+f_\alpha s = h\in\mathcal O_X(V).
+\]
+Hence the defining condition
+\[
+s\in\mathcal O_X(D)(V)\iff f_\alpha s\in\mathcal O_X(V)
+\]
+simply says: ``$s$ has holomorphic coefficient in the chosen local frame.''
+
+\paragraph{2) Order / winding-form viewpoint.}
+For a nonzero meromorphic function $g$ and a point $p$, let $\gamma_p$ be a small positively oriented loop.
+Then
+\[
+\ord_p(g)=\frac{1}{2\pi i}\int_{\gamma_p}\frac{dg}{g}.
+\]
+Using $\dfrac{d(f_\alpha s)}{f_\alpha s}=\dfrac{df_\alpha}{f_\alpha}+\dfrac{ds}{s}$, we get additivity:
+\[
+\ord_p(f_\alpha s)=\ord_p(f_\alpha)+\ord_p(s).
+\]
+Now $f_\alpha s$ is holomorphic near $p$ iff $\ord_p(f_\alpha s)\ge 0$, so
+\[
+f_\alpha s\ \text{holomorphic near }p
+\quad\Longleftrightarrow\quad
+\ord_p(s)\ge -\ord_p(f_\alpha).
+\]
+Thus the condition $f_\alpha s\in\mathcal O_X$ is exactly the statement that the pole order of $s$
+is bounded by the divisor $D$.
+
+\paragraph{3) Independence of chart (overlap consistency).}
+On $U_{\alpha\beta}$, write $f_\alpha=u_{\alpha\beta}f_\beta$ with $u_{\alpha\beta}\in\mathcal O_X^*(U_{\alpha\beta})$.
+Then
+\[
+f_\alpha s\in\mathcal O_X
+\iff
+u_{\alpha\beta}(f_\beta s)\in\mathcal O_X
+\iff
+f_\beta s\in\mathcal O_X,
+\]
+since multiplication by a holomorphic unit preserves holomorphicity (and contributes zero winding/order).
+
+\paragraph{Example on $\mathbf{CP}^1$: $D=n[\infty]$ and $\mathcal O(n)$.}
+Let $X=\mathbf{CP}^1$ with charts $U_0\simeq \mathbf C$ (coordinate $z$) and $U_\infty\simeq \mathbf C$ (coordinate $w=1/z$).
+For $D=n[\infty]$, take
+\[
+f_0=1\ \text{on }U_0,\qquad f_\infty=w^n\ \text{on }U_\infty.
+\]
+Then $s\in \mathcal O(n)(X)$ iff
+\[
+s \ \text{is holomorphic on }U_0\simeq\mathbf C,
+\qquad
+w^n s \ \text{is holomorphic at }w=0 \ (\text{i.e. at }\infty).
+\]
+Equivalently, $\ord_\infty(s)\ge -n$, so $s$ has a pole at $\infty$ of order at most $n$.
+This forces $s$ to be a polynomial in $z$ of degree $\le n$, hence
+\[
+H^0(\mathbf{CP}^1,\mathcal O(n))\cong \langle 1,z,\dots,z^n\rangle.
+\]
+
+\end{document}

@@ -1,0 +1,208 @@
+\documentclass[tikz,border=10pt]{standalone}
+\usepackage{tikz-3dplot}
+\usepackage{amsmath, amssymb}
+\usetikzlibrary{arrows.meta, positioning, calc, decorations.pathreplacing, 3d}
+\usetikzlibrary{matrix, fit, backgrounds, shapes}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{newpxtext,newpxmath}
+\usepackage{sectsty}
+\begin{document}
+	% Set the viewing angle for the 3D plot
+\tdplotsetmaincoords{70}{120}
+
+\begin{tikzpicture}[
+	tdplot_main_coords,
+	font=\sffamily,
+	>=Stealth
+	]
+	
+	%% ==========================================================
+	%% LEFT PANEL: GEOMETRIC VIEW (3D Rotation)
+	%% ==========================================================
+	
+	% Title
+%	\node[anchor=south, align=center] at (0,0,3.5) {\large \textbf{Geometric View}};
+	
+	% 1. Draw Axes (Back)
+	\draw[dashed, gray] (0,0,0) -- (-2,0,0);
+	\draw[dashed, gray] (0,0,0) -- (0,-2,0);
+	
+	% 2. Draw Subspace W (The Plane z=0)
+	% We draw this before the vectors so vectors appear "on top"
+	\fill[teal!10, opacity=0.8] (-2,-2,0) -- (3,-2,0) -- (3,3,0) -- (-2,3,0) -- cycle;
+	\draw[teal!40, thick] (-2,-2,0) -- (3,-2,0) -- (3,3,0) -- (-2,3,0) -- cycle;
+	\node[teal!60!black] at (2.5, -1.5, 0) {$W$};
+	
+	% 3. Draw Axes (Front)
+	\draw[->, thick] (0,0,0) -- (3,0,0) node[anchor=north east]{$x$};
+	\draw[->, thick] (0,0,0) -- (0,3,0) node[anchor=north west]{$y$};
+	\draw[->, thick] (0,0,0) -- (0,0,3) node[anchor=south]{$z$};
+	
+	% 4. Vectors
+	% Input Vector w (on x-axis for simplicity)
+	\draw[->, thick, blue!80!black] (0,0,0) -- (2,0,0) node[midway, above left] {$w$};
+	\coordinate (w) at (2,0,0);
+	
+	\coordinate (Tw) at (1, 1.732, 0);
+	
+	% Rotation Arc
+	\draw[->, dashed, teal, thick, bend right=30] (w) to node[midway, below right, scale=0.8] {} (Tw);
+	
+	% Output Vector T(w) (Rotated by ~60 degrees)
+	\draw[->, thick, teal!80!black] (0,0,0) -- (1, 1.732, 0) node[midway, below right=12pt] {$T(w)\in W$};
+	
+	% 5. The "Stability" Indicator
+	 Shows that T(w) has NO vertical lift
+	\draw[dotted, red, thick] (Tw) -- (1, 1.732, 1.5) node[above, scale=0.7, align=center] {};
+	\node[red, scale=2, opacity=0.5] at (1, 1.732, 0.7) {$\times$};
+	
+	%% ==========================================================
+	%% RIGHT PANEL: MATRIX VIEW
+	%% ==========================================================
+	
+	% Switch to 2D scope by resetting coordinate transformation
+	\begin{scope}[shift={(7cm, 1cm)}, tdplot_screen_coords]
+		
+%		\node[anchor=south] at (0, 2.5) {\large \textbf{Matrix View}};
+		
+		% The Matrix
+		\matrix (M) [
+		matrix of math nodes,
+		nodes={minimum size=1cm, anchor=center},
+		left delimiter={[},
+		right delimiter={]},
+		column sep=5pt,
+		row sep=5pt
+		] {
+			\cos\theta & -\sin\theta & 0 \\
+			\sin\theta & \cos\theta & 0 \\
+			|[fill=red!10]| 0 & |[fill=red!10]| 0 & 1 \\
+		};
+		
+		% Highlights
+		% Block A (Rotation)
+		\begin{scope}[on background layer]
+			\node[fit=(M-1-1)(M-2-2), draw=blue!30, fill=blue!5, rounded corners, inner sep=2pt] (BlockA) {};
+		\end{scope}
+		
+		% Zeros Highlight
+%		\node[right=0.2cm of M-3-2, red, scale=0.8, align=left] (ZeroNote) {$\leftarrow$ No $z$-component};
+		
+		% Annotations
+		
+		% Input Basis (Columns)
+		\node[above=0.1cm of M-1-1, scale=0.7, gray] {$e_1 \in W$};
+		\node[above=0.1cm of M-1-2, scale=0.7, gray] {$e_2 \in W$};
+		
+		% Output Components (Rows)
+		\node[left=0.3cm of M-1-1, scale=0.7, gray] {$x$};
+		\node[left=0.3cm of M-2-1, scale=0.7, gray] {$y$};
+		\node[left=0.3cm of M-3-1, scale=0.7, gray] {$z$};
+		
+%		 Connection Text
+%					\node[below=1cm of M, align=center, width=6cm] {
+%							\textbf{The Logic:}\\
+%							Since $T(w)$ lies flat on the $xy$-plane,\\
+%							the coefficient for $z$ (row 3) must be \textbf{0}.
+%						};
+	\end{scope}
+\end{tikzpicture}
+	
+%\begin{tikzpicture}[
+%	>=Stealth,
+%	line cap=round,
+%	line join=round,
+%	font=\sffamily
+%	]
+%	
+%	%% --- LEFT PANEL: GEOMETRIC VIEW (3D) ---
+%	\begin{scope}[xshift=0cm, scale=1.2]
+%		
+%		% 2. Draw Subspace W (The Plane z=0)
+%		% We simulate 3D perspective
+%		\fill[blue!10, opacity=0.8] (-2, -1) -- (2, -1) -- (3, 1.5) -- (-1, 1.5) -- cycle;
+%		\draw[blue!40, thick] (-2, -1) -- (2, -1) -- (3, 1.5) -- (-1, 1.5) -- cycle;
+%		\node[blue!60!black] at (2.5, 1.2) {$W$};
+%		\node[scale=1] at (1, 2.5) {$V$};
+%		
+%		% 3. Origin
+%		\fill[black] (0,0) circle (1.5pt) node[below left] {$\mathbf{0}$};
+%		
+%		% 4. Vector w inside W
+%		\draw[->, thick, blue!80!black] (0,0) -- (1.5, -0.2) node[midway, below] {$w$};
+%		\coordinate (w_tip) at (1.5, -0.2);
+%		
+%		% 5. Vector T(w) inside W
+%		\draw[->, thick, teal!80!black] (0,0) -- (0.5, 0.8) node[midway, left] {$T(w)$};
+%		\coordinate (Tw_tip) at (0.5, 0.8);
+%		
+%		% 6. The Transformation Arrow
+%		\draw[->, dashed, orange, thick, bend right=30] (w_tip) to node[auto, swap, scale=0.8] {$T$} (Tw_tip);
+%		
+%%		% 7. The "Forbidden" Mapping (What stability prevents)
+%%		\draw[->, dashed, red, opacity=0.4] (0,0) -- (1.5, 2.5) node[right, red, opacity=1] {$\notin W$};
+%%		\coordinate (bad_tip) at (1.5, 2.5);
+%		
+%%		% Cross out the bad mapping
+%%		\draw[red, thick] ($(bad_tip)!0.5!(w_tip) + (-0.2, -0.2)$) -- ($(bad_tip)!0.5!(w_tip) + (0.2, 0.2)$);
+%%		\draw[red, thick] ($(bad_tip)!0.5!(w_tip) + (-0.2, 0.2)$) -- ($(bad_tip)!0.5!(w_tip) + (0.2, -0.2)$);
+%%		\node[red, scale=0.7, rotate=45] at ($(bad_tip)!0.5!(w_tip) + (0.4, 0)$) {Impossible};
+%		
+%		% 1. Draw Coordinate System (Background)
+%		\draw[->] (0,-2,0) -- (0,2,0) node[above] {}; % Up represents V \ W direction
+%		\draw[->] (-2,0,0) -- (3,0,0) node[above] {}; % Up represents V \ W direction
+%		\draw[->] (0,0,3) -- (0,0,-5) node[above] {}; % Up represents V \ W direction
+%	\end{scope}
+%	
+%	%% --- DIVIDER ---
+%	\draw[gray!30, thick, dashed] (5, -4) -- (5, 4.5);
+%	
+%	%% --- RIGHT PANEL: ALGEBRAIC VIEW ---
+%	\begin{scope}[xshift=6cm, yshift=-2.75cm]
+%		
+%		% Matrix Outline
+%		\draw[thick] (0,0) rectangle (5,6);
+%		
+%		% Partition Lines
+%		\draw[thick] (2,0) -- (2,6); % Vertical
+%		\draw[thick] (0,2) -- (5,2); % Horizontal
+%		
+%		% Basis Labels (Top)
+%		\node[text=blue!80!black] at (1, 6.3) {Basis of $W$};
+%%		\node[scale=0.8] at (1, 4.6) {Input $w \in W$};
+%		\node[text=gray] at (3.5, 6.3) {Basis of $V \setminus W$};
+%		
+%		% Basis Labels (Left)
+%		\node[rotate=90, text=blue!80!black] at (-0.3, 4) {Coeffs in $W$};
+%		\node[rotate=90, text=gray] at (-0.3, 1) {Coeffs in $V \setminus W$};
+%		
+%		% Blocks
+%		\node[scale=1.5] at (1, 4) {$A$};
+%		\node[scale=1.5] at (3.5, 4) {$*$};
+%		\node[scale=1.5] at (3.5, 1) {$B$};
+%		
+%		% The Zero Block Highlight
+%		\fill[red!5] (0.1, 0.1) rectangle (1.9, 1.9);
+%		\node[scale=2, text=red] at (1, 1) {$\mathbf{0}$};
+%		
+%		% Explanation of Zero
+%		\draw[<-, thick, red] (1, 0.8) -- (1, -0.5) node[below, align=center, text=black, scale=0.8] {
+%			\textbf{CRITICAL:} \\
+%			When input is in $W$, \\
+%			output has \textbf{0} component \\
+%			outside of $W$.
+%		};
+%		
+%		% Connection to Logic
+%		\node[anchor=west, scale=0.85, text width=5cm] at (5.5, 2) {
+%			\textbf{Why?} \\
+%			If $w \in W$, then $T(w) \in W$. \\
+%			$T(w)$ is a linear combo of \\
+%			\textcolor{blue}{blue basis vectors} only. \\
+%			$\therefore$ Coeffs for the extension basis are 0.
+%		};
+%		
+%	\end{scope}
+%\end{tikzpicture}
+\end{document}

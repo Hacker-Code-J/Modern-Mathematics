@@ -1,0 +1,203 @@
+% ============================================================
+% Professional Syllabus (LaTeX): Hard Problems in Cryptography
+% Audience: upper-undergrad / masters / PhD mix
+% ============================================================
+\documentclass[11pt]{article}
+
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{titlesec}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt}
+
+\newcommand{\course}{Hard Problems in Cryptography}
+\newcommand{\term}{\textbf{[Insert Term, Year]}}
+\newcommand{\instructor}{\textbf{[Insert Instructor Name]}}
+\newcommand{\email}{\textbf{[Insert Email]}}
+\newcommand{\officehours}{\textbf{[Insert Office Hours / Location]}}
+\newcommand{\meeting}{\textbf{[Insert Days/Times/Room]}}
+\newcommand{\website}{\textbf{[Insert Course Website/LMS Link]}}
+\newcommand{\prereqs}{\textbf{[Insert prerequisite statement]}}
+\newcommand{\textbook}{\textbf{[Insert primary text(s)]}}
+
+\title{\course\ --- Course Syllabus}
+\author{\term}
+\date{}
+
+\begin{document}
+	\maketitle
+	
+	% ============================================================
+	\section*{Course Information}
+	% ============================================================
+	
+	\begin{tabular}{>{\bfseries}p{3.2cm}p{12.0cm}}
+		Course Title: & \course \\
+		Term: & \term \\
+		Meeting Time/Place: & \meeting \\
+		Instructor: & \instructor \\
+		Email: & \email \\
+		Office Hours: & \officehours \\
+		Course Website: & \website \\
+		Prerequisites: & \prereqs \\
+	\end{tabular}
+	
+	% ============================================================
+	\section*{Catalog Description}
+	% ============================================================
+	
+	This course studies the mathematical foundations and cryptanalytic landscape of core \emph{hard problems} that underpin modern public-key and post-quantum cryptography. Topics include integer factorization, discrete logarithms in finite fields and elliptic curves, lattice problems (SVP/CVP, SIS/LWE), code-based syndrome decoding, isogenies of elliptic curves, multivariate quadratic systems (MQ), and cryptographic hash functions. For each family, we emphasize (i) formal problem definitions, (ii) standard reductions and security notions, (iii) best-known classical and quantum attacks, and (iv) parameter-selection principles and failure modes.
+	
+	% ============================================================
+	\section*{Learning Outcomes}
+	% ============================================================
+	
+	By the end of the course, students will be able to:
+	\begin{enumerate}[leftmargin=2em]
+		\item State formal definitions of canonical hard problems (search/decision/distinguishing) used in cryptography.
+		\item Explain how cryptosystems reduce to these hard problems and articulate the assumptions involved.
+		\item Describe and analyze best-known attacks (classical and quantum), including when special structure invalidates generic security claims.
+		\item Perform back-of-the-envelope security estimates from asymptotic and heuristic complexity models (e.g., $\tilde O(\sqrt{n})$, $L_N[\alpha,c]$, $2^{\Theta(d)}$).
+		\item Critically evaluate parameter choices and identify common implementation pitfalls (subgroup validation, side channels, randomness failures).
+		\item Communicate cryptographic hardness arguments clearly in mathematically precise language.
+	\end{enumerate}
+	
+	% ============================================================
+	\section*{Course Format and Levels}
+	% ============================================================
+	
+	The course is designed for a mixed audience (upper-undergraduate, masters, PhD). Core lectures target the common baseline. Assignments are tiered:
+	\begin{itemize}[leftmargin=2em]
+		\item \textbf{UG track:} computation and conceptual mastery; small worked examples; short proofs.
+		\item \textbf{MS track:} reductions, algorithmic analysis, and formal security games.
+		\item \textbf{PhD track:} deeper proof obligations, modeling assumptions, and critique/comparison of attacks and parameter regimes.
+	\end{itemize}
+	Students may switch tracks with instructor approval.
+	
+	% ============================================================
+	\section*{Prerequisites}
+	% ============================================================
+	
+	Recommended background:
+	\begin{itemize}[leftmargin=2em]
+		\item Discrete mathematics and proof writing (sets, functions, modular arithmetic).
+		\item Linear algebra (vector spaces, matrices, rank/nullspace).
+		\item Basic probability (conditional probability; expectation).
+		\item Helpful: abstract algebra (groups, rings, fields), algorithms/complexity.
+	\end{itemize}
+	A brief review of required algebra and probability will be provided in Week 0 materials.
+	
+	% ============================================================
+	\section*{Texts and References}
+	% ============================================================
+	
+	\textbf{Primary references (free/standard):}
+	\begin{itemize}[leftmargin=2em]
+		\item D. Boneh and V. Shoup, \emph{A Graduate Course in Applied Cryptography} (online draft).
+		\item J. Katz and Y. Lindell, \emph{Introduction to Modern Cryptography} (security definitions).
+	\end{itemize}
+	
+	\textbf{Topic references (selected):}
+	\begin{itemize}[leftmargin=2em]
+		\item H. Cohen, \emph{A Course in Computational Algebraic Number Theory} (factoring background).
+		\item L. C. Washington, \emph{Elliptic Curves: Number Theory and Cryptography} (EC/DLP/isogenies background).
+		\item D. Micciancio and S. Goldwasser, \emph{Complexity of Lattice Problems} (lattices).
+		\item F. J. MacWilliams and N. J. A. Sloane, \emph{The Theory of Error-Correcting Codes} (codes).
+		\item Cox--Little--O'Shea, \emph{Ideals, Varieties, and Algorithms} (Gr\"obner bases, MQ).
+		\item M. Bellare, R. Canetti, H. Krawczyk (HMAC) and hash-function design notes (hash).
+	\end{itemize}
+	
+	% ============================================================
+	\section*{Assessment and Grading}
+	% ============================================================
+	
+	\begin{tabular}{>{\bfseries}p{5.0cm}p{10.2cm}}
+		Weekly worksheets (tiered) & 25\% \\
+		Problem sets (biweekly; tiered) & 25\% \\
+		In-class quizzes (best $N-1$) & 10\% \\
+		Midterm (take-home or in-class) & 15\% \\
+		Final project (paper + short presentation) & 25\% \\
+	\end{tabular}
+	
+	\paragraph{Final project.}
+	Students will complete either (i) a survey-style exposition of one hard-problem family and its attacks, or
+	(ii) a small computational experiment (e.g., toy LWE attack comparison, ISD implementation on small codes),
+	with a written report (6--10 pages MS/PhD; 4--6 pages UG) and a 8--12 minute presentation.
+	
+	% ============================================================
+	\section*{Assignments, Collaboration, and Academic Integrity}
+	% ============================================================
+	
+	\begin{itemize}[leftmargin=2em]
+		\item \textbf{Collaboration:} Discussion is encouraged. Unless explicitly allowed, submitted solutions must be written independently.
+		\item \textbf{Citation policy:} Any external sources (papers, code, notes, AI tools) must be cited. Include a brief ``Resources Used'' section.
+		\item \textbf{Late policy:} \textbf{[Insert policy]} (e.g., 2 grace days total; otherwise 10\% per day).
+		\item \textbf{AI tools:} Allowed for brainstorming and checking, but all final writing must be your own; must cite use.
+	\end{itemize}
+	
+	% ============================================================
+	\section*{Accessibility and Student Support}
+	% ============================================================
+	
+	Students requiring accommodations should contact \textbf{[Insert office]} and inform the instructor as early as possible. The course aims to provide inclusive access to materials and assessments.
+	
+	% ============================================================
+	\section*{Course Schedule (Tentative)}
+	% ============================================================
+	
+	\renewcommand{\arraystretch}{1.15}
+	\begin{longtable}{|p{1.2cm}|p{4.6cm}|p{5.8cm}|p{3.6cm}|}
+		\hline
+		\textbf{Week} & \textbf{Topic} & \textbf{Key Concepts / Hard Problems} & \textbf{Deliverables} \\
+		\hline
+		\endhead
+		
+		\hline
+		\multicolumn{4}{|r|}{{Continued on next page}} \\
+		\hline
+		\endfoot
+		
+		\hline
+		\endlastfoot
+		
+		0 & Preliminaries & Security parameter; PPT/negligible; search vs decision vs distinguishing; $L$-notation; basic group/field review & Diagnostic / setup \\
+		\hline
+		1 & Integer Factorization & RSA/Rabin context; $\varphi(N)$ and order-finding reductions; ECM, QS, GNFS; Shor overview & Worksheet 1 \\
+		\hline
+		2 & Discrete Logarithms & DLP/CDH/DDH; BSGS/Pollard; Pohlig--Hellman; index calculus/NFS-DL; ECDLP vs finite fields; Shor & Worksheet 2; Quiz 1 \\
+		\hline
+		3 & Lattices I & Lattices, duals, determinant; Minkowski; SVP/CVP; LLL/BKZ overview & Worksheet 3 \\
+		\hline
+		4 & Lattices II + Codes intro & SIS/LWE formalism; primal/dual/hybrid/BKW attacks; syndrome decoding and SD & PS 1 due \\
+		\hline
+		5 & Codes & McEliece context; ISD (Prange $\rightarrow$ BJMM); structural attacks; quantum notes & Worksheet 4; Quiz 2 \\
+		\hline
+		6 & Isogenies & EC basics; isogenies, kernels, Vélu (concept); supersingular graphs; CSIDH-style actions; protocol-specific breaks; quantum hidden shift & Worksheet 5 \\
+		\hline
+		7 & Multivariate (MQ) & MQ definition; Gr\"obner (F4/F5); XL/hybrid; MinRank/rank attacks; scheme pitfalls & PS 2 due \\
+		\hline
+		8 & Hash functions & CR/SPR/OW games; birthday bound; Merkle--Damg{\aa}rd, length extension; HMAC; quantum Grover impacts & Worksheet 6; Quiz 3 \\
+		\hline
+		9 & Cross-cutting security & Comparing attack models; parameter selection; implementation pitfalls; case studies (NIST PQC overview optional) & Worksheet 7 \\
+		\hline
+		10 & Project week & Student presentations; synthesis and review & Final report + presentation \\
+		\hline
+	\end{longtable}
+	
+	% ============================================================
+	\section*{Course Policies (Template)}
+	% ============================================================
+	
+	\textbf{Communication:} Course announcements will be posted on \website. Students are responsible for checking regularly.
+	
+	\textbf{Regrades:} \textbf{[Insert policy]} (e.g., within 7 days; include a written explanation).
+	
+	\textbf{Recording:} \textbf{[Insert policy]}.
+	
+	\textbf{Changes:} The instructor may modify the schedule in response to pacing and feedback.
+	
+\end{document}

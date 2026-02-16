@@ -1,0 +1,87 @@
+% ============================================================
+% One-page Flyer / Announcement (LaTeX)
+% Colloquium: Hard Problems in Cryptography
+% ============================================================
+\documentclass[11pt]{article}
+
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{array}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt}
+
+% ---------- Fill these in ----------
+\newcommand{\groupname}{\textbf{Hard Problems in Cryptography Colloquium}}
+\newcommand{\term}{\textbf{[Insert Term / Date Range]}}
+\newcommand{\whenwhere}{\textbf{[Day, Time] @ [Room] / Zoom: [Link]}}
+\newcommand{\organizer}{\textbf{[Your Name]}}
+\newcommand{\contact}{\textbf{[Email]}}
+\newcommand{\signup}{\textbf{[Sign-up link / form]}}
+\newcommand{\repo}{\textbf{[Shared notes link]}}
+\newcommand{\deadline}{\textbf{[Sign-up deadline]}}
+\newcommand{\audience}{\textbf{Masters/advanced undergrad; PhD welcome}}
+
+% ---------- Styling ----------
+\definecolor{accent}{RGB}{20,75,140}
+
+\begin{document}
+	
+	% ---------- Header ----------
+	{\Large \color{accent}\textbf{\groupname}}\\
+	{\normalsize \term}\\[4pt]
+	\textbf{Meetings:} \whenwhere\\
+	\textbf{Organizer:} \organizer \quad $\mid$ \quad \textbf{Contact:} \contact\\
+	\textbf{Sign-up:} \signup \quad $\mid$ \quad \textbf{Deadline:} \deadline\\
+	\textbf{Shared notes/repo:} \repo
+	
+	\vspace{8pt}
+	\hrule
+	\vspace{10pt}
+	
+	% ---------- Body ----------
+	\textbf{What is this?}\\
+	A structured, discussion-driven study group on the \emph{hard computational problems} that underpin classical and post-quantum cryptography.
+	Each week features a short talk by a participant followed by a guided board session (proof sketch + toy attack + Q\&A).
+	
+	\textbf{Topics (tentative):}
+	\begin{itemize}[leftmargin=2em]
+		\item Integer factorization (RSA/Rabin): ECM, QS, GNFS, Shor overview
+		\item Discrete logarithms (finite fields \& elliptic curves): Pollard $\rho$, Pohlig--Hellman, index calculus, pairing pitfalls
+		\item Lattices (SVP/CVP, SIS/LWE): LLL/BKZ intuition; primal/dual/hybrid attacks
+		\item Codes (syndrome decoding): McEliece context; ISD (Prange $\rightarrow$ BJMM)
+		\item Isogenies: supersingular graphs; CSIDH-style actions; attack heuristics
+		\item Multivariate (MQ): Gr\"obner/XL/hybrid; structural pitfalls
+		\item Hash: CR/SPR/OW games; birthday bound; length extension; HMAC; quantum impacts
+	\end{itemize}
+	
+	\textbf{Audience / prerequisites}\\
+	\audience. You should be comfortable with modular arithmetic, basic linear algebra, and proof writing.
+	We will share a short preliminaries handout.
+	
+	\textbf{Format (90 minutes/week)}
+	\begin{itemize}[leftmargin=2em]
+		\item 30--40 min participant talk (rotating presenters)
+		\item 30--40 min board session (practice problems / proof sketches)
+		\item 10--15 min research-style discussion (assumptions, best-known attacks, open questions)
+	\end{itemize}
+	
+	\textbf{Why join?}
+	\begin{itemize}[leftmargin=2em]
+		\item Build a coherent map of cryptographic hardness assumptions and their best-known attacks.
+		\item Improve paper-reading and presentation skills in a supportive setting.
+		\item Leave with a shared set of clean notes, a glossary, and a curated reference list.
+	\end{itemize}
+	
+	\textbf{How to participate}\\
+	Sign up by \deadline\ using \signup. Indicate whether you can present (recommended but optional).
+	Presenters will get a template (definition + reduction + attack mechanism + 2 practice problems).
+	
+	\vfill
+	\hrule
+	\vspace{6pt}
+	{\small \textbf{Note:} This is an educational colloquium. We focus on publicly documented algorithms/attacks and do not discuss wrongdoing or misuse.}
+	
+\end{document}

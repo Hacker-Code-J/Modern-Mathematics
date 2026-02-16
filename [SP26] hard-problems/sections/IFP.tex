@@ -1,0 +1,48 @@
+%\paragraph{Setting.}
+%Let $N\in\mathbb{Z}_{\ge 2}$ be an odd composite integer, typically $N=pq$ with distinct primes
+%$p,q$ of comparable bit-length.
+%
+%\paragraph{Search problem (Factorization).}
+%Given $N$, output a nontrivial factor of $N$, i.e.\ an integer $d$ such that
+%\[
+%1< d < N
+%\quad\text{and}\quad
+%d \mid N.
+%\]
+%Equivalently, output the full prime factorization of $N$.
+%
+%\paragraph{Decision variant.}
+%Given $(N,d)$, decide whether $d\mid N$ and $1<d<N$ (trivial), or more meaningfully:
+%given $N$, decide whether $N$ is prime (primality) or has a factor in a specified interval.
+%
+%\paragraph{Hardness assumption (typical cryptographic form).}
+%For a distribution $\mathcal{D}$ over composites (e.g.\ RSA moduli $N=pq$),
+%no probabilistic polynomial-time (PPT) algorithm factors $N\leftarrow\mathcal{D}$
+%with non-negligible probability.
+
+\paragraph{Search problem (Factorization).}
+Given an odd composite integer $N\in\mathbb{Z}_{\ge 2}$ (often $N=pq$ with distinct primes $p,q$),
+output a nontrivial factor $d$ such that
+\[
+1<d<N \quad\text{and}\quad d\mid N.
+\]
+Equivalently, output the prime factorization of $N$.
+
+\paragraph{Hardness assumption (RSA distribution).}
+Let $\mathcal{D}_\lambda$ output $N=pq$ where $p,q$ are random $\lambda$-bit primes.
+The assumption states: no PPT algorithm factors $N\leftarrow \mathcal{D}_\lambda$
+with non-negligible probability in $\lambda$.
+
+\paragraph{Standard attacks (classical).}
+\begin{itemize}\setlength\itemsep{0.2em}
+	\item \textbf{Trial division / Pollard $p-1$}: effective when $p-1$ is smooth.
+	\item \textbf{Pollard $\rho$}: heuristic $O(\sqrt{p})$ time to find a factor $p$.
+	\item \textbf{ECM (Elliptic Curve Method)}: best for finding relatively small prime factors.
+	\item \textbf{QS (Quadratic Sieve)}: subexponential; good for moderate sizes.
+	\item \textbf{GNFS (General Number Field Sieve)}: asymptotically fastest for general $N$.
+	\item \textbf{SNFS (Special NFS)}: faster than GNFS when $N$ has special form.
+	\item \textbf{Implementation/key-gen weaknesses}: shared primes, partial key leakage, smoothness, side-channels.
+\end{itemize}
+
+\paragraph{Quantum attack.}
+\textbf{Shor's algorithm} factors in time polynomial in $\log N$ on a fault-tolerant quantum computer.

@@ -1,0 +1,87 @@
+%\subsection*{6.1\ Hash function as a deterministic map}
+%
+%\paragraph{Definition (hash function).}
+%A hash function is a deterministic function
+%\[
+%H:\{0,1\}^\ast \to \{0,1\}^n
+%\]
+%mapping arbitrary-length bitstrings to fixed-length digests of $n$ bits.
+%
+%\subsection*{6.2\ Collision resistance}
+%
+%\paragraph{Collision resistance (CR).}
+%A family of functions $\{H_\lambda\}$ (indexed by security parameter $\lambda$)
+%is collision resistant if for every PPT adversary $\mathcal{A}$,
+%\[
+%\Pr\Big[(x,x')\leftarrow \mathcal{A}(1^\lambda): x\neq x' \ \wedge\ H_\lambda(x)=H_\lambda(x')\Big]
+%\]
+%is negligible in $\lambda$.
+%
+%\subsection*{6.3\ Second-preimage resistance}
+%
+%\paragraph{Second-preimage resistance (SPR).}
+%$\{H_\lambda\}$ is second-preimage resistant if for every PPT adversary $\mathcal{A}$,
+%\[
+%\Pr\Big[x\leftarrow \{0,1\}^\ast;\ x'\leftarrow \mathcal{A}(1^\lambda,x):
+%x'\neq x \ \wedge\ H_\lambda(x')=H_\lambda(x)\Big]
+%\]
+%is negligible (with respect to a specified distribution over $x$, often uniform over fixed length).
+%
+%\subsection*{6.4\ Preimage resistance / one-wayness}
+%
+%\paragraph{Preimage resistance (OW).}
+%$\{H_\lambda\}$ is preimage resistant if for every PPT adversary $\mathcal{A}$,
+%\[
+%\Pr\Big[y\leftarrow \{0,1\}^n;\ x\leftarrow \mathcal{A}(1^\lambda,y):
+%H_\lambda(x)=y\Big]
+%\]
+%is negligible in $\lambda$ (with $y$ uniform in the range; equivalently, $y=H_\lambda(x)$ for random $x$ in some domain).
+%
+%\subsection*{6.5\ Random oracle model (optional idealization)}
+%
+%\paragraph{Random oracle.}
+%An ideal hash $H$ is modeled as a uniformly random function
+%$H:\{0,1\}^\ast\to \{0,1\}^n$ to which all parties have oracle access; i.e.\ consistent
+%answers on repeated queries, independent uniform outputs on new inputs.
+
+\paragraph{Hash family.}
+A hash family $\{H_\lambda\}$ is a set of efficiently computable functions
+\[
+H_\lambda:\{0,1\}^\ast\to \{0,1\}^{n(\lambda)}.
+\]
+
+\paragraph{Collision resistance (CR).}
+$\{H_\lambda\}$ is collision resistant if for every PPT adversary $\mathcal{A}$,
+\[
+\Pr\Big[(x,x')\leftarrow \mathcal{A}(1^\lambda): x\neq x' \ \wedge\ H_\lambda(x)=H_\lambda(x')\Big]
+\]
+is negligible in $\lambda$.
+
+\paragraph{Second-preimage resistance (SPR).}
+For every PPT $\mathcal{A}$,
+\[
+\Pr\Big[x\leftarrow \mathcal{D};\ x'\leftarrow \mathcal{A}(1^\lambda,x):
+x'\neq x \ \wedge\ H_\lambda(x')=H_\lambda(x)\Big]
+\]
+is negligible (for a specified distribution $\mathcal{D}$ over inputs).
+
+\paragraph{Preimage resistance (one-wayness, OW).}
+For every PPT $\mathcal{A}$,
+\[
+\Pr\Big[y\leftarrow \{0,1\}^{n(\lambda)};\ x\leftarrow \mathcal{A}(1^\lambda,y):
+H_\lambda(x)=y\Big]
+\]
+is negligible.
+
+\paragraph{Standard attacks.}
+\begin{itemize}\setlength\itemsep{0.2em}
+	\item \textbf{Generic bounds}: collisions in about $2^{n/2}$ evaluations (birthday paradox),
+	preimages in about $2^{n}$ evaluations.
+	\item \textbf{Design-specific cryptanalysis}: differential/boomerang-style attacks; rotational/symmetry attacks; etc.
+	\item \textbf{Chosen-prefix collisions} (for weakened designs).
+	\item \textbf{Length extension}: for Merkle--Damg{\aa}rd hashes if misused as $H(k\|m)$; use HMAC to avoid.
+\end{itemize}
+
+\paragraph{Quantum attacks.}
+\textbf{Grover} gives preimages in about $2^{n/2}$ quantum queries.
+(Quantum collision-finding can also improve over the classical birthday bound in some models.)

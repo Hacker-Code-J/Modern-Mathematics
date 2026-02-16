@@ -1,0 +1,25 @@
+\paragraph{Setting (systems of polynomial equations).}
+Let $\mathbb{F}_q$ be a finite field. Let $f_1,\dots,f_m\in \mathbb{F}_q[x_1,\dots,x_n]$ be polynomials.
+
+\paragraph{MQ (Multivariate Quadratic) --- search problem.}
+Given $m$ quadratic polynomials
+\[
+f_i(x_1,\dots,x_n) \in \mathbb{F}_q[x_1,\dots,x_n],\quad \deg(f_i)\le 2,
+\]
+find a solution $x=(x_1,\dots,x_n)\in\mathbb{F}_q^n$ such that
+\[
+f_i(x)=0 \quad\text{for all } i=1,\dots,m.
+\]
+(Decision variant: decide whether such an $x$ exists.)
+
+\paragraph{Standard attacks (classical).}
+\begin{itemize}\setlength\itemsep{0.2em}
+	\item \textbf{Gr\"obner basis} methods: F4/F5; complexity driven by degree of regularity and sparsity.
+	\item \textbf{XL / variants} (eXtended Linearization) and relinearization methods.
+	\item \textbf{Hybrid attacks}: guess some variables to reduce to smaller systems, then algebraic solve.
+	\item \textbf{Rank attacks / MinRank} reductions for structured schemes (oil-vinegar-type, etc.).
+	\item \textbf{Linearization traps}: if parameters make the system overdetermined/easy.
+\end{itemize}
+
+\paragraph{Quantum note.}
+Grover can speed up variable-guessing layers; algebraic-solving quantum speedups are limited and highly model/instance-dependent.

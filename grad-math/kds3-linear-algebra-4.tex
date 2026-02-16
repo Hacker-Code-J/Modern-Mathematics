@@ -9,13 +9,15 @@
 
 \usepackage{mathtools}
 
+
+\DeclareMathOperator{\sgn}{sgn}
+
 \renewcommand{\vec}[1]{\mathbf{#1}}
 \renewcommand{\Re}{\operatorname*{Re}}
 \renewcommand{\Im}{\operatorname*{Im}}
 \newcommand{\Mat}{\operatorname{Mat}}
 
 \newcommand{\Sym}{\mathrm{Sym}}
-
 
 %\newcommand{\F}{\mathbb{F}}
 %\newcommand{\R}{\mathbb{R}}
@@ -27,6 +29,7 @@
 \newcommand{\pderiv}[2]{\frac{\partial #1}{\partial #2}}
 \newcommand{\spderiv}[3]{\frac{\partial^2 #1}{\partial #2\partial #3}}
 \newcommand{\GL}{\operatorname{GL}}
+\newcommand{\restrict}[2]{{#1}\!\mid_{#2}}
 
 
 
@@ -59,8 +62,15 @@ We cover the following topics in this note.
 \vfill
 
 \newpage
+\begin{notation}
+	\;
+	\begin{itemize}
+		\item Let \(\F\) is a field (typical cases: \(\R\) or \(\C\)).
+		\item Let \(V\) is a finite-dimensional \(\F\)-vector space.
+		\item Let \(T:V\to V\) is a linear operator.
+	\end{itemize}
+\end{notation}
 \begin{observation}[Choosing a basis to simplify a linear map]
-Consider a finite-dimensional vector space $V$ over a field $\F$. Let $T:V\to V$ be a linear operator. 
 Let $\basis=\set{\textbf{v}_1,\dots,\textbf{v}_n}$ be a basis of $V$ such that $[T]_{\basis}$ is a diagonal matrix: 
 \[
 [T]_{\basis}=[T]_{\basis}^{\basis}=\begin{bmatrix}
@@ -76,40 +86,79 @@ Then $T$ may be very complicated, but with respect to $[T]_{\basis}$ it looks ni
 
 \medskip
 
-\defbox[Eigenvector, Eigenvalue]{\begin{definition*}
-	A nonzero vector $\textbf{v}\in V\setminus\set{0}$ is an \emph{eigenvector} of $T$ if there exists $\lambda\in\F$ such that
+\defbox[Eigenvector \& Eigenvalue]{\begin{definition*}
+	Let $T:V\to V$ be $\F$-linear. A nonzero vector $\textbf{v}\in V\setminus\set{\textbf{0}}$ is an \emph{eigenvector} of $T$ if there exists $\lambda\in\F$ such that
 	\[
-	T(\textbf{v})=\lambda \textbf{v}.
+	T(\textbf{v})=\lambda \textbf{v}\in V.
 	\]
-	The scalar $\lambda$ is called the \emph{eigenvalue} corresponding to $\textbf{v}$.
+	The scalar $\lambda$ is called the \textbf{eigenvalue} corresponding to $\textbf{v}$.
 \end{definition*}}
+\begin{remark}
+	If \(\textbf{v}\neq 0\) and \(T(\textbf{v})=\lambda \textbf{v}\), then the one-dimensional subspace \(\F \textbf{v}\) satisfying
+	\[
+	\fullfunction{T|_{\F \textbf{v}}}{\F \textbf{v}}{\F \textbf{v}}{c\textbf{v}}{\lambda(c\textbf{v})}\qquad(\because T(c\textbf{v})=cT(\textbf{v})=c\lambda \textbf{v}=\lambda(c\textbf{v})),
+	\]
+	Equivalently, the restriction \( \restrict{T}{\F \textbf{v}}:\F \textbf{v}\to \F \textbf{v}\) acts as scalar multiplication by \(\lambda\).
+\end{remark}
 
-%\begin{remark}
-%%	[One-dimensional invariant subspace]
-%	If $T(v)=\lambda v$ with $v\neq 0$, then the line $\Span(v)$ is $T$-invariant and
-%	\[
-%	T|_{\Span(v)}:\Span(v)\to \Span(v)
-%	\]
-%	acts as scalar multiplication by $\lambda$.
-%\end{remark}
-%
-%\section{Diagonalizable operators and matrices}
+\medskip
 
+\newpage
+\begin{remark}
+	Let $T:V\to V$ be $\F$-linear. Let a subspace $W\le V$ satisfy 	\[
+	T[W]\subseteq W\qquad(\iff\forall\,\textbf{w}\in W,\; T(\textbf{w})\in W).
+	\]
+	\begin{enumerate}
+		\item The restriction map
+		\[
+		T|_{W}:W\to W,\qquad \textbf{w}\mapsto T(\textbf{w})
+		\]
+		is a well-defined linear operator on $W$.
+		\item If $\dim V<\infty$ and $\mathcal{B}=(\textbf{w}_1,\dots,\textbf{w}_k,\textbf{v}_{k+1},\dots,\textbf{v}_n)$
+		is a basis of $V$ such that $(\textbf{w}_1,\dots,\textbf{w}_k)$ is a basis of $W$, then
+		\[
+		[T]_{\mathcal{B}}=
+		\begin{pmatrix}
+			A & *\\
+			{\color{red}0} & B
+		\end{pmatrix},
+		\]
+		where $A$ represents $T|_{W}$ and $B$ represents the induced map on $V/W$.
+	\end{enumerate}
+\begin{center}
+	\includegraphics[scale=1.25]{grad-math-tikz/kds3-linear-algebra-4-tikz1.pdf}
+\end{center}
+\end{remark}
 
-\defbox[Diagonalizable Linear Operator]{
+\medskip
+
+\defbox[Diagonalizability of Linear Operator]{
 \begin{definition*}
 	We say $T:V\to V$ is \emph{diagonalizable} if $\exists$ a basis $\basis$ of $V$ such that 
 %	the matrix of $T$ 
 %	with respect to that basis 
 	$[T]_\basis$ is diagonal.
-	Equivalently, $T$ is diagonalizable iff $V$ has a basis consisting of eigenvectors of $T$.
 \end{definition*}}
+\begin{remark}
+$T$ is diagonalizable if and only if $V$ has a basis consisting of eigenvectors of $T$. 
+
+\noindent
+A diagonal matrix \[
+\begin{bmatrix}
+	d_1 & \cdots & 0 \\
+	\vdots &\ddots & \vdots \\
+	0 & \cdots & d_n
+\end{bmatrix}
+\] acts by scaling each basis vector $\textbf{v}_i$ \textit{independently}, and ``scaling a nonzero vector'' is the eigenvector condition $T(\textbf{v}_i)=d_i\textbf{v}_i$.
+\end{remark}
+
+
+\newpage
 \begin{example}[Hessian; Quadratic form diagonalization]
 Note that \begin{itemize}
 	\item Single variable Taylor series: \begin{align*}
 	f(x)
-	&= f(p) + \frac{1}{1!}f'(p)(x-p) + \frac{1}{2!}f''(p)(x-p)^2 + \cdots \\
-	&= \sum_{k=0}^{n}\frac{f^{(k)}(p)}{k!}(x-p)^k + R.
+	&= f(p) + \frac{1}{1!}f'(p)(x-p) + \frac{1}{2!}f''(p)(x-p)^2 + \cdots= \sum_{k=0}^{n}\frac{f^{(k)}(p)}{k!}(x-p)^k + R.
 	\end{align*}
 	\item Two variables Taylor series: \begin{align*}
 	f(x,y) &= f(p,q)
@@ -137,12 +186,7 @@ H=\begin{bmatrix} f_{xx} & f_{xy}\\ f_{yx} & f_{yy}\end{bmatrix}.
 	&= \mathcolorbox{-blue}{f(p,q)} + \mathcolorbox{-red}{\frac{1}{1!}\,\nabla f^{\,T}X} + \mathcolorbox{-green}{\frac{1}{2!}\,X^{T}HX} + R.
 \end{align*}
 %\newpage\noindent
-Consider $f(x,y)=4x^2+2xy+4y^2$. Then
-\[
-f_{xx}=4,\quad f_{yy}=4,\quad f_{xy}=f_{yx}=2
-\quad\Rightarrow\quad
-H=\begin{bmatrix}4&2\\2&4\end{bmatrix}.
-\]
+Consider $f(x,y)=2x^2+2xy+2y^2$. Then $H=\begin{bmatrix}f_{xx}&f_{xy}\\ f_{yx}& f_{yy}\end{bmatrix}=\begin{bmatrix}4&2\\2&4\end{bmatrix}.$
 Let
 \[
 X=\begin{bmatrix}x\\y\end{bmatrix}
@@ -184,6 +228,7 @@ f=V^{T}DV
 =6u^2+2v^2.
 \] Here, intersection term $(xy)$ disappeared.
 \end{itemize}
+\end{example}
 
 \medskip
 
@@ -400,335 +445,355 @@ f=V^{T}DV
 %x_2(t)=be^{3t}.
 %\]
 
-\end{example}
+\medskip
 
-%\begin{example}[Shape operator; Kim, Namho]
-%Let $S^2=\set{x\in\R^3:\norm{x}=1}$. Define the sphere by $f(x,y,z)=x^2+y^2+z^2=1$. Compute \[
-%\nabla f=\left(\pderiv{f}{x},\pderiv{f}{y},\pderiv{f}{z}\right)=(2x,2y,2z).
-%\] Pick any point $p=(x,y,z)$ on the surface. Then the outward unit normal is \[
-%N:S^2\to S^2:p\mapsto N(p)=\frac{\nabla f}{\abs{\nabla f}}=\frac{2p}{\abs{2p}}=\frac{2p}{2}=p.
-%\]
-%\begin{center}
-%\includegraphics[scale=1]{grad-math-tikz/shape_operator_1.pdf}
-%\end{center}
-%Since $N$ is a smooth map between manifolds, at each $p\in S^2$ it has a differential (pushforward) \[
-%(dN)_p:T_pS^2\to T_{N(p)}S^2
-%\] Take any smooth curve $\gamma:N_\varepsilon(0)\to S^2$ with \[
-%\gamma(0)=p,\quad\gamma'(0)=\textbf{v}\in T_pS^2.
-%\] Then \[
-%(dN)_p(\textbf{v})=\frac{d}{dt}\left(N(\gamma(t))\right)\big|_{t=0}.
-%\] We move on the surface in direction $\textbf{v}$, watch how the normal vector changes, and differentiate.
-%
-%The shape operator (Weingarten map) is defined pointwise by \[
-%\fullfunction{S_p}{T_pS^2}{T_{N(p)}S^2}{\textbf{v}}{-(dN)_p(\textbf{v})}.
-%\] Note that \[
-%T_pS^2=\set{\textbf{w}\in R^3:\textbf{w}\cdot N(p)=0}=T_{N(p)}S^2.
-%\] In summary, \[
-%S^2\xrightarrow{N}S^2\quad\Longrightarrow\quad T_pS^2\xrightarrow{(dN)_p} T_{N(p)}S^2\simeq T_pS^2\quad\Longrightarrow\quad S_p=-(dN)_p.
-%\]
-%
-%\newpage
-%Let $U=\intoo{0,\pi}\times\intoo{0,2\pi}\subset\R^2$. Consider the standard spherical parametrization \[
-%\fullfunction{X}{U}{S^2(\subset\R^3)}{(\theta,\phi)}{X(\theta,\phi)=\begin{bmatrix}
-%		\sin\theta\cos\phi\\
-%		\sin\theta\sin\phi\\
-%		\cos\theta
-%	\end{bmatrix}}.
-%\] At $p=X(\theta,\phi)$, the tangent vectors are
-%\[
-%\pderiv{}{\theta}X(\theta,\phi)=
-%\begin{bmatrix}
-%	\cos\theta\cos\phi\\
-%	\cos\theta\sin\phi\\
-%	-\sin\theta
-%\end{bmatrix},
-%\qquad
-%\pderiv{}{\phi}X(\theta,\phi)=
-%\begin{bmatrix}
-%	-\sin\theta\sin\phi\\
-%	\sin\theta\cos\phi\\
-%	0
-%\end{bmatrix}.
-%\]
-%They span $T_pS^2$ for $0<\theta<\pi$.
-%Note that \begin{enumerate}[(i)]
-%	\item $\norm{\pderiv{}{\theta}X}=\sqrt{\cos^2\theta\cos^2\phi+\cos^2\theta\sin^2\phi+\sin^2\theta}=\sqrt{\cos^2\theta(\cos^2\phi+\sin^2\phi)+\sin^2\theta}=1$.
-%	\item $\norm{\pderiv{}{\phi}X}=\sqrt{\sin^2\theta\sin^2\phi+\sin^2\theta\cos^2\phi}=\sqrt{\sin^2\theta(\sin^2\phi+\cos^2\phi)}=\abs{\sin\theta}=\sin\theta$.
-%	\item $\pderiv{}{\theta}X\cdot\pderiv{}{\phi}X=(-\cos\theta\cos\phi\sin\theta\sin\phi)+(\cos\theta\sin\phi\sin\theta\cos\phi)+0=0$.
-%\end{enumerate}
-%Hence an \textbf{orthonormal basis} of $T_pS^2$ is
-%\[
-%e_1:=\pderiv{}{\theta}X,
-%\qquad
-%e_2:=\frac{1}{\sin\theta}\,\pderiv{}{\phi}X.
-%\]
-%\end{example}
+\vspace{10pt}
+%\vfill
 
+\begin{note}
+Let \(A\in \Mat_n(\F)\). The associated linear map \(L_A:\F^n\to\F^n\) is given by \(L_A(\textbf{x})=A\textbf{x}\).
+\end{note}
+\defbox[Diagonalizability of Matrix]{\begin{definition}
+A matrix \(A\in \Mat_n(\F)\) is \emph{diagonalizable over \(\F\)} if \(\exists P\in \GL_n(\F)\) and a diagonal matrix \(D\) such that
+\[
+P^{-1}AP=D.
+\]
+\end{definition}}
 
-
+\probox[Eigenbasis and Similarity]{
+\begin{proposition}
+Let \(A\in\Mat_n(\F)\).
+\begin{enumerate}[(i)]
+	\item If \(\mathcal{B}=\set{\textbf{v}_1,\dots,\textbf{v}_n}\) is a basis of \(\F^n\) consisting of eigenvectors of \(A\), and \(P=[\textbf{v}_1\ \cdots\ \textbf{v}_n]\), then \(P^{-1}AP\) is diagonal with \(P\in\GL_n(\F)\).
+	\item Conversely, if \(P^{-1}AP=D\) is diagonal, then the columns of \(P\) form an eigenbasis of \(A\) (with eigenvalues given by the diagonal entries of \(D\)).
+\end{enumerate}
+\end{proposition}}
 
 
 \newpage
-%\section*{Eigenvectors}
-%\textbf{Def.}
-%A nonzero vector $u\in V$ is called an \emph{eigenvector} of $T$ if
-%\[
-%T(u)=\lambda u \quad\text{for some }\lambda\in\F.
-%\]
-%$\lambda$ is called the \emph{eigenvalue} of $u$.
-%
-%\medskip
-%\textbf{Remark.}
-%If $u\neq 0$ and $T(u)=\lambda u$, then $T(\F u)\subseteq \F u$ (restriction map)
-%\[
-%T|_{\F u}:\F u \to \F u,
-%\]
-%and $T$ acts as scalar multiplication by $\lambda$ on the line $\F u$.
-%
-%\section*{Diagonalizable}
-%\textbf{Def.}
-%$T:V\to V$ is \emph{diagonalizable} if there exists a basis $\beta$ of $V$ such that
-%$[T]_{\beta}$ is diagonal.
-%Equivalently, there is a basis of $V$ consisting of eigenvectors of $T$.
-%
-%\medskip
-%Example (matrices). Let $A\in \Mat_{n\times n}(\F)$ and consider
-%\[
-%L_A:\F^n\to \F^n, \qquad x\mapsto Ax.
-%\]
-%Suppose $L_A$ is diagonalizable. Then there is a basis $P$ of eigenvectors of $L_A$ such that
-%\[
-%[L_A]_P = D \quad\text{(a diagonal matrix)}.
-%\]
-%In matrix language this means
-%\[
-%P^{-1}AP = D \quad\Longleftrightarrow\quad A = PDP^{-1}.
-%\]
-%
-%\medskip
-%Consequently, $L_A$ is diagonalizable iff there exists an invertible $P$ such that $P^{-1}AP$
-%is a diagonal matrix, i.e. $A$ is similar to a diagonal matrix.
-%
-%\medskip
-%\textbf{Def.}
-%A matrix $A\in \Mat_{n\times n}(\F)$ is \emph{diagonalizable} if $A$ is similar to a diagonal matrix,
-%i.e. $\exists\, P\in \GL_n(\F)$ such that
-%\[
-%P^{-1}AP = D \quad\text{(diagonal)}.
-%\]
-%
-%\section*{Example: rotation and dependence on the field}
-%Let $A=R_{90}=\begin{bmatrix}0&-1\\ 1&0\end{bmatrix}$.
-%
-%\medskip
-%\textbf{Case 1: $\F=\R$.}
-%Then there is no nonzero vector $u$ such that $Au=\lambda u$ for some $\lambda\in\R$.
-%Thus $R_{90}$ is not diagonalizable over $\R$.
-%
-%\medskip
-%\textbf{Case 2: $\F=\C$.}
-%Consider $L_A:\C^2\to\C^2$, $x\mapsto Ax$.
-%We want $u\neq 0$ and $\lambda\in\C$ such that
-%\[
-%Au=\lambda u.
-%\]
-%Equivalently,
-%\[
-%(A-\lambda I)u=0.
-%\]
-%There exists a nonzero solution $u$ iff $A-\lambda I$ is not invertible, i.e.
-%\[
-%\det(A-\lambda I)=0.
-%\]
-%We call $\det(A-\lambda I)$ the \emph{characteristic polynomial} of $A$.
-%
-%\medskip
-%More generally, for the rotation matrix
-%\[
-%A=
-%\begin{bmatrix}
-%	\cos\theta & -\sin\theta\\
-%	\sin\theta & \cos\theta
-%\end{bmatrix},
-%\quad
-%A-\lambda I=
-%\begin{bmatrix}
-%	\cos\theta-\lambda & -\sin\theta\\
-%	\sin\theta & \cos\theta-\lambda
-%\end{bmatrix},
-%\]
-%we compute
-%\[
-%\det(A-\lambda I)
-%=(\cos\theta-\lambda)^2+\sin^2\theta
-%=\lambda^2-2(\cos\theta)\lambda+1.
-%\]
-%Over $\C$ this has two distinct roots:
-%\[
-%\lambda_\pm = \cos\theta \pm i\sin\theta.
-%\]
-%So the eigenvalues are $\cos\theta\pm i\sin\theta$.
-%
-%\medskip
-%For $\lambda_+=\cos\theta+i\sin\theta=e^{i\theta}$ one can take an eigenvector
-%\[
-%u_+=\begin{bmatrix}1\\ -i\end{bmatrix},
-%\qquad
-%Au_+=\lambda_+u_+.
-%\]
-%Similarly, for $\lambda_-=\cos\theta-i\sin\theta=e^{-i\theta}$ one can take
-%\[
-%u_-=\begin{bmatrix}1\\ i\end{bmatrix},
-%\qquad
-%Au_-=\lambda_-u_-.
-%\]
-%Hence over $\C$, the rotation matrix is diagonalizable.
-%
-%\medskip
-%We saw that diagonalization indeed depends on the choice of $\F$.
-%
-%\section*{Characteristic polynomial}
-%\textbf{Def.}
-%Let $A\in \Mat_{n\times n}(\F)$. The \emph{characteristic polynomial} of $A$ is
-%\[
-%f_A(\lambda):=\det(A-\lambda I).
-%\]
-%(We often denote it by $\chi_A(\lambda)$.)
-%
-%\section*{Exercise}
-%Show that if
-%\[
-%f_A(\lambda)=\det(A-\lambda I)=(-1)^n\lambda^n + c_{n-1}\lambda^{n-1}+\cdots + c_1\lambda + c_0,
-%\]
-%then
-%\[
-%c_0=\det(A),
-%\qquad
-%c_{n-1}=(-1)^{n-1}\tr(A).
-%\]
-%(Show this by induction; the $\lambda^{n-1}$ coefficient comes from the sum of diagonal entries.)
+\defbox[Characteristic polynomial]{\begin{definition}
+	For \(A\in\Mat_n(\F)\), the \textbf{characteristic polynomial} of \(A\) is
+	\[
+	\chi_A(\lambda)\coloneqq \det(A-\lambda I_n)\in \F[\lambda].
+	\]
+\end{definition}}
 
-
+\probox[Eigenvalues are roots]{\begin{proposition}
+	A scalar \(\lambda\in\F\) is an eigenvalue of \(A\) if and only if \(\chi_A(\lambda)=0\).
+\end{proposition}}
 
 
 \newpage
+\begin{observation}[Characteristic polynomial in $2\times 2$] 
+Let $A=\begin{bmatrix} a&b\\ c&d \end{bmatrix}\in\Mat_{2}(\F)$. Then 
+\begin{center}
+\begin{minipage}{.495\textwidth}
+\begin{align*}
+	\det(A-{\color{blue}\lambda} I_2)&=
+	\det\begin{bmatrix} a-{\color{blue}\lambda}&b\\ c&d-{\color{blue}\lambda} \end{bmatrix}\\
+	&=(a-{\color{blue}\lambda})(d-{\color{blue}\lambda})-bc\\
+	&=ad-(a+d){\color{blue}\lambda}+{\color{blue}\lambda}^2-bc\\
+	&={\color{blue}\lambda}^2-(a+d){\color{blue}\lambda}+(ad-bc)\\
+	&={\color{blue}\lambda}^2-\tr(A){\color{blue}\lambda}+\det(A).
+\end{align*}
+\end{minipage}\hfill\begin{minipage}{.495\textwidth}\centering
+\includegraphics[scale=1]{grad-math-tikz/kds3-linear-algebra-4-tikz2.pdf}
+\end{minipage}
+\end{center}
+\end{observation}
 
-%\section*{Motivation: }
+\medskip
 
-%A key idea is that $T$ may look complicated in one basis but becomes simpler in a more suitable basis.
-%In the best case, the matrix of $T$ becomes diagonal, so that $T$ acts by independent scalings in each coordinate direction.
+\begin{observation}[Characteristic polynomial in $3\times 3$]
+	Let $
+	A=\begin{bmatrix}
+		a & b & c\\
+		d & e & f\\
+		g & h & i
+	\end{bmatrix}\in \Mat_{3}(\F).$ Then \begin{align*}
+	\det(A-\lambda I_3)
+	&=
+	\det\begin{bmatrix}
+		a-{\color{blue}\lambda}&b&c\\
+		d&e-{\color{blue}\lambda}&f\\
+		g&h&i-{\color{blue}\lambda}
+	\end{bmatrix}
+	=
+	(a-{\color{blue}\lambda})\det\begin{bmatrix}
+		e-{\color{blue}\lambda}&f\\
+		h&i-{\color{blue}\lambda}
+	\end{bmatrix}
+	-b\det\begin{bmatrix}
+		d&f\\
+		g&i-{\color{blue}\lambda}
+	\end{bmatrix}
+	+c\det\begin{bmatrix}
+		d&e-{\color{blue}\lambda}\\
+		g&h
+	\end{bmatrix}\\
+	&=(a-{\color{blue}\lambda})\bigl((e-{\color{blue}\lambda})(i-{\color{blue}\lambda})-fh\bigr)
+	-b\bigl(d(i-{\color{blue}\lambda})-fg\bigr)
+	+c\bigl(dh-ge+g{\color{blue}\lambda}\bigr)\\
+	&=(a-{\color{blue}\lambda})\bigl(ei-(e+i){\color{blue}\lambda}+{\color{blue}\lambda}^2-fh\bigr)
+	-b\bigl(di-d{\color{blue}\lambda}-fg\bigr)
+	+c\bigl(dh-ge+g{\color{blue}\lambda}\bigr)\\
+	&=\bigl(aei-a(e+i){\color{blue}\lambda}+a{\color{blue}\lambda}^2-afh\bigr)-
+	\bigl(ei{\color{blue}\lambda}-(e+i){\color{blue}\lambda}^2+{\color{blue}\lambda}^3-fh{\color{blue}\lambda}\bigr)
+	\\
+	&\hspace{10pt}-\bigl(bdi-bd{\color{blue}\lambda}-bfg\bigr)
+	+\bigl(cdh-cge+cg{\color{blue}\lambda}\bigr)\\
+	&=-{\color{blue}\lambda}^3+(a+e+i){\color{blue}\lambda}^2-(ae+ai+ei-fh-bd-cg){\color{blue}\lambda}+(aei-afh-bdi-bfg+cdh-cge)\\
+	&=-{\color{blue}\lambda}^3+\tr(A){\color{blue}\lambda}^2-\left(\det\!\begin{bmatrix}a&b\\ d&e\end{bmatrix}
+	+\det\!\begin{bmatrix}a&c\\ g&i\end{bmatrix}
+	+\det\!\begin{bmatrix}e&f\\ h&i\end{bmatrix}\right){\color{blue}\lambda}+\det(A).
+	\end{align*}
+\begin{center}
+\includegraphics[scale=1]{grad-math-tikz/kds3-linear-algebra-4-tikz3.pdf}
+\end{center}
+\end{observation}
 
-%\section{Eigenvectors and eigenvalues}
-%
-%\begin{definition}[Eigenvector, eigenvalue]
-%	A nonzero vector $v\in V$ is an \emph{eigenvector} of $T$ if there exists $\lambda\in\F$ such that
-%	\[
-%	T(v)=\lambda v.
-%	\]
-%	The scalar $\lambda$ is called the \emph{eigenvalue} corresponding to $v$:contentReference[oaicite:3]{index=3}.
-%\end{definition}
-%
-%\begin{remark}[One-dimensional invariant subspace]
-%	If $T(v)=\lambda v$ with $v\neq 0$, then the line $\Span(v)$ is $T$-invariant and
-%	\[
-%	T|_{\Span(v)}:\Span(v)\to \Span(v)
-%	\]
-%	acts as scalar multiplication by $\lambda$:contentReference[oaicite:4]{index=4}.
-%\end{remark}
-%
-%\section{Diagonalizable operators and matrices}
-%
-%\begin{definition}[Diagonalizable operator]
-%	We say $T:V\to V$ is \emph{diagonalizable} if there exists a basis of $V$ such that the matrix of $T$
-%	with respect to that basis is diagonal.
-%	Equivalently, $T$ is diagonalizable iff $V$ has a basis consisting of eigenvectors of $T$:contentReference[oaicite:5]{index=5}.
-%\end{definition}
-%
-%\subsection*{Matrices and similarity}
-%Let $A\in \Mat_{n\times n}(\F)$ and consider the linear map $L_A:\F^n\to\F^n$ given by $L_A(x)=Ax$.
-%
-%\begin{proposition}[Diagonalization and similarity]
-%	A matrix $A$ is diagonalizable over $\F$ iff there exists an invertible matrix $P\in \mathrm{GL}_n(\F)$
-%	and a diagonal matrix $D$ such that
-%	\[
-%	P^{-1}AP = D
-%	\qquad\text{equivalently}\qquad
-%	A = PDP^{-1}.
-%	\]
-%	In this case, the columns of $P$ may be taken to be a basis of eigenvectors of $A$:contentReference[oaicite:6]{index=6}.
-%\end{proposition}
-%
-%\begin{remark}
-%	If $A$ and $B$ are similar ($B=P^{-1}AP$), then they represent the same linear operator in two different bases.
-%	Hence diagonalizability is a property of the linear operator (or similarity class), not of a specific matrix form:contentReference[oaicite:7]{index=7}.
-%\end{remark}
-%
-%\section{Characteristic polynomial}
-%Eigenvalues are found by solving the equation
-%\[
-%Av=\lambda v \quad (v\neq 0),
-%\]
-%which is equivalent to
-%\[
-%(A-\lambda I)v=0 \quad (v\neq 0).
-%\]
-%Thus $\lambda$ is an eigenvalue iff $A-\lambda I$ is not invertible, i.e.
-%\[
-%\det(A-\lambda I)=0.
-%\]
-%
-%\begin{definition}[Characteristic polynomial]
-%	For $A\in \Mat_{n\times n}(\F)$, the \emph{characteristic polynomial} of $A$ is
-%	\[
-%	\chi_A(\lambda) := \det(A-\lambda I).
-%	\]
-%	Its roots (in an extension field if necessary) are exactly the eigenvalues of $A$:contentReference[oaicite:8]{index=8}:contentReference[oaicite:9]{index=9}.
-%\end{definition}
-%
-%\section{Example: rotations and dependence on the field}
-%
-%\begin{example}[Rotation by $90^\circ$]
-%	Consider the matrix
-%	\[
-%	R=\begin{bmatrix}0&-1\\[2pt]1&0\end{bmatrix},
-%	\]
-%	which represents rotation by $90^\circ$ in $\R^2$.
-%	Over $\R$, it has no real eigenvectors (no nonzero vector is mapped to a real scalar multiple of itself),
-%	so it is not diagonalizable over $\R$.
-%	Over $\C$, it has eigenvalues $\pm i$ and becomes diagonalizable over $\C$:contentReference[oaicite:10]{index=10}:contentReference[oaicite:11]{index=11}.
-%\end{example}
-%
-%\begin{example}[Rotation by an angle $\theta$]
-%	Let
-%	\[
-%	A=\begin{bmatrix}\cos\theta&-\sin\theta\\[2pt]\sin\theta&\cos\theta\end{bmatrix}.
-%	\]
-%	Then
-%	\[
-%	\chi_A(\lambda)=\det(A-\lambda I)
-%	= \lambda^2 - 2(\cos\theta)\lambda + 1.
-%	\]
-%	Over $\C$, the eigenvalues are
-%	\[
-%	\lambda_{\pm}=\cos\theta \pm i\sin\theta = e^{\pm i\theta},
-%	\]
-%	so if $\theta\not\equiv 0,\pi \pmod{2\pi}$ then the roots are distinct and $A$ is diagonalizable over $\C$.
-%	This illustrates that diagonalizability can depend on the choice of field $\F$:contentReference[oaicite:12]{index=12}.
-%\end{example}
-%
-%\section{Exercise}
-%\begin{exercise}
-%	Let $A\in \Mat_{n\times n}(\F)$ and write
-%	\[
-%	\chi_A(\lambda)=\det(A-\lambda I)=(-1)^n\lambda^n + c_{n-1}\lambda^{n-1}+\cdots + c_1\lambda + c_0.
-%	\]
-%	Show that:
-%	\begin{enumerate}
-%		\item $c_0=\det(A)$,
-%		\item $c_{n-1}=(-1)^{n-1}\tr(A)$.
-%	\end{enumerate}
-%	(Hint: prove by induction on $n$, using expansion of the determinant; the $\lambda^{n-1}$ coefficient comes from the sum of diagonal entries.):contentReference[oaicite:13]{index=13}
-%\end{exercise}
+\newpage
+\begin{remark}
+	Over an algebraic closure, if $\lambda_1,\lambda_2,\lambda_3$ are the eigenvalues of $A$ (with algebraic multiplicity), then
+	\begin{align*}
+		\chi_A(\lambda)&=-(\lambda-\lambda_1)(\lambda-\lambda_2)(\lambda-\lambda_3) \\
+		&=-(\lambda^2-\lambda(\lambda_1+\lambda_2)+\lambda_1\lambda_2)(\lambda-\lambda_3) \\
+		&=-(\lambda^3-\lambda^2(\lambda_1+\lambda_2+\lambda_3)+\lambda(\lambda_1\lambda_2+\lambda_2\lambda_3+\lambda_3\lambda_1)+\lambda_1\lambda_2\lambda_3)
+	\end{align*}
+	so $\tr(A)=\lambda_1+\lambda_2+\lambda_3$ and $\det(A)=\lambda_1\lambda_2\lambda_3$.
+\end{remark}
+
+\thmbox[Characteristic polynomial: Trace and Determinant as coefficients]{
+\begin{theorem}
+Let $A\in\Mat_n(\F)$. Define the characteristic polynomial \[
+\chi_A(\lambda)\coloneqq \det(A-\lambda I_n)\in \F[\lambda].
+\]
+Then $\chi_A(\lambda)$ is a polynomial of degree $n$ and can be written uniquely as
+\[
+\chi_A(\lambda)=\sum_{i=0}^{n}c_i\lambda^i=c_n \lambda^n+c_{n-1}\lambda^{n-1}+\cdots+c_1 \lambda+c_0.
+\]
+The coefficients satisfy:
+\begin{enumerate}
+	\item $c_n=(-1)^n$.
+	\item $c_{n-1}=(-1)^{n-1}\tr(A)$.
+	\item $c_0=\det(A)$.
+\end{enumerate}
+Equivalently,
+\[
+\chi_A(\lambda)=(-1)^n \lambda^n+(-1)^{n-1}(\tr A)\,\lambda^{n-1}+\cdots+\det(A).
+\]
+\end{theorem}}
+\begin{proof}
+We use the mathematical induction on $n$.	
+	
+\medskip
+\noindent\textbf{(Base case $n=1$)}\;
+If $A=[a]$, then
+\[
+\chi_A(\lambda)=\det[a-\lambda]=a-\lambda=(-1)^1\lambda^1+(-1)^0 a.
+\]
+Thus $c_1=-1=(-1)^1$, $c_0=a=\det(A)$, and $c_0=(-1)^0\tr(A)$ is consistent since $\tr(A)=a$.
+
+\medskip
+\noindent\textbf{(Induction step)}
+Assume the theorem holds for all $(n-1)\times(n-1)$ matrices over $\F$.
+Let $A=(a_{ij})\in\Mat_n(\F)$ and set
+\[
+M(\lambda)\coloneqq A-\lambda I_n.
+\]
+Expand $\det(M(\lambda))$ by Laplace expansion along the first row:
+\begin{equation}\label{eq:laplace-first-row}
+	\chi_A(\lambda)=\det(M(\lambda))
+	=\sum_{j=1}^n (-1)^{1+j}\,(a_{1j}-\lambda\delta_{1j})\,\det\bigl(M(\lambda)_{1j}\bigr),
+\end{equation}
+where $M(\lambda)_{1j}$ denotes the $(n-1)\times(n-1)$ matrix obtained by deleting row $1$ and column $j$.
+
+\medskip
+\noindent\textbf{Claim 1: $c_n=(-1)^n$ and $\deg\chi_A=n$.}
+Observe that $\det(M(\lambda)_{1j})$ is a polynomial in $\lambda$ of degree at most $n-1$.
+Moreover:
+\begin{itemize}
+	\item If $j\neq 1$, then $(a_{11}-\lambda)$ does not appear, and the prefactor is $a_{1j}$ (independent of $\lambda$).
+	Hence the corresponding summand in \eqref{eq:laplace-first-row} has degree $\le n-1$.
+	\item If $j=1$, then the prefactor is $(a_{11}-\lambda)$, so the degree of that summand is
+	$1+\deg\det(M(\lambda)_{11})$.
+\end{itemize}
+Therefore the coefficient of $\lambda^n$ can only come from the $j=1$ summand:
+\[
+(a_{11}-\lambda)\det(M(\lambda)_{11}).
+\]
+
+Now identify $M(\lambda)_{11}$ explicitly. Deleting row $1$ and column $1$ removes the first diagonal position,
+so
+\[
+M(\lambda)_{11} = A_{11}-\lambda I_{n-1},
+\]
+where $A_{11}$ is the $(n-1)\times(n-1)$ minor of $A$ (delete row $1$, column $1$).
+By the induction hypothesis applied to $A_{11}$,
+\[
+\det(A_{11}-\lambda I_{n-1}) = (-1)^{n-1}\lambda^{n-1} + \text{(lower degree terms)}.
+\]
+Multiplying by $(a_{11}-\lambda)$, the $\lambda^n$ term is
+\[
+(a_{11}-\lambda)\Bigl((-1)^{n-1}\lambda^{n-1}+\cdots\Bigr)
+= (-\lambda)\cdot (-1)^{n-1}\lambda^{n-1}+\cdots
+= (-1)^n\lambda^n+\cdots.
+\]
+Hence $c_n=(-1)^n$, and in particular $\deg\chi_A=n$.
+
+\medskip
+\noindent\textbf{Claim 2: $c_{n-1}=(-1)^{n-1}\tr(A)$.}
+We extract the coefficient of $\lambda^{n-1}$ from \eqref{eq:laplace-first-row}.
+Split the sum into the $j=1$ term and the $j\neq 1$ terms.
+
+\smallskip
+\noindent\emph{(i) Contribution from $j=1$.}
+Write the expansion (by induction hypothesis) for the $(n-1)\times(n-1)$ matrix $A_{11}$:
+\[
+\det(A_{11}-\lambda I_{n-1})
+= (-1)^{n-1}\lambda^{n-1} + (-1)^{n-2}\tr(A_{11})\,\lambda^{n-2}+\cdots.
+\]
+Then
+\begin{align*}
+	(a_{11}-\lambda)\det(A_{11}-\lambda I_{n-1})
+	&= a_{11}\Bigl((-1)^{n-1}\lambda^{n-1}+\cdots\Bigr)
+	-\lambda\Bigl((-1)^{n-1}\lambda^{n-1}+(-1)^{n-2}\tr(A_{11})\lambda^{n-2}+\cdots\Bigr)\\
+	&= a_{11}(-1)^{n-1}\lambda^{n-1} \;+\; \underbrace{(-1)^{n-1}(-\lambda)\lambda^{n-1}}_{\text{degree }n}\;+\;
+	\Bigl[-(-1)^{n-2}\tr(A_{11})\lambda^{n-1}\Bigr]+\cdots.
+\end{align*}
+Thus the coefficient of $\lambda^{n-1}$ coming from $j=1$ equals
+\[
+(-1)^{n-1}a_{11} \;-\; (-1)^{n-2}\tr(A_{11})
+= (-1)^{n-1}\bigl(a_{11}+\tr(A_{11})\bigr).
+\]
+
+\smallskip
+\noindent\emph{(ii) Contribution from $j\neq 1$.}
+For $j\neq 1$, the prefactor in \eqref{eq:laplace-first-row} is $a_{1j}$ (degree $0$ in $\lambda$), so
+only the $\lambda^{n-1}$ term of $\det(M(\lambda)_{1j})$ could contribute. But $\det(M(\lambda)_{1j})$
+is a determinant of size $(n-1)\times(n-1)$ in which the diagonal contains only $(n-2)$ entries of the form $(\cdot-\lambda)$:
+indeed, deleting column $j\neq 1$ removes the diagonal position corresponding to index $j$ while deleting row $1$ removes index $1$,
+so among indices $\{2,\dots,n\}$ we are missing one diagonal index. Consequently,
+\[
+\deg \det(M(\lambda)_{1j}) \le n-2 \qquad (j\neq 1),
+\]
+and therefore the $j\neq 1$ summands contribute nothing to the $\lambda^{n-1}$ coefficient.
+
+\smallskip
+Combining (i) and (ii),
+\[
+c_{n-1}=(-1)^{n-1}\bigl(a_{11}+\tr(A_{11})\bigr).
+\]
+Finally, since $\tr(A)=a_{11}+\tr(A_{11})$ (the trace is the sum of diagonal entries, and $A_{11}$
+contains exactly the remaining diagonal entries $a_{22},\dots,a_{nn}$),
+we get
+\[
+c_{n-1}=(-1)^{n-1}\tr(A).
+\]
+
+\medskip
+\noindent\textbf{Claim 3: $c_0=\det(A)$.}
+Evaluating at $\lambda=0$ gives
+\[
+c_0=\chi_A(0)=\det(A-0\cdot I_n)=\det(A).
+\]
+(This step is compatible with induction, but does not require it.)
+
+\medskip
+This completes the induction and proves all three coefficient identities.	
+	
+\newpage
+Write $A$ in block form by separating the first row and column:
+\[
+A=
+\begin{pmatrix}
+	a_{11} & r\\
+	c & B
+\end{pmatrix},
+\]
+where $r\in \Mat_{1\times(n-1)}(\F)$ is the first row with the first entry removed,
+$c\in \Mat_{(n-1)\times 1}(\F)$ is the first column with the first entry removed,
+and $B\in\Mat_{n-1}(\F)$ is the $(n-1)\times(n-1)$ lower-right block.
+
+Then
+\[
+A-\lambda I_n=
+\begin{pmatrix}
+	a_{11}-\lambda & r\\
+	c & B-\lambda I_{n-1}
+\end{pmatrix}.
+\]
+
+\medskip
+\noindent\textbf{(1) Degree and leading coefficient.}
+Expand $\det(A-\lambda I_n)$ along the first row:
+\[
+\det(A-\lambda I_n)
+=(a_{11}-\lambda)\det(B-\lambda I_{n-1})
++\sum_{j=2}^n (-1)^{1+j}a_{1j}\,\det(M_{1j}(\lambda)),
+\]
+where $M_{1j}(\lambda)$ is the $(n-1)\times(n-1)$ minor obtained by deleting row $1$ and column $j$.
+
+Key observation (degree-counting in matrix form):
+\begin{itemize}
+	\item $\det(B-\lambda I_{n-1})$ has degree $n-1$ with leading term $(-1)^{n-1}\lambda^{n-1}$.
+	\item For $j\ge 2$, the matrix $M_{1j}(\lambda)$ is obtained from $B-\lambda I_{n-1}$ by deleting
+	one of its columns (corresponding to the deleted column $j$). Hence $M_{1j}(\lambda)$ contains at most
+	$n-2$ diagonal entries of the form $(\cdot-\lambda)$, so \emph{every} term in $\det(M_{1j}(\lambda))$
+	has degree at most $n-2$. Thus $\deg\det(M_{1j}(\lambda))\le n-2$.
+\end{itemize}
+
+Therefore the only source of a $\lambda^n$ term is
+\[
+(a_{11}-\lambda)\det(B-\lambda I_{n-1}),
+\]
+and its $\lambda^n$ coefficient is
+\[
+(-\lambda)\cdot\bigl((-1)^{n-1}\lambda^{n-1}\bigr)=(-1)^n\lambda^n.
+\]
+Hence $c_n=(-1)^n$ and $\deg\chi_A=n$.
+
+\medskip
+\noindent\textbf{(2) The $\lambda^{n-1}$ coefficient and the trace.}
+From the same expansion, the summation terms with $j\ge 2$ cannot contribute to $\lambda^{n-1}$
+because they have degree $\le n-2$. Hence $c_{n-1}$ comes solely from
+\[
+(a_{11}-\lambda)\det(B-\lambda I_{n-1}).
+\]
+Write the first two top-degree terms of $\det(B-\lambda I_{n-1})$ in the same convention:
+\[
+\det(B-\lambda I_{n-1})
+= (-1)^{n-1}\lambda^{n-1}+(-1)^{n-2}\tr(B)\,\lambda^{n-2}+\text{(lower powers)}.
+\]
+(Here we are using the $(n-1)\times(n-1)$ case, i.e.\ induction on size.)
+
+Multiply:
+\begin{align*}
+	(a_{11}-\lambda)\det(B-\lambda I_{n-1})
+	&=a_{11}\Bigl((-1)^{n-1}\lambda^{n-1}+\cdots\Bigr)
+	-\lambda\Bigl((-1)^{n-1}\lambda^{n-1}+(-1)^{n-2}\tr(B)\lambda^{n-2}+\cdots\Bigr)\\
+	&=\Bigl[(-1)^{n-1}a_{11}-(-1)^{n-2}\tr(B)\Bigr]\lambda^{n-1}
+	+\text{(terms of degree $\neq n-1$)}.
+\end{align*}
+Thus
+\[
+c_{n-1}=(-1)^{n-1}a_{11}-(-1)^{n-2}\tr(B)=(-1)^{n-1}\bigl(a_{11}+\tr(B)\bigr).
+\]
+But $\tr(A)=a_{11}+\tr(B)$ (trace is the sum of diagonal entries; $B$ contains $a_{22},\dots,a_{nn}$),
+so
+\[
+c_{n-1}=(-1)^{n-1}\tr(A).
+\]
+
+\medskip
+\noindent\textbf{(3) Constant term.}
+Evaluating at $\lambda=0$ gives
+\[
+c_0=\chi_A(0)=\det(A-0\cdot I_n)=\det(A).
+\]
+\end{proof}
+
+\newpage
 
 
 \vfill

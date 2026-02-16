@@ -1,0 +1,527 @@
+% ============================================================
+% Lecture Notes: Core Hard Problems in Cryptography
+% Audience: mathematicians (formal definitions + algorithms + attacks)
+% ============================================================
+\documentclass[11pt]{article}
+
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{mathrsfs}
+\usepackage{bm}
+
+% -----------------------
+% Theorem environments
+% -----------------------
+\newtheorem{definition}{Definition}[section]
+\newtheorem{theorem}[definition]{Theorem}
+\newtheorem{lemma}[definition]{Lemma}
+\newtheorem{proposition}[definition]{Proposition}
+\newtheorem{corollary}[definition]{Corollary}
+\newtheorem{remark}[definition]{Remark}
+\newtheorem{example}[definition]{Example}
+
+% -----------------------
+% Notation
+% -----------------------
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\bits}{\{0,1\}}
+\newcommand{\negl}{\mathrm{negl}}
+\newcommand{\poly}{\mathrm{poly}}
+\newcommand{\Prob}{\mathbb{P}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\getsR}{\xleftarrow{\$}}
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+\newcommand{\ip}[2]{\left\langle #1,#2\right\rangle}
+
+% Subexponential L-notation:
+% L_N[\alpha,c] = exp((c+o(1)) (log N)^\alpha (log log N)^{1-\alpha})
+\newcommand{\Lnot}[3]{L_{#1}\!\left[#2,#3\right]}
+
+\title{Lecture Notes on Core Hard Problems in Cryptography}
+\author{}
+\date{}
+
+\begin{document}
+	\maketitle
+	
+	\tableofcontents
+	
+	% ============================================================
+	\section{Global Preliminaries}
+	% ============================================================
+	
+	\subsection{Security parameter, PPT, negligible functions}
+	
+	\begin{definition}[Negligible function]
+		A function $\mu:\Z_{\ge 0}\to \R_{\ge 0}$ is \emph{negligible} if for every $c>0$ there exists
+		$\lambda_0$ such that for all $\lambda\ge \lambda_0$, $\mu(\lambda) < \lambda^{-c}$.
+		We write $\mu(\lambda)=\negl(\lambda)$.
+	\end{definition}
+	
+	\begin{definition}[PPT algorithm]
+		A probabilistic polynomial-time (PPT) algorithm is a randomized algorithm running in time $\poly(\lambda)$
+		on inputs whose sizes are bounded by $\poly(\lambda)$.
+	\end{definition}
+	
+	\subsection{Sampling notation and experiments}
+	
+	We write $x \getsR S$ for uniform sampling from a finite set $S$.
+	For a distribution $\mathcal{D}$, $x \gets \mathcal{D}$ denotes sampling $x$ from $\mathcal{D}$.
+	
+	\subsection{Search vs.\ decision vs.\ distinguishing problems}
+	
+	\begin{itemize}[leftmargin=2em]
+		\item \textbf{Search:} output a witness (factor, discrete log, short vector, error vector, isogeny, solution).
+		\item \textbf{Decision:} decide whether a witness exists (often NP-complete for codes, MQ; not meaningful for factoring).
+		\item \textbf{Distinguishing:} distinguish two distributions (e.g.\ LWE vs.\ uniform).
+	\end{itemize}
+	
+	\subsection{Finite fields, groups, and encodings}
+	
+	All mathematical objects are assumed to have efficient encodings as bitstrings so they are valid algorithm inputs.
+	
+	% ============================================================
+	\section{Integer Factorization Problem (IFP)}
+	% ============================================================
+	
+	\subsection{Formal problem statements}
+	
+	\begin{definition}[Integer factorization (search)]
+		Given $N\in \Z_{\ge 2}$, output $d$ with $1<d<N$ and $d\mid N$ (equivalently output the prime factorization of $N$).
+	\end{definition}
+	
+	\begin{definition}[RSA modulus distribution]
+		Let $\mathcal{D}_\lambda$ output $N=pq$ where $p,q$ are independently sampled primes of $\lambda$ bits (often with constraints).
+	\end{definition}
+	
+	\begin{definition}[Factoring hardness assumption (RSA)]
+		No PPT algorithm outputs a nontrivial factor of $N\gets \mathcal{D}_\lambda$ with non-negligible probability in $\lambda$.
+	\end{definition}
+	
+	\subsection{Why factoring matters: RSA and Rabin}
+	
+	\paragraph{RSA.}
+	Pick $N=pq$, choose $e$ with $\gcd(e,\varphi(N))=1$, let $d=e^{-1}\bmod \varphi(N)$.
+	Encryption: $c=m^e\bmod N$. Decryption: $m=c^d\bmod N$.
+	
+	\paragraph{Rabin.}
+	Encryption: $c=m^2\bmod N$. Decryption requires extracting square roots modulo $N$;
+	security closely relates to factoring.
+	
+	\subsection{Core number-theoretic tools}
+	\begin{itemize}[leftmargin=2em]
+		\item Modular arithmetic; Euler $\varphi(N)$; Carmichael $\lambda(N)$.
+		\item Order of an element modulo $N$.
+		\item Quadratic residues, Jacobi symbol (for Rabin-type discussions).
+	\end{itemize}
+	
+	\subsection{Classical attacks (algorithmic overview)}
+	
+	\subsubsection{Small/special factor methods}
+	\paragraph{Trial division.} Complexity $\tilde O(\sqrt{N})$ worst-case, practical only for small primes.
+	
+	\paragraph{Pollard $p-1$.}
+	If $p-1$ is $B$-smooth, choose $M=\mathrm{lcm}(1,\dots,B)$ and compute $\gcd(a^M-1,N)$.
+	
+	\paragraph{Pollard $\rho$.}
+	Random walk modulo $p$ yields expected time $O(\sqrt{p})$ to find a factor $p$.
+	
+	\paragraph{ECM.}
+	Random elliptic curves mod $N$; if group order mod $p$ is smooth, factor emerges.
+	Excellent at finding medium-size factors; often used as a preprocessing step.
+	
+	\subsubsection{Sieve methods}
+	\paragraph{Quadratic Sieve (QS).}
+	Find many relations $x^2 \equiv y^2 \pmod N$ via smooth values of $x^2-N$.
+	Asymptotic: $\Lnot{N}{1/2}{1}$.
+	
+	\paragraph{GNFS.}
+	Asymptotically fastest for general $N$:
+	$\Lnot{N}{1/3}{\sqrt[3]{64/9}}$.
+	High-level phases: polynomial selection, sieving (relation collection), linear algebra, square root.
+	
+	\subsection{Quantum attack: Shor}
+	
+	Shor reduces factoring to order-finding: given $a\bmod N$, find $\mathrm{ord}_N(a)$ via quantum Fourier transform,
+	then derive a factor from $\gcd(a^{r/2}\pm 1,N)$ when $r$ even and $a^{r/2}\not\equiv -1$.
+	
+	\subsection{Exercises}
+	\begin{enumerate}[leftmargin=2em]
+		\item Prove that knowing $\varphi(N)$ for $N=pq$ allows recovery of $p,q$.
+		\item Implement Pollard $\rho$ and test on semiprimes with a small factor.
+		\item Outline why QS produces a congruence of squares.
+	\end{enumerate}
+	
+	% ============================================================
+	\section{Discrete Logarithm Problem (DLP)}
+	% ============================================================
+	
+	\subsection{Formal definitions}
+	
+	\begin{definition}[DLP (search)]
+		Let $G=\langle g\rangle$ be cyclic of order $n$.
+		Given $g$ and $h\in G$, find $x\in \Z_n$ such that $g^x=h$.
+	\end{definition}
+	
+	\begin{definition}[CDH and DDH (context)]
+		Given $(g,g^a,g^b)$, the \emph{Computational Diffie--Hellman (CDH)} problem is to compute $g^{ab}$.
+		The \emph{Decisional Diffie--Hellman (DDH)} problem is to distinguish $(g,g^a,g^b,g^{ab})$ from $(g,g^a,g^b,g^c)$.
+	\end{definition}
+	
+	\subsection{Generic group algorithms}
+	
+	\paragraph{Baby-step/giant-step.}
+	Time and memory $\tilde O(\sqrt{n})$.
+	
+	\paragraph{Pollard $\rho$.}
+	Expected $\tilde O(\sqrt{n})$ time, small memory.
+	
+	\paragraph{Pohlig--Hellman.}
+	If $n=\prod_i p_i^{e_i}$, reduce DLP to DLPs modulo each $p_i^{e_i}$, then CRT.
+	Hence cryptographic groups choose $n$ having a large prime factor.
+	
+	\subsection{Finite-field DLP: index calculus}
+	
+	In $\F_p^\times$ and extension fields, index calculus expresses elements via a factor base,
+	collects relations, solves a linear system, then computes logs of targets.
+	The best-known for prime fields is NFS-DL with $\Lnot{p}{1/3}{\sqrt[3]{64/9}}$.
+	
+	\subsection{Elliptic-curve DLP (ECDLP)}
+	
+	For generic elliptic curves, no subexponential index calculus is known in full generality;
+	best-known attacks are generic $\tilde O(\sqrt{n})$.
+	
+	\paragraph{MOV / Frey--R\"uck.}
+	Certain special curves admit embedding of ECDLP into finite-field DLP via pairings; avoided in standard curve selection.
+	
+	\subsection{Quantum}
+	Shor solves DLP in abelian groups in $\mathrm{poly}(\log n)$ time.
+	
+	\subsection{Exercises}
+	\begin{enumerate}[leftmargin=2em]
+		\item Prove correctness of Pohlig--Hellman using CRT.
+		\item Show Pollard $\rho$ is a collision-finding method on a pseudorandom walk.
+	\end{enumerate}
+	
+	% ============================================================
+	\section{Lattices: SVP/CVP, SIS, LWE}
+	% ============================================================
+	
+	\subsection{Lattices and basic geometry}
+	
+	\begin{definition}[Lattice]
+		A full-rank lattice $\mathcal{L}\subset \R^d$ is $\mathcal{L}(B)=\{Bz:z\in\Z^d\}$ for an invertible $B\in \R^{d\times d}$.
+	\end{definition}
+	
+	\begin{definition}[Determinant]
+		$\det(\mathcal{L}) := |\det(B)|$, independent of the basis $B$.
+	\end{definition}
+	
+	\begin{definition}[Successive minima]
+		$\lambda_1(\mathcal{L}) := \min\{\norm{v}_2: v\in \mathcal{L}\setminus\{0\}\}$.
+	\end{definition}
+	
+	\subsection{SVP and CVP}
+	
+	\begin{definition}[SVP and $\gamma$-SVP]
+		Given a basis $B$ of $\mathcal{L}$, find $v\in \mathcal{L}\setminus\{0\}$ minimizing $\norm{v}_2$ (SVP),
+		or find $v$ with $\norm{v}_2 \le \gamma\lambda_1(\mathcal{L})$ ($\gamma$-SVP).
+	\end{definition}
+	
+	\begin{definition}[CVP and $\gamma$-CVP]
+		Given basis $B$ and target $t\in\R^d$, find $v\in \mathcal{L}$ minimizing $\norm{t-v}_2$ (CVP),
+		or within factor $\gamma$ ($\gamma$-CVP).
+	\end{definition}
+	
+	\subsection{Algorithmic toolkit: reduction + enumeration + sieving}
+	
+	\paragraph{LLL.}
+	Polynomial-time basis reduction giving approximation factors exponential in $d$.
+	
+	\paragraph{BKZ.}
+	Blockwise reduction parameterized by blocksize $\beta$; the main engine in practical lattice cryptanalysis.
+	
+	\paragraph{Enumeration.}
+	Searches for short vectors given a reduced basis; exponential in $d$ with strong dependence on reduction quality.
+	
+	\paragraph{Sieving.}
+	Heuristic nearest-neighbor style methods to find very short vectors; typically exponential time and memory.
+	
+	\subsection{SIS and LWE (cryptographic problems)}
+	
+	\begin{definition}[SIS (short integer solution)]
+		Fix $n,m,q$ and a norm bound $\beta$.
+		Given $A\getsR \Z_q^{n\times m}$, find a nonzero $x\in\Z^m$ such that
+		\[
+		Ax \equiv 0 \pmod q
+		\quad\text{and}\quad
+		\norm{x}\le \beta.
+		\]
+	\end{definition}
+	
+	\begin{definition}[LWE (decision form)]
+		Fix $n,q$ and error distribution $\chi$ on $\Z_q$.
+		Given samples $(a_i,b_i)\in \Z_q^n\times \Z_q$, distinguish:
+		\[
+		b_i=\ip{a_i}{s}+e_i \ (\bmod q),\quad s\getsR \Z_q^n,\ e_i\getsR\chi
+		\]
+		from uniform $(a_i,b_i)$.
+	\end{definition}
+	
+	\subsection{Attack taxonomy for LWE (how cryptanalysts think)}
+	
+	\paragraph{Primal attacks.}
+	Embed the LWE instance into a lattice so that the secret/error corresponds to a short or close vector; solve via BKZ+enumeration/sieving.
+	
+	\paragraph{Dual attacks.}
+	Find a short dual vector $y$ such that $y^T b$ reveals bias distinguishing LWE from uniform.
+	
+	\paragraph{Hybrid attacks.}
+	Guess part of the secret to reduce dimension, then primal/dual.
+	
+	\paragraph{Combinatorial (BKW).}
+	Trade dimension for noise growth via sample combining; effective in some parameter regimes.
+	
+	\subsection{Quantum}
+	No known polynomial-time quantum algorithm for worst-case lattice problems; quantum can accelerate some search/sieving subroutines.
+	
+	\subsection{Exercises}
+	\begin{enumerate}[leftmargin=2em]
+		\item Prove $\det(\mathcal{L})$ is basis-independent.
+		\item For a 2D lattice, compute $\lambda_1$ by inspection and compare with LLL output.
+		\item Derive the dual lattice $\mathcal{L}^\ast=\{y\in\R^d:\ip{y}{x}\in\Z\ \forall x\in\mathcal{L}\}$ and basic properties.
+	\end{enumerate}
+	
+	% ============================================================
+	\section{Codes: Syndrome Decoding and Related Problems}
+	% ============================================================
+	
+	\subsection{Linear codes}
+	
+	\begin{definition}[Linear code]
+		A linear $[n,k]_q$ code is a $k$-dimensional $\F_q$-subspace $C\subseteq \F_q^n$.
+		A parity-check matrix $H\in\F_q^{(n-k)\times n}$ satisfies $C=\{c\in\F_q^n: Hc^\top=0\}$.
+	\end{definition}
+	
+	\begin{definition}[Hamming weight and distance]
+		For $x\in\F_q^n$, $w_H(x)=|\{i:x_i\neq 0\}|$ and $d_H(x,y)=w_H(x-y)$.
+	\end{definition}
+	
+	\subsection{Hard problems}
+	
+	\begin{definition}[Syndrome Decoding (SD)]
+		Given $(H,s,t)$ with $H\in\F_q^{(n-k)\times n}$, $s\in\F_q^{n-k}$, and integer $t$,
+		find $e\in\F_q^n$ such that
+		\[
+		He^\top=s,\qquad w_H(e)\le t.
+		\]
+	\end{definition}
+	
+	\begin{definition}[Minimum Distance Problem (MDP)]
+		Given a linear code $C$ and integer $t$, decide whether there exists $c\in C\setminus\{0\}$ with $w_H(c)\le t$.
+	\end{definition}
+	
+	\subsection{McEliece-type cryptography (context)}
+	Public key is a disguised generator matrix of a structured code (e.g.\ Goppa),
+	chosen so legitimate decoding is efficient while the public code looks random.
+	
+	\subsection{Attacks: Information Set Decoding (ISD)}
+	
+	\paragraph{Prange.}
+	Guess an information set $I$ of size $k$ that avoids error positions; attempt solve.
+	Time $\approx \binom{n}{t}/\binom{n-k}{t}$ (heuristic).
+	
+	\paragraph{Stern/Dumer/BJMM.}
+	Use meet-in-the-middle and combinatorial improvements; modern best practical methods are ISD variants.
+	
+	\paragraph{Structural attacks.}
+	If the public code is distinguishable from random, recover structure and decode efficiently.
+	
+	\subsection{Quantum}
+	Grover can speed up the guessing layers in ISD (model-dependent exponent reductions).
+	
+	\subsection{Exercises}
+	\begin{enumerate}[leftmargin=2em]
+		\item Derive the Prange success probability for an information set.
+		\item Show how SD can be written as finding a low-weight vector in an affine space.
+	\end{enumerate}
+	
+	% ============================================================
+	\section{Isogenies of Elliptic Curves (Supersingular/CSIDH-style)}
+	% ============================================================
+	
+	\subsection{Elliptic curves and isogenies}
+	
+	\begin{definition}[Elliptic curve over $\F_q$]
+		(Characteristic $\neq 2,3$.) $E/\F_q$ given by $y^2=x^3+ax+b$ with discriminant $\Delta\neq 0$.
+		The set $E(\F_q)$ forms a finite abelian group.
+	\end{definition}
+	
+	\begin{definition}[Isogeny]
+		An isogeny $\varphi:E_1\to E_2$ over $\F_q$ is a nonconstant morphism defined over $\F_q$
+		that is also a group homomorphism. Its kernel is finite and $\deg(\varphi)$ is its morphism degree.
+	\end{definition}
+	
+	\subsection{Canonical computational problems}
+	
+	\begin{definition}[Supersingular isogeny (search)]
+		Work over $\F_{p^2}$. Given supersingular $E,E'/\F_{p^2}$, find an explicit isogeny $\varphi:E\to E'$
+		of prescribed smooth degree (often $\ell^r$), represented so $\varphi$ can be evaluated.
+	\end{definition}
+	
+	\begin{definition}[Class group action / CSIDH-type problem (high level)]
+		Given a commutative group action of an ideal class group on a set of curves, the hard problem is
+		to recover the acting group element (ideal class) mapping $E$ to $E'$ (hidden shift-like).
+	\end{definition}
+	
+	\subsection{Attacks (high-level)}
+	
+	\paragraph{Graph/path-finding.}
+	Model the supersingular isogeny graph: vertices are curves, edges are $\ell$-isogenies.
+	Generic attacks are essentially path-finding with meet-in-the-middle.
+	
+	\paragraph{Meet-in-the-middle (Delfs--Galbraith style).}
+	Bidirectional search reduces naive exponent (heuristically $\tilde O(p^{1/4})$ for some variants).
+	
+	\paragraph{Protocol-specific cryptanalysis.}
+	Some isogeny key exchanges (notably SIDH/SIKE) were broken by exploiting additional structure.
+	This is not a break of ``all isogeny problems'' but invalidates those particular schemes/assumptions.
+	
+	\subsection{Quantum}
+	In commutative settings (hidden shift–like), Kuperberg-type algorithms give subexponential time.
+	No known general polynomial-time algorithm for supersingular path-finding.
+	
+	\subsection{Exercises}
+	\begin{enumerate}[leftmargin=2em]
+		\item Prove $\deg(\varphi\circ\psi)=\deg(\varphi)\deg(\psi)$.
+		\item Show that kernels of separable isogenies correspond to finite subgroups.
+	\end{enumerate}
+	
+	% ============================================================
+	\section{Multivariate Cryptography: MQ and Structured Variants}
+	% ============================================================
+	
+	\subsection{MQ problem}
+	
+	\begin{definition}[MQ (Multivariate Quadratic) search]
+		Let $\F_q$ be a finite field and $f_1,\dots,f_m\in\F_q[x_1,\dots,x_n]$ with $\deg(f_i)\le 2$.
+		Find $x\in\F_q^n$ such that
+		\[
+		f_i(x)=0\quad\forall i\in\{1,\dots,m\}.
+		\]
+	\end{definition}
+	
+	\subsection{Why MQ appears in signatures}
+	
+	Many multivariate signature schemes publish a public map
+	$P:\F_q^n\to\F_q^m$ that is quadratic and designed to be easy to invert with a trapdoor
+	(e.g.\ Oil-and-Vinegar families) but hard to invert without it.
+	
+	\subsection{Algebraic attacks}
+	
+	\paragraph{Gr\"obner bases (F4/F5).}
+	Compute a Gr\"obner basis for the ideal $\langle f_1,\dots,f_m\rangle$.
+	Complexity depends on the \emph{degree of regularity} and sparsity; often dominates best-known attacks.
+	
+	\paragraph{XL and relinearization.}
+	Multiply equations by monomials to increase degree, then linearize monomials as variables.
+	
+	\paragraph{Hybrid.}
+	Guess some variables to reduce $n$, then apply Gr\"obner/XL.
+	
+	\paragraph{Rank/MinRank and structural attacks.}
+	Many structured MQ schemes admit reductions to MinRank or exploit low-rank structure
+	(Kipnis--Shamir-type ideas in some settings).
+	
+	\subsection{Quantum}
+	Grover can accelerate the guessing part in hybrid methods; core algebraic steps see limited generic quantum speedups.
+	
+	\subsection{Exercises}
+	\begin{enumerate}[leftmargin=2em]
+		\item Write a small MQ instance over $\F_2$ and solve by brute force; compare with linearization.
+		\item Show how a quadratic form corresponds to a symmetric matrix (in odd characteristic).
+	\end{enumerate}
+	
+	% ============================================================
+	\section{Hash Functions: Definitions, Bounds, and Attacks}
+	% ============================================================
+	
+	\subsection{Formal security notions}
+	
+	\begin{definition}[Hash family]
+		A hash family $\{H_\lambda\}$ is a collection of efficient functions
+		$H_\lambda:\bits^\ast \to \bits^{n(\lambda)}$.
+	\end{definition}
+	
+	\begin{definition}[Collision resistance (CR)]
+		$\{H_\lambda\}$ is collision resistant if for every PPT adversary $\mathcal{A}$,
+		\[
+		\Prob\left[(x,x')\gets \mathcal{A}(1^\lambda): x\neq x' \ \wedge\ H_\lambda(x)=H_\lambda(x')\right]=\negl(\lambda).
+		\]
+	\end{definition}
+	
+	\begin{definition}[Second-preimage resistance (SPR)]
+		For every PPT $\mathcal{A}$ and a specified input distribution $\mathcal{D}$,
+		\[
+		\Prob\left[x\gets \mathcal{D};\ x'\gets \mathcal{A}(1^\lambda,x): x'\neq x\wedge H_\lambda(x')=H_\lambda(x)\right]=\negl(\lambda).
+		\]
+	\end{definition}
+	
+	\begin{definition}[Preimage resistance (OW)]
+		For every PPT $\mathcal{A}$,
+		\[
+		\Prob\left[y\getsR \bits^{n(\lambda)};\ x\gets \mathcal{A}(1^\lambda,y): H_\lambda(x)=y\right]=\negl(\lambda).
+		\]
+	\end{definition}
+	
+	\subsection{Generic bounds (information-theoretic / black-box)}
+	
+	\paragraph{Birthday bound.}
+	For random $H:\bits^\ast\to \bits^n$, a collision appears after about $2^{n/2}$ queries.
+	
+	\paragraph{Preimages.}
+	Expected $2^n$ queries classically for random preimage search.
+	
+	\subsection{Design-level attacks (structural)}
+	
+	\paragraph{Differential cryptanalysis.}
+	Track differences through compression functions to produce collisions faster than birthday (design-specific).
+	
+	\paragraph{Chosen-prefix collisions.}
+	Construct collisions for two chosen distinct prefixes; crucial for real-world certificate forgeries in weakened hashes.
+	
+	\paragraph{Length extension.}
+	Merkle--Damg{\aa}rd hashes satisfy $H(m\|pad(m)\|m')$ computable from $H(m)$ and $|m|$.
+	Thus MAC constructions of the form $H(k\|m)$ are insecure; HMAC avoids this.
+	
+	\subsection{Quantum}
+	Grover gives preimages in about $2^{n/2}$ quantum queries.
+	(Quantum collision-finding can beat $2^{n/2}$ in some models; details depend on the oracle model.)
+	
+	\subsection{Exercises}
+	\begin{enumerate}[leftmargin=2em]
+		\item Prove the birthday bound estimate for collisions.
+		\item Show length extension for Merkle--Damg{\aa}rd at the level of the iteration structure.
+	\end{enumerate}
+	
+	% ============================================================
+	\section{Recommended Reading (non-exhaustive)}
+	% ============================================================
+	
+	\begin{itemize}[leftmargin=2em]
+		\item J. Silverman, \emph{A Friendly Introduction to Number Theory} (background).
+		\item H. Cohen, \emph{A Course in Computational Algebraic Number Theory} (factoring and NFS context).
+		\item D. Boneh and V. Shoup, \emph{A Graduate Course in Applied Cryptography} (DLP, RSA, hash, etc.).
+		\item O. Goldreich, \emph{Foundations of Cryptography} (formal security notions).
+		\item D. Micciancio and S. Goldwasser, \emph{Complexity of Lattice Problems} / lattice-crypto surveys.
+		\item R. Lidl and H. Niederreiter, \emph{Finite Fields} (finite field DLP context).
+		\item F. J. MacWilliams and N. J. A. Sloane, \emph{The Theory of Error-Correcting Codes}.
+		\item L. C. Washington, \emph{Elliptic Curves: Number Theory and Cryptography}.
+		\item Cox, Little, O'Shea, \emph{Ideals, Varieties, and Algorithms} (Gr\"obner basics).
+	\end{itemize}
+	
+\end{document}

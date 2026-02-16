@@ -1,0 +1,469 @@
+% ============================================================
+% Full-week expansions (7 weeks) for each hard-problem section
+% Lecture-note style, mathematician-friendly
+% ============================================================
+\documentclass[11pt]{article}
+
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{mathrsfs}
+\usepackage{bm}
+
+\newtheorem{definition}{Definition}[section]
+\newtheorem{theorem}[definition]{Theorem}
+\newtheorem{lemma}[definition]{Lemma}
+\newtheorem{proposition}[definition]{Proposition}
+\newtheorem{corollary}[definition]{Corollary}
+\newtheorem{remark}[definition]{Remark}
+\newtheorem{example}[definition]{Example}
+\newtheorem{exercise}{Exercise}[section]
+
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\bits}{\{0,1\}}
+\newcommand{\negl}{\mathrm{negl}}
+\newcommand{\poly}{\mathrm{poly}}
+\newcommand{\getsR}{\xleftarrow{\$}}
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+\newcommand{\ip}[2]{\left\langle #1,#2\right\rangle}
+\newcommand{\Lnot}[3]{L_{#1}\!\left[#2,#3\right]}
+\newcommand{\Prob}{\mathrm{Prob}}
+
+\title{Seven Weeks of Lecture Notes on Core Hard Problems in Cryptography}
+\author{}
+\date{}
+
+\begin{document}
+	\maketitle
+	\tableofcontents
+	
+	% ============================================================
+	\section{Course Conventions and Global Preliminaries (use throughout)}
+	% ============================================================
+	
+	\subsection{Security parameter, asymptotics, and experiments}
+	
+	\begin{definition}[Negligible]
+		$\mu:\Z_{\ge 0}\to \R_{\ge 0}$ is negligible if $\forall c>0\ \exists \lambda_0\
+		\forall \lambda\ge \lambda_0:\ \mu(\lambda) < \lambda^{-c}$. Write $\mu(\lambda)=\negl(\lambda)$.
+	\end{definition}
+	
+	\begin{definition}[PPT]
+		A probabilistic polynomial-time (PPT) algorithm runs in time $\poly(\lambda)$ on inputs of size $\poly(\lambda)$.
+	\end{definition}
+	
+	\subsection{Search vs.\ decision vs.\ distinguishing}
+	We phrase hardness as one of:
+	(i) \emph{search} (find witness), (ii) \emph{decision} (existence), (iii) \emph{distinguishing}
+	(tell apart two distributions).
+	
+	\subsection{L-notation (subexponential)}
+	For $N\to\infty$,
+	\[
+	L_N[\alpha,c] := \exp\Big((c+o(1))(\log N)^\alpha (\log\log N)^{1-\alpha}\Big).
+	\]
+	We will use $L_N[1/3,\cdot]$ for NFS-type algorithms and $L_N[1/2,\cdot]$ for QS/index-calculus.
+	
+	\subsection{Implementation caveat}
+	All “hard problems” become easy under side-channel leakage, biased randomness,
+	invalid-curve attacks, fault attacks, etc. We separate \emph{mathematical} hardness from
+	\emph{implementation} soundness.
+	
+	% ============================================================
+	\section{Week 1: Integer Factorization (RSA/Rabin) --- Theory, Algorithms, and Attacks}
+	% ============================================================
+	
+	\subsection{Learning objectives}
+	By the end of Week 1 you should be able to:
+	\begin{itemize}[leftmargin=2em]
+		\item Formally state factoring and closely related computational tasks (order-finding, $\varphi(N)$ recovery).
+		\item Prove equivalences: factoring $\Leftrightarrow$ computing $\varphi(N)$ (for semiprimes), Rabin inversion $\Rightarrow$ factoring.
+		\item Explain the structure of modern classical factoring: (i) ECM, (ii) QS, (iii) GNFS at a black-box level.
+		\item Explain Shor’s reduction factoring $\rightarrow$ order finding.
+	\end{itemize}
+	
+	\subsection{Core definitions and reductions}
+	
+	\begin{definition}[Factoring (search)]
+		Given $N\in\Z_{\ge 2}$ composite, output $d$ with $1<d<N$ and $d\mid N$.
+	\end{definition}
+	
+	\begin{definition}[RSA modulus distribution]
+		$\mathcal{D}_\lambda$ samples $\lambda$-bit primes $p,q$ and outputs $N=pq$.
+	\end{definition}
+	
+	\begin{proposition}[Computing $\varphi(N)$ factors semiprimes]
+		If $N=pq$ with distinct primes and $\varphi(N)$ is known, then $p,q$ can be recovered in polynomial time.
+	\end{proposition}
+	
+	\begin{proof}[Proof sketch]
+		We have $\varphi(N)=(p-1)(q-1)=N-(p+q)+1$, hence $p+q=N-\varphi(N)+1$.
+		Solve $X^2-(p+q)X+N=0$ over $\Z$.
+	\end{proof}
+	
+	\begin{proposition}[Rabin inversion implies factoring]
+		Let $N=pq$ with odd primes. An oracle that inverts $x\mapsto x^2\bmod N$ on a non-negligible fraction
+		of quadratic residues yields a factoring algorithm.
+	\end{proposition}
+	
+	\subsection{Lecture A (Number theory for RSA/Rabin)}
+	\begin{itemize}[leftmargin=2em]
+		\item Euler/Carmichael functions, CRT, structure of $(\Z/N\Z)^\times$.
+		\item Orders mod $p$ and mod $pq$, and why order-finding is central.
+		\item Quadratic residues, Jacobi symbol, and why Rabin has 4 square-roots mod $N$.
+	\end{itemize}
+	
+	\subsection{Lecture B (Classical factoring toolkit)}
+	\paragraph{Stage 1: special-purpose methods.}
+	Pollard $\rho$; Pollard $p-1$ (smoothness of $p-1$); ECM (smoothness of group order).
+	
+	\paragraph{Stage 2: sieve methods.}
+	\begin{itemize}[leftmargin=2em]
+		\item Quadratic Sieve (QS): relations $x^2\equiv y^2\pmod N$ from smooth values of $x^2-N$;
+		complexity $\Lnot{N}{1/2}{1}$.
+		\item GNFS: polynomial selection, sieving, sparse linear algebra, square root; complexity $\Lnot{N}{1/3}{\sqrt[3]{64/9}}$.
+	\end{itemize}
+	
+	\subsection{Lecture C (Quantum factoring via order finding)}
+	\begin{itemize}[leftmargin=2em]
+		\item Reduction: factoring $\rightarrow$ order finding.
+		\item Period finding and QFT intuition (as a Fourier sampling statement).
+		\item Classical post-processing: $\gcd(a^{r/2}\pm 1,N)$.
+	\end{itemize}
+	
+	\subsection{Recitation / worked examples}
+	\begin{example}[Recovering $p,q$ from $\varphi(N)$]
+		Choose $N=221=13\cdot 17$. Then $\varphi(N)=192$ and $p+q=221-192+1=30$,
+		solve $X^2-30X+221=0$.
+	\end{example}
+	
+	\subsection{Problem set (Week 1)}
+	\begin{enumerate}[leftmargin=2em]
+		\item Prove the proposition “computing $\varphi(N)$ factors semiprimes”.
+		\item Show: if you can compute $\mathrm{ord}_N(a)$ for random $a$, you can factor $N$ with non-negligible probability.
+		\item Implement Pollard $\rho$ and ECM preprocessing; report empirical runtimes on random semiprimes with one 30--60 bit factor.
+		\item (Theory) Explain why QS produces a congruence of squares and why linear algebra over $\F_2$ appears.
+	\end{enumerate}
+	
+	% ============================================================
+	\section{Week 2: Discrete Logarithms --- Generic Groups, Finite Fields, and Elliptic Curves}
+	% ============================================================
+	
+	\subsection{Learning objectives}
+	\begin{itemize}[leftmargin=2em]
+		\item State DLP, CDH, DDH and relationships among them.
+		\item Prove correctness and complexity of Pohlig--Hellman.
+		\item Explain generic lower bounds (birthday-type) and why Pollard $\rho$ is optimal in generic groups.
+		\item Explain index calculus at a conceptual level; distinguish finite-field DLP vs ECDLP.
+		\item Explain Shor for abelian hidden subgroup as it applies to DLP.
+	\end{itemize}
+	
+	\subsection{Definitions}
+	
+	\begin{definition}[DLP]
+		Let $G=\langle g\rangle$ of order $n$. Given $g,h\in G$, find $x\in\Z_n$ with $g^x=h$.
+	\end{definition}
+	
+	\begin{definition}[CDH and DDH]
+		Given $(g,g^a,g^b)$ compute $g^{ab}$ (CDH). Distinguish $(g,g^a,g^b,g^{ab})$ from $(g,g^a,g^b,g^c)$ (DDH).
+	\end{definition}
+	
+	\subsection{Lecture A (Generic algorithms and lower bounds)}
+	\begin{itemize}[leftmargin=2em]
+		\item Baby-step/giant-step: meet-in-the-middle, $\tilde O(\sqrt{n})$ time/memory.
+		\item Pollard $\rho$: random walks, cycle finding, $\tilde O(\sqrt{n})$ time, low memory.
+		\item Generic lower bounds (Shoup-type): any generic DLP algorithm needs $\Omega(\sqrt{n})$ operations.
+	\end{itemize}
+	
+	\subsection{Lecture B (Pohlig--Hellman and subgroup structure)}
+	\begin{itemize}[leftmargin=2em]
+		\item Reduction when $n=\prod p_i^{e_i}$; solve modulo each factor, CRT.
+		\item Practical implication: choose prime-order (or nearly prime-order) groups.
+	\end{itemize}
+	
+	\subsection{Lecture C (Index calculus vs ECDLP; pairing pitfalls)}
+	\begin{itemize}[leftmargin=2em]
+		\item Index calculus: factor base, relation collection, linear algebra, individual logs.
+		\item NFS-DL for prime fields: $\Lnot{p}{1/3}{\sqrt[3]{64/9}}$.
+		\item Elliptic curves: why generic $\tilde O(\sqrt{n})$ dominates for well-chosen curves.
+		\item MOV/Frey--R\"uck: reduction to finite-field DLP for special curves (avoid via curve selection).
+	\end{itemize}
+	
+	\subsection{Problem set (Week 2)}
+	\begin{enumerate}[leftmargin=2em]
+		\item Prove correctness of Pohlig--Hellman and analyze complexity in terms of prime factors of $n$.
+		\item Implement Pollard $\rho$ for a cyclic group $\Z_p^\times$ and measure runtime vs $\sqrt{p}$ scaling.
+		\item Show: if DDH holds in $G$, then ElGamal is IND-CPA secure (in the standard reduction framework).
+		\item (Bonus) Explain why pairings break DDH on some pairing-friendly curves.
+	\end{enumerate}
+	
+	% ============================================================
+	\section{Week 3: Lattices --- Geometry of Numbers, SVP/CVP, and Cryptographic Problems (SIS/LWE)}
+	% ============================================================
+	
+	\subsection{Learning objectives}
+	\begin{itemize}[leftmargin=2em]
+		\item Work fluently with lattice bases, determinant, dual lattice, successive minima.
+		\item State SVP/CVP and approximation variants; connect to Minkowski’s theorem.
+		\item Understand LLL and BKZ at the conceptual level; know what a “root Hermite factor” means (informally).
+		\item State SIS and LWE formally; classify attacks (primal/dual/hybrid/BKW).
+	\end{itemize}
+	
+	\subsection{Lecture A (Geometry of numbers foundations)}
+	\begin{definition}[Lattice]
+		$\mathcal{L}(B)=\{Bz:z\in\Z^d\}$ for invertible $B\in\R^{d\times d}$.
+	\end{definition}
+	
+	\begin{definition}[Dual lattice]
+		$\mathcal{L}^\ast=\{y\in\R^d:\ip{y}{x}\in\Z\ \forall x\in\mathcal{L}\}$.
+	\end{definition}
+	
+	\begin{theorem}[Minkowski (first theorem)]
+		Let $\mathcal{L}\subset\R^d$ be a full-rank lattice. Then
+		\[
+		\lambda_1(\mathcal{L}) \le \sqrt{d}\,\det(\mathcal{L})^{1/d}.
+		\]
+	\end{theorem}
+	
+	\subsection{Lecture B (SVP/CVP and algorithms)}
+	\begin{itemize}[leftmargin=2em]
+		\item Exact SVP/CVP definitions; NP-hardness for approximation in various norms (contextual, not proved here).
+		\item LLL: polynomial-time reduction, guarantees, and what “reduced basis” means.
+		\item BKZ: block reduction, why it dominates practical cryptanalysis.
+		\item Enumeration and sieving: exponential-time paradigms; time/memory tradeoffs.
+	\end{itemize}
+	
+	\subsection{Lecture C (SIS/LWE and attack taxonomy)}
+	\begin{definition}[SIS]
+		Given $A\getsR \Z_q^{n\times m}$, find $x\in\Z^m\setminus\{0\}$ with $Ax\equiv 0\ (\bmod q)$ and $\norm{x}\le \beta$.
+	\end{definition}
+	
+	\begin{definition}[LWE (decision)]
+		Given $(a_i,b_i)\in\Z_q^n\times\Z_q$, distinguish LWE samples
+		$b_i=\ip{a_i}{s}+e_i\ (\bmod q)$ from uniform, where $s\getsR \Z_q^n$ and $e_i\gets \chi$.
+	\end{definition}
+	
+	\paragraph{Attacks.}
+	Primal embedding (SVP/CVP), dual distinguishing, hybrid guessing, BKW sample-combining.
+	
+	\subsection{Problem set (Week 3)}
+	\begin{enumerate}[leftmargin=2em]
+		\item Compute $\det(\mathcal{L})$ and $\mathcal{L}^\ast$ for a given $2\times 2$ basis; verify $\det(\mathcal{L}^\ast)=1/\det(\mathcal{L})$.
+		\item Prove Minkowski’s bound for $\lambda_1$ in dimension $2$ using area arguments.
+		\item Implement LLL and use it to find short vectors in random lattices; report approximation factors empirically.
+		\item Sketch a primal embedding reduction of LWE to (approximate) CVP; identify where parameters enter.
+	\end{enumerate}
+	
+	% ============================================================
+	\section{Week 4: Codes --- Syndrome Decoding, McEliece, and ISD Cryptanalysis}
+	% ============================================================
+	
+	\subsection{Learning objectives}
+	\begin{itemize}[leftmargin=2em]
+		\item Manipulate generator/parity-check descriptions; compute syndromes and decode small examples.
+		\item State Syndrome Decoding (SD) and Minimum Distance Problem (MDP) formally.
+		\item Derive Prange ISD success probability; understand Stern/Dumer/BJMM at a structural level.
+		\item Understand “structural attacks” vs “generic ISD”.
+	\end{itemize}
+	
+	\subsection{Lecture A (Linear codes and decoding)}
+	\begin{definition}[Linear code]
+		$C\subseteq\F_q^n$ a $k$-dimensional subspace. Parity-check $H$ satisfies $C=\{c: Hc^\top=0\}$.
+	\end{definition}
+	
+	\begin{definition}[Syndrome]
+		Given received word $r=c+e$, syndrome $s=Hr^\top=He^\top$ depends only on error $e$.
+	\end{definition}
+	
+	\subsection{Lecture B (Hard problems and McEliece)}
+	\begin{definition}[Syndrome Decoding (SD)]
+		Given $(H,s,t)$, find $e$ with $He^\top=s$ and $w_H(e)\le t$.
+	\end{definition}
+	
+	\paragraph{McEliece (context).}
+	Public key hides a structured code (e.g.\ Goppa) behind random scrambling; security reduces to SD on “random-looking” codes.
+	
+	\subsection{Lecture C (ISD: Prange $\rightarrow$ Stern/Dumer/BJMM)}
+	\paragraph{Prange analysis.}
+	Let $I$ be an “information set” of size $k$ avoiding error positions.
+	Success probability $\approx \binom{n-t}{k}/\binom{n}{k}$; expected trials is its inverse.
+	
+	\paragraph{Modern ISD.}
+	Stern/Dumer/BJMM use meet-in-the-middle and partial collisions to reduce exponent.
+	
+	\subsection{Problem set (Week 4)}
+	\begin{enumerate}[leftmargin=2em]
+		\item Derive Prange success probability; compute expected work for small toy parameters.
+		\item Implement a toy ISD (Prange) on binary linear codes and compare to brute force.
+		\item Explain how “distinguishers” can break structured code disguises; give an example of what a distinguisher might measure.
+	\end{enumerate}
+	
+	% ============================================================
+	\section{Week 5: Isogenies --- Elliptic Curves, Isogeny Graphs, and Modern Attacks}
+	% ============================================================
+	
+	\subsection{Learning objectives}
+	\begin{itemize}[leftmargin=2em]
+		\item Work with elliptic curves over finite fields: group law, torsion, endomorphisms (at a high level).
+		\item Define isogenies, degree, kernels; compute small isogenies via Vélu formulas (conceptually).
+		\item Understand supersingular isogeny graphs and why path-finding is hard.
+		\item Distinguish problem classes: supersingular path-finding vs commutative class-group action (CSIDH-style).
+	\end{itemize}
+	
+	\subsection{Lecture A (Elliptic curves essentials)}
+	\begin{definition}[Elliptic curve]
+		Over $\F_q$, (char $\neq 2,3$) $E: y^2=x^3+ax+b$ with $\Delta\neq 0$; $E(\F_q)$ is finite abelian.
+	\end{definition}
+	
+	\subsection{Lecture B (Isogenies: kernels, degrees, evaluation)}
+	\begin{definition}[Isogeny]
+		A nonconstant morphism $\varphi:E_1\to E_2$ that is also a group homomorphism.
+	\end{definition}
+	
+	\begin{proposition}[Degree multiplicativity]
+		$\deg(\varphi\circ\psi)=\deg(\varphi)\deg(\psi)$.
+	\end{proposition}
+	
+	\paragraph{Computation.}
+	For separable isogenies, kernels determine isogenies; Vélu formulas give explicit maps from kernel generators.
+	
+	\subsection{Lecture C (Hardness and attacks)}
+	\begin{itemize}[leftmargin=2em]
+		\item Supersingular $\ell$-isogeny graph: regular expander-like graph; problem resembles hidden path.
+		\item Meet-in-the-middle / bidirectional search (Delfs--Galbraith style) and heuristic exponents.
+		\item Protocol-specific breaks: emphasize separating “problem family” from “scheme instantiation”.
+		\item Quantum: hidden-shift style algorithms in commutative settings (Kuperberg-type subexponential).
+	\end{itemize}
+	
+	\subsection{Problem set (Week 5)}
+	\begin{enumerate}[leftmargin=2em]
+		\item For a small prime field, enumerate $E(\F_p)$ for a toy curve and compute group structure.
+		\item Prove that finite subgroups correspond to separable isogenies (state precisely; prove a special case).
+		\item (Conceptual) Explain why expander mixing heuristics suggest meet-in-the-middle complexity for random path problems.
+	\end{enumerate}
+	
+	% ============================================================
+	\section{Week 6: Multivariate (MQ) --- Algebraic Geometry Viewpoint and Cryptanalysis}
+	% ============================================================
+	
+	\subsection{Learning objectives}
+	\begin{itemize}[leftmargin=2em]
+		\item Formally state MQ and interpret it as solving $V(I)$ for an ideal $I=\langle f_1,\dots,f_m\rangle$.
+		\item Understand Gr\"obner bases as an elimination engine; connect term orders to solving.
+		\item Understand XL/relinearization and hybrid guessing as complexity trade-offs.
+		\item Recognize structural reductions (MinRank/Kipnis--Shamir-style) in trapdoor designs.
+	\end{itemize}
+	
+	\subsection{Lecture A (MQ as a variety problem)}
+	\begin{definition}[MQ]
+		Given $f_1,\dots,f_m\in\F_q[x_1,\dots,x_n]$ with $\deg f_i\le 2$, find $x\in\F_q^n$ such that $f_i(x)=0$ for all $i$.
+	\end{definition}
+	
+	\paragraph{Geometric lens.}
+	Solutions are $\F_q$-rational points of the affine variety $V(I)$.
+	
+	\subsection{Lecture B (Gr\"obner bases: elimination and degree of regularity)}
+	\begin{itemize}[leftmargin=2em]
+		\item Ideals, term orders, leading terms; reduced Gr\"obner basis as canonical.
+		\item Solving by elimination under lex order; change-of-order strategies.
+		\item Complexity drivers: degree of regularity, sparsity, semi-regular heuristics.
+	\end{itemize}
+	
+	\subsection{Lecture C (XL, hybrid, and structural attacks)}
+	\begin{itemize}[leftmargin=2em]
+		\item XL: multiply equations by monomials up to degree $D$, linearize monomials.
+		\item Hybrid: guess $k$ variables, solve remaining by Gr\"obner/XL.
+		\item MinRank-type reductions: represent quadratic forms via matrices; exploit low rank structures.
+	\end{itemize}
+	
+	\subsection{Problem set (Week 6)}
+	\begin{enumerate}[leftmargin=2em]
+		\item Solve a small MQ system over $\F_2$ by (i) brute force, (ii) linearization, (iii) a CAS Gr\"obner basis (if allowed).
+		\item Show how quadratic polynomials correspond to bilinear forms / symmetric matrices in odd characteristic.
+		\item Analyze hybrid complexity for guessing $k$ variables: $q^k \cdot T(n-k)$.
+	\end{enumerate}
+	
+	% ============================================================
+	\section{Week 7: Hash Functions --- Security Notions, Generic Bounds, and Structural Attacks}
+	% ============================================================
+	
+	\subsection{Learning objectives}
+	\begin{itemize}[leftmargin=2em]
+		\item State CR/SPR/OW formally as computational games.
+		\item Prove the birthday bound (collision probability) and expected preimage complexity for random functions.
+		\item Understand Merkle--Damg{\aa}rd iteration and why length extension exists.
+		\item Understand why HMAC fixes length extension and what “random oracle idealization” means.
+		\item Understand quantum impacts (Grover) on preimage security levels.
+	\end{itemize}
+	
+	\subsection{Lecture A (Formal games)}
+	\begin{definition}[Hash family]
+		$\{H_\lambda\}$ with $H_\lambda:\bits^\ast\to\bits^{n(\lambda)}$ efficiently computable.
+	\end{definition}
+	
+	\begin{definition}[Collision resistance]
+		For all PPT $\mathcal{A}$,
+		\[
+		\Prob\big[(x,x')\gets \mathcal{A}(1^\lambda): x\neq x'\wedge H_\lambda(x)=H_\lambda(x')\big]=\negl(\lambda).
+		\]
+	\end{definition}
+	
+	\begin{definition}[Preimage resistance]
+		For all PPT $\mathcal{A}$,
+		\[
+		\Prob\big[y\getsR \bits^{n(\lambda)};\ x\gets \mathcal{A}(1^\lambda,y): H_\lambda(x)=y\big]=\negl(\lambda).
+		\]
+	\end{definition}
+	
+	\subsection{Lecture B (Generic bounds and proofs)}
+	\paragraph{Birthday bound.}
+	For a random function to $n$ bits, collision after about $2^{n/2}$ queries.
+	
+	\begin{theorem}[Birthday estimate (standard)]
+		Let $H$ be a uniformly random function to $\bits^n$. After $q$ queries,
+		\[
+		\Prob[\text{a collision}] \approx 1-\exp\!\left(-\frac{q(q-1)}{2\cdot 2^n}\right).
+		\]
+	\end{theorem}
+	
+	\subsection{Lecture C (Merkle--Damg{\aa}rd, length extension, HMAC, quantum)}
+	\begin{itemize}[leftmargin=2em]
+		\item Iterated hash $H(m)=f(\cdots f(IV,m_1),\dots,m_t)$ with padding.
+		\item Length extension: from $H(m)$ and $|m|$ compute $H(m\|pad(m)\|m')$.
+		\item HMAC structure and why it prevents extension attacks.
+		\item Grover: preimage cost $\approx 2^{n/2}$ quantum queries; implication for security levels.
+	\end{itemize}
+	
+	\subsection{Problem set (Week 7)}
+	\begin{enumerate}[leftmargin=2em]
+		\item Prove the birthday bound formula (using occupancy / union bound / Poisson approximation).
+		\item Show length extension explicitly for an iterated compression function model.
+		\item Explain why “hash-then-MAC” with $H(k\|m)$ is insecure but HMAC is secure under standard assumptions.
+	\end{enumerate}
+	
+	% ============================================================
+	\section{Optional Capstone: Cross-cutting Comparisons (1--2 lectures)}
+	% ============================================================
+	
+	\subsection{Comparing hardness landscapes}
+	\begin{itemize}[leftmargin=2em]
+		\item Classical vs quantum asymptotics across families (Shor vs Grover vs no-known-poly-time).
+		\item Parameter selection philosophy: “avoid smoothness” (DLP, factoring), “dimension as security” (lattices),
+		“rate/weight tradeoffs” (codes), “path length / graph size” (isogenies), “degree of regularity” (MQ),
+		“output length” (hash).
+	\end{itemize}
+	
+	\subsection{Suggested reading (non-exhaustive)}
+	\begin{itemize}[leftmargin=2em]
+		\item Boneh--Shoup, \emph{A Graduate Course in Applied Cryptography}.
+		\item Cohen, \emph{A Course in Computational Algebraic Number Theory}.
+		\item Micciancio--Goldwasser (lattices survey/book).
+		\item MacWilliams--Sloane (coding theory).
+		\item Washington (elliptic curves).
+		\item Cox--Little--O'Shea (Gr\"obner bases).
+	\end{itemize}
+	
+\end{document}

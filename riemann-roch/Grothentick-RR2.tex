@@ -1,0 +1,75 @@
+% !TeX program = pdflatex
+\documentclass[11pt]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+
+\usepackage{geometry}
+\geometry{margin=1in}
+
+\usepackage{amsmath,amssymb}
+\usepackage{tikz-cd}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{microtype}
+
+\title{Riemann--Roch Doodle (English Rendering)}
+\author{}
+\date{}
+
+\begin{document}
+	\maketitle
+	
+	\section*{1. The original image}
+	% Put the image file next to this .tex file and name it: Grothentick-RR.webp
+	% If your LaTeX does not support .webp, convert it to .png or .jpg and update the filename below.
+%	\begin{figure}[ht]
+%		\centering
+%		\includegraphics[width=\linewidth]{Grothentick-RR.webp}
+%		\caption{Original doodle image.}
+%	\end{figure}
+	
+	\section*{2. English rendering (diagram + translated text)}
+	
+	\subsection*{2.1 ``The latest craze: the diagram''}
+	\[
+	\textbf{Riemann--Roch theorem: the latest craze --- the diagram:}
+	\]
+	
+	\[
+	\begin{tikzcd}[row sep=3.0em, column sep=4.0em]
+		K'(X) \arrow[r,"f_!"] \arrow[d,"\tau"'] &
+		K'(Y) \arrow[d,"\tau"] \\
+		\operatorname{Gr}K'(X)\otimes\mathbb{Q} \arrow[r,"f_*"'] \arrow[d,"\mathrm{ch}"'] &
+		\operatorname{Gr}K'(Y)\otimes\mathbb{Q} \arrow[d,"\mathrm{ch}"] \\
+		H^*(X,\mathbb{Q}) \arrow[r,"f_*"'] &
+		H^*(Y,\mathbb{Q})
+	\end{tikzcd}
+	\]
+	\[
+	\textit{i.e.\ commutative!}
+	\]
+	
+	\subsection*{2.2 Translated paragraph (English)}
+	\begin{quote}\small
+		To give this statement about \(f\colon X\to Y\) even an approximate meaning,
+		I had to abuse the audience's patience for almost two hours.
+		In black and white (in Springer's \emph{Lecture Notes}) it probably runs to something like
+		\(200\)–\(500\) pages.
+		
+		A striking example of how our drive for knowledge and discovery is increasingly getting lost
+		in a life-detached logical delirium, while life itself is ``going to hell'' in a thousand ways
+		--- and is threatened by \emph{irreversible destruction}.
+		High time to change our course!
+		
+		\hfill --- Alexander Grothendieck
+	\end{quote}
+	
+	\section*{Notes}
+	\begin{itemize}
+		\item The doodle’s symbols are rendered in a standard modern notation; the handwritten diagram is stylized and not always unambiguous at this resolution.
+		\item If your LaTeX setup can’t include \texttt{.webp} images, convert the file to \texttt{.png} or \texttt{.jpg} and change the filename in the \texttt{\textbackslash includegraphics} line.
+	\end{itemize}
+	
+\end{document}

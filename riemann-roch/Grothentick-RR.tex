@@ -1,0 +1,80 @@
+% !TEX TS-program = pdflatex
+\documentclass[11pt]{article}
+
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{tikz-cd}     % commutative diagrams
+\usepackage{microtype}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+
+\title{Grothendieck's Riemann--Roch Doodle (English Rendering)}
+\author{}
+\date{}
+
+\begin{document}
+	\maketitle
+	
+	\begin{figure}[ht]
+		\centering
+		% If you compile locally, put the image file next to this .tex file and use:
+		% \includegraphics[width=\linewidth]{Grothentick-RR.webp}
+		%
+		% If you're compiling in this ChatGPT sandbox, the path would be:
+		% \includegraphics[width=\linewidth]{/mnt/data/Grothentick-RR.webp}
+%		\includegraphics[width=\linewidth]{Grothentick-RR.webp}
+		\caption{Original doodle (scan/photo).}
+	\end{figure}
+	
+	\section*{English transcription and diagram}
+	
+	\noindent\textbf{Riemann--Roch theorem: the latest craze --- the diagram.}
+	
+	\vspace{0.5em}
+	
+	\[
+	\begin{tikzcd}[row sep=3.0em, column sep=4.0em]
+		K'(X) \arrow[r,"f_!"] \arrow[d,"\tau"'] &
+		K'(Y) \arrow[d,"\tau"] \\
+		\operatorname{Gr}\,K'(X) \arrow[r,"f_*"'] \arrow[d,"\mathrm{ch}"'] &
+		\operatorname{Gr}\,K'(Y) \arrow[d,"\mathrm{ch}"] \\
+		\operatorname{Gr}\,H^*(X)\otimes\mathbb{Q} \arrow[r,"f_*"'] &
+		\operatorname{Gr}\,H^*(Y)\otimes\mathbb{Q}
+	\end{tikzcd}
+	\]
+	
+	\noindent\emph{i.e.\ commutative!}
+	
+	\vspace{1em}
+	
+	\noindent
+	To give this statement about $f\colon X\to Y$ even an approximate meaning,
+	I had to abuse the audience's patience for almost two hours.
+	In black and white (in Springer's \emph{Lecture Notes}) it probably runs to something like
+	200--500 pages.
+	
+	\vspace{0.75em}
+	
+	\noindent
+	A striking example of how our drive for knowledge and discovery is increasingly getting lost
+	in a life-detached logical delirium, while life itself is ``going to hell'' in a thousand ways
+	--- and is threatened by irreversible destruction.
+	High time to change our course!
+	
+	\vspace{0.75em}
+	
+	\hfill --- Alexander Grothendieck
+	
+	\bigskip
+	
+	\section*{Notes (optional)}
+	\begin{itemize}
+		\item The diagram above is a clean \LaTeX{} rendering inspired by the doodle; the exact labels in the scan
+		are stylized and partially ambiguous.
+		\item If you want this to compile \emph{as-is}, place the image file \texttt{Grothentick-RR.webp}
+		in the same folder as this \texttt{.tex} file.
+		\item If your \LaTeX{} setup cannot include \texttt{.webp} images, convert it to PNG or PDF and update the filename.
+	\end{itemize}
+	
+\end{document}

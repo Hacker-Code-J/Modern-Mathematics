@@ -17,6 +17,9 @@
 \usepackage{enumitem}
 \usepackage{todonotes}
 \usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{longtable}
+\usepackage{array}
 
 % If you want pseudocode:
 \usepackage{algorithm}
@@ -85,11 +88,468 @@ maxbibnames=99
 	\maketitle
 	\tableofcontents
 	
-	\section{Preliminaries}
-%	\input{sections/01-preliminaries.tex}
+	\newpage
+%	% ============================================================
+%	% Summary table: hard problems / primitives and main attacks
+%	% ============================================================
+%	
+%	\section*{Summary of Hard Problems and Main Attacks}
+%	
+%	\renewcommand{\arraystretch}{1.25}
+%	\begin{tabular}{|p{2.8cm}|p{4.4cm}|p{6.8cm}|p{3.8cm}|}
+%		\hline
+%		\textbf{Problem / primitive} & \textbf{Canonical instance} & \textbf{Best-known / standard classical attacks (high level)} & \textbf{Quantum attacks / notes} \\
+%		\hline
+%		
+%		\textbf{Integer Factorization (IFP)} &
+%		Given $N=pq$ (RSA-type modulus), recover $p,q$ &
+%		\begin{itemize}\setlength\itemsep{0.15em}
+%			\item \emph{General Number Field Sieve (GNFS)} (asymptotically fastest for general $N$).
+%			\item \emph{Special NFS (SNFS)} when $N$ has special form.
+%			\item \emph{ECM} (Elliptic Curve Method) for finding relatively small prime factors.
+%			\item Exploit bad key generation: shared primes, partial leakage, or smoothness.
+%		\end{itemize}
+%		&
+%		\begin{itemize}\setlength\itemsep{0.15em}
+%			\item \emph{Shor}: polynomial-time factoring on a fault-tolerant quantum computer.
+%		\end{itemize}
+%		\\
+%		\hline
+%		
+%		\textbf{Discrete Logarithm (DLP)} &
+%		Given cyclic group $G=\langle g\rangle$ and $h=g^x$, recover $x$ &
+%		\begin{itemize}\setlength\itemsep{0.15em}
+%			\item \emph{Generic} (works in any group): Baby-step/giant-step; Pollard $\rho$ ($\tilde O(\sqrt{|G|})$).
+%			\item \emph{Pohlig--Hellman} when $|G|$ is smooth-ish (reduces to prime-power factors).
+%			\item \emph{Index calculus / NFS-DL} in $\mathbb{F}_p^\times$ and related finite fields (subexponential).
+%			\item For elliptic curves: generally only generic attacks apply; plus \emph{MOV/Frey--R\"uck} reductions for special curves (pairing-friendly/pathological cases).
+%		\end{itemize}
+%		&
+%		\begin{itemize}\setlength\itemsep{0.15em}
+%			\item \emph{Shor}: polynomial-time discrete log in abelian groups.
+%		\end{itemize}
+%		\\
+%		\hline
+%		
+%		\textbf{Lattices (SVP/CVP/LWE)} &
+%		SVP/CVP on $\mathcal{L}(B)\subset\mathbb{R}^n$, or LWE over $\mathbb{Z}_q$ &
+%		\begin{itemize}\setlength\itemsep{0.15em}
+%			\item \emph{Basis reduction (LLL/BKZ)} + enumeration (primal attacks); \emph{sieving} for SVP in moderate $n$.
+%			\item \emph{Dual attacks} (distinguish LWE via short dual vectors) using BKZ.
+%			\item \emph{Hybrid attacks} (meet-in-the-middle on part of secret + dual/primal).
+%			\item \emph{Combinatorial attacks} such as BKW (parameter-dependent).
+%			\item \emph{Algebraic attacks} (e.g.\ Arora--Ge style) for certain parameter regimes.
+%		\end{itemize}
+%		&
+%		\begin{itemize}\setlength\itemsep{0.15em}
+%			\item Quantum speedups exist for some subroutines (e.g.\ search/sieving), but no known Shor-like poly-time algorithm for general lattice problems.
+%		\end{itemize}
+%		\\
+%		\hline
+%		
+%		\textbf{Codes (Syndrome Decoding / Min Distance)} &
+%		Given $H$, syndrome $s$, and weight bound $t$, find $e$ with $He^\top=s$ and $w_H(e)\le t$ &
+%		\begin{itemize}\setlength\itemsep{0.15em}
+%			\item \emph{Information Set Decoding (ISD)} family: Prange, Stern/Dumer and many improvements (incl.\ BJMM-style).
+%			\item \emph{Structural attacks} if the public code has exploitable structure (distinguish-and-recover hidden structure).
+%		\end{itemize}
+%		&
+%		\begin{itemize}\setlength\itemsep{0.15em}
+%			\item Grover-type speedups can reduce exhaustive-search exponents (often modeled as square-root improvements), but ISD has more nuanced quantum analyses.
+%		\end{itemize}
+%		\\
+%		\hline
+%		
+%		\textbf{Isogenies (supersingular)} &
+%		Given supersingular $E,E'$ (often over $\mathbb{F}_{p^2}$), find an isogeny $\varphi:E\to E'$ of prescribed degree &
+%		\begin{itemize}\setlength\itemsep{0.15em}
+%			\item Model as path-finding in the supersingular isogeny graph.
+%			\item \emph{Meet-in-the-middle} graph search for isogeny path (Delfs--Galbraith-type approaches and refinements).
+%			\item \textbf{Protocol-specific breaks:} SIDH/SIKE was broken by the Castryck--Decru attack (key-recovery), so those assumptions/instantiations are not considered secure.
+%		\end{itemize}
+%		&
+%		\begin{itemize}\setlength\itemsep{0.15em}
+%			\item Known quantum algorithms can improve the exponent for the generic supersingular isogeny problem (still superpolynomial in $\log p$).
+%		\end{itemize}
+%		\\
+%		\hline
+%		
+%		\textbf{Hash functions} &
+%		$H:\{0,1\}^\ast\to\{0,1\}^n$ with CR/SPR/OW notions &
+%		\begin{itemize}\setlength\itemsep{0.15em}
+%			\item \emph{Generic bounds:} collisions in $\tilde O(2^{n/2})$ (birthday); preimages in $\tilde O(2^{n})$.
+%			\item \emph{Structural attacks:} differential/boomerang-style cryptanalysis on specific designs (e.g.\ MD5, SHA-1).
+%			\item \emph{Chosen-prefix collisions} (practically demonstrated for SHA-1).
+%			\item \emph{Length extension} against Merkle--Damg{\aa}rd hashes when used as MAC via $H(k\|m)$ (use HMAC to avoid).
+%		\end{itemize}
+%		&
+%		\begin{itemize}\setlength\itemsep{0.15em}
+%			\item \emph{Grover}: quadratic speedup for preimage search ($\tilde O(2^{n/2})$).
+%			\item Quantum collision finding can also improve over birthday in some models, but collision resistance still requires larger output than preimage resistance under quantum.
+%		\end{itemize}
+%		\\
+%		\hline
+%	\end{tabular}
+
+%	\renewcommand{\arraystretch}{1.15}
+%	\setlength{\tabcolsep}{5pt}
+%	
+%	\begin{tabular}{|p{3.1cm}|p{7.3cm}|p{5.3cm}|}
+%		\hline
+%		\textbf{Problem / primitive} & \textbf{Main classical attacks (keywords)} & \textbf{Quantum attack / note} \\
+%		\hline
+%		Integer Factorization (IFP) &
+%		GNFS; SNFS (special form); ECM (small factors); key-generation flaws (shared primes, leakage) &
+%		Shor (poly-time) \\
+%		\hline
+%		Discrete Logarithm (DLP) &
+%		BSGS; Pollard $\rho$ (generic $\tilde O(\sqrt{|G|})$); Pohlig--Hellman (smooth order); index calculus / NFS-DL (finite fields); MOV/Frey--R\"uck (special EC cases) &
+%		Shor (poly-time) \\
+%		\hline
+%		Lattices (SVP/CVP/LWE) &
+%		LLL/BKZ; enumeration; sieving; LWE primal/dual/hybrid; BKW; parameter-dependent algebraic attacks &
+%		No known Shor-like poly-time; quantum can speed up some search/sieving subroutines \\
+%		\hline
+%		Codes (Syndrome Decoding) &
+%		Information Set Decoding (Prange, Stern/Dumer, BJMM-style); structural distinguishers (if non-random structure) &
+%		Grover-type speedups reduce exponents (model-dependent) \\
+%		\hline
+%		Isogenies (supersingular) &
+%		Isogeny-graph path search; meet-in-the-middle (Delfs--Galbraith-type); protocol-specific breaks (SIDH/SIKE broken) &
+%		Quantum improves path-search exponents; not known poly-time \\
+%		\hline
+%		Hash functions &
+%		Generic: collision $\approx 2^{n/2}$ (birthday), preimage $\approx 2^{n}$; differential/chosen-prefix collisions (design-specific); length extension (Merkle--Damg{\aa}rd misuse) &
+%		Grover: preimage $\approx 2^{n/2}$; quantum collision-finding improves over birthday in some models \\
+%		\hline
+%	\end{tabular}
+
+%\begin{table}[h]
+%	\centering
+%	\renewcommand{\arraystretch}{1.5} % Adjusts row height for better readability
+%	\begin{tabular}{|l|l|l|l|}
+%		\hline
+%		\textbf{Hard Problem} & \textbf{Cryptosystems} & \textbf{Major Attacks} & \textbf{Complexity (Best Known)} \\ \hline
+%		\hline
+%		\multirow{4}{*}{\textbf{Integer Factorization}} & \multirow{4}{*}{RSA, Rabin} & General Number Field Sieve & Sub-exponential (Classical) \\
+%		& & (GNFS) & $L_n[1/3, \sqrt[3]{64/9}]$ \\ \cline{3-4}
+%		& & Quadratic Sieve (QS) & Sub-exponential (Classical) \\
+%		& & & $L_n[1/2, 1]$ \\ \cline{3-4}
+%		& & Shor's Algorithm & Polynomial (Quantum) \\
+%		& & & $O((\log N)^2 (\log \log N))$ \\ \hline
+%		\hline
+%		\multirow{4}{*}{\textbf{Discrete Logarithm}} & \multirow{4}{*}{Diffie-Hellman,} & Number Field Sieve (NFS) & Sub-exponential (Classical) \\
+%		\textbf{(DLP)} & DSA, ElGamal & & $L_p[1/3, \sqrt[3]{64/9}]$ \\ \cline{3-4}
+%		\text{(Finite Fields)} & & Index Calculus & Sub-exponential (Classical) \\
+%		& & & $L_p[1/2, \sqrt{2}]$ \\ \cline{3-4}
+%		& & Shor's Algorithm & Polynomial (Quantum) \\
+%		& & & $O((\log N)^2 (\log \log N))$ \\ \hline
+%		\hline
+%		\multirow{4}{*}{\textbf{Elliptic Curve DLP}} & \multirow{4}{*}{ECDH, ECDSA} & Pollard's Rho & Exponential (Classical) \\
+%		\textbf{(ECDLP)} & & & $O(\sqrt{n})$ \\ \cline{3-4}
+%		& & MOV Attack (Supersingular) & Sub-exponential \\
+%		& & (Reduces to finite field DLP) & $L_n[1/3, c]$ \\ \cline{3-4}
+%		& & Shor's Algorithm & Polynomial (Quantum) \\
+%		& & & $O((\log n)^2)$ \\ \hline
+%		\hline
+%		\multirow{3}{*}{\textbf{Lattice Problems}} & Kyber (ML-KEM), & Primal/Dual Lattice Reduction & Exponential (Classical \& Quantum) \\
+%		\text{(LWE, SIS, SVP)} & Dilithium (ML-DSA), & (using BKZ, LLL) & $2^{O(d)}$ \\ \cline{3-4}
+%		& NTRU, FHE & Sieve Algorithms & Exponential (Classical) \\
+%		& & & $2^{O(d)}$ \\ \hline
+%		\hline
+%		\multirow{2}{*}{\textbf{Isogeny Problems}} & CSIDH, & Meet-in-the-Middle & Exponential (Classical) \\
+%		\text{(Path Finding)} & SQISign & Kuperberg's Algorithm & Sub-exponential (Quantum) \\
+%		& & & $L[1/2]$ (commutative groups) \\ \hline
+%	\end{tabular}
+%	\caption{Summary of Hard Problems in Cryptography and Attacks}
+%	\label{tab:crypto_problems}
+%\end{table}
+
+\begin{longtable}{|p{3.0cm}|p{2.8cm}|p{4.2cm}|p{4.0cm}|}
+	\hline
+	\textbf{Hard Problem} & \textbf{Cryptosystems} & \textbf{Major Attacks} & \textbf{Complexity (Best Known)} \\ \hline
+	\endhead
+	
+	\hline
+	\multicolumn{4}{|r|}{{Continued on next page}} \\ \hline
+	\endfoot
+	
+	\hline
+	\endlastfoot
+	
+	% 1. Integer Factorization
+	\hline
+	\multirow{5}{=}{\textbf{Integer Factorization}} 
+	& \multirow{5}{*}{RSA, Rabin} 
+	& General Number Field Sieve (GNFS) 
+	& Sub-exponential (Classical) \newline $L_n[1/3, \sqrt[3]{64/9}]$ \\ \cline{3-4}
+	& & Quadratic Sieve (QS) 
+	& Sub-exponential (Classical) \newline $L_n[1/2, 1]$ \\ \cline{3-4}
+	& & Shor's Algorithm 
+	& Polynomial (Quantum) \newline $O((\log N)^2)$ \\ \hline
+	
+	% 2. Discrete Logarithm (DLP)
+	\hline
+	\multirow{5}{=}{\textbf{Discrete Logarithm (DLP)} \newline \textit{(Finite Fields)}} 
+	& \multirow{5}{=}{Diffie-Hellman, DSA, ElGamal} 
+	& Number Field Sieve (NFS) 
+	& Sub-exponential (Classical) \newline $L_p[1/3, \sqrt[3]{64/9}]$ \\ \cline{3-4}
+	& & Index Calculus 
+	& Sub-exponential (Classical) \newline $L_p[1/2, \sqrt{2}]$ \\ \cline{3-4}
+	& & Shor's Algorithm 
+	& Polynomial (Quantum) \newline $O((\log N)^2)$ \\ \hline
+	
+	% 3. Elliptic Curve DLP (ECDLP)
+	\hline
+	\multirow{4}{=}{\textbf{Elliptic Curve DLP (ECDLP)}} 
+	& \multirow{4}{=}{ECDH, ECDSA, EdDSA} 
+	& Pollard's Rho / Kangaroo 
+	& Exponential (Classical) \newline $O(\sqrt{n})$ \\ \cline{3-4}
+	& & MOV Attack (Supersingular curves only) 
+	& Reduces to Finite Field DLP \newline $L_n[1/3, c]$ \\ \cline{3-4}
+	& & Shor's Algorithm 
+	& Polynomial (Quantum) \newline $O((\log n)^2)$ \\ \hline
+	
+	% 4. Lattice Problems
+	\hline
+	\multirow{4}{=}{\textbf{Lattice Problems} \newline (LWE, SIS, SVP, CVP)} 
+	& Kyber (ML-KEM), Dilithium (ML-DSA), NTRU, FHE 
+	& Lattice Reduction (LLL, BKZ) 
+	& Exponential (Classical/Quantum) \newline $2^{O(d)}$ \\ \cline{3-4}
+	& & Sieve Algorithms 
+	& Exponential (Classical) \newline $2^{O(d)}$ \\ \hline
+	
+	% 5. Code-Based Problems
+	\hline
+	\multirow{4}{=}{\textbf{Code-Based} \newline (Syndrome Decoding)} 
+	& McEliece, HQC, BIKE 
+	& Information Set Decoding (ISD) \newline (e.g., Stern, Lee-Brickell) 
+	& Exponential (Classical/Quantum) \newline $2^{O(n / \log n)}$ \\ \cline{3-4}
+	& & Grover's Search 
+	& Quadratic Speedup only \newline (Halves the exponent) \\ \hline
+	
+	% 6. Isogeny Problems
+	\hline
+	\multirow{5}{=}{\textbf{Isogeny Problems}} 
+	& \multirow{5}{=}{SQISign, CSIDH \newline \textit{(SIKE is broken)}} 
+	& Castryck-Decru Attack \newline (Specific to SIDH/SIKE) 
+	& Polynomial (Classical) \newline \textbf{Broken} \\ \cline{3-4}
+	& & Meet-in-the-Middle / Delfs-Galbraith 
+	& Exponential (Classical) \newline $O(p^{1/4})$ \\ \cline{3-4}
+	& & Kuperberg's Algorithm 
+	& Sub-exponential (Quantum) \newline $L[1/2]$ (Commutative only) \\ \hline
+	
+	% 7. Hash-Based
+	\hline
+	\multirow{4}{=}{\textbf{Hash-Based} \newline (Collision / Preimage)} 
+	& \multirow{4}{=}{SPHINCS+, XMSS, LMS} 
+	& Birthday Attack (Collision) 
+	& Exponential \newline $O(2^{n/2})$ \\ \cline{3-4}
+	& & Grover's Algorithm (Preimage) 
+	& Exponential (Quantum) \newline $O(2^{n/2})$ \\ \hline
+	
+	% 8. Multivariate
+	\hline
+	\multirow{4}{=}{\textbf{Multivariate (MQ)} \newline (Solving Quadratic Systems)} 
+	& UOV, MAYO \newline \textit{(Rainbow is broken)} 
+	& MinRank / Kipnis-Shamir 
+	& Exponential (Classical) \\ \cline{3-4}
+	& & XL Algorithm (Groebner Basis) 
+	& Exponential (generally) \\ \cline{3-4}
+	& & Beullens' Attack \newline (Specific to Rainbow) 
+	& Polynomial (Classical) \newline \textbf{Broken} \\ \hline
+	
+	\caption{Comprehensive Summary of Hard Cryptographic Problems and Attacks}
+	\label{tab:crypto_comprehensive}
+\end{longtable}
+
+\newpage
+% ============================================================
+% Recommended packages (preamble)
+% \usepackage{longtable}
+% \usepackage{multirow}
+% \usepackage{array}
+% ============================================================
+
+% Notation for subexponential L-notation:
+% L_N[\alpha,c] := \exp\!\big((c+o(1))(\log N)^\alpha(\log\log N)^{1-\alpha}\big)
+
+\begin{longtable}{|p{3.0cm}|p{3.0cm}|p{4.4cm}|p{3.6cm}|}
+	\hline
+	\textbf{Hard Problem} & \textbf{Cryptosystems} & \textbf{Major Attacks} & \textbf{Complexity (best known)} \\
+	\hline
+	\endhead
+	
+	\hline
+	\multicolumn{4}{|r|}{{Continued on next page}} \\
+	\hline
+	\endfoot
+	
+	\hline
+	\endlastfoot
+	
+	% ------------------------------------------------------------
+	% 1. Integer Factorization
+	% ------------------------------------------------------------
+	\hline
+	\multirow{4}{=}{\textbf{Integer Factorization}} 
+	& \multirow{4}{=}{RSA, Rabin} 
+	& General Number Field Sieve (GNFS) 
+	& Sub-exponential (classical)\newline $L_N\!\left[ \tfrac{1}{3},\sqrt[3]{\tfrac{64}{9}} \right]$ \\ \cline{3-4}
+	& & Quadratic Sieve (QS) 
+	& Sub-exponential (classical)\newline $L_N\!\left[\tfrac{1}{2},1\right]$ \\ \cline{3-4}
+	& & ECM (small prime factors) 
+	& Heuristic $\approx \exp\!\big(\sqrt{2\log p\log\log p}\big)$ for factor $p$ \\ \cline{3-4}
+	& & Shor (quantum) 
+	& Polynomial in $\log N$ (quantum)\newline $\mathrm{poly}(\log N)$ \\ 
+	\hline
+	
+	% ------------------------------------------------------------
+	% 2. DLP in finite fields
+	% ------------------------------------------------------------
+	\hline
+	\multirow{4}{=}{\textbf{Discrete Logarithm (DLP)}\\\textit{(finite fields)}} 
+	& \multirow{4}{=}{Diffie--Hellman,\newline DSA, ElGamal} 
+	& Number Field Sieve for DL (NFS-DL) 
+	& Sub-exponential (classical)\newline $L_p\!\left[ \tfrac{1}{3},\sqrt[3]{\tfrac{64}{9}} \right]$ \\ \cline{3-4}
+	& & Index Calculus (classical; group-dependent) 
+	& Sub-exponential (classical)\newline typically $L_p\!\left[\tfrac{1}{2},c\right]$ \\ \cline{3-4}
+	& & Pohlig--Hellman (if $|G|$ smooth) 
+	& Polynomial in $\log p$ given smooth factorization of $|G|$ \\ \cline{3-4}
+	& & Shor (quantum) 
+	& Polynomial in $\log p$ (quantum)\newline $\mathrm{poly}(\log p)$ \\
+	\hline
+	
+	% ------------------------------------------------------------
+	% 3. ECDLP
+	% ------------------------------------------------------------
+	\hline
+	\multirow{3}{=}{\textbf{Elliptic Curve DLP (ECDLP)}} 
+	& \multirow{3}{=}{ECDH,\newline ECDSA, EdDSA} 
+	& Pollard $\rho$ / Kangaroo (generic) 
+	& Exponential (classical)\newline $\tilde O(\sqrt{n})$ group ops \\ \cline{3-4}
+	& & MOV / Frey--R\"uck (special curves only) 
+	& Reduces to finite-field DLP (curve-dependent) \\ \cline{3-4}
+	& & Shor (quantum) 
+	& Polynomial in $\log n$ (quantum)\newline $\mathrm{poly}(\log n)$ \\
+	\hline
+	
+	% ------------------------------------------------------------
+	% 4. Lattices (SVP/CVP/LWE/SIS)
+	% ------------------------------------------------------------
+	\hline
+	\multirow{4}{=}{\textbf{Lattice Problems}\\(SVP, CVP, LWE, SIS)} 
+	& Kyber (ML-KEM), Dilithium (ML-DSA),\newline NTRU, FHE 
+	& BKZ/LLL basis reduction (core primitive) 
+	& Parameterized by dimension $d$:\newline typically $2^{\Theta(d)}$ (classical) \\ \cline{3-4}
+	& & Enumeration (primal) / Dual attacks (LWE) 
+	& $2^{\Theta(d)}$ (classical), constants depend on BKZ blocksize \\ \cline{3-4}
+	& & Sieving for SVP (heuristic) 
+	& $\approx 2^{c d}$ with known $c<1$ (classical heuristic) \\ \cline{3-4}
+	& & Quantum speedups (search/sieving subroutines) 
+	& No known Shor-like poly-time; typically improves constants/exponents in $2^{\Theta(d)}$ \\
+	\hline
+	
+	% ------------------------------------------------------------
+	% 5. Codes (Syndrome Decoding)
+	% ------------------------------------------------------------
+	\hline
+	\multirow{3}{=}{\textbf{Code-Based}\\(Syndrome Decoding)} 
+	& McEliece,\newline HQC, BIKE 
+	& Information Set Decoding (ISD)\newline (Prange, Stern, Dumer, BJMM, \dots) 
+	& Exponential (classical)\newline $\approx 2^{\Theta(n)}$ (instance/params dependent) \\ \cline{3-4}
+	& & Structural attacks (if code not pseudorandom) 
+	& Often polynomial if exploitable structure exists \\ \cline{3-4}
+	& & Grover-type quantum speedups 
+	& Typically reduces brute-force layers (often ``halves'' exponents in idealized models) \\
+	\hline
+	
+	% ------------------------------------------------------------
+	% 6. Isogenies (supersingular/abelian class group actions)
+	% ------------------------------------------------------------
+	\hline
+	\multirow{4}{=}{\textbf{Isogeny Problems}} 
+	& SQISign, CSIDH\newline \textit{(SIDH/SIKE broken)} 
+	& Castryck--Decru (SIDH/SIKE-specific) 
+	& Polynomial-time key recovery for those schemes\newline \textbf{Broken (protocol-specific)} \\ \cline{3-4}
+	& & Meet-in-the-middle / Delfs--Galbraith (path finding) 
+	& Heuristic $\tilde O(p^{1/4})$ for supersingular path-finding variants \\ \cline{3-4}
+	& & Classical random-walk / graph search 
+	& Roughly $\tilde O(p^{1/2})$ in naive models \\ \cline{3-4}
+	& & Kuperberg-type (quantum; abelian hidden shift) 
+	& Sub-exponential (quantum)\newline $\exp\!\big(O(\sqrt{\log p\,\log\log p})\big)$ (commutative settings) \\
+	\hline
+	
+	% ------------------------------------------------------------
+	% 7. Hash
+	% ------------------------------------------------------------
+	\hline
+	\multirow{3}{=}{\textbf{Hash-Based}\\(Collision / Preimage)} 
+	& SPHINCS+, XMSS, LMS 
+	& Birthday attack (collisions) 
+	& $\Theta(2^{n/2})$ evaluations for $n$-bit outputs \\ \cline{3-4}
+	& & Generic preimage search 
+	& $\Theta(2^{n})$ evaluations (classical) \\ \cline{3-4}
+	& & Grover (quantum preimage) 
+	& $\Theta(2^{n/2})$ quantum queries (idealized) \\
+	\hline
+	
+	% ------------------------------------------------------------
+	% 8. Multivariate (MQ)
+	% ------------------------------------------------------------
+	\hline
+	\multirow{4}{=}{\textbf{Multivariate (MQ)}\\(Quadratic systems)} 
+	& UOV, MAYO\newline \textit{(Rainbow broken)} 
+	& Gr\"obner basis (F4/F5), XL / relinearization 
+	& Exponential in $n$ in general;\newline governed by degree of regularity \\ \cline{3-4}
+	& & Hybrid attacks (guess variables + algebraic solve) 
+	& Exponential; trades time for memory / guessing \\ \cline{3-4}
+	& & MinRank / Kipnis--Shamir (scheme-structure dependent) 
+	& Often subexponential-to-exponential; can be polynomial for weak parameters \\ \cline{3-4}
+	& & Beullens-type attacks (Rainbow-specific) 
+	& Practical/polynomial-time breaks for Rainbow variants\newline \textbf{Broken (protocol-specific)} \\
+	\hline
+	
+	\caption{Hard problems in cryptography: canonical systems, major attacks, and best-known asymptotic complexities (high-level).}
+	\label{tab:crypto_comprehensive_refined}
+\end{longtable}
+
 	
 	\newpage
-	\section{Classical Hard Problems}
+	\section{Preliminaries}
+	\input{sections/01-preliminaries.tex}
+	
+	\newpage
+	\section{Integer Factorization Problem (IFP)}
+	\input{sections/IFP.tex}
+	
+	\newpage
+	\section{Discrete Logarithm Problem (DLP)}
+	\input{sections/DLP.tex}
+	
+	\newpage
+	\section{Lattices (SVP/CVP and LWE)}
+	\input{sections/Lattice.tex}
+	
+	\newpage
+	\section{Codes (Syndrome Decoding / Min Distance)}
+	\input{sections/Code.tex}
+	
+	\newpage
+	\section{Isogenies (Supersingular Isogeny Problems)}
+	\input{sections/Isogeny.tex}
+	
+	\newpage
+	\section{Multivariable (Multivariate Quadratic, MQ)}
+	\input{sections/Multivariate}
+	
+	\newpage
+	\section{Hash functions (Formal notions and Generic bounds)}
+	\input{sections/Hash.tex}
+	
+	
+	\newpage
+%	\section{Classical Hard Problems}
 %	\input{sections/02-classical.tex}
 %	
 %	\section{Quantum Threat Model}

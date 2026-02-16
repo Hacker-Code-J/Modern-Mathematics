@@ -1,0 +1,224 @@
+% ============================================================
+% Colloquium Syllabus (LaTeX): Hard Problems in Cryptography
+% For a study-group organizer (Masters-level audience)
+% Format: weekly colloquium with rotating presenters
+% ============================================================
+\documentclass[11pt]{article}
+
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{titlesec}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt}
+
+% ---------- Fill these in ----------
+\newcommand{\groupname}{\textbf{[Insert Colloquium / Study Group Name]}}
+\newcommand{\term}{\textbf{[Insert Dates / Term]}}
+\newcommand{\meeting}{\textbf{[Insert Day/Time/Location or Zoom link]}}
+\newcommand{\organizer}{\textbf{[Insert Your Name]}}
+\newcommand{\contact}{\textbf{[Insert Email / Contact]}}
+\newcommand{\audience}{Masters/advanced undergrad; PhD welcome}
+\newcommand{\duration}{10 weeks (adjustable)}
+\newcommand{\format}{1 talk + 1 discussion session per week}
+\newcommand{\repo}{\textbf{[Insert shared notes repo link (e.g., Overleaf/GitHub/Drive)]}}
+
+\title{Colloquium Syllabus: Hard Problems in Cryptography}
+\author{\groupname}
+\date{\term}
+
+\begin{document}
+	\maketitle
+	
+	% ============================================================
+	\section*{Colloquium Information}
+	% ============================================================
+	
+	\begin{tabular}{>{\bfseries}p{3.4cm}p{12.0cm}}
+		Colloquium: & \groupname \\
+		Dates: & \term \\
+		Meeting: & \meeting \\
+		Organizer: & \organizer \\
+		Contact: & \contact \\
+		Audience: & \audience \\
+		Duration: & \duration \\
+		Format: & \format \\
+		Shared Notes/Repo: & \repo \\
+	\end{tabular}
+	
+	% ============================================================
+	\section*{Purpose and Scope}
+	% ============================================================
+	
+	This colloquium is a structured study group on the \emph{hard computational problems} that underpin classical and post-quantum cryptography. The goal is to develop:
+	(i) precise mathematical understanding of the problem statements and reductions,
+	(ii) a working map of best-known classical and quantum attacks,
+	and (iii) the ability to read research papers and standards documents critically.
+	
+	The emphasis is on \textbf{conceptual mastery and communication}: each week one participant presents a topic, and the group collectively works through proof sketches, toy instances, and attack-selection reasoning.
+	
+	% ============================================================
+	\section*{Learning Goals}
+	% ============================================================
+	
+	By the end of the colloquium, participants should be able to:
+	\begin{enumerate}[leftmargin=2em]
+		\item State formal definitions of major cryptographic hard problems (search/decision/distinguishing forms).
+		\item Explain the relationship between cryptosystems and assumptions (what is proved, what is conjectured).
+		\item Describe the main attack families and why they work (smoothness, meet-in-the-middle, lattice reduction, Groebner bases, etc.).
+		\item Do ``security back-of-the-envelope'' estimates using asymptotic/heuristic models.
+		\item Present a paper or survey section clearly, including assumptions, limitations, and open questions.
+	\end{enumerate}
+	
+	% ============================================================
+	\section*{Prerequisites (Lightweight)}
+	% ============================================================
+	
+	Participants should be comfortable with:
+	\begin{itemize}[leftmargin=2em]
+		\item Modular arithmetic; basic group/field concepts (cyclic groups, generators).
+		\item Linear algebra (rank, nullspace, solving linear systems).
+		\item Proof writing (clear quantifiers; reduction-style arguments).
+		\item Helpful: probability (birthday bound intuition), computational complexity vocabulary.
+	\end{itemize}
+	
+	A short ``preliminaries handout'' will be shared in the repo for those who need a refresh.
+	
+	% ============================================================
+	\section*{Structure of a Typical Week}
+	% ============================================================
+	
+	\subsection*{Before the meeting (asynchronous, 60--120 minutes)}
+	\begin{itemize}[leftmargin=2em]
+		\item \textbf{Assigned reading} (10--25 pages): survey section or textbook notes.
+		\item \textbf{Presenter prep}: 25--35 minute talk with 3 deliverables:
+		\begin{enumerate}[leftmargin=2em]
+			\item Formal problem definition(s) + at least one reduction or equivalent formulation.
+			\item Attack taxonomy + one representative attack explained at ``mechanism'' level.
+			\item A ``parameter intuition'' slide: what knob controls hardness?
+		\end{enumerate}
+		\item \textbf{All participants}: submit 1--2 questions in the repo (issue/discussion thread) before the session.
+	\end{itemize}
+	
+	\subsection*{During the meeting (90 minutes recommended)}
+	\begin{enumerate}[leftmargin=2em]
+		\item \textbf{Talk (30--40 min)} by the assigned presenter.
+		\item \textbf{Clarifying Q\&A (10 min)}: definitions and notation only.
+		\item \textbf{Board session (30--40 min)}: work through 1--2 problems or a proof sketch together.
+		\item \textbf{Research discussion (10 min)}: what is known, what’s open, what assumptions are fragile?
+	\end{enumerate}
+	
+	\subsection*{After the meeting (optional, 30 minutes)}
+	\begin{itemize}[leftmargin=2em]
+		\item Presenter posts slides/notes + a short summary (half page).
+		\item Group finalizes a ``glossary'' entry for key terms introduced that week.
+	\end{itemize}
+	
+	% ============================================================
+	\section*{Participation Norms and Roles}
+	% ============================================================
+	
+	\subsection*{Roles}
+	\begin{itemize}[leftmargin=2em]
+		\item \textbf{Presenter (rotating):} leads the talk; posts notes and 2 practice problems.
+		\item \textbf{Discussant (rotating):} prepares 5--8 minutes of critique/questions; highlights potential pitfalls or alternative viewpoints.
+		\item \textbf{Scribe (rotating):} maintains a clean set of notes and a list of unresolved questions.
+	\end{itemize}
+	
+	\subsection*{Norms}
+	\begin{itemize}[leftmargin=2em]
+		\item Prefer precise statements: specify distributions, quantifiers, and model assumptions.
+		\item Ask ``mechanism'' questions: \emph{why} does an attack work, not just its name.
+		\item Be explicit about heuristics vs theorems (e.g., NFS complexity is heuristic; generic-group bounds are theorems).
+		\item Keep the room inclusive: ask clarifying questions early; avoid gatekeeping jargon.
+	\end{itemize}
+	
+	% ============================================================
+	\section*{Assessment (Optional for a Study Group)}
+	% ============================================================
+	
+	If you want light structure without ``grades,'' use:
+	\begin{itemize}[leftmargin=2em]
+		\item \textbf{Completion badges:} 1 badge per talk presented + 1 per discussant role.
+		\item \textbf{Portfolio:} each participant contributes 2 pages of notes during the term.
+		\item \textbf{Mini-project (optional):} reproduce a toy attack (e.g., BSGS, Prange ISD, toy LLL) and write a 2--3 page report.
+	\end{itemize}
+	
+	% ============================================================
+	\section*{Core Reading Suggestions}
+	% ============================================================
+	
+	\begin{itemize}[leftmargin=2em]
+		\item Boneh--Shoup, \emph{A Graduate Course in Applied Cryptography} (widely used, clear).
+		\item Katz--Lindell, \emph{Introduction to Modern Cryptography} (formal games/assumptions).
+		\item Topic notes: Cohen (factoring), Washington (EC), Micciancio--Goldwasser (lattices),
+		MacWilliams--Sloane (codes), Cox--Little--O'Shea (Gr\"obner/MQ).
+	\end{itemize}
+	
+	% ============================================================
+	\section*{Schedule (10-week template; adjust as needed)}
+	% ============================================================
+	
+	\renewcommand{\arraystretch}{1.15}
+	\begin{longtable}{|p{1.1cm}|p{4.0cm}|p{6.4cm}|p{3.4cm}|}
+		\hline
+		\textbf{Wk} & \textbf{Theme} & \textbf{Colloquium Targets} & \textbf{Presenter Deliverables} \\
+		\hline
+		\endhead
+		\hline
+		\multicolumn{4}{|r|}{{Continued on next page}} \\
+		\hline
+		\endfoot
+		\hline
+		\endlastfoot
+		
+		0 & Preliminaries & Security parameter; negligible; search/decision/distinguish; $L$-notation; birthday heuristic; group/field review & 1-page notation sheet \\
+		\hline
+		1 & Integer Factorization & Factoring vs $\varphi(N)$ vs order-finding; ECM/QS/GNFS overview; Shor concept & Reduction + one sieve mechanism \\
+		\hline
+		2 & DLP in Finite Fields & DLP/CDH/DDH; BSGS/Pollard; Pohlig--Hellman; index calculus / NFS-DL & Worked BSGS example + PH outline \\
+		\hline
+		3 & ECDLP & Why generic $\tilde O(\sqrt{n})$; Pollard $\rho$; MOV/Frey--R\"uck pitfalls; curve selection & Attack comparison: FF-DLP vs ECDLP \\
+		\hline
+		4 & Lattices I & Lattices, duals, Minkowski; SVP/CVP; LLL/BKZ concepts & Derive dual lattice + Minkowski (2D) \\
+		\hline
+		5 & Lattices II (LWE/SIS) & SIS/LWE definitions; primal/dual/hybrid/BKW attacks; parameter intuition & ``attack selection'' decision tree \\
+		\hline
+		6 & Code-based Crypto & Syndrome decoding; McEliece; ISD (Prange $\rightarrow$ BJMM); structural attacks & Derive Prange probability + toy SD \\
+		\hline
+		7 & Isogenies & Isogeny definition; graphs/path-finding; CSIDH-style actions; protocol-specific breaks; quantum hidden shift & Graph model + MITM heuristic \\
+		\hline
+		8 & Multivariate (MQ) & MQ definition; Gr\"obner (F4/F5); XL/hybrid; MinRank/rank attacks; pitfalls & Worked MQ toy + attack taxonomy \\
+		\hline
+		9 & Hash & CR/SPR/OW games; birthday bound proof; Merkle--Damg{\aa}rd length extension; HMAC; quantum Grover & Prove birthday bound + length extension demo \\
+		\hline
+		10 & Synthesis / Projects & Compare classical vs quantum across families; security-level mapping; open problems & 2-page reflective memo per participant \\
+		\hline
+		
+	\end{longtable}
+	
+	% ============================================================
+	\section*{Presenter Template (Copy/Paste)}
+	% ============================================================
+	
+	Each presenter should submit a short document (2--4 pages or 6--10 slides) containing:
+	
+	\begin{enumerate}[leftmargin=2em]
+		\item \textbf{Formal definition(s)} (inputs, outputs, distributions).
+		\item \textbf{One reduction or equivalence} (oracle reduction or explicit transformation).
+		\item \textbf{Attack taxonomy} with 2--3 named attacks \emph{and} one explained mechanistically.
+		\item \textbf{Complexity summary} (best-known asymptotics; note heuristic vs theorem).
+		\item \textbf{Two practice problems} (one computation/toy; one reasoning/reduction).
+	\end{enumerate}
+	
+	% ============================================================
+	\section*{Code of Conduct (Short)}
+	% ============================================================
+	
+	We aim for a respectful, collaborative environment. Critique ideas, not people.
+	If conflict arises, contact the organizer privately and we will resolve it promptly.
+	
+\end{document}

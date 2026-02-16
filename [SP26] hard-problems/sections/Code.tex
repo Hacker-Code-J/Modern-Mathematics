@@ -1,0 +1,78 @@
+%\subsection*{4.1\ Linear codes}
+%
+%\paragraph{Definition (linear code).}
+%A linear $[n,k]_q$ code is a $k$-dimensional $\mathbb{F}_q$-subspace
+%$C\subseteq \mathbb{F}_q^n$.
+%A \emph{generator matrix} $G\in \mathbb{F}_q^{k\times n}$ satisfies
+%\[
+%C = \{ uG : u\in \mathbb{F}_q^k\}.
+%\]
+%A \emph{parity-check matrix} $H\in \mathbb{F}_q^{(n-k)\times n}$ satisfies
+%\[
+%C = \{ c\in \mathbb{F}_q^n : Hc^\top = 0\}.
+%\]
+%
+%\paragraph{Hamming weight and distance.}
+%For $x\in\mathbb{F}_q^n$, the Hamming weight is
+%$w_H(x)=|\{i: x_i\neq 0\}|$.
+%The Hamming distance is $d_H(x,y)=w_H(x-y)$.
+%The minimum distance of $C$ is
+%\[
+%d(C)=\min\{w_H(c): c\in C\setminus\{0\}\}.
+%\]
+%
+%\subsection*{4.2\ Syndrome Decoding (SD)}
+%
+%\paragraph{Search SD.}
+%Given $H\in \mathbb{F}_q^{(n-k)\times n}$, a syndrome $s\in \mathbb{F}_q^{n-k}$,
+%and an integer $t$, find $e\in \mathbb{F}_q^n$ such that
+%\[
+%He^\top = s
+%\quad\text{and}\quad
+%w_H(e)\le t.
+%\]
+%(Over $\mathbb{F}_2$, this is the classical binary syndrome decoding problem.)
+%
+%\paragraph{Decision SD.}
+%Given $(H,s,t)$, decide whether there exists $e$ with $He^\top=s$ and $w_H(e)\le t$.
+%
+%\subsection*{4.3\ Codeword Finding / Minimum Distance Problem}
+%
+%\paragraph{Minimum distance (decision form).}
+%Given a linear code $C$ (via $G$ or $H$) and integer $t$, decide whether
+%\[
+%\exists\, c\in C\setminus\{0\}\ \text{such that}\ w_H(c)\le t.
+%\]
+%The corresponding search problem asks to find such a codeword.
+
+\paragraph{Linear code.}
+A linear $[n,k]_q$ code is a $k$-dimensional subspace $C\subseteq\mathbb{F}_q^n$.
+A parity-check matrix $H\in\mathbb{F}_q^{(n-k)\times n}$ satisfies
+\[
+C=\{c\in\mathbb{F}_q^n: Hc^\top=0\}.
+\]
+Hamming weight: $w_H(x)=|\{i:x_i\neq 0\}|$.
+
+\paragraph{Syndrome Decoding (SD) --- search form.}
+Given $H\in\mathbb{F}_q^{(n-k)\times n}$, syndrome $s\in\mathbb{F}_q^{(n-k)}$, and bound $t$,
+find $e\in\mathbb{F}_q^n$ such that
+\[
+He^\top=s \quad\text{and}\quad w_H(e)\le t.
+\]
+
+\paragraph{Minimum Distance Problem (MDP) --- decision form.}
+Given a linear code $C$ and integer $t$, decide whether
+\[
+\exists\,c\in C\setminus\{0\}\ \text{with}\ w_H(c)\le t.
+\]
+
+\paragraph{Standard attacks (classical).}
+\begin{itemize}\setlength\itemsep{0.2em}
+	\item \textbf{Information Set Decoding (ISD)} family: Prange, Stern, Dumer, BJMM-style improvements.
+	\item \textbf{Structural attacks}: if the public code is not pseudorandom (hidden algebraic structure, rank defects, etc.).
+	\item \textbf{Side-channel/implementation}: leakage from decoding routines or masking failures.
+\end{itemize}
+
+\paragraph{Quantum note.}
+Grover-type search can improve brute-force components; quantum ISD analyses give model-dependent exponent reductions.
+

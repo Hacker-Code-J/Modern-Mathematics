@@ -1,0 +1,78 @@
+% ============================================================
+% One-page Flyer / Announcement (LaTeX) — modern, professional
+% Colloquium: Hard Problems in Cryptography
+% ============================================================
+\documentclass[11pt]{article}
+
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage[hidelinks]{hyperref}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{array}
+\usepackage{tabularx}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt}
+
+% ---------- Fill these in ----------
+\newcommand{\titleline}{Hard Problems in Cryptography — Colloquium}
+\newcommand{\term}{[Insert dates / term]}
+\newcommand{\whenwhere}{[Day, time] · [Room] / Zoom: [link]}
+\newcommand{\organizer}{[Your name]}
+\newcommand{\contact}{[Email]}
+\newcommand{\signup}{[Sign-up link]}
+\newcommand{\deadline}{[Sign-up deadline]}
+\newcommand{\repo}{[Shared notes link]}
+\newcommand{\audience}{Masters / advanced undergrad; PhD welcome}
+
+% ---------- Minimal modern styling ----------
+\definecolor{ink}{RGB}{20,23,28}
+\definecolor{muted}{RGB}{90,96,105}
+\definecolor{accent}{RGB}{34,91,191}
+
+\begin{document}
+	\color{ink}
+	
+	% ---------- Header block ----------
+	{\Large\bfseries \titleline}\\[-2pt]
+	{\color{muted}\term}\\[6pt]
+	
+	\begin{tabularx}{\textwidth}{@{}>{\bfseries}l X@{}}
+		Meetings: & \whenwhere\\
+		Organizer: & \organizer\ (\contact)\\
+		Sign-up: & \signup \hfill \textbf{Deadline:} \deadline\\
+		Notes/Repo: & \repo\\
+	\end{tabularx}
+	
+	\vspace{10pt}
+	{\color{accent}\rule{\textwidth}{1.2pt}}
+	\vspace{10pt}
+	
+	% ---------- Body ----------
+	\textbf{Overview}\\
+	A weekly, participant-led colloquium on the computational problems that support modern cryptography and post-quantum designs.
+	Each session pairs a short talk with a working discussion: we focus on precise problem statements, the core ideas behind major attacks, and what drives parameter choices.
+	
+	\textbf{Who it’s for}\\
+	\audience. Comfort with modular arithmetic, basic linear algebra, and proof writing is enough. A short preliminaries handout will be provided.
+	
+	\textbf{Format (90 minutes)}
+	\begin{itemize}[leftmargin=1.6em,itemsep=2pt,topsep=2pt]
+		\item \textbf{Talk (30--40 min)} — rotating presenters, with a shared template
+		\item \textbf{Working session (35--45 min)} — proof sketches + toy instances + attack walk-throughs
+		\item \textbf{Discussion (10--15 min)} — assumptions, sharp edges, and open questions
+	\end{itemize}
+	
+	\textbf{Planned themes}\\
+	Integer factorization (RSA/Rabin), discrete logarithms (finite fields and elliptic curves), lattices (SVP/CVP, SIS/LWE), code-based decoding (ISD),
+	isogenies, multivariate quadratic systems (MQ), and hash-function security (collision/preimage, Merkle--Damg{\aa}rd/HMAC, quantum impact).
+	
+	\textbf{Participation}\\
+	Presenting is encouraged but optional. Presenters will receive a lightweight checklist (definition + one reduction/equivalence + one attack mechanism + two practice problems).
+	Everyone contributes questions in advance and helps maintain a clean shared set of notes.
+	
+	\vfill
+	{\color{muted}\small
+		\textbf{Note.} This is an educational research-reading group. We focus on publicly documented algorithms and standard security models.}
+	
+\end{document}

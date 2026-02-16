@@ -1,0 +1,560 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{physics}
+
+\title{Winding Forms: From Green's Theorem to \(\mathbb{C}\), \(\mathbb{H}\), and \(\mathbb{O}\)}
+\author{}
+\date{}
+
+% --- Macros ---
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Hbb}{\mathbb{H}}
+\newcommand{\Obb}{\mathbb{O}}
+\newcommand{\Sph}{\mathbb{S}}
+\renewcommand{\dd}{\,d}
+\newcommand{\ImPart}{\operatorname{Im}}
+\newcommand{\RePart}{\operatorname{Re}}
+\newcommand{\wind}{\operatorname{wind}}
+\newcommand{\Arg}{\operatorname{Arg}}
+\renewcommand{\Res}{\operatorname{Res}}
+
+\begin{document}
+	\maketitle
+	
+	\begin{center}
+		\textbf{Audience:} Students who have begun to understand the Fundamental Theorem of Line Integrals and Green's Theorem.\\[4pt]
+		\textbf{Theme:} Integration as a tool to read algebraic information (winding, coefficients, multiplicity), and how normed division algebras extend the geometry of ``multiplication.''
+	\end{center}
+	
+	\tableofcontents
+	
+	\section{Motivation: Integration Reads Algebra}
+	A recurring phenomenon in mathematics is that \emph{integrals can detect discrete algebraic data}.
+	Two guiding examples:
+	\begin{enumerate}[label=(\arabic*)]
+		\item \textbf{Winding numbers:} a line integral around a closed loop can count how many times the loop winds around a point.
+		\item \textbf{Polynomial/analytic data:} coefficients and multiplicities of zeros can be recovered from contour integrals.
+	\end{enumerate}
+	We will build these ideas starting from the Fundamental Theorem of Calculus (FTC) in one real variable, then move to line integrals, differential forms, and winding forms in the plane. This naturally leads to complex analysis, and provides a geometric doorway to quaternions \(\Hbb\) and octonions \(\Obb\) via \emph{multiplicative norms} and \emph{Hopf fibrations}.
+	
+	\section{From FTC to the Fundamental Theorem of Line Integrals}
+	\subsection{FTC in one variable}
+	If \(F:\R\to\R\) is differentiable with derivative \(F'\), then
+	\[
+	\int_a^b F'(x)\dd x = F(b)-F(a).
+	\]
+	Here \(F'\dd x\) is an example of an \emph{exact 1-form}.
+	
+	\subsection{Exact differentials and path independence}
+	Let \(U\subset \R^2\) be open and \(F:U\to\R\) be differentiable. Define the 1-form
+	\[
+	\omega = dF = \pdv{F}{x}\dd x + \pdv{F}{y}\dd y.
+	\]
+	The Fundamental Theorem of Line Integrals says that for any smooth curve \(\gamma:[a,b]\to U\),
+	\[
+	\int_\gamma dF = F(\gamma(b)) - F(\gamma(a)).
+	\]
+	In particular, if \(\gamma\) is a closed loop (\(\gamma(a)=\gamma(b)\)), then
+	\[
+	\int_\gamma dF = 0.
+	\]
+	So \emph{exact} forms integrate to zero on closed loops.
+	
+	\subsection{Closed forms, Green's theorem, and topology}
+	A 1-form \(\omega = P(x,y)\dd x+Q(x,y)\dd y\) is called \emph{closed} if \(d\omega=0\), where
+	\[
+	d\omega = \left(\pdv{Q}{x}-\pdv{P}{y}\right)\dd x\wedge \dd y.
+	\]
+	Green's theorem (a special case of Stokes' theorem) says that if \(D\subset\R^2\) is a region with positively oriented boundary \(\partial D\),
+	\[
+	\int_{\partial D} P\dd x+Q\dd y
+	=
+	\iint_D \left(\pdv{Q}{x}-\pdv{P}{y}\right)\dd A
+	=
+	\iint_D d\omega.
+	\]
+	Thus, if \(d\omega=0\) on \(D\), then \(\int_{\partial D}\omega=0\).
+	However, \emph{closed does not always imply exact} when the domain has holes. This is where winding enters.
+	
+	\section{The Prototype Winding Form in the Plane}
+	\subsection{A canonical 1-form on \(\R^2\setminus\{0\}\)}
+	On \(\R^2\setminus\{(0,0)\}\), define
+	\[
+	\omega_{\C} \;=\; \frac{-y\,\dd x + x\,\dd y}{x^2+y^2}.
+	\]
+	In polar coordinates \(x=r\cos\theta\), \(y=r\sin\theta\), a standard computation shows
+	\[
+	\omega_{\C} = d\theta.
+	\]
+	So for any smooth loop \(\gamma\) avoiding the origin,
+	\[
+	\int_\gamma \omega_{\C} = \int_\gamma d\theta = 2\pi\,\wind(\gamma,0),
+	\]
+	where \(\wind(\gamma,0)\in\mathbb{Z}\) is the winding number of \(\gamma\) around \(0\).
+	
+	\subsection{Closed away from the origin}
+	Compute \(d\omega_{\C}\) on \(\R^2\setminus\{0\}\). Since \(\omega_{\C}=d\theta\) locally, we have \(d\omega_{\C}=0\) away from the origin.
+	Thus, if two loops can be deformed into each other without crossing \(0\), their integrals agree.
+	
+	\subsection{Complex packaging: \(\Im(dz/z)\)}
+	Let \(z=x+iy\) and \(dz=\dd x+i\dd y\). Then
+	\[
+	\frac{dz}{z}=\frac{\dd x+i\dd y}{x+iy}
+	=\frac{(x-iy)(\dd x+i\dd y)}{x^2+y^2}
+	=\frac{x\dd x+y\dd y}{x^2+y^2} + i\frac{x\dd y-y\dd x}{x^2+y^2}.
+	\]
+	Taking imaginary parts,
+	\[
+	\omega_{\C}
+	=
+	\ImPart\!\left(\frac{dz}{z}\right)
+	=
+	\frac{-y\,\dd x + x\,\dd y}{x^2+y^2}.
+	\]
+	This is the differential-geometric version of the slogan
+	\[
+	d(\arg z)=\ImPart(d\log z)=\ImPart\!\left(\frac{dz}{z}\right).
+	\]
+	
+	\section{Integration Extracts Algebra in \(\C\): Coefficients and Order}
+	The next step is to see how contour integrals can recover \emph{coefficients} and \emph{multiplicity of zeros}.
+	
+	\subsection{Cauchy integral formula (CIF)}
+	Let \(f\) be holomorphic on and inside the circle \(|z|=R\). Then for \(|w|<R\),
+	\[
+	f(w)=\frac{1}{2\pi i}\int_{|z|=R}\frac{f(z)}{z-w}\,\dd z.
+	\]
+	In particular, setting \(w=0\) gives
+	\[
+	f(0)=\frac{1}{2\pi i}\int_{|z|=R}\frac{f(z)}{z}\,\dd z.
+	\]
+	
+	\subsection{Coefficient extraction by integration}
+	If \(f\) is holomorphic on \(|z|\le R\) and has Taylor series \(f(z)=\sum_{n=0}^\infty a_n z^n\) on \(|z|<R\), then the coefficients are
+	\[
+	a_n
+	=
+	\frac{1}{2\pi i}\int_{|z|=R}\frac{f(z)}{z^{n+1}}\,\dd z.
+	\]
+	\paragraph{Why this works (a Fourier-mode viewpoint).}
+	Parametrize \(z=Re^{it}\). Then \(\dd z = iRe^{it}\dd t\), and the integral becomes
+	\[
+	\frac{1}{2\pi i}\int_0^{2\pi} \frac{f(Re^{it})}{(Re^{it})^{n+1}}\,iRe^{it}\dd t
+	=
+	\frac{1}{2\pi}\int_0^{2\pi} f(Re^{it})\,e^{-int}\,\dd t,
+	\]
+	which is exactly the \(n\)-th Fourier coefficient of the \(2\pi\)-periodic function \(t\mapsto f(Re^{it})\).
+	Integration around a circle is acting as a ``frequency filter''.
+	
+	\subsection{Order of a zero via a winding integral (argument principle)}
+	Let \(\gamma\) be a positively oriented simple closed curve in \(\C\), and suppose \(f\) is meromorphic on a neighborhood of the region enclosed by \(\gamma\), with no zeros or poles on \(\gamma\). Then
+	\[
+	\frac{1}{2\pi i}\int_\gamma \frac{f'(z)}{f(z)}\,\dd z
+	=
+	N - P,
+	\]
+	where \(N\) is the number of zeros and \(P\) is the number of poles inside \(\gamma\), counted with multiplicity.
+	
+	\paragraph{Multiplicity at a point.}
+	If \(f(z)=z^m g(z)\) near \(0\) where \(g(0)\neq 0\), then \(0\) is a zero of order \(m\). On a small circle \(|z|=\varepsilon\),
+	\[
+	\frac{1}{2\pi i}\int_{|z|=\varepsilon}\frac{f'(z)}{f(z)}\,\dd z = m.
+	\]
+	\paragraph{Geometric interpretation.}
+	Since \(\frac{f'}{f}\dd z = d(\log f)\) locally, its imaginary part is \(d(\arg f)\).
+	Thus the integral counts how many times the image loop \(f(\gamma)\) winds around \(0\).
+	
+	\section{Why \(\mathbb{H}\) and \(\mathbb{O}\) are Special: Multiplicative Norms}
+	We now briefly explain why quaternions and octonions are natural ``next stops'' from a \emph{multiplicative norm} viewpoint.
+	
+	\subsection{Normed division algebras}
+	A (real) algebra \(A\) with norm \(N:A\to\R_{\ge 0}\) is called a \emph{normed division algebra} if
+	\[
+	N(xy)=N(x)N(y),\qquad N(x)>0 \ \text{for }x\neq 0.
+	\]
+	In that case, every nonzero \(x\) is invertible, and an explicit inverse is typically given by
+	\[
+	x^{-1}=\frac{\bar x}{N(x)},
+	\]
+	where \(\bar x\) is an appropriate conjugation.
+	
+	\paragraph{Key fact (classification, stated informally).}
+	Over \(\R\), the finite-dimensional normed division algebras are:
+	\[
+	\R\ (1\text{D}),\quad \C\ (2\text{D}),\quad \Hbb\ (4\text{D}),\quad \Obb\ (8\text{D}).
+	\]
+	This explains why these four algebras repeatedly appear in geometry and physics: multiplication is compatible with Euclidean length.
+	
+	\subsection{Geometry from multiplicativity}
+	Let \(\|x\|=\sqrt{N(x)}\). Then
+	\[
+	\|xy\|=\|x\|\,\|y\|.
+	\]
+	In particular, if \(\|u\|=1\), then \(\|ux\|=\|x\|\). So \emph{multiplication by a unit element is length-preserving}.
+	
+	\begin{itemize}
+		\item In \(\C\), unit complex numbers are planar rotations.
+		\item In \(\Hbb\), unit quaternions are a powerful tool for 3D rotations.
+		\item In \(\Obb\), unit octonions preserve an 8D norm; the geometry is ``exceptional'' (nonassociative but still normed).
+	\end{itemize}
+	
+	\section{Quaternionic Winding: A Hopf-Fibration Connection Form}
+	In the complex case, winding lives on \(\C^\times\) and detects loops around a missing point. In the quaternionic story, winding naturally lives on a \emph{bundle of circles} inside the unit sphere \(S^3\).
+	
+	\subsection{Unit quaternions and \(S^3\)}
+	Identify the unit quaternions with the 3-sphere:
+	\[
+	S^3=\{q\in\Hbb : N(q)=1\}.
+	\]
+	A convenient model is \(S^3\subset \C^2\):
+	\[
+	S^3=\{(z_1,z_2)\in\C^2 : |z_1|^2+|z_2|^2=1\}.
+	\]
+	
+	\subsection{The Hopf fibration \(S^1\hookrightarrow S^3\to S^2\)}
+	There is an \(S^1\) action on \(S^3\) by
+	\[
+	e^{it}\cdot(z_1,z_2) = (e^{it}z_1, e^{it}z_2).
+	\]
+	The orbits are circles (fibers). The quotient space is \(S^2\). This is the \emph{Hopf fibration}.
+	
+	\subsection{A canonical ``winding'' 1-form on \(S^3\)}
+	Define a 1-form \(\alpha_{\Hbb}\) on \(S^3\subset \C^2\) by
+	\[
+	\alpha_{\Hbb} \;=\; \ImPart\!\big(\bar z_1\,\dd z_1 + \bar z_2\,\dd z_2\big).
+	\]
+	\paragraph{Fiber integral equals \(2\pi\).}
+	Fix \((z_1,z_2)\in S^3\). Consider the fiber curve
+	\[
+	\gamma(t)=(e^{it}z_1, e^{it}z_2),\qquad t\in[0,2\pi].
+	\]
+	Then \(\dot\gamma(t)=(ie^{it}z_1, ie^{it}z_2)\), and
+	\[
+	\alpha_{\Hbb}(\dot\gamma(t))
+	=
+	\ImPart\!\big(\overline{e^{it}z_1}\, i e^{it}z_1 + \overline{e^{it}z_2}\, i e^{it}z_2\big)
+	=
+	\ImPart\!\big(i(|z_1|^2+|z_2|^2)\big)
+	=
+	1,
+	\]
+	since \(|z_1|^2+|z_2|^2=1\). Therefore
+	\[
+	\int_{\text{fiber}}\alpha_{\Hbb} = \int_0^{2\pi} 1\dd t = 2\pi.
+	\]
+	So \(\alpha_{\Hbb}\) measures \emph{winding along Hopf fibers}.
+	
+	\subsection{Curvature: the analogue of ``curl''}
+	Compute \(d\alpha_{\Hbb}\):
+	\[
+	d\alpha_{\Hbb}
+	=
+	\ImPart\!\left(\dd\bar z_1\wedge \dd z_1 + \dd\bar z_2\wedge \dd z_2\right).
+	\]
+	This 2-form encodes the twisting of the fibration and plays the role of a curvature (vorticity) form. In the plane, the winding form was closed away from a puncture; here the topology is carried by the \emph{bundle structure} rather than a removed point.
+	
+	\section{Octonions: The Next Normed Division Algebra (and What Changes)}
+	Octonions \(\Obb\) extend the same multiplicative norm story:
+	\[
+	N(xy)=N(x)N(y),\qquad x\neq 0 \Rightarrow x^{-1}=\frac{\bar x}{N(x)}.
+	\]
+	However, \(\Obb\) is \emph{not associative}. This is not a defect; it is the structural reason \(\Obb\) is exceptional.
+	
+	\subsection{The octonionic Hopf fibration}
+	There is a higher Hopf fibration
+	\[
+	S^3 \hookrightarrow S^7 \to S^4.
+	\]
+	Morally: in the complex case, ``phase'' is \(S^1\); in the quaternion case, ``phase'' is still \(S^1\) but lives inside \(S^3\); in the octonion case, the natural fiber becomes \(S^3\), and winding becomes a higher-dimensional phenomenon.
+	
+	\subsection{Pedagogical message}
+	For this lecture's purposes, you can emphasize:
+	\begin{itemize}
+		\item The same \textbf{norm-compatibility} makes \(\Obb\) ``number-like'' (division, length geometry).
+		\item The same \textbf{winding philosophy} persists, but it lives in the geometry of fibrations and curvature rather than in a punctured plane.
+		\item Nonassociativity is the price paid for having an 8-dimensional normed division algebra.
+	\end{itemize}
+	
+	\section{Summary Dictionary: Algebra \(\leftrightarrow\) Geometry}
+	\begin{center}
+		\begin{tabular}{p{0.46\textwidth}p{0.46\textwidth}}
+			\hline
+			\textbf{Algebraic object} & \textbf{Geometric/integral meaning}\\
+			\hline
+			Exact form \(dF\) & Path-independent integrals; endpoint evaluation (FTC/FTLI)\\
+			\(\omega_{\C}=\Im(dz/z)\) & Winding number around \(0\): \(\int \omega_{\C}=2\pi\,\wind\)\\
+			Cauchy coefficient formula & Coefficients recovered by contour integrals\\
+			\(\frac{f'}{f}\dd z\) & Multiplicity of zeros via winding (argument principle)\\
+			Multiplicative norm \(N(xy)=N(x)N(y)\) & Division + length geometry; units act by isometries\\
+			Hopf connection \(\alpha_{\Hbb}\) & Winding along fibers in \(S^3\to S^2\): \(\int_{\text{fiber}}\alpha_{\Hbb}=2\pi\)\\
+			\hline
+		\end{tabular}
+	\end{center}
+	
+	\section{Exercises}
+	\begin{enumerate}[label=\textbf{E\arabic*.}]
+		\item \textbf{Compute \(d\omega_{\C}\) explicitly.}
+		Let \(\omega_{\C}=\frac{-y\dd x+x\dd y}{x^2+y^2}\) on \(\R^2\setminus\{0\}\). Compute \(d\omega_{\C}\) and verify \(d\omega_{\C}=0\) on its domain.
+		
+		\item \textbf{Winding of circles.}
+		Let \(\gamma(t)=(R\cos t, R\sin t)\), \(0\le t\le 2\pi\). Compute \(\int_\gamma \omega_{\C}\).
+		
+		\item \textbf{Coefficient extraction for a polynomial.}
+		Let \(p(z)=\sum_{k=0}^n a_k z^k\). Show that for any \(R>0\),
+		\[
+		a_m = \frac{1}{2\pi i}\int_{|z|=R}\frac{p(z)}{z^{m+1}}\,\dd z,\qquad 0\le m\le n.
+		\]
+		
+		\item \textbf{Multiplicity from \(\frac{f'}{f}\).}
+		Let \(f(z)=z^m g(z)\) where \(g\) is holomorphic and \(g(0)\neq 0\). Prove
+		\[
+		\frac{1}{2\pi i}\int_{|z|=\varepsilon}\frac{f'(z)}{f(z)}\,\dd z = m
+		\]
+		for \(\varepsilon\) sufficiently small.
+		
+		\item \textbf{Hopf fiber integral.}
+		Let \(\alpha_{\Hbb}=\Im(\bar z_1\dd z_1+\bar z_2\dd z_2)\) on \(S^3\subset\C^2\). Verify carefully that \(\int_{\text{fiber}}\alpha_{\Hbb}=2\pi\) for every Hopf fiber.
+		
+		\item \textbf{Geometric comparison.}
+		Write a short paragraph comparing:
+		\begin{itemize}
+			\item winding in \(\C^\times\) (puncture/hole in the domain),
+			\item winding in the Hopf fibration \(S^3\to S^2\) (bundle topology).
+		\end{itemize}
+	\end{enumerate}
+	
+	\newpage
+	
+	% --- Add the following sections (or replace the existing brief discussion) ---
+	% Place these after your section on the winding form / before coefficient extraction.
+	
+	\section{The Argument Function \texorpdfstring{$\arg$}{arg}: What It Is and Why It Appears in Line Integrals}
+	
+	\subsection{Angle as a function: from polar coordinates to \texorpdfstring{$\arg$}{arg}}
+	Every nonzero point \((x,y)\in\R^2\setminus\{0\}\) can be written in polar form
+	\[
+	x=r\cos\theta,\qquad y=r\sin\theta,\qquad r=\sqrt{x^2+y^2}>0,
+	\]
+	for some angle \(\theta\).  In complex notation \(z=x+iy\), this becomes
+	\[
+	z = r(\cos\theta+i\sin\theta)=re^{i\theta}.
+	\]
+%	\begin{definition}[Argument]
+	\textbf{Definition.}
+		For \(z\neq 0\), an \emph{argument} of \(z\) is any real number \(\theta\) such that
+		\[
+		z = |z|e^{i\theta}.
+		\]
+		We write \(\theta = \arg z\).
+%	\end{definition}
+	
+	\subsection{Why \texorpdfstring{$\arg$}{arg} is multi-valued}
+	The key subtlety is that angles are not unique: adding \(2\pi\) produces the same direction:
+	\[
+	e^{i(\theta+2\pi k)}=e^{i\theta}\qquad(k\in\mathbb{Z}).
+	\]
+	Hence \(\arg z\) is \emph{multi-valued}:
+	\[
+	\arg z = \theta + 2\pi k,\qquad k\in\mathbb{Z}.
+	\]
+	This is not a technical annoyance; it is the mathematical reason winding numbers exist.
+	
+	\subsection{Principal value \texorpdfstring{$\Arg$}{Arg} and branch cuts}
+	Sometimes we want a \emph{single-valued} choice of angle. A common convention is the
+	\emph{principal argument} \(\Arg z\), defined by requiring
+	\[
+	\Arg z \in (-\pi,\pi]
+	\quad\text{and}\quad z=|z|e^{i\Arg z}.
+	\]
+	However, \(\Arg z\) cannot be continuous on all of \(\C^\times\): it jumps along a ray (typically the negative real axis).
+	That ray is called a \emph{branch cut}. On any simply connected domain that avoids the branch cut and the origin,
+	one can define a continuous single-valued branch of \(\arg\).
+	
+	\subsection{The differential of the angle: \texorpdfstring{$d\theta$}{dtheta} in coordinates}
+	Let \(\theta=\arg z\) (locally, on a domain where a continuous branch is chosen). Differentiate the relations
+	\(x=r\cos\theta\), \(y=r\sin\theta\). A standard computation yields
+	\[
+	d\theta = \frac{-y\,dx + x\,dy}{x^2+y^2}.
+	\]
+	This is exactly the winding 1-form introduced earlier:
+	\[
+	\omega_{\C} := \frac{-y\,dx + x\,dy}{x^2+y^2} = d\theta
+	\qquad(\text{locally on } \C^\times).
+	\]
+	
+	\subsection{Complex form: \texorpdfstring{$\Im(dz/z)=d(\arg z)$}{Im(dz/z)=d(arg z)}}
+	Write \(z=x+iy\), \(dz=dx+i\,dy\). Then
+	\[
+	\frac{dz}{z} = d(\log z)
+	\quad\text{(locally, on a chosen branch of }\log z\text{)}.
+	\]
+	Since \(\log z = \ln|z| + i\arg z\) (locally), we have
+	\[
+	d(\log z) = d(\ln|z|) + i\,d(\arg z).
+	\]
+	Taking imaginary parts gives
+	\[
+	\Im\!\left(\frac{dz}{z}\right) = d(\arg z).
+	\]
+	Thus the winding form is the imaginary part of the \emph{logarithmic derivative}.
+	
+	\subsection{Winding number as an integral of \texorpdfstring{$d(\arg)$}{d(arg)}}
+	Let \(\gamma:[0,1]\to\C^\times\) be a smooth loop. Choose a continuous branch of \(\arg\) along the curve
+	(this is always possible \emph{on the curve}, even if not on the whole plane). Then
+	\[
+	\int_\gamma d(\arg z)
+	=
+	\arg(\gamma(1))-\arg(\gamma(0)).
+	\]
+	Because \(\gamma(1)=\gamma(0)\), the endpoints are the same complex number, but \(\arg\) may have increased by \(2\pi k\).
+	Therefore
+	\[
+	\int_\gamma d(\arg z)=2\pi k,
+	\]
+	and we define
+	\[
+	\wind(\gamma,0):=\frac{1}{2\pi}\int_\gamma d(\arg z)
+	=\frac{1}{2\pi}\int_\gamma \omega_{\C}
+	\in\mathbb{Z}.
+	\]
+	This integer is the winding number of \(\gamma\) around the origin.
+	
+	\section{Why the Cauchy Integral Formula Is True (and Why It Matters)}
+	
+	\subsection{A guiding question}
+	Suppose \(f\) is holomorphic on a region containing a disk \(D\) and its boundary circle \(C=\partial D\).
+	\emph{How can values of \(f\) inside the disk be recovered from values of \(f\) on the boundary?}
+	
+	The surprising answer is that holomorphic functions are \emph{completely determined by their boundary values}
+	in a very rigid way, and the Cauchy integral formula gives the exact reconstruction.
+	
+	\subsection{Cauchy's theorem (the engine)}
+	We will use the following fundamental fact.
+	
+%	\begin{theorem}[Cauchy's theorem (informal statement)]
+		If \(f\) is holomorphic on and inside a simple closed curve \(C\), then
+		\[
+		\int_C f(z)\,dz = 0.
+		\]
+%	\end{theorem}
+	
+	In this course context, you can view this as a powerful analogue of
+	``curl-free implies path-independent'' (Green's theorem/Stokes' theorem),
+	but now for complex line integrals of holomorphic functions.
+	
+	\subsection{Key trick: subtract a constant and divide by \texorpdfstring{$z-w$}{z-w}}
+	Fix a point \(w\) inside \(C\). Consider the function
+	\[
+	g(z):=\frac{f(z)-f(w)}{z-w}.
+	\]
+	Because \(f\) is differentiable (holomorphic), the difference quotient extends continuously to \(z=w\) by setting
+	\(g(w):=f'(w)\). Thus \(g\) is holomorphic on and inside \(C\).
+	
+	Now apply Cauchy's theorem to \(g\):
+	\[
+	0=\int_C g(z)\,dz = \int_C \frac{f(z)-f(w)}{z-w}\,dz
+	=
+	\int_C \frac{f(z)}{z-w}\,dz
+	-
+	f(w)\int_C \frac{1}{z-w}\,dz.
+	\]
+	Rearranging gives
+	\[
+	\int_C \frac{f(z)}{z-w}\,dz
+	=
+	f(w)\int_C \frac{1}{z-w}\,dz.
+	\]
+	So everything reduces to computing the integral of \(\frac{1}{z-w}\).
+	
+	\subsection{The basic winding integral \texorpdfstring{$\int_C \frac{dz}{z-w}$}{int dz/(z-w)}}
+	Parametrize a positively oriented circle around \(w\):
+	\[
+	z=w+Re^{it},\qquad 0\le t\le 2\pi.
+	\]
+	Then \(dz=iRe^{it}\,dt\) and
+	\[
+	\int_C \frac{dz}{z-w}
+	=
+	\int_0^{2\pi} \frac{iRe^{it}}{Re^{it}}\,dt
+	=
+	\int_0^{2\pi} i\,dt
+	=
+	2\pi i.
+	\]
+	More generally, for any positively oriented simple closed curve \(C\) enclosing \(w\),
+	\[
+	\int_C \frac{dz}{z-w}=2\pi i\cdot \wind(C,w).
+	\]
+	In the simplest setting where \(C\) winds once around \(w\), this integral equals \(2\pi i\).
+	
+	\subsection{Cauchy integral formula (CIF)}
+	Substitute \(\int_C \frac{dz}{z-w}=2\pi i\) into the earlier identity:
+	\[
+	\int_C \frac{f(z)}{z-w}\,dz = f(w)\cdot 2\pi i.
+	\]
+	Therefore,
+	\[
+	\boxed{
+		f(w)=\frac{1}{2\pi i}\int_C \frac{f(z)}{z-w}\,dz.
+	}
+	\]
+	This is the Cauchy integral formula.
+	
+	\subsection{Why CIF is powerful: it implies derivatives and coefficient formulas}
+	Differentiate under the integral sign (or apply the same reasoning to \(\frac{f(z)-P(z)}{(z-w)^{n+1}}\)) to get
+	\[
+	f^{(n)}(w)=\frac{n!}{2\pi i}\int_C \frac{f(z)}{(z-w)^{n+1}}\,dz.
+	\]
+	In particular, at \(w=0\),
+	\[
+	a_n=\frac{f^{(n)}(0)}{n!}
+	=
+	\frac{1}{2\pi i}\int_{|z|=R}\frac{f(z)}{z^{n+1}}\,dz,
+	\]
+	which is exactly the coefficient extraction formula.
+	
+	\subsection{Conceptual message for students}
+	CIF is the complex-analytic version of a deep theme:
+	\begin{quote}
+		\emph{Integration can recover algebraic information.}
+	\end{quote}
+	In the real FTC, integration recovers \(F\) from \(F'\).
+	In complex analysis, integration around loops recovers:
+	\begin{itemize}
+		\item the \emph{value} \(f(w)\) from boundary data \(f(z)\) on \(C\),
+		\item the \emph{coefficients} of power series,
+		\item the \emph{multiplicity} of zeros (via \(\int f'/f\)).
+	\end{itemize}
+	All of these are manifestations of the rigidity of holomorphic functions.
+	
+	% --- Optional: a short example you can include immediately after ---
+	\subsection{Example: coefficients of a polynomial from a circle integral}
+	Let \(p(z)=\sum_{k=0}^n a_k z^k\). Fix \(R>0\). Then for \(0\le m\le n\),
+	\[
+	\frac{1}{2\pi i}\int_{|z|=R}\frac{p(z)}{z^{m+1}}\,dz
+	=
+	\frac{1}{2\pi i}\int_{|z|=R}\sum_{k=0}^n a_k z^{k-m-1}\,dz
+	=
+	\sum_{k=0}^n a_k\left(\frac{1}{2\pi i}\int_{|z|=R} z^{k-m-1}\,dz\right).
+	\]
+	But
+	\[
+	\int_{|z|=R} z^{\ell}\,dz
+	=
+	\begin{cases}
+		2\pi i, & \ell=-1,\\
+		0, & \ell\neq -1,
+	\end{cases}
+	\]
+	so only the term \(k=m\) survives, giving
+	\[
+	\frac{1}{2\pi i}\int_{|z|=R}\frac{p(z)}{z^{m+1}}\,dz = a_m.
+	\]
+	This shows directly that integration around a circle ``filters'' out a single coefficient.
+	
+	
+\end{document}

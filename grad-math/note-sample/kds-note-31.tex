@@ -1,0 +1,491 @@
+% !TEX program = lualatex
+%==========================================================
+%  Lecture Notes (Professional, book-style)
+%  Topic: Eigenvectors and Diagonalization (with rotation example)
+%  Source basis: handwritten notes in 31.pdf (7 pages)
+%==========================================================
+
+\documentclass[11pt,oneside]{book}
+
+%-----------------------------%
+% Encoding / Typography
+%-----------------------------%
+\usepackage{iftex}
+\ifPDFTeX
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\else
+\usepackage{fontspec}
+\defaultfontfeatures{Ligatures=TeX}
+\setmainfont{Latin Modern Roman}
+\setsansfont{Latin Modern Sans}
+\setmonofont{Latin Modern Mono}
+\fi
+
+\usepackage{microtype}
+\usepackage{geometry}
+\geometry{margin=1.2in}
+
+%-----------------------------%
+% Math packages
+%-----------------------------%
+\usepackage{mathtools}
+\usepackage{amssymb, amsmath}
+\usepackage{amsthm}
+\usepackage{mathrsfs}
+\usepackage{bm}
+
+%-----------------------------%
+% Hyperref (book-ready)
+%-----------------------------%
+\usepackage[hidelinks]{hyperref}
+
+%-----------------------------%
+% Lists / styling
+%-----------------------------%
+\usepackage{enumitem}
+\setlist[itemize]{leftmargin=2.2em}
+\setlist[enumerate]{leftmargin=2.2em}
+
+%-----------------------------%
+% Theorem environments
+%-----------------------------%
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[chapter]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{exercise}[theorem]{Exercise}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{notation}[theorem]{Notation}
+
+%-----------------------------%
+% Custom macros (graduate-level symbolic style)
+%-----------------------------%
+\DeclareMathOperator{\End}{End}
+\DeclareMathOperator{\Hom}{Hom}
+\DeclareMathOperator{\GL}{GL}
+\DeclareMathOperator{\Mat}{Mat}
+\DeclareMathOperator{\im}{im}
+\DeclareMathOperator{\rank}{rank}
+\DeclareMathOperator{\tr}{tr}
+\DeclareMathOperator{\spec}{Spec}
+\DeclareMathOperator{\spn}{span}
+\DeclareMathOperator{\diag}{diag}
+
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\id}{\mathrm{id}}
+\newcommand{\into}{\hookrightarrow}
+\newcommand{\onto}{\twoheadrightarrow}
+\newcommand{\eps}{\varepsilon}
+
+\newcommand{\linop}[1]{\mathcal{L}\!\left(#1\right)}
+\newcommand{\restrict}[2]{{#1}\!\mid_{#2}}
+\newcommand{\angles}[1]{\left\langle #1\right\rangle}
+\newcommand{\abs}[1]{\left\lvert #1\right\rvert}
+\newcommand{\norm}[1]{\left\lVert #1\right\rVert}
+
+\newcommand{\sgn}{\mathrm{sgn}}
+
+%-----------------------------%
+% Title metadata
+%-----------------------------%
+\title{\textbf{Eigenvectors and Diagonalization}\\[0.4em]
+	\large Book-Style Lecture Notes}
+\author{}
+\date{}
+
+\begin{document}
+	\frontmatter
+	\maketitle
+	\tableofcontents
+	
+	\mainmatter
+	
+	%==========================================================
+	\chapter{Eigenvectors, invariant lines, and diagonalization}
+	%==========================================================
+	
+	\section{Linear operators and the ``choose a good basis'' principle}
+	
+	\begin{remark}[Structural motivation]
+		A linear operator \(T:V\to V\) may appear complicated in an arbitrary basis, but can become extremely transparent after a judicious change of basis.
+		The guiding principle is to find \(T\)-invariant subspaces that decompose \(V\) into simple pieces (ideally one-dimensional). This is the conceptual origin of diagonalization.
+	\end{remark}
+	
+	\begin{notation}
+		Throughout this chapter:
+		\begin{itemize}
+			\item \(\F\) denotes a field (typical cases: \(\R\) or \(\C\)).
+			\item \(V\) denotes a finite-dimensional \(\F\)-vector space.
+			\item \(T\in \End_{\F}(V)\) denotes a linear operator.
+		\end{itemize}
+	\end{notation}
+	
+	\section{Eigenvectors and eigenvalues}
+	
+	\begin{definition}[Eigenvector and eigenvalue]
+		Let \(T:V\to V\) be \(\F\)-linear. A nonzero vector \(u\in V\setminus\{0\}\) is an \emph{eigenvector} of \(T\) if there exists \(\lambda\in\F\) such that
+		\[
+		T(u)=\lambda u.
+		\]
+		The scalar \(\lambda\) is called the \emph{eigenvalue} associated to \(u\).
+	\end{definition}
+	% Source basis: definition stated in 31.pdf around the ``Def ... eigenvector ... eigenvalue'' lines:contentReference[oaicite:0]{index=0}.
+	
+	\begin{remark}[Invariant line viewpoint]
+		If \(u\neq 0\) and \(T(u)=\lambda u\), then the one-dimensional subspace \(L=\F u\) is \(T\)-stable:
+		\[
+		T(L)\subseteq L,\qquad T(cu)=cT(u)=c\lambda u=\lambda(cu)\quad(\forall c\in\F).
+		\]
+		Equivalently, the restriction \( \restrict{T}{\F u}:\F u\to \F u\) acts as scalar multiplication by \(\lambda\).
+	\end{remark}
+	% Source basis: restriction-map/scalar-multiplication remark appears in 31.pdf:contentReference[oaicite:1]{index=1}.
+	
+	\begin{definition}[Eigenspace]
+		For \(\lambda\in\F\), define the \emph{eigenspace}
+		\[
+		E_{\lambda}(T)\coloneqq \ker(T-\lambda \id_V)=\{v\in V: T(v)=\lambda v\}.
+		\]
+		If \(E_{\lambda}(T)\neq \{0\}\), then \(\lambda\) is an eigenvalue of \(T\). The set of eigenvalues is the \emph{spectrum} of \(T\), denoted \(\sigma(T)\subseteq \F\).
+	\end{definition}
+	
+	\begin{proposition}[Basic properties]
+		Let \(T\in \End_{\F}(V)\).
+		\begin{enumerate}[label=\textup{(\roman*)}]
+			\item Each \(E_{\lambda}(T)\) is a linear subspace of \(V\).
+			\item If \(\lambda\neq \mu\), then \(E_{\lambda}(T)\cap E_{\mu}(T)=\{0\}\).
+			\item Eigenvectors corresponding to distinct eigenvalues are linearly independent.
+		\end{enumerate}
+	\end{proposition}
+	
+	\begin{proof}
+		(i) is immediate since \(E_{\lambda}(T)=\ker(T-\lambda\id)\).
+		
+		(ii) If \(v\in E_{\lambda}(T)\cap E_{\mu}(T)\), then \(T(v)=\lambda v\) and \(T(v)=\mu v\), hence \((\lambda-\mu)v=0\). If \(\lambda\neq\mu\), then \(v=0\).
+		
+		(iii) Suppose \(v_1,\dots,v_k\) are eigenvectors with distinct eigenvalues \(\lambda_1,\dots,\lambda_k\). If \(\sum_{i=1}^k a_i v_i=0\), apply \(T\) and subtract \(\lambda_k\) times the original relation to eliminate \(v_k\); induct on \(k\).
+	\end{proof}
+	
+	\section{Diagonalization: operator-theoretic and matrix-theoretic formulations}
+	
+	\begin{definition}[Diagonalizable operator]
+		A linear operator \(T:V\to V\) is \emph{diagonalizable over \(\F\)} if there exists a basis \(\mathcal{B}\) of \(V\) such that the matrix \([T]_{\mathcal{B}}\) is diagonal.
+		Equivalently, \(T\) is diagonalizable if \(V\) admits a basis consisting of eigenvectors of \(T\).
+	\end{definition}
+	% Source basis: ``Def ... diagonalizable ... Equivalently ... basis of eigenvectors'' in 31.pdf:contentReference[oaicite:2]{index=2}.
+	
+	\begin{theorem}[Diagonalization criterion]
+		Let \(T\in \End_{\F}(V)\) with \(\dim_{\F}V=n\). The following are equivalent:
+		\begin{enumerate}[label=\textup{(\arabic*)}]
+			\item \(T\) is diagonalizable over \(\F\).
+			\item \(V\) decomposes as a direct sum of eigenspaces:
+			\[
+			V=\bigoplus_{\lambda\in\sigma(T)} E_{\lambda}(T).
+			\]
+			\item There exist eigenvalues \(\lambda_1,\dots,\lambda_r\) such that
+			\[
+			\sum_{i=1}^r \dim E_{\lambda_i}(T)=n.
+			\]
+		\end{enumerate}
+	\end{theorem}
+	
+	\begin{proof}
+		\((1)\Rightarrow (2)\): If \(T\) is diagonal in some basis, then \(V\) is spanned by eigenvectors and each basis vector lies in an eigenspace. Distinct diagonal entries correspond to distinct eigenspaces, and the direct sum is forced by the trivial intersection property.
+		
+		\((2)\Rightarrow (3)\): Taking dimensions yields \(n=\sum_{\lambda}\dim E_{\lambda}(T)\), and only finitely many summands are nonzero.
+		
+		\((3)\Rightarrow (1)\): Choose a basis for each \(E_{\lambda_i}(T)\) and concatenate them; by directness, this is a basis of \(V\), and the matrix is diagonal with diagonal entries the corresponding eigenvalues.
+	\end{proof}
+	
+	\subsection{Matrix version and similarity}
+	
+	Let \(A\in \Mat_n(\F)\). The associated linear map \(L_A:\F^n\to\F^n\) is given by \(L_A(x)=Ax\).
+	
+	\begin{definition}[Diagonalizable matrix]
+		A matrix \(A\in \Mat_n(\F)\) is \emph{diagonalizable over \(\F\)} if there exists \(P\in \GL_n(\F)\) and a diagonal matrix \(D\) such that
+		\[
+		P^{-1}AP=D.
+		\]
+	\end{definition}
+	% Source basis: similarity/diagonalization remarks in 31.pdf (matrix case):contentReference[oaicite:3]{index=3}.
+	
+	\begin{proposition}[Eigenbasis and similarity]
+		Let \(A\in\Mat_n(\F)\).
+		\begin{enumerate}[label=\textup{(\roman*)}]
+			\item If \(v_1,\dots,v_n\) is a basis of \(\F^n\) consisting of eigenvectors of \(A\), and \(P=[v_1\ \cdots\ v_n]\), then \(P\in\GL_n(\F)\) and \(P^{-1}AP\) is diagonal.
+			\item Conversely, if \(P^{-1}AP=D\) is diagonal, then the columns of \(P\) form an eigenbasis of \(A\) (with eigenvalues given by the diagonal entries of \(D\)).
+		\end{enumerate}
+	\end{proposition}
+	
+	\begin{proof}
+		(i) Since the columns form a basis, \(P\in\GL_n(\F)\). Moreover \(AP = [Av_1\ \cdots\ Av_n] = [\lambda_1 v_1\ \cdots\ \lambda_n v_n] = P\diag(\lambda_1,\dots,\lambda_n)\), hence \(P^{-1}AP\) is diagonal.
+		
+		(ii) Rewrite \(AP=PD\). Comparing columns yields \(Av_i = d_{ii} v_i\) for each column \(v_i\).
+	\end{proof}
+	
+	\section{Characteristic polynomial and spectral invariants}
+	
+	\begin{definition}[Characteristic polynomial]
+		For \(A\in\Mat_n(\F)\), the \emph{characteristic polynomial} of \(A\) is
+		\[
+		\chi_A(t)\coloneqq \det(A-tI_n)\in \F[t].
+		\]
+	\end{definition}
+	% Source basis: explicit definition appears in 31.pdf:contentReference[oaicite:4]{index=4}.
+	
+	\begin{proposition}[Eigenvalues are roots]
+		A scalar \(\lambda\in\F\) is an eigenvalue of \(A\) if and only if \(\chi_A(\lambda)=0\).
+	\end{proposition}
+	
+	\begin{proof}
+		\(\lambda\) is an eigenvalue \(\iff\exists v\neq 0\) with \((A-\lambda I)v=0\) \(\iff A-\lambda I\) is non-invertible \(\iff \det(A-\lambda I)=0\).
+	\end{proof}
+	
+	\begin{theorem}[Trace and determinant as coefficients]
+		Let \(A\in \Mat_n(\F)\). Then \(\chi_A(t)\) is monic of degree \(n\), and
+		\[
+		\chi_A(t)=(-1)^n t^n + (-1)^{n-1}(\tr A)\,t^{n-1}+\cdots + \det(A).
+		\]
+		Equivalently,
+		\[
+		\chi_A(t)=t^n-(\tr A)\,t^{n-1}+\cdots+(-1)^n\det(A),
+		\]
+		depending on the convention \(\det(tI-A)\) vs.\ \(\det(A-tI)\).
+	\end{theorem}
+	
+	\begin{proof}[Proof sketch (suitable for a first reading)]
+		Expand \(\det(A-tI)\) via permutations:
+		\[
+		\det(A-tI)=\sum_{\sigma\in S_n}\mathrm{sgn}(\sigma)\prod_{i=1}^n (a_{i,\sigma(i)}-t\delta_{i,\sigma(i)}).
+		\]
+		The coefficient of \(t^n\) arises only from the identity permutation and yields \((-1)^n t^n\).
+		The coefficient of \(t^{n-1}\) arises by choosing \(-t\) from exactly one diagonal factor and \(a_{j,\sigma(j)}\) from all others; only \(\sigma=\id\) contributes, giving \((-1)^{n-1}\sum_i a_{ii}=(-1)^{n-1}\tr(A)\).
+		The constant term is \(\det(A)\) (take no \(-t\) factors). A clean induction on \(n\) can be organized using Laplace expansion.
+	\end{proof}
+	
+	\begin{remark}[Diagonalizable case]
+		If \(A\) is diagonalizable over an algebraic closure \(\overline{\F}\), with eigenvalues (counted with algebraic multiplicity) \(\lambda_1,\dots,\lambda_n\in \overline{\F}\), then
+		\[
+		\chi_A(t)=\prod_{i=1}^n (\lambda_i - t),
+		\qquad
+		\tr(A)=\sum_{i=1}^n \lambda_i,
+		\qquad
+		\det(A)=\prod_{i=1}^n \lambda_i.
+		\]
+	\end{remark}
+	
+	%==========================================================
+	\chapter{A canonical example: rotation in the plane}
+	%==========================================================
+	
+	\section{The rotation matrix}
+	
+	Fix \(\theta\in\R\). Consider the linear operator on \(\R^2\) given in the standard basis by
+	\[
+	R_\theta
+	=
+	\begin{pmatrix}
+		\cos\theta & -\sin\theta\\
+		\sin\theta & \cos\theta
+	\end{pmatrix}.
+	\]
+	
+	\begin{proposition}[Characteristic polynomial of \(R_\theta\)]
+		Over any field containing \(\cos\theta\) and \(\sin\theta\), the characteristic polynomial of \(R_\theta\) is
+		\[
+		\chi_{R_\theta}(t)=\det(R_\theta-tI_2)=t^2-2(\cos\theta)\,t+1.
+		\]
+	\end{proposition}
+	% Source basis: computation alluded to in 31.pdf around det(...) and 2cos(...):contentReference[oaicite:5]{index=5}.
+	
+	\begin{proof}
+		Compute:
+		\[
+		\det\!\begin{pmatrix}
+			\cos\theta-t & -\sin\theta\\
+			\sin\theta & \cos\theta-t
+		\end{pmatrix}
+		=(\cos\theta-t)^2+\sin^2\theta
+		=t^2-2(\cos\theta)t+(\cos^2\theta+\sin^2\theta),
+		\]
+		and \(\cos^2\theta+\sin^2\theta=1\).
+	\end{proof}
+	
+	\begin{corollary}[Eigenvalues over \(\C\)]
+		Over \(\C\),
+		\[
+		\chi_{R_\theta}(t)=t^2-2(\cos\theta)t+1
+		=(t-e^{i\theta})(t-e^{-i\theta}),
+		\]
+		so the eigenvalues are \(e^{\pm i\theta}\).
+	\end{corollary}
+	% Source basis: notes mention two distinct roots over C and eigenvalues for rotation:contentReference[oaicite:6]{index=6}.
+	
+	\begin{proposition}[Non-diagonalizability over \(\R\) for genuine rotations]
+		Assume \(\theta\not\equiv 0,\pi \pmod{2\pi}\). Then \(R_\theta\) has no real eigenvectors, hence is not diagonalizable over \(\R\).
+	\end{proposition}
+	% Source basis: ``Case 1 F=R ... not diagonalizable'' in 31.pdf:contentReference[oaicite:7]{index=7}.
+	
+	\begin{proof}
+		A real eigenvalue \(\lambda\in\R\) would be a real root of \(\chi_{R_\theta}(t)=t^2-2(\cos\theta)t+1\).
+		But the discriminant is \(\Delta =4(\cos^2\theta-1)=-4\sin^2\theta<0\) when \(\sin\theta\neq 0\).
+		Hence there are no real roots and therefore no real eigenvectors.
+	\end{proof}
+	
+	\begin{proposition}[Diagonalization over \(\C\)]
+		Assume \(\theta\not\equiv 0,\pi\pmod{2\pi}\). Then \(R_\theta\) is diagonalizable over \(\C\), with diagonal form
+		\[
+		P^{-1}R_\theta P=\begin{pmatrix} e^{i\theta} & 0\\ 0 & e^{-i\theta}\end{pmatrix}
+		\quad\text{for a suitable }P\in\GL_2(\C).
+		\]
+	\end{proposition}
+	% Source basis: ``Case 2 F=C ... want ... diagonalizable ... depends on choice of F'':contentReference[oaicite:8]{index=8}:contentReference[oaicite:9]{index=9}.
+	
+	\begin{proof}
+		Over \(\C\), \(\chi_{R_\theta}\) splits with two distinct roots \(e^{\pm i\theta}\) (since \(\theta\not\equiv 0,\pi\)).
+		Distinct eigenvalues imply the existence of a basis of eigenvectors, hence diagonalizability.
+		
+		For concreteness, solve \((R_\theta-e^{i\theta}I)v=0\). One convenient eigenvector for \(e^{i\theta}\) is
+		\[
+		v_+=\begin{pmatrix}1\\ -i\end{pmatrix},
+		\qquad
+		\text{and for }e^{-i\theta}\text{ one may take }
+		v_-=\begin{pmatrix}1\\ i\end{pmatrix},
+		\]
+		which can be verified by direct multiplication using \(e^{\pm i\theta}=\cos\theta\pm i\sin\theta\).
+		Let \(P=[v_+\ v_-]\). Then \(P\in\GL_2(\C)\) and \(P^{-1}R_\theta P=\diag(e^{i\theta},e^{-i\theta})\).
+	\end{proof}
+	
+	\begin{remark}[Field-dependence of diagonalization]
+		Diagonalizability is not an intrinsic property of a matrix alone; it is a property of the pair \((A,\F)\).
+		The same \(A\) can fail to diagonalize over \(\R\) but diagonalize over \(\C\) (as with \(R_\theta\)).
+	\end{remark}
+	% Source basis: explicit comment that diagonalization depends on choice of field:contentReference[oaicite:10]{index=10}.
+	
+	%==========================================================
+	\chapter{Exercises (aligned with the handwritten sheet)}
+	%==========================================================
+	
+	\begin{exercise}[Trace/determinant from characteristic polynomial]
+		Let \(A\in \Mat_n(\F)\) and \(\chi_A(t)=\det(A-tI_n)\).
+		Show that:
+		\begin{enumerate}[label=\textup{(\alph*)}]
+			\item the constant term of \(\chi_A(t)\) equals \(\det(A)\);
+			\item the coefficient of \(t^{n-1}\) equals \((-1)^{n-1}\tr(A)\);
+			\item more generally, the coefficients are (up to sign) the elementary symmetric polynomials in the eigenvalues (over an algebraic closure).
+		\end{enumerate}
+	\end{exercise}
+	% Source basis: last page mentions an exercise about det(A) and "summation of diagonal entries" (trace):contentReference[oaicite:11]{index=11}.
+	
+	\begin{exercise}[Rotation: explicit eigenvectors over \(\C\)]
+		Let \(R_\theta\) be as above with \(\theta\not\equiv 0,\pi\pmod{2\pi}\).
+		\begin{enumerate}[label=\textup{(\alph*)}]
+			\item Compute \(\chi_{R_\theta}(t)\) and factor it over \(\C\).
+			\item Find eigenvectors \(v_\pm\in\C^2\) for eigenvalues \(e^{\pm i\theta}\).
+			\item Write down an explicit \(P\in\GL_2(\C)\) such that \(P^{-1}R_\theta P=\diag(e^{i\theta},e^{-i\theta})\).
+		\end{enumerate}
+	\end{exercise}
+	
+	\backmatter
+	
+	% Optional: index/bibliography scaffolding for book production
+	% \usepackage{makeidx}
+	% \makeindex
+	% \printindex
+	
+	\newpage
+	
+	\begin{definition}[Leibniz formula for the determinant]
+		Let $A=(a_{ij})\in \Mat_n(\F)$. The determinant of $A$ is
+		\[
+		\det(A)=\sum_{\sigma\in S_n}\sgn(\sigma)\prod_{i=1}^n a_{i,\sigma(i)},
+		\]
+		where $S_n$ is the symmetric group on $\{1,\dots,n\}$ and $\sgn(\sigma)\in\{\pm1\}$ is the sign of $\sigma$.
+	\end{definition}
+	
+	\begin{definition}[Sign via inversions]
+		For $\sigma\in S_n$, an \emph{inversion} is a pair $(i,j)$ with $1\le i<j\le n$ and $\sigma(i)>\sigma(j)$.
+		Let $\mathrm{inv}(\sigma)$ be the number of inversions. Then
+		\[
+		\sgn(\sigma)=(-1)^{\mathrm{inv}(\sigma)}.
+		\]
+	\end{definition}
+	
+	\begin{notation}[Principal submatrix]
+		Let $A=(a_{ij})\in \Mat_n(\F)$ and let $S\subseteq\{1,\dots,n\}$ with
+		$S=\{i_1<i_2<\cdots<i_k\}$.
+		We write $A[S,S]\in\Mat_k(\F)$ for the \emph{principal submatrix} obtained by
+		restricting to rows and columns indexed by $S$, i.e.
+		\[
+		\bigl(A[S,S]\bigr)_{pq}=a_{i_p,i_q}\qquad(1\le p,q\le k).
+		\]
+		The scalar $\det(A[S,S])$ is called a \emph{principal minor} of $A$.
+	\end{notation}
+	
+	
+	\begin{theorem}[Trace and determinant as coefficients; principal-minor formula]
+		Let $A=(a_{ij})\in \Mat_n(\F)$ and $\chi_A(t)\coloneqq \det(A-tI_n)\in \F[t]$.
+		Then
+		\[
+		\chi_A(t)=\sum_{k=0}^n (-1)^k\, e_k(A)\, t^k,
+		\qquad
+		e_k(A)=\sum_{\substack{S\subseteq \{1,\dots,n\}\\ |S|=n-k}} \det(A[S,S]),
+		\]
+		where $A[S,S]$ denotes the principal submatrix of $A$ indexed by $S$.
+		In particular, the constant term is $\det(A)$ and the coefficient of $t^{n-1}$ is $(-1)^{n-1}\tr(A)$.
+	\end{theorem}
+	
+	\begin{proof}
+		By the Leibniz formula,
+		\[
+		\det(A-tI)=\sum_{\sigma\in S_n}\sgn(\sigma)\prod_{i=1}^n\bigl(a_{i,\sigma(i)}-t\,\delta_{i,\sigma(i)}\bigr).
+		\]
+		Fix $\sigma\in S_n$ and let $F(\sigma)=\{i:\sigma(i)=i\}$ be its set of fixed points.
+		A factor $(-t)$ can be chosen from the $i$-th term only if $i\in F(\sigma)$; otherwise the factor is $a_{i,\sigma(i)}$.
+		Hence
+		\[
+		\prod_{i=1}^n\bigl(a_{i,\sigma(i)}-t\,\delta_{i,\sigma(i)}\bigr)
+		=\sum_{K\subseteq F(\sigma)} (-t)^{|K|}\prod_{i\notin K} a_{i,\sigma(i)}.
+		\]
+		Therefore
+		\[
+		\chi_A(t)=\sum_{\sigma\in S_n}\sgn(\sigma)\sum_{K\subseteq F(\sigma)} (-t)^{|K|}\prod_{i\notin K} a_{i,\sigma(i)}.
+		\]
+		Let $S=\{1,\dots,n\}\setminus K$. Then $|S|=n-|K|$, and the condition $K\subseteq F(\sigma)$ is equivalent to
+		$\sigma(i)=i$ for all $i\notin S$, i.e. $\sigma$ fixes $S^c$ and permutes $S$.
+		Reindexing yields
+		\[
+		\chi_A(t)=\sum_{k=0}^n (-t)^k
+		\sum_{\substack{S\subseteq \{1,\dots,n\}\\ |S|=n-k}}
+		\sum_{\substack{\sigma\in S_n\\ \sigma(i)=i\ \forall i\notin S}}
+		\sgn(\sigma)\prod_{i\in S} a_{i,\sigma(i)}.
+		\]
+		If $\sigma$ fixes $S^c$, then $\sigma$ is determined by its restriction $\tau=\sigma|_S\in \mathrm{Sym}(S)$ and
+		$\sgn(\sigma)=\sgn(\tau)$. Thus the inner sum is precisely the Leibniz formula for $\det(A[S,S])$:
+		\[
+		\sum_{\tau\in \mathrm{Sym}(S)} \sgn(\tau)\prod_{i\in S} a_{i,\tau(i)}=\det(A[S,S]).
+		\]
+		Hence
+		\[
+		\chi_A(t)=\sum_{k=0}^n (-t)^k
+		\sum_{\substack{S\subseteq \{1,\dots,n\}\\ |S|=n-k}} \det(A[S,S])
+		=\sum_{k=0}^n (-1)^k e_k(A)t^k.
+		\]
+		For $k=0$, the only set is $S=\{1,\dots,n\}$, giving the constant term $\det(A)$.
+		For $k=n-1$, the sets $S$ have size $1$, and $\det(A[\{i\},\{i\}])=a_{ii}$, so
+		$e_{n-1}(A)=\sum_i a_{ii}=\tr(A)$, and the coefficient of $t^{n-1}$ is $(-1)^{n-1}\tr(A)$.
+	\end{proof}
+
+
+	
+	
+\end{document}

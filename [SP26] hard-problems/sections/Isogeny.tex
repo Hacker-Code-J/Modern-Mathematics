@@ -1,0 +1,69 @@
+%\subsection*{5.1\ Elliptic curves and isogenies}
+%
+%\paragraph{Elliptic curve.}
+%Let $\mathbb{F}_q$ be a finite field. An elliptic curve $E/\mathbb{F}_q$ is a smooth projective
+%genus-one curve with a specified $\mathbb{F}_q$-rational point; equivalently (for $\mathrm{char}(\mathbb{F}_q)\neq 2,3$),
+%a nonsingular Weierstrass equation
+%\[
+%E: y^2 = x^3 + ax + b,\qquad a,b\in \mathbb{F}_q,
+%\]
+%with discriminant $\Delta\neq 0$.
+%
+%\paragraph{Isogeny.}
+%An isogeny $\varphi:E_1\to E_2$ of elliptic curves over $\mathbb{F}_q$ is a nonconstant morphism
+%defined over $\mathbb{F}_q$ that is also a group homomorphism on $\mathbb{F}_q$-rational points.
+%Its degree $\deg(\varphi)$ is its degree as a morphism; the kernel $\ker(\varphi)$ is a finite subgroup of $E_1$.
+%
+%\subsection*{5.2\ Isogeny path problem (informal canonical hardness)}
+%
+%\paragraph{Isogeny path problem (IPP).}
+%Fix a class of curves (e.g.\ supersingular elliptic curves over $\mathbb{F}_{p^2}$) and a small prime $\ell$.
+%Given elliptic curves $E_0,E_1$ in the same isogeny class, find an explicit isogeny
+%\[
+%\varphi:E_0\to E_1
+%\]
+%that decomposes as a composition of $\ell$-isogenies, i.e.\ $\deg(\varphi)=\ell^r$ for some $r$,
+%and output a representation sufficient to evaluate $\varphi$ (e.g.\ the sequence of intermediate curves / kernels).
+%
+%\subsection*{5.3\ Supersingular Isogeny (computational) problem}
+%
+%\paragraph{Supersingular isogeny problem (one common formulation).}
+%Let $p$ be prime and work over $\mathbb{F}_{p^2}$.
+%Given two supersingular elliptic curves $E,E'$ over $\mathbb{F}_{p^2}$,
+%find an isogeny $\varphi:E\to E'$ of prescribed smooth degree (often $\ell^r$ for small $\ell$),
+%represented so that $\varphi$ can be evaluated.
+%
+%\paragraph{Decision variants.}
+%Distinguish whether two given supersingular curves are connected by an isogeny of degree $\ell^r$,
+%or distinguish distributions induced by random walks in the isogeny graph.
+%
+
+
+\paragraph{Elliptic curve over a finite field.}
+Over $\mathbb{F}_q$ (characteristic $\neq 2,3$), an elliptic curve can be given by
+\[
+E: y^2 = x^3 + ax + b,\quad a,b\in\mathbb{F}_q,\quad \Delta\neq 0,
+\]
+and $E(\mathbb{F}_q)$ is a finite abelian group.
+
+\paragraph{Isogeny.}
+An isogeny $\varphi:E_1\to E_2$ over $\mathbb{F}_q$ is a nonconstant morphism defined over $\mathbb{F}_q$
+that is also a group homomorphism. Its kernel is finite; $\deg(\varphi)$ is its morphism degree.
+
+\paragraph{Supersingular Isogeny Problem (one common search form).}
+Work over $\mathbb{F}_{p^2}$. Given supersingular elliptic curves $E,E'/\mathbb{F}_{p^2}$,
+find an explicit isogeny
+\[
+\varphi:E\to E'
+\]
+of prescribed smooth degree (often $\ell^r$ for small prime $\ell$), represented so $\varphi$ is evaluable.
+
+\paragraph{Standard attacks (classical).}
+\begin{itemize}\setlength\itemsep{0.2em}
+	\item \textbf{Isogeny-graph path search}: treat curves as vertices, $\ell$-isogenies as edges.
+	\item \textbf{Meet-in-the-middle} / bidirectional search to find paths faster than naive random walk.
+	\item \textbf{Protocol-specific cryptanalysis}: some isogeny protocols have been broken (do not assume all are secure).
+\end{itemize}
+
+\paragraph{Quantum note.}
+Known quantum algorithms can improve generic path-finding exponents in isogeny graphs; no known general polynomial-time algorithm.

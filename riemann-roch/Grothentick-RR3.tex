@@ -1,0 +1,242 @@
+% !TEX TS-program = pdflatex
+\documentclass[11pt]{article}
+
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{mathtools}
+\usepackage{tikz-cd}
+\usepackage{graphicx}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{microtype}
+\usepackage{enumitem}
+\usepackage{hyperref}
+
+\hypersetup{
+	colorlinks=true,
+	linkcolor=blue,
+	urlcolor=blue,
+	citecolor=blue
+}
+
+\title{Reading Grothendieck's ``Riemann--Roch'' Doodle\\(Algebraic Geometry Notes)}
+\author{}
+\date{}
+
+\begin{document}
+	\maketitle
+	
+	\begin{figure}[ht]
+		\centering
+		% Put Grothentick-RR.webp next to this .tex file (or convert to PNG/PDF if your LaTeX can't include webp).
+%		\includegraphics[width=\linewidth]{Grothentick-RR.webp}
+		\caption{Grothendieck's doodle (scan/photo).}
+	\end{figure}
+	
+	\tableofcontents
+	\bigskip
+	
+	\section{What the doodle is about}
+	Grothendieck is gesturing at the \emph{Grothendieck--Riemann--Roch theorem (GRR)}:
+	a compatibility between
+	\begin{itemize}[itemsep=2pt]
+		\item pushforward in \emph{$K$-theory of coherent sheaves}, and
+		\item pushforward in \emph{intersection theory} (Chow groups / cycles),
+	\end{itemize}
+	after applying a universal ``bridge'' built from the \emph{Chern character} and the
+	\emph{Todd class}. The joke ``the latest craze: the diagram'' is that the correct statement
+	is best expressed as a \emph{commuting square}, and setting up the frameworks in full generality
+	is genuinely lengthy.
+	
+	\section{Geometric setting and hypotheses}
+	
+	\subsection{The morphism}
+	Let $f\colon X\to Y$ be a morphism of schemes (or varieties) of finite type over a field.
+	
+	\subsection{Properness}
+	Assume $f$ is \emph{proper}. This is the condition ensuring that pushforward of coherent sheaves
+	preserves coherence and that Euler characteristics behave well. Properness is also the hypothesis
+	under which Chow groups admit a natural pushforward.
+	
+	\subsection{Smoothness (recommended for a first pass)}
+	For the cleanest first statement, assume $X$ and $Y$ are \emph{smooth} quasi-projective varieties
+	(or smooth schemes of finite type). Smoothness ensures:
+	\begin{itemize}[itemsep=2pt]
+		\item the tangent bundles $T_X$ and $T_Y$ exist as vector bundles,
+		\item Chern classes and Todd classes are straightforward to define, and
+		\item $K$-theory of vector bundles and $K$-theory of coherent sheaves agree (see below).
+	\end{itemize}
+	
+	\section{The two worlds GRR connects}
+	
+	\subsection{$K$-theory of coherent sheaves: $G_0$ and $K_0$}
+	
+	\paragraph{Two Grothendieck groups.}
+	There are two closely related Grothendieck groups:
+	\begin{itemize}[itemsep=2pt]
+		\item $K_0(X)$: the Grothendieck group of \emph{vector bundles} (locally free sheaves) on $X$.
+		\item $G_0(X)$: the Grothendieck group of \emph{coherent sheaves} on $X$.
+	\end{itemize}
+	
+	\paragraph{Smooth case identification.}
+	If $X$ is smooth (regular), every coherent sheaf admits a finite locally free resolution, and one has
+	a canonical isomorphism $K_0(X)\cong G_0(X)$.
+	
+	\paragraph{Proper pushforward on $G_0$.}
+	If $f\colon X\to Y$ is proper, there is a natural pushforward
+	\[
+	f_*\colon G_0(X)\to G_0(Y),\qquad
+	[\mathcal{F}] \longmapsto \sum_{i\ge 0}(-1)^i\,[R^i f_*\mathcal{F}].
+	\]
+	This is the algebraic-geometric meaning of the doodle's upper horizontal arrow (often written $f_*$,
+	and sometimes $f_!$ in ``wrong-way'' notation).
+	
+	\subsection{Chow groups and pushforward}
+	
+	\paragraph{Chow groups.}
+	Let $A_k(X)$ denote the Chow group of $k$-dimensional cycles modulo rational equivalence, and set
+	\[
+	A_*(X) := \bigoplus_k A_k(X).
+	\]
+	Because GRR involves denominators (from Chern character and Todd class), we typically work with
+	\[
+	A_*(X)_{\mathbb{Q}} := A_*(X)\otimes_{\mathbb{Z}}\mathbb{Q}.
+	\]
+	
+	\paragraph{Proper pushforward on Chow groups.}
+	If $f$ is proper, there is a pushforward
+	\[
+	f_*\colon A_*(X)\to A_*(Y),
+	\]
+	defined on integral cycles by mapping a subvariety $V\subset X$ to
+	$\deg(V/V')\cdot [V']$ if $f(V)=V'\subset Y$ and $\dim V'=\dim V$, and to $0$ otherwise.
+	This is the lower horizontal arrow in the modern diagrammatic statement of GRR.
+	
+	\section{The bridge: Chern character and Todd class}
+	
+	\subsection{Chern character}
+	When $X$ is smooth, the Chern character is a ring homomorphism
+	\[
+	\mathrm{ch}\colon K_0(X)\to A^*(X)_{\mathbb{Q}},
+	\]
+	where $A^*(X)$ is the Chow ring (codimension grading). It is additive on short exact sequences and
+	multiplicative on tensor products. Concretely, if $E$ has Chern roots $x_i$, then
+	\[
+	\mathrm{ch}(E)=\sum_i e^{x_i}.
+	\]
+	
+	\subsection{Todd class}
+	For a vector bundle $E$ on $X$, the Todd class $\mathrm{Td}(E)\in A^*(X)_{\mathbb{Q}}$ is the multiplicative
+	characteristic class defined (in terms of Chern roots $x_i$) by
+	\[
+	\mathrm{Td}(E)=\prod_i \frac{x_i}{1-e^{-x_i}}.
+	\]
+	For a smooth $X$, we write $\mathrm{Td}(T_X)$ for the Todd class of the tangent bundle.
+	
+	\section{Grothendieck--Riemann--Roch (GRR)}
+	
+	\subsection{The commuting-square formulation (smooth case)}
+	Let $f\colon X\to Y$ be proper and assume $X$ and $Y$ are smooth. Define the ``Riemann--Roch transformation''
+	\[
+	\tau_X\colon K_0(X)\to A_*(X)_{\mathbb{Q}},\qquad
+	\tau_X(\alpha):=\mathrm{ch}(\alpha)\cdot \mathrm{Td}(T_X)\cap [X],
+	\]
+	and similarly $\tau_Y$.
+	
+	\paragraph{The theorem (diagram form).}
+	Then the following square commutes:
+	\[
+	\begin{tikzcd}[row sep=3.2em, column sep=4.4em]
+		K_0(X) \arrow[r,"f_*"] \arrow[d,"\tau_X"'] &
+		K_0(Y) \arrow[d,"\tau_Y"] \\
+		A_*(X)_{\mathbb{Q}} \arrow[r,"f_*"'] &
+		A_*(Y)_{\mathbb{Q}}
+	\end{tikzcd}
+	\]
+	In words: translating a $K$-class to a cycle class via $\tau$ and then pushing forward
+	equals pushing forward in $K$-theory first and translating afterwards.
+	
+	\subsection{Expanded identity}
+	Equivalently, for every $\alpha\in K_0(X)$,
+	\[
+	\mathrm{ch}(f_*\alpha)\,\mathrm{Td}(T_Y)\cap [Y]
+	\;=\;
+	f_*\!\left(\mathrm{ch}(\alpha)\,\mathrm{Td}(T_X)\cap [X]\right).
+	\]
+	
+	\subsection{A relative variant (optional)}
+	One often rewrites GRR using the \emph{relative Todd class}
+	\[
+	\mathrm{Td}(T_f):=\frac{\mathrm{Td}(T_X)}{f^*\mathrm{Td}(T_Y)}\in A^*(X)_{\mathbb{Q}},
+	\]
+	so that
+	\[
+	\mathrm{ch}(f_*\alpha)
+	=
+	f_*\!\left(\mathrm{ch}(\alpha)\,\mathrm{Td}(T_f)\cap [X]\right)
+	\qquad\text{(after identifying targets appropriately).}
+	\]
+	This is a convenient form when comparing to classical statements.
+	
+	\section{How GRR recovers classical Riemann--Roch}
+	
+	\subsection{Curves}
+	Let $X$ be a smooth projective curve and let $f\colon X\to \mathrm{Spec}(k)$ be the structure morphism.
+	For a line bundle $\mathcal{L}$, the pushforward $f_*[\mathcal{L}]$ in $K_0(k)\cong \mathbb{Z}$
+	computes the Euler characteristic:
+	\[
+	f_*[\mathcal{L}] = \chi(X,\mathcal{L}) := \sum_i (-1)^i \dim_k H^i(X,\mathcal{L}).
+	\]
+	GRR expresses $\chi(X,\mathcal{L})$ as an intersection-theoretic number built from
+	$\mathrm{ch}(\mathcal{L})$ and $\mathrm{Td}(T_X)$; evaluating gives
+	\[
+	\chi(X,\mathcal{L})=\deg(\mathcal{L}) + 1-g,
+	\]
+	the classical Riemann--Roch theorem for curves.
+	
+	\section{Mapping the doodle's symbols to modern notation}
+	Grothendieck's doodle uses historically flavored notation (and some intentionally informal shorthand).
+	A modern algebraic-geometry decoding is:
+	\begin{itemize}[itemsep=4pt]
+		\item $K'(X)$: read as $G_0(X)$ (coherent $K$-theory), or as $K_0(X)$ when $X$ is smooth.
+		\item ``$\mathrm{Gr}$'': a hint that $K$-theory has natural filtrations (e.g.\ by codimension)
+		whose associated graded relates to cycle groups; morally: ``linearize to Chow.''
+		\item $\tau$: the Riemann--Roch natural transformation
+		$\alpha\mapsto \mathrm{ch}(\alpha)\mathrm{Td}(T_X)\cap[X]$.
+		\item $\mathrm{ch}$: the Chern character, explicitly present in the doodle.
+		\item Tensoring with $\mathbb{Q}$: needed because $\mathrm{ch}$ and $\mathrm{Td}$ introduce denominators.
+	\end{itemize}
+	Thus, the punchline ``i.e.\ commutative!'' is precisely the GRR commuting square.
+	
+	\section{A minimal prerequisite roadmap}
+	If you want to understand GRR efficiently, a good order is:
+	\begin{enumerate}[itemsep=4pt]
+		\item Coherent sheaves and derived pushforward $R f_*$.
+		\item Grothendieck groups $G_0(X)$, $K_0(X)$; exact sequence relations.
+		\item Chow groups $A_*(X)$ and proper pushforward of cycles.
+		\item Chern classes; then Chern character $\mathrm{ch}$.
+		\item Todd class $\mathrm{Td}$ and why rational coefficients appear.
+		\item Statement and meaning of GRR; then compute special cases (curves, surfaces).
+	\end{enumerate}
+	
+	\section{Mental model: why the theorem \emph{must} be a diagram}
+	$K$-theory is the natural home for exact sequences and derived functors (like $R f_*$).
+	Chow groups are the natural home for intersection products and characteristic classes.
+	GRR says that, after translating $K$-classes to cycle classes via $\mathrm{ch}$ and $\mathrm{Td}$,
+	pushforward becomes compatible:
+	\[
+	\tau_Y\circ f_* \;=\; f_* \circ \tau_X.
+	\]
+	In other words: the correct formulation is, inevitably, a commuting diagram.
+	
+	\section*{Optional appendix: a clean ``modern diagram'' block (copy-paste)}
+%	\[
+%	\begin{tikzcd}[row sep=3.2em, column sep=4.4em]
+%		K_0(X) \arrow[r,"f_*"] \arrow[d,"\alpha \mapsto \mathrm{ch}(\alpha)\mathrm{Td}(T_X)\cap[X]"'] &
+%		K_0(Y) \arrow[d,"\beta \mapsto \mathrm{ch}(\beta)\mathrm{Td}(T_Y)\cap[Y]"] \\
+%		A_*(X)_{\mathbb{Q}} \arrow[r,"f_*"'] &
+%		A_*(Y)_{\mathbb{Q}}
+%	\end{tikzcd}
+%	\]
+	
+\end{document}

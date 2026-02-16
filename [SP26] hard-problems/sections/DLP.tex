@@ -1,0 +1,44 @@
+%\paragraph{Setting.}
+%Let $G$ be a finite cyclic group written multiplicatively, with generator $g\in G$.
+%Let $|G|=n$.
+%
+%\paragraph{Search problem (Discrete logarithm).}
+%Given $g$ and $h\in \langle g\rangle = G$, find an integer $x\in \mathbb{Z}_n$ such that
+%\[
+%g^{x} = h.
+%\]
+%Any such $x$ is unique modulo $n$ and is denoted $\log_g(h)$.
+%
+%\paragraph{Computational DLP.}
+%The above search problem; often instantiated in $G=\mathbb{F}_p^\times$ or an elliptic-curve group.
+%
+%\paragraph{Hardness assumption.}
+%For a family of groups $\{G_\lambda\}$ indexed by security parameter $\lambda$,
+%no PPT algorithm solves DLP in $G_\lambda$ with non-negligible probability over random
+%$g$ (generator) and random $x\leftarrow \mathbb{Z}_{|G_\lambda|}$, where $h=g^x$.
+
+\paragraph{Setting.}
+Let $G$ be a finite cyclic group (written multiplicatively) of order $n$, with generator $g\in G$.
+
+\paragraph{Search DLP.}
+Given $g$ and $h\in G$, find $x\in \mathbb{Z}_n$ such that
+\[
+g^x = h.
+\]
+The solution is unique modulo $n$ and is denoted $x=\log_g(h)$.
+
+\paragraph{Hardness assumption.}
+For a family $\{G_\lambda\}$, no PPT algorithm recovers $x$ from $(g,h=g^x)$
+with non-negligible probability over random $g$ (generator) and random $x$.
+
+\paragraph{Standard attacks (classical).}
+\begin{itemize}\setlength\itemsep{0.2em}
+	\item \textbf{Generic attacks} (all groups): baby-step/giant-step; Pollard $\rho$ in $\tilde O(\sqrt{n})$ time.
+	\item \textbf{Pohlig--Hellman}: reduces DLP to prime-power factors of $n$; devastating if $n$ is smooth.
+	\item \textbf{Index calculus} (finite fields): subexponential; includes \textbf{NFS-DL} variants.
+	\item \textbf{Special-curve pitfalls} (elliptic curves): MOV/Frey--R\"uck reductions for pairing-friendly/special curves.
+	\item \textbf{Side-channel/implementation}: timing, power, fault attacks against exponentiation/scalar multiplication.
+\end{itemize}
+
+\paragraph{Quantum attack.}
+\textbf{Shor's algorithm} solves DLP in abelian groups in polynomial time (in $\log n$).

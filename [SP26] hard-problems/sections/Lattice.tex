@@ -1,0 +1,109 @@
+%\subsection*{3.1\ Lattices}
+%
+%\paragraph{Definition (lattice).}
+%A (full-rank) lattice $\mathcal{L}\subset \mathbb{R}^n$ is a discrete additive subgroup of $\mathbb{R}^n$.
+%Equivalently, given linearly independent vectors $b_1,\dots,b_n\in \mathbb{R}^n$, the set
+%\[
+%\mathcal{L}(B)=\left\{ \sum_{i=1}^n z_i b_i \ :\ z_i\in \mathbb{Z} \right\}
+%\]
+%is a lattice; $B=[b_1|\cdots|b_n]$ is a basis of $\mathcal{L}$.
+%The \emph{determinant} is $\det(\mathcal{L}) = |\det(B)|$ (basis-independent).
+%
+%\paragraph{Norm.}
+%Typically $\|\cdot\|$ denotes the Euclidean norm $\|\cdot\|_2$, unless otherwise stated.
+%
+%\subsection*{3.2\ Shortest Vector Problem (SVP)}
+%
+%\paragraph{Search SVP.}
+%Given a basis $B$ of a lattice $\mathcal{L}=\mathcal{L}(B)$, find a nonzero vector
+%$v\in \mathcal{L}\setminus\{0\}$ minimizing $\|v\|$, i.e.
+%\[
+%\|v\| = \lambda_1(\mathcal{L}) \;:=\; \min\{\|x\|: x\in \mathcal{L}\setminus\{0\}\}.
+%\]
+%
+%\paragraph{Approximate SVP ($\gamma$-SVP).}
+%Given $B$ and an approximation factor $\gamma=\gamma(n)\ge 1$, output
+%$v\in \mathcal{L}\setminus\{0\}$ such that
+%\[
+%\|v\|\le \gamma\cdot \lambda_1(\mathcal{L}).
+%\]
+%
+%\subsection*{3.3\ Closest Vector Problem (CVP)}
+%
+%\paragraph{Search CVP.}
+%Given a basis $B$ of $\mathcal{L}=\mathcal{L}(B)$ and a target $t\in \mathbb{R}^n$,
+%find $v\in \mathcal{L}$ minimizing $\|t-v\|$, i.e.
+%\[
+%\|t-v\| = \mathrm{dist}(t,\mathcal{L}) \;:=\; \min\{\|t-x\|: x\in \mathcal{L}\}.
+%\]
+%
+%\paragraph{Approximate CVP ($\gamma$-CVP).}
+%Output $v\in\mathcal{L}$ with $\|t-v\|\le \gamma\cdot \mathrm{dist}(t,\mathcal{L})$.
+%
+%\subsection*{3.4\ Learning With Errors (LWE) (cryptographic canonical lattice problem)}
+%
+%\paragraph{Decision LWE.}
+%Fix parameters $n\in\mathbb{N}$, modulus $q\ge 2$, and an error distribution $\chi$ over $\mathbb{Z}_q$.
+%Given $m$ samples $(a_i,b_i)\in \mathbb{Z}_q^n\times \mathbb{Z}_q$, distinguish between:
+%\begin{align*}
+%	\text{(LWE)}\quad & a_i \xleftarrow{\$} \mathbb{Z}_q^n,\;\; s \xleftarrow{\$} \mathbb{Z}_q^n,\;\;
+%	e_i \xleftarrow{\$}\chi,\;\; b_i = \langle a_i,s\rangle + e_i \pmod q;\\
+%	\text{(Uniform)}\quad & (a_i,b_i) \xleftarrow{\$} \mathbb{Z}_q^n\times \mathbb{Z}_q,
+%\end{align*}
+%where $\langle\cdot,\cdot\rangle$ is the standard inner product modulo $q$.
+%The \emph{search} version asks to recover $s$ from LWE samples.
+
+
+\subsection*{3.1 Lattices}
+
+\paragraph{Definition (lattice).}
+A full-rank lattice $\mathcal{L}\subset \mathbb{R}^n$ is a discrete subgroup:
+given linearly independent $b_1,\dots,b_n\in\mathbb{R}^n$,
+\[
+\mathcal{L}=\mathcal{L}(B)=\left\{\sum_{i=1}^n z_i b_i : z_i\in\mathbb{Z}\right\},\quad
+B=[b_1|\cdots|b_n].
+\]
+Define the first successive minimum
+\[
+\lambda_1(\mathcal{L})=\min\{\|v\|_2: v\in \mathcal{L}\setminus\{0\}\}.
+\]
+
+\subsection*{3.2 SVP and CVP}
+
+\paragraph{SVP (Shortest Vector Problem).}
+Given a basis $B$ of $\mathcal{L}$, find $v\in\mathcal{L}\setminus\{0\}$ such that $\|v\|_2=\lambda_1(\mathcal{L})$.
+
+\paragraph{$\gamma$-SVP (Approximate SVP).}
+Given $B$ and $\gamma\ge 1$, find $v\in\mathcal{L}\setminus\{0\}$ with
+\[
+\|v\|_2 \le \gamma\cdot \lambda_1(\mathcal{L}).
+\]
+
+\paragraph{CVP (Closest Vector Problem).}
+Given $B$ and a target $t\in\mathbb{R}^n$, find $v\in\mathcal{L}$ minimizing $\|t-v\|_2$.
+
+\subsection*{3.3 LWE (Learning With Errors)}
+
+\paragraph{Decision-LWE.}
+Fix $n,q\ge 2$ and an error distribution $\chi$ over $\mathbb{Z}_q$.
+Given $m$ samples $(a_i,b_i)\in \mathbb{Z}_q^n\times\mathbb{Z}_q$, distinguish:
+\begin{align*}
+	\text{(LWE)}\quad & a_i \xleftarrow{\$} \mathbb{Z}_q^n,\; s \xleftarrow{\$} \mathbb{Z}_q^n,\;
+	e_i\xleftarrow{\$}\chi,\; b_i=\langle a_i,s\rangle+e_i \pmod q;\\
+	\text{(Uniform)}\quad & (a_i,b_i)\xleftarrow{\$}\mathbb{Z}_q^n\times\mathbb{Z}_q.
+\end{align*}
+The \emph{search} version asks to recover $s$.
+
+\paragraph{Standard attacks (classical).}
+\begin{itemize}\setlength\itemsep{0.2em}
+	\item \textbf{LLL/BKZ reduction} as the main engine (produces short/near-short vectors).
+	\item \textbf{Primal attacks} (embedding to SVP/CVP) + enumeration/sieving.
+	\item \textbf{Dual attacks} (find short dual vectors to distinguish LWE from uniform).
+	\item \textbf{Hybrid attacks} (guess part of secret + lattice reduction).
+	\item \textbf{BKW / combinatorial} attacks (parameter-dependent).
+	\item \textbf{Algebraic attacks} in certain regimes (e.g.\ over-defined systems).
+\end{itemize}
+
+\paragraph{Quantum note.}
+No known Shor-like polynomial-time algorithm for general lattice problems; quantum speedups mainly
+affect search/sieving constants/exponents.
