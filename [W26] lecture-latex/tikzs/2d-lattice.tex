@@ -1,0 +1,44 @@
+\documentclass[tikz,border=5pt]{standalone}
+\usepackage{amssymb,amsmath}
+\usepackage{tikz}
+\usepackage{lmodern}
+\usetikzlibrary{calc}
+
+\begin{document}
+\begin{tikzpicture}[scale=0.9]
+	
+	% 1) draw a border box
+	\draw[thick] (-7,-6) rectangle (7,6);
+	
+	% 2) draw x- and y-axes
+	\draw[->, thick] (-6.5,0) -- (6.5,0);
+	\draw[->, thick] (0,-5.5) -- (0,5.5);
+	
+	% 3) choose two basis vectors b1 and b2
+	\coordinate (b1) at (2.5,0.2);
+	\coordinate (b2) at (0.3,2.3);
+	
+	% 4) draw lattice points i*b1 + j*b2
+	% (small range so it stays simple)
+	\foreach \i in {-2,-1,0,1,2}{
+		\foreach \j in {-2,-1,0,1,2}{
+			\fill ({\i*2.5+\j*0.3},{\i*0.2+\j*2.3}) circle (1.2pt);
+		}
+	}
+	
+	% 5) draw the basis vectors as arrows from the origin
+	\draw[->,thick] (0,0) -- (b1);
+	\draw[->,thick] (0,0) -- (b2);
+	
+	% 6) label the vectors
+	\node[blue!70!black, font=\large] at ($(b1)+(0.5,0)$) {$b_1$};
+	\node[blue!70!black, font=\large] at ($(b2)+(0,0.3)$) {$b_2$};
+	
+	% 7) write the formula under the picture
+	\node at (0,-7)
+	{$\mathcal{L}(b_1,b_2)=\left\{\sum x_i b_i : x_i\in\mathbb{Z}\right\}$};
+	
+\end{tikzpicture}
+
+
+\end{document}

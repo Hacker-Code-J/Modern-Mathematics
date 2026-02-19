@@ -553,35 +553,63 @@ Let $A=\begin{bmatrix} a&b\\ c&d \end{bmatrix}\in\Mat_{2}(\F)$. Then
 \end{observation}
 
 \newpage
-\begin{remark}
-	Over an algebraic closure, if $\lambda_1,\lambda_2,\lambda_3$ are the eigenvalues of $A$ (with algebraic multiplicity), then
-	\begin{align*}
-		\chi_A(\lambda)&=-(\lambda-\lambda_1)(\lambda-\lambda_2)(\lambda-\lambda_3) \\
-		&=-(\lambda^2-\lambda(\lambda_1+\lambda_2)+\lambda_1\lambda_2)(\lambda-\lambda_3) \\
-		&=-(\lambda^3-\lambda^2(\lambda_1+\lambda_2+\lambda_3)+\lambda(\lambda_1\lambda_2+\lambda_2\lambda_3+\lambda_3\lambda_1)+\lambda_1\lambda_2\lambda_3)
-	\end{align*}
-	so $\tr(A)=\lambda_1+\lambda_2+\lambda_3$ and $\det(A)=\lambda_1\lambda_2\lambda_3$.
-\end{remark}
+%\begin{remark}
+%	Over an algebraic closure, if $\lambda_1,\lambda_2,\lambda_3$ are the eigenvalues of $A$ (with algebraic multiplicity), then
+%	\begin{align*}
+%		\chi_A(\lambda)&=-(\lambda-\lambda_1)(\lambda-\lambda_2)(\lambda-\lambda_3) \\
+%		&=-(\lambda^2-\lambda(\lambda_1+\lambda_2)+\lambda_1\lambda_2)(\lambda-\lambda_3) \\
+%		&=-(\lambda^3-\lambda^2(\lambda_1+\lambda_2+\lambda_3)+\lambda(\lambda_1\lambda_2+\lambda_2\lambda_3+\lambda_3\lambda_1)+\lambda_1\lambda_2\lambda_3)
+%	\end{align*}
+%	so $\tr(A)=\lambda_1+\lambda_2+\lambda_3$ and $\det(A)=\lambda_1\lambda_2\lambda_3$.
+%\end{remark}
+\begin{note}[Principal minors]
+A principal minor of a square matrix is the determinant of a principal submatrix, which is formed by selecting the same set of indices for both rows and columns.
+
+Let $A=(a_{ij})\in\Mat_{n}(\F)$ and $\set{i_1<i_2<\cdots<i_\ell}\subset\set{1,\dots,n}$. For each $\ell=1,\dots,n$, we define \[
+E_\ell(A):=\sum_{1\leq i_1<\cdots<i_k\leq n}\det\begin{bmatrix}
+	a_{i_1,i_1} & a_{i_1,i_2} & \cdots & a_{i_1,i_k} \\
+	a_{i_2,i_1} & a_{i_2,i_2} & \cdots & a_{i_2,i_k} \\
+	\vdots & \vdots & \ddots & \vdots \\
+	a_{i_k,i_1} & a_{i_k,i_2} & \cdots & a_{i_k,i_k}
+\end{bmatrix},
+\] so
+\begin{align*}
+	E_1(A)&:=\sum_{i=1}^n\det\begin{bmatrix}
+		a_{ii}
+	\end{bmatrix}=\sum_{i=1}^n\; a_{ii}=\tr(A),\\
+	E_2(A)&:=\sum_{1\leq i<j\leq n}\det\begin{bmatrix}
+		a_{ii} & a_{ij} \\ a_{ji} & a_{jj}
+	\end{bmatrix}, \\
+E_3(A)&:=\sum_{1\leq i<j<k\leq n}\det\begin{bmatrix}
+a_{ii} & a_{ij} & a_{ik} \\ 
+a_{ji} & a_{jj} & a_{jk} \\
+a_{ki} & a_{kj} & a_{kk}
+\end{bmatrix},\\
+	&\cdots, \\
+	E_n(A)&:=\det(A).
+\end{align*}
+\end{note}
 
 \thmbox[Characteristic polynomial: Trace and Determinant as coefficients]{
 \begin{theorem}
-Let $A\in\Mat_n(\F)$. Define the characteristic polynomial \[
-\chi_A(\lambda)\coloneqq \det(A-\lambda I_n)\in \F[\lambda].
+Let $A=(a_{ij})\in\Mat_n(\F)$. Define the characteristic polynomial \[
+\chi_A(\lambda)\coloneqq \det(A-\lambda I_n)=\sum_{i=0}^{n}c_i\lambda^i\in \F[\lambda].
 \]
-Then $\chi_A(\lambda)$ is a polynomial of degree $n$ and can be written uniquely as
+Then $\chi_A(\lambda)$ is 
 \[
-\chi_A(\lambda)=\sum_{i=0}^{n}c_i\lambda^i=c_n \lambda^n+c_{n-1}\lambda^{n-1}+\cdots+c_1 \lambda+c_0.
+\chi_A(\lambda)=(-1)^n\left(\lambda^n-E_1(A)\lambda^{n-1}+E_2(A)\lambda^{n-2}-\cdots+(-1)^nE_n(A)\right).
 \]
-The coefficients satisfy:
-\begin{enumerate}
-	\item $c_n=(-1)^n$.
-	\item $c_{n-1}=(-1)^{n-1}\tr(A)$.
-	\item $c_0=\det(A)$.
-\end{enumerate}
-Equivalently,
-\[
-\chi_A(\lambda)=(-1)^n \lambda^n+(-1)^{n-1}(\tr A)\,\lambda^{n-1}+\cdots+\det(A).
-\]
+
+%The coefficients satisfy:
+%\begin{enumerate}
+%	\item $c_n=(-1)^n$.
+%	\item $c_{n-1}=(-1)^{n-1}\tr(A)$.
+%	\item $c_0=\det(A)$.
+%\end{enumerate}
+%Equivalently,
+%\[
+%\chi_A(\lambda)=(-1)^n \lambda^n+(-1)^{n-1}(\tr A)\,\lambda^{n-1}+\cdots+\det(A).
+%\]
 \end{theorem}}
 \begin{proof}
 We use the mathematical induction on $n$.	
