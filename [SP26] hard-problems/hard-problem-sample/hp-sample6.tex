@@ -1,0 +1,528 @@
+% !TeX program = pdflatex
+\documentclass[11pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools,commath}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{microtype}
+\usepackage{booktabs}
+
+\hypersetup{colorlinks=true, linkcolor=blue, urlcolor=blue, citecolor=blue}
+
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Zq}{\mathbb{Z}_q}
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\Ftwo}{\mathbb{F}_2}
+\newcommand{\bits}{\{0,1\}}
+%\newcommand{\norm}[1]{\left\lVert #1 \right\rVert}
+\newcommand{\wt}{\mathrm{wt}}
+%\newcommand{\gets}{\leftarrow}
+\newcommand{\Adv}{\mathrm{Adv}}
+
+\theoremstyle{definition}
+\newtheorem{problem}{Problem}[section]
+
+\title{Practice-Only Lecture Notes: Hard Problems in Post-Quantum Cryptography}
+\author{Meticulous Problem Design with Assessment Intent}
+\date{}
+
+\begin{document}
+	\maketitle
+	\vspace{-1.0em}
+	
+	\section*{How to Use These Notes (Problems Only, With Design Intent)}
+	Each problem is intentionally designed to verify specific competencies.
+	For every problem, we provide:
+	\begin{itemize}[leftmargin=*]
+		\item \textbf{Purpose:} the conceptual skill the student should gain.
+		\item \textbf{Verifies:} what the student must demonstrate (knowledge/technique/proof skill/attack reasoning).
+		\item \textbf{Deliverable:} what to submit (calculation, proof sketch, algorithm, complexity estimate, critique).
+	\end{itemize}
+	Problems progress \emph{basic $\rightarrow$ intermediate $\rightarrow$ advanced}, and within each topic:
+	\begin{enumerate}[leftmargin=*]
+		\item \textbf{Formalization} (write the game precisely, track distributions),
+		\item \textbf{Reductions/Equivalences} (search vs decision, embedding arguments),
+		\item \textbf{Attack Reasoning} (identify best-known lines of attack and their preconditions),
+		\item \textbf{Parameter Thinking} (how constraints interact; what breaks if changed).
+	\end{enumerate}
+	
+	\tableofcontents
+	
+	% ============================================================
+	\section{Lattice-Based: Learning With Errors (LWE)}
+	% ============================================================
+	
+	\subsection{Foundations: notation, distributions, and sanity checks}
+	
+	\begin{problem}[LWE-1: Dimensions and modular arithmetic sanity]
+		\textbf{Purpose:} Ensure comfort with the data types in LWE, modular arithmetic, and matrix-vector conventions.\\
+		\textbf{Verifies:} Correct handling of $(A,b)\in \Z_q^{m\times n}\times \Z_q^{m}$, and that the student can detect malformed instances.\\
+		\textbf{Deliverable:} A one-page write-up listing the type of each variable and a checklist for valid LWE instances.\\[0.5em]
+		Let $n,m,q\in\mathbb{N}$, $A\in\Z_q^{m\times n}$, $s\in\Z_q^n$, $e\in\Z^m$ with small entries, and define $b=As+e\bmod q$.
+		\begin{enumerate}[leftmargin=*]
+			\item Write the dimensions of every term in $b=As+e\bmod q$.
+			\item Explain why $e$ is sampled from $\Z$ (not $\Z_q$) \emph{before} reduction mod $q$.
+			\item Give three examples of invalid inputs $(A,b)$ that could not have arisen from the LWE sampling process (with justification).
+		\end{enumerate}
+	\end{problem}
+	
+	\begin{problem}[LWE-2: Error magnitude and wrap-around]
+		\textbf{Purpose:} Build intuition for when ``small errors'' remain distinguishable after reduction mod $q$.\\
+		\textbf{Verifies:} Ability to reason about wrap-around probability and its cryptographic relevance.\\
+		\textbf{Deliverable:} A short calculation and a paragraph interpretation.\\[0.5em]
+		Assume each $e_i$ is supported on $\{-B,\dots,B\}\subset\Z$, and $b_i = \langle a_i,s\rangle + e_i \bmod q$.
+		\begin{enumerate}[leftmargin=*]
+			\item For a fixed integer representative of $\langle a_i,s\rangle$ in $[0,q-1]$, characterize when $b_i$ wraps around modulo $q$.
+			\item Give an upper bound on the probability of wrap-around if $\langle a_i,s\rangle$ is uniform in $\{0,\dots,q-1\}$ and $e_i$ is uniform in $\{-B,\dots,B\}$.
+			\item Explain (qualitatively) why excessive wrap-around complicates correctness in LWE-based encryption.
+		\end{enumerate}
+	\end{problem}
+	
+	\subsection{Formal games: search vs decision}
+	
+	\begin{problem}[LWE-3: Write the decision game formally]
+		\textbf{Purpose:} Train students to express security as an indistinguishability game with clear randomness.\\
+		\textbf{Verifies:} Proper game syntax: sampling order, adversary view, and advantage definition.\\
+		\textbf{Deliverable:} A complete game-based definition and $\Adv$ expression.\\[0.5em]
+		Write the LWE decision experiment $\mathsf{Exp}^{\mathsf{dLWE}}_{\mathcal{A}}(n,m,q,\chi)$, including:
+		(i) sampling of $A,s,e$,
+		(ii) sampling of challenge bit $b\in\{0,1\}$,
+		(iii) construction of the challenge pair,
+		(iv) adversary output, and
+		(v) advantage.
+	\end{problem}
+	
+	\begin{problem}[LWE-4: Search $\Rightarrow$ decision (easy direction)]
+		\textbf{Purpose:} Ensure the student sees the trivial reduction direction.\\
+		\textbf{Verifies:} Ability to design a black-box reduction using an oracle.\\
+		\textbf{Deliverable:} Reduction algorithm (pseudocode) and correctness argument.\\[0.5em]
+		Assume an oracle $\mathcal{O}$ that solves search-LWE: on input $(A,b)$ sampled from $\mathcal{D}_0$, it returns $s$ with probability $\ge 2/3$.
+		Construct a distinguisher $\mathcal{D}^{\mathcal{O}}$ for decision-LWE and analyze its advantage.
+	\end{problem}
+	
+	\begin{problem}[LWE-5: Decision $\Rightarrow$ search (nontrivial direction; outline)]
+		\textbf{Purpose:} Practice hybrid/embedding logic that underlies many cryptographic reductions.\\
+		\textbf{Verifies:} Understanding of how to ``program'' distributions and recover secret coordinates.\\
+		\textbf{Deliverable:} A structured outline with explicit hybrids and what each query to the decision oracle tests.\\[0.5em]
+		Assume $q$ is prime and you have a decision-LWE distinguisher $\mathcal{A}$ with non-negligible advantage.
+		Give an outline to recover $s$ (or $s$ coordinate-by-coordinate). Your outline must include:
+		\begin{enumerate}[leftmargin=*]
+			\item how you re-randomize or transform samples without destroying the LWE form,
+			\item a hybrid argument or hypothesis test used to extract information about $s$,
+			\item how many oracle calls are needed and why.
+		\end{enumerate}
+	\end{problem}
+	
+	\subsection{Attack reasoning and parameter thinking}
+	
+	\begin{problem}[LWE-6: Primal vs dual attack identification]
+		\textbf{Purpose:} Teach students to classify attacks by viewpoint (BDD/primal vs dual) and required resources.\\
+		\textbf{Verifies:} Correct mapping from problem statement to attack pipeline and success condition.\\
+		\textbf{Deliverable:} Two short write-ups (primal and dual) with ``input $\rightarrow$ lattice $\rightarrow$ target vector'' flow.\\[0.5em]
+		For each of the following, describe the attacker objective and the ``tell'' used:
+		\begin{enumerate}[leftmargin=*]
+			\item A primal (BDD-style) attack on LWE.
+			\item A dual attack using a short $y$ satisfying $y^\top A \equiv 0 \pmod q$.
+		\end{enumerate}
+		Your answer must specify what distributional property distinguishes LWE samples from uniform in each case.
+	\end{problem}
+	
+	\begin{problem}[LWE-7: Failure modes under parameter changes]
+		\textbf{Purpose:} Build intuition for why parameters are chosen in ``narrow windows.''\\
+		\textbf{Verifies:} Ability to reason about edge cases and what breaks first (security vs correctness).\\
+		\textbf{Deliverable:} A table with three parameter modifications and predicted outcomes.\\[0.5em]
+		Consider three hypothetical changes (one at a time):
+		\begin{enumerate}[leftmargin=*]
+			\item Reduce $q$ by a factor of $2$ with the same $\chi$.
+			\item Keep $q$ fixed but double the error width (e.g., $\sigma\mapsto 2\sigma$).
+			\item Keep $q,\chi$ fixed but halve $m$.
+		\end{enumerate}
+		For each change, predict (qualitatively) its effect on (i) correctness of decryption and (ii) security against lattice reduction.
+	\end{problem}
+	
+	\begin{problem}[LWE-8 (Advanced): Construct a distinguishing statistic]
+		\textbf{Purpose:} Force students to operationalize the ``smallness mod $q$'' intuition.\\
+		\textbf{Verifies:} Ability to design a statistical test and justify why it has bias.\\
+		\textbf{Deliverable:} A defined statistic, justification of bias, and discussion of limitations.\\[0.5em]
+		Suppose you are given a candidate short vector $y\in\Z^m$ with $y^\top A\equiv 0\pmod q$. Propose a statistic $T(A,b)$ computed from $y^\top b \bmod q$ that tends to be smaller for LWE samples than for uniform.
+		Explain:
+		(i) what distribution you expect for $y^\top e$ (heuristically),
+		(ii) why uniform $b$ makes $y^\top b$ uniform in $\Z_q$,
+		(iii) what could go wrong if $y$ is not sufficiently short.
+	\end{problem}
+	
+	% ============================================================
+	\section{Lattice-Based: Short Integer Solution (SIS)}
+	% ============================================================
+	
+	\subsection{Existence and basic properties}
+	
+	\begin{problem}[SIS-1: Pigeonhole existence of collisions]
+		\textbf{Purpose:} Connect SIS to collision resistance and existence via counting.\\
+		\textbf{Verifies:} Comfort with combinatorial counting in $\Z_q^n$.\\
+		\textbf{Deliverable:} A clean counting argument and a constructed nonzero short vector.\\[0.5em]
+		Let $A\in\Z_q^{n\times m}$ and consider the set $\mathcal{X}=\{0,1\}^m$.
+		\begin{enumerate}[leftmargin=*]
+			\item Show that if $2^m>q^n$, then there exist distinct $x,x'\in\mathcal{X}$ with $Ax\equiv Ax' \pmod q$.
+			\item Define $z=x-x'\in\{-1,0,1\}^m$ and show $Az\equiv 0\pmod q$.
+			\item Bound $\norm{z}_2$ and $\norm{z}_\infty$.
+		\end{enumerate}
+	\end{problem}
+	
+	\begin{problem}[SIS-2: SIS as collision-finding in linear hash]
+		\textbf{Purpose:} Make explicit the standard binding/collision reduction.\\
+		\textbf{Verifies:} Ability to formalize reduction: collision $\mapsto$ SIS solution.\\
+		\textbf{Deliverable:} A reduction statement with assumptions on domain/range.\\[0.5em]
+		Define a hash $H:\mathcal{D}\to \Z_q^n$ by $H(x)=Ax\bmod q$ where $\mathcal{D}\subset\Z^m$ is a set of short vectors.
+		Show that any collision $x\neq x'$ in $\mathcal{D}$ yields a nonzero $z=x-x'$ solving SIS with bound related to the diameter of $\mathcal{D}$.
+	\end{problem}
+	
+	\subsection{Norms, solution sets, and structure}
+	
+	\begin{problem}[SIS-3: Kernel lattice viewpoint]
+		\textbf{Purpose:} Train the student to translate modular constraints into an integer lattice.\\
+		\textbf{Verifies:} Correct construction of the solution lattice and interpretation of short vectors.\\
+		\textbf{Deliverable:} Definition of a lattice $\Lambda$ of solutions and a proof that SIS asks for a short nonzero vector in it.\\[0.5em]
+		Given $A\in\Z_q^{n\times m}$, define
+		\[
+		\Lambda = \{x\in\Z^m : Ax \equiv 0 \pmod q\}.
+		\]
+		\begin{enumerate}[leftmargin=*]
+			\item Prove $\Lambda$ is a full-rank lattice in $\Z^m$.
+			\item Show that SIS is exactly: find a nonzero $x\in\Lambda$ with $\norm{x}\le \beta$.
+			\item Explain how changing the norm from $\ell_2$ to $\ell_\infty$ changes what ``short'' means for attacks.
+		\end{enumerate}
+	\end{problem}
+	
+	\begin{problem}[SIS-4 (Advanced): Parameter tradeoff reasoning]
+		\textbf{Purpose:} Build the parameter intuition: $m$ impacts existence; $\beta$ impacts hardness.\\
+		\textbf{Verifies:} Ability to reason with volume/entropy style heuristics.\\
+		\textbf{Deliverable:} A heuristic estimate and qualitative conclusion.\\[0.5em]
+		Give a heuristic argument for how large $\beta$ must be (as a function of $q,n,m$) before you expect $\Lambda$ to contain a nonzero vector with $\norm{x}_2\le \beta$. Your answer should:
+		\begin{enumerate}[leftmargin=*]
+			\item identify the ``density'' of $\Lambda$ inside $\Z^m$,
+			\item compare the number of lattice points in a ball of radius $\beta$ to the index of $\Lambda$,
+			\item conclude a threshold relationship (up to polynomial factors).
+		\end{enumerate}
+	\end{problem}
+	
+	% ============================================================
+	\section{Lattice-Based: NTRU Search}
+	% ============================================================
+	
+	\subsection{Ring mechanics and problem embedding}
+	
+	\begin{problem}[NTRU-1: Ring arithmetic and invertibility checks]
+		\textbf{Purpose:} Ensure students can operate in $R_q=\Z_q[x]/(f(x))$ and understand when inverses exist.\\
+		\textbf{Verifies:} Ability to state invertibility conditions and compute in quotient rings.\\
+		\textbf{Deliverable:} A precise criterion and a worked small example (toy parameters).\\[0.5em]
+		Let $R_q=\Z_q[x]/(f(x))$ for monic $f$ of degree $N$.
+		\begin{enumerate}[leftmargin=*]
+			\item State a criterion for when $f\in R_q$ (an element, not the modulus polynomial) is invertible in $R_q$.
+			\item In a toy ring (choose small $q,N$), pick a simple element $\bar f(x)$ and compute $\bar f^{-1}(x)\bmod (f(x),q)$, if it exists.
+			\item Explain why NTRU key generation must reject some sampled $f$.
+		\end{enumerate}
+	\end{problem}
+	
+	\begin{problem}[NTRU-2: From public key to NTRU lattice equation]
+		\textbf{Purpose:} Make explicit the core relation and how it becomes a lattice problem.\\
+		\textbf{Verifies:} Ability to derive constraints and define the NTRU lattice.\\
+		\textbf{Deliverable:} Definition of $\Lambda_h$ and membership proof.\\[0.5em]
+		Given $h\equiv g f^{-1}\pmod q$ in $R_q$, show that $hf\equiv g\pmod q$.
+		Define
+		\[
+		\Lambda_h = \{(u,v)\in R^2 : u-hv\equiv 0\pmod q\}.
+		\]
+		Prove that $(g,f)\in\Lambda_h$ and explain why $(g,f)$ is expected to be short.
+	\end{problem}
+	
+	\begin{problem}[NTRU-3 (Advanced): Ambiguity and equivalent secrets]
+		\textbf{Purpose:} Train students to notice non-uniqueness and equivalence classes of secrets.\\
+		\textbf{Verifies:} Ability to reason about multiple short representations and normalization constraints.\\
+		\textbf{Deliverable:} A short essay with at least two distinct equivalences and how schemes fix them.\\[0.5em]
+		In NTRU-like systems, multiple $(f,g)$ may yield the same $h$. Identify at least two sources of equivalence (e.g., multiplication by units, sign, rotations in certain rings) and explain how practical schemes constrain keys to reduce ambiguity.
+	\end{problem}
+	
+	% ============================================================
+	\section{Code-Based: Syndrome Decoding (SD/DSD/QCSD)}
+	% ============================================================
+	
+	\subsection{Linear algebra basics and cosets}
+	
+	\begin{problem}[SD-1: Coset structure of syndrome equations]
+		\textbf{Purpose:} Establish that solutions form an affine space; decoding is weight minimization within a coset.\\
+		\textbf{Verifies:} Ability to prove coset properties and compute sizes.\\
+		\textbf{Deliverable:} Proof and size computation.\\[0.5em]
+		Let $H\in\Ftwo^{(n-k)\times n}$ have full rank and fix $s\in\Ftwo^{n-k}$.
+		\begin{enumerate}[leftmargin=*]
+			\item Show $\{e\in\Ftwo^n: He^\top=s\}$ is either empty or an affine subspace of dimension $k$.
+			\item Show it is never empty when $H$ has full rank.
+			\item Compute the number of solutions in terms of $k$.
+		\end{enumerate}
+	\end{problem}
+	
+	\begin{problem}[SD-2: Expected number of weight-$w$ solutions]
+		\textbf{Purpose:} Teach the ``random syndrome'' heuristic used in parameter selection.\\
+		\textbf{Verifies:} Ability to compute expectation and interpret regimes where unique solutions likely exist.\\
+		\textbf{Deliverable:} Calculation and regime discussion.\\[0.5em]
+		Assume $H$ is uniformly random full-rank. For fixed $s$, estimate the expected number of solutions $e$ with $\wt(e)=w$.
+		\begin{enumerate}[leftmargin=*]
+			\item Use linearity to argue each fixed $e$ satisfies $He^\top=s$ with probability $2^{-(n-k)}$.
+			\item Conclude $\mathbb{E}[\#\{e:\wt(e)=w, He^\top=s\}]$.
+			\item Interpret what it means when this expectation is $\ll 1$, $\approx 1$, and $\gg 1$.
+		\end{enumerate}
+	\end{problem}
+	
+	\subsection{ISD thinking and complexity}
+	
+	\begin{problem}[SD-3: Prange ISD success probability]
+		\textbf{Purpose:} Verify comprehension of the simplest ISD algorithm and its probabilistic analysis.\\
+		\textbf{Verifies:} Ability to compute success probability and expected trials.\\
+		\textbf{Deliverable:} A derivation with combinatorial terms and an asymptotic discussion.\\[0.5em]
+		In Prange's algorithm, an ``information set'' $I$ of size $k$ is guessed, and the algorithm succeeds if the error has zero weight on $I$.
+		\begin{enumerate}[leftmargin=*]
+			\item Derive $p=\Pr[\text{success}]$ in terms of $n,k,w$.
+			\item Give the expected number of trials $1/p$.
+			\item Explain how $w/n$ and $k/n$ affect $p$ qualitatively.
+		\end{enumerate}
+	\end{problem}
+	
+	\begin{problem}[SD-4 (Advanced): Compare ISD refinements conceptually]
+		\textbf{Purpose:} Ensure students can articulate why modern ISD improves Prange (without memorizing constants).\\
+		\textbf{Verifies:} Ability to explain meet-in-the-middle / representations / partial weight splitting ideas.\\
+		\textbf{Deliverable:} A comparative explanation (2--3 pages) with a schematic of each method.\\[0.5em]
+		Give a conceptual comparison of at least three ISD variants (e.g., Prange, Stern, Dumer, BJMM-style):
+		\begin{enumerate}[leftmargin=*]
+			\item What is guessed and what is solved deterministically?
+			\item Where does meet-in-the-middle or list-merging appear?
+			\item What resource dominates (time vs memory), and why?
+		\end{enumerate}
+		No numeric constants required; focus on mechanisms.
+	\end{problem}
+	
+	\subsection{QCSD structure and pitfalls}
+	
+	\begin{problem}[QCSD-1: Circulant blocks as polynomial multiplication]
+		\textbf{Purpose:} Make QC structure operational: convert between matrices and polynomials.\\
+		\textbf{Verifies:} Ability to implement the representation transformation on paper.\\
+		\textbf{Deliverable:} A worked example with $p\times p$ circulant block action.\\[0.5em]
+		Let $C$ be a $p\times p$ circulant matrix over $\Ftwo$ determined by first row $(c_0,\dots,c_{p-1})$.
+		Let $c(x)=\sum_{i=0}^{p-1} c_i x^i$.
+		Show that multiplying $C$ by a vector $v$ corresponds to $c(x)\cdot v(x)\bmod (x^p-1)$ under the natural identification.
+	\end{problem}
+	
+	\begin{problem}[QCSD-2 (Advanced): Symmetry and attack surface]
+		\textbf{Purpose:} Force students to analyze how structure can reduce effective security.\\
+		\textbf{Verifies:} Ability to propose plausible structural attack avenues and required conditions.\\
+		\textbf{Deliverable:} Threat analysis memo listing at least two structural shortcuts and how parameters mitigate them.\\[0.5em]
+		QC structure introduces cyclic shifts and module structure. Propose at least two distinct ways this could reduce the work factor for decoding (e.g., folding, exploiting repeated patterns, reducing dimension in transformed domains). For each, state:
+		\begin{enumerate}[leftmargin=*]
+			\item what property of the QC ensemble is being exploited,
+			\item what additional assumption the attacker needs,
+			\item what countermeasure parameter choices can help.
+		\end{enumerate}
+	\end{problem}
+	
+	% ============================================================
+	\section{Isogeny-Based Hard Problems}
+	% ============================================================
+	
+	\subsection{Definitions and graph intuition}
+	
+	\begin{problem}[ISO-1: Isogeny basics---kernel and quotient viewpoint]
+		\textbf{Purpose:} Verify the student knows what data defines an isogeny at a high level.\\
+		\textbf{Verifies:} Ability to explain kernel $\leftrightarrow$ isogeny relationship and quotient intuition.\\
+		\textbf{Deliverable:} A short explanation with definitions (no heavy EC arithmetic).\\[0.5em]
+		Let $\phi:E\to E'$ be an isogeny of elliptic curves over $\F_q$.
+		\begin{enumerate}[leftmargin=*]
+			\item Define $\ker(\phi)$ and state why it is finite.
+			\item Explain informally why $E'\cong E/\ker(\phi)$ as groups.
+			\item State (without proof) how the degree relates to $\abs{\ker(\phi)}$ in separable cases.
+		\end{enumerate}
+	\end{problem}
+	
+	\begin{problem}[ISO-2: Path-finding heuristic in regular graphs]
+		\textbf{Purpose:} Build generic complexity intuition for graph-based isogeny problems.\\
+		\textbf{Verifies:} Ability to reason about meet-in-the-middle vs one-sided random walks.\\
+		\textbf{Deliverable:} A heuristic complexity estimate with assumptions stated.\\[0.5em]
+		Model the isogeny graph as a $d$-regular expander with $N$ vertices.
+		\begin{enumerate}[leftmargin=*]
+			\item Estimate the expected time for a one-sided random walk from $E_1$ to hit $E_2$.
+			\item Estimate the expected time for a bidirectional meet-in-the-middle strategy (two frontiers that collide).
+			\item State how memory affects the second approach.
+		\end{enumerate}
+	\end{problem}
+	
+	\subsection{CSIDH-style action inversion}
+	
+	\begin{problem}[CSIDH-1: Group action axioms and what must be shown]
+		\textbf{Purpose:} Ensure students can state precisely what it means for an ideal class group to act on curves.\\
+		\textbf{Verifies:} Ability to list axioms and identify what ``inversion'' asks for.\\
+		\textbf{Deliverable:} A formal definition of a group action and mapping to the CSIDH statement.\\[0.5em]
+		Let $G$ be a group acting on a set $\mathcal{X}$ via $*:G\times\mathcal{X}\to\mathcal{X}$.
+		\begin{enumerate}[leftmargin=*]
+			\item State the two axioms of a group action.
+			\item In CSIDH-style settings, interpret $E_1=a*E_0$ as analogous to $g^a$ in Diffie--Hellman.
+			\item Formulate the inversion problem as a search problem and specify what counts as an ``equivalent'' solution.
+		\end{enumerate}
+	\end{problem}
+	
+	\begin{problem}[CSIDH-2 (Advanced): Distinguish path-finding vs action inversion]
+		\textbf{Purpose:} Prevent a common confusion: endpoints in the same isogeny class do not uniquely determine the action element.\\
+		\textbf{Verifies:} Ability to separate representation issues and commutativity effects.\\
+		\textbf{Deliverable:} A careful argument (1--2 pages) with an explicit example of non-uniqueness (conceptual).\\[0.5em]
+		Explain why ``find \emph{some} isogeny path from $E_0$ to $E_1$'' may be easier (or different) than ``recover the specific secret class group element $a$''.
+		Your answer must discuss:
+		\begin{enumerate}[leftmargin=*]
+			\item multiple decompositions of an action element into prime ideals,
+			\item commutativity and re-ordering of steps,
+			\item what information is lost when only endpoints are given.
+		\end{enumerate}
+	\end{problem}
+	
+	% ============================================================
+	\section{Multivariate (MQ / IP Variants)}
+	% ============================================================
+	
+	\subsection{MQ formulation and linearization}
+	
+	\begin{problem}[MQ-1: Count monomials and set up relinearization]
+		\textbf{Purpose:} Ensure students can translate MQ into linear algebra over monomials.\\
+		\textbf{Verifies:} Correct counting and formation of the linear system in lifted space.\\
+		\textbf{Deliverable:} Monomial count and explicit lifted-variable mapping.\\[0.5em]
+		Let $f_1,\dots,f_m$ be quadratic polynomials in $n$ variables over $\F_q$.
+		\begin{enumerate}[leftmargin=*]
+			\item Count the number of distinct quadratic monomials $x_ix_j$ with $1\le i\le j\le n$.
+			\item Define lifted variables $y_{ij}=x_ix_j$ and rewrite each $f_\ell$ as a linear function in $\{y_{ij}\}$ and $\{x_i\}$ and constant term.
+			\item Explain why this does \emph{not} immediately solve MQ (what constraints are missing?).
+		\end{enumerate}
+	\end{problem}
+	
+	\begin{problem}[MQ-2: Random-system solution heuristic]
+		\textbf{Purpose:} Build baseline intuition: random maps have about $q^{n-m}$ preimages.\\
+		\textbf{Verifies:} Ability to compute a heuristic expected number of solutions and interpret under/overdetermined regimes.\\
+		\textbf{Deliverable:} A short calculation and discussion.\\[0.5em]
+		Assume $F:\F_q^n\to\F_q^m$ behaves like a uniformly random function.
+		\begin{enumerate}[leftmargin=*]
+			\item For a fixed $y\in\F_q^m$, compute the expected number of $x$ such that $F(x)=y$.
+			\item Discuss what changes when $m<n$, $m=n$, and $m>n$.
+			\item Explain why many MQ cryptosystems choose $m\approx n$ but rely on special trapdoor structure.
+		\end{enumerate}
+	\end{problem}
+	
+	\subsection{IP/key-recovery context}
+	
+	\begin{problem}[IP-1: Equivalence of private keys under affine changes]
+		\textbf{Purpose:} Teach that private keys are often defined up to equivalence; attacks may aim for any equivalent key.\\
+		\textbf{Verifies:} Understanding of conjugation by affine maps and what information it preserves.\\
+		\textbf{Deliverable:} A proof of equivalence relation and a short discussion of its cryptographic meaning.\\[0.5em]
+		Let $P=T\circ F\circ S$ with invertible affine maps $S,T$ and central map $F$.
+		\begin{enumerate}[leftmargin=*]
+			\item Show that if $U,V$ are invertible affine maps, then
+			\[
+			P = (T\circ V^{-1}) \circ (V\circ F\circ U) \circ (U^{-1}\circ S)
+			\]
+			is another decomposition with a ``modified'' central map.
+			\item Explain why recovering \emph{exactly} $(S,F,T)$ may be unnecessary to break a signature scheme; an equivalent decomposition may suffice.
+		\end{enumerate}
+	\end{problem}
+	
+	\begin{problem}[MQ-3 (Advanced): Hybrid attack design]
+		\textbf{Purpose:} Verify students can design a plausible solver combining guessing and algebra.\\
+		\textbf{Verifies:} Ability to propose a hybrid strategy, estimate complexity, and state assumptions.\\
+		\textbf{Deliverable:} Algorithm sketch + complexity expression in terms of $q,n,m,t$ (guessed vars).\\[0.5em]
+		Propose a hybrid algorithm that guesses $t$ variables and solves the remaining system using an algebraic method (e.g., Gr\"obner basis or linearization).
+		Your answer must:
+		\begin{enumerate}[leftmargin=*]
+			\item define the resulting reduced system size,
+			\item express the total cost as $q^t \cdot \mathrm{Cost}(n-t,m)$,
+			\item discuss how to choose $t$ to minimize the total cost (conceptually).
+		\end{enumerate}
+	\end{problem}
+	
+	% ============================================================
+	\section{Hash-Based: Security Games (Preimage / 2nd-preimage / Collision / PRF)}
+	% ============================================================
+	
+	\subsection{Random oracle heuristics and bounds}
+	
+	\begin{problem}[HASH-1: Preimage work factor (random function heuristic)]
+		\textbf{Purpose:} Ensure students can derive baseline $2^n$ bounds for $n$-bit outputs.\\
+		\textbf{Verifies:} Correct probability calculations for random guessing.\\
+		\textbf{Deliverable:} A probability derivation and expected trials estimate.\\[0.5em]
+		Model $H:\bits^*\to\bits^n$ as a random function. Given $y\in\bits^n$,
+		\begin{enumerate}[leftmargin=*]
+			\item What is the success probability of one random query $x$ such that $H(x)=y$?
+			\item What is the expected number of queries to succeed?
+			\item How many queries are needed for success probability at least $1/2$? (Use $(1-p)^Q\approx e^{-pQ}$.)
+		\end{enumerate}
+	\end{problem}
+	
+	\begin{problem}[HASH-2: Birthday bound for collisions]
+		\textbf{Purpose:} Verify the student can derive the $2^{n/2}$ phenomenon.\\
+		\textbf{Verifies:} Ability to compute collision probability after $Q$ random samples.\\
+		\textbf{Deliverable:} A derivation with approximation steps clearly labeled.\\[0.5em]
+		Let $H$ be a random function to $n$ bits. Consider $Q$ uniformly random inputs $x_1,\dots,x_Q$.
+		\begin{enumerate}[leftmargin=*]
+			\item Derive an approximation for $\Pr[\exists i\neq j: H(x_i)=H(x_j)]$.
+			\item Solve for $Q$ that yields constant collision probability (e.g., about $1/2$).
+			\item Explain why this does \emph{not} immediately imply second-preimage attacks of cost $2^{n/2}$.
+		\end{enumerate}
+	\end{problem}
+	
+	\subsection{PRF distinguishing}
+	
+	\begin{problem}[HASH-3: PRF advantage definition from first principles]
+		\textbf{Purpose:} Train precise game-writing and advantage expression.\\
+		\textbf{Verifies:} Correct definition of oracles, randomness, and advantage.\\
+		\textbf{Deliverable:} A complete PRF game definition with $\Adv^{\mathrm{prf}}$.\\[0.5em]
+		Let $H_k$ be a keyed hash family. Write the PRF experiment where the challenger flips $b\in\{0,1\}$ and gives oracle access to either $H_k(\cdot)$ or a random function $R(\cdot)$.
+		Define $\Adv^{\mathrm{prf}}_{\mathcal{A}}$.
+	\end{problem}
+	
+	\begin{problem}[HASH-4 (Advanced): Hybrid proof skeleton for a hash-based signature]
+		\textbf{Purpose:} Verify capability to structure a reduction using hybrids.\\
+		\textbf{Verifies:} Ability to identify which primitive property is used at which transition (PRF vs collision vs preimage).\\
+		\textbf{Deliverable:} A hybrid sequence (H0,H1,H2,...) with one-paragraph justification per step.\\[0.5em]
+		Consider a generic hash-based signature scheme that uses:
+		(i) a keyed hash as a PRF to derive per-message randomness, and
+		(ii) collision resistance of a compression function inside authentication paths.
+		Sketch a hybrid proof that reduces EUF-CMA forgery to either breaking PRF security or finding a collision.
+		Your hybrids must explicitly indicate what is replaced and what the simulator must answer.
+	\end{problem}
+	
+	% ============================================================
+	\section{Synthesis: Comparative and Integrative Problems}
+	% ============================================================
+	
+	\begin{problem}[SYN-1: Map each hard problem to its ``cryptographic role'']
+		\textbf{Purpose:} Ensure students can connect assumptions to constructions and proof styles.\\
+		\textbf{Verifies:} Correct mapping (LWE$\rightarrow$PKE/KEM; SIS$\rightarrow$hash/commitment; SD$\rightarrow$KEM; MQ$\rightarrow$signatures; hash games$\rightarrow$hash signatures; isogenies$\rightarrow$key exchange/KEM).\\
+		\textbf{Deliverable:} A table with 2--3 sentence justification per row.\\[0.5em]
+		Create a table with columns:
+		\[
+		\text{Assumption}\quad|\quad \text{Typical Primitive}\quad|\quad \text{Proof style (game/reduction)}\quad|\quad \text{Dominant attack family}.
+		\]
+		Fill it for: LWE (search/decision), SIS, NTRU, SD/DSD/QCSD, isogeny path/action inversion, MQ/IP, and hash security games.
+	\end{problem}
+	
+	\begin{problem}[SYN-2 (Advanced): ``What if structure helps the attacker?'' essay]
+		\textbf{Purpose:} Train research-grade skepticism about algebraic structure.\\
+		\textbf{Verifies:} Ability to articulate why structure reduces sizes and where it can leak exploitable invariants.\\
+		\textbf{Deliverable:} A 3--5 page memo with at least three case studies.\\[0.5em]
+		Write a memo comparing three structured settings:
+		\begin{enumerate}[leftmargin=*]
+			\item ring/module lattices (Ring-LWE / Module-LWE style),
+			\item QC codes (QCSD),
+			\item structured central maps in MQ.
+		\end{enumerate}
+		For each, answer:
+		\begin{enumerate}[leftmargin=*]
+			\item What efficiency benefit does the structure provide?
+			\item What invariants or symmetries might an attacker exploit?
+			\item What parameter/instance-generation mitigations are standard?
+		\end{enumerate}
+	\end{problem}
+	
+\end{document}

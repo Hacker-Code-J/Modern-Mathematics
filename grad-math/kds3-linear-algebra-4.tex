@@ -51,25 +51,32 @@
 We cover the following topics in this note.
 \begin{itemize}
 	\item Eigenvectors and Diagonalization.
-	\begin{itemize}
-		\item[*] Hessian Matrix
-		\item[*] Differential Equation
-	\end{itemize}
+%	\begin{itemize}
+%		\item[*] Hessian Matrix
+%		\item[*] Differential Equation
+%	\end{itemize}
+	\item Characteristic polynomial.
 	\item TBA.
 \end{itemize}
 \hrule\vspace{12pt}
 %\tableofcontents
 \vfill
+\begin{notation}
+\;
+\begin{description}
+	\item[$\F$] a field.
+	\item[$V$] a finite-dimensional \(\F\)-vector space.
+\end{description}
+%	\;
+%	\begin{itemize}
+%		\item Let \(\F\) is a field (typically \(\R\) or \(\C\)).
+%		\item Let \(V\) is a finite-dimensional \(\F\)-vector space.
+%	\end{itemize}
+\end{notation}
+\vfill
+
 
 \newpage
-\begin{notation}
-	\;
-	\begin{itemize}
-		\item Let \(\F\) is a field (typical cases: \(\R\) or \(\C\)).
-		\item Let \(V\) is a finite-dimensional \(\F\)-vector space.
-		\item Let \(T:V\to V\) is a linear operator.
-	\end{itemize}
-\end{notation}
 \begin{observation}[Choosing a basis to simplify a linear map]
 Let $\basis=\set{\textbf{v}_1,\dots,\textbf{v}_n}$ be a basis of $V$ such that $[T]_{\basis}$ is a diagonal matrix: 
 \[
@@ -78,16 +85,191 @@ Let $\basis=\set{\textbf{v}_1,\dots,\textbf{v}_n}$ be a basis of $V$ such that $
 	0 & {\color{blue}d_1} & \cdots & 0 \\
 	\vdots & \vdots & \ddots & \vdots \\
 	0 & 0 & \cdots & {\color{blue}d_n} \\
-\end{bmatrix}_{n\times n},\quad\ie,\quad T(\textbf{v}_i)=d_i\textbf{v}_i\;\text{with}\; 1\leq i\leq n.
+\end{bmatrix}_{n\times n},\quad\ie,\quad T(\textbf{v}_i)={\color{blue}d_i}\textbf{v}_i\;\text{with}\; 1\leq i\leq n.
 \]
 Then $T$ may be very complicated, but with respect to $[T]_{\basis}$ it looks nice. 
 %%(``$T$ acts by scalars on the coordinate directions''). 
 \end{observation}
 
-\medskip
+\vfill
 
+\begin{example}
+Fix $m\in\R$ and let $T:\mathbb{R}^2\to\mathbb{R}^2$ be the reflection across the line $y=mx$.
+\begin{center}
+\includegraphics[scale=1.2]{grad-math-tikz/kds3-linear-algebra-4-eg1.pdf}
+\end{center}
+%Fix $m\in\R$ and define a linear map $T:\mathbb{R}^2\to\mathbb{R}^2$ by \[
+%\begin{bmatrix}x\\y\end{bmatrix}
+%\longmapsto
+%\frac{1}{1+m^2}
+%\begin{bmatrix}
+%	1-m^2 & 2m\\
+%	2m & m^2-1
+%\end{bmatrix}
+%\begin{bmatrix}x\\y\end{bmatrix}. \]
+%\begin{center}
+%\begin{minipage}{.49\textwidth} 
+%Let
+%\[
+%A\coloneqq \frac{1}{1+m^2}
+%\begin{pmatrix}
+%	1-m^2 & 2m\\
+%	2m & m^2-1
+%\end{pmatrix},
+%\quad\text{so}\quad
+%T(\mathbf{x})=A\mathbf{x}.
+%\]
+%\end{minipage}\hfill
+%\begin{minipage}{.49\textwidth}\centering
+%\end{minipage}
+%\end{center}
+\end{example}
+\paragraph{Step 1: Choose a basis adapted to the axis.}
+Take
+\[
+\textbf{u}=\begin{bmatrix}1 \\ m\end{bmatrix}\quad(\text{along }y=mx),\qquad
+\textbf{v}=\begin{bmatrix}-m \\ 1\end{bmatrix}\quad(\text{perpendicular to }y=mx),
+\]
+since $\textbf{u}\cdot \textbf{v}=1\cdot(-m)+m\cdot 1=0$.
+\begin{center}
+\includegraphics[scale=1.1]{grad-math-tikz/kds3-linear-algebra-4-eg1-step1.pdf}
+\end{center}
+
+\paragraph{Step 2: Use the defining property of reflection.}
+Reflection across the line \[
+L=\Span(\textbf{u})=\{(t,mt):t\in\mathbb{R}\}
+\] is defined by \begin{itemize}
+	\item \textbf{vectors on the axis} stay fixed, and
+	\item \textbf{vectors perpendicular to the axis} reverse direction.
+\end{itemize}
+Every vector $\textbf{w}\in\mathbb{R}^2$ decomposes uniquely as
+\[
+\textbf{w}=a\,\textbf{u}+b\,\textbf{v}.
+\]
+%Geometrically $a\textbf{u}$ is \emph{parallel} to the axis, and $b\textbf{v}$ is \emph{perpendicular} to the axis. 
+A reflection keeps the parallel component and flips the perpendicular one, so
+\[
+T(a\textbf{u})=a\textbf{u}\qquad T(b\textbf{v})=-b\textbf{v}.
+\] Since $T$ is linear,
+\[
+T(a\textbf{u}+b\textbf{v})=T(a\textbf{u})+T(b\textbf{v})=a\textbf{u}-b\textbf{v}.
+\] 
+%If we write $\textbf{w}=\textbf{w}_{\parallel}+\textbf{w}_{\perp}$ where $\textbf{w}_{\parallel}\in L$ and $\textbf{w}_{\perp}\in L^\perp$, then the reflection is \[
+%T(\textbf{w})=\textbf{w}_{\parallel}-\textbf{w}_{\perp}
+%\] 
+In the basis $\mathcal B=\{\textbf{u},\textbf{v}\}$,
+\[
+[T]_{\mathcal B}=\begin{bmatrix}
+	T(\textbf{u}) & T(\textbf{v})
+\end{bmatrix}=
+\begin{bmatrix}
+	1&0\\
+	0&-1
+\end{bmatrix}.
+\]
+\begin{center}
+	\includegraphics[scale=1.1]{grad-math-tikz/kds3-linear-algebra-4-eg1-step2.pdf}\qquad
+	\includegraphics[scale=1.1]{grad-math-tikz/kds3-linear-algebra-4-eg1-step3.pdf}
+\end{center}
+
+\newpage
+\paragraph{Step 3: Convert back to the standard basis.}
+Let $\mathcal E=\{\textbf{e}_1,\textbf{e}_2\}$ be the standard basis and let $\mathcal B=\{\textbf{u},\textbf{v}\}$ be another basis.
+Define the change-of-coordinates matrix
+\[
+P \coloneqq [\mathrm{Id}]_{\mathcal B}^{\mathcal E}=
+\begin{bmatrix}\mathrm{Id}(\textbf{u}) & \mathrm{Id}(\textbf{v})\end{bmatrix}=
+\begin{bmatrix}\textbf{u} & \textbf{v}\end{bmatrix}.
+\]
+Then for every $\textbf{x}\in\mathbb R^2$ we have
+\[
+[\textbf{x}]_{\mathcal E}=P[\textbf{x}]_{\mathcal B}
+\qquad\text{and}\qquad
+[\textbf{x}]_{\mathcal B}=P^{-1}[\textbf{x}]_{\mathcal E}.
+\] 
+%That is, $P$ converts $\mathcal B$-coordinates to $\mathcal E$-coordinates, and $P^{-1}$ converts $\mathcal E$-coordinates to $\mathcal B$-coordinates.
+If $D=[T]_{\mathcal B}^{\mathcal B}$ is the matrix of $T$ in the basis $\mathcal B$, then
+\[
+[T(\textbf{x})]_{\mathcal B}=D[\textbf{x}]_{\mathcal B}.
+\]
+Converting the output back to standard coordinates gives
+\[
+[T(\textbf{x})]_{\mathcal E}
+= P[T(\textbf{x})]_{\mathcal B}
+= P\,D\,[\textbf{x}]_{\mathcal B}
+= P\,D\,P^{-1}[\textbf{x}]_{\mathcal E}.
+\]
+Therefore the standard-basis matrix of $T$ is
+\begin{align*}
+A:=[T]_{\mathcal E}^{\mathcal E}
+&=[\mathrm{Id}]_{\mathcal B}^{\mathcal E}\,[T]_{\mathcal B}^{\mathcal B}\,[\mathrm{Id}]_{\mathcal E}^{\mathcal B} \\
+&=	\underbrace{P}_{\text{Convert back to standard coordinates}}\quad \underbrace{D}_{\text{Apply $T$ in $\{\textbf{u},\textbf{v}\}$-coordinates}}\quad\underbrace{P^{-1}}_{\text{Convert to $\{\textbf{u},\textbf{v}\}$-coordinates}}
+.
+\end{align*}
+%\[
+%A:=[T]_{\mathcal E}^{\mathcal E}=PDP^{-1}
+%=[\mathrm{Id}]_{\mathcal B}^{\mathcal E}\,[T]_{\mathcal B}^{\mathcal B}\,[\mathrm{Id}]_{\mathcal E}^{\mathcal B}.
+%\]
+Compute $P^{-1}$ (since $\det P = 1+m^2$): \[
+P^{-1}=\frac{1}{1+m^2}
+\begin{bmatrix}
+	1 & m\\
+	-m & 1
+\end{bmatrix}.\] 
+\begin{center}
+\begin{minipage}{.49\textwidth}
+Since \[
+PD=
+\begin{bmatrix}
+	1 & -m\\
+	m & 1
+\end{bmatrix}
+\begin{bmatrix}
+	1&0\\0&-1
+\end{bmatrix}
+=
+\begin{bmatrix}
+	1 & m\\
+	m & -1
+\end{bmatrix},
+\]
+we obtain \begin{align*}
+A &= (PD)P^{-1}\\
+&=
+\frac{1}{1+m^2}
+\begin{bmatrix}
+	1 & m\\
+	m & -1
+\end{bmatrix}
+\begin{bmatrix}
+	1 & m\\
+	-m & 1
+\end{bmatrix}\\
+&=
+\frac{1}{1+m^2}
+\begin{bmatrix}
+	1-m^2 & 2m\\
+	2m & m^2-1
+\end{bmatrix}.
+\end{align*}
+\end{minipage}\hfill
+\begin{minipage}{.49\textwidth}\centering
+	\includegraphics[scale=1.125]{grad-math-tikz/kds3-linear-algebra-4-eg1-step4.pdf}
+\end{minipage}
+\end{center}
+%Hence we derived the matrix by:
+%\[
+%\text{choose axis/perp basis }(\textbf{u},\textbf{v})\ \Rightarrow\ [T]_{\{\textbf{u},\textbf{v}\}}=\mathrm{diag}(1,-1)
+%\ \Rightarrow\ A=PDP^{-1}.
+%\]
+\begin{center}
+\end{center}
+
+
+
+\newpage
 \defbox[Eigenvector \& Eigenvalue]{\begin{definition*}
-	Let $T:V\to V$ be $\F$-linear. A nonzero vector $\textbf{v}\in V\setminus\set{\textbf{0}}$ is an \emph{eigenvector} of $T$ if there exists $\lambda\in\F$ such that
+	Let $T:V\to V$ be $\F$-linear. A nonzero vector $\textbf{v}\in V\setminus\set{\textbf{0}}$ is an \textbf{eigenvector} of $T$ if $\exists\lambda\in\F$ such that
 	\[
 	T(\textbf{v})=\lambda \textbf{v}\in V.
 	\]
@@ -101,10 +283,10 @@ Then $T$ may be very complicated, but with respect to $[T]_{\basis}$ it looks ni
 	Equivalently, the restriction \( \restrict{T}{\F \textbf{v}}:\F \textbf{v}\to \F \textbf{v}\) acts as scalar multiplication by \(\lambda\).
 \end{remark}
 
-\medskip
+\vfill
 
-\newpage
-\begin{remark}
+%\newpage
+\begin{remark}[$T$-invariant]
 	Let $T:V\to V$ be $\F$-linear. Let a subspace $W\le V$ satisfy 	\[
 	T[W]\subseteq W\qquad(\iff\forall\,\textbf{w}\in W,\; T(\textbf{w})\in W).
 	\]
@@ -133,12 +315,12 @@ Then $T$ may be very complicated, but with respect to $[T]_{\basis}$ it looks ni
 \medskip
 
 \defbox[Diagonalizability of Linear Operator]{
-\begin{definition*}
+\begin{definition}
 	We say $T:V\to V$ is \emph{diagonalizable} if $\exists$ a basis $\basis$ of $V$ such that 
 %	the matrix of $T$ 
 %	with respect to that basis 
 	$[T]_\basis$ is diagonal.
-\end{definition*}}
+\end{definition}}
 \begin{remark}
 $T$ is diagonalizable if and only if $V$ has a basis consisting of eigenvectors of $T$. 
 
@@ -152,303 +334,304 @@ A diagonal matrix \[
 \] acts by scaling each basis vector $\textbf{v}_i$ \textit{independently}, and ``scaling a nonzero vector'' is the eigenvector condition $T(\textbf{v}_i)=d_i\textbf{v}_i$.
 \end{remark}
 
-
-\newpage
-\begin{example}[Hessian; Quadratic form diagonalization]
-Note that \begin{itemize}
-	\item Single variable Taylor series: \begin{align*}
-	f(x)
-	&= f(p) + \frac{1}{1!}f'(p)(x-p) + \frac{1}{2!}f''(p)(x-p)^2 + \cdots= \sum_{k=0}^{n}\frac{f^{(k)}(p)}{k!}(x-p)^k + R.
-	\end{align*}
-	\item Two variables Taylor series: \begin{align*}
-	f(x,y) &= f(p,q)
-+ \frac{1}{1!}\,f_x(p,q)(x-p) + \frac{1}{1!}\,f_y(p,q)(y-q) \\
-& \quad\;\; + \frac{1}{2!}\,f_{xx}(p,q)(x-p)^2 + \frac{1}{1!}\,f_{xy}(p,q)(x-p)(y-q)
-+ \frac{1}{2!}\,f_{yy}(p,q)(y-q)^2 + \cdots
-	\end{align*}
-Let
-\[
-X=\begin{bmatrix}x-p \\ y-q\end{bmatrix},\qquad \nabla f=\begin{bmatrix}
-\pderiv{}{x}f\\ \pderiv{}{y}f
-\end{bmatrix},\qquad
-H=\begin{bmatrix} f_{xx} & f_{xy}\\ f_{yx} & f_{yy}\end{bmatrix}.
-\] Then \begin{align*}
-	f(x,y)&=\mathcolorbox{-blue}{f(p,q)} + \mathcolorbox{-red}{\frac{1}{1!} 
-	\begin{bmatrix}
-		f_x & f_y
-	\end{bmatrix}\begin{bmatrix}x-p\\ y-q\end{bmatrix}}+\mathcolorbox{-green}{
-	\frac{1}{2!}\begin{bmatrix}
-		x-p & y-q
-	\end{bmatrix}\begin{bmatrix} f_{xx} & f_{xy}\\ f_{yx} & f_{yy}\end{bmatrix}
-	\begin{bmatrix}
-		x-p \\ y-q
-	\end{bmatrix}}+R\\
-	&= \mathcolorbox{-blue}{f(p,q)} + \mathcolorbox{-red}{\frac{1}{1!}\,\nabla f^{\,T}X} + \mathcolorbox{-green}{\frac{1}{2!}\,X^{T}HX} + R.
-\end{align*}
-%\newpage\noindent
-Consider $f(x,y)=2x^2+2xy+2y^2$. Then $H=\begin{bmatrix}f_{xx}&f_{xy}\\ f_{yx}& f_{yy}\end{bmatrix}=\begin{bmatrix}4&2\\2&4\end{bmatrix}.$
-Let
-\[
-X=\begin{bmatrix}x\\y\end{bmatrix}
-\quad\Rightarrow\quad
-f=X^{T}HX.
-\]
-Eigenpairs:
-\[
-\lambda_1=6 \ \Rightarrow\ \frac{1}{\sqrt{2}}\begin{bmatrix}1\\1\end{bmatrix},
-\qquad
-\lambda_2=2 \ \Rightarrow\ \frac{1}{\sqrt{2}}\begin{bmatrix}1\\-1\end{bmatrix}.
-\]
-So
-\[
-Q=\frac{1}{\sqrt{2}}
-\begin{bmatrix}
-	1&1\\
-	1&-1
-\end{bmatrix},
-\qquad
-D=\operatorname{diag}(\lambda_1,\lambda_2)=\operatorname{diag}(6,2),
-\qquad
-H=Q^{T}DQ.
-\]
-Hence
-\[
-f=X^THX=X^{T}(Q^{T}DQ)X=(QX)^{T}D(QX).
-\]
-Let $
-QX:=V=\begin{bmatrix}u\\v\end{bmatrix}$ then \[
-u=\frac{x+y}{\sqrt{2}},\qquad \ v=\frac{x-y}{\sqrt{2}}.
-\]
-Then
-\[
-f=V^{T}DV
-=\begin{bmatrix}u\ \ v\end{bmatrix}
-\begin{bmatrix}6&0\\0&2\end{bmatrix}
-\begin{bmatrix}u\\v\end{bmatrix}
-=6u^2+2v^2.
-\] Here, intersection term $(xy)$ disappeared.
-\end{itemize}
-\end{example}
-
 \medskip
 
-%\begin{example}[Differential Equation 1]
-%	For the linear system
-%	\[
-%	\begin{cases}
-%		x_1'= a_{11}x_1+a_{12}x_2,\\
-%		x_2'= a_{21}x_1+a_{22}x_2.
-%	\end{cases}\Rightarrow\begin{bmatrix}
-%		x_1'\\ x_2'
-%	\end{bmatrix}=\begin{bmatrix}
-%	a_{11} & a_{12} \\
-%	a_{21} & a_{22}
-%\end{bmatrix}
-%\begin{bmatrix}
-%x_1\\ x_2
-%\end{bmatrix}\left(\Leftrightarrow X'=AX\right),
-%	\] if \(A=PDP^{-1}\) (diagonalizable), set \(Y=P^{-1}X\). Then \(X=PY\), and
-%	\[
-%	X'=PY',\qquad AX=A(PY)=(PDP^{-1})PY=PDY,
-%	\]
-%	so
-%	\[
-%	PY' = PDY \quad\Rightarrow\quad Y'=DY
-%	=\operatorname{diag}(\lambda_1,\lambda_2)\,Y.
-%	\]
-%%	Thus each component solves
-%%	\[
-%%	y_i'=\lambda_i y_i
-%%	\quad\Rightarrow\quad
-%%	y_i=c_i e^{\lambda_i t},
-%%	\qquad
-%%	x=Py.
-%%	\]
-%	
-%	\newpage
-%	\[
-%	x' = Ax,
-%	\qquad
-%	A=\begin{bmatrix}3&1\\1&3\end{bmatrix}.
-%	\]
-%	\[
-%	\lambda=4 \Rightarrow \frac{1}{\sqrt{2}}\begin{bmatrix}1\\1\end{bmatrix},
-%	\qquad
-%	\lambda=2 \Rightarrow \frac{1}{\sqrt{2}}\begin{bmatrix}1\\-1\end{bmatrix}.
-%	\]
-%	Define
-%	\[
-%	u=\frac{x+y}{\sqrt{2}},\qquad v=\frac{x-y}{\sqrt{2}}
-%	\quad\Rightarrow\quad
-%	x=\frac{u+v}{\sqrt{2}},\ \ y=\frac{u-v}{\sqrt{2}}.
-%	\]
-%	Then
-%	\[
-%	\begin{bmatrix}u'\\v'\end{bmatrix}
-%	=
-%	\operatorname{diag}(4,2)\begin{bmatrix}u\\v\end{bmatrix}
-%	=
-%	\begin{bmatrix}4u\\2v\end{bmatrix},
-%	\]
-%	so
-%	\[
-%	u=c_1 e^{4t},\qquad v=c_2 e^{2t}.
-%	\]
-%	With initial data \(x(0)=x_0,\ y(0)=y_0\), \begin{align*}
-%	x(t)=\frac12\Big((x_0+y_0)e^{4t}+(x_0-y_0)e^{2t}\Big),\\
-%	y(t)=\frac12\Big((x_0+y_0)e^{4t}-(x_0-y_0)e^{2t}\Big).
+%\newpage
+%\begin{example}[Hessian; Quadratic form diagonalization]
+%Note that \begin{itemize}
+%	\item Single variable Taylor series: \begin{align*}
+%	f(x)
+%	&= f(p) + \frac{1}{1!}f'(p)(x-p) + \frac{1}{2!}f''(p)(x-p)^2 + \cdots= \sum_{k=0}^{n}\frac{f^{(k)}(p)}{k!}(x-p)^k + R.
 %	\end{align*}
-%\end{example}
-%
-%\begin{example}[Differential Equation 2] 
-%	Consider $x' = Ax$ with \[
-%	A=\begin{bmatrix}2&1\\0&3\end{bmatrix},
-%	\qquad
-%	x=\begin{bmatrix}x_1\\x_2\end{bmatrix},
-%	\qquad
-%	x_1(0)=a,\ x_2(0)=b.
-%	\] Then
-%	\[
-%	\lambda_1=2 \Rightarrow \begin{bmatrix}1\\0\end{bmatrix},
-%	\qquad
-%	\lambda_2=3 \Rightarrow \begin{bmatrix}1\\1\end{bmatrix}.
-%	\]
-%	So
-%	\[
-%	A=PDP^{-1}=\begin{bmatrix}1&1\\0&1\end{bmatrix}
-%	\operatorname{diag}(2,3)\begin{bmatrix}1&-1\\0&1\end{bmatrix}.
-%	\]
-%	Let \(y=P^{-1}x\). Then
-%	\[
-%	y'=Dy
-%	\quad\Rightarrow\quad
-%	\begin{cases}
-%		y_1=c_1 e^{2t},\\
-%		y_2=c_2 e^{3t}.
-%	\end{cases}
-%	\]
-%	Also
-%	\[
-%	\begin{cases}
-%		y_1=x_1-x_2,\\
-%		y_2=x_2
-%	\end{cases}
-%	\quad\Rightarrow\quad
-%	\begin{cases}	
-%		x_1=y_1+y_2,\quad x_2=y_2.
-%	\end{cases}
-%	\]
-%	With \(c_1=a-b,\ c_2=b\), $\begin{cases}
-%		x_1(t)=(a-b)e^{2t}+be^{3t}, \\
-%		x_2(t)=be^{3t}.
-%	\end{cases}$
-%\end{example}
-
-%For
-%\[
-%x' = Ax,
-%\qquad \text{and } A=PDP^{-1}\ \text{일 때,}
-%\]
-%let \(y=P^{-1}x\) 으로 치환하면 \(x=Py\) 이고,
-%\[
-%Py' = PDP^{-1}x = PDy
-%\quad\Rightarrow\quad
-%y'=Dy=\operatorname{diag}(\lambda_1,\dots,\lambda_n)\,y.
-%\]
-%Thus
-%\[
-%y_i'=\lambda_i y_i
-%\quad\Rightarrow\quad
-%y_i=c_i e^{\lambda_i t},
-%\qquad
-%x=Py.
-%\]
-%
-%\subsection*{Example 1}
-%\[
-%x' = Ax,
-%\qquad
-%A=\begin{bmatrix}3&1\\1&3\end{bmatrix}.
-%\]
-%\[
-%\lambda=4 \Rightarrow \frac{1}{\sqrt{2}}\begin{bmatrix}1\\1\end{bmatrix},
-%\qquad
-%\lambda=2 \Rightarrow \frac{1}{\sqrt{2}}\begin{bmatrix}1\\-1\end{bmatrix}.
-%\]
+%	\item Two variables Taylor series: \begin{align*}
+%	f(x,y) &= f(p,q)
+%+ \frac{1}{1!}\,f_x(p,q)(x-p) + \frac{1}{1!}\,f_y(p,q)(y-q) \\
+%& \quad\;\; + \frac{1}{2!}\,f_{xx}(p,q)(x-p)^2 + \frac{1}{1!}\,f_{xy}(p,q)(x-p)(y-q)
+%+ \frac{1}{2!}\,f_{yy}(p,q)(y-q)^2 + \cdots
+%	\end{align*}
 %Let
 %\[
-%u=\frac{x+y}{\sqrt{2}},\qquad v=\frac{x-y}{\sqrt{2}}
+%X=\begin{bmatrix}x-p \\ y-q\end{bmatrix},\qquad \nabla f=\begin{bmatrix}
+%\pderiv{}{x}f\\ \pderiv{}{y}f
+%\end{bmatrix},\qquad
+%H=\begin{bmatrix} f_{xx} & f_{xy}\\ f_{yx} & f_{yy}\end{bmatrix}.
+%\] Then \begin{align*}
+%	f(x,y)&=\mathcolorbox{-blue}{f(p,q)} + \mathcolorbox{-red}{\frac{1}{1!} 
+%	\begin{bmatrix}
+%		f_x & f_y
+%	\end{bmatrix}\begin{bmatrix}x-p\\ y-q\end{bmatrix}}+\mathcolorbox{-green}{
+%	\frac{1}{2!}\begin{bmatrix}
+%		x-p & y-q
+%	\end{bmatrix}\begin{bmatrix} f_{xx} & f_{xy}\\ f_{yx} & f_{yy}\end{bmatrix}
+%	\begin{bmatrix}
+%		x-p \\ y-q
+%	\end{bmatrix}}+R\\
+%	&= \mathcolorbox{-blue}{f(p,q)} + \mathcolorbox{-red}{\frac{1}{1!}\,\nabla f^{\,T}X} + \mathcolorbox{-green}{\frac{1}{2!}\,X^{T}HX} + R.
+%\end{align*}
+%%\newpage\noindent
+%Consider $f(x,y)=2x^2+2xy+2y^2$. Then $H=\begin{bmatrix}f_{xx}&f_{xy}\\ f_{yx}& f_{yy}\end{bmatrix}=\begin{bmatrix}4&2\\2&4\end{bmatrix}.$
+%Let
+%\[
+%X=\begin{bmatrix}x\\y\end{bmatrix}
 %\quad\Rightarrow\quad
-%x=\frac{u+v}{\sqrt{2}},\ \ y=\frac{u-v}{\sqrt{2}}.
+%f=X^{T}HX.
 %\]
-%Then
+%Eigenpairs:
 %\[
-%\begin{bmatrix}u'\\v'\end{bmatrix}
-%=
-%\operatorname{diag}(4,2)\begin{bmatrix}u\\v\end{bmatrix}
-%=
-%\begin{bmatrix}4u\\2v\end{bmatrix},
-%\]
-%so
-%\[
-%u=c_1 e^{4t},\qquad v=c_2 e^{2t}.
-%\]
-%With initial data \(x(0)=x_0,\ y(0)=y_0\),
-%\[
-%x(t)=\frac12\Big((x_0+y_0)e^{4t}+(x_0-y_0)e^{2t}\Big),
-%\]
-%\[
-%y(t)=\frac12\Big((x_0+y_0)e^{4t}-(x_0-y_0)e^{2t}\Big).
-%\]
-%
-%\subsection*{Example 2}
-%\[
-%x' = Ax,
+%\lambda_1=6 \ \Rightarrow\ \frac{1}{\sqrt{2}}\begin{bmatrix}1\\1\end{bmatrix},
 %\qquad
-%A=\begin{bmatrix}2&1\\0&3\end{bmatrix},
-%\qquad
-%x=\begin{bmatrix}x_1\\x_2\end{bmatrix},
-%\qquad
-%x_1(0)=a,\ x_2(0)=b.
-%\]
-%\[
-%\lambda_1=2 \Rightarrow \begin{bmatrix}1\\0\end{bmatrix},
-%\qquad
-%\lambda_2=3 \Rightarrow \begin{bmatrix}1\\1\end{bmatrix}.
+%\lambda_2=2 \ \Rightarrow\ \frac{1}{\sqrt{2}}\begin{bmatrix}1\\-1\end{bmatrix}.
 %\]
 %So
 %\[
-%P=\begin{bmatrix}1&1\\0&1\end{bmatrix},
+%Q=\frac{1}{\sqrt{2}}
+%\begin{bmatrix}
+%	1&1\\
+%	1&-1
+%\end{bmatrix},
 %\qquad
-%D=\operatorname{diag}(2,3),
+%D=\operatorname{diag}(\lambda_1,\lambda_2)=\operatorname{diag}(6,2),
 %\qquad
-%A=PDP^{-1},
-%\qquad
-%P^{-1}=\begin{bmatrix}1&-1\\0&1\end{bmatrix}.
+%H=Q^{T}DQ.
 %\]
-%Let \(y=P^{-1}x\), then \(x=Py\) and
+%Hence
 %\[
-%y'=Dy
-%\quad\Rightarrow\quad
-%y_1=c_1 e^{2t},\qquad y_2=c_2 e^{3t}.
+%f=X^THX=X^{T}(Q^{T}DQ)X=(QX)^{T}D(QX).
 %\]
-%Also
+%Let $
+%QX:=V=\begin{bmatrix}u\\v\end{bmatrix}$ then \[
+%u=\frac{x+y}{\sqrt{2}},\qquad \ v=\frac{x-y}{\sqrt{2}}.
+%\]
+%Then
 %\[
-%y_1=x_1-x_2,\qquad y_2=x_2
-%\quad\Rightarrow\quad
-%x_1=y_1+y_2,\quad x_2=y_2.
-%\]
-%With \(c_1=a-b,\ c_2=b\),
-%\[
-%x_1(t)=(a-b)e^{2t}+be^{3t},
-%\qquad
-%x_2(t)=be^{3t}.
-%\]
-
-\medskip
-
-\vspace{10pt}
-%\vfill
+%f=V^{T}DV
+%=\begin{bmatrix}u\ \ v\end{bmatrix}
+%\begin{bmatrix}6&0\\0&2\end{bmatrix}
+%\begin{bmatrix}u\\v\end{bmatrix}
+%=6u^2+2v^2.
+%\] Here, intersection term $(xy)$ disappeared.
+%\end{itemize}
+%\end{example}
+%
+%\medskip
+%
+%%\begin{example}[Differential Equation 1]
+%%	For the linear system
+%%	\[
+%%	\begin{cases}
+%%		x_1'= a_{11}x_1+a_{12}x_2,\\
+%%		x_2'= a_{21}x_1+a_{22}x_2.
+%%	\end{cases}\Rightarrow\begin{bmatrix}
+%%		x_1'\\ x_2'
+%%	\end{bmatrix}=\begin{bmatrix}
+%%	a_{11} & a_{12} \\
+%%	a_{21} & a_{22}
+%%\end{bmatrix}
+%%\begin{bmatrix}
+%%x_1\\ x_2
+%%\end{bmatrix}\left(\Leftrightarrow X'=AX\right),
+%%	\] if \(A=PDP^{-1}\) (diagonalizable), set \(Y=P^{-1}X\). Then \(X=PY\), and
+%%	\[
+%%	X'=PY',\qquad AX=A(PY)=(PDP^{-1})PY=PDY,
+%%	\]
+%%	so
+%%	\[
+%%	PY' = PDY \quad\Rightarrow\quad Y'=DY
+%%	=\operatorname{diag}(\lambda_1,\lambda_2)\,Y.
+%%	\]
+%%%	Thus each component solves
+%%%	\[
+%%%	y_i'=\lambda_i y_i
+%%%	\quad\Rightarrow\quad
+%%%	y_i=c_i e^{\lambda_i t},
+%%%	\qquad
+%%%	x=Py.
+%%%	\]
+%%	
+%%	\newpage
+%%	\[
+%%	x' = Ax,
+%%	\qquad
+%%	A=\begin{bmatrix}3&1\\1&3\end{bmatrix}.
+%%	\]
+%%	\[
+%%	\lambda=4 \Rightarrow \frac{1}{\sqrt{2}}\begin{bmatrix}1\\1\end{bmatrix},
+%%	\qquad
+%%	\lambda=2 \Rightarrow \frac{1}{\sqrt{2}}\begin{bmatrix}1\\-1\end{bmatrix}.
+%%	\]
+%%	Define
+%%	\[
+%%	u=\frac{x+y}{\sqrt{2}},\qquad v=\frac{x-y}{\sqrt{2}}
+%%	\quad\Rightarrow\quad
+%%	x=\frac{u+v}{\sqrt{2}},\ \ y=\frac{u-v}{\sqrt{2}}.
+%%	\]
+%%	Then
+%%	\[
+%%	\begin{bmatrix}u'\\v'\end{bmatrix}
+%%	=
+%%	\operatorname{diag}(4,2)\begin{bmatrix}u\\v\end{bmatrix}
+%%	=
+%%	\begin{bmatrix}4u\\2v\end{bmatrix},
+%%	\]
+%%	so
+%%	\[
+%%	u=c_1 e^{4t},\qquad v=c_2 e^{2t}.
+%%	\]
+%%	With initial data \(x(0)=x_0,\ y(0)=y_0\), \begin{align*}
+%%	x(t)=\frac12\Big((x_0+y_0)e^{4t}+(x_0-y_0)e^{2t}\Big),\\
+%%	y(t)=\frac12\Big((x_0+y_0)e^{4t}-(x_0-y_0)e^{2t}\Big).
+%%	\end{align*}
+%%\end{example}
+%%
+%%\begin{example}[Differential Equation 2] 
+%%	Consider $x' = Ax$ with \[
+%%	A=\begin{bmatrix}2&1\\0&3\end{bmatrix},
+%%	\qquad
+%%	x=\begin{bmatrix}x_1\\x_2\end{bmatrix},
+%%	\qquad
+%%	x_1(0)=a,\ x_2(0)=b.
+%%	\] Then
+%%	\[
+%%	\lambda_1=2 \Rightarrow \begin{bmatrix}1\\0\end{bmatrix},
+%%	\qquad
+%%	\lambda_2=3 \Rightarrow \begin{bmatrix}1\\1\end{bmatrix}.
+%%	\]
+%%	So
+%%	\[
+%%	A=PDP^{-1}=\begin{bmatrix}1&1\\0&1\end{bmatrix}
+%%	\operatorname{diag}(2,3)\begin{bmatrix}1&-1\\0&1\end{bmatrix}.
+%%	\]
+%%	Let \(y=P^{-1}x\). Then
+%%	\[
+%%	y'=Dy
+%%	\quad\Rightarrow\quad
+%%	\begin{cases}
+%%		y_1=c_1 e^{2t},\\
+%%		y_2=c_2 e^{3t}.
+%%	\end{cases}
+%%	\]
+%%	Also
+%%	\[
+%%	\begin{cases}
+%%		y_1=x_1-x_2,\\
+%%		y_2=x_2
+%%	\end{cases}
+%%	\quad\Rightarrow\quad
+%%	\begin{cases}	
+%%		x_1=y_1+y_2,\quad x_2=y_2.
+%%	\end{cases}
+%%	\]
+%%	With \(c_1=a-b,\ c_2=b\), $\begin{cases}
+%%		x_1(t)=(a-b)e^{2t}+be^{3t}, \\
+%%		x_2(t)=be^{3t}.
+%%	\end{cases}$
+%%\end{example}
+%
+%%For
+%%\[
+%%x' = Ax,
+%%\qquad \text{and } A=PDP^{-1}\ \text{일 때,}
+%%\]
+%%let \(y=P^{-1}x\) 으로 치환하면 \(x=Py\) 이고,
+%%\[
+%%Py' = PDP^{-1}x = PDy
+%%\quad\Rightarrow\quad
+%%y'=Dy=\operatorname{diag}(\lambda_1,\dots,\lambda_n)\,y.
+%%\]
+%%Thus
+%%\[
+%%y_i'=\lambda_i y_i
+%%\quad\Rightarrow\quad
+%%y_i=c_i e^{\lambda_i t},
+%%\qquad
+%%x=Py.
+%%\]
+%%
+%%\subsection*{Example 1}
+%%\[
+%%x' = Ax,
+%%\qquad
+%%A=\begin{bmatrix}3&1\\1&3\end{bmatrix}.
+%%\]
+%%\[
+%%\lambda=4 \Rightarrow \frac{1}{\sqrt{2}}\begin{bmatrix}1\\1\end{bmatrix},
+%%\qquad
+%%\lambda=2 \Rightarrow \frac{1}{\sqrt{2}}\begin{bmatrix}1\\-1\end{bmatrix}.
+%%\]
+%%Let
+%%\[
+%%u=\frac{x+y}{\sqrt{2}},\qquad v=\frac{x-y}{\sqrt{2}}
+%%\quad\Rightarrow\quad
+%%x=\frac{u+v}{\sqrt{2}},\ \ y=\frac{u-v}{\sqrt{2}}.
+%%\]
+%%Then
+%%\[
+%%\begin{bmatrix}u'\\v'\end{bmatrix}
+%%=
+%%\operatorname{diag}(4,2)\begin{bmatrix}u\\v\end{bmatrix}
+%%=
+%%\begin{bmatrix}4u\\2v\end{bmatrix},
+%%\]
+%%so
+%%\[
+%%u=c_1 e^{4t},\qquad v=c_2 e^{2t}.
+%%\]
+%%With initial data \(x(0)=x_0,\ y(0)=y_0\),
+%%\[
+%%x(t)=\frac12\Big((x_0+y_0)e^{4t}+(x_0-y_0)e^{2t}\Big),
+%%\]
+%%\[
+%%y(t)=\frac12\Big((x_0+y_0)e^{4t}-(x_0-y_0)e^{2t}\Big).
+%%\]
+%%
+%%\subsection*{Example 2}
+%%\[
+%%x' = Ax,
+%%\qquad
+%%A=\begin{bmatrix}2&1\\0&3\end{bmatrix},
+%%\qquad
+%%x=\begin{bmatrix}x_1\\x_2\end{bmatrix},
+%%\qquad
+%%x_1(0)=a,\ x_2(0)=b.
+%%\]
+%%\[
+%%\lambda_1=2 \Rightarrow \begin{bmatrix}1\\0\end{bmatrix},
+%%\qquad
+%%\lambda_2=3 \Rightarrow \begin{bmatrix}1\\1\end{bmatrix}.
+%%\]
+%%So
+%%\[
+%%P=\begin{bmatrix}1&1\\0&1\end{bmatrix},
+%%\qquad
+%%D=\operatorname{diag}(2,3),
+%%\qquad
+%%A=PDP^{-1},
+%%\qquad
+%%P^{-1}=\begin{bmatrix}1&-1\\0&1\end{bmatrix}.
+%%\]
+%%Let \(y=P^{-1}x\), then \(x=Py\) and
+%%\[
+%%y'=Dy
+%%\quad\Rightarrow\quad
+%%y_1=c_1 e^{2t},\qquad y_2=c_2 e^{3t}.
+%%\]
+%%Also
+%%\[
+%%y_1=x_1-x_2,\qquad y_2=x_2
+%%\quad\Rightarrow\quad
+%%x_1=y_1+y_2,\quad x_2=y_2.
+%%\]
+%%With \(c_1=a-b,\ c_2=b\),
+%%\[
+%%x_1(t)=(a-b)e^{2t}+be^{3t},
+%%\qquad
+%%x_2(t)=be^{3t}.
+%%\]
+%
+%\medskip
+%
+%\vspace{10pt}
+%%\vfill
 
 \begin{note}
 Let \(A\in \Mat_n(\F)\). The associated linear map \(L_A:\F^n\to\F^n\) is given by \(L_A(\textbf{x})=A\textbf{x}\).
@@ -456,7 +639,7 @@ Let \(A\in \Mat_n(\F)\). The associated linear map \(L_A:\F^n\to\F^n\) is given 
 \defbox[Diagonalizability of Matrix]{\begin{definition}
 A matrix \(A\in \Mat_n(\F)\) is \emph{diagonalizable over \(\F\)} if \(\exists P\in \GL_n(\F)\) and a diagonal matrix \(D\) such that
 \[
-P^{-1}AP=D.
+D=P^{-1}AP.
 \]
 \end{definition}}
 
@@ -464,7 +647,7 @@ P^{-1}AP=D.
 \begin{proposition}
 Let \(A\in\Mat_n(\F)\).
 \begin{enumerate}[(i)]
-	\item If \(\mathcal{B}=\set{\textbf{v}_1,\dots,\textbf{v}_n}\) is a basis of \(\F^n\) consisting of eigenvectors of \(A\), and \(P=[\textbf{v}_1\ \cdots\ \textbf{v}_n]\), then \(P^{-1}AP\) is diagonal with \(P\in\GL_n(\F)\).
+	\item If \(\mathcal{B}=\set{\mathbf{v}_1,\dots,\mathbf{v}_n}\) is a basis of \(\F^n\) consisting of eigenvectors of \(A\), and \(P=[\mathbf{v}_1\ \cdots\ \mathbf{v}_n]\), then \(P^{-1}AP\) is diagonal with \(P\in\GL_n(\F)\).
 	\item Conversely, if \(P^{-1}AP=D\) is diagonal, then the columns of \(P\) form an eigenbasis of \(A\) (with eigenvalues given by the diagonal entries of \(D\)).
 \end{enumerate}
 \end{proposition}}
@@ -474,13 +657,36 @@ Let \(A\in\Mat_n(\F)\).
 \defbox[Characteristic polynomial]{\begin{definition}
 	For \(A\in\Mat_n(\F)\), the \textbf{characteristic polynomial} of \(A\) is
 	\[
-	\chi_A(\lambda)\coloneqq \det(A-\lambda I_n)\in \F[\lambda].
+	\chi_A(x)\coloneqq \det(A-x\mathrm{Id}_n)\in \F[x].
 	\]
 \end{definition}}
 
 \probox[Eigenvalues are roots]{\begin{proposition}
-	A scalar \(\lambda\in\F\) is an eigenvalue of \(A\) if and only if \(\chi_A(\lambda)=0\).
+Let $A\in\Mat_n(\F)$ and define the characteristic polynomial
+\[
+\chi_A(x)\coloneqq \det(A-x\mathrm{Id}_n)\in \F[x].
+\]	A scalar \(\lambda\in\F\) is an eigenvalue of \(A\) if and only if \(\chi_A(x)=0\).
 \end{proposition}}
+%\begin{proof}
+%	($\Rightarrow$) Suppose $\lambda$ is an eigenvalue of $A$. Then $\exists \textbf{v}\in\F^n\setminus\set{\textbf{0}}$
+%	such that $A\textbf{v}=\lambda \textbf{v}$. Hence
+%	\[
+%	(A-\lambda \mathrm{Id}_n)\textbf{v}=0.
+%	\]
+%	So $A-\lambda \mathrm{Id}_n$ has a nontrivial kernel and therefore is not invertible. A matrix is
+%	invertible if and only if its determinant is nonzero, so
+%	\[
+%	\chi_A(\lambda)=\det(A-\lambda \mathrm{Id}_n)=0.
+%	\]
+%	\noindent
+%	($\Leftarrow$) Conversely, suppose $\chi_A(\lambda)=0$, i.e.
+%	\[
+%	\det(A-\lambda \mathrm{Id}_n)=0.
+%	\]
+%	Then $A-\lambda \mathrm{Id}_n$ is singular (not invertible), hence its kernel is nontrivial. Thus there $\textbf{v}\in\F^n\setminus\set{\textbf{0}}$ such that \[
+%	(A-\lambda \mathrm{Id}_n)\textbf{v}=0.
+%	\] Equivalently, $A\textbf{v}=\lambda \textbf{v}$, so $\lambda$ is an eigenvalue of $A$.
+%\end{proof}
 
 
 \newpage
@@ -565,7 +771,7 @@ Let $A=\begin{bmatrix} a&b\\ c&d \end{bmatrix}\in\Mat_{2}(\F)$. Then
 \begin{note}[Principal minors]
 A principal minor of a square matrix is the determinant of a principal submatrix, which is formed by selecting the same set of indices for both rows and columns.
 
-Let $A=(a_{ij})\in\Mat_{n}(\F)$ and $\set{i_1<i_2<\cdots<i_\ell}\subset\set{1,\dots,n}$. For each $\ell=1,\dots,n$, we define \[
+Let $A=(a_{ij})\in\Mat_{n}(\F)$ and $\set{i_1<i_2<\cdots<i_\ell}\subseteq\set{1,\dots,n}$. For each $\ell=1,\dots,n$, we define \[
 E_\ell(A):=\sum_{1\leq i_1<\cdots<i_k\leq n}\det\begin{bmatrix}
 	a_{i_1,i_1} & a_{i_1,i_2} & \cdots & a_{i_1,i_k} \\
 	a_{i_2,i_1} & a_{i_2,i_2} & \cdots & a_{i_2,i_k} \\
@@ -592,13 +798,23 @@ a_{ki} & a_{kj} & a_{kk}
 
 \thmbox[Characteristic polynomial: Trace and Determinant as coefficients]{
 \begin{theorem}
-Let $A=(a_{ij})\in\Mat_n(\F)$. Define the characteristic polynomial \[
-\chi_A(\lambda)\coloneqq \det(A-\lambda I_n)=\sum_{i=0}^{n}c_i\lambda^i\in \F[\lambda].
-\]
-Then $\chi_A(\lambda)$ is 
+Let $A=(a_{ij})\in\Mat_n(\F)$ and define
 \[
-\chi_A(\lambda)=(-1)^n\left(\lambda^n-E_1(A)\lambda^{n-1}+E_2(A)\lambda^{n-2}-\cdots+(-1)^nE_n(A)\right).
+\chi_A(x)\coloneqq \det(A-x\mathrm{Id}_n)\in \F[x].
 \]
+For $k=1,\dots,n$ define $E_k(A)$ by
+\[
+E_k(A)\;:=\;\sum_{1\le i_1<\cdots<i_k\le n}
+\det\begin{bmatrix}
+a_{i_p i_q}
+\end{bmatrix}_{p,q=1}^k,
+\]
+so $E_1(A)=\sum_{i=1}^n a_{ii}=\tr(A)$ and $E_n(A)=\det(A)$.
+Then
+\[
+\chi_A(x)=(-1)^n\left(x^n-E_1(A)x^{n-1}+E_2(A)x^{n-2}-\cdots+(-1)^nE_n(A)\right).
+\]
+
 
 %The coefficients satisfy:
 %\begin{enumerate}
@@ -612,216 +828,241 @@ Then $\chi_A(\lambda)$ is
 %\]
 \end{theorem}}
 \begin{proof}
-We use the mathematical induction on $n$.	
-	
-\medskip
-\noindent\textbf{(Base case $n=1$)}\;
-If $A=[a]$, then
-\[
-\chi_A(\lambda)=\det[a-\lambda]=a-\lambda=(-1)^1\lambda^1+(-1)^0 a.
-\]
-Thus $c_1=-1=(-1)^1$, $c_0=a=\det(A)$, and $c_0=(-1)^0\tr(A)$ is consistent since $\tr(A)=a$.
+%We use the mathematical induction on $n$.	
+%	
+%\medskip
+%\noindent\textbf{(Base case $n=1$)}\;
+%If $A=[a]$, then
+%\[
+%\chi_A(\lambda)=\det[a-\lambda]=a-\lambda=(-1)^1\lambda^1+(-1)^0 a.
+%\]
+%Thus $c_1=-1=(-1)^1$, $c_0=a=\det(A)$, and $c_0=(-1)^0\tr(A)$ is consistent since $\tr(A)=a$.
+%
+%\medskip
+%\noindent\textbf{(Induction step)}
+%Assume the theorem holds for all $(n-1)\times(n-1)$ matrices over $\F$.
+%Let $A=(a_{ij})\in\Mat_n(\F)$ and set
+%\[
+%M(\lambda)\coloneqq A-\lambda I_n.
+%\]
+%Expand $\det(M(\lambda))$ by Laplace expansion along the first row:
+%\begin{equation}\label{eq:laplace-first-row}
+%	\chi_A(\lambda)=\det(M(\lambda))
+%	=\sum_{j=1}^n (-1)^{1+j}\,(a_{1j}-\lambda\delta_{1j})\,\det\bigl(M(\lambda)_{1j}\bigr),
+%\end{equation}
+%where $M(\lambda)_{1j}$ denotes the $(n-1)\times(n-1)$ matrix obtained by deleting row $1$ and column $j$.
+%
+%\medskip
+%\noindent\textbf{Claim 1: $c_n=(-1)^n$ and $\deg\chi_A=n$.}
+%Observe that $\det(M(\lambda)_{1j})$ is a polynomial in $\lambda$ of degree at most $n-1$.
+%Moreover:
+%\begin{itemize}
+%	\item If $j\neq 1$, then $(a_{11}-\lambda)$ does not appear, and the prefactor is $a_{1j}$ (independent of $\lambda$).
+%	Hence the corresponding summand in \eqref{eq:laplace-first-row} has degree $\le n-1$.
+%	\item If $j=1$, then the prefactor is $(a_{11}-\lambda)$, so the degree of that summand is
+%	$1+\deg\det(M(\lambda)_{11})$.
+%\end{itemize}
+%Therefore the coefficient of $\lambda^n$ can only come from the $j=1$ summand:
+%\[
+%(a_{11}-\lambda)\det(M(\lambda)_{11}).
+%\]
+%
+%Now identify $M(\lambda)_{11}$ explicitly. Deleting row $1$ and column $1$ removes the first diagonal position,
+%so
+%\[
+%M(\lambda)_{11} = A_{11}-\lambda I_{n-1},
+%\]
+%where $A_{11}$ is the $(n-1)\times(n-1)$ minor of $A$ (delete row $1$, column $1$).
+%By the induction hypothesis applied to $A_{11}$,
+%\[
+%\det(A_{11}-\lambda I_{n-1}) = (-1)^{n-1}\lambda^{n-1} + \text{(lower degree terms)}.
+%\]
+%Multiplying by $(a_{11}-\lambda)$, the $\lambda^n$ term is
+%\[
+%(a_{11}-\lambda)\Bigl((-1)^{n-1}\lambda^{n-1}+\cdots\Bigr)
+%= (-\lambda)\cdot (-1)^{n-1}\lambda^{n-1}+\cdots
+%= (-1)^n\lambda^n+\cdots.
+%\]
+%Hence $c_n=(-1)^n$, and in particular $\deg\chi_A=n$.
+%
+%\medskip
+%\noindent\textbf{Claim 2: $c_{n-1}=(-1)^{n-1}\tr(A)$.}
+%We extract the coefficient of $\lambda^{n-1}$ from \eqref{eq:laplace-first-row}.
+%Split the sum into the $j=1$ term and the $j\neq 1$ terms.
+%
+%\smallskip
+%\noindent\emph{(i) Contribution from $j=1$.}
+%Write the expansion (by induction hypothesis) for the $(n-1)\times(n-1)$ matrix $A_{11}$:
+%\[
+%\det(A_{11}-\lambda I_{n-1})
+%= (-1)^{n-1}\lambda^{n-1} + (-1)^{n-2}\tr(A_{11})\,\lambda^{n-2}+\cdots.
+%\]
+%Then
+%\begin{align*}
+%	(a_{11}-\lambda)\det(A_{11}-\lambda I_{n-1})
+%	&= a_{11}\Bigl((-1)^{n-1}\lambda^{n-1}+\cdots\Bigr)
+%	-\lambda\Bigl((-1)^{n-1}\lambda^{n-1}+(-1)^{n-2}\tr(A_{11})\lambda^{n-2}+\cdots\Bigr)\\
+%	&= a_{11}(-1)^{n-1}\lambda^{n-1} \;+\; \underbrace{(-1)^{n-1}(-\lambda)\lambda^{n-1}}_{\text{degree }n}\;+\;
+%	\Bigl[-(-1)^{n-2}\tr(A_{11})\lambda^{n-1}\Bigr]+\cdots.
+%\end{align*}
+%Thus the coefficient of $\lambda^{n-1}$ coming from $j=1$ equals
+%\[
+%(-1)^{n-1}a_{11} \;-\; (-1)^{n-2}\tr(A_{11})
+%= (-1)^{n-1}\bigl(a_{11}+\tr(A_{11})\bigr).
+%\]
+%
+%\smallskip
+%\noindent\emph{(ii) Contribution from $j\neq 1$.}
+%For $j\neq 1$, the prefactor in \eqref{eq:laplace-first-row} is $a_{1j}$ (degree $0$ in $\lambda$), so
+%only the $\lambda^{n-1}$ term of $\det(M(\lambda)_{1j})$ could contribute. But $\det(M(\lambda)_{1j})$
+%is a determinant of size $(n-1)\times(n-1)$ in which the diagonal contains only $(n-2)$ entries of the form $(\cdot-\lambda)$:
+%indeed, deleting column $j\neq 1$ removes the diagonal position corresponding to index $j$ while deleting row $1$ removes index $1$,
+%so among indices $\{2,\dots,n\}$ we are missing one diagonal index. Consequently,
+%\[
+%\deg \det(M(\lambda)_{1j}) \le n-2 \qquad (j\neq 1),
+%\]
+%and therefore the $j\neq 1$ summands contribute nothing to the $\lambda^{n-1}$ coefficient.
+%
+%\smallskip
+%Combining (i) and (ii),
+%\[
+%c_{n-1}=(-1)^{n-1}\bigl(a_{11}+\tr(A_{11})\bigr).
+%\]
+%Finally, since $\tr(A)=a_{11}+\tr(A_{11})$ (the trace is the sum of diagonal entries, and $A_{11}$
+%contains exactly the remaining diagonal entries $a_{22},\dots,a_{nn}$),
+%we get
+%\[
+%c_{n-1}=(-1)^{n-1}\tr(A).
+%\]
+%
+%\medskip
+%\noindent\textbf{Claim 3: $c_0=\det(A)$.}
+%Evaluating at $\lambda=0$ gives
+%\[
+%c_0=\chi_A(0)=\det(A-0\cdot I_n)=\det(A).
+%\]
+%(This step is compatible with induction, but does not require it.)
+%
+%\medskip
+%This completes the induction and proves all three coefficient identities.	
 
-\medskip
-\noindent\textbf{(Induction step)}
-Assume the theorem holds for all $(n-1)\times(n-1)$ matrices over $\F$.
-Let $A=(a_{ij})\in\Mat_n(\F)$ and set
-\[
-M(\lambda)\coloneqq A-\lambda I_n.
-\]
-Expand $\det(M(\lambda))$ by Laplace expansion along the first row:
-\begin{equation}\label{eq:laplace-first-row}
-	\chi_A(\lambda)=\det(M(\lambda))
-	=\sum_{j=1}^n (-1)^{1+j}\,(a_{1j}-\lambda\delta_{1j})\,\det\bigl(M(\lambda)_{1j}\bigr),
-\end{equation}
-where $M(\lambda)_{1j}$ denotes the $(n-1)\times(n-1)$ matrix obtained by deleting row $1$ and column $j$.
-
-\medskip
-\noindent\textbf{Claim 1: $c_n=(-1)^n$ and $\deg\chi_A=n$.}
-Observe that $\det(M(\lambda)_{1j})$ is a polynomial in $\lambda$ of degree at most $n-1$.
-Moreover:
-\begin{itemize}
-	\item If $j\neq 1$, then $(a_{11}-\lambda)$ does not appear, and the prefactor is $a_{1j}$ (independent of $\lambda$).
-	Hence the corresponding summand in \eqref{eq:laplace-first-row} has degree $\le n-1$.
-	\item If $j=1$, then the prefactor is $(a_{11}-\lambda)$, so the degree of that summand is
-	$1+\deg\det(M(\lambda)_{11})$.
-\end{itemize}
-Therefore the coefficient of $\lambda^n$ can only come from the $j=1$ summand:
-\[
-(a_{11}-\lambda)\det(M(\lambda)_{11}).
-\]
-
-Now identify $M(\lambda)_{11}$ explicitly. Deleting row $1$ and column $1$ removes the first diagonal position,
-so
-\[
-M(\lambda)_{11} = A_{11}-\lambda I_{n-1},
-\]
-where $A_{11}$ is the $(n-1)\times(n-1)$ minor of $A$ (delete row $1$, column $1$).
-By the induction hypothesis applied to $A_{11}$,
-\[
-\det(A_{11}-\lambda I_{n-1}) = (-1)^{n-1}\lambda^{n-1} + \text{(lower degree terms)}.
-\]
-Multiplying by $(a_{11}-\lambda)$, the $\lambda^n$ term is
-\[
-(a_{11}-\lambda)\Bigl((-1)^{n-1}\lambda^{n-1}+\cdots\Bigr)
-= (-\lambda)\cdot (-1)^{n-1}\lambda^{n-1}+\cdots
-= (-1)^n\lambda^n+\cdots.
-\]
-Hence $c_n=(-1)^n$, and in particular $\deg\chi_A=n$.
-
-\medskip
-\noindent\textbf{Claim 2: $c_{n-1}=(-1)^{n-1}\tr(A)$.}
-We extract the coefficient of $\lambda^{n-1}$ from \eqref{eq:laplace-first-row}.
-Split the sum into the $j=1$ term and the $j\neq 1$ terms.
-
-\smallskip
-\noindent\emph{(i) Contribution from $j=1$.}
-Write the expansion (by induction hypothesis) for the $(n-1)\times(n-1)$ matrix $A_{11}$:
-\[
-\det(A_{11}-\lambda I_{n-1})
-= (-1)^{n-1}\lambda^{n-1} + (-1)^{n-2}\tr(A_{11})\,\lambda^{n-2}+\cdots.
-\]
-Then
-\begin{align*}
-	(a_{11}-\lambda)\det(A_{11}-\lambda I_{n-1})
-	&= a_{11}\Bigl((-1)^{n-1}\lambda^{n-1}+\cdots\Bigr)
-	-\lambda\Bigl((-1)^{n-1}\lambda^{n-1}+(-1)^{n-2}\tr(A_{11})\lambda^{n-2}+\cdots\Bigr)\\
-	&= a_{11}(-1)^{n-1}\lambda^{n-1} \;+\; \underbrace{(-1)^{n-1}(-\lambda)\lambda^{n-1}}_{\text{degree }n}\;+\;
-	\Bigl[-(-1)^{n-2}\tr(A_{11})\lambda^{n-1}\Bigr]+\cdots.
-\end{align*}
-Thus the coefficient of $\lambda^{n-1}$ coming from $j=1$ equals
-\[
-(-1)^{n-1}a_{11} \;-\; (-1)^{n-2}\tr(A_{11})
-= (-1)^{n-1}\bigl(a_{11}+\tr(A_{11})\bigr).
-\]
-
-\smallskip
-\noindent\emph{(ii) Contribution from $j\neq 1$.}
-For $j\neq 1$, the prefactor in \eqref{eq:laplace-first-row} is $a_{1j}$ (degree $0$ in $\lambda$), so
-only the $\lambda^{n-1}$ term of $\det(M(\lambda)_{1j})$ could contribute. But $\det(M(\lambda)_{1j})$
-is a determinant of size $(n-1)\times(n-1)$ in which the diagonal contains only $(n-2)$ entries of the form $(\cdot-\lambda)$:
-indeed, deleting column $j\neq 1$ removes the diagonal position corresponding to index $j$ while deleting row $1$ removes index $1$,
-so among indices $\{2,\dots,n\}$ we are missing one diagonal index. Consequently,
-\[
-\deg \det(M(\lambda)_{1j}) \le n-2 \qquad (j\neq 1),
-\]
-and therefore the $j\neq 1$ summands contribute nothing to the $\lambda^{n-1}$ coefficient.
-
-\smallskip
-Combining (i) and (ii),
-\[
-c_{n-1}=(-1)^{n-1}\bigl(a_{11}+\tr(A_{11})\bigr).
-\]
-Finally, since $\tr(A)=a_{11}+\tr(A_{11})$ (the trace is the sum of diagonal entries, and $A_{11}$
-contains exactly the remaining diagonal entries $a_{22},\dots,a_{nn}$),
-we get
-\[
-c_{n-1}=(-1)^{n-1}\tr(A).
-\]
-
-\medskip
-\noindent\textbf{Claim 3: $c_0=\det(A)$.}
-Evaluating at $\lambda=0$ gives
-\[
-c_0=\chi_A(0)=\det(A-0\cdot I_n)=\det(A).
-\]
-(This step is compatible with induction, but does not require it.)
-
-\medskip
-This completes the induction and proves all three coefficient identities.	
-	
-\newpage
-Write $A$ in block form by separating the first row and column:
-\[
-A=
-\begin{pmatrix}
-	a_{11} & r\\
-	c & B
-\end{pmatrix},
-\]
-where $r\in \Mat_{1\times(n-1)}(\F)$ is the first row with the first entry removed,
-$c\in \Mat_{(n-1)\times 1}(\F)$ is the first column with the first entry removed,
-and $B\in\Mat_{n-1}(\F)$ is the $(n-1)\times(n-1)$ lower-right block.
-
-Then
-\[
-A-\lambda I_n=
-\begin{pmatrix}
-	a_{11}-\lambda & r\\
-	c & B-\lambda I_{n-1}
-\end{pmatrix}.
-\]
-
-\medskip
-\noindent\textbf{(1) Degree and leading coefficient.}
-Expand $\det(A-\lambda I_n)$ along the first row:
-\[
-\det(A-\lambda I_n)
-=(a_{11}-\lambda)\det(B-\lambda I_{n-1})
-+\sum_{j=2}^n (-1)^{1+j}a_{1j}\,\det(M_{1j}(\lambda)),
-\]
-where $M_{1j}(\lambda)$ is the $(n-1)\times(n-1)$ minor obtained by deleting row $1$ and column $j$.
-
-Key observation (degree-counting in matrix form):
-\begin{itemize}
-	\item $\det(B-\lambda I_{n-1})$ has degree $n-1$ with leading term $(-1)^{n-1}\lambda^{n-1}$.
-	\item For $j\ge 2$, the matrix $M_{1j}(\lambda)$ is obtained from $B-\lambda I_{n-1}$ by deleting
-	one of its columns (corresponding to the deleted column $j$). Hence $M_{1j}(\lambda)$ contains at most
-	$n-2$ diagonal entries of the form $(\cdot-\lambda)$, so \emph{every} term in $\det(M_{1j}(\lambda))$
-	has degree at most $n-2$. Thus $\deg\det(M_{1j}(\lambda))\le n-2$.
-\end{itemize}
-
-Therefore the only source of a $\lambda^n$ term is
-\[
-(a_{11}-\lambda)\det(B-\lambda I_{n-1}),
-\]
-and its $\lambda^n$ coefficient is
-\[
-(-\lambda)\cdot\bigl((-1)^{n-1}\lambda^{n-1}\bigr)=(-1)^n\lambda^n.
-\]
-Hence $c_n=(-1)^n$ and $\deg\chi_A=n$.
-
-\medskip
-\noindent\textbf{(2) The $\lambda^{n-1}$ coefficient and the trace.}
-From the same expansion, the summation terms with $j\ge 2$ cannot contribute to $\lambda^{n-1}$
-because they have degree $\le n-2$. Hence $c_{n-1}$ comes solely from
-\[
-(a_{11}-\lambda)\det(B-\lambda I_{n-1}).
-\]
-Write the first two top-degree terms of $\det(B-\lambda I_{n-1})$ in the same convention:
-\[
-\det(B-\lambda I_{n-1})
-= (-1)^{n-1}\lambda^{n-1}+(-1)^{n-2}\tr(B)\,\lambda^{n-2}+\text{(lower powers)}.
-\]
-(Here we are using the $(n-1)\times(n-1)$ case, i.e.\ induction on size.)
-
-Multiply:
-\begin{align*}
-	(a_{11}-\lambda)\det(B-\lambda I_{n-1})
-	&=a_{11}\Bigl((-1)^{n-1}\lambda^{n-1}+\cdots\Bigr)
-	-\lambda\Bigl((-1)^{n-1}\lambda^{n-1}+(-1)^{n-2}\tr(B)\lambda^{n-2}+\cdots\Bigr)\\
-	&=\Bigl[(-1)^{n-1}a_{11}-(-1)^{n-2}\tr(B)\Bigr]\lambda^{n-1}
-	+\text{(terms of degree $\neq n-1$)}.
-\end{align*}
-Thus
-\[
-c_{n-1}=(-1)^{n-1}a_{11}-(-1)^{n-2}\tr(B)=(-1)^{n-1}\bigl(a_{11}+\tr(B)\bigr).
-\]
-But $\tr(A)=a_{11}+\tr(B)$ (trace is the sum of diagonal entries; $B$ contains $a_{22},\dots,a_{nn}$),
-so
-\[
-c_{n-1}=(-1)^{n-1}\tr(A).
-\]
-
-\medskip
-\noindent\textbf{(3) Constant term.}
-Evaluating at $\lambda=0$ gives
-\[
-c_0=\chi_A(0)=\det(A-0\cdot I_n)=\det(A).
-\]
+%We prove the more explicit coefficient formula
+%\[
+%\chi_A(x)=\sum_{k=0}^n (-1)^{\,n-k}E_k(A)\,x^{\,n-k},
+%\]
+%which is equivalent to the displayed statement after factoring out $(-1)^n$.
+%
+%\medskip
+%\noindent\textbf{Step 1 (multilinear expansion).}
+%Write the $j$-th column of $A$ as $A_j$ and let $e_j$ be the $j$-th standard basis column.
+%Then the $j$-th column of $A-x\Id_n$ is
+%\[
+%A_j-xe_j.
+%\]
+%Using multilinearity of $\det$ in the columns, expand
+%\[
+%\chi_A(x)=\det(A_1-xe_1,\dots,A_n-xe_n)
+%=\sum_{S\subseteq[n]}(-x)^{\,n-|S|}\,\det(B_S),
+%\]
+%where $[n]=\{1,\dots,n\}$ and $B_S$ is the matrix whose $j$-th column is
+%\[
+%(B_S)_j=\begin{cases}
+%	A_j,& j\in S,\\
+%	e_j,& j\notin S.
+%\end{cases}
+%\]
+%
+%\medskip
+%\noindent\textbf{Step 2 (key lemma).}
+%For every $S\subseteq[n]$,
+%\[
+%\det(B_S)=\det(A[S]).
+%\]
+%We prove this by induction on $n$.
+%
+%\smallskip
+%\noindent\emph{Base case $n=1$.}
+%If $S=\varnothing$, then $B_S=[e_1]$ so $\det(B_S)=1=\det(A[\varnothing])$.
+%If $S=\{1\}$, then $B_S=[A_1]=[a_{11}]$ so $\det(B_S)=a_{11}=\det(A[\{1\}])$.
+%
+%\smallskip
+%\noindent\emph{Inductive step.}
+%Assume the statement holds for size $(n-1)\times(n-1)$ matrices. Fix $S\subseteq[n]$.
+%
+%\begin{itemize}
+%	\item If $n\notin S$, then the $n$-th column of $B_S$ is $e_n$. Expanding $\det(B_S)$ along
+%	that column gives
+%	\[
+%	\det(B_S)=\det\bigl((B_S)_{\widehat n,\widehat n}\bigr),
+%	\]
+%	where $(\cdot)_{\widehat n,\widehat n}$ denotes deleting row $n$ and column $n$.
+%	But $(B_S)_{\widehat n,\widehat n}$ is exactly the corresponding matrix
+%	$B_S$ for the $(n-1)\times(n-1)$ matrix obtained from $A$ by deleting row/column $n$.
+%	By the induction hypothesis,
+%	\[
+%	\det\bigl((B_S)_{\widehat n,\widehat n}\bigr)=\det(A[S]),
+%	\]
+%	since $S\subseteq\{1,\dots,n-1\}$ in this case.
+%	
+%	\item If $n\in S$, let $S'=S\setminus\{n\}\subseteq\{1,\dots,n-1\}$.
+%	Now expand $\det(B_S)$ along the last column \emph{after} performing the following
+%	column operations: for each $j\notin S$ (so column $j$ equals $e_j$), use it to clear the
+%	entry in row $j$ of the column $n$ (which is $A_n$). These operations do not change the determinant.
+%	After clearing, the only possibly nonzero entries of column $n$ lie in rows indexed by $S$,
+%	and the columns indexed by $[n]\setminus S$ form an identity block. Expanding along those
+%	identity columns reduces the determinant to the principal subdeterminant on $S$, i.e.
+%	\[
+%	\det(B_S)=\det(A[S]).
+%	\]
+%\end{itemize}
+%
+%This completes the induction and proves the lemma.
+%
+%\medskip
+%\noindent\textbf{Step 3 (collect coefficients).}
+%Using the lemma in the multilinear expansion,
+%\[
+%\chi_A(x)=\sum_{S\subseteq[n]}(-x)^{\,n-|S|}\det(A[S]).
+%\]
+%Group terms by $k=|S|$:
+%\[
+%\chi_A(x)=\sum_{k=0}^n (-x)^{\,n-k}\sum_{\substack{S\subseteq[n]\\ |S|=k}}\det(A[S])
+%=\sum_{k=0}^n (-1)^{\,n-k}E_k(A)\,x^{\,n-k}.
+%\]
+%Factoring out $(-1)^n$ yields
+%\[
+%\chi_A(x)=(-1)^n\left(x^n-E_1(A)x^{n-1}+E_2(A)x^{n-2}-\cdots+(-1)^nE_n(A)\right),
+%\]
+%as claimed.
 \end{proof}
 
 \newpage
+%\defbox[Eigenspace]{
+%\begin{definition}
+%	Let $T:V\to V$ be $\F$-linear, and let $\lambda\in\F$.
+%	The \textbf{eigenspace} of $T$ associated to $\lambda$ is
+%	\[
+%	E_\lambda(T)\coloneqq \{\textbf{u}\in V: T(\textbf{u})=\lambda \textbf{u}\}=\ker(T-\lambda\mathrm{Id}).
+%	\]
+%\end{definition}}
+%
+%\medskip
+%
+%\thmbox[Rank-Nullity Theorem]{\begin{theorem}
+%Let $T:V\to W$ be linear with $V$ finite-dimensional. Then
+%\[
+%\dim V=\dim\ker(T)+\dim\mathrm{Im}(T).
+%\]
+%\end{theorem}}
+%\corbox[Eigenspace dimension via rank]{\begin{corollary}
+%Let $T:V\to V$ be $\F$-linear and $\lambda\in\F$,
+%\[
+%\dim E_\lambda(T)=\dim V-\dim\mathrm{Im}(T-\lambda\id).
+%\]
+%\end{corollary}}
+%\begin{proof}
+%	Apply Rank-Nullity Theorem to $(T-\lambda\mathrm{Id}):V\to V$.
+%\end{proof}
 
 
 \vfill

@@ -1,0 +1,572 @@
+% !TeX program = pdflatex
+\documentclass[11pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath, amssymb, amsthm, mathtools}
+\usepackage{mathrsfs}
+\usepackage{bm}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{microtype}
+\usepackage{tikz}
+\usepackage{booktabs}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
+\hypersetup{
+	colorlinks=true,
+	linkcolor=blue,
+	citecolor=blue,
+	urlcolor=blue
+}
+
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Zq}{\Z_q}
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\Ftwo}{\mathbb{F}_2}
+\newcommand{\Rq}{R_q}
+\newcommand{\norm}[1]{\left\lVert #1 \right\rVert}
+\newcommand{\abs}[1]{\left\lvert #1 \right\rvert}
+\newcommand{\wt}{\mathrm{wt}}
+\newcommand{\poly}{\mathrm{poly}}
+\newcommand{\negl}{\mathrm{negl}}
+\newcommand{\Adv}{\mathrm{Adv}}
+\newcommand{\Id}{\mathrm{Id}}
+%\newcommand{\gets}{\leftarrow}
+\newcommand{\from}{\xleftarrow{\$}}
+\newcommand{\dist}{\stackrel{?}{\approx}}
+\newcommand{\bits}{\{0,1\}}
+\newcommand{\calO}{\mathcal{O}}
+\newcommand{\calD}{\mathcal{D}}
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+\newtheorem{remark}[definition]{Remark}
+\newtheorem{example}[definition]{Example}
+\newtheorem{exercise}{Exercise}[section]
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\title{Lecture Notes: Standard Hard Problems for Post-Quantum Cryptography}
+\author{(LWE, SIS, NTRU, Syndrome Decoding, Isogenies, MQ, Hash Security)}
+\date{}
+
+\begin{document}
+	\maketitle
+	\vspace{-1.0em}
+	
+	\begin{abstract}
+		These notes collect textbook-grade formal statements and core theory for canonical hardness assumptions used in post-quantum cryptography. We emphasize: (i) formal search/decision games, (ii) parameter regimes and distributions, (iii) relationships (reductions/equivalences) that matter in cryptographic proofs, and (iv) best-known attack families at a high level. Each section ends with practice problems suitable for advanced undergraduate, master's, and PhD-level study.
+	\end{abstract}
+	
+	\tableofcontents
+	
+	\section{Preliminaries and Notation}
+	
+	\subsection{Probability, Advantages, and Negligibility}
+	A function $\negl(\lambda)$ is \emph{negligible} if for every polynomial $p(\cdot)$, $\negl(\lambda) < 1/p(\lambda)$ for all sufficiently large $\lambda$.
+	
+	For a distinguisher $\mathcal{A}$ attempting to distinguish distributions $\calD_0,\calD_1$,
+	\[
+	\Adv_{\mathcal{A}}(\calD_0,\calD_1) \stackrel{\mathrm{def}}{=} 
+	\left| \Pr[\mathcal{A}(x)=1 \mid x\from \calD_0] - \Pr[\mathcal{A}(x)=1 \mid x\from \calD_1] \right|.
+	\]
+	
+	\subsection{Linear Algebra over Rings/Fields}
+	For modulus $q\in \mathbb{N}$, $\Z_q := \Z / q\Z$. We write vectors as column vectors by default; $A\in \Z_q^{m\times n}$ and $s\in \Z_q^n$ implies $As\in \Z_q^m$.
+	
+	For codes, $\Ftwo$ is the binary field. A parity-check matrix $H\in \Ftwo^{(n-k)\times n}$ defines a linear code $\mathcal{C}=\{c\in\Ftwo^n: Hc^\top=0\}$.
+	
+	\subsection{Norms and ``Shortness''}
+	Common norms in lattices:
+	\[
+	\norm{x}_2 = \sqrt{\sum_i x_i^2},\qquad
+	\norm{x}_\infty = \max_i |x_i|.
+	\]
+	In ring-/module-structured settings, ``shortness'' often means coefficient vector is small under $\ell_2$ or $\ell_\infty$.
+	
+	\subsection{Distributions for Errors}
+	In LWE/NTRU, errors are usually sampled from:
+	\begin{itemize}[leftmargin=*]
+		\item \emph{Discrete Gaussian} $D_{\sigma}$ over $\Z$ (or $\Z^m$) with parameter $\sigma$,
+		\item \emph{Centered binomial} (difference of two binomials), or
+		\item bounded distributions like uniform on $\{-\eta,\dots,\eta\}$.
+	\end{itemize}
+	Cryptographic security typically needs errors ``small'' compared to $q$ but large enough to hide secrets statistically.
+	
+	\section{Lattice-Based Hard Problems}
+	
+	\subsection{Background: Lattices, Duality, and Problems}
+	A (full-rank) lattice $\Lambda \subset \mathbb{R}^n$ is $\Lambda = \{Bz : z\in\Z^n\}$ for some basis matrix $B\in\mathbb{R}^{n\times n}$.
+	
+	Classic algorithmic problems:
+	\begin{itemize}[leftmargin=*]
+		\item \textbf{SVP (Shortest Vector Problem):} Find $0\neq v\in\Lambda$ minimizing $\norm{v}_2$.
+		\item \textbf{GapSVP (Decision/SVP approximation):} Given $(\Lambda, d)$ decide whether $\lambda_1(\Lambda)\le d$ or $\lambda_1(\Lambda)> \gamma d$.
+		\item \textbf{SIVP (Shortest Independent Vectors):} Find $n$ linearly independent vectors of length $\le \gamma\cdot \lambda_n(\Lambda)$.
+	\end{itemize}
+	The importance for cryptography: average-case problems (LWE/SIS) reduce from worst-case lattice problems (GapSVP/SIVP) under suitable parameters.
+	
+	\subsection{Learning With Errors (LWE)}
+	
+	\subsubsection{Formal Statements}
+	\begin{definition}[Search-LWE]
+		Fix integers $n,m,q\in\mathbb{N}$ and an error distribution $\chi$ over $\Z$ (typically supported on small integers).
+		Sample $A\from \Z_q^{m\times n}$ uniformly, secret $s\from \Z_q^n$ (usually uniform), and error $e\from \chi^m$.
+		Given $(A,b)$ where
+		\[
+		b = As + e \bmod q \in \Z_q^m,
+		\]
+		output the secret $s$ (or equivalently recover $e$).
+	\end{definition}
+	
+	\begin{definition}[Decision-LWE]
+		Under the same parameterization, consider two distributions over $(A,b)$:
+		\[
+		\calD_0: (A, As+e \bmod q), \qquad
+		\calD_1: (A, u),\ \ u\from \Z_q^m.
+		\]
+		Given $(A,b)$, output a bit indicating whether $(A,b)\from\calD_0$ or $(A,b)\from\calD_1$ with non-negligible advantage.
+	\end{definition}
+	
+	\subsubsection{Geometric / Statistical Intuition}
+	Each equation is:
+	\[
+	\langle a_i, s \rangle + e_i \equiv b_i \pmod q.
+	\]
+	If errors were $0$, this is solving a linear system over $\Z_q$. Errors make it an instance of \emph{noisy linear equations}, and (crucially) hide $s$.
+	
+	A typical heuristic: if $e$ is small in $\Z$ and $q$ is large, the mapping $s\mapsto As+e$ looks like ``random'' without knowing $s$, but still allows decryption by rounding in cryptosystems.
+	
+	\subsubsection{Decision vs Search; Standard Relationships}
+	Cryptographic constructions often assume decision-LWE hardness (for pseudorandomness) and search-LWE hardness (for extracting secrets). Under many standard parameter regimes, one can relate them:
+	
+	\begin{remark}[Search-to-decision (informal)]
+		For prime $q$, there are classical reductions showing decision-LWE is no harder than search-LWE and vice versa (up to losses), under mild conditions. Intuitively, if you can recover $s$ then you can distinguish; conversely, if you can distinguish, you can often recover $s$ coordinate-by-coordinate using hybrid and rerandomization tricks.
+	\end{remark}
+	
+	\subsubsection{Worst-Case to Average-Case Reductions (High-Level)}
+	A landmark result (Regev-style) shows that (for appropriate $\alpha$ where errors have size about $\alpha q$) decision-LWE is at least as hard as approximating worst-case lattice problems (GapSVP/SIVP) in dimension $n$ within poly factors. The technical conditions tie $\alpha$, $q$, and $n$.
+	
+	\begin{remark}[What you should remember]
+		The security story is: \emph{if LWE is easy on average, then certain canonical lattice problems are easy in the worst case}. This is why LWE is a central conservative assumption.
+	\end{remark}
+	
+	\subsubsection{Parameter Regimes (Conceptual)}
+	Let error magnitude scale be $\sigma$ (e.g., standard deviation for discrete Gaussian). Often one defines $\alpha = \sigma/q$.
+	\begin{itemize}[leftmargin=*]
+		\item \textbf{Correctness in encryption}: needs $\sigma \ll q$ so small errors can be rounded.
+		\item \textbf{Security}: needs $\sigma$ large enough that $As+e$ hides $s$; also $m$ large enough to prevent solving.
+		\item \textbf{Typical cryptosystems}: use $m\approx n\log q$ or $m$ a constant multiple of $n$ in module/ring variants.
+	\end{itemize}
+	
+	\subsubsection{Attack Taxonomy (What to Teach)}
+	Best-known attacks broadly fall into:
+	\begin{itemize}[leftmargin=*]
+		\item \textbf{Lattice reduction (primal):} view LWE as finding a close vector / BDD instance; build a lattice from $A$ and $b$ and run BKZ-type reduction; recover $s$ by nearest-plane or enumeration.
+		\item \textbf{Dual attack:} find a short vector $y$ in the dual lattice such that $y^\top A \equiv 0$ mod $q$, then test $y^\top b$ for smallness vs uniform.
+		\item \textbf{BKW / combinatorial:} reduce dimension via collision-finding on $A$ rows; grows fast with $q$ and noise but can matter for small moduli.
+		\item \textbf{Arora--Ge (algebraic):} for very small error alphabets and special parameter settings, solve polynomial system.
+	\end{itemize}
+	
+	\subsubsection{Exercises (LWE)}
+	\begin{exercise}[Upper-undergrad: noiseless baseline]
+		Assume $e=0$ and $m\ge n$. Show how to recover $s$ efficiently from $(A,As\bmod q)$ when $q$ is prime and $A$ has full rank.
+	\end{exercise}
+	
+	\begin{exercise}[Masters: distinguishing via dual vector]
+		Let $y\in \Z^m$ satisfy $y^\top A\equiv 0\pmod q$. Show that if $(A,b)\from \calD_0$ then
+		\[
+		y^\top b \equiv y^\top e \pmod q,
+		\]
+		and argue heuristically why $y^\top b$ is statistically closer to small integers mod $q$ than uniform if $y$ is short.
+	\end{exercise}
+	
+	\begin{exercise}[PhD: hybrid for search-to-decision sketch]
+		Assume $q$ prime. Outline a reduction strategy that recovers $s_i$ (the $i$-th coordinate of $s$) using a decision oracle by embedding a guess into the distribution and using hybrids.
+	\end{exercise}
+	
+	\subsection{Short Integer Solution (SIS)}
+	
+	\subsubsection{Formal Statement}
+	\begin{definition}[Search-SIS]
+		Let $q\in\mathbb{N}$, $n,m\in\mathbb{N}$, and bound $\beta\in\mathbb{N}$.
+		Sample $A\from \Z_q^{n\times m}$ uniformly.
+		Find a nonzero vector $x\in \Z^m\setminus\{0\}$ such that
+		\[
+		Ax \equiv 0 \pmod q
+		\quad\text{and}\quad
+		\norm{x}\le \beta,
+		\]
+		where $\norm{\cdot}$ is typically $\ell_2$ or $\ell_\infty$.
+	\end{definition}
+	
+	\subsubsection{Interpretation as Finding Short Relations}
+	The condition $Ax\equiv 0\pmod q$ means $x$ is an integer relation among the columns of $A$ modulo $q$. Without the shortness constraint, there are many solutions. The hardness is to find a \emph{short} one.
+	
+	\subsubsection{Connection to Hash-and-Sign / Commitments}
+	SIS underlies:
+	\begin{itemize}[leftmargin=*]
+		\item lattice-based hash functions: mapping $x\mapsto Ax\bmod q$; collisions correspond to short $x$ with $Ax\equiv 0$.
+		\item commitments: binding reduces to SIS.
+		\item signatures (e.g., GPV-style): produce short preimages under a public linear map.
+	\end{itemize}
+	
+	\subsubsection{Worst-Case Reductions (High-Level)}
+	SIS is related to worst-case lattice problems as well: if SIS is easy for certain $(n,m,q,\beta)$, then approximating certain lattice problems is easy in the worst case. The parameter tradeoff differs from LWE.
+	
+	\subsubsection{Attack Taxonomy}
+	\begin{itemize}[leftmargin=*]
+		\item \textbf{Lattice reduction:} interpret SIS as finding a short vector in a lattice of solutions; build lattice basis and run BKZ.
+		\item \textbf{Combinatorial / meet-in-the-middle:} sometimes applicable for $\ell_\infty$ and special constraints (rare in standard parameters).
+	\end{itemize}
+	
+	\subsubsection{Exercises (SIS)}
+	\begin{exercise}[Upper-undergrad: pigeonhole existence]
+		Let $A\in\Z_q^{n\times m}$ and consider all $x\in\{0,1\}^m$. Show that if $2^m > q^n$, then there exist distinct $x\neq x'$ with $Ax\equiv Ax'\pmod q$. Deduce existence of a nonzero $\{-1,0,1\}^m$ solution to $A(x-x')\equiv 0$.
+	\end{exercise}
+	
+	\begin{exercise}[Masters: collision-resistance from SIS]
+		Define $H(x)=Ax\bmod q$ for short $x$ in some domain. Formalize how a collision $(x\neq x')$ yields an SIS solution.
+	\end{exercise}
+	
+	\begin{exercise}[PhD: parameter reasoning]
+		For fixed $n,q$, explain qualitatively why increasing $m$ makes SIS \emph{easier} (more relations exist), but also allows setting smaller $\beta$ while maintaining existence of solutions.
+	\end{exercise}
+	
+	\subsection{NTRU Search Problem}
+	
+	\subsubsection{Ring Setting}
+	Let $f(x)$ be a cyclotomic-like polynomial (e.g., $x^N+1$ with $N$ power of 2, or $x^N-1$ for classical NTRU variants). Define
+	\[
+	R = \Z[x]/(f(x)),\qquad
+	R_q = R / qR \cong \Z_q[x]/(f(x)).
+	\]
+	Elements are represented by degree-$<N$ polynomials; ``small'' typically refers to small coefficients.
+	
+	\subsubsection{Formal Problem (One Common Form)}
+	\begin{definition}[NTRU Search (informal canonical form)]
+		Sample $f,g \in R$ from a ``small'' distribution such that $f$ is invertible in $R_q$.
+		Publish
+		\[
+		h \equiv g f^{-1} \pmod q \in R_q.
+		\]
+		Given $h$, recover a short pair $(f,g)$ (or an equivalent short representation) satisfying $h f \equiv g \pmod q$ under the same smallness constraints.
+	\end{definition}
+	
+	\subsubsection{Key Ambiguities in NTRU Statements}
+	NTRU has many instantiations; the exact hardness depends on:
+	\begin{itemize}[leftmargin=*]
+		\item ring choice ($x^N\pm 1$; $N$ prime; etc.),
+		\item modulus structure (prime $q$ vs power-of-two),
+		\item distribution of $(f,g)$ (ternary, Gaussian, centered binomial),
+		\item norm and acceptance region (e.g., $\ell_\infty$ bounds on coefficients),
+		\item whether we are in \emph{ring} vs \emph{module} setting.
+	\end{itemize}
+	
+	\subsubsection{NTRU as a Lattice Problem}
+	Given $h$, consider the \emph{NTRU lattice}:
+	\[
+	\Lambda_h = \left\{(u,v)\in R^2 : u - hv \equiv 0 \pmod q \right\}.
+	\]
+	A secret key corresponds to a short vector $(g,f)\in \Lambda_h$. Thus, breaking NTRU is (at high level) a shortest-vector style task in a structured lattice.
+	
+	\subsubsection{Attack Taxonomy}
+	\begin{itemize}[leftmargin=*]
+		\item \textbf{Lattice reduction on NTRU lattice:} embed $\Lambda_h$ into an integer lattice of dimension $2N$ and use BKZ; recover short $(f,g)$.
+		\item \textbf{Hybrid attacks:} partial guessing of coefficients + lattice reduction for the remaining.
+		\item \textbf{Subfield / algebraic structure attacks:} exploit ring structure if parameters are ill-chosen (historically important lesson: structure can leak).
+	\end{itemize}
+	
+	\subsubsection{Exercises (NTRU)}
+	\begin{exercise}[Upper-undergrad: derive the NTRU relation]
+		Show that $h \equiv gf^{-1}\pmod q$ implies $hf\equiv g\pmod q$. Explain why small $(f,g)$ is a ``short relation'' between $1$ and $h$.
+	\end{exercise}
+	
+	\begin{exercise}[Masters: NTRU lattice membership]
+		Define $\Lambda_h$ as above. Prove that $(g,f)\in \Lambda_h$. What other pairs are in $\Lambda_h$? Characterize them modulo $q$.
+	\end{exercise}
+	
+	\begin{exercise}[PhD: compare NTRU vs LWE intuition]
+		Give a conceptual comparison: NTRU keys correspond to short vectors in a structured lattice tied to one public ring element; LWE hides a secret with additive noise across many samples. Discuss how this affects the style of security reductions and the known attacks.
+	\end{exercise}
+	
+	\section{Code-Based Hard Problems}
+	
+	\subsection{Linear Codes and Syndromes}
+	Let $\mathcal{C}\subseteq \Ftwo^n$ be a linear $[n,k]$ code with parity-check matrix $H\in\Ftwo^{(n-k)\times n}$.
+	For $e\in\Ftwo^n$, the \emph{syndrome} is $s = He^\top\in\Ftwo^{n-k}$.
+	Syndrome decoding asks: given $H$ and $s$, find a low-weight $e$ with syndrome $s$.
+	
+	\subsection{Syndrome Decoding (SD)}
+	
+	\subsubsection{Formal Statements}
+	\begin{definition}[Search-SD]
+		Given $H\in\Ftwo^{(n-k)\times n}$, a syndrome $s\in\Ftwo^{n-k}$, and an integer weight $w$,
+		find $e\in\Ftwo^n$ such that
+		\[
+		He^\top = s
+		\quad\text{and}\quad
+		\wt(e)=w.
+		\]
+	\end{definition}
+	
+	\begin{definition}[Decisional SD (DSD)]
+		Distinguish:
+		\begin{itemize}[leftmargin=*]
+			\item $\calD_0$: $e\from \Ftwo^n$ uniform subject to $\wt(e)=w$, and $s=He^\top$.
+			\item $\calD_1$: $s\from \Ftwo^{n-k}$ uniform.
+		\end{itemize}
+		Given $(H,s)$ output whether $s$ is a syndrome of a weight-$w$ error vector with non-negligible advantage.
+	\end{definition}
+	
+	\subsubsection{Why SD is Hard}
+	For random $H$, the mapping $e\mapsto He^\top$ is linear and many-to-one. The hardness comes from the combinatorial explosion of possible $e$ of weight $w$:
+	\[
+	\#\{e\in\Ftwo^n:\wt(e)=w\} = \binom{n}{w}.
+	\]
+	Brute force is exponential in $n$ for typical $w$ scaling.
+	
+	\subsubsection{Information Set Decoding (ISD) Family (High-Level)}
+	The dominant attacks are \emph{information set decoding} and its refinements (Prange, Stern, Dumer, BJMM, and modern variants). The meta-idea:
+	\begin{itemize}[leftmargin=*]
+		\item guess an ``information set'' of coordinates where the error is assumed sparse/structured,
+		\item reduce the decoding task to a smaller combinatorial search,
+		\item repeat until success with certain probability.
+	\end{itemize}
+	Complexities are typically $2^{c n}$ with constant $c$ depending on rate $k/n$ and relative weight $w/n$.
+	
+	\subsubsection{Exercises (SD)}
+	\begin{exercise}[Upper-undergrad: syndrome as coset]
+		Fix $H$. Show that the set $\{e\in\Ftwo^n : He^\top = s\}$ is an affine subspace (a coset of $\ker(H)$). What is its size?
+	\end{exercise}
+	
+	\begin{exercise}[Masters: counting solutions]
+		Assume $H$ is full rank. For random $s$, what is the expected number of solutions $e$ of weight exactly $w$? Express it using $\binom{n}{w}$ and $2^{n-k}$ and justify the approximation.
+	\end{exercise}
+	
+	\begin{exercise}[PhD: ISD success probability sketch]
+		In Prange's algorithm, one chooses a set $I$ of $k$ positions and hopes the error is zero on $I$. Derive the success probability in terms of $n,k,w$ and the expected work factor.
+	\end{exercise}
+	
+	\subsection{QC Syndrome Decoding (QCSD)}
+	
+	\subsubsection{Quasi-Cyclic Structure}
+	A binary quasi-cyclic (QC) code often uses a parity-check matrix built from circulant blocks.
+	For block size $p$, a circulant matrix is determined by its first row; multiplication corresponds to polynomial multiplication modulo $x^p-1$.
+	
+	\subsubsection{Problem Statement}
+	\begin{definition}[QCSD / DQCSD]
+		Same as SD/DSD, except $H$ is drawn from a QC ensemble (block-circulant structure), and sometimes $e$ is restricted to QC form. Given $(H,s,w)$ find $e$ with $He^\top=s$ and $\wt(e)=w$, or distinguish structured syndromes from uniform.
+	\end{definition}
+	
+	\subsubsection{Security Subtleties}
+	QC structure reduces public key sizes dramatically but introduces algebraic symmetry. Best practice is to choose parameters so that known structural attacks (e.g., exploiting cyclic shifts, folding, or module-based speedups) do not reduce security below target.
+	
+	\subsubsection{Exercises (QCSD)}
+	\begin{exercise}[Masters: circulant-as-polynomial]
+		Show how multiplying a circulant matrix by a vector corresponds to polynomial multiplication modulo $x^p-1$.
+	\end{exercise}
+	
+	\begin{exercise}[PhD: symmetry and attack surface]
+		Explain how cyclic symmetry can introduce additional low-weight codewords or enable collision-style shortcuts. Give at least one concrete avenue (high-level) by which QC structure can be exploited.
+	\end{exercise}
+	
+	\section{Isogeny-Based Hard Problems (Elliptic Curves)}
+	
+	\subsection{Elliptic Curves and Isogenies: Minimal Background}
+	Let $E/\F_q$ be an elliptic curve. An \emph{isogeny} $\phi:E_1\to E_2$ is a non-constant rational group homomorphism defined over $\F_q$ (or an extension). Isogenies have finite kernels; $\deg(\phi)$ is its degree. Two curves are isogenous iff they have the same number of points over $\F_q$ (Tate).
+	
+	Isogeny graphs:
+	\begin{itemize}[leftmargin=*]
+		\item vertices: curves (up to isomorphism) in an isogeny class,
+		\item edges: isogenies of fixed small prime degree $\ell$ (or smooth degrees).
+	\end{itemize}
+	
+	\subsection{Isogeny Finding / Isogeny Path (Search)}
+	
+	\subsubsection{Generic Statement}
+	\begin{definition}[Isogeny Path / Isogeny Finding (generic search)]
+		Given elliptic curves $E_1,E_2/\F_q$ known to be isogenous, find a nontrivial isogeny
+		\[
+		\phi:E_1\to E_2,
+		\]
+		often restricted to a degree that is \emph{smooth} or bounded, equivalently find a path between $E_1$ and $E_2$ in a specified isogeny graph.
+	\end{definition}
+	
+	\subsubsection{Why It Is Hard}
+	Even when $E_1$ and $E_2$ are known to lie in the same isogeny class, the class may contain exponentially many curves, and paths can be long. Generic meet-in-the-middle algorithms resemble collision search in a large graph.
+	
+	\subsubsection{Attack Taxonomy (High-Level)}
+	\begin{itemize}[leftmargin=*]
+		\item \textbf{Meet-in-the-middle / claw finding:} bidirectional search on isogeny graph.
+		\item \textbf{Quantum speedups:} many isogeny problems admit quantum walk / hidden shift style speedups in special settings (historically relevant).
+		\item \textbf{Structure exploitation:} depends heavily on whether the family is supersingular vs ordinary, and on the action definition.
+	\end{itemize}
+	
+	\subsection{CSIDH-Style Group Action Inversion}
+	
+	\subsubsection{Statement}
+	Let $\calO$ be an order in an imaginary quadratic field and $\mathrm{Cl}(\calO)$ its ideal class group. In CSIDH-style systems, $\mathrm{Cl}(\calO)$ acts on a set of curves $\mathcal{X}$ (typically a subset of ordinary elliptic curves over $\F_p$) via isogenies with prescribed degrees.
+	
+	\begin{definition}[Group Action Inversion (search; CSIDH-style)]
+		Given a base curve $E_0\in \mathcal{X}$ and an endpoint
+		\[
+		E_1 = a * E_0
+		\]
+		for secret $a\in \mathrm{Cl}(\calO)$, recover $a$ (or an equivalent representative producing the same action).
+	\end{definition}
+	
+	\subsubsection{Conceptual View}
+	This is analogous to discrete log in a group: given $g$ and $g^a$, recover $a$. Here the ``group'' is a class group acting on curves, and the ``exponentiation'' is a sequence of isogenies determined by $a$.
+	
+	\subsubsection{Exercises (Isogenies)}
+	\begin{exercise}[Upper-undergrad: isogeny as quotient]
+		If $\phi:E\to E'$ has kernel $K$, argue that (abstractly) $E'\cong E/K$. Why is specifying $K$ often enough to define $\phi$?
+	\end{exercise}
+	
+	\begin{exercise}[Masters: graph distance intuition]
+		Assume you have an $\ell$-isogeny graph on a large isogeny class. Give a heuristic for the expected time of bidirectional search to find a path between random nodes, in terms of the number of vertices.
+	\end{exercise}
+	
+	\begin{exercise}[PhD: action inversion vs path finding]
+		Discuss when action inversion reduces to path finding and when it does not (e.g., representation ambiguity, commutativity, restricted degree sets). Provide a careful conceptual separation.
+	\end{exercise}
+	
+	\section{Multivariate (Finite-Field) Hard Problems}
+	
+	\subsection{Multivariate Quadratic (MQ)}
+	
+	\subsubsection{Formal Statement}
+	\begin{definition}[MQ (search)]
+		Let $\F$ be a finite field. Given $m$ quadratic polynomials in $n$ variables
+		\[
+		f_1,\dots,f_m \in \F[x_1,\dots,x_n]
+		\]
+		and a target $y\in \F^m$, find $x\in \F^n$ such that
+		\[
+		F(x) = (f_1(x),\dots,f_m(x)) = y.
+		\]
+	\end{definition}
+	
+	\subsubsection{Complexity Landscape}
+	MQ is NP-hard in general (over many field settings). Cryptographic MQ systems use structured instances with trapdoors (for signing) while aiming to look random publicly.
+	
+	\subsubsection{Algorithms and Attacks (High-Level)}
+	\begin{itemize}[leftmargin=*]
+		\item \textbf{Gr\"obner basis (F4/F5):} dominant algebraic approach; complexity depends on degree of regularity and system shape.
+		\item \textbf{XL / relinearization:} linearize monomials, overdetermine the system.
+		\item \textbf{Linear algebra / rank attacks:} exploit hidden low-rank structure in some schemes.
+		\item \textbf{Hybrid methods:} guess a subset of variables, solve reduced system algebraically.
+	\end{itemize}
+	
+	\subsection{IP / Key-Recovery Variant (Trapdoor Context)}
+	Many multivariate signature schemes publish
+	\[
+	P = T \circ F \circ S,
+	\]
+	where $S:\F^n\to \F^n$ and $T:\F^m\to \F^m$ are invertible affine maps and $F$ is a central map with special structure enabling inversion.
+	
+	\begin{definition}[IP / Key recovery (informal)]
+		Given public quadratic map $P$, recover a preimage $x$ for a given $y$ (i.e., invert $P$), or recover an equivalent private key $(S,F,T)$ enabling inversion.
+	\end{definition}
+	
+	\subsubsection{Exercises (MQ)}
+	\begin{exercise}[Upper-undergrad: counting solutions heuristic]
+		Assume $m=n$ and the polynomials behave like random functions. Over $\F_q$, what is the heuristic expected number of solutions to $F(x)=y$? (Treat outputs as uniform.)
+	\end{exercise}
+	
+	\begin{exercise}[Masters: relinearization idea]
+		Write quadratic polynomials as linear functions in monomials $\{x_ix_j\}$ and $\{x_i\}$. Estimate how many monomials exist. When might this become solvable by linear algebra?
+	\end{exercise}
+	
+	\begin{exercise}[PhD: degree of regularity discussion]
+		Explain (conceptually) the role of the degree of regularity in Gr\"obner basis attacks and how it drives complexity. What structural properties of $F$ could lower it?
+	\end{exercise}
+	
+	\section{Hash-Based Security Games (for Hash-Based Signatures)}
+	
+	Hash-based signatures do not rest on a single algebraic hard problem; their security is typically reduced to standard properties of hash functions (and related PRF/PRG assumptions for keyed hashes).
+	
+	Let $H:\bits^*\to\bits^n$ be a cryptographic hash.
+	
+	\subsection{Preimage Resistance}
+	\begin{definition}[Preimage resistance (search game)]
+		Sample $x\from \bits^*$ from an input distribution (often uniform from $\bits^\ell$ for some $\ell$) and set $y=H(x)$.
+		Given $y$, output $x'$ such that $H(x')=y$.
+		The advantage is $\Pr[H(x')=y]$.
+	\end{definition}
+	
+	\subsection{Second-Preimage Resistance}
+	\begin{definition}[Second-preimage resistance (search game)]
+		Sample $x\from \bits^*$ and give $x$ to the adversary.
+		The adversary outputs $x'\neq x$ such that $H(x')=H(x)$.
+	\end{definition}
+	
+	\subsection{Collision Resistance}
+	\begin{definition}[Collision resistance (search game)]
+		The adversary outputs distinct $x\neq x'$ such that $H(x)=H(x')$.
+	\end{definition}
+	
+	\subsection{PRF Security for Keyed Hashing}
+	Let $H_k:\bits^*\to\bits^n$ be a keyed construction (e.g., HMAC-like or tweakable hash used as PRF).
+	
+	\begin{definition}[PRF security]
+		An adversary $\mathcal{A}$ is given oracle access to $O(\cdot)$, where either:
+		\begin{itemize}[leftmargin=*]
+			\item $O(\cdot)=H_k(\cdot)$ for uniform secret key $k$, or
+			\item $O(\cdot)=R(\cdot)$ for a uniformly random function $R$ with the same domain/range.
+		\end{itemize}
+		$\mathcal{A}$ outputs a bit $b'$ guessing which world it is in. Advantage is:
+		\[
+		\Adv^{\mathrm{prf}}_{\mathcal{A}} = \left| \Pr[b'=1\mid O=H_k] - \Pr[b'=1\mid O=R] \right|.
+		\]
+	\end{definition}
+	
+	\subsection{Why These Properties Matter in Hash-Based Signatures}
+	In one-time and few-time signature designs (Lamport/Winternitz) and hypertree systems (XMSS/SPHINCS-style), proofs typically reduce forgery to:
+	\begin{itemize}[leftmargin=*]
+		\item finding preimages (breaking one-wayness),
+		\item finding collisions in compression functions / tweakable hashes,
+		\item distinguishing keyed hash from random (PRF) to simulate random oracle-like behavior in reductions.
+	\end{itemize}
+	
+	\subsection{Exercises (Hash Security)}
+	\begin{exercise}[Upper-undergrad: birthday bound]
+		Assume $H$ behaves like a random function to $n$-bit outputs. Estimate the number of random queries needed to find a collision with constant probability.
+	\end{exercise}
+	
+	\begin{exercise}[Masters: second-preimage vs collision]
+		Explain why second-preimage resistance for a fixed random input typically requires about $2^n$ work (random oracle heuristic), while collisions require about $2^{n/2}$.
+	\end{exercise}
+	
+	\begin{exercise}[PhD: PRF hybrids]
+		Sketch a hybrid argument that replaces a keyed hash $H_k$ with a random function $R$ inside a signature scheme proof, and identify the point where PRF advantage is used.
+	\end{exercise}
+	
+	\section{Cross-Cutting Comparisons and Study Checklist}
+	
+	\subsection{Decision vs Search Patterns}
+	\begin{itemize}[leftmargin=*]
+		\item LWE: both search and decision; decision gives pseudorandomness.
+		\item SIS: typically search (find short relation); implies collision resistance.
+		\item SD: search (decode); decisional form used in proofs and KEMs.
+		\item Isogenies: mostly search/path or action inversion (DLP-like).
+		\item MQ: search; key-recovery/inversion variants.
+		\item Hash: security games (search) and distinguishing (PRF).
+	\end{itemize}
+	
+	\subsection{What to Memorize (Exam-Grade)}
+	For each assumption, know:
+	\begin{enumerate}[leftmargin=*]
+		\item exact input distribution and output goal,
+		\item why it is believed hard (dominant attack family),
+		\item the cryptographic primitive it naturally supports (PKE/KEM, signatures, commitments, etc.),
+		\item what ``structure'' (ring/module/QC) buys (efficiency) and risks (attacks).
+	\end{enumerate}
+	
+\end{document}

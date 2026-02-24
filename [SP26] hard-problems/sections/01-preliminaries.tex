@@ -1,176 +1,37 @@
-% ============================================================
-% Preliminaries (mathematician-friendly) for common
-% cryptographic hard problems and primitives.
-% ============================================================
+\chapter{Preliminaries and Notation}
 
-%\section*{Preliminaries}
+\section{Probability, Advantages, and Negligibility}
+A function $\negl(\lambda)$ is \emph{negligible} if for every polynomial $p(\cdot)$, $\negl(\lambda) < 1/p(\lambda)$ for all sufficiently large $\lambda$.
 
-\subsection*{Security parameter and asymptotics}
-
-\paragraph{Security parameter.}
-Cryptographic families are indexed by a security parameter $\lambda\in\mathbb{N}$.
-All objects (groups, moduli, dimensions, etc.) are efficiently generated from $1^\lambda$.
-A function $\mu:\mathbb{N}\to \mathbb{R}_{\ge 0}$ is \emph{negligible} if for every $c>0$,
-there exists $\lambda_0$ such that for all $\lambda\ge \lambda_0$,
+For a distinguisher $\mathcal{A}$ attempting to distinguish distributions $\calD_0,\calD_1$,
 \[
-\mu(\lambda) < \lambda^{-c}.
-\]
-An event happens with \emph{non-negligible} probability if its probability is not negligible.
-
-\paragraph{Efficient algorithms and PPT adversaries.}
-A \emph{probabilistic polynomial-time} (PPT) algorithm $\mathcal{A}$ is a randomized algorithm
-running in time $\mathrm{poly}(\lambda)$ on inputs generated at security level $\lambda$.
-Probabilities are taken over the internal randomness of $\mathcal{A}$ and over all random choices
-made by experiment distributions.
-
-\subsection*{Basic algebraic structures}
-
-\paragraph{Rings and fields.}
-$\mathbb{Z}$ denotes the integers. For $q\ge 2$,
-\[
-\mathbb{Z}_q := \mathbb{Z}/q\mathbb{Z}
-\]
-is the ring of integers modulo $q$. If $q=p$ is prime, then $\mathbb{Z}_p \cong \mathbb{F}_p$ is a field.
-For a finite field $\mathbb{F}_q$ (with $q=p^r$), $\mathbb{F}_q^\times := \mathbb{F}_q\setminus\{0\}$
-denotes its multiplicative group.
-
-\paragraph{Groups.}
-A (finite) group is a pair $(G,\circ)$ with associative operation, identity element $e$,
-and inverses for all elements. A group is \emph{cyclic} if $G=\langle g\rangle$ for some $g\in G$.
-If $|G|=n$, then exponents are interpreted modulo $n$:
-\[
-g^x := \underbrace{g\circ\cdots\circ g}_{x \text{ times}} \quad\text{and}\quad g^{x+n}=g^x.
+\Adv_{\mathcal{A}}(\calD_0,\calD_1) \stackrel{\mathrm{def}}{=} 
+\left| \Pr[\mathcal{A}(x)=1 \mid x\from \calD_0] - \Pr[\mathcal{A}(x)=1 \mid x\from \calD_1] \right|.
 \]
 
-\paragraph{Homomorphisms.}
-A map $\varphi:G\to H$ between groups is a homomorphism if
-$\varphi(x\circ_G y)=\varphi(x)\circ_H \varphi(y)$.
-Its kernel is $\ker(\varphi)=\{x\in G:\varphi(x)=e_H\}$.
+\section{Linear Algebra over Rings/Fields}
+For modulus $q\in \mathbb{N}$, $\Z_q := \Z / q\Z$. We write vectors as column vectors by default; $A\in \Z_q^{m\times n}$ and $s\in \Z_q^n$ implies $As\in \Z_q^m$.
 
-\subsection*{Probability and sampling notation}
+For codes, $\Ftwo$ is the binary field. A parity-check matrix $H\in \Ftwo^{(n-k)\times n}$ defines a linear code $\mathcal{C}=\{c\in\Ftwo^n: Hc^\top=0\}$.
 
-\paragraph{Uniform sampling.}
-For a finite set $S$, the notation $x\xleftarrow{\$} S$ means $x$ is sampled uniformly from $S$.
-More generally, $x\leftarrow \mathcal{D}$ means $x$ is sampled from distribution $\mathcal{D}$.
-
-\paragraph{Advantage in a distinguishing task.}
-For distributions $\mathcal{D}_0,\mathcal{D}_1$ on a common sample space and a (randomized) distinguisher
-$\mathcal{A}$ outputting a bit, define
+\section{Norms and ``Shortness''}
+Common norms in lattices:
 \[
-\mathrm{Adv}_{\mathcal{A}}(\mathcal{D}_0,\mathcal{D}_1)
-:= \left|\Pr_{x\leftarrow \mathcal{D}_0}[\mathcal{A}(x)=1]-\Pr_{x\leftarrow \mathcal{D}_1}[\mathcal{A}(x)=1]\right|.
+\norm{x}_2 = \sqrt{\sum_i x_i^2},\qquad
+\norm{x}_\infty = \max_i |x_i|.
 \]
-A distinguishing advantage is \emph{negligible} if it is negligible in $\lambda$.
+In ring-/module-structured settings, ``shortness'' often means coefficient vector is small under $\ell_2$ or $\ell_\infty$.
 
-\subsection*{Bitstrings and encodings}
+\section{Distributions for Errors}
+In LWE/NTRU, errors are usually sampled from:
+\begin{itemize}%[leftmargin=*]
+	\item \emph{Discrete Gaussian} $D_{\sigma}$ over $\Z$ (or $\Z^m$) with parameter $\sigma$,
+	\item \emph{Centered binomial} (difference of two binomials), or
+	\item bounded distributions like uniform on $\{-\eta,\dots,\eta\}$.
+\end{itemize}
+Cryptographic security typically needs errors ``small'' compared to $q$ but large enough to hide secrets statistically.
 
-\paragraph{Bitstrings.}
-$\{0,1\}^\ast$ is the set of all finite bitstrings; $\{0,1\}^n$ denotes bitstrings of length $n$.
-Concrete mathematical objects (integers, group elements, matrices) are assumed to have fixed,
-efficient encodings as bitstrings, so they can be given to algorithms.
-
-\subsection*{Integers and arithmetic}
-
-\paragraph{Divisibility and gcd.}
-For $a,b\in\mathbb{Z}$, $a\mid b$ means $\exists k\in\mathbb{Z}$ with $b=ak$.
-The greatest common divisor is $\gcd(a,b)$.
-
-\paragraph{RSA-type moduli.}
-A common distribution for factorization hardness is
-\[
-N=pq
-\]
-where $p,q$ are distinct random primes of prescribed bit-length.
-
-\subsection*{Linear algebra over finite fields}
-
-\paragraph{Vector spaces.}
-For a finite field $\mathbb{F}_q$, $\mathbb{F}_q^n$ is an $n$-dimensional vector space.
-Matrices $A\in\mathbb{F}_q^{m\times n}$ act on vectors by multiplication.
-
-\paragraph{Inner product modulo $q$.}
-For $a,s\in \mathbb{Z}_q^n$,
-\[
-\langle a,s\rangle := \sum_{i=1}^n a_i s_i \pmod q.
-\]
-
-\subsection*{Normed spaces and geometry of numbers}
-
-\paragraph{Euclidean norm.}
-For $x\in\mathbb{R}^n$,
-\[
-\|x\|_2 := \sqrt{\sum_{i=1}^n x_i^2}.
-\]
-(Other norms, e.g.\ $\|\cdot\|_\infty$, may be used depending on the lattice problem.)
-
-\paragraph{Distance to a set.}
-For $t\in\mathbb{R}^n$ and $S\subseteq\mathbb{R}^n$,
-\[
-\mathrm{dist}(t,S) := \inf_{x\in S}\|t-x\|.
-\]
-
-\subsection*{Lattices (basic definitions used later)}
-
-\paragraph{Lattice and basis.}
-A full-rank lattice $\mathcal{L}\subset \mathbb{R}^n$ is
-\[
-\mathcal{L}(B)=\{Bz: z\in \mathbb{Z}^n\}
-\]
-for an invertible matrix $B\in\mathbb{R}^{n\times n}$ whose columns form a basis.
-
-\paragraph{Determinant / covolume.}
-$\det(\mathcal{L}) := |\det(B)|$ is independent of the chosen basis and equals the volume of a
-fundamental parallelepiped.
-
-\paragraph{Successive minima.}
-The first successive minimum is
-\[
-\lambda_1(\mathcal{L}) := \min\{\|x\|_2 : x\in \mathcal{L}\setminus\{0\}\}.
-\]
-
-\subsection*{Coding theory preliminaries}
-
-\paragraph{Hamming weight and distance.}
-For $x\in\mathbb{F}_q^n$,
-\[
-w_H(x)=|\{i: x_i\neq 0\}|,
-\qquad
-d_H(x,y)=w_H(x-y).
-\]
-
-\paragraph{Linear codes.}
-A linear $[n,k]_q$ code is a $k$-dimensional subspace $C\subseteq \mathbb{F}_q^n$.
-Generator and parity-check descriptions are equivalent:
-\[
-C=\{uG:u\in\mathbb{F}_q^k\}
-\quad\text{and}\quad
-C=\{c\in\mathbb{F}_q^n:Hc^\top=0\}.
-\]
-
-\subsection*{Elliptic curves and finite-field preliminaries}
-
-\paragraph{Finite fields and extensions.}
-For prime $p$, $\mathbb{F}_{p^2}$ is the degree-$2$ extension of $\mathbb{F}_p$.
-Elliptic curves in isogeny-based cryptography are often defined over $\mathbb{F}_{p^2}$.
-
-\paragraph{Elliptic curves (minimal facts).}
-An elliptic curve $E/\mathbb{F}_q$ is a smooth projective genus-one curve with a chosen base point,
-whose $\mathbb{F}_q$-rational points $E(\mathbb{F}_q)$ form a finite abelian group.
-
-\paragraph{Morphisms and degree.}
-A nonconstant rational map between curves has an associated (algebraic) degree.
-An \emph{isogeny} is a morphism $E_1\to E_2$ that is also a group homomorphism.
-
-\subsection*{Hash-function preliminaries}
-
-\paragraph{Function families.}
-A hash is typically modeled as a family $\{H_\lambda\}$ where each
-\[
-H_\lambda:\{0,1\}^\ast\to \{0,1\}^{n(\lambda)}
-\]
-is efficiently computable.
-
-\paragraph{Search vs.\ decision vs.\ distinguishing.}
+\section{Search vs.\ decision vs.\ distinguishing.}
 Many hardness notions can be expressed as:
 \begin{itemize}
 	\item \emph{Search}: output a witness (e.g.\ a factor, a discrete log, an error vector).
@@ -178,6 +39,179 @@ Many hardness notions can be expressed as:
 	\item \emph{Distinguishing}: tell apart two distributions (e.g.\ LWE vs.\ uniform).
 \end{itemize}
 
-% ============================================================
-% End preliminaries
-% ============================================================
+
+%% ============================================================
+%% Preliminaries (mathematician-friendly) for common
+%% cryptographic hard problems and primitives.
+%% ============================================================
+%
+%%\section*{Preliminaries}
+%
+%\subsection*{Security parameter and asymptotics}
+%
+%\paragraph{Security parameter.}
+%Cryptographic families are indexed by a security parameter $\lambda\in\mathbb{N}$.
+%All objects (groups, moduli, dimensions, etc.) are efficiently generated from $1^\lambda$.
+%A function $\mu:\mathbb{N}\to \mathbb{R}_{\ge 0}$ is \emph{negligible} if for every $c>0$,
+%there exists $\lambda_0$ such that for all $\lambda\ge \lambda_0$,
+%\[
+%\mu(\lambda) < \lambda^{-c}.
+%\]
+%An event happens with \emph{non-negligible} probability if its probability is not negligible.
+%
+%\paragraph{Efficient algorithms and PPT adversaries.}
+%A \emph{probabilistic polynomial-time} (PPT) algorithm $\mathcal{A}$ is a randomized algorithm
+%running in time $\mathrm{poly}(\lambda)$ on inputs generated at security level $\lambda$.
+%Probabilities are taken over the internal randomness of $\mathcal{A}$ and over all random choices
+%made by experiment distributions.
+%
+%\subsection*{Basic algebraic structures}
+%
+%\paragraph{Rings and fields.}
+%$\mathbb{Z}$ denotes the integers. For $q\ge 2$,
+%\[
+%\mathbb{Z}_q := \mathbb{Z}/q\mathbb{Z}
+%\]
+%is the ring of integers modulo $q$. If $q=p$ is prime, then $\mathbb{Z}_p \cong \mathbb{F}_p$ is a field.
+%For a finite field $\mathbb{F}_q$ (with $q=p^r$), $\mathbb{F}_q^\times := \mathbb{F}_q\setminus\{0\}$
+%denotes its multiplicative group.
+%
+%\paragraph{Groups.}
+%A (finite) group is a pair $(G,\circ)$ with associative operation, identity element $e$,
+%and inverses for all elements. A group is \emph{cyclic} if $G=\langle g\rangle$ for some $g\in G$.
+%If $|G|=n$, then exponents are interpreted modulo $n$:
+%\[
+%g^x := \underbrace{g\circ\cdots\circ g}_{x \text{ times}} \quad\text{and}\quad g^{x+n}=g^x.
+%\]
+%
+%\paragraph{Homomorphisms.}
+%A map $\varphi:G\to H$ between groups is a homomorphism if
+%$\varphi(x\circ_G y)=\varphi(x)\circ_H \varphi(y)$.
+%Its kernel is $\ker(\varphi)=\{x\in G:\varphi(x)=e_H\}$.
+%
+%\subsection*{Probability and sampling notation}
+%
+%\paragraph{Uniform sampling.}
+%For a finite set $S$, the notation $x\xleftarrow{\$} S$ means $x$ is sampled uniformly from $S$.
+%More generally, $x\leftarrow \mathcal{D}$ means $x$ is sampled from distribution $\mathcal{D}$.
+%
+%\paragraph{Advantage in a distinguishing task.}
+%For distributions $\mathcal{D}_0,\mathcal{D}_1$ on a common sample space and a (randomized) distinguisher
+%$\mathcal{A}$ outputting a bit, define
+%\[
+%\mathrm{Adv}_{\mathcal{A}}(\mathcal{D}_0,\mathcal{D}_1)
+%:= \left|\Pr_{x\leftarrow \mathcal{D}_0}[\mathcal{A}(x)=1]-\Pr_{x\leftarrow \mathcal{D}_1}[\mathcal{A}(x)=1]\right|.
+%\]
+%A distinguishing advantage is \emph{negligible} if it is negligible in $\lambda$.
+%
+%\subsection*{Bitstrings and encodings}
+%
+%\paragraph{Bitstrings.}
+%$\{0,1\}^\ast$ is the set of all finite bitstrings; $\{0,1\}^n$ denotes bitstrings of length $n$.
+%Concrete mathematical objects (integers, group elements, matrices) are assumed to have fixed,
+%efficient encodings as bitstrings, so they can be given to algorithms.
+%
+%\subsection*{Integers and arithmetic}
+%
+%\paragraph{Divisibility and gcd.}
+%For $a,b\in\mathbb{Z}$, $a\mid b$ means $\exists k\in\mathbb{Z}$ with $b=ak$.
+%The greatest common divisor is $\gcd(a,b)$.
+%
+%\paragraph{RSA-type moduli.}
+%A common distribution for factorization hardness is
+%\[
+%N=pq
+%\]
+%where $p,q$ are distinct random primes of prescribed bit-length.
+%
+%\subsection*{Linear algebra over finite fields}
+%
+%\paragraph{Vector spaces.}
+%For a finite field $\mathbb{F}_q$, $\mathbb{F}_q^n$ is an $n$-dimensional vector space.
+%Matrices $A\in\mathbb{F}_q^{m\times n}$ act on vectors by multiplication.
+%
+%\paragraph{Inner product modulo $q$.}
+%For $a,s\in \mathbb{Z}_q^n$,
+%\[
+%\langle a,s\rangle := \sum_{i=1}^n a_i s_i \pmod q.
+%\]
+%
+%\subsection*{Normed spaces and geometry of numbers}
+%
+%\paragraph{Euclidean norm.}
+%For $x\in\mathbb{R}^n$,
+%\[
+%\|x\|_2 := \sqrt{\sum_{i=1}^n x_i^2}.
+%\]
+%(Other norms, e.g.\ $\|\cdot\|_\infty$, may be used depending on the lattice problem.)
+%
+%\paragraph{Distance to a set.}
+%For $t\in\mathbb{R}^n$ and $S\subseteq\mathbb{R}^n$,
+%\[
+%\mathrm{dist}(t,S) := \inf_{x\in S}\|t-x\|.
+%\]
+%
+%\subsection*{Lattices (basic definitions used later)}
+%
+%\paragraph{Lattice and basis.}
+%A full-rank lattice $\mathcal{L}\subset \mathbb{R}^n$ is
+%\[
+%\mathcal{L}(B)=\{Bz: z\in \mathbb{Z}^n\}
+%\]
+%for an invertible matrix $B\in\mathbb{R}^{n\times n}$ whose columns form a basis.
+%
+%\paragraph{Determinant / covolume.}
+%$\det(\mathcal{L}) := |\det(B)|$ is independent of the chosen basis and equals the volume of a
+%fundamental parallelepiped.
+%
+%\paragraph{Successive minima.}
+%The first successive minimum is
+%\[
+%\lambda_1(\mathcal{L}) := \min\{\|x\|_2 : x\in \mathcal{L}\setminus\{0\}\}.
+%\]
+%
+%\subsection*{Coding theory preliminaries}
+%
+%\paragraph{Hamming weight and distance.}
+%For $x\in\mathbb{F}_q^n$,
+%\[
+%w_H(x)=|\{i: x_i\neq 0\}|,
+%\qquad
+%d_H(x,y)=w_H(x-y).
+%\]
+%
+%\paragraph{Linear codes.}
+%A linear $[n,k]_q$ code is a $k$-dimensional subspace $C\subseteq \mathbb{F}_q^n$.
+%Generator and parity-check descriptions are equivalent:
+%\[
+%C=\{uG:u\in\mathbb{F}_q^k\}
+%\quad\text{and}\quad
+%C=\{c\in\mathbb{F}_q^n:Hc^\top=0\}.
+%\]
+%
+%\subsection*{Elliptic curves and finite-field preliminaries}
+%
+%\paragraph{Finite fields and extensions.}
+%For prime $p$, $\mathbb{F}_{p^2}$ is the degree-$2$ extension of $\mathbb{F}_p$.
+%Elliptic curves in isogeny-based cryptography are often defined over $\mathbb{F}_{p^2}$.
+%
+%\paragraph{Elliptic curves (minimal facts).}
+%An elliptic curve $E/\mathbb{F}_q$ is a smooth projective genus-one curve with a chosen base point,
+%whose $\mathbb{F}_q$-rational points $E(\mathbb{F}_q)$ form a finite abelian group.
+%
+%\paragraph{Morphisms and degree.}
+%A nonconstant rational map between curves has an associated (algebraic) degree.
+%An \emph{isogeny} is a morphism $E_1\to E_2$ that is also a group homomorphism.
+%
+%\subsection*{Hash-function preliminaries}
+%
+%\paragraph{Function families.}
+%A hash is typically modeled as a family $\{H_\lambda\}$ where each
+%\[
+%H_\lambda:\{0,1\}^\ast\to \{0,1\}^{n(\lambda)}
+%\]
+%is efficiently computable.
+%
+%% ============================================================
+%% End preliminaries
+%% ============================================================

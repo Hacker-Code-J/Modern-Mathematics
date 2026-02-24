@@ -1,0 +1,516 @@
+% !TEX program = lualatex
+%==========================================================
+%  Lecture Notes (Book / graduate style)
+%  Topic: Eigenvectors, Characteristic Polynomial, Diagonalization,
+%         Eigenspaces, Direct Sums, and the Eigenspace Decomposition Criterion
+%  Source: 2019-11-07 "Eigenvectors and diagonalization - 2" (32.pdf),
+%          2019-11-08 "Diagonalization" (33.pdf)
+%==========================================================
+
+\documentclass[11pt,oneside]{book}
+
+%-----------------------------%
+% Typography
+%-----------------------------%
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{lmodern}
+\else
+  \usepackage{fontspec}
+  \defaultfontfeatures{Ligatures=TeX}
+  \setmainfont{Latin Modern Roman}
+  \setsansfont{Latin Modern Sans}
+  \setmonofont{Latin Modern Mono}
+\fi
+\usepackage{microtype}
+\usepackage{geometry}
+\geometry{margin=1.15in}
+
+%-----------------------------%
+% Math
+%-----------------------------%
+\usepackage{mathtools}
+\usepackage{amssymb, amsmath}
+\usepackage{amsthm}
+\usepackage{mathrsfs}
+\usepackage{bm}
+
+%-----------------------------%
+% Hyperref
+%-----------------------------%
+\usepackage[hidelinks]{hyperref}
+
+%-----------------------------%
+% Lists
+%-----------------------------%
+\usepackage{enumitem}
+\setlist[itemize]{leftmargin=2.1em}
+\setlist[enumerate]{leftmargin=2.1em}
+
+%-----------------------------%
+% Theorem environments
+%-----------------------------%
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[chapter]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{exercise}[theorem]{Exercise}
+
+%-----------------------------%
+% Operators / macros
+%-----------------------------%
+\DeclareMathOperator{\End}{End}
+\DeclareMathOperator{\Hom}{Hom}
+\DeclareMathOperator{\GL}{GL}
+\DeclareMathOperator{\Mat}{Mat}
+\DeclareMathOperator{\im}{im}
+\DeclareMathOperator{\rank}{rank}
+\DeclareMathOperator{\tr}{tr}
+\DeclareMathOperator{\Span}{span}
+\DeclareMathOperator{\Null}{Null}
+\DeclareMathOperator{\Ker}{Ker}
+
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\id}{\mathrm{id}}
+\newcommand{\diag}{\mathrm{diag}}
+
+\newcommand{\angles}[1]{\left\langle #1\right\rangle}
+\newcommand{\abs}[1]{\left\lvert #1\right\rvert}
+\newcommand{\norm}[1]{\left\lVert #1\right\rVert}
+\newcommand{\restrict}[2]{{#1}\!\mid_{#2}}
+
+%==========================================================
+\title{\textbf{Eigenvectors and Diagonalization}\\[0.35em]
+\large (Determinant/Trace of Operators, Eigenspaces, Direct Sums, and Decomposition Criteria)}
+\author{}
+\date{}
+%==========================================================
+
+\begin{document}
+\frontmatter
+\maketitle
+\tableofcontents
+\mainmatter
+
+%==========================================================
+\chapter{Eigenvalues, the characteristic polynomial, and operator invariants}
+%==========================================================
+
+\section{Eigenvectors revisited}
+
+\begin{definition}[Eigenvector and eigenvalue]
+Let $V$ be a vector space over $\F$ and let $T\in\End_{\F}(V)$.
+A nonzero vector $u\in V\setminus\{0\}$ is an \emph{eigenvector} of $T$ if there exists $\lambda\in\F$ such that
+\[
+T(u)=\lambda u.
+\]
+In that case $\lambda$ is called the \emph{eigenvalue} associated to $u$.
+\end{definition}
+
+\begin{remark}[Kernel formulation]
+The relation $T(u)=\lambda u$ is equivalent to
+\[
+(T-\lambda \id)(u)=0,\qquad u\neq 0,
+\]
+hence $\lambda$ is an eigenvalue if and only if $\Ker(T-\lambda\id)\neq\{0\}$.
+\end{remark}
+
+\section{Determinant and trace of a linear operator}
+
+\subsection{Motivation}
+In matrix theory, $\det(A)$ and $\tr(A)$ are invariants of similarity:
+if $A=P^{-1}BP$, then $\det(A)=\det(B)$ and $\tr(A)=\tr(B)$.
+This yields basis-independence of determinant/trace for linear operators via their matrix representations.
+
+\begin{definition}[Determinant and trace of an operator]
+Let $V$ be finite-dimensional over $\F$, and let $T\in\End_{\F}(V)$.
+Choose any ordered basis $\mathcal{B}$ of $V$ and write $[T]_{\mathcal{B}}\in\Mat_n(\F)$ for the matrix of $T$ in $\mathcal{B}$.
+Define
+\[
+\det(T)\coloneqq \det([T]_{\mathcal{B}}),
+\qquad
+\tr(T)\coloneqq \tr([T]_{\mathcal{B}}).
+\]
+\end{definition}
+
+\begin{proposition}[Well-definedness of $\det(T)$ and $\tr(T)$]
+The quantities $\det(T)$ and $\tr(T)$ do not depend on the chosen basis $\mathcal{B}$.
+\end{proposition}
+
+\begin{lemma}[Similarity invariance of determinant and trace]\label{lem:sim-invariants}
+Let $A,B\in\Mat_n(\F)$ and assume $A$ is similar to $B$, i.e.\ there exists $P\in\GL_n(\F)$ such that
+\[
+A=P^{-1}BP.
+\]
+Then
+\[
+\det(A)=\det(B),
+\qquad
+\tr(A)=\tr(B).
+\]
+\end{lemma}
+
+\begin{proof}
+Using multiplicativity of determinant,
+\[
+\det(A)=\det(P^{-1}BP)=\det(P^{-1})\det(B)\det(P)=\det(P)^{-1}\det(B)\det(P)=\det(B).
+\]
+For trace, use cyclicity $\tr(XY)=\tr(YX)$:
+\[
+\tr(A)=\tr(P^{-1}BP)=\tr(BPP^{-1})=\tr(BI)=\tr(B).
+\]
+\end{proof}
+
+\begin{proof}[Proof of Proposition]
+Let $\mathcal{B},\mathcal{C}$ be two ordered bases of $V$ and let $P$ be the change-of-coordinates matrix from $\mathcal{B}$ to $\mathcal{C}$.
+Then the representing matrices satisfy
+\[
+[T]_{\mathcal{C}}=P^{-1}[T]_{\mathcal{B}}P,
+\]
+so $[T]_{\mathcal{B}}$ and $[T]_{\mathcal{C}}$ are similar.
+Lemma~\ref{lem:sim-invariants} implies $\det([T]_{\mathcal{B}})=\det([T]_{\mathcal{C}})$ and $\tr([T]_{\mathcal{B}})=\tr([T]_{\mathcal{C}})$.
+\end{proof}
+
+\section{Eigenvalues and the determinant criterion}
+
+\begin{proposition}[Eigenvalue criterion]\label{prop:eig-det}
+Let $V$ be finite-dimensional and $T\in\End_{\F}(V)$. For $\lambda\in\F$,
+\[
+\lambda \text{ is an eigenvalue of }T
+\quad\Longleftrightarrow\quad
+\det(T-\lambda\id)=0.
+\]
+\end{proposition}
+
+\begin{proof}
+$\lambda$ is an eigenvalue $\iff \Ker(T-\lambda\id)\neq\{0\}$ $\iff T-\lambda\id$ is not injective.
+In finite dimension, non-injectivity is equivalent to non-invertibility.
+For a linear operator, invertibility is equivalent to the representing matrix being invertible in any basis, i.e.\ having nonzero determinant.
+Thus $T-\lambda\id$ not invertible $\iff \det(T-\lambda\id)=0$.
+\end{proof}
+
+\section{The characteristic polynomial of an operator}
+
+\begin{definition}[Characteristic polynomial]
+Let $V$ be finite-dimensional over $\F$ and $T\in\End_{\F}(V)$.
+The \emph{characteristic polynomial} of $T$ is
+\[
+\chi_T(t)\coloneqq \det(T-t\id)\in\F[t].
+\]
+Equivalently, for any basis $\mathcal{B}$,
+\[
+\chi_T(t)=\det\!\bigl([T]_{\mathcal{B}}-tI\bigr).
+\]
+\end{definition}
+
+\begin{remark}[Basis-independence]
+Since $[T]_{\mathcal{B}}$ and $[T]_{\mathcal{C}}$ are similar for any two bases, $\det([T]_{\mathcal{B}}-tI)$ and $\det([T]_{\mathcal{C}}-tI)$ coincide as polynomials in $t$.
+Hence $\chi_T$ is well-defined.
+\end{remark}
+
+\begin{corollary}
+A scalar $\lambda\in\F$ is an eigenvalue of $T$ if and only if $\chi_T(\lambda)=0$.
+\end{corollary}
+
+\begin{proof}
+By Proposition~\ref{prop:eig-det},
+\[
+\lambda\text{ eigenvalue}\iff \det(T-\lambda\id)=0\iff \chi_T(\lambda)=0.
+\]
+\end{proof}
+
+%==========================================================
+\chapter{Linear independence of eigenvectors and diagonalizability from eigenvalues}
+%==========================================================
+
+\section{Eigenvectors for distinct eigenvalues are independent}
+
+\begin{lemma}[Distinct-eigenvalue eigenvectors are independent]\label{lem:distinct-eigs-indep}
+Let $T\in\End_{\F}(V)$. Suppose $u_1,\dots,u_k\in V$ are eigenvectors with eigenvalues
+$\lambda_1,\dots,\lambda_k\in\F$ satisfying $\lambda_i\neq \lambda_j$ for $i\neq j$.
+Then $\{u_1,\dots,u_k\}$ is linearly independent.
+\end{lemma}
+
+\begin{proof}
+Assume for contradiction that the family is linearly dependent.
+Let $h\ge 1$ be the smallest integer such that $\{u_1,\dots,u_h\}$ is linearly dependent.
+Then $h\ge 2$ and there exist scalars $a_1,\dots,a_h\in\F$, not all zero, with
+\begin{equation}\label{eq:dep}
+a_1u_1+\cdots+a_hu_h=0.
+\end{equation}
+By minimality of $h$, we must have $a_h\neq 0$ and $\{u_1,\dots,u_{h-1}\}$ is linearly independent.
+
+Apply $T$ to \eqref{eq:dep}:
+\[
+a_1T(u_1)+\cdots+a_hT(u_h)=0
+\quad\Longrightarrow\quad
+a_1\lambda_1u_1+\cdots+a_h\lambda_hu_h=0.
+\]
+Multiply \eqref{eq:dep} by $\lambda_h$ and subtract:
+\[
+a_1(\lambda_1-\lambda_h)u_1+\cdots+a_{h-1}(\lambda_{h-1}-\lambda_h)u_{h-1}=0.
+\]
+Since $\lambda_i\neq \lambda_h$ for $1\le i\le h-1$, each coefficient $(\lambda_i-\lambda_h)$ is nonzero.
+Because $\{u_1,\dots,u_{h-1}\}$ is linearly independent, it follows that
+\[
+a_i(\lambda_i-\lambda_h)=0\quad(1\le i\le h-1)\ \Longrightarrow\ a_i=0\quad(1\le i\le h-1).
+\]
+Then \eqref{eq:dep} reduces to $a_hu_h=0$, forcing $a_h=0$ (since $u_h\neq 0$), contradiction.
+\end{proof}
+
+\section{A quick sufficient condition for diagonalizability}
+
+\begin{corollary}[Distinct eigenvalues imply diagonalizable]\label{cor:distinct-eigs-diag}
+Let $V$ be an $n$-dimensional vector space over $\F$ and let $T\in\End_{\F}(V)$.
+If $T$ has $n$ distinct eigenvalues in $\F$, then $T$ is diagonalizable over $\F$.
+\end{corollary}
+
+\begin{proof}
+Choose eigenvectors $u_1,\dots,u_n$ corresponding to $n$ distinct eigenvalues.
+By Lemma~\ref{lem:distinct-eigs-indep}, these vectors are linearly independent, hence form a basis of $V$.
+In that basis, $T$ acts by $T(u_i)=\lambda_i u_i$, so $[T]$ is diagonal.
+\end{proof}
+
+\begin{remark}[Failure over $\R$ for rotations]
+The rotation operator $R_\theta$ on $\R^2$ has complex eigenvalues $e^{\pm i\theta}$ when $\theta\not\equiv 0,\pi$,
+so it is not diagonalizable over $\R$ though it is diagonalizable over $\C$.
+This illustrates the field-dependence of diagonalization.
+\end{remark}
+
+%==========================================================
+\chapter{Eigenspaces, rank--nullity, and direct sums}
+%==========================================================
+
+\section{Eigenspaces and their basic structure}
+
+\begin{definition}[Eigenspace]
+Let $T\in\End_{\F}(V)$ and let $\lambda\in\F$.
+The \emph{eigenspace} of $T$ associated to $\lambda$ is
+\[
+E_\lambda(T)\coloneqq \{u\in V: T(u)=\lambda u\}=\Ker(T-\lambda\id).
+\]
+\end{definition}
+
+\begin{proposition}
+For every $\lambda\in\F$, $E_\lambda(T)$ is a linear subspace of $V$.
+Moreover,
+\[
+\dim E_\lambda(T)=\Null(T-\lambda\id),
+\]
+the nullity of $T-\lambda\id$.
+\end{proposition}
+
+\begin{proof}
+$E_\lambda(T)=\Ker(T-\lambda\id)$ is a kernel, hence a subspace.
+Its dimension equals the nullity by definition.
+\end{proof}
+
+\section{Rank--nullity and a useful dimension formula}
+
+\begin{theorem}[Rank--nullity]\label{thm:rank-nullity}
+Let $T:V\to W$ be linear with $V$ finite-dimensional. Then
+\[
+\dim V=\dim\Ker(T)+\dim\im(T).
+\]
+Equivalently,
+\[
+\dim V=\Null(T)+\rank(T).
+\]
+\end{theorem}
+
+\begin{proof}
+Define the quotient map $\pi:V\to V/\Ker(T)$ and the induced map $\widetilde{T}:V/\Ker(T)\to \im(T)$ by
+$\widetilde{T}(v+\Ker(T))=T(v)$. This is well-defined and bijective.
+Hence $\dim(V/\Ker(T))=\dim\im(T)$, i.e.\ $\dim V-\dim\Ker(T)=\dim\im(T)$.
+\end{proof}
+
+\begin{corollary}[Eigenspace dimension via rank]
+For $T\in\End_{\F}(V)$ and $\lambda\in\F$,
+\[
+\dim E_\lambda(T)=\dim V-\rank(T-\lambda\id).
+\]
+\end{corollary}
+
+\begin{proof}
+Apply Theorem~\ref{thm:rank-nullity} to $T-\lambda\id:V\to V$.
+\end{proof}
+
+\section{Direct sums}
+
+\begin{definition}[Sum of subspaces]
+Let $U,W\le V$. Define
+\[
+U+W\coloneqq \{u+w: u\in U,\ w\in W\}.
+\]
+\end{definition}
+
+\begin{definition}[Direct sum of two subspaces]
+Let $U,W\le V$. We say $V$ is the \emph{direct sum} of $U$ and $W$, written
+\[
+V=U\oplus W,
+\]
+if
+\[
+V=U+W
+\quad\text{and}\quad
+U\cap W=\{0\}.
+\]
+\end{definition}
+
+\begin{proposition}[Uniqueness of decomposition]\label{prop:unique-decomp}
+Let $U,W\le V$. Then $V=U\oplus W$ if and only if every $v\in V$ can be written uniquely as
+\[
+v=u+w,\qquad u\in U,\ w\in W.
+\]
+\end{proposition}
+
+\begin{proof}
+($\Rightarrow$) If $v=u_1+w_1=u_2+w_2$, then $u_1-u_2=-(w_1-w_2)\in U\cap W=\{0\}$, so $u_1=u_2$ and $w_1=w_2$.
+
+($\Leftarrow$) Existence of such a representation gives $V=U+W$.
+Uniqueness implies $U\cap W=\{0\}$ by applying it to $0=u+w$.
+\end{proof}
+
+\begin{definition}[Finite direct sums]
+Let $U_1,\dots,U_k\le V$. We write
+\[
+V=\bigoplus_{i=1}^k U_i
+\]
+if $V=U_1+\cdots+U_k$ and for each $j$,
+\[
+U_j\cap\sum_{i\neq j} U_i=\{0\}.
+\]
+Equivalently, each $v\in V$ has a unique representation $v=u_1+\cdots+u_k$ with $u_i\in U_i$.
+\end{definition}
+
+%==========================================================
+\chapter{Diagonalization via eigenspace decomposition}
+%==========================================================
+
+\section{The eigenspace decomposition criterion}
+
+\begin{theorem}[Diagonalization $\Longleftrightarrow$ direct sum of eigenspaces]\label{thm:diag-iff-directsum}
+Let $V$ be a finite-dimensional vector space over $\F$ with $\dim V=n$, and let $T\in\End_{\F}(V)$.
+Let $\lambda_1,\dots,\lambda_k\in\F$ be the distinct eigenvalues of $T$ (so $k\le n$).
+Then the following are equivalent:
+\begin{enumerate}[label=\textup{(\roman*)}]
+\item $T$ is diagonalizable over $\F$.
+\item $V$ decomposes as the direct sum of its eigenspaces:
+\[
+V=\bigoplus_{i=1}^k E_{\lambda_i}(T).
+\]
+\item The eigenspaces span $V$ and their dimensions add to $n$:
+\[
+V=\sum_{i=1}^k E_{\lambda_i}(T)
+\quad\text{and}\quad
+\sum_{i=1}^k \dim E_{\lambda_i}(T)=n.
+\]
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+(i)$\Rightarrow$(ii).
+Assume $T$ is diagonalizable. Then there exists a basis $\mathcal{B}$ of $V$ consisting of eigenvectors.
+Group the basis vectors by eigenvalue:
+\[
+\mathcal{B}=\{u_{11},\dots,u_{1m_1},u_{21},\dots,u_{2m_2},\dots,u_{k1},\dots,u_{km_k}\},
+\]
+where $T(u_{ij})=\lambda_i u_{ij}$.
+For each $i$, the set $\{u_{i1},\dots,u_{im_i}\}$ spans a subspace contained in $E_{\lambda_i}(T)$.
+Conversely, since these vectors are eigenvectors with eigenvalue $\lambda_i$, their span is contained in $E_{\lambda_i}(T)$, and by maximality of a basis inside $E_{\lambda_i}(T)$ we may regard them as a basis of $E_{\lambda_i}(T)$ after refinement.
+Thus
+\[
+V=\Span(\mathcal{B})=\sum_{i=1}^k \Span(u_{i1},\dots,u_{im_i})=\sum_{i=1}^k E_{\lambda_i}(T).
+\]
+To see the sum is direct, let $v_i\in E_{\lambda_i}(T)$ satisfy $v_1+\cdots+v_k=0$.
+Writing each $v_i$ in the eigenbasis $\mathcal{B}$ shows all its coordinates are zero, hence each $v_i=0$.
+Therefore $V=\bigoplus_{i=1}^k E_{\lambda_i}(T)$.
+
+(ii)$\Rightarrow$(iii).
+If $V=\bigoplus_i E_{\lambda_i}(T)$, then $V=\sum_i E_{\lambda_i}(T)$ and
+\[
+\dim V=\sum_{i=1}^k \dim E_{\lambda_i}(T)=n
+\]
+by additivity of dimension on direct sums.
+
+(iii)$\Rightarrow$(i).
+Assume $V=\sum_i E_{\lambda_i}(T)$ and $\sum_i \dim E_{\lambda_i}(T)=n$.
+For each $i$, choose a basis $\mathcal{B}_i$ of $E_{\lambda_i}(T)$.
+The union $\mathcal{B}\coloneqq \bigcup_{i=1}^k \mathcal{B}_i$ spans $\sum_i E_{\lambda_i}(T)=V$.
+Moreover,
+\[
+\abs{\mathcal{B}}=\sum_{i=1}^k \abs{\mathcal{B}_i}=\sum_{i=1}^k \dim E_{\lambda_i}(T)=n=\dim V.
+\]
+Hence $\mathcal{B}$ is a spanning set of size $\dim V$, therefore a basis of $V$.
+By construction, every vector in $\mathcal{B}$ is an eigenvector, so $T$ is diagonalizable.
+\end{proof}
+
+\begin{remark}[Matrix form in an eigenbasis]
+Under the decomposition $V=\bigoplus_{i=1}^k E_{\lambda_i}(T)$, if $\mathcal{B}_i$ is a basis of $E_{\lambda_i}(T)$
+and $\mathcal{B}$ is the concatenation of the $\mathcal{B}_i$, then the matrix of $T$ in $\mathcal{B}$ is diagonal:
+\[
+[T]_{\mathcal{B}}
+=
+\diag(\underbrace{\lambda_1,\dots,\lambda_1}_{\dim E_{\lambda_1}},
+      \underbrace{\lambda_2,\dots,\lambda_2}_{\dim E_{\lambda_2}},
+      \dots,
+      \underbrace{\lambda_k,\dots,\lambda_k}_{\dim E_{\lambda_k}}).
+\]
+\end{remark}
+
+\section{Worked example (as in the notes): a $3\times 3$ matrix with two eigenvalues}
+
+\begin{example}[A matrix may be diagonalizable without $n$ distinct eigenvalues]
+Consider the matrix
+\[
+A=\begin{pmatrix}
+4 & 0 & 1\\
+2 & 3 & 2\\
+1 & 0 & 4
+\end{pmatrix}\in\Mat_3(\F).
+\]
+Its characteristic polynomial can be computed by expansion:
+\[
+\chi_A(t)=\det(A-tI)
+=\det\begin{pmatrix}
+4-t & 0 & 1\\
+2 & 3-t & 2\\
+1 & 0 & 4-t
+\end{pmatrix}
+=(4-t)\det\begin{pmatrix}3-t&2\\0&4-t\end{pmatrix}
++1\cdot\det\begin{pmatrix}2&3-t\\1&0\end{pmatrix}.
+\]
+Hence
+\[
+\chi_A(t)=(4-t)(3-t)(4-t)-(3-t)=(3-t)\bigl((4-t)^2-1\bigr)
+=-(t-3)^2(t-5).
+\]
+Thus the only eigenvalues are $3$ (algebraic multiplicity $2$) and $5$ (algebraic multiplicity $1$).
+Nevertheless, one may check (e.g.\ via rank--nullity) that
+\[
+\dim E_5(A)=1,\qquad \dim E_3(A)=2,
+\]
+so $\dim E_5(A)+\dim E_3(A)=3=\dim\F^3$; by Theorem~\ref{thm:diag-iff-directsum}(iii), $A$ is diagonalizable.
+\end{example}
+
+%==========================================================
+\backmatter
+
+\chapter*{Guide to conventions}
+\begin{itemize}
+\item We use $\chi_T(t)=\det(T-t\id)$ (equivalently $\chi_A(t)=\det(A-tI)$).
+\item Under this convention the leading term is $(-1)^n t^n$.
+\item If instead one defines $\det(tI-A)$, the polynomial is monic and the $t^{n-1}$ coefficient becomes $-\tr(A)$.
+\end{itemize}
+
+\end{document}

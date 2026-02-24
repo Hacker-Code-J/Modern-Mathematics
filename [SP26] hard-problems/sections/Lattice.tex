@@ -1,3 +1,205 @@
+\chapter{Lattice-Based Hard Problems}
+
+\section{Background: Lattices, Duality, and Problems}
+A (full-rank) lattice $\Lambda \subset \mathbb{R}^n$ is $\Lambda = \{Bz : z\in\Z^n\}$ for some basis matrix $B\in\mathbb{R}^{n\times n}$.
+
+Classic algorithmic problems:
+\begin{itemize}[leftmargin=*]
+	\item \textbf{SVP (Shortest Vector Problem):} Find $0\neq v\in\Lambda$ minimizing $\norm{v}_2$.
+	\item \textbf{GapSVP (Decision/SVP approximation):} Given $(\Lambda, d)$ decide whether $\lambda_1(\Lambda)\le d$ or $\lambda_1(\Lambda)> \gamma d$.
+	\item \textbf{SIVP (Shortest Independent Vectors):} Find $n$ linearly independent vectors of length $\le \gamma\cdot \lambda_n(\Lambda)$.
+\end{itemize}
+The importance for cryptography: average-case problems (LWE/SIS) reduce from worst-case lattice problems (GapSVP/SIVP) under suitable parameters.
+
+\section{Learning With Errors (LWE)}
+
+\subsection{Formal Statements}
+\begin{definition}[Search-LWE]
+	Fix integers $n,m,q\in\mathbb{N}$ and an error distribution $\chi$ over $\Z$ (typically supported on small integers).
+	Sample $A\from \Z_q^{m\times n}$ uniformly, secret $s\from \Z_q^n$ (usually uniform), and error $e\from \chi^m$.
+	Given $(A,b)$ where
+	\[
+	b = As + e \bmod q \in \Z_q^m,
+	\]
+	output the secret $s$ (or equivalently recover $e$).
+\end{definition}
+
+\begin{definition}[Decision-LWE]
+	Under the same parameterization, consider two distributions over $(A,b)$:
+	\[
+	\calD_0: (A, As+e \bmod q), \qquad
+	\calD_1: (A, u),\ \ u\from \Z_q^m.
+	\]
+	Given $(A,b)$, output a bit indicating whether $(A,b)\from\calD_0$ or $(A,b)\from\calD_1$ with non-negligible advantage.
+\end{definition}
+
+\subsection{Geometric / Statistical Intuition}
+Each equation is:
+\[
+\langle a_i, s \rangle + e_i \equiv b_i \pmod q.
+\]
+If errors were $0$, this is solving a linear system over $\Z_q$. Errors make it an instance of \emph{noisy linear equations}, and (crucially) hide $s$.
+
+A typical heuristic: if $e$ is small in $\Z$ and $q$ is large, the mapping $s\mapsto As+e$ looks like ``random'' without knowing $s$, but still allows decryption by rounding in cryptosystems.
+
+\subsection{Decision vs Search; Standard Relationships}
+Cryptographic constructions often assume decision-LWE hardness (for pseudorandomness) and search-LWE hardness (for extracting secrets). Under many standard parameter regimes, one can relate them:
+
+\begin{remark}[Search-to-decision (informal)]
+	For prime $q$, there are classical reductions showing decision-LWE is no harder than search-LWE and vice versa (up to losses), under mild conditions. Intuitively, if you can recover $s$ then you can distinguish; conversely, if you can distinguish, you can often recover $s$ coordinate-by-coordinate using hybrid and rerandomization tricks.
+\end{remark}
+
+\subsection{Worst-Case to Average-Case Reductions (High-Level)}
+A landmark result (Regev-style) shows that (for appropriate $\alpha$ where errors have size about $\alpha q$) decision-LWE is at least as hard as approximating worst-case lattice problems (GapSVP/SIVP) in dimension $n$ within poly factors. The technical conditions tie $\alpha$, $q$, and $n$.
+
+\begin{remark}[What you should remember]
+	The security story is: \emph{if LWE is easy on average, then certain canonical lattice problems are easy in the worst case}. This is why LWE is a central conservative assumption.
+\end{remark}
+
+\subsection{Parameter Regimes (Conceptual)}
+Let error magnitude scale be $\sigma$ (e.g., standard deviation for discrete Gaussian). Often one defines $\alpha = \sigma/q$.
+\begin{itemize}[leftmargin=*]
+	\item \textbf{Correctness in encryption}: needs $\sigma \ll q$ so small errors can be rounded.
+	\item \textbf{Security}: needs $\sigma$ large enough that $As+e$ hides $s$; also $m$ large enough to prevent solving.
+	\item \textbf{Typical cryptosystems}: use $m\approx n\log q$ or $m$ a constant multiple of $n$ in module/ring variants.
+\end{itemize}
+
+\subsection{Attack Taxonomy (What to Teach)}
+Best-known attacks broadly fall into:
+\begin{itemize}[leftmargin=*]
+	\item \textbf{Lattice reduction (primal):} view LWE as finding a close vector / BDD instance; build a lattice from $A$ and $b$ and run BKZ-type reduction; recover $s$ by nearest-plane or enumeration.
+	\item \textbf{Dual attack:} find a short vector $y$ in the dual lattice such that $y^\top A \equiv 0$ mod $q$, then test $y^\top b$ for smallness vs uniform.
+	\item \textbf{BKW / combinatorial:} reduce dimension via collision-finding on $A$ rows; grows fast with $q$ and noise but can matter for small moduli.
+	\item \textbf{Arora--Ge (algebraic):} for very small error alphabets and special parameter settings, solve polynomial system.
+\end{itemize}
+
+\subsection{Exercises (LWE)}
+\begin{exercise}[Upper-undergrad: noiseless baseline]
+	Assume $e=0$ and $m\ge n$. Show how to recover $s$ efficiently from $(A,As\bmod q)$ when $q$ is prime and $A$ has full rank.
+\end{exercise}
+
+\begin{exercise}[Masters: distinguishing via dual vector]
+	Let $y\in \Z^m$ satisfy $y^\top A\equiv 0\pmod q$. Show that if $(A,b)\from \calD_0$ then
+	\[
+	y^\top b \equiv y^\top e \pmod q,
+	\]
+	and argue heuristically why $y^\top b$ is statistically closer to small integers mod $q$ than uniform if $y$ is short.
+\end{exercise}
+
+\begin{exercise}[PhD: hybrid for search-to-decision sketch]
+	Assume $q$ prime. Outline a reduction strategy that recovers $s_i$ (the $i$-th coordinate of $s$) using a decision oracle by embedding a guess into the distribution and using hybrids.
+\end{exercise}
+
+\section{Short Integer Solution (SIS)}
+
+\subsection{Formal Statement}
+\begin{definition}[Search-SIS]
+	Let $q\in\mathbb{N}$, $n,m\in\mathbb{N}$, and bound $\beta\in\mathbb{N}$.
+	Sample $A\from \Z_q^{n\times m}$ uniformly.
+	Find a nonzero vector $x\in \Z^m\setminus\{0\}$ such that
+	\[
+	Ax \equiv 0 \pmod q
+	\quad\text{and}\quad
+	\norm{x}\le \beta,
+	\]
+	where $\norm{\cdot}$ is typically $\ell_2$ or $\ell_\infty$.
+\end{definition}
+
+\subsection{Interpretation as Finding Short Relations}
+The condition $Ax\equiv 0\pmod q$ means $x$ is an integer relation among the columns of $A$ modulo $q$. Without the shortness constraint, there are many solutions. The hardness is to find a \emph{short} one.
+
+\subsection{Connection to Hash-and-Sign / Commitments}
+SIS underlies:
+\begin{itemize}[leftmargin=*]
+	\item lattice-based hash functions: mapping $x\mapsto Ax\bmod q$; collisions correspond to short $x$ with $Ax\equiv 0$.
+	\item commitments: binding reduces to SIS.
+	\item signatures (e.g., GPV-style): produce short preimages under a public linear map.
+\end{itemize}
+
+\subsection{Worst-Case Reductions (High-Level)}
+SIS is related to worst-case lattice problems as well: if SIS is easy for certain $(n,m,q,\beta)$, then approximating certain lattice problems is easy in the worst case. The parameter tradeoff differs from LWE.
+
+\subsection{Attack Taxonomy}
+\begin{itemize}[leftmargin=*]
+	\item \textbf{Lattice reduction:} interpret SIS as finding a short vector in a lattice of solutions; build lattice basis and run BKZ.
+	\item \textbf{Combinatorial / meet-in-the-middle:} sometimes applicable for $\ell_\infty$ and special constraints (rare in standard parameters).
+\end{itemize}
+
+\subsection{Exercises (SIS)}
+\begin{exercise}[Upper-undergrad: pigeonhole existence]
+	Let $A\in\Z_q^{n\times m}$ and consider all $x\in\{0,1\}^m$. Show that if $2^m > q^n$, then there exist distinct $x\neq x'$ with $Ax\equiv Ax'\pmod q$. Deduce existence of a nonzero $\{-1,0,1\}^m$ solution to $A(x-x')\equiv 0$.
+\end{exercise}
+
+\begin{exercise}[Masters: collision-resistance from SIS]
+	Define $H(x)=Ax\bmod q$ for short $x$ in some domain. Formalize how a collision $(x\neq x')$ yields an SIS solution.
+\end{exercise}
+
+\begin{exercise}[PhD: parameter reasoning]
+	For fixed $n,q$, explain qualitatively why increasing $m$ makes SIS \emph{easier} (more relations exist), but also allows setting smaller $\beta$ while maintaining existence of solutions.
+\end{exercise}
+
+\section{NTRU Search Problem}
+
+\subsection{Ring Setting}
+Let $f(x)$ be a cyclotomic-like polynomial (e.g., $x^N+1$ with $N$ power of 2, or $x^N-1$ for classical NTRU variants). Define
+\[
+R = \Z[x]/(f(x)),\qquad
+R_q = R / qR \cong \Z_q[x]/(f(x)).
+\]
+Elements are represented by degree-$<N$ polynomials; ``small'' typically refers to small coefficients.
+
+\subsection{Formal Problem (One Common Form)}
+\begin{definition}[NTRU Search (informal canonical form)]
+	Sample $f,g \in R$ from a ``small'' distribution such that $f$ is invertible in $R_q$.
+	Publish
+	\[
+	h \equiv g f^{-1} \pmod q \in R_q.
+	\]
+	Given $h$, recover a short pair $(f,g)$ (or an equivalent short representation) satisfying $h f \equiv g \pmod q$ under the same smallness constraints.
+\end{definition}
+
+\subsection{Key Ambiguities in NTRU Statements}
+NTRU has many instantiations; the exact hardness depends on:
+\begin{itemize}[leftmargin=*]
+	\item ring choice ($x^N\pm 1$; $N$ prime; etc.),
+	\item modulus structure (prime $q$ vs power-of-two),
+	\item distribution of $(f,g)$ (ternary, Gaussian, centered binomial),
+	\item norm and acceptance region (e.g., $\ell_\infty$ bounds on coefficients),
+	\item whether we are in \emph{ring} vs \emph{module} setting.
+\end{itemize}
+
+\subsection{NTRU as a Lattice Problem}
+Given $h$, consider the \emph{NTRU lattice}:
+\[
+\Lambda_h = \left\{(u,v)\in R^2 : u - hv \equiv 0 \pmod q \right\}.
+\]
+A secret key corresponds to a short vector $(g,f)\in \Lambda_h$. Thus, breaking NTRU is (at high level) a shortest-vector style task in a structured lattice.
+
+\subsection{Attack Taxonomy}
+\begin{itemize}[leftmargin=*]
+	\item \textbf{Lattice reduction on NTRU lattice:} embed $\Lambda_h$ into an integer lattice of dimension $2N$ and use BKZ; recover short $(f,g)$.
+	\item \textbf{Hybrid attacks:} partial guessing of coefficients + lattice reduction for the remaining.
+	\item \textbf{Subfield / algebraic structure attacks:} exploit ring structure if parameters are ill-chosen (historically important lesson: structure can leak).
+\end{itemize}
+
+\subsection{Exercises (NTRU)}
+\begin{exercise}[Upper-undergrad: derive the NTRU relation]
+	Show that $h \equiv gf^{-1}\pmod q$ implies $hf\equiv g\pmod q$. Explain why small $(f,g)$ is a ``short relation'' between $1$ and $h$.
+\end{exercise}
+
+\begin{exercise}[Masters: NTRU lattice membership]
+	Define $\Lambda_h$ as above. Prove that $(g,f)\in \Lambda_h$. What other pairs are in $\Lambda_h$? Characterize them modulo $q$.
+\end{exercise}
+
+\begin{exercise}[PhD: compare NTRU vs LWE intuition]
+	Give a conceptual comparison: NTRU keys correspond to short vectors in a structured lattice tied to one public ring element; LWE hides a secret with additive noise across many samples. Discuss how this affects the style of security reductions and the known attacks.
+\end{exercise}
+
+
+
+
+
+
 %\subsection*{3.1\ Lattices}
 %
 %\paragraph{Definition (lattice).}
@@ -54,56 +256,62 @@
 %The \emph{search} version asks to recover $s$ from LWE samples.
 
 
-\subsection*{3.1 Lattices}
 
-\paragraph{Definition (lattice).}
-A full-rank lattice $\mathcal{L}\subset \mathbb{R}^n$ is a discrete subgroup:
-given linearly independent $b_1,\dots,b_n\in\mathbb{R}^n$,
-\[
-\mathcal{L}=\mathcal{L}(B)=\left\{\sum_{i=1}^n z_i b_i : z_i\in\mathbb{Z}\right\},\quad
-B=[b_1|\cdots|b_n].
-\]
-Define the first successive minimum
-\[
-\lambda_1(\mathcal{L})=\min\{\|v\|_2: v\in \mathcal{L}\setminus\{0\}\}.
-\]
 
-\subsection*{3.2 SVP and CVP}
 
-\paragraph{SVP (Shortest Vector Problem).}
-Given a basis $B$ of $\mathcal{L}$, find $v\in\mathcal{L}\setminus\{0\}$ such that $\|v\|_2=\lambda_1(\mathcal{L})$.
 
-\paragraph{$\gamma$-SVP (Approximate SVP).}
-Given $B$ and $\gamma\ge 1$, find $v\in\mathcal{L}\setminus\{0\}$ with
-\[
-\|v\|_2 \le \gamma\cdot \lambda_1(\mathcal{L}).
-\]
 
-\paragraph{CVP (Closest Vector Problem).}
-Given $B$ and a target $t\in\mathbb{R}^n$, find $v\in\mathcal{L}$ minimizing $\|t-v\|_2$.
 
-\subsection*{3.3 LWE (Learning With Errors)}
-
-\paragraph{Decision-LWE.}
-Fix $n,q\ge 2$ and an error distribution $\chi$ over $\mathbb{Z}_q$.
-Given $m$ samples $(a_i,b_i)\in \mathbb{Z}_q^n\times\mathbb{Z}_q$, distinguish:
-\begin{align*}
-	\text{(LWE)}\quad & a_i \xleftarrow{\$} \mathbb{Z}_q^n,\; s \xleftarrow{\$} \mathbb{Z}_q^n,\;
-	e_i\xleftarrow{\$}\chi,\; b_i=\langle a_i,s\rangle+e_i \pmod q;\\
-	\text{(Uniform)}\quad & (a_i,b_i)\xleftarrow{\$}\mathbb{Z}_q^n\times\mathbb{Z}_q.
-\end{align*}
-The \emph{search} version asks to recover $s$.
-
-\paragraph{Standard attacks (classical).}
-\begin{itemize}\setlength\itemsep{0.2em}
-	\item \textbf{LLL/BKZ reduction} as the main engine (produces short/near-short vectors).
-	\item \textbf{Primal attacks} (embedding to SVP/CVP) + enumeration/sieving.
-	\item \textbf{Dual attacks} (find short dual vectors to distinguish LWE from uniform).
-	\item \textbf{Hybrid attacks} (guess part of secret + lattice reduction).
-	\item \textbf{BKW / combinatorial} attacks (parameter-dependent).
-	\item \textbf{Algebraic attacks} in certain regimes (e.g.\ over-defined systems).
-\end{itemize}
-
-\paragraph{Quantum note.}
-No known Shor-like polynomial-time algorithm for general lattice problems; quantum speedups mainly
-affect search/sieving constants/exponents.
+%\subsection*{3.1 Lattices}
+%
+%\paragraph{Definition (lattice).}
+%A full-rank lattice $\mathcal{L}\subset \mathbb{R}^n$ is a discrete subgroup:
+%given linearly independent $b_1,\dots,b_n\in\mathbb{R}^n$,
+%\[
+%\mathcal{L}=\mathcal{L}(B)=\left\{\sum_{i=1}^n z_i b_i : z_i\in\mathbb{Z}\right\},\quad
+%B=[b_1|\cdots|b_n].
+%\]
+%Define the first successive minimum
+%\[
+%\lambda_1(\mathcal{L})=\min\{\|v\|_2: v\in \mathcal{L}\setminus\{0\}\}.
+%\]
+%
+%\subsection*{3.2 SVP and CVP}
+%
+%\paragraph{SVP (Shortest Vector Problem).}
+%Given a basis $B$ of $\mathcal{L}$, find $v\in\mathcal{L}\setminus\{0\}$ such that $\|v\|_2=\lambda_1(\mathcal{L})$.
+%
+%\paragraph{$\gamma$-SVP (Approximate SVP).}
+%Given $B$ and $\gamma\ge 1$, find $v\in\mathcal{L}\setminus\{0\}$ with
+%\[
+%\|v\|_2 \le \gamma\cdot \lambda_1(\mathcal{L}).
+%\]
+%
+%\paragraph{CVP (Closest Vector Problem).}
+%Given $B$ and a target $t\in\mathbb{R}^n$, find $v\in\mathcal{L}$ minimizing $\|t-v\|_2$.
+%
+%\subsection*{3.3 LWE (Learning With Errors)}
+%
+%\paragraph{Decision-LWE.}
+%Fix $n,q\ge 2$ and an error distribution $\chi$ over $\mathbb{Z}_q$.
+%Given $m$ samples $(a_i,b_i)\in \mathbb{Z}_q^n\times\mathbb{Z}_q$, distinguish:
+%\begin{align*}
+%	\text{(LWE)}\quad & a_i \xleftarrow{\$} \mathbb{Z}_q^n,\; s \xleftarrow{\$} \mathbb{Z}_q^n,\;
+%	e_i\xleftarrow{\$}\chi,\; b_i=\langle a_i,s\rangle+e_i \pmod q;\\
+%	\text{(Uniform)}\quad & (a_i,b_i)\xleftarrow{\$}\mathbb{Z}_q^n\times\mathbb{Z}_q.
+%\end{align*}
+%The \emph{search} version asks to recover $s$.
+%
+%\paragraph{Standard attacks (classical).}
+%\begin{itemize}\setlength\itemsep{0.2em}
+%	\item \textbf{LLL/BKZ reduction} as the main engine (produces short/near-short vectors).
+%	\item \textbf{Primal attacks} (embedding to SVP/CVP) + enumeration/sieving.
+%	\item \textbf{Dual attacks} (find short dual vectors to distinguish LWE from uniform).
+%	\item \textbf{Hybrid attacks} (guess part of secret + lattice reduction).
+%	\item \textbf{BKW / combinatorial} attacks (parameter-dependent).
+%	\item \textbf{Algebraic attacks} in certain regimes (e.g.\ over-defined systems).
+%\end{itemize}
+%
+%\paragraph{Quantum note.}
+%No known Shor-like polynomial-time algorithm for general lattice problems; quantum speedups mainly
+%affect search/sieving constants/exponents.
