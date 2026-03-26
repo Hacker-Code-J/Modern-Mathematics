@@ -1,0 +1,1286 @@
+\documentclass[11pt]{article}
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{framed}
+\usepackage{microtype}
+\hypersetup{colorlinks=true, linkcolor=blue!50!black, urlcolor=blue!50!black, citecolor=blue!50!black}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.6em}
+\setlist[itemize]{topsep=0.3em,itemsep=0.25em}
+\setlist[enumerate]{topsep=0.3em,itemsep=0.25em}
+
+\definecolor{titleblue}{RGB}{22,72,130}
+\definecolor{softgray}{RGB}{245,247,250}
+\definecolor{rulegray}{RGB}{210,215,222}
+\definecolor{noteblue}{RGB}{232,241,252}
+\definecolor{warnred}{RGB}{252,237,237}
+\definecolor{greenbox}{RGB}{236,247,238}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem*{intuition}{Intuition}
+
+\newenvironment{infobox}{%
+  \def\FrameCommand{\fboxrule=0.8pt \fboxsep=8pt \colorbox{noteblue}}%
+  \MakeFramed{\advance\hsize-\width \FrameRestore}}{\endMakeFramed}
+
+\newenvironment{warningbox}{%
+  \def\FrameCommand{\fboxrule=0.8pt \fboxsep=8pt \colorbox{warnred}}%
+  \MakeFramed{\advance\hsize-\width \FrameRestore}}{\endMakeFramed}
+
+\newenvironment{greenboxenv}{%
+  \def\FrameCommand{\fboxrule=0.8pt \fboxsep=8pt \colorbox{greenbox}}%
+  \MakeFramed{\advance\hsize-\width \FrameRestore}}{\endMakeFramed}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\norm}[1]{\left\lVert #1 \right\rVert}
+\newcommand{\ip}[2]{\left\langle #1,#2 \right\rangle}
+\newcommand{\calL}{\mathcal{L}}
+\newcommand{\vol}{\operatorname{vol}}
+\newcommand{\dist}{\operatorname{dist}}
+\newcommand{\Span}{\operatorname{span}}
+\newcommand{\rank}{\operatorname{rank}}
+
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{Lecture Notes on Lattices and Lattice Problems}
+\rhead{\thepage/\pageref{LastPage}}
+\renewcommand{\headrulewidth}{0.4pt}
+
+\title{\vspace{-1.5em}{\Huge\bfseries\color{titleblue} Lecture Notes on Lattices, Hard Problems, and Coppersmith's Method}\\[0.4em]
+{\large A guided set of notes for understanding the chapter on lattices in cryptography}}
+\author{Prepared from Chapter 5 of \emph{Cryptography Made Simple}}
+\date{March 2026}
+
+\begin{document}
+\maketitle
+
+\begin{center}
+\rule{0.92\linewidth}{0.5pt}
+\end{center}
+
+\begin{infobox}
+\textbf{Purpose of these notes.} These notes are written to help a student \emph{understand} the chapter rather than merely restate it. The source chapter introduces lattices, lattice reduction, the hard problems SVP/CVP/BDD, q-ary lattices, SIS, and the basic idea of Coppersmith's theorem. Here we reorganize the material pedagogically, add intuition, and explain why each concept matters in cryptography.
+\end{infobox}
+
+\tableofcontents
+
+\section{Big picture: why should we care about lattices?}
+
+A lattice is a discrete set of points in Euclidean space that is closed under addition and subtraction. Lattices are central in modern cryptography for \emph{two opposite reasons}:
+\begin{itemize}
+    \item \textbf{Cryptanalysis:} lattice reduction can break badly designed schemes or recover hidden secrets when equations leak enough structure.
+    \item \textbf{Cryptographic construction:} many post-quantum systems are built from lattice problems believed to be hard even for quantum computers.
+\end{itemize}
+
+So lattices are both a \emph{sword} and a \emph{shield}. To understand post-quantum cryptography, you need both viewpoints.
+
+\begin{greenboxenv}
+\textbf{Mental model.} A lattice is like an infinite periodic grid in high dimension. A basis gives directions for stepping on that grid. A \emph{good} basis uses short, nearly orthogonal steps. A \emph{bad} basis uses long, skewed steps that hide the geometry.
+\end{greenboxenv}
+
+\section{Linear algebra warm-up}
+
+Let $x=(x_1,\dots,x_n)$ and $y=(y_1,\dots,y_n)$ be vectors in $\R^n$.
+
+\subsection{Inner product and norm}
+The inner product is
+\[
+\ip{x}{y}=\sum_{i=1}^n x_i y_i.
+\]
+The Euclidean norm is
+\[
+\norm{x}=\sqrt{\ip{x}{x}} = \sqrt{x_1^2+\cdots+x_n^2}.
+\]
+
+These notions measure:
+\begin{itemize}
+    \item \textbf{angle} through the inner product,
+    \item \textbf{length} through the norm,
+    \item \textbf{distance} via $\norm{x-y}$.
+\end{itemize}
+
+Two vectors are orthogonal when $\ip{x}{y}=0$.
+
+\subsection{Linear independence and bases}
+A set $\{b_1,\dots,b_m\}\subseteq \R^n$ is linearly independent if
+\[
+a_1b_1+\cdots+a_m b_m=0
+\quad\Longrightarrow\quad
+ a_1=\cdots=a_m=0.
+\]
+The span of these vectors is
+\[
+\Span\{b_1,\dots,b_m\}=\left\{\sum_{i=1}^m a_i b_i : a_i\in \R\right\}.
+\]
+If the vectors are linearly independent, they form a basis for this subspace.
+
+\begin{remark}
+In ordinary linear algebra, basis coefficients are real numbers. In lattices, coefficients must be integers. That single change transforms a continuous object into a discrete one.
+\end{remark}
+
+\section{What is a lattice?}
+
+\begin{definition}[Lattice]
+Given linearly independent vectors $b_1,\dots,b_m\in \R^n$, the lattice generated by them is
+\[
+\calL = \left\{\sum_{i=1}^m z_i b_i : z_i\in \Z\right\}.
+\]
+If $B=[b_1\ \cdots\ b_m]$ is the basis matrix, then
+\[
+\calL = \{Bz : z\in \Z^m\}.
+\]
+\end{definition}
+
+A lattice is thus the set of all \emph{integer} combinations of basis vectors.
+
+\subsection{Why is this discrete?}
+Because integers are discrete, the lattice points do not fill the whole subspace. Instead they form separated points. This is exactly what makes problems such as "find the shortest nonzero lattice vector" meaningful.
+
+\subsection{A concrete two-dimensional example}
+Take
+\[
+b_1=\begin{pmatrix}2\\0\end{pmatrix},
+\qquad
+b_2=\begin{pmatrix}1\\1\end{pmatrix}.
+\]
+Then every lattice point has the form
+\[
+z_1b_1+z_2b_2 = \begin{pmatrix}2z_1+z_2\\ z_2\end{pmatrix},
+\qquad z_1,z_2\in \Z.
+\]
+So the lattice is the set of all points whose coordinates satisfy that pattern.
+
+\begin{intuition}
+You can think of $b_1$ and $b_2$ as two legal moves in the plane. Starting from the origin, every sequence of integer multiples of these moves lands on a lattice point.
+\end{intuition}
+
+\section{One lattice, many bases}
+
+The same lattice can have many different bases. For example, in two dimensions one basis may look short and nearly perpendicular, while another may look long and heavily skewed. Both generate the same point set.
+
+This is a central theme:
+\begin{quote}
+\emph{The lattice is the true geometric object; the basis is only a coordinate description of it.}
+\end{quote}
+
+A basis change from $B$ to $B'$ preserves the lattice exactly when
+\[
+B' = B U,
+\]
+where $U\in \Z^{n\times n}$ is unimodular, meaning $\det(U)=\pm 1$.
+
+\begin{remark}
+Unimodularity is the integer analogue of invertibility with determinant $\pm 1$. It ensures the change of coordinates stays within integer combinations, so no lattice points are lost or created.
+\end{remark}
+
+\section{Gram-Schmidt orthogonalization}
+
+Orthogonal bases are easy to reason about, but lattice bases are rarely orthogonal. The Gram-Schmidt process takes a basis $b_1,\dots,b_n$ and produces orthogonal vectors $b_1^*,\dots,b_n^*$ spanning the same real subspace.
+
+\subsection{Definition}
+For $1\le j<i\le n$, define
+\[
+\mu_{i,j}=\frac{\ip{b_i}{b_j^*}}{\ip{b_j^*}{b_j^*}},
+\]
+and recursively set
+\[
+b_i^*=b_i-\sum_{j=1}^{i-1} \mu_{i,j} b_j^*.
+\]
+
+\subsection{Meaning of the coefficients $\mu_{i,j}$}
+The number $\mu_{i,j}$ measures how much of the direction $b_j^*$ appears inside $b_i$. If $|\mu_{i,j}|$ is large, then the basis is strongly skewed. If all these coefficients are small, then the basis is closer to orthogonal.
+
+\subsection{Worked example}
+Take
+\[
+b_1=\begin{pmatrix}2\\0\end{pmatrix},
+\qquad
+b_2=\begin{pmatrix}1\\1\end{pmatrix}.
+\]
+Then
+\[
+b_1^*=b_1=\begin{pmatrix}2\\0\end{pmatrix}.
+\]
+Also,
+\[
+\mu_{2,1}=\frac{\ip{b_2}{b_1^*}}{\ip{b_1^*}{b_1^*}} = \frac{2}{4}=\frac12.
+\]
+So
+\[
+b_2^*=b_2-\frac12 b_1^* = \begin{pmatrix}1\\1\end{pmatrix}-\begin{pmatrix}1\\0\end{pmatrix} = \begin{pmatrix}0\\1\end{pmatrix}.
+\]
+Now $b_1^*$ and $b_2^*$ are orthogonal.
+
+\begin{warningbox}
+\textbf{Important subtlety.} The Gram-Schmidt vectors usually \emph{do not form a basis of the same lattice}. They span the same real vector space, but the coefficients involved are generally not integers. That is why orthogonalization alone does not solve lattice problems.
+\end{warningbox}
+
+\section{Fundamental volume and determinant}
+
+For a full-rank lattice $\calL\subseteq \R^n$ with basis matrix $B\in \R^{n\times n}$, the determinant is
+\[
+\det(\calL)=|\det(B)|.
+\]
+More generally one often writes
+\[
+\Delta(\calL)=\sqrt{\det(B^TB)}.
+\]
+For full rank these coincide.
+
+\subsection{Geometric meaning}
+The determinant is the volume of the fundamental parallelepiped spanned by the basis vectors. It measures the \emph{density} of the lattice:
+\begin{itemize}
+    \item small determinant means lattice points are packed more densely,
+    \item large determinant means they are more spread out.
+\end{itemize}
+
+\begin{remark}
+Different bases for the same lattice have different shapes but the same determinant. So the determinant is an invariant of the lattice, not of the basis.
+\end{remark}
+
+\section{Successive minima and the shortest vector}
+
+Because a lattice is discrete, it has nonzero vectors of minimal length.
+
+\begin{definition}[First minimum]
+The first minimum of a lattice $\calL$ is
+\[
+\lambda_1(\calL)=\min\{\norm{x}:x\in \calL,\ x\neq 0\}.
+\]
+\end{definition}
+
+More generally, the $i$th successive minimum $\lambda_i(\calL)$ is the smallest radius $r$ such that the Euclidean ball of radius $r$ contains $i$ linearly independent lattice vectors.
+
+\subsection{Why this matters}
+In cryptography, many attacks reduce to finding very short lattice vectors. Such vectors often encode hidden relations, partial key bits, or low-noise equations.
+
+\section{Geometry-of-numbers bounds}
+
+Two foundational facts connect the shortest vector to the determinant.
+
+\begin{theorem}[Minkowski bound]
+For any $n$-dimensional lattice $\calL$,
+\[
+\lambda_1(\calL) \le \sqrt{n}\, \det(\calL)^{1/n}.
+\]
+\end{theorem}
+
+This says that no matter how strange the lattice looks, there is always some nonzero lattice vector whose length is at most about $\sqrt{n}\det(\calL)^{1/n}$.
+
+\subsection{Why this is profound}
+The determinant is a global volume quantity. The first minimum is a local shortest-distance quantity. Minkowski tells us global density forces local short vectors to exist.
+
+\subsection{Gaussian heuristic}
+For a random-looking lattice one often heuristically expects
+\[
+\lambda_1(\calL) \approx \sqrt{\frac{n}{2\pi e}}\, \det(\calL)^{1/n}.
+\]
+This is not a theorem in general, but it is extremely useful for intuition and algorithm analysis.
+
+\begin{remark}
+The chapter presents this heuristic to estimate what a "typical" shortest vector length should be. In practice, many lattice algorithms are evaluated against this benchmark.\footnote{This discussion follows the source chapter's presentation of Minkowski's theorem, Hermite-type bounds, and the Gaussian heuristic.}
+\end{remark}
+
+\section{Dual lattices}
+
+\begin{definition}[Dual lattice]
+For a full-rank lattice $\calL\subseteq \R^n$, the dual lattice is
+\[
+\calL^* = \{y\in \R^n : \ip{y}{x}\in \Z \text{ for every } x\in \calL\}.
+\]
+If $B$ is a basis matrix for $\calL$, then a basis for $\calL^*$ is $(B^{-1})^T$.
+\end{definition}
+
+The dual lattice is important because many proofs and algorithms move back and forth between a lattice and its dual.
+
+\subsection{Determinant relation}
+\[
+\det(\calL^*)=\det(\calL)^{-1}.
+\]
+So a dense lattice has a sparse dual, and vice versa.
+
+\subsection{Transference idea}
+The source chapter also notes a transference theorem that links short vectors in $\calL$ to larger-scale structure in $\calL^*$. This is one of the conceptual reasons duality is powerful: information about one side becomes information about the other.
+
+\section{Why basis reduction is needed}
+
+The computational input to lattice problems is usually a basis $B$, not a picture of the lattice. If the basis is ugly and skewed, the geometry is hidden. A reduction algorithm tries to replace $B$ by a basis of the \emph{same} lattice that is shorter and more orthogonal.
+
+\begin{greenboxenv}
+\textbf{Goal of lattice reduction.} Not to change the lattice; only to expose its geometry.
+\end{greenboxenv}
+
+\section{The LLL algorithm}
+
+The Lenstra-Lenstra-Lov\'asz (LLL) algorithm is the foundational polynomial-time lattice reduction algorithm.
+
+\subsection{What it tries to achieve}
+LLL does not usually find the exact shortest vector. Instead, it outputs a basis that is:
+\begin{itemize}
+    \item size-reduced, meaning the Gram-Schmidt coefficients are small,
+    \item Lov\'asz-reduced, meaning adjacent Gram-Schmidt lengths obey a balance condition.
+\end{itemize}
+
+\begin{definition}[LLL-reduced basis]
+A basis $b_1,\dots,b_n$ with Gram-Schmidt data $b_1^*,\dots,b_n^*$ and coefficients $\mu_{i,j}$ is LLL-reduced if:
+\begin{align}
+|\mu_{i,j}| &\le \frac12 \qquad (1\le j<i\le n), \\
+\norm{b_i^*}^2 &\ge \left(\frac34-\mu_{i,i-1}^2\right)\norm{b_{i-1}^*}^2 \qquad (2\le i\le n).
+\end{align}
+\end{definition}
+
+\subsection{Interpretation of the two conditions}
+\begin{itemize}
+    \item The first condition prevents one vector from containing a large multiple of a previous one.
+    \item The second prevents the Gram-Schmidt lengths from dropping too abruptly.
+\end{itemize}
+Together they enforce a controlled, nearly orthogonal structure.
+
+\subsection{Why LLL is famous}
+LLL is remarkable because it runs in polynomial time and still gives strong geometric guarantees. In particular, the first reduced basis vector satisfies a worst-case bound of the form
+\[
+\norm{b_1}\le 2^{(n-1)/2} \lambda_1(\calL).
+\]
+Thus LLL solves an approximate shortest vector problem with approximation factor exponential in $n$.
+
+\begin{warningbox}
+This guarantee is good in low dimensions but weak in high dimensions. That is exactly why lattice problems can remain hard in the dimensions used for cryptography.
+\end{warningbox}
+
+\subsection{What LLL does operationally}
+At a high level, LLL repeatedly alternates between two actions:
+\begin{enumerate}
+    \item \textbf{Size reduction:} subtract integer multiples of earlier basis vectors so that all $\mu_{i,j}$ land in $[-1/2,1/2]$.
+    \item \textbf{Swap test:} if the Lov\'asz condition fails for neighboring vectors, swap them and continue.
+\end{enumerate}
+This process steadily improves the basis until the reduction conditions hold.
+
+\subsection{Worked LLL example}
+Start with
+\[
+b_1=\begin{pmatrix}2\\0\end{pmatrix},
+\qquad
+b_2=\begin{pmatrix}1\\1\end{pmatrix}.
+\]
+We already computed
+\[
+b_1^*=\begin{pmatrix}2\\0\end{pmatrix},
+\qquad
+b_2^*=\begin{pmatrix}0\\1\end{pmatrix},
+\qquad
+\mu_{2,1}=\frac12.
+\]
+The size reduction condition is fine. But the Lov\'asz condition fails because
+\[
+\norm{b_2^*}^2 = 1 < \left(\frac34-\frac14\right)\cdot 4 = 2.
+\]
+So we swap the basis vectors:
+\[
+b_1=\begin{pmatrix}1\\1\end{pmatrix},
+\qquad
+b_2=\begin{pmatrix}2\\0\end{pmatrix}.
+\]
+Now the new Gram-Schmidt data gives $\mu_{2,1}=1$, so size reduction fails. Subtract $b_1$ from $b_2$:
+\[
+b_2 \leftarrow b_2-b_1 = \begin{pmatrix}1\\-1\end{pmatrix}.
+\]
+Now the basis is
+\[
+b_1=\begin{pmatrix}1\\1\end{pmatrix},
+\qquad
+b_2=\begin{pmatrix}1\\-1\end{pmatrix},
+\]
+which is already orthogonal and therefore a very nice reduced basis.
+
+\begin{greenboxenv}
+\textbf{Lesson from the example.} The original basis and final basis generate the same lattice. LLL did not change the lattice; it only found a clearer basis exposing the short vectors.
+\end{greenboxenv}
+
+\section{The central hard problems}
+
+The chapter emphasizes three major lattice problems: SVP, CVP, and BDD. These are the conceptual core of lattice-based cryptography.
+
+\subsection{SVP: Shortest Vector Problem}
+
+\begin{definition}[SVP]
+Given a basis of a lattice $\calL$, find a nonzero vector $x\in \calL$ such that
+\[
+\norm{x}=\lambda_1(\calL).
+\]
+\end{definition}
+
+There are standard variants:
+\begin{itemize}
+    \item \textbf{Approximate SVP} $\mathrm{SVP}_\gamma$: find $x\neq 0$ with $\norm{x}\le \gamma\lambda_1(\calL)$.
+    \item \textbf{Unique SVP} $\mathrm{uSVP}_\gamma$: assume $\lambda_2(\calL) > \gamma\lambda_1(\calL)$ and recover a shortest vector.
+\end{itemize}
+
+\subsection{Geometric meaning of SVP}
+SVP asks for the smallest nonzero step available in the entire infinite grid. In two dimensions this feels easy because you can picture the nearby lattice points. In high dimensions, the number of candidate vectors is enormous and the geometry becomes opaque.
+
+\subsection{Why SVP matters in cryptography}
+Short vectors often correspond to hidden algebraic relations, low-noise combinations, or key-recovery information. Many reductions in lattice cryptography ultimately rely on the hardness of approximating SVP in worst-case lattices.
+
+\subsection{CVP: Closest Vector Problem}
+
+\begin{definition}[CVP]
+Given a basis of a lattice $\calL$ and a target point $x\in \R^n$, find a lattice vector $y\in \calL$ minimizing
+\[
+\norm{x-y}.
+\]
+\end{definition}
+
+Approximate CVP asks only for a factor-$\gamma$ approximation.
+
+\subsection{Geometric meaning of CVP}
+Now the target need not lie on the lattice. The question is: which lattice point is nearest? This resembles decoding in coding theory, and indeed many lattice cryptosystems can be seen as geometric decoding problems.
+
+\subsection{BDD: Bounded-Distance Decoding}
+
+\begin{definition}[BDD]
+Given a basis of $\calL$, a target $x\notin \calL$, and a parameter $\alpha$, the problem $\mathrm{BDD}_\alpha$ is to find a lattice point $y\in \calL$ such that
+\[
+\norm{x-y}\le \alpha\lambda_1(\calL).
+\]
+\end{definition}
+
+BDD is a promise version of CVP: the target is guaranteed to be unusually close to the lattice.
+
+\subsection{Why BDD can be easier}
+If $\alpha<1/2$, the nearest lattice point is unique. So the problem comes with extra structure. Many cryptographic decryption procedures are naturally phrased as BDD: the ciphertext defines a target point, and decryption recovers the unique nearby lattice point.
+
+\section{Relations among SVP, CVP, and BDD}
+
+These three problems are tightly connected.
+
+\subsection{From CVP to SVP by embedding}
+A standard trick is to embed a CVP instance in one higher dimension. Given a lattice basis $B$ and target $x$, form
+\[
+\widetilde B =
+\begin{pmatrix}
+B & x \\
+0 & C
+\end{pmatrix},
+\]
+where $C$ is large. Short vectors in the new lattice tend to encode vectors of the form $y-x$, where $y$ is close to the target. Thus a shortest-vector oracle can help solve closest-vector instances.
+
+\subsection{BDD as a structured CVP}
+BDD is CVP with the promise that the target is very close to the lattice. Because of this promise, BDD often reduces to a unique-SVP instance in one dimension higher. This is algorithmically useful because unique structure is often easier to exploit than arbitrary geometry.
+
+\begin{remark}
+The source chapter presents a theorem showing that, when the target distance is known and sufficiently small, solving $\mathrm{BDD}_\alpha$ can be reduced to solving a unique shortest vector problem in an augmented lattice of dimension $n+1$.
+\end{remark}
+
+\section{Babai's nearest-plane idea}
+
+Beyond exact hard problems, there is an important practical heuristic: \emph{Babai's algorithm}. It uses a reduced basis and rounds successively in the Gram-Schmidt coordinates to output a nearby lattice point.
+
+\subsection{Why it works heuristically}
+If the basis is nearly orthogonal, then rounding in the Gram-Schmidt directions causes only small error. If the basis is highly skewed, errors accumulate and the output may be far from the true closest vector.
+
+\subsection{Cryptographic relevance}
+Babai's method explains an important design principle:
+\begin{quote}
+\emph{good basis = easy decoding, bad basis = hard decoding.}
+\end{quote}
+The public basis in a cryptosystem should hide the geometry; the secret basis often makes decoding feasible.
+
+\section{q-ary lattices}
+
+The chapter then shifts to a special family of lattices that appear constantly in modern lattice cryptography.
+
+\begin{definition}[q-ary lattice]
+A lattice $\calL$ is called q-ary if for some integer $q$,
+\[
+q\Z^n \subseteq \calL \subseteq \Z^n.
+\]
+\end{definition}
+
+In cryptography one often starts from a matrix $A\in (\Z/q\Z)^{n\times m}$ with $m\ge n$ and defines two important lattices:
+\begin{align*}
+\Lambda_q(A) &= \{y\in \Z^m : y \equiv A^T z \pmod q \text{ for some } z\in \Z^n\},\\
+\Lambda_q^{\perp}(A) &= \{y\in \Z^m : Ay \equiv 0 \pmod q\}.
+\end{align*}
+
+\subsection{Interpretation}
+\begin{itemize}
+    \item $\Lambda_q(A)$ is an image-style lattice: points arise from modular combinations of rows/columns of $A$.
+    \item $\Lambda_q^{\perp}(A)$ is a kernel-style lattice: points are integer relations annihilated by $A$ modulo $q$.
+\end{itemize}
+
+\subsection{Why these are important}
+Many major lattice assumptions, including SIS and LWE-derived constructions, are naturally expressed through $q$-ary lattices. They connect modular linear algebra with Euclidean geometry.
+
+\section{SIS: Short Integer Solution}
+
+\begin{definition}[SIS]
+Given vectors $a_1,\dots,a_m\in (\Z/q\Z)^n$, find a short nonzero vector $z=(z_1,\dots,z_m)\in \Z^m$ such that
+\[
+z_1 a_1 + \cdots + z_m a_m \equiv 0 \pmod q.
+\]
+Often "short" means each $z_i\in\{-1,0,1\}$ or has small Euclidean norm.
+\end{definition}
+
+If $A=(a_1,\dots,a_m)$, then the set of such solutions is exactly the lattice
+\[
+\Lambda_q^{\perp}(A)=\{z\in \Z^m : Az\equiv 0 \pmod q\}.
+\]
+So SIS is a short-vector problem in a $q$-ary lattice.
+
+\subsection{Why SIS matters}
+SIS underlies hash functions, signatures, and worst-case to average-case hardness results. Conceptually it asks for a very short modular linear dependency.
+
+\begin{greenboxenv}
+\textbf{Key translation.} "Find a short modular relation" $\Longleftrightarrow$ "find a short vector in a kernel lattice."
+\end{greenboxenv}
+
+\section{Coppersmith's theorem: the big idea}
+
+Coppersmith's method is one of the most beautiful examples of lattices in cryptanalysis.
+
+\subsection{Problem setting}
+Suppose we have a monic polynomial
+\[
+f(x)=x^d+f_{d-1}x^{d-1}+\cdots+f_1x+f_0 \in \Z[x],
+\]
+and we know there exists a root $x_0$ modulo $N$ such that
+\[
+f(x_0)\equiv 0 \pmod N,
+\]
+with $|x_0|$ small. The question is whether one can efficiently recover that small root.
+
+Coppersmith's theorem says yes, provided the root is small enough --- roughly $|x_0|<N^{1/d}$ up to an arbitrarily small loss in the exponent.
+
+\subsection{Why this is surprising}
+A congruence modulo $N$ usually hides many residue classes. Knowing that one root is numerically small gives only weak-looking side information. Yet lattice reduction converts that side information into an exact recovery algorithm.
+
+\subsection{Core strategy}
+The method proceeds in three conceptual steps:
+\begin{enumerate}
+    \item Construct many polynomials that vanish at $x_0$ modulo a high power of $N$.
+    \item Form an integer lattice whose vectors correspond to integer combinations of those polynomials.
+    \item Use LLL to find a combination with very small coefficients, so small that vanishing modulo $N^m$ forces actual integer vanishing.
+\end{enumerate}
+
+\subsection{The crucial lemma}
+If a polynomial $h(x)$ has coefficients small enough, and $h(x_0)\equiv 0\pmod N$, then in fact $h(x_0)=0$ over the integers. Once this happens, we can recover $x_0$ by ordinary root-finding over $\Z$.
+
+\subsection{How the lattice is built}
+Starting from $f(x)$, define auxiliary polynomials of the form
+\[
+g_{u,v}(x)=N^{m-v}x^u f(x)^v.
+\]
+If $f(x_0)\equiv 0\pmod N$, then every $g_{u,v}(x_0)$ is divisible by $N^m$. One then evaluates these at $Xx$, where $X$ is the bound on the small root, and arranges their coefficients as columns of a lattice basis matrix.
+
+A short vector in this lattice corresponds to a polynomial
+\[
+h(x)=\sum_{u,v} a_{u,v} g_{u,v}(x)
+\]
+with small coefficients.
+
+\subsection{Why LLL enters}
+The determinant of the coefficient lattice can be bounded explicitly, so LLL guarantees a short vector. If the resulting coefficient norm is below the threshold in the lemma, then $x_0$ becomes an actual integer root of $h$.
+
+\subsection{Takeaway}
+Coppersmith is the archetypal example of the lattice method:
+\begin{quote}
+\emph{Build a lattice so that short vectors correspond to useful algebraic relations.}
+\end{quote}
+
+\section{How all the pieces fit together}
+
+It helps to view the chapter as a chain of ideas:
+\begin{enumerate}
+    \item Lattices are discrete additive structures in Euclidean space.
+    \item Their geometry is hidden or revealed by the choice of basis.
+    \item Gram-Schmidt measures skewness but does not preserve the lattice.
+    \item LLL finds a better basis of the same lattice in polynomial time.
+    \item Hard problems such as SVP, CVP, and BDD capture different geometric tasks.
+    \item q-ary lattices translate modular equations into geometric objects.
+    \item SIS is a short-vector problem inside a q-ary lattice.
+    \item Coppersmith uses lattice reduction to manufacture small algebraic relations and recover hidden roots.
+\end{enumerate}
+
+\section{A compact comparison table}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.35}
+\begin{tabular}{>{\raggedright\arraybackslash}p{0.19\linewidth} >{\raggedright\arraybackslash}p{0.25\linewidth} >{\raggedright\arraybackslash}p{0.48\linewidth}}
+\toprule
+\textbf{Object/problem} & \textbf{Question being asked} & \textbf{Cryptographic meaning} \\
+\midrule
+Lattice basis & Which vectors generate the same grid? & Public and secret descriptions of the same structure \\
+SVP & What is the shortest nonzero lattice vector? & Hidden short relations, hardness foundation \\
+CVP & Which lattice point is closest to a target? & Decoding/noise removal \\
+BDD & Closest lattice point when target is guaranteed near the lattice & Decryption with small error \\
+LLL & Can we find a much nicer basis efficiently? & Main practical reduction tool \\
+q-ary lattice & How do modular equations become lattice geometry? & Bridge from $\bmod\ q$ algebra to Euclidean algorithms \\
+SIS & Can we find a short modular dependency? & Basis of signatures, hashes, hardness results \\
+Coppersmith & Can we turn a small modular root into an exact integer root? & RSA attacks and small-root cryptanalysis \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\section{Common points of confusion}
+
+\subsection*{1. Are Gram-Schmidt vectors lattice vectors?}
+Usually no. They live in the same real span but not necessarily in the integer lattice.
+
+\subsection*{2. If LLL is polynomial time, why are lattice problems still hard?}
+Because LLL only gives an approximation. In high dimension the approximation factor is too weak to solve the exact geometric problems needed to break secure parameters.
+
+\subsection*{3. Why are bad bases useful in cryptography?}
+A bad public basis hides the geometry. A good secret basis enables efficient decoding or trapdoor sampling.
+
+\subsection*{4. Why is BDD easier than CVP?}
+Because BDD comes with a promise that the target is close. That extra information reduces ambiguity.
+
+\subsection*{5. Why does Coppersmith need ``small'' roots?}
+Because the proof requires the coefficient norm of a derived polynomial to be small enough that modular vanishing implies exact vanishing over the integers.
+
+\section{Study roadmap for mastering this material}
+
+A good progression is:
+\begin{enumerate}
+    \item Work many 2D and 3D examples by hand.
+    \item Practice Gram-Schmidt until the coefficients $\mu_{i,j}$ feel natural.
+    \item Run through one LLL execution manually on a tiny basis.
+    \item Draw pictures of SVP, CVP, and BDD in dimension 2.
+    \item Rewrite SIS as a kernel lattice problem yourself.
+    \item For Coppersmith, focus first on the logic of the construction before the determinant algebra.
+\end{enumerate}
+
+\section{Exercises with hints}
+
+\begin{enumerate}
+    \item For the basis
+    \[
+    b_1=\begin{pmatrix}3\\1\end{pmatrix},\qquad b_2=\begin{pmatrix}1\\2\end{pmatrix},
+    \]
+    compute the Gram-Schmidt basis and $\mu_{2,1}$.
+    
+    \textbf{Hint:} first compute $\ip{b_2}{b_1}$ and $\norm{b_1}^2$.
+
+    \item Explain in your own words why changing a basis by a unimodular matrix preserves the lattice.
+    
+    \textbf{Hint:} show that integer combinations before and after the transformation correspond bijectively.
+
+    \item In dimension 2, sketch a lattice and a target point illustrating CVP and BDD. What extra information makes BDD easier?
+
+    \item Let $A\in (\Z/q\Z)^{n\times m}$. Show that any solution of SIS with respect to the columns of $A$ lies in $\Lambda_q^{\perp}(A)$.
+
+    \item Read the statement of Coppersmith's theorem and identify the three places where the condition ``small root'' is used.
+\end{enumerate}
+
+\section{Final summary}
+
+The chapter's central message is this:
+\begin{quote}
+Lattice methods let us convert algebraic or modular structure into geometric structure, and then attack that geometry using basis reduction.
+\end{quote}
+
+That is why lattices are so powerful in cryptography. They explain attacks on classical systems, and they also provide some of the strongest candidates for post-quantum security.
+
+\begin{infobox}
+\textbf{Source acknowledgement.} These notes are based on the lattice chapter of Nigel Smart's \emph{Cryptography Made Simple}, specifically the sections on lattices, Gram-Schmidt, LLL, SVP/CVP/BDD, q-ary lattices, SIS, and Coppersmith's theorem.
+\end{infobox}
+
+\vfill
+\begin{center}
+\rule{0.7\linewidth}{0.4pt}\\
+{\small Prepared as a pedagogical companion to the uploaded chapter excerpt.}
+\end{center}
+
+\newpage
+%\chapter{Exercises for Understanding Lattices and Lattice-Based Hard Problems}
+
+\section{How to use these exercises}
+
+The purpose of these exercises is not only to test memory, but to train the geometric intuition needed for lattice-based cryptography. The exercises are arranged in increasing depth:
+
+\begin{itemize}
+	\item basic definitions and notation,
+	\item vector-space and Gram--Schmidt practice,
+	\item lattice construction and determinant,
+	\item shortest and closest vector intuition,
+	\item dual lattices and \(q\)-ary lattices,
+	\item SIS and cryptographic interpretation,
+	\item conceptual questions connecting reduction algorithms to hard problems.
+\end{itemize}
+
+\section{Warm-up exercises: notation and definitions}
+
+\begin{enumerate}
+	\item Let
+	\[
+	\mathbf{x}=(1,-2,3), \qquad \mathbf{y}=(4,0,-1).
+	\]
+	Compute:
+	\begin{enumerate}
+		\item \(\langle \mathbf{x},\mathbf{y}\rangle\),
+		\item \(\|\mathbf{x}\|\),
+		\item \(\|\mathbf{y}\|\),
+		\item \(\|\mathbf{x}+\mathbf{y}\|\).
+	\end{enumerate}
+	
+	\item State in your own words the difference between:
+	\begin{enumerate}
+		\item a vector space basis,
+		\item a lattice basis.
+	\end{enumerate}
+	
+	\item Decide whether each of the following sets is a lattice in \(\mathbb{R}^2\):
+	\begin{enumerate}
+		\item \(\{(a,b): a,b\in\mathbb{Z}\}\),
+		\item \(\{(a,\sqrt{2}a): a\in\mathbb{Z}\}\),
+		\item \(\{a(1,0)+b(1/2,1): a,b\in\mathbb{Z}\}\),
+		\item \(\{(x,y)\in\mathbb{R}^2: x,y\in\mathbb{Q}\}\).
+	\end{enumerate}
+	Justify each answer carefully.
+	
+	\item Give an example of two different bases that generate the same lattice in \(\mathbb{R}^2\).
+	
+	\item Explain why a lattice is discrete, while the real span of the same basis vectors is not discrete.
+\end{enumerate}
+
+\section{Exercises on linear independence and span}
+
+\begin{enumerate}
+	\setcounter{enumi}{5}
+	\item Determine whether the following vectors are linearly independent:
+	\[
+	\mathbf{b}_1=
+	\begin{pmatrix}
+		1\\0\\1
+	\end{pmatrix},
+	\qquad
+	\mathbf{b}_2=
+	\begin{pmatrix}
+		2\\1\\3
+	\end{pmatrix},
+	\qquad
+	\mathbf{b}_3=
+	\begin{pmatrix}
+		0\\1\\1
+	\end{pmatrix}.
+	\]
+	
+	\item Let
+	\[
+	\mathbf{b}_1=
+	\begin{pmatrix}
+		2\\0
+	\end{pmatrix},
+	\qquad
+	\mathbf{b}_2=
+	\begin{pmatrix}
+		1\\1
+	\end{pmatrix}.
+	\]
+	Describe explicitly:
+	\begin{enumerate}
+		\item the real span of \(\mathbf{b}_1,\mathbf{b}_2\),
+		\item the lattice generated by \(\mathbf{b}_1,\mathbf{b}_2\).
+	\end{enumerate}
+	
+	\item Let \(B=[\mathbf{b}_1\ \mathbf{b}_2]\) with
+	\[
+	\mathbf{b}_1=
+	\begin{pmatrix}
+		1\\2
+	\end{pmatrix},
+	\qquad
+	\mathbf{b}_2=
+	\begin{pmatrix}
+		3\\4
+	\end{pmatrix}.
+	\]
+	Write the set \(\mathcal{L}(B)\) explicitly as all integer combinations of the two vectors.
+	
+	\item Show that if \(\mathbf{b}_1,\dots,\mathbf{b}_n\) are linearly independent over \(\mathbb{R}\), then their integer combinations form a lattice.
+	
+	\item Give an example of a subset of \(\mathbb{R}^2\) that is closed under integer linear combinations but is not full rank.
+\end{enumerate}
+
+\section{Gram--Schmidt exercises}
+
+\begin{enumerate}
+	\setcounter{enumi}{10}
+	\item Perform the Gram--Schmidt orthogonalization for
+	\[
+	\mathbf{b}_1=
+	\begin{pmatrix}
+		1\\1
+	\end{pmatrix},
+	\qquad
+	\mathbf{b}_2=
+	\begin{pmatrix}
+		1\\0
+	\end{pmatrix}.
+	\]
+	
+	\item Perform the Gram--Schmidt orthogonalization for
+	\[
+	\mathbf{b}_1=
+	\begin{pmatrix}
+		1\\0\\0
+	\end{pmatrix},
+	\quad
+	\mathbf{b}_2=
+	\begin{pmatrix}
+		1\\1\\0
+	\end{pmatrix},
+	\quad
+	\mathbf{b}_3=
+	\begin{pmatrix}
+		1\\1\\1
+	\end{pmatrix}.
+	\]
+	
+	\item For a general pair of linearly independent vectors \(\mathbf{b}_1,\mathbf{b}_2\), write the formula for \(\mathbf{b}_2^*\) in Gram--Schmidt form.
+	
+	\item Explain why Gram--Schmidt preserves the span of the vectors.
+	
+	\item Explain why Gram--Schmidt generally does \emph{not} preserve the lattice generated by the vectors.
+	
+	\item Give an explicit example where \(\mathbf{b}_2^*\) from Gram--Schmidt is not an integer combination of the original basis vectors.
+	
+	\item Let
+	\[
+	\mathbf{b}_1=
+	\begin{pmatrix}
+		2\\0
+	\end{pmatrix},
+	\qquad
+	\mathbf{b}_2=
+	\begin{pmatrix}
+		3\\1
+	\end{pmatrix}.
+	\]
+	Compute \(\mu_{2,1}\) and \(\mathbf{b}_2^*\).
+	
+	\item Prove that the Gram--Schmidt vectors \(\mathbf{b}_1^*,\dots,\mathbf{b}_n^*\) are pairwise orthogonal.
+\end{enumerate}
+
+\section{Determinant and volume exercises}
+
+\begin{enumerate}
+	\setcounter{enumi}{18}
+	\item Let
+	\[
+	B=
+	\begin{pmatrix}
+		2 & 1\\
+		0 & 3
+	\end{pmatrix}.
+	\]
+	Compute \(\det(B)\) and explain its meaning as lattice volume.
+	
+	\item Let
+	\[
+	B=
+	\begin{pmatrix}
+		1 & 2\\
+		2 & 5
+	\end{pmatrix}.
+	\]
+	Compute the determinant of the lattice \(\mathcal{L}(B)\).
+	
+	\item Let
+	\[
+	B=
+	\begin{pmatrix}
+		1 & 1\\
+		0 & 2
+	\end{pmatrix}.
+	\]
+	Describe the fundamental parallelepiped \(\mathcal{P}(B)\).
+	
+	\item Show that if \(U\in\mathbb{Z}^{n\times n}\) is unimodular, then \(B\) and \(BU\) generate lattices of the same determinant.
+	
+	\item Explain geometrically why the determinant is invariant under unimodular basis change.
+	
+	\item Compute
+	\[
+	\sqrt{\det(B^TB)}
+	\]
+	for
+	\[
+	B=
+	\begin{pmatrix}
+		1 & 1\\
+		0 & 2
+	\end{pmatrix},
+	\]
+	and verify that it agrees with \(|\det(B)|\).
+	
+	\item Let
+	\[
+	B=
+	\begin{pmatrix}
+		3 & 0\\
+		0 & 2
+	\end{pmatrix}.
+	\]
+	Sketch the lattice and estimate visually whether the determinant is large or small compared with \(\mathbb{Z}^2\).
+\end{enumerate}
+
+\section{Exercises on shortest vectors and minima}
+
+\begin{enumerate}
+	\setcounter{enumi}{25}
+	\item For the lattice generated by
+	\[
+	\mathbf{b}_1=
+	\begin{pmatrix}
+		2\\0
+	\end{pmatrix},
+	\qquad
+	\mathbf{b}_2=
+	\begin{pmatrix}
+		0\\3
+	\end{pmatrix},
+	\]
+	find the shortest nonzero lattice vector.
+	
+	\item For the lattice
+	\[
+	\mathcal{L}=\mathbb{Z}^2,
+	\]
+	determine \(\lambda_1(\mathcal{L})\) and \(\lambda_2(\mathcal{L})\).
+	
+	\item For the lattice generated by
+	\[
+	\mathbf{b}_1=
+	\begin{pmatrix}
+		1\\0
+	\end{pmatrix},
+	\qquad
+	\mathbf{b}_2=
+	\begin{pmatrix}
+		1\\2
+	\end{pmatrix},
+	\]
+	list several short nonzero lattice vectors and guess the value of \(\lambda_1(\mathcal{L})\).
+	
+	\item Explain in words the difference between:
+	\begin{enumerate}
+		\item the first minimum \(\lambda_1(\mathcal{L})\),
+		\item the second minimum \(\lambda_2(\mathcal{L})\).
+	\end{enumerate}
+	
+	\item Give an example of a lattice where \(\lambda_1(\mathcal{L})=\lambda_2(\mathcal{L})\).
+	
+	\item Explain why every lattice has a shortest nonzero vector.
+	
+	\item Suppose \(\det(\mathcal{L})\) is very small. What should you expect qualitatively about the existence of short lattice vectors?
+	
+	\item Explain why Minkowski-type results are existential rather than algorithmic.
+\end{enumerate}
+
+\section{Closest vector and decoding exercises}
+
+\begin{enumerate}
+	\setcounter{enumi}{33}
+	\item Let
+	\[
+	\mathcal{L}=\mathbb{Z}^2,
+	\qquad
+	\mathbf{t}=
+	\begin{pmatrix}
+		0.3\\1.7
+	\end{pmatrix}.
+	\]
+	Find a closest lattice vector to \(\mathbf{t}\).
+	
+	\item Let
+	\[
+	\mathcal{L}=\mathbb{Z}^2,
+	\qquad
+	\mathbf{t}=
+	\begin{pmatrix}
+		0.5\\0.5
+	\end{pmatrix}.
+	\]
+	Does \(\mathbf{t}\) have a unique closest lattice vector? Explain.
+	
+	\item State the difference between SVP and CVP.
+	
+	\item State the difference between CVP and BDD.
+	
+	\item Explain why BDD becomes easier than general CVP under a uniqueness promise.
+	
+	\item Give a geometric description of BDD in terms of a target point lying in a small ball around a lattice point.
+	
+	\item Let
+	\[
+	\mathcal{L}=
+	\left\{
+	\begin{pmatrix}
+		2a\\2b
+	\end{pmatrix}
+	: a,b\in\mathbb{Z}
+	\right\}.
+	\]
+	For the target
+	\[
+	\mathbf{t}=
+	\begin{pmatrix}
+		1.2\\1.8
+	\end{pmatrix},
+	\]
+	find a closest lattice vector.
+\end{enumerate}
+
+\section{Dual lattice exercises}
+
+\begin{enumerate}
+	\setcounter{enumi}{40}
+	\item Compute the dual lattice of \(\mathbb{Z}^n\).
+	
+	\item Let
+	\[
+	B=
+	\begin{pmatrix}
+		2 & 0\\
+		0 & 3
+	\end{pmatrix}.
+	\]
+	Compute a basis for the dual lattice.
+	
+	\item Verify directly that if \(B^*=(B^{-1})^T\), then every vector in \(\mathcal{L}(B^*)\) has integer inner product with every vector in \(\mathcal{L}(B)\).
+	
+	\item Show that
+	\[
+	\det(\mathcal{L}^*)=\frac{1}{\det(\mathcal{L})}
+	\]
+	for a full-rank lattice.
+	
+	\item Explain in words what the dual lattice measures geometrically.
+	
+	\item Compute the dual of the lattice generated by
+	\[
+	B=
+	\begin{pmatrix}
+		1 & 1\\
+		0 & 2
+	\end{pmatrix}.
+	\]
+\end{enumerate}
+
+\section{LLL and basis quality exercises}
+
+\begin{enumerate}
+	\setcounter{enumi}{46}
+	\item Explain the difference between a ``good'' basis and a ``bad'' basis of the same lattice.
+	
+	\item Why is near-orthogonality desirable in lattice algorithms?
+	
+	\item State the two main ingredients of LLL reduction:
+	\begin{enumerate}
+		\item size reduction,
+		\item Lov\'asz condition.
+	\end{enumerate}
+	
+	\item Why does LLL not usually solve exact SVP in high dimension?
+	
+	\item Explain why LLL is still extremely useful even though it usually returns only an approximate shortest vector.
+	
+	\item In your own words, explain the idea of the Gram--Schmidt profile of a reduced basis.
+	
+	\item Why is the first basis vector of an LLL-reduced basis expected to be much shorter than the first basis vector of an arbitrary basis?
+	
+	\item Give a cryptographic reason why one may want a public basis to be bad and a secret basis to be good.
+\end{enumerate}
+
+\section{\(q\)-ary lattices and SIS exercises}
+
+\begin{enumerate}
+	\setcounter{enumi}{54}
+	\item Let \(q=5\). Consider
+	\[
+	A=
+	\begin{pmatrix}
+		1 & 2
+	\end{pmatrix}.
+	\]
+	Describe all vectors \(\mathbf{z}=(z_1,z_2)^T\in\mathbb{Z}^2\) satisfying
+	\[
+	A\mathbf{z}\equiv 0 \pmod 5.
+	\]
+	
+	\item Explain why
+	\[
+	\Lambda_q^\perp(A)=\{\mathbf{z}\in\mathbb{Z}^m : A\mathbf{z}\equiv 0 \pmod q\}
+	\]
+	is a lattice.
+	
+	\item State SIS as a search problem.
+	
+	\item Explain why SIS can be viewed as a shortest-vector-type problem in a \(q\)-ary lattice.
+	
+	\item For
+	\[
+	A=
+	\begin{pmatrix}
+		1 & 1 & 1
+	\end{pmatrix}
+	\in \mathbb{Z}_3^{1\times 3},
+	\]
+	find a nonzero short vector in \(\Lambda_3^\perp(A)\).
+	
+	\item Explain the difference between solving the modular equation
+	\[
+	A\mathbf{z}\equiv 0 \pmod q
+	\]
+	and solving SIS.
+	
+	\item Why is the word ``short'' essential in SIS?
+	
+	\item Give an example of a nonzero vector satisfying a modular relation that would be useless for SIS because it is too large.
+\end{enumerate}
+
+\section{Exercises on conceptual understanding}
+
+\begin{enumerate}
+	\setcounter{enumi}{62}
+	\item Complete the following conceptual chain and explain each arrow:
+	\[
+	\text{linear algebra}
+	\longrightarrow
+	\text{Gram--Schmidt}
+	\longrightarrow
+	\text{lattices}
+	\longrightarrow
+	\text{basis reduction}
+	\longrightarrow
+	\text{hard problems}.
+	\]
+	
+	\item Explain why the determinant measures density but does not directly reveal the shortest vector.
+	
+	\item Explain why a lattice may have many different bases but only one determinant.
+	
+	\item Why are exact problems often harder than approximate ones in lattice theory?
+	
+	\item Explain the difference between:
+	\begin{enumerate}
+		\item a theorem proving that a short vector exists,
+		\item an algorithm finding a short vector.
+	\end{enumerate}
+	
+	\item In your own words, explain how lattice reduction can be used to extract hidden small relations from structured integer data.
+	
+	\item Why is it useful to think of polynomial coefficients as vectors in a lattice when studying Coppersmith-type methods?
+	
+	\item Give a one-paragraph explanation of why lattices are central in post-quantum cryptography.
+\end{enumerate}
+
+\section{Proof-style exercises}
+
+\begin{enumerate}
+	\setcounter{enumi}{69}
+	\item Prove that if \(U\in\mathbb{Z}^{n\times n}\) is unimodular, then
+	\[
+	\mathcal{L}(BU)=\mathcal{L}(B).
+	\]
+	
+	\item Prove that Gram--Schmidt orthogonalization preserves the real span of the input vectors.
+	
+	\item Prove that if \(B\) is a full-rank basis matrix, then
+	\[
+	\det(\mathcal{L}(B))=|\det(B)|.
+	\]
+	
+	\item Prove that
+	\[
+	\mathcal{L}^*=
+	\{\mathbf{y}\in\mathbb{R}^n : \langle \mathbf{y},\mathbf{x}\rangle\in\mathbb{Z}\ \forall \mathbf{x}\in\mathcal{L}\}
+	\]
+	is itself a lattice.
+	
+	\item Prove that every nonzero sublattice of \(\mathbb{R}^n\) is countable.
+	
+	\item Show that if \(\mathcal{L}\subseteq\mathbb{Z}^m\) and \(q\mathbb{Z}^m\subseteq \mathcal{L}\subseteq \mathbb{Z}^m\), then \(\mathcal{L}\) is \(q\)-ary.
+	
+	\item Prove that any solution to search-SVP immediately solves the decision question:
+	\[
+	\text{``Does there exist a nonzero vector of norm at most } r\text{?''}
+	\]
+	
+	\item Prove that any algorithm solving exact CVP also solves BDD.
+\end{enumerate}
+
+\section{Exploration and discussion questions}
+
+\begin{enumerate}
+	\setcounter{enumi}{76}
+	\item Why does higher dimension usually make lattice problems harder?
+	
+	\item In what sense is a lattice both algebraic and geometric?
+	
+	\item Why do cryptographers care about approximation factors rather than only exact solutions?
+	
+	\item How can a lattice simultaneously be easy to describe and hard to analyze?
+	
+	\item Why do bad bases hide geometric information?
+	
+	\item Discuss the role of lattice reduction in both constructive cryptography and cryptanalysis.
+	
+	\item Compare the role of Euclidean norm in lattices with Hamming weight in code-based cryptography.
+	
+	\item Explain why discrete structure is necessary for shortest-vector problems to make sense.
+\end{enumerate}
+
+\section{Mini-project exercises}
+
+\begin{enumerate}
+	\setcounter{enumi}{84}
+	\item Choose a \(2\times 2\) integer matrix \(B\) with nonzero determinant. Do all of the following:
+	\begin{enumerate}
+		\item sketch the lattice \(\mathcal{L}(B)\),
+		\item compute its determinant,
+		\item perform Gram--Schmidt,
+		\item estimate a shortest nonzero vector,
+		\item compute a basis for the dual lattice.
+	\end{enumerate}
+	
+	\item Take a small matrix \(A\in\mathbb{Z}_q^{n\times m}\) with \(q=5\) or \(7\). Construct the lattice
+	\[
+	\Lambda_q^\perp(A),
+	\]
+	and find at least one short nonzero vector in it by hand.
+	
+	\item Write a short note comparing the following three problems:
+	\[
+	\text{SVP},\qquad \text{CVP},\qquad \text{BDD}.
+	\]
+	Your note should explain:
+	\begin{enumerate}
+		\item what is given,
+		\item what must be found,
+		\item why the problems are related,
+		\item why BDD is a promise version of CVP.
+	\end{enumerate}
+	
+	\item Explain, in your own words and without using advanced theorems, why LLL can be viewed as a bridge between pure geometry and practical cryptanalysis.
+\end{enumerate}
+
+\end{document}

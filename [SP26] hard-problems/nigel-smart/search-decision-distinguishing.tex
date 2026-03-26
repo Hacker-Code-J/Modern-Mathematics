@@ -1,0 +1,1453 @@
+\documentclass[11pt]{article}
+
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{bm}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{xcolor}
+
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{array}
+\usepackage{makecell}
+
+\title{Understanding Search vs.\ Decision vs.\ Distinguishing\\
+	in Post-Quantum Cryptography Hard Problems}
+\author{}
+\date{}
+
+\newtheorem{definition}{Definition}
+\newtheorem{remark}{Remark}
+\newtheorem{example}{Example}
+
+\begin{document}
+	\maketitle
+	
+	\section{Why this distinction matters}
+	
+	In post-quantum cryptography (PQC), many security assumptions are stated using one of three flavors of hard problems:
+	
+	\begin{enumerate}[label=\arabic*.]
+		\item \textbf{Search problem:} recover the hidden object.
+		\item \textbf{Decision problem:} answer a yes/no question about the instance.
+		\item \textbf{Distinguishing problem:} tell whether samples come from one distribution or another.
+	\end{enumerate}
+	
+	These three look similar, but they play different roles in theory and in cryptographic reductions.
+	
+	\medskip
+	
+	\noindent
+	Roughly:
+	\[
+	\text{Search} \quad \Rightarrow \quad \text{Decision} \quad \Rightarrow \quad \text{Distinguishing}
+	\]
+	in the sense that if you can fully recover the secret, then you can usually answer the weaker yes/no or distinguishing task. The converse is usually harder and may require nontrivial reductions.
+	
+	\section{The core intuition}
+	
+	Suppose Nature hides some secret structure.
+	
+	\begin{itemize}
+		\item In a \textbf{search} problem, you must \emph{find} that hidden structure.
+		\item In a \textbf{decision} problem, you only need to \emph{decide whether a certain property holds}.
+		\item In a \textbf{distinguishing} problem, you do not need the secret or even a property of one fixed instance; you only need to \emph{tell apart two candidate generating processes}.
+	\end{itemize}
+	
+	So the required output becomes progressively weaker.
+	
+	\section{Formal viewpoint}
+	
+	\subsection{Search problems}
+	
+	\begin{definition}[Search problem]
+		A search problem consists of an instance space $\mathcal{I}$ and a relation
+		\[
+		R \subseteq \mathcal{I} \times \mathcal{W},
+		\]
+		where $\mathcal{W}$ is the witness or solution space. Given an instance $I \in \mathcal{I}$, the goal is to output some $w \in \mathcal{W}$ such that
+		\[
+		(I,w)\in R.
+		\]
+	\end{definition}
+	
+	\noindent
+	The output is not just yes/no. It must be an actual solution.
+	
+	\begin{example}[Search-LWE]
+		Given samples
+		\[
+		(\bm a_i,\, b_i = \langle \bm a_i,\bm s\rangle + e_i \bmod q),
+		\]
+		recover the secret vector $\bm s$.
+	\end{example}
+	
+	\begin{example}[SIS as search]
+		Given a matrix $A \in \mathbb{Z}_q^{m\times n}$, find a nonzero short vector $\bm z \in \mathbb{Z}^n$ such that
+		\[
+		A\bm z \equiv \bm 0 \pmod q.
+		\]
+	\end{example}
+	
+	\subsection{Decision problems}
+	
+	\begin{definition}[Decision problem]
+		A decision problem is specified by a language $L \subseteq \mathcal{I}$. Given an instance $I$, the goal is to output
+		\[
+		\begin{cases}
+			1 & \text{if } I \in L,\\
+			0 & \text{if } I \notin L.
+		\end{cases}
+		\]
+	\end{definition}
+	
+	\noindent
+	The output is only one bit.
+	
+	\begin{example}[GapSVP]
+		Given a lattice basis $B$ and threshold $d$, decide whether the shortest nonzero lattice vector is
+		\[
+		\lambda_1(\mathcal{L}(B)) \le d
+		\]
+		or
+		\[
+		\lambda_1(\mathcal{L}(B)) > \gamma d,
+		\]
+		for some approximation factor $\gamma > 1$, assuming the input is promised to satisfy one of these two cases.
+	\end{example}
+	
+	\begin{remark}
+		This is not a search problem because you do \emph{not} need to output the short vector itself. You only need to decide which case holds.
+	\end{remark}
+	
+	\subsection{Distinguishing problems}
+	
+	\begin{definition}[Distinguishing problem]
+		A distinguishing problem gives oracle access or samples from one of two distributions
+		\[
+		\mathcal{D}_0,\mathcal{D}_1.
+		\]
+		The goal is to decide from which distribution the samples were drawn, with non-negligible advantage over random guessing.
+	\end{definition}
+	
+	\noindent
+	This is often written as:
+	\[
+	\left| \Pr[\mathcal{A}(\mathcal{D}_0)=1] - \Pr[\mathcal{A}(\mathcal{D}_1)=1] \right|
+	\]
+	being non-negligible.
+	
+	\begin{example}[Decision-LWE as a distinguishing problem]
+		Given samples, distinguish between
+		\[
+		(\bm a,\, \langle \bm a,\bm s\rangle + e \bmod q)
+		\]
+		and
+		\[
+		(\bm a,\, u),
+		\]
+		where $u \leftarrow \mathbb{Z}_q$ is uniform.
+	\end{example}
+	
+	\begin{remark}
+		In modern cryptography, many so-called \textbf{decision assumptions} are really \textbf{distribution distinguishing assumptions}. Decision-LWE is the canonical example.
+	\end{remark}
+	
+	\section{A clean conceptual separation}
+	
+	\subsection{Search asks ``What is the hidden object?''}
+	
+	The hidden object may be:
+	\begin{itemize}
+		\item a secret vector $\bm s$ in LWE,
+		\item a short relation $\bm z$ in SIS,
+		\item a short lattice vector in SVP,
+		\item a close lattice vector in CVP.
+	\end{itemize}
+	
+	\noindent
+	The algorithm must actually produce it.
+	
+	\subsection{Decision asks ``Does this instance have the property?''}
+	
+	Examples:
+	\begin{itemize}
+		\item Is there a vector shorter than threshold $d$?
+		\item Is this lattice instance in the YES-case or NO-case?
+		\item Is this polynomial system solvable under some promise?
+	\end{itemize}
+	
+	\subsection{Distinguishing asks ``Which world am I in?''}
+	
+	You are shown samples from one of two worlds:
+	\begin{itemize}
+		\item \textbf{structured world} (contains hidden algebraic or noisy linear structure),
+		\item \textbf{random world} (uniform or pseudorandom noise only).
+	\end{itemize}
+	
+	\noindent
+	The task is to identify the world, not necessarily to recover the structure.
+	
+	\section{The standard cryptographic examples}
+	
+	\subsection{LWE}
+	
+	Let $\bm s \in \mathbb{Z}_q^n$ be secret. Samples are of the form
+	\[
+	(\bm a, b), \qquad b = \langle \bm a,\bm s\rangle + e \pmod q,
+	\]
+	where $\bm a \leftarrow \mathbb{Z}_q^n$ uniformly and $e$ is drawn from some error distribution.
+	
+	\paragraph{Search-LWE.}
+	Given many samples $(\bm a_i,b_i)$, recover $\bm s$.
+	
+	\paragraph{Decision-LWE / Distinguishing-LWE.}
+	Given many samples, decide whether they are:
+	\begin{itemize}
+		\item valid LWE samples with a fixed secret $\bm s$, or
+		\item uniformly random samples in $\mathbb{Z}_q^n \times \mathbb{Z}_q$.
+	\end{itemize}
+	
+	\paragraph{Interpretation.}
+	\begin{itemize}
+		\item Search-LWE asks for the \emph{secret}.
+		\item Decision-LWE asks whether the sample set is \emph{structured} or \emph{random}.
+	\end{itemize}
+	
+	\subsection{SIS}
+	
+	Let $A \in \mathbb{Z}_q^{m\times n}$.
+	
+	\paragraph{Search-SIS.}
+	Find a short nonzero vector $\bm z \in \mathbb{Z}^n$ such that
+	\[
+	A\bm z \equiv \bm 0 \pmod q.
+	\]
+	
+	\paragraph{Decision analogue?}
+	SIS is usually used primarily as a \emph{search} assumption. A natural decision-style version would be something like:
+	\begin{quote}
+		Does there exist a nonzero vector $\bm z$ with $\|\bm z\| \le \beta$ such that $A\bm z \equiv \bm 0 \pmod q$?
+	\end{quote}
+	But in cryptography, SIS is most often stated and used in its search form.
+	
+	\subsection{Lattice geometry problems}
+	
+	\paragraph{SVP (Shortest Vector Problem).}
+	Given a lattice basis $B$, output a shortest nonzero vector in $\mathcal{L}(B)$.
+	
+	This is a \textbf{search} problem.
+	
+	\paragraph{GapSVP.}
+	Given $B$ and threshold $d$, decide whether
+	\[
+	\lambda_1(\mathcal{L}(B)) \le d
+	\]
+	or
+	\[
+	\lambda_1(\mathcal{L}(B)) > \gamma d.
+	\]
+	
+	This is a \textbf{decision} problem with a promise gap.
+	
+	\paragraph{CVP (Closest Vector Problem).}
+	Given basis $B$ and target $\bm t$, output a lattice vector closest to $\bm t$.
+	
+	This is a \textbf{search} problem.
+	
+	\paragraph{BDD (Bounded Distance Decoding).}
+	Given a target known to be unusually close to the lattice, recover the nearby lattice point.
+	
+	This is also fundamentally a \textbf{search} problem.
+	
+	\section{Why distinguishing is not exactly the same as ordinary decision}
+	
+	Students often say:
+	
+	\begin{quote}
+		``A distinguishing problem is just a decision problem, because the answer is yes/no.''
+	\end{quote}
+	
+	This is \emph{partly true} but conceptually incomplete.
+	
+	\subsection{Common ground}
+	
+	Both decision and distinguishing output one bit. So at the most abstract complexity-theoretic level, a distinguisher computes a Boolean function.
+	
+	\subsection{Important difference}
+	
+	In a \textbf{decision problem}, the input is usually a \emph{single instance} and you ask whether it belongs to a language.
+	
+	In a \textbf{distinguishing problem}, the input is typically generated from one of \emph{two probability distributions}. The challenge is statistical or computational separation of distributions.
+	
+	\medskip
+	
+	\noindent
+	So:
+	
+	\begin{itemize}
+		\item \textbf{Decision} is language-based.
+		\item \textbf{Distinguishing} is distribution-based.
+	\end{itemize}
+	
+	\noindent
+	In cryptography, the distribution-based viewpoint is often the more natural one.
+	
+	\section{Reduction intuition between the three}
+	
+	\subsection{From search to distinguishing}
+	
+	If you can solve the search problem, you can often distinguish.
+	
+	\begin{example}[Search-LWE $\Rightarrow$ Distinguishing-LWE]
+		Suppose you can recover $\bm s$. Then, on input samples $(\bm a_i,b_i)$:
+		\begin{enumerate}
+			\item Recover candidate $\bm s$.
+			\item Check whether each
+			\[
+			b_i - \langle \bm a_i,\bm s\rangle \pmod q
+			\]
+			looks like small noise.
+		\end{enumerate}
+		If yes, declare ``LWE''; otherwise declare ``uniform''.
+	\end{example}
+	
+	\noindent
+	So search is at least as strong as distinguishing in this sense.
+	
+	\subsection{From distinguishing to search}
+	
+	This direction is much subtler. One usually needs a theorem stating that a distinguisher can be transformed into a search solver.
+	
+	For LWE, there are standard reductions showing that under appropriate parameters, \emph{decision-LWE and search-LWE are polynomial-time equivalent}.
+	
+	\begin{remark}
+		This equivalence is nontrivial. It does not follow merely from intuition; it requires a formal reduction.
+	\end{remark}
+	
+	\subsection{From search to ordinary decision}
+	
+	If you can find the exact witness, then you can certainly answer whether one exists or whether the relevant threshold is met.
+	
+	For example:
+	\[
+	\text{SVP solver} \Rightarrow \text{GapSVP solver}.
+	\]
+	
+	But the reverse need not hold in any obvious way, because knowing only that a short vector exists does not directly tell you what the vector is.
+	
+	\section{A geometric picture}
+	
+	\subsection{Search in lattices}
+	
+	You are standing outside a lattice and must point to a specific geometric object:
+	\begin{itemize}
+		\item the shortest nonzero lattice vector,
+		\item the lattice point closest to a target,
+		\item a short modular dependency.
+	\end{itemize}
+	
+	\subsection{Decision in lattices}
+	
+	You do not need the vector. You only answer:
+	\begin{quote}
+		``Is there a vector this short?''
+	\end{quote}
+	
+	\subsection{Distinguishing in noisy linear algebra}
+	
+	You are shown clouds of samples:
+	\begin{itemize}
+		\item one cloud comes from a hidden affine/noisy structure,
+		\item the other cloud is uniform noise.
+	\end{itemize}
+	You only decide which cloud-generating mechanism is more likely.
+	
+	\section{Practical role in cryptography}
+	
+	\subsection{Search assumptions}
+	
+	Search assumptions are common when the cryptographic break itself requires producing a concrete object.
+	
+	Examples:
+	\begin{itemize}
+		\item forging a signature may amount to finding a short SIS solution,
+		\item decoding may amount to finding a close vector,
+		\item key recovery is a search task.
+	\end{itemize}
+	
+	\subsection{Distinguishing assumptions}
+	
+	Distinguishing assumptions are common in encryption and pseudorandomness.
+	
+	Examples:
+	\begin{itemize}
+		\item IND-CPA security is itself a distinguishing game,
+		\item LWE naturally gives pseudorandom-looking samples,
+		\item module-LWE and ring-LWE assumptions are usually phrased as distinguishing assumptions.
+	\end{itemize}
+	
+	\subsection{Decision assumptions}
+	
+	Decision versions often appear in complexity theory and worst-case to average-case reductions.
+	
+	Examples:
+	\begin{itemize}
+		\item GapSVP,
+		\item GapCVP,
+		\item approximate threshold formulations used in hardness proofs.
+	\end{itemize}
+	
+	\section{Summary table}
+	
+	\begin{center}
+		\renewcommand{\arraystretch}{1.35}
+		\begin{tabular}{>{\raggedright\arraybackslash}p{2.5cm} >{\raggedright\arraybackslash}p{4.1cm} >{\raggedright\arraybackslash}p{4.5cm} >{\raggedright\arraybackslash}p{3cm}}
+			\toprule
+			\textbf{Type} & \textbf{Output} & \textbf{Typical question} & \textbf{PQC examples} \\
+			\midrule
+			Search & explicit witness / secret / vector & ``Find the hidden object'' & Search-LWE, SIS, SVP, CVP, BDD \\
+			\midrule
+			Decision & one bit about instance property & ``Does this property hold?'' & GapSVP, GapCVP, threshold versions of lattice problems \\
+			\midrule
+			Distinguishing & one bit about source distribution & ``Are these samples structured or random?'' & Decision-LWE, Ring-LWE, Module-LWE \\
+			\bottomrule
+		\end{tabular}
+	\end{center}
+	
+	\section{A very important warning}
+	
+	In PQC papers, the word \textbf{decision} is sometimes used loosely.
+	
+	\begin{itemize}
+		\item In classical complexity theory, ``decision'' usually means language membership.
+		\item In cryptography, ``decision-LWE'' usually means distinguishing LWE samples from uniform.
+	\end{itemize}
+	
+	So when reading a paper, always ask:
+	
+	\begin{quote}
+		Is ``decision'' here an \emph{instance property problem}, or a \emph{distribution distinguishing problem}?
+	\end{quote}
+	
+	\section{One-line memory aid}
+	
+	\[
+	\boxed{
+		\begin{aligned}
+			\text{Search} &:\ \text{recover the object},\\
+			\text{Decision} &:\ \text{decide the property},\\
+			\text{Distinguishing} &:\ \text{identify the distribution}.
+		\end{aligned}
+	}
+	\]
+	
+	\section{Mini-exercises}
+	
+	\begin{enumerate}
+		\item Explain why recovering the LWE secret immediately gives a distinguisher.
+		\item Explain why GapSVP is a decision problem but SVP is a search problem.
+		\item For SIS, formulate a natural yes/no version and compare it with the usual search version.
+		\item In one sentence each, state the difference between:
+		\begin{itemize}
+			\item Search-LWE and Decision-LWE,
+			\item SVP and GapSVP,
+			\item decision and distinguishing.
+		\end{itemize}
+	\end{enumerate}
+	
+	\section{Final takeaway}
+	
+	The cleanest way to think about PQC hard problems is:
+	
+	\begin{itemize}
+		\item \textbf{Search:} produce the hidden mathematical object.
+		\item \textbf{Decision:} answer a yes/no structural question about one instance.
+		\item \textbf{Distinguishing:} tell whether observed data comes from a structured source or a random source.
+	\end{itemize}
+	
+	\noindent
+	For lattice-based cryptography in particular:
+	\begin{itemize}
+		\item \textbf{SVP/CVP/SIS} are naturally search-oriented,
+		\item \textbf{GapSVP/GapCVP} are naturally decision-oriented,
+		\item \textbf{LWE/RLWE/MLWE} are most often used in distinguishing form.
+	\end{itemize}
+
+	\newpage
+	\section{Code-based hard problems: search vs.\ decision vs.\ distinguishing}
+	
+	Code-based cryptography gives another clean setting in which the distinction between search, decision, and distinguishing becomes very important.
+	
+	\subsection{Basic coding-theory setup}
+	
+	Let $\mathbb{F}_q$ be a finite field, often $\mathbb{F}_2$ in classical code-based cryptography.
+	
+	A linear code $C$ of length $n$ and dimension $k$ is a $k$-dimensional subspace
+	\[
+	C \subseteq \mathbb{F}_q^n.
+	\]
+	
+	It is commonly represented by either:
+	
+	\begin{itemize}
+		\item a \textbf{generator matrix} $G \in \mathbb{F}_q^{k \times n}$ such that
+		\[
+		C = \{ \bm m G : \bm m \in \mathbb{F}_q^k \},
+		\]
+		\item or a \textbf{parity-check matrix} $H \in \mathbb{F}_q^{(n-k)\times n}$ such that
+		\[
+		C = \{ \bm c \in \mathbb{F}_q^n : H\bm c^T = \bm 0 \}.
+		\]
+	\end{itemize}
+	
+	The \emph{Hamming weight} of a vector $\bm e \in \mathbb{F}_q^n$, written $w_H(\bm e)$, is the number of nonzero coordinates.
+	
+	\medskip
+	
+	\noindent
+	In code-based cryptography, the hidden object is often a \textbf{low-weight error vector}.
+	
+	\subsection{The central problem: syndrome decoding}
+	
+	Given a parity-check matrix $H$ and a syndrome $\bm s$, the fundamental equation is
+	\[
+	H \bm e^T = \bm s^T.
+	\]
+	
+	The unknown is the error vector $\bm e$.
+	
+	\paragraph{Why this matters.}
+	If $\bm y = \bm c + \bm e$ is a noisy codeword, then
+	\[
+	H \bm y^T = H(\bm c+\bm e)^T = H\bm c^T + H\bm e^T = \bm 0 + H\bm e^T = \bm s^T.
+	\]
+	So the syndrome depends only on the error pattern, not on the codeword itself.
+	
+	\subsection{Search version: Syndrome Decoding (SD)}
+	
+	\begin{definition}[Search Syndrome Decoding]
+		Given
+		\[
+		H \in \mathbb{F}_q^{(n-k)\times n}, \qquad \bm s \in \mathbb{F}_q^{n-k}, \qquad w,
+		\]
+		find a vector $\bm e \in \mathbb{F}_q^n$ such that
+		\[
+		H\bm e^T = \bm s^T
+		\qquad \text{and} \qquad
+		w_H(\bm e) \le w.
+		\]
+	\end{definition}
+	
+	This is a \textbf{search problem}: you must output the actual low-weight error vector.
+	
+	\begin{remark}
+		This is the code-based analogue of many PQC search problems:
+		\begin{itemize}
+			\item in LWE search, recover the secret;
+			\item in SIS, find a short relation;
+			\item in syndrome decoding, find the sparse error.
+		\end{itemize}
+	\end{remark}
+	
+	\subsection{Decision version}
+	
+	A natural decision analogue is:
+	
+	\begin{definition}[Decision Syndrome Decoding]
+		Given
+		\[
+		H,\bm s,w,
+		\]
+		decide whether there exists some vector $\bm e$ such that
+		\[
+		H\bm e^T = \bm s^T
+		\qquad \text{and} \qquad
+		w_H(\bm e) \le w.
+		\]
+	\end{definition}
+	
+	Here the output is only:
+	\[
+	\text{YES or NO.}
+	\]
+	
+	\noindent
+	You do not need to produce the error vector.
+	
+	\subsection{Gap-style decision version}
+	
+	Just as lattices have GapSVP and GapCVP, code problems can also be phrased in threshold or promise-gap form.
+	
+	\begin{definition}[Gap decoding style problem]
+		Given $H,\bm s,w$ and approximation factor $\gamma > 1$, distinguish between:
+		\begin{itemize}
+			\item \textbf{YES-case:} there exists $\bm e$ with
+			\[
+			H\bm e^T = \bm s^T
+			\quad \text{and} \quad
+			w_H(\bm e) \le w,
+			\]
+			\item \textbf{NO-case:} every $\bm e$ satisfying
+			\[
+			H\bm e^T = \bm s^T
+			\]
+			has
+			\[
+			w_H(\bm e) > \gamma w.
+			\]
+		\end{itemize}
+	\end{definition}
+	
+	This is conceptually parallel to lattice gap problems.
+	
+	\subsection{Distinguishing version}
+	
+	In code-based cryptography, distinguishing problems often ask whether some public object comes from a \emph{structured code family} or from a \emph{random linear code}.
+	
+	\paragraph{Generic form.}
+	Given some matrix or samples, distinguish between:
+	
+	\begin{itemize}
+		\item \textbf{structured world:} generated from a code with hidden algebraic structure,
+		\item \textbf{random world:} generated uniformly or from an unstructured random code ensemble.
+	\end{itemize}
+	
+	\subsection{Example: McEliece-style viewpoint}
+	
+	In the McEliece framework, one starts with a secret code that has efficient decoding structure, then disguises it publicly.
+	
+	Very roughly:
+	\begin{itemize}
+		\item the \textbf{secret key} contains a highly structured code with an efficient decoder,
+		\item the \textbf{public key} looks like a generator matrix of a random linear code.
+	\end{itemize}
+	
+	A natural distinguishing question is:
+	
+	\begin{quote}
+		Can an adversary distinguish the public code from a uniformly random linear code?
+	\end{quote}
+	
+	That is a \textbf{distinguishing problem}, not a search problem.
+	
+	\begin{remark}
+		This is different from syndrome decoding:
+		\begin{itemize}
+			\item \textbf{Syndrome decoding} asks to recover a low-weight error;
+			\item \textbf{code indistinguishability} asks whether the code itself hides special algebraic structure.
+		\end{itemize}
+	\end{remark}
+	
+	\subsection{Geometric intuition in Hamming space}
+	
+	Lattice problems live in Euclidean geometry.  
+	Code-based problems live in \textbf{Hamming geometry}.
+	
+	\begin{itemize}
+		\item A sparse error vector means a vector with few nonzero coordinates.
+		\item Decoding asks for a codeword close to the received word in Hamming distance.
+		\item Syndrome decoding asks for the sparse error pattern that explains the syndrome.
+	\end{itemize}
+	
+	So the analogies are:
+	
+	\[
+	\begin{aligned}
+		\text{short vector in lattices}
+		&\longleftrightarrow
+		\text{low-weight vector in codes},\\[4pt]
+		\text{Euclidean distance}
+		&\longleftrightarrow
+		\text{Hamming distance},\\[4pt]
+		\text{closest vector problem}
+		&\longleftrightarrow
+		\text{nearest codeword / decoding problem}.
+	\end{aligned}
+	\]
+	
+	\subsection{Search vs.\ decision vs.\ distinguishing in code-based PQC}
+	
+	\paragraph{Search.}
+	Recover the hidden sparse object.
+	
+	Typical question:
+	\begin{quote}
+		Find $\bm e$ such that $H\bm e^T = \bm s^T$ and $w_H(\bm e)\le w$.
+	\end{quote}
+	
+	\paragraph{Decision.}
+	Determine whether such a sparse object exists.
+	
+	Typical question:
+	\begin{quote}
+		Does there exist an error vector of weight at most $w$ consistent with this syndrome?
+	\end{quote}
+	
+	\paragraph{Distinguishing.}
+	Tell structured-code distributions apart from random-code distributions.
+	
+	Typical question:
+	\begin{quote}
+		Does this public matrix come from a hidden Goppa-like construction, or is it just a random linear code?
+	\end{quote}
+	
+	\subsection{Why the distinction matters in cryptography}
+	
+	These three forms appear in different security roles.
+	
+	\begin{itemize}
+		\item \textbf{Search hardness} is central when breaking the scheme means recovering an error pattern or decoding.
+		\item \textbf{Decision hardness} is useful for complexity-theoretic classification and threshold formulations.
+		\item \textbf{Distinguishing hardness} is relevant when public keys are supposed to look random and leak no visible structure.
+	\end{itemize}
+	
+	\subsection{Comparison with lattice-based assumptions}
+	
+	The analogy with lattice-based cryptography is very useful:
+	
+	\begin{center}
+		\renewcommand{\arraystretch}{1.35}
+		\begin{tabular}{>{\raggedright\arraybackslash}p{3.3cm} >{\raggedright\arraybackslash}p{5cm} >{\raggedright\arraybackslash}p{5cm}}
+			\toprule
+			\textbf{Category} & \textbf{Lattice-based} & \textbf{Code-based} \\
+			\midrule
+			Search & SVP, CVP, SIS, Search-LWE & Syndrome Decoding, low-weight codeword search, decoding \\
+			\midrule
+			Decision & GapSVP, GapCVP & existence of error of weight $\le w$, gap decoding formulations \\
+			\midrule
+			Distinguishing & Decision-LWE, Ring-LWE, Module-LWE & structured code vs.\ random code, public-key indistinguishability \\
+			\bottomrule
+		\end{tabular}
+	\end{center}
+	
+	\subsection{A very important caution}
+	
+	In code-based cryptography, not every assumption is naturally a distinguishing assumption.
+	
+	For example:
+	\begin{itemize}
+		\item \textbf{syndrome decoding} is fundamentally a \emph{search} problem;
+		\item \textbf{McEliece key indistinguishability} is fundamentally a \emph{distinguishing} problem.
+	\end{itemize}
+	
+	So one should not compress all code-based hardness into a single category.
+	
+	\subsection{One-line memory aid for code-based PQC}
+	
+	\[
+	\boxed{
+		\begin{aligned}
+			\text{Search} &:\ \text{find the low-weight error},\\
+			\text{Decision} &:\ \text{decide whether such an error exists},\\
+			\text{Distinguishing} &:\ \text{tell structured codes from random codes.}
+		\end{aligned}
+	}
+	\]
+	
+	\subsection{Mini-exercises on code-based problems}
+	
+	\begin{enumerate}
+		\item Explain why recovering the error vector in syndrome decoding immediately solves the corresponding decision problem.
+		\item State the difference between:
+		\begin{itemize}
+			\item decoding a received word,
+			\item syndrome decoding,
+			\item distinguishing a structured code from a random code.
+		\end{itemize}
+		\item Give the Hamming-space analogue of:
+		\begin{itemize}
+			\item a short lattice vector,
+			\item a closest lattice vector,
+			\item a gap decision problem.
+		\end{itemize}
+	\end{enumerate}
+
+	\newpage
+	\section{Summary table across PQC families}
+	
+	\begin{center}
+		\renewcommand{\arraystretch}{1.35}
+		\begin{tabular}{>{\raggedright\arraybackslash}p{2.3cm} >{\raggedright\arraybackslash}p{3.8cm} >{\raggedright\arraybackslash}p{4.6cm} >{\raggedright\arraybackslash}p{4.2cm}}
+			\toprule
+			\textbf{Type} & \textbf{Output} & \textbf{Lattice-based examples} & \textbf{Code-based examples} \\
+			\midrule
+			Search & explicit witness / secret / sparse object & SVP, CVP, BDD, SIS, Search-LWE & Syndrome Decoding, decoding, low-weight codeword search \\
+			\midrule
+			Decision & one bit about instance property & GapSVP, GapCVP & existence of error of weight $\le w$, gap decoding forms \\
+			\midrule
+			Distinguishing & one bit about source distribution & Decision-LWE, Ring-LWE, Module-LWE & structured code vs.\ random code, disguised secret code vs.\ random linear code \\
+			\bottomrule
+		\end{tabular}
+	\end{center}
+
+	\newpage
+	\section{Final takeaway}
+	
+	The cleanest way to think about PQC hard problems is:
+	
+	\begin{itemize}
+		\item \textbf{Search:} produce the hidden mathematical object.
+		\item \textbf{Decision:} answer a yes/no structural question about one instance.
+		\item \textbf{Distinguishing:} tell whether observed data comes from a structured source or a random source.
+	\end{itemize}
+	
+	\noindent
+	Across major PQC families:
+	\begin{itemize}
+		\item \textbf{lattice-based:} SVP/CVP/SIS are search-oriented, GapSVP is decision-oriented, and LWE-type assumptions are often distinguishing-oriented;
+		\item \textbf{code-based:} syndrome decoding is search-oriented, threshold decoding variants are decision-oriented, and code indistinguishability questions are distinguishing-oriented.
+	\end{itemize}
+
+	\newpage
+	\section{Compact summary table}
+	
+	\section{PQC hard problems classified as Search, Decision, and Distinguishing}
+	
+	\begin{center}
+		\scriptsize
+		\renewcommand{\arraystretch}{1.35}
+		\begin{tabular}{|p{1.9cm}|p{2.9cm}|p{3.3cm}|p{4.4cm}|p{4.8cm}|}
+			\hline
+			\textbf{PQC family} & \textbf{Representative hard problem / assumption} & \textbf{Type} & \textbf{Informal task} & \textbf{Typical formulation} \\
+			\hline
+			
+			\textbf{Lattice-based} 
+			& SVP (Shortest Vector Problem) 
+			& Search 
+			& Find the shortest nonzero lattice vector 
+			& Given a basis $B$ of a lattice $\mathcal{L}(B)$, output $\bm v \in \mathcal{L}(B)\setminus\{\bm 0\}$ such that $\|\bm v\|=\lambda_1(\mathcal{L}(B))$. \\
+			\hline
+			
+			\textbf{Lattice-based} 
+			& Approx-SVP 
+			& Search 
+			& Find a sufficiently short nonzero lattice vector 
+			& Given $B$, output $\bm v \neq \bm 0$ with $\|\bm v\| \le \gamma \lambda_1(\mathcal{L}(B))$ for approximation factor $\gamma \ge 1$. \\
+			\hline
+			
+			\textbf{Lattice-based} 
+			& GapSVP 
+			& Decision 
+			& Decide whether the lattice has a very short vector 
+			& Given $(B,d)$, distinguish between $\lambda_1(\mathcal{L}(B)) \le d$ and $\lambda_1(\mathcal{L}(B)) > \gamma d$, under a promise. \\
+			\hline
+			
+			\textbf{Lattice-based} 
+			& CVP (Closest Vector Problem) 
+			& Search 
+			& Find the lattice point closest to a target 
+			& Given a basis $B$ and target $\bm t$, output $\bm v \in \mathcal{L}(B)$ minimizing $\|\bm t-\bm v\|$. \\
+			\hline
+			
+			\textbf{Lattice-based} 
+			& Approx-CVP 
+			& Search 
+			& Find a lattice vector sufficiently close to the target 
+			& Given $(B,\bm t)$, output $\bm v \in \mathcal{L}(B)$ with $\|\bm t-\bm v\| \le \gamma \cdot \mathrm{dist}(\bm t,\mathcal{L}(B))$. \\
+			\hline
+			
+			\textbf{Lattice-based} 
+			& GapCVP 
+			& Decision 
+			& Decide whether the target is very close or definitely far from the lattice 
+			& Given $(B,\bm t,d)$, distinguish between $\mathrm{dist}(\bm t,\mathcal{L}(B)) \le d$ and $> \gamma d$, under a promise. \\
+			\hline
+			
+			\textbf{Lattice-based} 
+			& BDD (Bounded Distance Decoding) 
+			& Search 
+			& Recover the unique nearby lattice point 
+			& Given $(B,\bm t)$ with promise that $\bm t$ is unusually close to some unique $\bm v \in \mathcal{L}(B)$, output that $\bm v$. \\
+			\hline
+			
+			\textbf{Lattice-based} 
+			& SIS (Short Integer Solution) 
+			& Search 
+			& Find a short nonzero modular relation 
+			& Given $A \in \mathbb{Z}_q^{m\times n}$, find $\bm z \in \mathbb{Z}^n\setminus\{\bm 0\}$ such that $A\bm z \equiv \bm 0 \pmod q$ and $\|\bm z\|$ is small. \\
+			\hline
+			
+			\textbf{Lattice-based} 
+			& Decision-SIS style variant 
+			& Decision 
+			& Decide whether a short modular dependency exists 
+			& Given $(A,\beta)$, decide whether there exists nonzero $\bm z$ with $A\bm z \equiv \bm 0 \pmod q$ and $\|\bm z\|\le \beta$. \\
+			\hline
+			
+			\textbf{Lattice-based} 
+			& Search-LWE 
+			& Search 
+			& Recover the hidden secret from noisy linear equations 
+			& Given samples $(\bm a_i,b_i)$ where $b_i=\langle \bm a_i,\bm s\rangle+e_i \pmod q$, recover $\bm s$. \\
+			\hline
+			
+			\textbf{Lattice-based} 
+			& Decision-LWE 
+			& Distinguishing 
+			& Tell LWE samples from uniform random samples 
+			& Distinguish $(\bm a,\langle \bm a,\bm s\rangle+e \bmod q)$ from $(\bm a,u)$ where $u \leftarrow \mathbb{Z}_q$ uniformly. \\
+			\hline
+			
+			\textbf{Lattice-based} 
+			& Search-RLWE / Search-MLWE 
+			& Search 
+			& Recover the secret ring/module element 
+			& Given noisy ring or module linear samples, recover the hidden secret element/vector. \\
+			\hline
+			
+			\textbf{Lattice-based} 
+			& Decision-RLWE / Decision-MLWE 
+			& Distinguishing 
+			& Distinguish structured noisy algebraic samples from random ones 
+			& Distinguish valid RLWE/MLWE samples from uniformly random samples over the same space. \\
+			\hline
+			
+			\textbf{Code-based} 
+			& Syndrome Decoding (SD) 
+			& Search 
+			& Find a low-weight error matching the syndrome 
+			& Given $H,\bm s,w$, find $\bm e$ such that $H\bm e^T=\bm s^T$ and $w_H(\bm e)\le w$. \\
+			\hline
+			
+			\textbf{Code-based} 
+			& Decoding / Nearest Codeword Problem 
+			& Search 
+			& Find the codeword closest to a received word 
+			& Given a code $C$ and received word $\bm y$, output $\bm c \in C$ minimizing Hamming distance $d_H(\bm y,\bm c)$. \\
+			\hline
+			
+			\textbf{Code-based} 
+			& Low-Weight Codeword Problem 
+			& Search 
+			& Find a nonzero codeword of small Hamming weight 
+			& Given a linear code $C$, output nonzero $\bm c \in C$ with small $w_H(\bm c)$. \\
+			\hline
+			
+			\textbf{Code-based} 
+			& Decision-SD 
+			& Decision 
+			& Decide whether a low-weight error exists 
+			& Given $(H,\bm s,w)$, decide whether there exists $\bm e$ such that $H\bm e^T=\bm s^T$ and $w_H(\bm e)\le w$. \\
+			\hline
+			
+			\textbf{Code-based} 
+			& Gap decoding variant 
+			& Decision 
+			& Decide whether decoding radius is small or definitely larger 
+			& Given an instance and threshold $w$, distinguish between existence of a solution of weight $\le w$ and nonexistence of any solution of weight $\le \gamma w$. \\
+			\hline
+			
+			\textbf{Code-based} 
+			& Structured-code indistinguishability 
+			& Distinguishing 
+			& Tell whether a public code hides algebraic structure or is random 
+			& Distinguish a disguised structured code family from a uniformly random linear code. \\
+			\hline
+			
+			\textbf{Code-based} 
+			& McEliece public-key indistinguishability viewpoint 
+			& Distinguishing 
+			& Distinguish a public generator/parity-check matrix from a random one 
+			& Given a public matrix, decide whether it comes from a hidden efficiently decodable structured code or from a random code ensemble. \\
+			\hline
+			
+			\textbf{Multivariate} 
+			& MQ (Multivariate Quadratic solving) 
+			& Search 
+			& Find a solution to a system of multivariate quadratic equations 
+			& Given quadratic polynomials $f_1,\dots,f_m$ over $\mathbb{F}_q$, find $\bm x$ such that $f_i(\bm x)=0$ for all $i$. \\
+			\hline
+			
+			\textbf{Multivariate} 
+			& Decision-MQ 
+			& Decision 
+			& Decide whether the polynomial system has a solution 
+			& Given $f_1,\dots,f_m$, decide whether there exists $\bm x$ such that $f_i(\bm x)=0$ for every $i$. \\
+			\hline
+			
+			\textbf{Multivariate} 
+			& Oil/Vinegar structure distinguishability style question 
+			& Distinguishing 
+			& Tell whether a public polynomial map has hidden structure or is random-looking 
+			& Distinguish a public key generated from a structured trapdoor construction from a uniformly random quadratic system. \\
+			\hline
+			
+			\textbf{Isogeny-based} 
+			& Path-finding / hidden isogeny recovery 
+			& Search 
+			& Recover the secret isogeny or path in the isogeny graph 
+			& Given public elliptic-curve data related by an unknown isogeny, compute the connecting isogeny or secret path. \\
+			\hline
+			
+			\textbf{Isogeny-based} 
+			& Endomorphism / auxiliary hidden-structure recovery 
+			& Search 
+			& Recover hidden algebraic structure enabling the attack 
+			& Given public objects, compute the hidden endomorphism/isogeny information needed to break the scheme. \\
+			\hline
+			
+			\textbf{Isogeny-based} 
+			& Decision supersingularity-type problems 
+			& Decision 
+			& Decide whether an elliptic curve has a target structural property 
+			& Given a curve or related object, decide whether it belongs to a particular promised class, such as supersingular vs.\ ordinary. \\
+			\hline
+			
+			\textbf{Isogeny-based} 
+			& Isogeny-class / key-distribution distinguishability style question 
+			& Distinguishing 
+			& Tell whether public data comes from a structured isogeny process or random sampling 
+			& Distinguish public data generated by the cryptosystem from randomly generated objects in the same ambient space. \\
+			\hline
+			
+			\textbf{Hash-based} 
+			& Second-preimage / preimage finding on hash trees or one-way functions 
+			& Search 
+			& Find a secret input consistent with a public digest 
+			& Given output $y=f(x)$ or a hash digest, recover $x$ or another valid input mapping to the same target. \\
+			\hline
+			
+			\textbf{Hash-based} 
+			& Collision finding 
+			& Search 
+			& Find two distinct inputs with the same hash output 
+			& Given a hash function $H$, output $x \neq x'$ such that $H(x)=H(x')$. \\
+			\hline
+			
+			\textbf{Hash-based} 
+			& One-wayness decision style variant 
+			& Decision 
+			& Decide whether a valid preimage under a bound or promise exists 
+			& Given an output and promise constraints, decide whether there exists an input satisfying the specified relation. \\
+			\hline
+			
+			\textbf{Hash-based} 
+			& Pseudorandom output distinguishability style assumption 
+			& Distinguishing 
+			& Tell whether outputs behave like a random oracle / random function or a concrete structured primitive 
+			& Distinguish outputs of a concrete construction from truly random outputs, when such a formulation is relevant. \\
+			\hline
+			
+		\end{tabular}
+	\end{center}
+	\normalsize
+	
+	\begin{center}
+		\small
+		\renewcommand{\arraystretch}{1.35}
+		\begin{tabular}{|p{2.2cm}|p{3.8cm}|p{2cm}|p{6.7cm}|}
+			\hline
+			\textbf{Family} & \textbf{Problem} & \textbf{Type} & \textbf{What the adversary must do} \\
+			\hline
+			
+			Lattice-based & SVP, Approx-SVP, CVP, BDD, SIS, Search-LWE & Search & Recover a shortest/close vector, a short modular relation, or an LWE secret. \\
+			\hline
+			
+			Lattice-based & GapSVP, GapCVP, decision-style SIS variants & Decision & Answer whether a short vector / close vector / short relation exists below a threshold. \\
+			\hline
+			
+			Lattice-based & Decision-LWE, Decision-RLWE, Decision-MLWE & Distinguishing & Tell structured noisy samples from uniformly random samples. \\
+			\hline
+			
+			Code-based & Syndrome Decoding, nearest codeword decoding, low-weight codeword search & Search & Recover a sparse error, decode a received word, or find a low-weight codeword. \\
+			\hline
+			
+			Code-based & Decision-SD, gap decoding variants & Decision & Decide whether a low-weight error or nearby codeword exists. \\
+			\hline
+			
+			Code-based & Structured code vs.\ random code, McEliece public-key indistinguishability & Distinguishing & Tell hidden algebraic code structure from a random linear code. \\
+			\hline
+			
+			Multivariate & MQ solving & Search & Find a solution to a system of multivariate quadratic equations. \\
+			\hline
+			
+			Multivariate & Decision-MQ & Decision & Decide whether the quadratic system has any solution. \\
+			\hline
+			
+			Multivariate & Structured public map vs.\ random quadratic map & Distinguishing & Tell whether the public polynomial system hides trapdoor structure. \\
+			\hline
+			
+			Isogeny-based & Secret isogeny / path recovery & Search & Recover the hidden isogeny or secret path in the graph. \\
+			\hline
+			
+			Isogeny-based & Supersingularity-type membership questions & Decision & Decide whether a given object has a target structural property. \\
+			\hline
+			
+			Isogeny-based & Structured public data vs.\ random object distributions & Distinguishing & Tell cryptosystem-generated objects from random ambient objects. \\
+			\hline
+			
+			Hash-based & Preimage, second-preimage, collision finding & Search & Find an input or pair of inputs satisfying the required hash relation. \\
+			\hline
+			
+			Hash-based & Promise-style existence questions & Decision & Decide whether a valid witness exists under the given promise. \\
+			\hline
+			
+			Hash-based & Random-oracle / pseudorandom-style distinguishability views & Distinguishing & Tell whether outputs come from a specific construction or an ideal random source. \\
+			\hline
+			
+		\end{tabular}
+	\end{center}
+	
+	\paragraph{Reading guide.}
+	A \emph{search} problem asks the adversary to recover an explicit hidden object.
+	A \emph{decision} problem asks only for a yes/no answer about whether an instance has a target property.
+	A \emph{distinguishing} problem asks the adversary to tell apart two distributions, usually a structured distribution and a random one.
+	
+	\newpage
+	\section{PQC hard problems classified as Search, Decision, and Distinguishing}
+	
+	\begin{center}
+		\scriptsize
+		\renewcommand{\arraystretch}{1.35}
+		\setlength{\tabcolsep}{4pt}
+		\begin{tabular}{|p{2.1cm}|p{3.2cm}|p{1.8cm}|p{3.8cm}|p{5.0cm}|}
+			\hline
+			\textbf{PQC family} & \textbf{Representative hard problem / assumption} & \textbf{Type} & \textbf{Informal task} & \textbf{Typical formulation} \\
+			\hline
+			
+			\multirow{12}{=}{\textbf{Lattice-based}}
+			& SVP (Shortest Vector Problem)
+			& Search
+			& Find the shortest nonzero lattice vector
+			& Given a basis $B$ of a lattice $\mathcal{L}(B)$, output $\bm v \in \mathcal{L}(B)\setminus\{\bm 0\}$ such that $\|\bm v\|=\lambda_1(\mathcal{L}(B))$. \\
+			\cline{2-5}
+			
+			& Approx-SVP
+			& Search
+			& Find a sufficiently short nonzero lattice vector
+			& Given $B$, output $\bm v \neq \bm 0$ with $\|\bm v\| \le \gamma \lambda_1(\mathcal{L}(B))$. \\
+			\cline{2-5}
+			
+			& GapSVP
+			& Decision
+			& Decide whether the lattice contains a very short vector
+			& Given $(B,d)$, distinguish between $\lambda_1(\mathcal{L}(B)) \le d$ and $\lambda_1(\mathcal{L}(B)) > \gamma d$, under a promise. \\
+			\cline{2-5}
+			
+			& CVP (Closest Vector Problem)
+			& Search
+			& Find the lattice vector closest to a target
+			& Given a basis $B$ and target $\bm t$, output $\bm v \in \mathcal{L}(B)$ minimizing $\|\bm t-\bm v\|$. \\
+			\cline{2-5}
+			
+			& Approx-CVP
+			& Search
+			& Find a lattice vector sufficiently close to the target
+			& Given $(B,\bm t)$, output $\bm v \in \mathcal{L}(B)$ with $\|\bm t-\bm v\| \le \gamma \cdot \mathrm{dist}(\bm t,\mathcal{L}(B))$. \\
+			\cline{2-5}
+			
+			& GapCVP
+			& Decision
+			& Decide whether the target is very close or definitely far
+			& Given $(B,\bm t,d)$, distinguish between $\mathrm{dist}(\bm t,\mathcal{L}(B)) \le d$ and $> \gamma d$, under a promise. \\
+			\cline{2-5}
+			
+			& BDD (Bounded Distance Decoding)
+			& Search
+			& Recover the unique nearby lattice point
+			& Given $(B,\bm t)$ with a uniqueness promise, output the lattice vector closest to $\bm t$. \\
+			\cline{2-5}
+			
+			& SIS (Short Integer Solution)
+			& Search
+			& Find a short nonzero modular relation
+			& Given $A \in \mathbb{Z}_q^{m\times n}$, find $\bm z \in \mathbb{Z}^n\setminus\{\bm 0\}$ such that $A\bm z \equiv \bm 0 \pmod q$ and $\|\bm z\|$ is small. \\
+			\cline{2-5}
+			
+			& Decision-SIS style variant
+			& Decision
+			& Decide whether a short modular dependency exists
+			& Given $(A,\beta)$, decide whether there exists nonzero $\bm z$ with $A\bm z \equiv \bm 0 \pmod q$ and $\|\bm z\|\le \beta$. \\
+			\cline{2-5}
+			
+			& Search-LWE
+			& Search
+			& Recover the hidden secret from noisy linear equations
+			& Given samples $(\bm a_i,b_i)$ where $b_i=\langle \bm a_i,\bm s\rangle+e_i \pmod q$, recover $\bm s$. \\
+			\cline{2-5}
+			
+			& Decision-LWE
+			& Distinguishing
+			& Tell LWE samples from uniform random samples
+			& Distinguish $(\bm a,\langle \bm a,\bm s\rangle+e \bmod q)$ from $(\bm a,u)$ where $u \leftarrow \mathbb{Z}_q$ uniformly. \\
+			\cline{2-5}
+			
+			& Decision-RLWE / Decision-MLWE
+			& Distinguishing
+			& Distinguish structured noisy algebraic samples from random ones
+			& Distinguish valid RLWE/MLWE samples from uniformly random samples over the same space. \\
+			\hline
+			
+			\multirow{6}{=}{\textbf{Code-based}}
+			& Syndrome Decoding (SD)
+			& Search
+			& Find a low-weight error matching the syndrome
+			& Given $H,\bm s,w$, find $\bm e$ such that $H\bm e^T=\bm s^T$ and $w_H(\bm e)\le w$. \\
+			\cline{2-5}
+			
+%			& Nearest Codeword Problem
+%			& Search
+%			& Find the codeword closest to a received word
+%			& Given a code $C$ and received word $\bm y$, output $\bm c \in C$ minimizing Hamming distance $d_H(\bm y,\bm c)$. \\
+%			\cline{2-5}
+%			
+%			& Low-Weight Codeword Problem
+%			& Search
+%			& Find a nonzero codeword of small Hamming weight
+%			& Given a linear code $C$, output nonzero $\bm c \in C$ with small $w_H(\bm c)$. \\
+%			\cline{2-5}
+%			
+%			& Decision-SD
+%			& Decision
+%			& Decide whether a low-weight error exists
+%			& Given $(H,\bm s,w)$, decide whether there exists $\bm e$ such that $H\bm e^T=\bm s^T$ and $w_H(\bm e)\le w$. \\
+%			\cline{2-5}
+%			
+%			& Gap decoding variant
+%			& Decision
+%			& Decide whether decoding radius is small or definitely larger
+%			& Distinguish between existence of a solution of weight $\le w$ and nonexistence of any solution of weight $\le \gamma w$. \\
+%			\cline{2-5}
+%			
+%			& Structured-code indistinguishability
+%			& Distinguishing
+%			& Tell whether a public code hides algebraic structure or is random
+%			& Distinguish a disguised structured code family from a uniformly random linear code. \\
+%			\hline
+%			
+%			\multirow{3}{=}{\textbf{Multivariate}}
+%			& MQ (Multivariate Quadratic solving)
+%			& Search
+%			& Find a solution to a quadratic polynomial system
+%			& Given quadratic polynomials $f_1,\dots,f_m$ over $\mathbb{F}_q$, find $\bm x$ such that $f_i(\bm x)=0$ for all $i$. \\
+%			\cline{2-5}
+%			
+%			& Decision-MQ
+%			& Decision
+%			& Decide whether the polynomial system has a solution
+%			& Given $f_1,\dots,f_m$, decide whether there exists $\bm x$ such that $f_i(\bm x)=0$ for every $i$. \\
+%			\cline{2-5}
+%			
+%			& Structured public map indistinguishability
+%			& Distinguishing
+%			& Tell whether the public key hides trapdoor structure
+%			& Distinguish a structured public quadratic map from a uniformly random-looking quadratic system. \\
+%			\hline
+%			
+%			\multirow{3}{=}{\textbf{Isogeny-based}}
+%			& Hidden isogeny / path recovery
+%			& Search
+%			& Recover the secret isogeny or path
+%			& Given public elliptic-curve data related by an unknown isogeny, compute the connecting isogeny or secret path. \\
+%			\cline{2-5}
+%			
+%			& Structural membership problem
+%			& Decision
+%			& Decide whether an object has a target property
+%			& Given a curve or related object, decide whether it belongs to a promised class, such as supersingular vs.\ ordinary. \\
+%			\cline{2-5}
+%			
+%			& Public-data distinguishability
+%			& Distinguishing
+%			& Tell whether public data comes from a cryptosystem or a random source
+%			& Distinguish public data generated by a structured isogeny process from random ambient objects. \\
+%			\hline
+%			
+%			\multirow{3}{=}{\textbf{Hash-based}}
+%			& Preimage / second-preimage / collision finding
+%			& Search
+%			& Find an input or pair of inputs satisfying a hash relation
+%			& Given a hash function $H$, recover a preimage, second preimage, or collision depending on the task. \\
+%			\cline{2-5}
+%			
+%			& Promise-style existence variant
+%			& Decision
+%			& Decide whether a valid witness exists under a promise
+%			& Given an output and constraints, decide whether there exists an input satisfying the specified relation. \\
+%			\cline{2-5}
+%			
+%			& Pseudorandom-output distinguishability style view
+%			& Distinguishing
+%			& Tell whether outputs come from a real construction or an ideal random source
+%			& Distinguish outputs of a concrete construction from truly random outputs when modeled that way. \\
+%			\hline
+		\end{tabular}
+	\end{center}
+	\normalsize
+	
+	\newpage
+	\section{PQC hard problems classified as Search, Decision, and Distinguishing}
+	
+	\begin{center}
+		\scriptsize
+		\renewcommand{\arraystretch}{1.35}
+		\setlength{\tabcolsep}{4pt}
+		\begin{tabular}{|p{2.1cm}|p{1.8cm}|p{3.3cm}|p{3.8cm}|p{4.9cm}|}
+			\hline
+			\textbf{PQC family} & \textbf{Type} & \textbf{Representative hard problem / assumption} & \textbf{Informal task} & \textbf{Typical formulation} \\
+			\hline
+			
+			\multirow{12}{=}{\textbf{Lattice-based}}
+			& \multirow{7}{=}{Search}
+			& SVP (Shortest Vector Problem)
+			& Find the shortest nonzero lattice vector
+			& Given a basis $B$ of a lattice $\mathcal{L}(B)$, output $\bm v \in \mathcal{L}(B)\setminus\{\bm 0\}$ such that $\|\bm v\|=\lambda_1(\mathcal{L}(B))$. \\
+			\cline{3-5}
+			
+			& & Approx-SVP
+			& Find a sufficiently short nonzero lattice vector
+			& Given $B$, output $\bm v \neq \bm 0$ with $\|\bm v\| \le \gamma \lambda_1(\mathcal{L}(B))$. \\
+			\cline{3-5}
+			
+			& & CVP (Closest Vector Problem)
+			& Find the lattice vector closest to a target
+			& Given a basis $B$ and target $\bm t$, output $\bm v \in \mathcal{L}(B)$ minimizing $\|\bm t-\bm v\|$. \\
+			\cline{3-5}
+			
+			& & Approx-CVP
+			& Find a lattice vector sufficiently close to the target
+			& Given $(B,\bm t)$, output $\bm v \in \mathcal{L}(B)$ with $\|\bm t-\bm v\| \le \gamma \cdot \mathrm{dist}(\bm t,\mathcal{L}(B))$. \\
+			\cline{3-5}
+			
+			& & BDD (Bounded Distance Decoding)
+			& Recover the unique nearby lattice point
+			& Given $(B,\bm t)$ with a uniqueness promise, output the lattice vector closest to $\bm t$. \\
+			\cline{3-5}
+			
+			& & SIS (Short Integer Solution)
+			& Find a short nonzero modular relation
+			& Given $A \in \mathbb{Z}_q^{m\times n}$, find $\bm z \in \mathbb{Z}^n\setminus\{\bm 0\}$ such that $A\bm z \equiv \bm 0 \pmod q$ and $\|\bm z\|$ is small. \\
+			\cline{3-5}
+			
+			& & Search-LWE
+			& Recover the hidden secret from noisy linear equations
+			& Given samples $(\bm a_i,b_i)$ where $b_i=\langle \bm a_i,\bm s\rangle+e_i \pmod q$, recover $\bm s$. \\
+			\cline{2-5}
+			
+			& \multirow{3}{=}{Decision}
+			& GapSVP
+			& Decide whether the lattice contains a very short vector
+			& Given $(B,d)$, distinguish between $\lambda_1(\mathcal{L}(B)) \le d$ and $\lambda_1(\mathcal{L}(B)) > \gamma d$, under a promise. \\
+			\cline{3-5}
+			
+			& & GapCVP
+			& Decide whether the target is very close or definitely far
+			& Given $(B,\bm t,d)$, distinguish between $\mathrm{dist}(\bm t,\mathcal{L}(B)) \le d$ and $> \gamma d$, under a promise. \\
+			\cline{3-5}
+			
+			& & Decision-SIS style variant
+			& Decide whether a short modular dependency exists
+			& Given $(A,\beta)$, decide whether there exists nonzero $\bm z$ with $A\bm z \equiv \bm 0 \pmod q$ and $\|\bm z\|\le \beta$. \\
+			\cline{2-5}
+			
+			& \multirow{2}{=}{Distinguishing}
+			& Decision-LWE
+			& Tell LWE samples from uniform random samples
+			& Distinguish $(\bm a,\langle \bm a,\bm s\rangle+e \bmod q)$ from $(\bm a,u)$ where $u \leftarrow \mathbb{Z}_q$ uniformly. \\
+			\cline{3-5}
+			
+			& & Decision-RLWE / Decision-MLWE
+			& Distinguish structured noisy algebraic samples from random ones
+			& Distinguish valid RLWE/MLWE samples from uniformly random samples over the same space. \\
+			\hline
+			
+			\multirow{6}{=}{\textbf{Code-based}}
+			& \multirow{3}{=}{Search}
+			& Syndrome Decoding (SD)
+			& Find a low-weight error matching the syndrome
+			& Given $H,\bm s,w$, find $\bm e$ such that $H\bm e^T=\bm s^T$ and $w_H(\bm e)\le w$. \\
+			\cline{3-5}
+			
+			& & Nearest Codeword Problem
+			& Find the codeword closest to a received word
+			& Given a code $C$ and received word $\bm y$, output $\bm c \in C$ minimizing Hamming distance $d_H(\bm y,\bm c)$. \\
+			\cline{3-5}
+			
+			& & Low-Weight Codeword Problem
+			& Find a nonzero codeword of small Hamming weight
+			& Given a linear code $C$, output nonzero $\bm c \in C$ with small $w_H(\bm c)$. \\
+			\cline{2-5}
+			
+			& \multirow{2}{=}{Decision}
+			& Decision-SD
+			& Decide whether a low-weight error exists
+			& Given $(H,\bm s,w)$, decide whether there exists $\bm e$ such that $H\bm e^T=\bm s^T$ and $w_H(\bm e)\le w$. \\
+			\cline{3-5}
+			
+			& & Gap decoding variant
+			& Decide whether decoding radius is small or definitely larger
+			& Distinguish between existence of a solution of weight $\le w$ and nonexistence of any solution of weight $\le \gamma w$. \\
+			\cline{2-5}
+			
+			& Distinguishing
+			& Structured-code indistinguishability
+			& Tell whether a public code hides algebraic structure or is random
+			& Distinguish a disguised structured code family from a uniformly random linear code. \\
+			\hline
+			
+%			\multirow{3}{=}{\textbf{Multivariate}}
+%			& Search
+%			& MQ (Multivariate Quadratic solving)
+%			& Find a solution to a quadratic polynomial system
+%			& Given quadratic polynomials $f_1,\dots,f_m$ over $\mathbb{F}_q$, find $\bm x$ such that $f_i(\bm x)=0$ for all $i$. \\
+%			\cline{2-5}
+%			
+%			& Decision
+%			& Decision-MQ
+%			& Decide whether the polynomial system has a solution
+%			& Given $f_1,\dots,f_m$, decide whether there exists $\bm x$ such that $f_i(\bm x)=0$ for every $i$. \\
+%			\cline{2-5}
+%			
+%			& Distinguishing
+%			& Structured public map indistinguishability
+%			& Tell whether the public key hides trapdoor structure
+%			& Distinguish a structured public quadratic map from a uniformly random-looking quadratic system. \\
+%			\hline
+%			
+%			\multirow{3}{=}{\textbf{Isogeny-based}}
+%			& Search
+%			& Hidden isogeny / path recovery
+%			& Recover the secret isogeny or path
+%			& Given public elliptic-curve data related by an unknown isogeny, compute the connecting isogeny or secret path. \\
+%			\cline{2-5}
+%			
+%			& Decision
+%			& Structural membership problem
+%			& Decide whether an object has a target property
+%			& Given a curve or related object, decide whether it belongs to a promised class, such as supersingular vs.\ ordinary. \\
+%			\cline{2-5}
+%			
+%			& Distinguishing
+%			& Public-data distinguishability
+%			& Tell whether public data comes from a cryptosystem or a random source
+%			& Distinguish public data generated by a structured isogeny process from random ambient objects. \\
+%			\hline
+			
+%			\multirow{3}{=}{\textbf{Hash-based}}
+%			& Search
+%			& Preimage / second-preimage / collision finding
+%			& Find an input or pair of inputs satisfying a hash relation
+%			& Given a hash function $H$, recover a preimage, second preimage, or collision depending on the task. \\
+%			\cline{2-5}
+%			
+%			& Decision
+%			& Promise-style existence variant
+%			& Decide whether a valid witness exists under a promise
+%			& Given an output and constraints, decide whether there exists an input satisfying the specified relation. \\
+%			\cline{2-5}
+%			
+%			& Distinguishing
+%			& Pseudorandom-output distinguishability style view
+%			& Tell whether outputs come from a real construction or an ideal random source
+%			& Distinguish outputs of a concrete construction from truly random outputs when modeled that way. \\
+%			\hline
+			
+		\end{tabular}
+	\end{center}
+	\normalsize
+	
+\end{document}

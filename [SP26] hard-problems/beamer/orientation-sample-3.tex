@@ -1,0 +1,869 @@
+\documentclass[aspectratio=169]{beamer}
+
+\usetheme{Madrid}
+\usecolortheme{default}
+\usefonttheme{professionalfonts}
+
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb}
+\usepackage{bm}
+\usepackage{xcolor}
+
+\title[PQC Hard Problem Colloquium]{Orientation Materials for the PQC Hard Problem Colloquium}
+\author{Your Name}
+\institute{Your Institution / Research Group}
+\date{\today}
+
+\begin{document}
+	
+	\begin{frame}
+		\titlepage
+	\end{frame}
+	
+	\begin{frame}{Purpose of the Colloquium}
+		\begin{itemize}
+			\item This colloquium studies the computational assumptions underlying classical and post-quantum cryptography.
+			\item Our focus is not merely on cryptosystems, but on the \textbf{hard problems} that sustain them.
+			\item For each family, we ask three questions:
+			\begin{enumerate}
+				\item What is the underlying hard problem?
+				\item What are the best known attacks?
+				\item How do classical and quantum complexities compare?
+			\end{enumerate}
+		\end{itemize}
+	\end{frame}
+	
+	\begin{frame}{Why This Topic Matters}
+		\begin{block}{Central Observation}
+			Cryptography survives only as long as its underlying hardness assumptions survive.
+		\end{block}
+		
+		\begin{itemize}
+			\item Classical public-key cryptography relied mainly on factorization and discrete logarithms.
+			\item Quantum algorithms, especially Shor's algorithm, fundamentally change this landscape.
+			\item Post-quantum cryptography therefore asks which alternative problems remain hard even against quantum adversaries.
+		\end{itemize}
+	\end{frame}
+	
+	\section{Classical Foundations and Their Quantum Collapse}
+	
+	\begin{frame}{Classical Number-Theoretic Foundations}
+		Historically, public-key cryptography was built on three dominant assumptions:
+		\begin{itemize}
+			\item \textbf{Integer Factorization} \hfill RSA, Rabin
+			\item \textbf{Discrete Logarithm in Finite Fields} \hfill Diffie--Hellman, DSA, ElGamal
+			\item \textbf{Elliptic Curve Discrete Logarithm} \hfill ECDH, ECDSA, EdDSA
+		\end{itemize}
+		
+		\vspace{0.5em}
+		These problems were attractive because they supported efficient and elegant public-key constructions.
+	\end{frame}
+	
+	\begin{frame}{Integer Factorization}
+		\begin{itemize}
+			\item Integer factorization underlies \textbf{RSA} and \textbf{Rabin}.
+			\item Classically, the best known attacks include:
+			\begin{itemize}
+				\item \textbf{Quadratic Sieve},
+				\item \textbf{General Number Field Sieve}.
+			\end{itemize}
+			\item These are \textbf{sub-exponential} classical attacks.
+			\item In the quantum setting, \textbf{Shor's algorithm} solves the problem in polynomial time.
+		\end{itemize}
+		
+		\begin{block}{Orientation Point}
+			Factorization is a model example of a problem that is hard enough classically, yet fundamentally broken quantumly.
+		\end{block}
+	\end{frame}
+	
+	\begin{frame}{Discrete Logarithm and Elliptic Curve DLP}
+		\textbf{Finite-field DLP}
+		\begin{itemize}
+			\item Supports Diffie--Hellman, DSA, and ElGamal.
+			\item Best classical attacks include \textbf{Index Calculus} and \textbf{Number Field Sieve}.
+			\item These are again sub-exponential classically.
+		\end{itemize}
+		
+		\vspace{0.5em}
+		\textbf{Elliptic-curve DLP}
+		\begin{itemize}
+			\item Supports ECDH, ECDSA, and EdDSA.
+			\item Generic classical attacks are roughly \textbf{$O(\sqrt{n})$}, e.g.\ Pollard's rho.
+			\item Yet both finite-field DLP and ECDLP fall to \textbf{Shor's algorithm} in polynomial time.
+		\end{itemize}
+	\end{frame}
+	
+	\begin{frame}{The Transition to PQC}
+		\begin{block}{Key Transition}
+			The post-quantum transition is the replacement of Shor-vulnerable assumptions with alternative assumptions for which no efficient quantum algorithms are known.
+		\end{block}
+		
+		\begin{itemize}
+			\item This is not merely a standards transition.
+			\item It is a transition in \textbf{mathematical foundations}.
+			\item The main candidate families are:
+			\begin{itemize}
+				\item lattices,
+				\item codes,
+				\item hash-based constructions,
+				\item multivariate systems,
+				\item isogenies.
+			\end{itemize}
+		\end{itemize}
+	\end{frame}
+	
+	\section{Main Post-Quantum Hard Problem Families}
+	
+	\begin{frame}{Lattice Problems}
+		The lattice family includes:
+		\begin{itemize}
+			\item \textbf{LWE},
+			\item \textbf{SIS},
+			\item \textbf{SVP},
+			\item \textbf{CVP}.
+		\end{itemize}
+		
+		Representative systems include:
+		\begin{itemize}
+			\item Kyber / ML-KEM,
+			\item Dilithium / ML-DSA,
+			\item NTRU,
+			\item fully homomorphic encryption constructions.
+		\end{itemize}
+	\end{frame}
+	
+	\begin{frame}{How Lattice Systems Are Attacked}
+		The dominant attack language for lattice-based cryptography includes:
+		\begin{itemize}
+			\item \textbf{Lattice reduction}, especially LLL and BKZ,
+			\item \textbf{Sieve algorithms},
+			\item careful \textbf{concrete security estimation}.
+		\end{itemize}
+		
+		\vspace{0.5em}
+		The best known attacks remain broadly \textbf{exponential} in the relevant dimension parameter.
+		
+		\begin{block}{Orientation Point}
+			Lattice cryptography is currently the most important practical PQC family precisely because no Shor-style collapse is known.
+		\end{block}
+	\end{frame}
+	
+	\begin{frame}{Code-Based Problems}
+		Code-based cryptography is centered on:
+		\begin{itemize}
+			\item \textbf{syndrome decoding},
+			\item more generally, decoding random linear codes.
+		\end{itemize}
+		
+		Representative systems include:
+		\begin{itemize}
+			\item McEliece,
+			\item HQC,
+			\item BIKE.
+		\end{itemize}
+		
+		The dominant attack family is \textbf{Information Set Decoding (ISD)} and its variants.
+	\end{frame}
+	
+	\begin{frame}{Code-Based Security Perspective}
+		\begin{itemize}
+			\item Best known attacks remain \textbf{exponential}.
+			\item Quantum improvements are comparatively limited.
+			\item Grover's algorithm gives only a \textbf{quadratic speedup}, rather than a full structural break.
+		\end{itemize}
+		
+		\begin{block}{Orientation Point}
+			Code-based cryptography remains one of the most conservative and durable post-quantum directions.
+		\end{block}
+	\end{frame}
+	
+	\begin{frame}{Hash-Based Assumptions}
+		Hash-based cryptography relies on:
+		\begin{itemize}
+			\item collision resistance,
+			\item preimage resistance,
+			\item second-preimage resistance.
+		\end{itemize}
+		
+		Representative signature systems include:
+		\begin{itemize}
+			\item SPHINCS+,
+			\item XMSS,
+			\item LMS.
+		\end{itemize}
+	\end{frame}
+	
+	\begin{frame}{Hash-Based Security Perspective}
+		\begin{itemize}
+			\item Collision attacks follow the \textbf{birthday bound}.
+			\item Quantum preimage search is accelerated by \textbf{Grover's algorithm}.
+			\item But there is no analogue of Shor's algorithm causing polynomial-time collapse.
+		\end{itemize}
+		
+		\begin{block}{Orientation Point}
+			Hash-based cryptography is often viewed as assumption-conservative, even when it is less attractive in size or efficiency.
+		\end{block}
+	\end{frame}
+	
+	\begin{frame}{Multivariate Problems}
+		Multivariate cryptography is based on the difficulty of solving systems of quadratic equations over finite fields.
+		
+		\vspace{0.5em}
+		This is commonly framed as the \textbf{MQ problem}.
+		
+		\vspace{0.5em}
+		Representative systems include:
+		\begin{itemize}
+			\item UOV,
+			\item MAYO,
+			\item historically, Rainbow.
+		\end{itemize}
+	\end{frame}
+	
+	\begin{frame}{Multivariate Attack Perspective}
+		Relevant attack language includes:
+		\begin{itemize}
+			\item \textbf{MinRank},
+			\item \textbf{Kipnis--Shamir},
+			\item \textbf{XL / Gr\"obner basis} methods,
+			\item and scheme-specific structural attacks.
+		\end{itemize}
+		
+		\vspace{0.5em}
+		While the general problem remains hard-looking, particular constructions may fail because they reveal exploitable algebraic structure.
+	\end{frame}
+	
+	\begin{frame}{The Rainbow Lesson}
+		\begin{itemize}
+			\item Rainbow was a prominent multivariate signature construction.
+			\item It was broken by a polynomial-time structural attack.
+			\item This teaches an important lesson:
+		\end{itemize}
+		
+		\begin{block}{Critical Distinction}
+			Family-level hardness does not automatically imply scheme-level security.
+		\end{block}
+	\end{frame}
+	
+	\begin{frame}{Isogeny Problems}
+		Isogeny-based cryptography is among the most mathematically elegant areas in PQC.
+		
+		\vspace{0.5em}
+		Representative names include:
+		\begin{itemize}
+			\item SQISign,
+			\item CSIDH,
+			\item historically, SIDH / SIKE.
+		\end{itemize}
+	\end{frame}
+	
+	\begin{frame}{The SIKE Lesson}
+		\begin{itemize}
+			\item SIKE was broken by the \textbf{Castryck--Decru attack}.
+			\item This attack was polynomial time and completely changed the status of SIDH/SIKE.
+			\item Other attack frameworks include meet-in-the-middle methods and quantum algorithms such as Kuperberg's algorithm in certain commutative settings.
+		\end{itemize}
+		
+		\begin{block}{Orientation Point}
+			Isogeny cryptography remains mathematically rich, but it must now be studied with exceptional caution regarding hidden structure.
+		\end{block}
+	\end{frame}
+	
+	\section{How to Read the Hard-Problem Landscape}
+	
+	\begin{frame}{Comparative Reading of the Landscape}
+		The families divide naturally into four security narratives:
+		\begin{itemize}
+			\item \textbf{Factorization / DLP / ECDLP}: classically strong, quantumly broken.
+			\item \textbf{Lattice / Code-based}: currently the strongest practical PQC foundations.
+			\item \textbf{Hash-based}: conservative and structurally simple.
+			\item \textbf{Multivariate / Isogeny}: mathematically compelling, but more exposed to structural fragility.
+		\end{itemize}
+	\end{frame}
+	
+	\begin{frame}{Three Questions for Every Scheme}
+		For every construction discussed in this colloquium, we should ask:
+		\begin{enumerate}
+			\item What exact hard problem is assumed?
+			\item What are the best known classical and quantum attacks?
+			\item Does the scheme introduce exploitable structure beyond the underlying hard problem?
+		\end{enumerate}
+		
+		\vspace{0.75em}
+		This provides a disciplined framework for comparing PQC proposals.
+	\end{frame}
+	
+	\begin{frame}{What the Hard-Problem Summary Really Teaches}
+		The summary should not be read merely as a catalog of attacks.
+		
+		\vspace{0.5em}
+		It should be read as a set of research principles:
+		\begin{itemize}
+			\item distinguish \textbf{problem hardness} from \textbf{scheme security},
+			\item distinguish \textbf{generic attacks} from \textbf{structural attacks},
+			\item compare \textbf{classical} and \textbf{quantum} attack models,
+			\item and study broken designs as lessons in cryptographic methodology.
+		\end{itemize}
+	\end{frame}
+	
+	\section{Orientation for the Colloquium}
+	
+	\begin{frame}{Suggested Colloquium Flow}
+		A natural progression for the colloquium is:
+		\begin{enumerate}
+			\item Classical number-theoretic assumptions and Shor's algorithm
+			\item Lattice problems and reduction-based security
+			\item Code-based assumptions and ISD
+			\item Hash-based signatures as a conservative baseline
+			\item Multivariate constructions and structural failure
+			\item Isogeny cryptography after SIKE
+			\item Cross-family comparison of security assumptions
+		\end{enumerate}
+	\end{frame}
+	
+	\begin{frame}{Expected Outcomes}
+		By the end of the colloquium, participants should be able to:
+		\begin{itemize}
+			\item explain the main hard-problem families in PQC,
+			\item describe the best known attacks against each family,
+			\item understand why some assumptions remain credible,
+			\item and evaluate a cryptosystem at the level of its actual security assumption.
+		\end{itemize}
+	\end{frame}
+	
+	\begin{frame}{Closing Perspective}
+		\begin{block}{Final Perspective}
+			Post-quantum cryptography is not simply the search for new algorithms. It is the search for mathematical problems whose hardness survives quantum computation, structural cryptanalysis, and concrete attack advances.
+		\end{block}
+		
+		\vspace{0.75em}
+		That is the central purpose of the PQC Hard Problem Colloquium.
+	\end{frame}
+
+	\section{Symbolic Formulation of the Hard Problems}
+	
+	\begin{frame}{A General Cryptographic Template}
+		For each cryptographic family, we study a computational relation of the form
+		\[
+		\mathcal{I} \mapsto \mathcal{S},
+		\]
+		where:
+		\begin{itemize}
+			\item $\mathcal{I}$ is the public instance,
+			\item $\mathcal{S}$ is the hidden witness, secret, or structure,
+			\item and the adversary is asked to recover $\mathcal{S}$, or to solve a decisional variant.
+		\end{itemize}
+		
+		\vspace{0.5em}
+		Thus, a hard problem is typically one of the following:
+		\[
+		\text{Search: } \mathcal{A}(\mathcal{I}) = \mathcal{S},
+		\qquad
+		\text{Decision: } \mathcal{A}(\mathcal{I}) \in \{0,1\},
+		\]
+		with no efficient known algorithm for the relevant parameter regime.
+	\end{frame}
+	
+	%------------------------------------------------
+	
+	\begin{frame}{Integer Factorization}
+		\textbf{Instance.}
+		Let
+		\[
+		N = pq,
+		\]
+		where $p,q$ are large primes. The public input is $N$.
+		
+		\vspace{0.4em}
+		\textbf{Search problem.}
+		Recover nontrivial factors:
+		\[
+		\text{Given } N, \text{ find } p,q \text{ such that } N=pq.
+		\]
+		
+		\vspace{0.4em}
+		\textbf{Equivalent viewpoint.}
+		The hardness lies in inverting the map
+		\[
+		(p,q) \longmapsto pq.
+		\]
+		
+		\vspace{0.4em}
+		\textbf{Why cryptographically useful.}
+		RSA relies on the asymmetry:
+		\[
+		\text{multiplication is easy}, \qquad \text{factorization is hard}.
+		\]
+		
+		\vspace{0.4em}
+		\textbf{Attack language.}
+		\[
+		\text{QS}, \quad \text{GNFS}, \quad \text{Shor}.
+		\]
+		
+		\[
+		L_N\!\left[\frac13,c\right]
+		\quad \text{classically}, 
+		\qquad
+		\mathrm{poly}(\log N)
+		\quad \text{quantumly}.
+		\]
+	\end{frame}
+	
+	%------------------------------------------------
+	
+	\begin{frame}{Discrete Logarithm Problem in Finite Fields}
+		Let $G = \langle g \rangle$ be a cyclic group, typically
+		\[
+		G = \mathbb{F}_p^\times.
+		\]
+		
+		\textbf{Instance.}
+		Given
+		\[
+		g \in G, \qquad h = g^x \in G.
+		\]
+		
+		\textbf{Search problem.}
+		Recover the exponent $x$:
+		\[
+		\text{find } x \text{ such that } h=g^x.
+		\]
+		
+		\vspace{0.4em}
+		\textbf{Asymmetry.}
+		Exponentiation is easy:
+		\[
+		x \mapsto g^x,
+		\]
+		but inversion is believed hard.
+		
+		\vspace{0.4em}
+		\textbf{Diffie--Hellman relation.}
+		Given
+		\[
+		g^a,\, g^b,
+		\]
+		compute
+		\[
+		g^{ab}.
+		\]
+		
+		\vspace{0.4em}
+		\textbf{Attack language.}
+		\[
+		\text{Index Calculus}, \quad \text{NFS}, \quad \text{Shor}.
+		\]
+		
+		\[
+		L_p\!\left[\frac13,c\right]
+		\quad \text{classically}, 
+		\qquad
+		\mathrm{poly}(\log p)
+		\quad \text{quantumly}.
+		\]
+	\end{frame}
+	
+	%------------------------------------------------
+	
+	\begin{frame}{Elliptic Curve Discrete Logarithm Problem (ECDLP)}
+		Let $E/\mathbb{F}_q$ be an elliptic curve, and let
+		\[
+		P \in E(\mathbb{F}_q)
+		\]
+		be a point of large order $n$.
+		
+		\textbf{Instance.}
+		Given
+		\[
+		P, \qquad Q = xP.
+		\]
+		
+		\textbf{Search problem.}
+		Recover
+		\[
+		x \in \mathbb{Z}_n
+		\quad \text{such that} \quad
+		Q = xP.
+		\]
+		
+		\vspace{0.4em}
+		\textbf{Group law formulation.}
+		The map
+		\[
+		x \longmapsto xP
+		\]
+		is easy to evaluate, but hard to invert.
+		
+		\vspace{0.4em}
+		\textbf{Generic attack baseline.}
+		Pollard's rho yields roughly
+		\[
+		O(\sqrt{n}).
+		\]
+		
+		\vspace{0.4em}
+		\textbf{Exceptional structure.}
+		For special curves, one may reduce ECDLP to finite-field DLP via pairings:
+		\[
+		E(\mathbb{F}_q) \rightsquigarrow \mathbb{F}_{q^k}^{\times}.
+		\]
+		
+		\vspace{0.4em}
+		\textbf{Quantumly.}
+		Shor again gives polynomial-time recovery of $x$.
+	\end{frame}
+	
+	%------------------------------------------------
+	
+	\begin{frame}{Lattice Problems: Geometric Form}
+		A lattice generated by basis vectors $\bm{b}_1,\dots,\bm{b}_m \in \mathbb{R}^n$ is
+		\[
+		\Lambda = \left\{ \sum_{i=1}^m z_i \bm{b}_i : z_i \in \mathbb{Z} \right\}.
+		\]
+		
+		\textbf{Shortest Vector Problem (SVP).}
+		Find
+		\[
+		\bm{v} \in \Lambda \setminus \{\bm{0}\}
+		\]
+		minimizing
+		\[
+		\|\bm{v}\|.
+		\]
+		
+		\textbf{Closest Vector Problem (CVP).}
+		Given $\bm{t} \in \mathbb{R}^n$, find
+		\[
+		\bm{v} \in \Lambda
+		\]
+		minimizing
+		\[
+		\|\bm{t}-\bm{v}\|.
+		\]
+		
+		\vspace{0.4em}
+		\textbf{Interpretation.}
+		These are geometric optimization problems over a discrete subgroup of $\mathbb{R}^n$.
+		
+		\vspace{0.4em}
+		\textbf{Attack language.}
+		\[
+		\text{LLL}, \quad \text{BKZ}, \quad \text{sieving}.
+		\]
+	\end{frame}
+	
+	%------------------------------------------------
+	
+	\begin{frame}{Learning With Errors (LWE)}
+		LWE is an average-case algebraic-noise problem.
+		
+		\textbf{Secret.}
+		\[
+		\bm{s} \in \mathbb{Z}_q^n.
+		\]
+		
+		\textbf{Samples.}
+		For random
+		\[
+		\bm{a}_i \in \mathbb{Z}_q^n,
+		\]
+		we observe
+		\[
+		b_i = \langle \bm{a}_i,\bm{s} \rangle + e_i \pmod q,
+		\]
+		where $e_i$ is a small error.
+		
+		\vspace{0.4em}
+		\textbf{Search-LWE.}
+		Given many pairs
+		\[
+		(\bm{a}_i,b_i),
+		\]
+		recover $\bm{s}$.
+		
+		\textbf{Decision-LWE.}
+		Distinguish
+		\[
+		(\bm{a}_i,\langle \bm{a}_i,\bm{s}\rangle + e_i)
+		\]
+		from uniform samples in
+		\[
+		\mathbb{Z}_q^n \times \mathbb{Z}_q.
+		\]
+		
+		\vspace{0.4em}
+		\textbf{Symbolic intuition.}
+		Without noise, one solves a linear system.
+		With noise, the system becomes
+		\[
+		A\bm{s} + \bm{e} \equiv \bm{b} \pmod q,
+		\]
+		and the small perturbation $\bm{e}$ is exactly what creates hardness.
+	\end{frame}
+	
+	%------------------------------------------------
+	
+	\begin{frame}{SIS: Short Integer Solution}
+		Let
+		\[
+		A \in \mathbb{Z}_q^{m \times n}.
+		\]
+		
+		\textbf{Problem.}
+		Find a nonzero vector
+		\[
+		\bm{x} \in \mathbb{Z}^n
+		\]
+		such that
+		\[
+		A\bm{x} \equiv \bm{0} \pmod q
+		\]
+		and
+		\[
+		\|\bm{x}\|
+		\]
+		is small.
+		
+		\vspace{0.4em}
+		\textbf{Interpretation.}
+		SIS asks for a short relation among the columns of $A$ modulo $q$.
+		
+		\vspace{0.4em}
+		\textbf{Why important.}
+		SIS is a canonical source of hash functions and signature constructions.
+		
+		\vspace{0.4em}
+		\textbf{Symbolic contrast with LWE.}
+		\[
+		\text{LWE: hide } \bm{s} \text{ with noise},
+		\qquad
+		\text{SIS: find short dependence modulo } q.
+		\]
+	\end{frame}
+	
+	%------------------------------------------------
+	
+	\begin{frame}{Code-Based Hardness: Syndrome Decoding}
+		Let
+		\[
+		H \in \mathbb{F}_2^{r \times n}
+		\]
+		be a parity-check matrix.
+		
+		\textbf{Given.}
+		A syndrome
+		\[
+		\bm{s} \in \mathbb{F}_2^r
+		\]
+		and a weight bound $w$.
+		
+		\textbf{Problem.}
+		Find an error vector
+		\[
+		\bm{e} \in \mathbb{F}_2^n
+		\]
+		such that
+		\[
+		H\bm{e}^T = \bm{s}^T
+		\]
+		and
+		\[
+		\mathrm{wt}(\bm{e}) \le w.
+		\]
+		
+		\vspace{0.4em}
+		\textbf{Interpretation.}
+		The vector $\bm{e}$ is sparse, but hidden by the linear map $H$.
+		
+		\vspace{0.4em}
+		\textbf{Cryptographic asymmetry.}
+		Computing
+		\[
+		\bm{s} = H\bm{e}^T
+		\]
+		is easy; recovering a low-weight $\bm{e}$ is hard.
+		
+		\vspace{0.4em}
+		\textbf{Attack language.}
+		\[
+		\text{ISD},\ \text{Stern},\ \text{Lee--Brickell},\ \text{BJMM-type methods}.
+		\]
+	\end{frame}
+	
+	%------------------------------------------------
+	
+	\begin{frame}{Hash-Based Hardness}
+		Let
+		\[
+		H : \{0,1\}^\ast \to \{0,1\}^n
+		\]
+		be a cryptographic hash function.
+		
+		\textbf{Preimage resistance.}
+		Given
+		\[
+		y \in \{0,1\}^n,
+		\]
+		find
+		\[
+		x \text{ such that } H(x)=y.
+		\]
+		
+		\textbf{Second-preimage resistance.}
+		Given $x$, find
+		\[
+		x' \neq x
+		\quad \text{such that} \quad
+		H(x') = H(x).
+		\]
+		
+		\textbf{Collision resistance.}
+		Find
+		\[
+		x \neq x'
+		\quad \text{such that} \quad
+		H(x)=H(x').
+		\]
+		
+		\vspace{0.4em}
+		\textbf{Generic bounds.}
+		\[
+		\text{collision search: } O(2^{n/2}),
+		\qquad
+		\text{preimage search: } O(2^n).
+		\]
+		
+		\textbf{Quantum effect.}
+		Grover reduces exhaustive preimage search to roughly
+		\[
+		O(2^{n/2}).
+		\]
+	\end{frame}
+	
+	%------------------------------------------------
+	
+	\begin{frame}{Multivariate Quadratic (MQ) Problem}
+		Let
+		\[
+		f_1,\dots,f_m \in \mathbb{F}_q[x_1,\dots,x_n]
+		\]
+		be multivariate quadratic polynomials.
+		
+		\textbf{Problem.}
+		Solve the system
+		\[
+		f_1(x_1,\dots,x_n)=\cdots=f_m(x_1,\dots,x_n)=0.
+		\]
+		
+		\vspace{0.4em}
+		Equivalently, for
+		\[
+		\bm{x}=(x_1,\dots,x_n),
+		\]
+		find
+		\[
+		\bm{x} \in \mathbb{F}_q^n
+		\]
+		such that
+		\[
+		F(\bm{x})=\bm{0}.
+		\]
+		
+		\vspace{0.4em}
+		\textbf{Why difficult.}
+		Quadratic interactions create nonlinear constraints:
+		\[
+		x_ix_j,\quad x_i^2.
+		\]
+		
+		\vspace{0.4em}
+		\textbf{Attack language.}
+		\[
+		\text{XL}, \quad \text{F4/F5}, \quad \text{Gr\"obner bases}, \quad \text{MinRank reductions}.
+		\]
+		
+		\vspace{0.4em}
+		\textbf{Important warning.}
+		General MQ hardness and the security of a particular MQ scheme are not the same statement.
+	\end{frame}
+	
+	%------------------------------------------------
+	
+	\begin{frame}{Isogeny Problems}
+		Let
+		\[
+		E_1, E_2
+		\]
+		be elliptic curves over a finite field.
+		
+		\textbf{Basic object.}
+		An isogeny is a nonconstant morphism
+		\[
+		\phi : E_1 \to E_2
+		\]
+		that is also a group homomorphism.
+		
+		\vspace{0.4em}
+		\textbf{Hardness intuition.}
+		Given information about the endpoints, recover hidden isogeny data:
+		\[
+		E_1 \rightsquigarrow E_2.
+		\]
+		
+		Depending on the system, the task may be:
+		\begin{itemize}
+			\item finding a path in an isogeny graph,
+			\item recovering an ideal-class action,
+			\item or reconstructing auxiliary hidden structure.
+		\end{itemize}
+		
+		\vspace{0.4em}
+		\textbf{Symbolic viewpoint.}
+		The public data describes vertices in a graph,
+		\[
+		\mathcal{G}_{\mathrm{iso}},
+		\]
+		while the secret corresponds to a hidden path, action, or morphism.
+		
+		\vspace{0.4em}
+		\textbf{Caution.}
+		Some specific formulations, notably SIDH/SIKE, were broken by exploiting extra structure not captured by the naive hardness picture.
+	\end{frame}
+	
+	%------------------------------------------------
+	
+	\begin{frame}{A Unifying View}
+		Each family can be summarized as ``easy forward map, hard inverse problem'':
+		\[
+		\begin{aligned}
+			(p,q) &\mapsto pq && \text{(Factorization)} \\
+			x &\mapsto g^x && \text{(DLP)} \\
+			x &\mapsto xP && \text{(ECDLP)} \\
+			(\bm{s},\bm{e}) &\mapsto (A, A\bm{s}+\bm{e}) && \text{(LWE)} \\
+			\bm{x} &\mapsto A\bm{x} \bmod q && \text{(SIS / modular relations)} \\
+			\bm{e} &\mapsto H\bm{e}^T && \text{(Syndrome decoding)} \\
+			x &\mapsto H(x) && \text{(Hash-based)} \\
+			\bm{x} &\mapsto F(\bm{x}) && \text{(MQ)} \\
+			\phi &\mapsto \text{public isogeny data} && \text{(Isogenies)}
+		\end{aligned}
+		\]
+		
+		\vspace{0.5em}
+		The colloquium is therefore about one central theme:
+		\[
+		\textbf{Which inverse problems remain hard in the quantum era?}
+		\]
+	\end{frame}
+	
+	
+	\begin{frame}
+		\centering
+		{\LARGE Thank you.}
+		
+		\vspace{0.5em}
+		{\large Questions and discussion}
+	\end{frame}
+	
+\end{document}

@@ -629,4 +629,402 @@ This forces $s$ to be a polynomial in $z$ of degree $\le n$, hence
 H^0(\mathbf{CP}^1,\mathcal O(n))\cong \langle 1,z,\dots,z^n\rangle.
 \]
 
+\newpage
+\section*{Exercises on \texorpdfstring{$D\sim \deg(D)[\infty]$}{D~deg(D)[infinity]} on \texorpdfstring{$\mathbf{CP}^1$}{CP1}}
+
+\subsection*{Goal}
+Throughout these exercises, let
+\[
+X=\mathbf{CP}^1=\mathbf{C}\cup\{\infty\}.
+\]
+The goal is to understand concretely why every divisor \(D\) on \(X\) is linearly equivalent to
+\[
+\deg(D)[\infty].
+\]
+You should always compute using actual rational functions. Do not skip the order computations at \(\infty\).
+
+\subsection*{Conventions}
+Use the affine coordinate \(z\) on \(U_0=\mathbf{CP}^1\setminus\{\infty\}\), and the coordinate
+\[
+w=\frac{1}{z}
+\]
+on \(U_\infty=\mathbf{CP}^1\setminus\{0\},
+\)
+so that \(w=0\) corresponds to \(\infty\).
+
+For a nonzero meromorphic function \(f\), write
+\[
+(f)=\sum_{p\in X}\operatorname{ord}_p(f)[p]
+\]
+for its principal divisor.
+
+\bigskip
+
+\hrule
+
+\bigskip
+
+\subsection*{Part I. First computations with divisors on \(\mathbf{CP}^1\)}
+
+\begin{enumerate}
+	\item Compute the principal divisor of \(z\) on \(\mathbf{CP}^1\).  
+	You must compute:
+	\begin{itemize}
+		\item \(\operatorname{ord}_0(z)\),
+		\item \(\operatorname{ord}_a(z)\) for \(a\neq 0,\infty\),
+		\item \(\operatorname{ord}_\infty(z)\) using the coordinate \(w=1/z\).
+	\end{itemize}
+	Conclude that
+	\[
+	(z)=[0]-[\infty].
+	\]
+	
+	\item For \(a\in\mathbf{C}\), compute the principal divisor of \(z-a\).  
+	Show that
+	\[
+	(z-a)=[a]-[\infty].
+	\]
+	
+	\item Let \(a,b\in\mathbf{C}\) with \(a\neq b\). Compute the principal divisor of
+	\[
+	\frac{z-a}{z-b}.
+	\]
+	Show that
+	\[
+	\left(\frac{z-a}{z-b}\right)=[a]-[b].
+	\]
+	Interpret this as saying that any two points of \(\mathbf{CP}^1\) are linearly equivalent.
+	
+	\item Compute the principal divisor of \(z^n\) for \(n\in\mathbf{Z}\).  
+	Be careful about the cases \(n>0\), \(n=0\), and \(n<0\).
+	
+	\item Compute the principal divisor of
+	\[
+	f(z)=\prod_{j=1}^r (z-a_j)^{m_j},
+	\]
+	where \(a_j\in \mathbf{C}\) are distinct and \(m_j\in\mathbf{Z}\).  
+	Show that
+	\[
+	(f)=\sum_{j=1}^r m_j[a_j]-\left(\sum_{j=1}^r m_j\right)[\infty].
+	\]
+\end{enumerate}
+
+\bigskip
+\hrule
+\bigskip
+
+\subsection*{Part II. Understanding order at \texorpdfstring{$\infty$}{infinity}}
+
+\begin{enumerate}
+	\setcounter{enumi}{5}
+	
+	\item Let \(f(z)\) be a polynomial of degree \(d\). Show directly that
+	\[
+	\operatorname{ord}_\infty(f)=-d.
+	\]
+	You must rewrite \(f\) in the coordinate \(w=1/z\).
+	
+	\item Let
+	\[
+	f(z)=\frac{P(z)}{Q(z)}
+	\]
+	with nonzero polynomials \(P,Q\). Show that
+	\[
+	\operatorname{ord}_\infty(f)=\deg(Q)-\deg(P).
+	\]
+	
+	\item Verify explicitly that for every nonzero rational function \(f\) on \(\mathbf{CP}^1\),
+	\[
+	\deg (f)=0.
+	\]
+	Do this by writing \(f=P/Q\), factoring \(P\) and \(Q\), and comparing the finite zeros/poles with the order at \(\infty\).
+	
+	\item Let
+	\[
+	f(z)=\frac{(z-a_1)\cdots(z-a_r)}{(z-b_1)\cdots(z-b_s)}.
+	\]
+	Compute \((f)\) explicitly and identify the order at \(\infty\).  
+	When does \(f\) have a zero at \(\infty\)? When does it have a pole at \(\infty\)? When is it neither?
+	
+	\item Compute the divisor of
+	\[
+	f(z)=\frac{z^2+1}{z(z-1)^3}.
+	\]
+	List every point where the order is nonzero, including \(\infty\).
+\end{enumerate}
+
+\bigskip
+\hrule
+\bigskip
+
+\subsection*{Part III. Proving \texorpdfstring{$[a]\sim[\infty]$}{[a]~[infinity]} and building the general statement}
+
+\begin{enumerate}
+	\setcounter{enumi}{10}
+	
+	\item Fix \(a\in\mathbf{C}\). Using the function \(z-a\), prove that
+	\[
+	[a]\sim [\infty].
+	\]
+	
+	\item Fix two points \(p,q\in \mathbf{CP}^1\). Prove that
+	\[
+	[p]\sim [q].
+	\]
+	Do this in two different ways:
+	\begin{itemize}
+		\item first by reducing to the case \(q=\infty\),
+		\item then by explicitly writing a rational function whose divisor is \([p]-[q]\).
+	\end{itemize}
+	
+	\item Let
+	\[
+	D=\sum_{j=1}^r n_j[a_j]
+	\]
+	with \(a_j\in \mathbf{C}\) distinct. Show that
+	\[
+	D\sim \left(\sum_{j=1}^r n_j\right)[\infty].
+	\]
+	You must produce an explicit rational function \(f\) such that
+	\[
+	(f)=D-\deg(D)[\infty].
+	\]
+	
+	\item Now let
+	\[
+	D=\sum_{j=1}^r n_j[a_j]+m[\infty].
+	\]
+	Show that
+	\[
+	D\sim \deg(D)[\infty].
+	\]
+	Write out the algebra carefully: do not just say ``by degree.''
+	
+	\item Give a complete proof that every divisor \(D\) on \(\mathbf{CP}^1\) is linearly equivalent to exactly one divisor of the form
+	\[
+	n[\infty], \qquad n\in\mathbf{Z}.
+	\]
+	You should prove both:
+	\begin{itemize}
+		\item existence,
+		\item uniqueness of the integer \(n\).
+	\end{itemize}
+\end{enumerate}
+
+\bigskip
+\hrule
+\bigskip
+
+\subsection*{Part IV. Penetrating exercises: make the equivalence feel inevitable}
+
+\begin{enumerate}
+	\setcounter{enumi}{14}
+	
+	\item Suppose \(D\sim m[\infty]\) and also \(D\sim n[\infty]\). Prove \(m=n\) without appealing to any abstract theorem about Picard groups.  
+	Hint: subtract the two relations and use the fact that principal divisors have degree \(0\).
+	
+	\item Show that the map
+	\[
+	\deg:\operatorname{Div}(\mathbf{CP}^1)/\sim \;\longrightarrow\; \mathbf{Z}
+	\]
+	is a bijection.
+	
+	\item Let
+	\[
+	D=[0]+[1]+[2]-3[\infty].
+	\]
+	Show directly that \(D\sim 0\) by constructing a rational function \(f\) with \((f)=D\).
+	
+	\item Let
+	\[
+	D=2[0]-[3]-[\infty].
+	\]
+	Show that \(\deg(D)=0\), then find an explicit rational function \(f\) with \((f)=D\).  
+	Do not guess blindly; build \(f\) from the required zero/pole data.
+	
+	\item Let
+	\[
+	D=3[1]-2[i]+5[-2]-6[\infty].
+	\]
+	Is \(D\) principal? If yes, construct \(f\) explicitly. If no, explain why not.
+	
+	\item Let
+	\[
+	D=2[0]-[1]+4[\infty].
+	\]
+	Find the integer \(n\) such that \(D\sim n[\infty]\), and then write \(D-n[\infty]\) as a principal divisor explicitly.
+	
+	\item Let \(p_1,\dots,p_r,q_1,\dots,q_s\in \mathbf{CP}^1\). Give a necessary and sufficient condition for
+	\[
+	[p_1]+\cdots+[p_r]\sim [q_1]+\cdots+[q_s]
+	\]
+	on \(\mathbf{CP}^1\). Prove your answer.
+	
+	\item Explain why the statement
+	\[
+	D\sim \deg(D)[\infty]
+	\]
+	fails on a general compact Riemann surface \(X\) of genus \(g>0\).  
+	Your answer should identify exactly what is special about \(\mathbf{CP}^1\).
+\end{enumerate}
+
+\bigskip
+\hrule
+\bigskip
+
+\subsection*{Part V. Exercises through the space \texorpdfstring{$L(D)$}{L(D)}}
+
+Recall
+\[
+L(D)=\{f\in \mathcal{M}(X)^\times : (f)+D\ge 0\}\cup\{0\}.
+\]
+
+\begin{enumerate}
+	\setcounter{enumi}{21}
+	
+	\item Compute \(L(n[\infty])\) for \(n\ge 0\). Show that it consists exactly of polynomials of degree at most \(n\):
+	\[
+	L(n[\infty])=\operatorname{span}_{\mathbf{C}}\{1,z,z^2,\dots,z^n\}.
+	\]
+	
+	\item Show that if \(D\sim n[\infty]\), then
+	\[
+	\ell(D)=\ell(n[\infty])=n+1 \qquad (n\ge 0).
+	\]
+	
+	\item Compute \(\ell(D)\) for the following divisors:
+	\[
+	D=[0]+[1], \qquad D=2[\infty], \qquad D=[0]-[\infty], \qquad D=-[\infty].
+	\]
+	
+	\item Let \(D=[a]+[b]+[\infty]\) with \(a,b\in\mathbf{C}\), \(a\neq b\).  
+	Find a basis for \(L(D)\) by first showing \(D\sim 3[\infty]\).
+	
+	\item Let \(D=[0]+[1]-[2]\).  
+	First compute \(\deg(D)\). Then determine a divisor linearly equivalent to \(D\) of the form \(n[\infty]\). Finally compute \(\ell(D)\).
+\end{enumerate}
+
+\bigskip
+\hrule
+\bigskip
+
+\subsection*{Part VI. Conceptual synthesis}
+
+\begin{enumerate}
+	\setcounter{enumi}{26}
+	
+	\item Write a short proof, in complete sentences, of the statement:
+	
+	\medskip
+	
+	\emph{On \(\mathbf{CP}^1\), two divisors are linearly equivalent if and only if they have the same degree.}
+	
+	\medskip
+	
+	Your proof must use an explicit rational function argument somewhere.
+	
+	\item Explain geometrically why the point \(\infty\) can ``collect'' all zeros and poles on \(\mathbf{CP}^1\).  
+	Your answer should mention the global coordinate \(z\) on \(\mathbf{C}\subset \mathbf{CP}^1\) and why rational functions have only one extra place where order must be recorded.
+	
+	\item Suppose a student says:
+	
+	\medskip
+	
+	\emph{``If \(D\sim \deg(D)[\infty]\), then all points of \(\mathbf{CP}^1\) are literally the same.''}
+	
+	\medskip
+	
+	Write a careful reply correcting this statement. Distinguish:
+	\begin{itemize}
+		\item equality of points,
+		\item equality of divisors,
+		\item linear equivalence of divisors.
+	\end{itemize}
+	
+	\item Compare the statements
+	\[
+	[a]-[b]=(f)
+	\qquad\text{and}\qquad
+	[a]=[b].
+	\]
+	Why is the first usually true on \(\mathbf{CP}^1\) while the second is false unless \(a=b\)?
+\end{enumerate}
+
+\bigskip
+\hrule
+\bigskip
+
+\subsection*{Challenge problems}
+
+\begin{enumerate}
+	\setcounter{enumi}{30}
+	
+	\item Let
+	\[
+	D=\sum_{j=1}^r n_j[p_j]
+	\]
+	be a divisor of degree \(0\) on \(\mathbf{CP}^1\). Prove that \(D\) is principal by constructing a rational function with exactly those zero/pole orders.
+	
+	\item Give an explicit isomorphism
+	\[
+	\operatorname{Pic}(\mathbf{CP}^1)\cong \mathbf{Z}
+	\]
+	using divisors and degree. Prove that it is well-defined and bijective.
+	
+	\item Show that
+	\[
+	\mathcal{O}(D)\cong \mathcal{O}(\deg D)
+	\]
+	on \(\mathbf{CP}^1\).  
+	You may use the fact that linearly equivalent divisors define isomorphic line bundles, but you must explicitly connect this to
+	\[
+	D\sim \deg(D)[\infty].
+	\]
+	
+	\item Let \(D\) be an effective divisor of degree \(n\) on \(\mathbf{CP}^1\). Show that the complete linear system \(|D|\) is the same size as \(|n[\infty]|\) after identifying linearly equivalent divisors. Explain this through explicit rational functions.
+	
+	\item Use the result \(D\sim \deg(D)[\infty]\) to give a computation-first proof of the genus-\(0\) case of Riemann--Roch:
+	\[
+	\ell(D)=
+	\begin{cases}
+		\deg(D)+1,& \deg(D)\ge 0,\\
+		0,& \deg(D)<0.
+	\end{cases}
+	\]
+\end{enumerate}
+
+\bigskip
+\hrule
+\bigskip
+
+\subsection*{Instructor notes / hints (optional to include)}
+
+\begin{itemize}
+	\item The absolutely central model computation is
+	\[
+	(z-a)=[a]-[\infty].
+	\]
+	Everything else should repeatedly reduce to this.
+	
+	\item A good explicit function for a divisor
+	\[
+	D=\sum n_j[a_j]-\left(\sum n_j\right)[\infty]
+	\]
+	is
+	\[
+	f(z)=\prod_j (z-a_j)^{n_j},
+	\]
+	interpreting negative \(n_j\) as poles.
+	
+	\item Students often say ``degree zero means principal.''  
+	Emphasize: this is true on \(\mathbf{CP}^1\), but not on higher-genus compact Riemann surfaces.
+	
+	\item To compute order at \(\infty\), always rewrite in the coordinate \(w=1/z\).  
+	For example,
+	\[
+	z-a=\frac{1-aw}{w},
+	\]
+	so near \(w=0\) it has a simple pole, hence \(\operatorname{ord}_\infty(z-a)=-1\).
+\end{itemize}
+
 \end{document}

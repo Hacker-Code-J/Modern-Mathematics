@@ -1,0 +1,392 @@
+\documentclass[aspectratio=169]{beamer}
+
+\usetheme{Madrid}
+\usecolortheme{default}
+\usefonttheme{professionalfonts}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{amsmath, amssymb, amsfonts}
+\usepackage{bm}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{xcolor}
+
+\hypersetup{
+	colorlinks=true,
+	linkcolor=blue,
+	urlcolor=blue
+}
+
+\title[PQC Hard Problem Orientation]{Orientation to Post-Quantum Cryptographic Hard Problems}
+\author{Your Name}
+\institute{Your Institution / Research Group}
+\date{\today}
+
+\begin{document}
+	
+	%------------------------------------------------
+	\begin{frame}
+		\titlepage
+	\end{frame}
+	
+	%------------------------------------------------
+	\begin{frame}{Outline}
+		\tableofcontents
+	\end{frame}
+	
+	%------------------------------------------------
+	\section{Motivation}
+	
+	\begin{frame}{Why Post-Quantum Cryptography?}
+		\begin{itemize}
+			\item Classical public-key cryptography relies heavily on problems such as integer factorization and discrete logarithms.
+			\item Large-scale quantum computers would threaten these assumptions through algorithms such as Shor's algorithm.
+			\item Post-quantum cryptography (PQC) seeks cryptographic constructions secure against both classical and quantum adversaries.
+			\item The central question is therefore:
+			\begin{block}{Core Question}
+				Which mathematical problems remain computationally intractable even in the presence of quantum computation?
+			\end{block}
+		\end{itemize}
+	\end{frame}
+	
+	%------------------------------------------------
+	\begin{frame}{Role of Hard Problems in Cryptography}
+		A cryptosystem is only as strong as the computational assumption on which it is built.
+		
+		\vspace{0.5em}
+		In the post-quantum setting, hard problems serve as:
+		\begin{itemize}
+			\item the \textbf{foundation of security proofs},
+			\item the \textbf{source of asymptotic and concrete hardness},
+			\item the \textbf{bridge} between abstract mathematics and practical protocol design.
+		\end{itemize}
+		
+		\vspace{0.5em}
+		Thus, understanding PQC requires understanding its underlying hard problems.
+	\end{frame}
+	
+	%------------------------------------------------
+	\section{What Is a Hard Problem?}
+	
+	\begin{frame}{Definition of a Hard Problem}
+		Informally, a computational problem is considered \emph{hard} if no efficient algorithm is known for solving it on average or in the worst case under relevant parameter choices.
+		
+		\vspace{0.75em}
+		In cryptography, one typically asks:
+		\begin{itemize}
+			\item Is the problem difficult for \textbf{classical} algorithms?
+			\item Is the problem difficult for \textbf{quantum} algorithms?
+			\item Is the hardness supported by \textbf{reductions}, \textbf{evidence}, or \textbf{long-standing study}?
+			\item Does the problem admit \textbf{efficient implementation} in real systems?
+		\end{itemize}
+	\end{frame}
+	
+	%------------------------------------------------
+	\begin{frame}{Desirable Features of a Cryptographic Assumption}
+		A useful cryptographic hardness assumption should ideally have:
+		\begin{enumerate}
+			\item \textbf{Strong evidence of intractability},
+			\item \textbf{Resistance to known classical and quantum attacks},
+			\item \textbf{Efficient parameterization},
+			\item \textbf{Reduction-based security arguments},
+			\item \textbf{Robustness under implementation constraints}.
+		\end{enumerate}
+		
+		\vspace{0.5em}
+		In practice, there is often a trade-off between theoretical elegance and implementation efficiency.
+	\end{frame}
+	
+	%------------------------------------------------
+	\section{Main Families of PQC Hard Problems}
+	
+	\begin{frame}{Major Families of Post-Quantum Hard Problems}
+		The principal mathematical families include:
+		\begin{itemize}
+			\item \textbf{Lattice-based problems}
+			\begin{itemize}
+				\item Shortest Vector Problem (SVP)
+				\item Closest Vector Problem (CVP)
+				\item Learning With Errors (LWE)
+				\item Module-LWE / Ring-LWE
+			\end{itemize}
+			\item \textbf{Code-based problems}
+			\begin{itemize}
+				\item Syndrome Decoding
+				\item General decoding problems for linear codes
+			\end{itemize}
+			\item \textbf{Multivariate problems}
+			\begin{itemize}
+				\item Solving systems of multivariate polynomial equations over finite fields
+			\end{itemize}
+			\item \textbf{Hash-based assumptions}
+			\begin{itemize}
+				\item Preimage resistance, second-preimage resistance, collision resistance
+			\end{itemize}
+			\item \textbf{Isogeny-based problems} (historically important, though currently more fragile in practice)
+		\end{itemize}
+	\end{frame}
+	
+	%------------------------------------------------
+	\section{Lattice-Based Hard Problems}
+	
+	\begin{frame}{Lattices: Geometric Background}
+		A lattice $\Lambda \subset \mathbb{R}^n$ is the set of all integer linear combinations of basis vectors:
+		\[
+		\Lambda = \left\{ \sum_{i=1}^m z_i \bm{b}_i : z_i \in \mathbb{Z} \right\}.
+		\]
+		
+		\vspace{0.5em}
+		Fundamental computational questions include:
+		\begin{itemize}
+			\item finding a short nonzero vector,
+			\item finding a lattice vector close to a target point,
+			\item solving noisy linear relations derived from lattice structure.
+		\end{itemize}
+	\end{frame}
+	
+	%------------------------------------------------
+	\begin{frame}{Shortest Vector Problem (SVP)}
+		\begin{block}{SVP}
+			Given a lattice basis for $\Lambda$, find a nonzero vector $\bm{v} \in \Lambda$ minimizing $\|\bm{v}\|$.
+		\end{block}
+		
+		\vspace{0.5em}
+		Why it matters:
+		\begin{itemize}
+			\item It is a canonical worst-case lattice problem.
+			\item Approximate variants of SVP are central in complexity theory and cryptography.
+			\item Many security reductions relate average-case cryptographic assumptions to worst-case lattice problems.
+		\end{itemize}
+	\end{frame}
+	
+	%------------------------------------------------
+	\begin{frame}{Learning With Errors (LWE)}
+		\begin{block}{LWE Problem}
+			Given samples of the form
+			\[
+			(\bm{a}_i, b_i = \langle \bm{a}_i, \bm{s} \rangle + e_i \bmod q),
+			\]
+			recover the secret $\bm{s}$ or distinguish such samples from uniform.
+		\end{block}
+		
+		\vspace{0.5em}
+		Here:
+		\begin{itemize}
+			\item $\bm{a}_i \in \mathbb{Z}_q^n$ is public,
+			\item $\bm{s} \in \mathbb{Z}_q^n$ is secret,
+			\item $e_i$ is a small error term.
+		\end{itemize}
+		
+		\vspace{0.5em}
+		LWE is one of the most important assumptions in modern post-quantum cryptography.
+	\end{frame}
+	
+	%------------------------------------------------
+	\begin{frame}{Why LWE Is Foundational}
+		LWE is especially attractive because:
+		\begin{itemize}
+			\item it admits strong reduction-based evidence from worst-case lattice problems,
+			\item it supports encryption, signatures, key exchange, FHE, IBE, and more,
+			\item it has natural structured variants such as Ring-LWE and Module-LWE.
+		\end{itemize}
+		
+		\vspace{0.5em}
+		Many standardized PQC schemes are based on this family of assumptions.
+	\end{frame}
+	
+	%------------------------------------------------
+	\section{Code-Based Hard Problems}
+	
+	\begin{frame}{Code-Based Assumptions}
+		Code-based cryptography is built on the difficulty of decoding a random linear code.
+		
+		\begin{block}{Syndrome Decoding Problem}
+			Given a parity-check matrix $H$, a syndrome $\bm{s}$, and a weight bound $w$, find an error vector $\bm{e}$ such that
+			\[
+			H \bm{e}^T = \bm{s}^T
+			\]
+			and $\mathrm{wt}(\bm{e}) \leq w$.
+		\end{block}
+		
+		\vspace{0.5em}
+		This problem is believed to be hard even for quantum adversaries, though parameters must be chosen carefully.
+	\end{frame}
+	
+	%------------------------------------------------
+	\begin{frame}{Strengths and Limitations of Code-Based Cryptography}
+		\textbf{Strengths}
+		\begin{itemize}
+			\item Long history of cryptanalytic study,
+			\item Conservative security posture,
+			\item Fast low-level operations in some settings.
+		\end{itemize}
+		
+		\vspace{0.5em}
+		\textbf{Limitations}
+		\begin{itemize}
+			\item Large public keys in many constructions,
+			\item More limited flexibility compared with lattice-based designs for advanced primitives.
+		\end{itemize}
+	\end{frame}
+	
+	%------------------------------------------------
+	\section{Multivariate and Hash-Based Problems}
+	
+	\begin{frame}{Multivariate Polynomial Problems}
+		Multivariate cryptography relies on the difficulty of solving systems of nonlinear polynomial equations over finite fields.
+		
+		\vspace{0.5em}
+		General form:
+		\[
+		f_1(x_1,\dots,x_n)=\cdots=f_m(x_1,\dots,x_n)=0.
+		\]
+		
+		\vspace{0.5em}
+		These problems are attractive because:
+		\begin{itemize}
+			\item evaluation can be very efficient,
+			\item signing can be fast in carefully designed systems.
+		\end{itemize}
+		
+		\vspace{0.5em}
+		However, the design space is delicate and vulnerable to algebraic attacks if structure is not controlled.
+	\end{frame}
+	
+	%------------------------------------------------
+	\begin{frame}{Hash-Based Assumptions}
+		Hash-based cryptography relies on standard assumptions such as:
+		\begin{itemize}
+			\item preimage resistance,
+			\item second-preimage resistance,
+			\item collision resistance.
+		\end{itemize}
+		
+		\vspace{0.5em}
+		Hash-based signatures are among the most conservative post-quantum constructions because their security reduces to the security of the underlying hash function.
+		
+		\vspace{0.5em}
+		Their main trade-offs often concern:
+		\begin{itemize}
+			\item signature size,
+			\item state management (for stateful variants),
+			\item performance in constrained environments.
+		\end{itemize}
+	\end{frame}
+	
+	%------------------------------------------------
+	\section{Security Perspective}
+	
+	\begin{frame}{What Makes a PQC Problem Credible?}
+		The credibility of a post-quantum hardness assumption depends on:
+		\begin{itemize}
+			\item \textbf{Cryptanalytic maturity}: how long and how deeply the problem has been studied;
+			\item \textbf{Reduction theory}: whether security can be related to better-understood problems;
+			\item \textbf{Quantum attack landscape}: whether known quantum algorithms provide substantial speedups;
+			\item \textbf{Parameter discipline}: whether implementations preserve the intended hardness level.
+		\end{itemize}
+	\end{frame}
+	
+	%------------------------------------------------
+	\begin{frame}{Classical vs.\ Quantum Attack Models}
+		In practice, one evaluates hard problems under both:
+		\begin{enumerate}
+			\item \textbf{Classical attacks}
+			\begin{itemize}
+				\item combinatorial methods,
+				\item algebraic attacks,
+				\item lattice reduction,
+				\item information-set decoding,
+				\item Gröbner-basis techniques.
+			\end{itemize}
+			\item \textbf{Quantum attacks}
+			\begin{itemize}
+				\item Shor-type exponential attacks where applicable,
+				\item Grover-type quadratic speedups,
+				\item quantum adaptations of classical search or algebraic methods.
+			\end{itemize}
+		\end{enumerate}
+	\end{frame}
+	
+	%------------------------------------------------
+	\section{From Hard Problems to Schemes}
+	
+	\begin{frame}{From Assumptions to Cryptographic Constructions}
+		A hard problem becomes practically relevant only when it supports efficient schemes:
+		\begin{center}
+			\textbf{Hard Problem} $\longrightarrow$ \textbf{Assumption} $\longrightarrow$ \textbf{Construction} $\longrightarrow$ \textbf{Implementation}
+		\end{center}
+		
+		\vspace{0.75em}
+		Examples:
+		\begin{itemize}
+			\item LWE / Module-LWE $\rightarrow$ key encapsulation mechanisms,
+			\item lattice trapdoors $\rightarrow$ digital signatures,
+			\item hash assumptions $\rightarrow$ stateless and stateful signatures,
+			\item decoding problems $\rightarrow$ code-based encryption/KEMs.
+		\end{itemize}
+	\end{frame}
+	
+	%------------------------------------------------
+	\begin{frame}{Practical Evaluation Criteria}
+		In real deployments, we compare candidate assumptions and schemes by:
+		\begin{itemize}
+			\item claimed security level,
+			\item public key and ciphertext/signature size,
+			\item runtime and memory cost,
+			\item implementation simplicity,
+			\item side-channel resilience,
+			\item confidence in long-term hardness.
+		\end{itemize}
+	\end{frame}
+	
+	%------------------------------------------------
+	\section{Research Orientation}
+	
+	\begin{frame}{How to Study PQC Hard Problems}
+		A productive orientation path includes:
+		\begin{enumerate}
+			\item Learn the precise mathematical formulation of each problem.
+			\item Understand known classical and quantum algorithms against it.
+			\item Study reduction results and hardness evidence.
+			\item Examine how the assumption is instantiated in concrete schemes.
+			\item Track implementation and parameter-selection issues.
+		\end{enumerate}
+	\end{frame}
+	
+	%------------------------------------------------
+	\begin{frame}{Suggested Research Questions}
+		Possible guiding questions for a new student or researcher:
+		\begin{itemize}
+			\item What type of hardness evidence is available: worst-case, average-case, heuristic, or empirical?
+			\item How does algebraic structure improve efficiency, and what security risk does it introduce?
+			\item Which attacks dominate the concrete security estimates?
+			\item How should one compare assumptions across different PQC families?
+			\item What are the open problems in reduction theory, parameter setting, and implementation security?
+		\end{itemize}
+	\end{frame}
+	
+	%------------------------------------------------
+	\section{Conclusion}
+	
+	\begin{frame}{Conclusion}
+		\begin{itemize}
+			\item Post-quantum cryptography is fundamentally an exercise in identifying and exploiting robust hard problems.
+			\item Lattice, code-based, multivariate, and hash-based assumptions provide distinct trade-offs.
+			\item The study of PQC hard problems requires both mathematical rigor and cryptographic realism.
+			\item A clear understanding of these assumptions is essential for evaluating present and future post-quantum schemes.
+		\end{itemize}
+	\end{frame}
+	
+	%------------------------------------------------
+	\begin{frame}{Thank You}
+		\centering
+		{\Large Thank you for your attention.}
+		
+		\vspace{1em}
+		Questions and discussion are welcome.
+	\end{frame}
+	
+\end{document}

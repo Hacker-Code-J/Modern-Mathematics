@@ -1,0 +1,405 @@
+\documentclass[aspectratio=169]{beamer}
+
+\usetheme{Madrid}
+\usecolortheme{default}
+\usefonttheme{professionalfonts}
+
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb}
+\usepackage{bm}
+\usepackage{booktabs}
+\usepackage{xcolor}
+
+\title[PQC Hard Problem Colloquium]{Orientation Materials for the PQC Hard Problem Colloquium}
+\author{Your Name}
+\institute{Your Institution / Research Group}
+\date{\today}
+
+\begin{document}
+	
+	\begin{frame}
+		\titlepage
+	\end{frame}
+	
+	\begin{frame}{Purpose of This Colloquium}
+		\begin{itemize}
+			\item This colloquium is about the \textbf{hard problems} that underlie modern public-key cryptography and post-quantum cryptography.
+			\item The goal is not only to know \emph{which schemes exist}, but to understand:
+			\begin{itemize}
+				\item what mathematical problem each scheme relies on,
+				\item what the best known attacks are,
+				\item how classical and quantum complexity differ,
+				\item and why some families remain viable while others have failed.
+			\end{itemize}
+			\item In other words, the central object of study is the \textbf{security assumption itself}.
+		\end{itemize}
+	\end{frame}
+	
+	\begin{frame}{Guiding Question}
+		\begin{block}{Core Question}
+			Which computational problems remain hard enough to support secure cryptography in the presence of quantum computers?
+		\end{block}
+		
+		\vspace{0.5em}
+		This question naturally divides our discussion into three layers:
+		\begin{enumerate}
+			\item the \textbf{mathematical hard problem},
+			\item the \textbf{best known attacks},
+			\item the \textbf{cryptosystems} built on top of that assumption.
+		\end{enumerate}
+	\end{frame}
+	
+	\begin{frame}{Why Hard Problems Matter}
+		\begin{itemize}
+			\item A cryptosystem is only as trustworthy as the computational problem beneath it.
+			\item Cryptographic history shows that assumptions can fail in two very different ways:
+			\begin{itemize}
+				\item through a major algorithmic breakthrough,
+				\item or through hidden algebraic structure that makes a scheme easier than expected.
+			\end{itemize}
+			\item Post-quantum cryptography therefore requires a careful comparison of:
+			\begin{itemize}
+				\item \textbf{classical hardness},
+				\item \textbf{quantum hardness},
+				\item \textbf{practical attack cost},
+				\item and \textbf{structural fragility}.
+			\end{itemize}
+		\end{itemize}
+	\end{frame}
+	
+	\section{From Classical Assumptions to the Post-Quantum Setting}
+	
+	\begin{frame}{The Classical Baseline}
+		Before post-quantum cryptography, public-key cryptography was dominated by a small number of number-theoretic assumptions:
+		\begin{itemize}
+			\item \textbf{Integer Factorization} $\rightarrow$ RSA, Rabin
+			\item \textbf{Discrete Logarithm in Finite Fields} $\rightarrow$ Diffie--Hellman, DSA, ElGamal
+			\item \textbf{Elliptic Curve Discrete Logarithm} $\rightarrow$ ECDH, ECDSA, EdDSA
+		\end{itemize}
+		
+		\vspace{0.5em}
+		These problems were historically attractive because they enabled elegant and efficient cryptographic constructions.
+	\end{frame}
+	
+	\begin{frame}{Why the Classical Baseline Fails in the Quantum Model}
+		\begin{itemize}
+			\item Classically, factorization and finite-field discrete logarithm admit only \textbf{sub-exponential} attacks in their best known forms.
+			\item Elliptic-curve discrete logarithm is even stronger classically, with generic attacks of roughly \textbf{$O(\sqrt{n})$}.
+			\item However, in the quantum setting, all three become vulnerable to \textbf{Shor's algorithm}.
+		\end{itemize}
+		
+		\vspace{0.75em}
+		\begin{block}{Consequent Shift}
+			The PQC transition is fundamentally the replacement of Shor-vulnerable assumptions with new assumptions for which no efficient quantum attacks are known.
+		\end{block}
+	\end{frame}
+	
+	\begin{frame}{A Historical Security Lesson}
+		The classical world teaches an important lesson for PQC:
+		\begin{itemize}
+			\item security is not only about asymptotic hardness,
+			\item it is also about the existence of \textbf{unexpected algorithmic structure},
+			\item and about whether the problem remains hard under the exact distribution used by the scheme.
+		\end{itemize}
+		
+		\vspace{0.5em}
+		This is why the colloquium must focus on \textbf{hard problems first}, not only on named standards or implementations.
+	\end{frame}
+	
+	\section{Main Families of Post-Quantum Hard Problems}
+	
+	\begin{frame}{The Main PQC Families}
+		The major families discussed in post-quantum cryptography are:
+		\begin{enumerate}
+			\item \textbf{Lattice-based problems}
+			\item \textbf{Code-based problems}
+			\item \textbf{Hash-based assumptions}
+			\item \textbf{Multivariate polynomial problems}
+			\item \textbf{Isogeny-based problems}
+		\end{enumerate}
+		
+		\vspace{0.5em}
+		Each family has a different profile with respect to:
+		\begin{itemize}
+			\item attack methodology,
+			\item concrete efficiency,
+			\item reduction theory,
+			\item and quantum resistance.
+		\end{itemize}
+	\end{frame}
+	
+	\subsection{Lattice-Based Problems}
+	
+	\begin{frame}{Lattice Problems}
+		The lattice family includes problems such as:
+		\begin{itemize}
+			\item \textbf{LWE} (Learning With Errors),
+			\item \textbf{SIS} (Short Integer Solution),
+			\item \textbf{SVP} (Shortest Vector Problem),
+			\item \textbf{CVP} (Closest Vector Problem).
+		\end{itemize}
+		
+		\vspace{0.5em}
+		These assumptions support schemes such as:
+		\begin{itemize}
+			\item Kyber / ML-KEM,
+			\item Dilithium / ML-DSA,
+			\item NTRU,
+			\item fully homomorphic encryption constructions.
+		\end{itemize}
+	\end{frame}
+	
+	\begin{frame}{Why Lattices Matter}
+		Lattice-based cryptography is central because:
+		\begin{itemize}
+			\item it is currently the most influential practical PQC family,
+			\item it supports both encryption/KEM and signature constructions,
+			\item and it has strong connections between average-case and worst-case hardness in several settings.
+		\end{itemize}
+		
+		\vspace{0.5em}
+		From the attack perspective, the dominant language is:
+		\begin{itemize}
+			\item \textbf{lattice reduction} (LLL, BKZ),
+			\item \textbf{sieving},
+			\item and careful \textbf{parameter estimation}.
+		\end{itemize}
+	\end{frame}
+	
+	\begin{frame}{Lattice Attack Perspective}
+		According to the table, the best known attacks remain broadly \textbf{exponential} in the relevant dimension parameter.
+		
+		\vspace{0.5em}
+		This is the key orientation point:
+		\begin{itemize}
+			\item there is no Shor-style polynomial-time quantum algorithm known for the main lattice assumptions,
+			\item but concrete security depends heavily on accurate cost models for BKZ and related reductions,
+			\item so lattice security is a field where asymptotics and concrete cryptanalysis must be studied together.
+		\end{itemize}
+	\end{frame}
+	
+	\subsection{Code-Based Problems}
+	
+	\begin{frame}{Code-Based Problems}
+		Code-based cryptography is centered on problems such as:
+		\begin{itemize}
+			\item \textbf{syndrome decoding},
+			\item more generally, the difficulty of decoding random linear codes.
+		\end{itemize}
+		
+		\vspace{0.5em}
+		Representative systems include:
+		\begin{itemize}
+			\item McEliece,
+			\item HQC,
+			\item BIKE.
+		\end{itemize}
+	\end{frame}
+	
+	\begin{frame}{Code-Based Attack Perspective}
+		The dominant attack family is \textbf{Information Set Decoding (ISD)} and its variants.
+		
+		\vspace{0.5em}
+		The main qualitative lesson is:
+		\begin{itemize}
+			\item the best known attacks remain \textbf{exponential},
+			\item quantum speedups appear much more limited than in factorization or DLP,
+			\item and Grover-type improvements generally give only a \textbf{quadratic speedup}, rather than a full structural collapse.
+		\end{itemize}
+		
+		\vspace{0.5em}
+		This makes code-based cryptography one of the most conservative PQC directions.
+	\end{frame}
+	
+	\subsection{Hash-Based Assumptions}
+	
+	\begin{frame}{Hash-Based Assumptions}
+		Hash-based cryptography relies on familiar assumptions:
+		\begin{itemize}
+			\item \textbf{collision resistance},
+			\item \textbf{preimage resistance},
+			\item \textbf{second-preimage resistance}.
+		\end{itemize}
+		
+		\vspace{0.5em}
+		Representative systems include:
+		\begin{itemize}
+			\item SPHINCS+,
+			\item XMSS,
+			\item LMS.
+		\end{itemize}
+	\end{frame}
+	
+	\begin{frame}{Hash-Based Security Perspective}
+		The attack picture is comparatively clean:
+		\begin{itemize}
+			\item collisions face the \textbf{birthday bound},
+			\item preimage search is affected by \textbf{Grover's algorithm},
+			\item but there is no analogous Shor-style collapse.
+		\end{itemize}
+		
+		\vspace{0.5em}
+		Therefore, hash-based signatures are often viewed as:
+		\begin{itemize}
+			\item conceptually conservative,
+			\item relatively robust at the assumption level,
+			\item though sometimes less attractive in size or efficiency.
+		\end{itemize}
+	\end{frame}
+	
+	\subsection{Multivariate Problems}
+	
+	\begin{frame}{Multivariate Polynomial Problems}
+		Multivariate cryptography is built on the difficulty of solving systems of quadratic equations over finite fields.
+		
+		\vspace{0.5em}
+		This is often referred to as the \textbf{MQ problem}.
+		
+		\vspace{0.5em}
+		Representative systems include:
+		\begin{itemize}
+			\item UOV,
+			\item MAYO,
+			\item historically, Rainbow.
+		\end{itemize}
+	\end{frame}
+	
+	\begin{frame}{Multivariate Attack Perspective}
+		The table highlights the relevant attack language:
+		\begin{itemize}
+			\item \textbf{MinRank}-type attacks,
+			\item \textbf{Kipnis--Shamir}-type methods,
+			\item \textbf{XL / Gr\"obner basis} approaches,
+			\item and scheme-specific structural attacks.
+		\end{itemize}
+		
+		\vspace{0.5em}
+		The critical lesson is that multivariate systems may appear hard in the abstract, yet particular constructions can fail because of exploitable algebraic structure.
+	\end{frame}
+	
+	\begin{frame}{Structural Fragility: The Rainbow Lesson}
+		Rainbow is an important case study.
+		\begin{itemize}
+			\item At the high level, MQ remains a hard class of problems.
+			\item But Rainbow itself was broken through a much more specific structural attack.
+			\item This teaches that \textbf{scheme hardness} is not identical to \textbf{family hardness}.
+		\end{itemize}
+		
+		\vspace{0.5em}
+		This distinction will be a recurring theme throughout the colloquium.
+	\end{frame}
+	
+	\subsection{Isogeny-Based Problems}
+	
+	\begin{frame}{Isogeny Problems}
+		Isogeny-based cryptography emerged as a highly elegant and compact direction in PQC.
+		
+		\vspace{0.5em}
+		Systems discussed in this space include:
+		\begin{itemize}
+			\item SQISign,
+			\item CSIDH,
+			\item and historically SIKE / SIDH.
+		\end{itemize}
+	\end{frame}
+	
+	\begin{frame}{The Isogeny Cautionary Story}
+		The table captures one of the most important cautionary episodes in modern PQC:
+		\begin{itemize}
+			\item \textbf{SIKE is broken}.
+			\item The Castryck--Decru attack showed that a scheme can collapse completely even when the surrounding research area still appears mathematically rich.
+		\end{itemize}
+		
+		\vspace{0.5em}
+		More broadly:
+		\begin{itemize}
+			\item some isogeny problems still resist known attacks,
+			\item but the family must now be approached with increased caution,
+			\item especially when hidden structure may create special-purpose vulnerabilities.
+		\end{itemize}
+	\end{frame}
+	
+	\section{Cross-Family Comparison}
+	
+	\begin{frame}{A Comparative Reading of the Hard Problem Landscape}
+		Based on the table, the families differ in a striking way:
+		
+		\vspace{0.5em}
+		\begin{itemize}
+			\item \textbf{Factorization / DLP / ECDLP}: strong classically, but broken by polynomial-time quantum algorithms.
+			\item \textbf{Lattice / Code-based}: still believed hard; attacks remain exponential or subexponential only in restricted senses.
+			\item \textbf{Hash-based}: quantum attacks are limited and well understood.
+			\item \textbf{Multivariate / Isogeny}: mathematically interesting, but some constructions have shown serious fragility.
+		\end{itemize}
+	\end{frame}
+	
+	\begin{frame}{Three Evaluation Questions for Every Scheme}
+		For each cryptographic construction studied in this colloquium, we should ask:
+		
+		\begin{enumerate}
+			\item \textbf{What exact hard problem is being assumed?}
+			\item \textbf{What are the best known attacks, classically and quantumly?}
+			\item \textbf{Does the scheme introduce exploitable structure beyond the underlying problem?}
+		\end{enumerate}
+		
+		\vspace{0.75em}
+		This framework helps separate genuine hardness from merely optimistic design.
+	\end{frame}
+	
+	\begin{frame}{What the Table Really Teaches}
+		The information in the table should not be read as a static catalog.
+		
+		\vspace{0.5em}
+		It should be read as a set of research attitudes:
+		\begin{itemize}
+			\item compare assumptions by their \textbf{attack surface},
+			\item distinguish \textbf{family-level hardness} from \textbf{scheme-level security},
+			\item treat broken constructions as lessons, not merely failures,
+			\item and always ask whether the best known attack is generic, structural, classical, or quantum.
+		\end{itemize}
+	\end{frame}
+	
+	\section{Orientation for the Colloquium}
+	
+	\begin{frame}{How This Colloquium Can Be Structured}
+		A natural progression for the colloquium is:
+		\begin{enumerate}
+			\item Classical hard problems and the quantum threat
+			\item Lattice assumptions and reduction-based security
+			\item Code-based cryptography and ISD
+			\item Hash-based signatures as a conservative baseline
+			\item Multivariate cryptography and structural attacks
+			\item Isogeny cryptography after SIKE
+			\item Comparative security evaluation across families
+		\end{enumerate}
+	\end{frame}
+	
+	\begin{frame}{Expected Outcomes}
+		By the end of the colloquium, participants should be able to:
+		\begin{itemize}
+			\item explain the difference between classical and post-quantum hardness assumptions,
+			\item describe the principal attack models against each family,
+			\item identify why some assumptions remain credible and others do not,
+			\item and evaluate a PQC scheme in terms of both mathematics and cryptanalysis.
+		\end{itemize}
+	\end{frame}
+	
+	\begin{frame}{Closing Perspective}
+		\begin{block}{Final Perspective}
+			Post-quantum cryptography is not merely a search for new schemes. It is a disciplined search for mathematical problems whose hardness survives new computational models, new attack paradigms, and deeper structural analysis.
+		\end{block}
+		
+		\vspace{0.75em}
+		That is the central intellectual purpose of the PQC Hard Problem Colloquium.
+	\end{frame}
+	
+	\begin{frame}
+		\centering
+		{\LARGE Thank you.}
+		
+		\vspace{0.5em}
+		{\large Discussion and questions}
+	\end{frame}
+	
+\end{document}

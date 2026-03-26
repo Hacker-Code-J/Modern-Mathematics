@@ -37,6 +37,9 @@
 
 \usepackage{pdfpages}
 
+\usepackage{bm}
+%\usepackage{enumerate}
+
 % ---------- Hyperref setup ----------
 \hypersetup{
 	colorlinks=true,
@@ -45,6 +48,8 @@
 	urlcolor=blue,
 	pdftitle={Hard Problems in Cryptography: Classical and Post-Quantum},
 }
+
+\input{tcolorbox}
 
 % ---------- Theorem environments ----------
 \theoremstyle{plain}
@@ -230,6 +235,9 @@
 %		\hline
 %	\end{tabular}
 
+
+
+
 %	\renewcommand{\arraystretch}{1.15}
 %	\setlength{\tabcolsep}{5pt}
 %	
@@ -263,6 +271,9 @@
 %		\hline
 %	\end{tabular}
 
+
+
+
 %\begin{table}[h]
 %	\centering
 %	\renewcommand{\arraystretch}{1.5} % Adjusts row height for better readability
@@ -291,8 +302,8 @@
 %		& & Shor's Algorithm & Polynomial (Quantum) \\
 %		& & & $O((\log n)^2)$ \\ \hline
 %		\hline
-%		\multirow{3}{*}{\textbf{Lattice Problems}} & Kyber (ML-KEM), & Primal/Dual Lattice Reduction & Exponential (Classical \& Quantum) \\
-%		\text{(LWE, SIS, SVP)} & Dilithium (ML-DSA), & (using BKZ, LLL) & $2^{O(d)}$ \\ \cline{3-4}
+%		\multirow{3}{*}{\textbf{Lattice Problems} \text{(LWE, SIS, SVP)}} & Kyber (ML-KEM), & Primal/Dual Lattice Reduction & Exponential (Classical \& Quantum) \\
+%		& Dilithium (ML-DSA), & (using BKZ, LLL) & $2^{O(d)}$ \\ \cline{3-4}
 %		& NTRU, FHE & Sieve Algorithms & Exponential (Classical) \\
 %		& & & $2^{O(d)}$ \\ \hline
 %		\hline
@@ -303,6 +314,10 @@
 %	\caption{Summary of Hard Problems in Cryptography and Attacks}
 %	\label{tab:crypto_problems}
 %\end{table}
+
+
+
+
 
 %\begin{longtable}{|p{3.0cm}|p{2.8cm}|p{4.2cm}|p{4.0cm}|}
 %	\hline
@@ -558,7 +573,7 @@
 %\newpage\input{sections/IFP.tex}	
 %\newpage\input{sections/DLP.tex}
 \newpage\input{sections/Lattice.tex}
-\newpage\input{sections/Code.tex}
+%\newpage\input{sections/Code.tex}
 %	
 %	\newpage
 %	\section{Isogenies (Supersingular Isogeny Problems)}
@@ -587,4 +602,9 @@
 %	\input{sections/05-standards.tex}
 	
 %	\printbibliography
+
+\appendix
+\chapter{Exercises for Lattice}
+\input{exercise/exer-lattice}
+
 \end{document}

@@ -1,0 +1,755 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{tikz-cd}
+
+\title{Concrete de Rham Cohomology on \(S^2\) and \(T^2\),\\
+	Winding and Area Forms, Euler Class, and Gauss--Bonnet}
+\author{}
+\date{}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}{Proposition}
+\newtheorem{remark}{Remark}
+\newtheorem{exercise}{Exercise}
+
+\begin{document}
+	\maketitle
+	
+	\tableofcontents
+	
+	\section{Goal}
+	
+	We want a compute-first understanding of:
+	\begin{itemize}[leftmargin=2em]
+		\item de Rham cohomology through explicit differential forms,
+		\item the winding form on \(\mathbb{R}^2\setminus\{0\}\),
+		\item the area form on \(S^2\),
+		\item the basic forms \(dx,dy,dx\wedge dy\) on \(T^2\),
+		\item the overlap/gluing viewpoint via \v{C}ech cocycles and transition functions,
+		\item the Euler class of \(TS^2\),
+		\item and Gauss--Bonnet.
+	\end{itemize}
+	
+	The central theme is:
+	\[
+	\boxed{\text{closed} \neq \text{exact}}
+	\]
+	and this failure is measured by topology.
+	
+	\section{de Rham cohomology}
+	
+	For a smooth manifold \(M\),
+	\[
+	H^k_{\mathrm{dR}}(M)
+	=
+	\frac{\{\text{closed }k\text{-forms}\}}{\{\text{exact }k\text{-forms}\}}.
+	\]
+	
+	So:
+	\begin{itemize}[leftmargin=2em]
+		\item \(\omega\) is \emph{closed} if \(d\omega=0\),
+		\item \(\omega\) is \emph{exact} if \(\omega=d\eta\),
+		\item two closed forms define the same cohomology class if they differ by an exact form.
+	\end{itemize}
+	
+	Thus a nonzero cohomology class is represented by a closed form which is not exact.
+	
+	\section{Warm-up: the winding form on \(\mathbb{R}^2\setminus\{0\}\)}
+	
+	Consider
+	\[
+	\eta=\frac{-y\,dx+x\,dy}{x^2+y^2}.
+	\]
+	
+	\subsection{Polar-coordinate computation}
+	
+	Let
+	\[
+	x=r\cos\theta,\qquad y=r\sin\theta.
+	\]
+	Then
+	\[
+	dx=\cos\theta\,dr-r\sin\theta\,d\theta,
+	\qquad
+	dy=\sin\theta\,dr+r\cos\theta\,d\theta.
+	\]
+	Hence
+	\begin{align*}
+		-y\,dx+x\,dy
+		&=
+		-r\sin\theta(\cos\theta\,dr-r\sin\theta\,d\theta)
+		+r\cos\theta(\sin\theta\,dr+r\cos\theta\,d\theta)\\
+		&=
+		-r\sin\theta\cos\theta\,dr+r^2\sin^2\theta\,d\theta
+		+r\sin\theta\cos\theta\,dr+r^2\cos^2\theta\,d\theta\\
+		&=
+		r^2\,d\theta.
+	\end{align*}
+	Since \(x^2+y^2=r^2\), we get
+	\[
+	\eta=d\theta.
+	\]
+	
+	So \(\eta\) is locally exact.
+	
+	\subsection{Closed but not exact}
+	
+	Since \(\eta=d\theta\) locally,
+	\[
+	d\eta=0.
+	\]
+	Thus \(\eta\) is closed on \(\mathbb{R}^2\setminus\{0\}\).
+	
+	Now integrate around the unit circle \(\gamma(t)=(\cos t,\sin t)\), \(0\le t\le 2\pi\):
+	\[
+	\int_\gamma \eta = \int_0^{2\pi} d\theta = 2\pi.
+	\]
+	If \(\eta=df\) globally, then \(\int_\gamma \eta=0\), contradiction. So \(\eta\) is not exact.
+	
+	Therefore
+	\[
+	[\eta]\neq 0 \in H^1_{\mathrm{dR}}(\mathbb{R}^2\setminus\{0\}).
+	\]
+	
+	\begin{remark}
+		This is the prototype: there are local potentials, but no global single-valued potential.
+	\end{remark}
+	
+	\section{The sphere \(S^2\): area form and cohomology}
+	
+	Let \(S^2\subset \mathbb{R}^3\) be the unit sphere. Use spherical coordinates
+	\[
+	X(\theta,\phi)=
+	(\sin\phi\cos\theta,\sin\phi\sin\theta,\cos\phi),
+	\qquad
+	0<\theta<2\pi,\ 0<\phi<\pi.
+	\]
+	
+	\subsection{Metric and area form}
+	
+	A standard computation gives
+	\[
+	ds^2=d\phi^2+\sin^2\phi\,d\theta^2.
+	\]
+	Hence the area form is
+	\[
+	dA=\sin\phi\,d\theta\wedge d\phi.
+	\]
+	
+	\subsection{Closed but not exact}
+	
+	Since \(S^2\) is \(2\)-dimensional, every \(3\)-form is zero, so
+	\[
+	d(dA)=0.
+	\]
+	Thus \(dA\) is closed.
+	
+	Now compute its integral:
+	\begin{align*}
+		\int_{S^2} dA
+		&=
+		\int_0^{2\pi}\int_0^\pi \sin\phi\,d\phi\,d\theta\\
+		&=
+		\int_0^{2\pi}\left[-\cos\phi\right]_{\phi=0}^{\phi=\pi}\,d\theta\\
+		&=
+		\int_0^{2\pi}2\,d\theta\\
+		&=4\pi.
+	\end{align*}
+	If \(dA=d\alpha\) globally, then by Stokes,
+	\[
+	\int_{S^2}dA=\int_{S^2}d\alpha=\int_{\partial S^2}\alpha=0,
+	\]
+	contradiction. So \(dA\) is not exact.
+	
+	Therefore
+	\[
+	[dA]\neq 0\in H^2_{\mathrm{dR}}(S^2).
+	\]
+	
+	\subsection{Why \(H^1_{\mathrm{dR}}(S^2)=0\)}
+	
+	Concretely, every loop on \(S^2\) bounds a region. So if \(\omega\) is a closed \(1\)-form and \(\gamma=\partial D\), then
+	\[
+	\int_\gamma \omega=\int_D d\omega=0.
+	\]
+	Thus all periods vanish, so there is no winding-type obstruction. Hence every closed \(1\)-form is exact:
+	\[
+	H^1_{\mathrm{dR}}(S^2)=0.
+	\]
+	
+	So:
+	\[
+	H^0_{\mathrm{dR}}(S^2)\cong \mathbb{R},
+	\qquad
+	H^1_{\mathrm{dR}}(S^2)=0,
+	\qquad
+	H^2_{\mathrm{dR}}(S^2)\cong \mathbb{R},
+	\]
+	with \([dA]\) generating \(H^2\).
+	
+	\section{Local primitives on \(S^2\) and overlap winding}
+	
+	Cover \(S^2\) by
+	\[
+	U_N=S^2\setminus\{N\},\qquad U_S=S^2\setminus\{S\}.
+	\]
+	
+	On \(U_N\), define
+	\[
+	\alpha_N=(1-\cos\phi)\,d\theta.
+	\]
+	Then
+	\[
+	d\alpha_N=d(1-\cos\phi)\wedge d\theta
+	=\sin\phi\,d\phi\wedge d\theta
+	=-\sin\phi\,d\theta\wedge d\phi.
+	\]
+	So up to orientation convention,
+	\[
+	d\alpha_N=dA.
+	\]
+	
+	On \(U_S\), define
+	\[
+	\alpha_S=-(1+\cos\phi)\,d\theta.
+	\]
+	Again,
+	\[
+	d\alpha_S=dA
+	\]
+	up to the same convention.
+	
+	On the overlap \(U_N\cap U_S\),
+	\[
+	\alpha_N-\alpha_S=2\,d\theta.
+	\]
+	
+	Thus the area form is locally exact on each chart, but the local primitives differ by the winding form \(2\,d\theta\) on the overlap.
+	
+	This is the concrete obstruction to global exactness.
+	
+	\section{The torus \(T^2=\mathbb{R}^2/\mathbb{Z}^2\)}
+	
+	Let \(T^2=\mathbb{R}^2/\mathbb{Z}^2\), with coordinates \((x,y)\) modulo integers.
+	
+	\subsection{Closed \(1\)-forms \(dx,dy\)}
+	
+	The forms \(dx\) and \(dy\) descend to globally defined \(1\)-forms on \(T^2\), and
+	\[
+	d(dx)=0,\qquad d(dy)=0.
+	\]
+	So both are closed.
+	
+	Now consider the loops
+	\[
+	\gamma_x(t)=(t,0)\!\!\mod \mathbb{Z}^2,\qquad
+	\gamma_y(t)=(0,t)\!\!\mod \mathbb{Z}^2,
+	\qquad 0\le t\le 1.
+	\]
+	Then
+	\[
+	\int_{\gamma_x}dx=1,\qquad \int_{\gamma_x}dy=0,
+	\]
+	\[
+	\int_{\gamma_y}dx=0,\qquad \int_{\gamma_y}dy=1.
+	\]
+	
+	So neither \(dx\) nor \(dy\) is exact. Hence
+	\[
+	[dx],[dy]\neq 0 \in H^1_{\mathrm{dR}}(T^2),
+	\]
+	and they are linearly independent.
+	
+	Therefore
+	\[
+	H^1_{\mathrm{dR}}(T^2)\cong \mathbb{R}^2
+	\]
+	with basis \([dx],[dy]\).
+	
+	\subsection{The top-degree class \(dx\wedge dy\)}
+	
+	Consider
+	\[
+	dx\wedge dy.
+	\]
+	It is closed because
+	\[
+	d(dx\wedge dy)=0.
+	\]
+	Its integral is
+	\[
+	\int_{T^2}dx\wedge dy=\int_0^1\int_0^1 dx\,dy=1.
+	\]
+	So it cannot be exact.
+	
+	Hence
+	\[
+	[dx\wedge dy]\neq 0 \in H^2_{\mathrm{dR}}(T^2),
+	\]
+	and it generates \(H^2_{\mathrm{dR}}(T^2)\cong \mathbb{R}\).
+	
+	Thus
+	\[
+	H^0_{\mathrm{dR}}(T^2)\cong \mathbb{R},
+	\qquad
+	H^1_{\mathrm{dR}}(T^2)\cong \mathbb{R}^2,
+	\qquad
+	H^2_{\mathrm{dR}}(T^2)\cong \mathbb{R}.
+	\]
+	
+	\subsection{Ring structure}
+	
+	The wedge product gives
+	\[
+	[dx]\wedge[dx]=0,\qquad [dy]\wedge[dy]=0,
+	\]
+	\[
+	[dx]\wedge[dy]=[dx\wedge dy],
+	\qquad
+	[dy]\wedge[dx]=-[dx\wedge dy].
+	\]
+	
+	So the top class on the torus is the wedge of the two basic winding classes.
+	
+	\section{Local-to-global viewpoint: \v{C}ech cocycles and line bundles}
+	
+	Suppose \(\omega\) is a closed \(2\)-form on a manifold \(M\). By the Poincar\'e lemma, on each sufficiently small open set \(U_i\) we can write
+	\[
+	\omega|_{U_i}=d\alpha_i.
+	\]
+	On an overlap \(U_i\cap U_j\),
+	\[
+	d(\alpha_i-\alpha_j)=0.
+	\]
+	If the overlap is simply connected, then
+	\[
+	\alpha_i-\alpha_j=df_{ij}
+	\]
+	for some function \(f_{ij}\).
+	
+	So local primitives differ by exact terms on overlaps:
+	\[
+	\alpha_i-\alpha_j=df_{ij}.
+	\]
+	
+	These \(f_{ij}\) measure the obstruction to gluing the local primitives \(\alpha_i\) into one global \(1\)-form.
+	
+	Exponentiating gives transition functions
+	\[
+	g_{ij}=e^{if_{ij}},
+	\]
+	which satisfy cocycle conditions on triple overlaps and define a line bundle.
+	
+	\begin{remark}
+		This is the bridge:
+		\[
+		\text{closed form}
+		\longleftrightarrow
+		\text{local primitives}
+		\longleftrightarrow
+		\text{overlap functions}
+		\longleftrightarrow
+		\text{transition functions of a bundle.}
+		\]
+	\end{remark}
+	
+	\section{The Euler class and the curvature form}
+	
+	Let \(M\) be an oriented Riemannian surface. On each sufficiently small open set \(U_i\), choose a positively oriented orthonormal frame
+	\[
+	(e_1^{(i)},e_2^{(i)}).
+	\]
+	The Levi-Civita connection is described by a local \(1\)-form \(\omega_i\) such that
+	\[
+	\nabla e_1^{(i)}=\omega_i\,e_2^{(i)},
+	\qquad
+	\nabla e_2^{(i)}=-\omega_i\,e_1^{(i)}.
+	\]
+	
+	The structure equation says
+	\[
+	d\omega_i=K\,dA
+	\]
+	on each chart. So the curvature form \(K\,dA\) is locally exact.
+	
+	On an overlap \(U_i\cap U_j\), the two oriented orthonormal frames differ by a rotation:
+	\[
+	\begin{pmatrix}
+		e_1^{(j)}\\
+		e_2^{(j)}
+	\end{pmatrix}
+	=
+	\begin{pmatrix}
+		\cos\theta_{ij} & -\sin\theta_{ij}\\
+		\sin\theta_{ij} & \cos\theta_{ij}
+	\end{pmatrix}
+	\begin{pmatrix}
+		e_1^{(i)}\\
+		e_2^{(i)}
+	\end{pmatrix}.
+	\]
+	Then
+	\[
+	\omega_j=\omega_i+d\theta_{ij}.
+	\]
+	
+	So the connection \(1\)-forms do not globally glue, but their differentials do:
+	\[
+	d\omega_j=d\omega_i=K\,dA.
+	\]
+	
+	On triple overlaps,
+	\[
+	\theta_{ij}+\theta_{jk}+\theta_{ki}\in 2\pi\mathbb{Z}.
+	\]
+	Thus
+	\[
+	n_{ijk}=\frac{1}{2\pi}\bigl(\theta_{ij}+\theta_{jk}+\theta_{ki}\bigr)\in \mathbb{Z}
+	\]
+	defines an integer \v{C}ech \(2\)-cocycle. This is the Euler class
+	\[
+	e(TM)\in H^2(M;\mathbb{Z}).
+	\]
+	
+	Its de Rham image is
+	\[
+	\boxed{
+		\frac{1}{2\pi}[K\,dA]=e(TM)\in H^2_{\mathrm{dR}}(M).
+	}
+	\]
+	
+	Integrating over \(M\) gives
+	\[
+	\frac{1}{2\pi}\int_M K\,dA=\int_M e(TM)=\chi(M),
+	\]
+	so
+	\[
+	\boxed{
+		\int_M K\,dA=2\pi\chi(M).
+	}
+	\]
+	This is Gauss--Bonnet.
+	
+	\section{Gauss--Bonnet on \(S^2\) and \(T^2\)}
+	
+	\subsection{Sphere}
+	
+	For the unit sphere,
+	\[
+	K\equiv 1.
+	\]
+	So
+	\[
+	K\,dA=dA,
+	\]
+	and
+	\[
+	\int_{S^2}K\,dA=\int_{S^2}dA=4\pi.
+	\]
+	Since
+	\[
+	\chi(S^2)=2,
+	\]
+	we get
+	\[
+	\int_{S^2}K\,dA=2\pi\chi(S^2)=4\pi.
+	\]
+	
+	Cohomologically,
+	\[
+	[K\,dA]=[dA]\neq 0\in H^2_{\mathrm{dR}}(S^2).
+	\]
+	
+	\subsection{Flat torus}
+	
+	On the flat torus with metric
+	\[
+	ds^2=dx^2+dy^2,
+	\]
+	we have
+	\[
+	K\equiv 0.
+	\]
+	Hence
+	\[
+	K\,dA=0,
+	\qquad
+	[K\,dA]=0\in H^2_{\mathrm{dR}}(T^2),
+	\]
+	and
+	\[
+	\int_{T^2}K\,dA=0.
+	\]
+	Since
+	\[
+	\chi(T^2)=0,
+	\]
+	Gauss--Bonnet gives
+	\[
+	\int_{T^2}K\,dA=2\pi\chi(T^2)=0.
+	\]
+	
+	\subsection{Important distinction}
+	
+	The area form \(dA\) on \(T^2\) is not exact, because
+	\[
+	\int_{T^2} dA = \operatorname{Area}(T^2)>0.
+	\]
+	So
+	\[
+	[dA]\neq 0\in H^2_{\mathrm{dR}}(T^2).
+	\]
+	
+	But for the flat torus,
+	\[
+	K\,dA=0.
+	\]
+	So Gauss--Bonnet is about \([K\,dA]\), not about \([dA]\) by itself.
+	
+	\section{Explicit stereographic-coordinate proof that the transition function has degree \(2\)}
+	
+	We now compute the tangent-bundle transition function of \(S^2\) in stereographic coordinates.
+	
+	\subsection{Stereographic charts}
+	
+	Let
+	\[
+	S^2=\{(X,Y,Z)\in\mathbb{R}^3:X^2+Y^2+Z^2=1\},
+	\]
+	and let
+	\[
+	N=(0,0,1),\qquad S=(0,0,-1).
+	\]
+	
+	Define stereographic projection from the north pole:
+	\[
+	\pi_N(X,Y,Z)=\frac{X+iY}{1-Z}.
+	\]
+	Define stereographic projection from the south pole:
+	\[
+	\pi_S(X,Y,Z)=\frac{X-iY}{1+Z}.
+	\]
+	Write
+	\[
+	z=\pi_N(p),\qquad w=\pi_S(p).
+	\]
+	
+	\begin{remark}
+		The choice of \(X-iY\) in the south chart makes the overlap map holomorphic in the oriented convention.
+	\end{remark}
+	
+	\subsection{Overlap map}
+	
+	For \(p=(X,Y,Z)\in S^2\setminus\{N,S\}\),
+	\[
+	z=\frac{X+iY}{1-Z},
+	\qquad
+	w=\frac{X-iY}{1+Z}.
+	\]
+	Then
+	\[
+	zw
+	=
+	\frac{(X+iY)(X-iY)}{(1-Z)(1+Z)}
+	=
+	\frac{X^2+Y^2}{1-Z^2}.
+	\]
+	Since \(X^2+Y^2+Z^2=1\),
+	\[
+	X^2+Y^2=1-Z^2,
+	\]
+	so
+	\[
+	zw=1.
+	\]
+	Hence
+	\[
+	w=\frac{1}{z}.
+	\]
+	
+	\subsection{Tangent transition function}
+	
+	The tangent-bundle transition function is the derivative of the coordinate change:
+	\[
+	g_{SN}(z)=\frac{dw}{dz}.
+	\]
+	Since
+	\[
+	w=\frac{1}{z},
+	\]
+	we get
+	\[
+	\frac{dw}{dz}=-\frac{1}{z^2}.
+	\]
+	
+	Now restrict to the equator \(Z=0\). There,
+	\[
+	z=X+iY=e^{i\theta}.
+	\]
+	So
+	\[
+	g_{SN}(e^{i\theta})=-e^{-2i\theta}.
+	\]
+	
+	This already shows the transition winds twice around \(S^1\). Depending on whether one uses north-to-south or south-to-north clutching, and depending on the chosen orientation convention, one gets a degree \(+2\) representative, usually recorded as
+	\[
+	g(e^{i\theta})=e^{2i\theta}.
+	\]
+	
+	The invariant geometric content is:
+	\[
+	\boxed{\text{the tangent-bundle clutching map winds twice.}}
+	\]
+	
+	Therefore
+	\[
+	e(TS^2)[S^2]=2.
+	\]
+	
+	\subsection{Connection with \(\mathcal O(2)\)}
+	
+	Identifying \(S^2\cong\mathbb{CP}^1\), the transition has degree \(2\), so as a complex line bundle,
+	\[
+	TS^2\cong \mathcal O(2).
+	\]
+	Hence
+	\[
+	c_1(TS^2)=2.
+	\]
+	For an oriented real rank-\(2\) bundle underlying a complex line bundle,
+	\[
+	e(TS^2)=c_1(TS^2)=2.
+	\]
+	
+	Thus
+	\[
+	\frac{1}{2\pi}\int_{S^2}K\,dA=2,
+	\qquad
+	\int_{S^2}K\,dA=4\pi.
+	\]
+	
+	\section{Big comparison}
+	
+	\subsection{Sphere \(S^2\)}
+	
+	\[
+	H^0_{\mathrm{dR}}(S^2)\cong\mathbb{R},\qquad
+	H^1_{\mathrm{dR}}(S^2)=0,\qquad
+	H^2_{\mathrm{dR}}(S^2)\cong\mathbb{R}.
+	\]
+	A generator of \(H^2\) is \([dA]\). Since \(K=1\),
+	\[
+	[K\,dA]=[dA]\neq 0.
+	\]
+	Also,
+	\[
+	\int_{S^2}K\,dA=4\pi=2\pi\chi(S^2).
+	\]
+	
+	\subsection{Torus \(T^2\)}
+	
+	\[
+	H^0_{\mathrm{dR}}(T^2)\cong\mathbb{R},\qquad
+	H^1_{\mathrm{dR}}(T^2)\cong\mathbb{R}^2,\qquad
+	H^2_{\mathrm{dR}}(T^2)\cong\mathbb{R}.
+	\]
+	Generators:
+	\[
+	[dx],[dy]\in H^1,\qquad [dx\wedge dy]\in H^2.
+	\]
+	
+	For the flat torus,
+	\[
+	[K\,dA]=0,
+	\qquad
+	\int_{T^2}K\,dA=0=2\pi\chi(T^2).
+	\]
+	
+	\section{Deep geometric meaning}
+	
+	There are several equivalent ways to describe the same phenomenon:
+	\begin{itemize}[leftmargin=2em]
+		\item local potentials exist but global potentials may fail to exist;
+		\item local frames exist but global frames may fail to exist;
+		\item local connection forms exist but may fail to glue globally;
+		\item the obstruction is recorded by cohomology, transition functions, and characteristic classes;
+		\item curvature is the differential-form shadow of that obstruction.
+	\end{itemize}
+	
+	For \(S^2\), the obstruction is nontrivial:
+	\[
+	e(TS^2)=2,\qquad \chi(S^2)=2,\qquad \int_{S^2}K\,dA=4\pi.
+	\]
+	
+	For \(T^2\), the curvature obstruction vanishes:
+	\[
+	e(TT^2)=0,\qquad \chi(T^2)=0,\qquad \int_{T^2}K\,dA=0.
+	\]
+	
+	\section{Exercises}
+	
+	\begin{exercise}
+		Show directly that
+		\[
+		d\!\left(\frac{-y\,dx+x\,dy}{x^2+y^2}\right)=0
+		\quad\text{on }\mathbb{R}^2\setminus\{0\}.
+		\]
+	\end{exercise}
+	
+	\begin{exercise}
+		Compute
+		\[
+		\int_{|z|=1}\frac{-y\,dx+x\,dy}{x^2+y^2}.
+		\]
+		Conclude that the winding form is not exact.
+	\end{exercise}
+	
+	\begin{exercise}
+		Verify that
+		\[
+		dA=\sin\phi\,d\theta\wedge d\phi
+		\]
+		on the unit sphere.
+	\end{exercise}
+	
+	\begin{exercise}
+		Compute
+		\[
+		\int_{S^2}dA=4\pi
+		\]
+		and conclude that \(dA\) is not exact.
+	\end{exercise}
+	
+	\begin{exercise}
+		Compute
+		\[
+		d\bigl((1-\cos\phi)d\theta\bigr),\qquad
+		d\bigl(-(1+\cos\phi)d\theta\bigr),
+		\]
+		and compare the two local primitives on the overlap.
+	\end{exercise}
+	
+	\begin{exercise}
+		On \(T^2=\mathbb{R}^2/\mathbb{Z}^2\), compute the periods of \(dx\) and \(dy\) on the two basic cycles and prove that \([dx],[dy]\) are linearly independent.
+	\end{exercise}
+	
+	\begin{exercise}
+		Compute
+		\[
+		\int_{T^2}dx\wedge dy
+		\]
+		for the square torus and conclude that \(dx\wedge dy\) is not exact.
+	\end{exercise}
+	
+	\begin{exercise}
+		Check Gauss--Bonnet directly for the unit sphere and for the flat torus.
+	\end{exercise}
+	
+	\begin{exercise}
+		In the stereographic computation, explain carefully why the clutching map may appear as \(-e^{-2i\theta}\) or \(e^{2i\theta}\) depending on convention, while the geometric content remains ``winding number \(2\)''.
+	\end{exercise}
+	
+\end{document}

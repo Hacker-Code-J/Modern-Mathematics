@@ -1,43 +1,805 @@
-\chapter{Preliminaries and Notation}
-
-\section{Probability, Advantages, and Negligibility}
-A function $\negl(\lambda)$ is \emph{negligible} if for every polynomial $p(\cdot)$, $\negl(\lambda) < 1/p(\lambda)$ for all sufficiently large $\lambda$.
-
-For a distinguisher $\mathcal{A}$ attempting to distinguish distributions $\calD_0,\calD_1$,
-\[
-\Adv_{\mathcal{A}}(\calD_0,\calD_1) \stackrel{\mathrm{def}}{=} 
-\left| \Pr[\mathcal{A}(x)=1 \mid x\from \calD_0] - \Pr[\mathcal{A}(x)=1 \mid x\from \calD_1] \right|.
-\]
-
-\section{Linear Algebra over Rings/Fields}
-For modulus $q\in \mathbb{N}$, $\Z_q := \Z / q\Z$. We write vectors as column vectors by default; $A\in \Z_q^{m\times n}$ and $s\in \Z_q^n$ implies $As\in \Z_q^m$.
-
-For codes, $\Ftwo$ is the binary field. A parity-check matrix $H\in \Ftwo^{(n-k)\times n}$ defines a linear code $\mathcal{C}=\{c\in\Ftwo^n: Hc^\top=0\}$.
-
-\section{Norms and ``Shortness''}
-Common norms in lattices:
-\[
-\norm{x}_2 = \sqrt{\sum_i x_i^2},\qquad
-\norm{x}_\infty = \max_i |x_i|.
-\]
-In ring-/module-structured settings, ``shortness'' often means coefficient vector is small under $\ell_2$ or $\ell_\infty$.
-
-\section{Distributions for Errors}
-In LWE/NTRU, errors are usually sampled from:
-\begin{itemize}%[leftmargin=*]
-	\item \emph{Discrete Gaussian} $D_{\sigma}$ over $\Z$ (or $\Z^m$) with parameter $\sigma$,
-	\item \emph{Centered binomial} (difference of two binomials), or
-	\item bounded distributions like uniform on $\{-\eta,\dots,\eta\}$.
-\end{itemize}
-Cryptographic security typically needs errors ``small'' compared to $q$ but large enough to hide secrets statistically.
+\chapter{Preliminaries}
 
 \section{Search vs.\ decision vs.\ distinguishing.}
-Many hardness notions can be expressed as:
-\begin{itemize}
-	\item \emph{Search}: output a witness (e.g.\ a factor, a discrete log, an error vector).
-	\item \emph{Decision}: decide existence of a witness.
-	\item \emph{Distinguishing}: tell apart two distributions (e.g.\ LWE vs.\ uniform).
-\end{itemize}
+In post-quantum cryptography (PQC), many security assumptions are stated using one of three of hard problems:
+
+\begin{enumerate}[label=\arabic*.]
+	\item \textbf{Search problem:} recover the hidden object.
+	\item \textbf{Decision problem:} answer a yes/no question about the instance.
+	\item \textbf{Distinguishing problem:} tell whether samples come from one distribution or another.
+\end{enumerate}
+These three look similar, but they play different roles in theory and in cryptographic reductions.
+
+\begin{center}
+	\renewcommand{\arraystretch}{1.35}
+	\begin{tabular}{p{2.6cm}p{4.4cm}p{8.75cm}}
+		\toprule[1.2pt]
+		\textbf{Type}& \textbf{Lattice} & \textbf{Code} \\
+		\midrule
+		Search & SVP, CVP, BDD, SIS, Search-LWE & Syndrome Decoding, decoding, low-weight codeword search \\
+		\midrule
+		Decision & GapSVP, GapCVP & existence of error of weight $\le w$, gap decoding forms \\
+		\midrule
+		Distinguishing & Decision-LWE, Ring-LWE, Module-LWE & structured code vs.\ random code, disguised secret code vs.\ random linear code \\
+		\bottomrule[1.2pt]
+	\end{tabular}
+\end{center}
+
+%\section{Probability, Advantages, and Negligibility}
+%A function $\negl(\lambda)$ is \emph{negligible} if for every polynomial $p(\cdot)$, $\negl(\lambda) < 1/p(\lambda)$ for all sufficiently large $\lambda$.
+%
+%For a distinguisher $\mathcal{A}$ attempting to distinguish distributions $\calD_0,\calD_1$,
+%\[
+%\Adv_{\mathcal{A}}(\calD_0,\calD_1) \stackrel{\mathrm{def}}{=} 
+%\left| \Pr[\mathcal{A}(x)=1 \mid x\from \calD_0] - \Pr[\mathcal{A}(x)=1 \mid x\from \calD_1] \right|.
+%\]
+%
+%\section{Linear Algebra over Rings/Fields}
+%For modulus $q\in \mathbb{N}$, $\Z_q := \Z / q\Z$. We write vectors as column vectors by default; $A\in \Z_q^{m\times n}$ and $s\in \Z_q^n$ implies $As\in \Z_q^m$.
+%
+%For codes, $\Ftwo$ is the binary field. A parity-check matrix $H\in \Ftwo^{(n-k)\times n}$ defines a linear code $\mathcal{C}=\{c\in\Ftwo^n: Hc^\top=0\}$.
+%
+%\section{Norms and ``Shortness''}
+%Common norms in lattices:
+%\[
+%\norm{x}_2 = \sqrt{\sum_i x_i^2},\qquad
+%\norm{x}_\infty = \max_i |x_i|.
+%\]
+%In ring-/module-structured settings, ``shortness'' often means coefficient vector is small under $\ell_2$ or $\ell_\infty$.
+%
+%\section{Distributions for Errors}
+%In LWE/NTRU, errors are usually sampled from:
+%\begin{itemize}%[leftmargin=*]
+%	\item \emph{Discrete Gaussian} $D_{\sigma}$ over $\Z$ (or $\Z^m$) with parameter $\sigma$,
+%	\item \emph{Centered binomial} (difference of two binomials), or
+%	\item bounded distributions like uniform on $\{-\eta,\dots,\eta\}$.
+%\end{itemize}
+%Cryptographic security typically needs errors ``small'' compared to $q$ but large enough to hide secrets statistically.
+%
+%\section{Search vs.\ decision vs.\ distinguishing.}
+%Many hardness notions can be expressed as:
+%\begin{itemize}
+%	\item \emph{Search}: output a witness (e.g.\ a factor, a discrete log, an error vector).
+%	\item \emph{Decision}: decide existence of a witness.
+%	\item \emph{Distinguishing}: tell apart two distributions (e.g.\ LWE vs.\ uniform).
+%\end{itemize}
+
+
+\newpage
+\section{Preliminaries for Lattice-Based Hard Problems}
+This section collects the mathematical background needed to understand lattices, lattice basis reduction, and the hard problems that arise in post-quantum cryptography. 
+%In particular, the goal is to prepare the reader for the study of:
+%\begin{itemize}
+%	\item lattices as discrete analogues of vector spaces,
+%	\item Gram--Schmidt orthogonalization,
+%	\item determinants and lattice volume,
+%	\item shortest and closest vector problems,
+%	\item bounded-distance decoding,
+%	\item \(q\)-ary lattices and SIS,
+%	\item the lattice viewpoint behind Coppersmith-type methods.
+%\end{itemize}
+
+
+\subsection{Notation}
+\begin{description}
+	\item[\(\mathbb{Z}\)] the ring of integers.
+	\item[\(\mathbb{R}\)] the field of real numbers.
+	\item[\(\mathbb{Z}_q = \mathbb{Z}/q\mathbb{Z}\)] integers modulo \(q\).
+	\item[\(\mathbb{R}^n\)] the \(n\)-dimensional real vector space.
+	\item[\(\mathbf{x},\mathbf{y},\mathbf{b}\)] vectors.
+	\item[\(A,B\)] matrices.
+	\item[\(\langle \mathbf{x},\mathbf{y}\rangle\)] the standard inner product.
+	\item[\(\|\mathbf{x}\|\)] the Euclidean norm of \(\mathbf{x}\).
+	\item[\(\det(B)\)] determinant of a square matrix \(B\).
+	\item[\(\mathcal{L}(B)\)] the lattice generated by the columns of \(B\).
+\end{description}
+
+%\begin{itemize}
+%	\item \(\mathbb{Z}\): the ring of integers.
+%	\item \(\mathbb{R}\): the field of real numbers.
+%	\item \(\mathbb{Z}_q = \mathbb{Z}/q\mathbb{Z}\): integers modulo \(q\).
+%	\item \(\mathbb{R}^n\): the \(n\)-dimensional real vector space.
+%	\item Bold lowercase letters such as \(\mathbf{x},\mathbf{y},\mathbf{b}\) denote vectors.
+%	\item Uppercase letters such as \(A,B\) denote matrices.
+%	\item \(\langle \mathbf{x},\mathbf{y}\rangle\): the standard inner product.
+%	\item \(\|\mathbf{x}\|\): the Euclidean norm of \(\mathbf{x}\).
+%	\item \(\det(B)\): determinant of a square matrix \(B\).
+%	\item \(\mathcal{L}(B)\): the lattice generated by the columns of \(B\).
+%\end{itemize}
+
+\subsection{Vector spaces and Euclidean geometry}
+
+%One must understand the ambient geometry in which lattices live. The relevant setting is Euclidean space \(\mathbb{R}^n\).
+
+\defbox[Vectors in \(\mathbb{R}^n\)]{
+\begin{definition}
+A vector in \(\mathbb{R}^n\) is an ordered \(n\)-tuple
+\[
+\mathbf{x} = (x_1,x_2,\dots,x_n), \qquad x_i \in \mathbb{R}.
+\]
+The set of all such vectors forms a vector space over \(\mathbb{R}\).
+\end{definition}}
+
+\medskip
+
+\defbox[Inner product]{\begin{definition}
+The standard inner product of two vectors \(\mathbf{x},\mathbf{y} \in \mathbb{R}^n\) is defined by
+\[
+\langle \mathbf{x},\mathbf{y}\rangle
+=
+x_1y_1+x_2y_2+\cdots+x_ny_n.
+\]
+This quantity measures the geometric alignment of two vectors.	
+\end{definition}}
+\begin{remark}
+Two vectors are said to be \emph{orthogonal} if
+\[
+\langle \mathbf{x},\mathbf{y}\rangle = 0.
+\]
+\end{remark}
+
+\newpage
+\defbox[Euclidean norm]{\begin{definition}
+The Euclidean norm of a vector \(\mathbf{x}\in\mathbb{R}^n\) is
+\[
+\|\mathbf{x}\|
+=
+\sqrt{\langle \mathbf{x},\mathbf{x}\rangle}
+=
+\sqrt{x_1^2+x_2^2+\cdots+x_n^2}.
+\]
+\end{definition}}
+\begin{remark}
+This norm satisfies the standard properties:
+\begin{enumerate}
+	\item \(\|\mathbf{x}\|\ge 0\), with equality if and only if \(\mathbf{x}=\mathbf{0}\),
+	\item \(\|\alpha \mathbf{x}\| = |\alpha|\,\|\mathbf{x}\|\) for \(\alpha \in \mathbb{R}\),
+	\item \(\|\mathbf{x}+\mathbf{y}\| \le \|\mathbf{x}\|+\|\mathbf{y}\|\) (triangle inequality).
+\end{enumerate}
+\end{remark}
+
+\medskip
+\defbox[Linear independence and bases]{\begin{definition}
+A finite set of vectors
+\[
+\{\mathbf{b}_1,\dots,\mathbf{b}_m\} \subseteq \mathbb{R}^n
+\]
+is \emph{linearly independent} if
+\[
+a_1\mathbf{b}_1+\cdots+a_m\mathbf{b}_m = \mathbf{0}
+\]
+implies
+\[
+a_1=\cdots=a_m=0.
+\]
+\end{definition}}
+\begin{remark}
+If \(\{\mathbf{b}_1,\dots,\mathbf{b}_m\}\) is linearly independent, then its real span
+\[
+V
+=
+\left\{
+\sum_{i=1}^m a_i \mathbf{b}_i : a_i \in \mathbb{R}
+\right\}
+\]
+is an \(m\)-dimensional subspace of \(\mathbb{R}^n\), and the vectors \(\mathbf{b}_1,\dots,\mathbf{b}_m\) form a basis of \(V\).
+\end{remark}
+\begin{remark}
+If \(B\) is the matrix whose columns are \(\mathbf{b}_1,\dots,\mathbf{b}_m\), then
+\[
+V = \{B\mathbf{a} : \mathbf{a}\in\mathbb{R}^m\}.
+\]	
+\end{remark}
+
+
+
+%\section{Orthogonality and Gram--Schmidt orthogonalization}
+%
+%The uploaded chapter uses Gram--Schmidt as the conceptual bridge between an arbitrary basis and a more geometrically understandable one :contentReference[oaicite:2]{index=2}
+%
+%\subsection{Why orthogonal bases matter}
+%
+%An orthogonal basis is easier to reason about because the basis directions do not interfere with each other. Lengths, projections, and coordinates become much easier to compute.
+%
+%Unfortunately, a given basis is usually not orthogonal. Gram--Schmidt provides a systematic way to transform any basis of a real vector space into an orthogonal basis of the same span.
+%
+%\subsection{Gram--Schmidt process}
+%
+%Let
+%\[
+%\mathbf{b}_1,\mathbf{b}_2,\dots,\mathbf{b}_m
+%\]
+%be linearly independent vectors in \(\mathbb{R}^n\). The Gram--Schmidt process constructs orthogonal vectors
+%\[
+%\mathbf{b}_1^*,\mathbf{b}_2^*,\dots,\mathbf{b}_m^*
+%\]
+%by the recursive formulas
+%\[
+%\mathbf{b}_1^* = \mathbf{b}_1,
+%\]
+%and for \(i\ge 2\),
+%\[
+%\mu_{i,j}
+%=
+%\frac{\langle \mathbf{b}_i,\mathbf{b}_j^*\rangle}
+%{\langle \mathbf{b}_j^*,\mathbf{b}_j^*\rangle},
+%\qquad 1\le j < i,
+%\]
+%\[
+%\mathbf{b}_i^*
+%=
+%\mathbf{b}_i
+%-
+%\sum_{j=1}^{i-1} \mu_{i,j}\mathbf{b}_j^*.
+%\]
+%
+%The numbers \(\mu_{i,j}\) are called the \emph{Gram--Schmidt coefficients}.
+%
+%\subsection{Interpretation}
+%
+%The vector \(\mathbf{b}_i^*\) is obtained by subtracting from \(\mathbf{b}_i\) its projections onto the previously constructed orthogonal directions. Hence \(\mathbf{b}_i^*\) is orthogonal to \(\mathbf{b}_1^*,\dots,\mathbf{b}_{i-1}^*\).
+%
+%\subsection{Example}
+%
+%Take
+%\[
+%\mathbf{b}_1=
+%\begin{pmatrix}
+%	2\\0
+%\end{pmatrix},
+%\qquad
+%\mathbf{b}_2=
+%\begin{pmatrix}
+%	1\\1
+%\end{pmatrix}.
+%\]
+%Then
+%\[
+%\mathbf{b}_1^*=\mathbf{b}_1=
+%\begin{pmatrix}
+%	2\\0
+%\end{pmatrix}.
+%\]
+%Next,
+%\[
+%\mu_{2,1}
+%=
+%\frac{\langle \mathbf{b}_2,\mathbf{b}_1^*\rangle}
+%{\langle \mathbf{b}_1^*,\mathbf{b}_1^*\rangle}
+%=
+%\frac{2}{4}
+%=
+%\frac{1}{2}.
+%\]
+%So
+%\[
+%\mathbf{b}_2^*
+%=
+%\mathbf{b}_2-\mu_{2,1}\mathbf{b}_1^*
+%=
+%\begin{pmatrix}
+%	1\\1
+%\end{pmatrix}
+%-
+%\frac{1}{2}
+%\begin{pmatrix}
+%	2\\0
+%\end{pmatrix}
+%=
+%\begin{pmatrix}
+%	0\\1
+%\end{pmatrix}.
+%\]
+%Thus
+%\[
+%\langle \mathbf{b}_1^*,\mathbf{b}_2^*\rangle = 0,
+%\]
+%so the resulting basis is orthogonal.
+%
+%\subsection{Important warning}
+%
+%Gram--Schmidt produces an orthogonal basis of the same \emph{real vector space}, but generally not a basis of the same \emph{lattice}. This distinction becomes fundamental once we move from vector spaces to lattices.
+
+
+
+%\section{Fundamental parallelepiped and determinant}
+%
+%\subsection{Fundamental parallelepiped}
+%
+%Given a basis \(B=[\mathbf{b}_1\ \cdots\ \mathbf{b}_n]\), the associated fundamental parallelepiped is
+%\[
+%\mathcal{P}(B)
+%=
+%\left\{
+%\sum_{i=1}^n \alpha_i \mathbf{b}_i : 0 \le \alpha_i < 1
+%\right\}.
+%\]
+%
+%Geometrically, \(\mathcal{P}(B)\) is the basic cell that tiles space when translated by lattice vectors.
+%
+%\subsection{Determinant of a full-rank lattice}
+%
+%If \(B\in\mathbb{R}^{n\times n}\) is a full-rank lattice basis, then the lattice determinant is
+%\[
+%\det(\mathcal{L}) = |\det(B)|.
+%\]
+%This is the volume of the fundamental parallelepiped.
+%
+%\subsection{Discriminant / volume expression}
+%
+%More generally, one often writes
+%\[
+%\Delta(\mathcal{L}) = \sqrt{\det(B^TB)}.
+%\]
+%For a full-rank square basis matrix \(B\), this reduces to
+%\[
+%\Delta(\mathcal{L}) = |\det(B)|.
+%\]
+%
+%This quantity is invariant under unimodular basis changes, so it is an intrinsic property of the lattice rather than of a particular basis.
+%
+%\subsection{Why determinant matters}
+%
+%The determinant measures the density of lattice points:
+%\begin{itemize}
+%	\item small determinant means the lattice is dense,
+%	\item large determinant means the lattice is sparse.
+%\end{itemize}
+%It therefore controls the scale at which short vectors should typically exist.
+%
+%\section{Successive minima and shortest vectors}
+%
+%Because lattices are discrete, they contain a shortest nonzero vector.
+%
+%\begin{definition}
+%	The first minimum of a lattice \(\mathcal{L}\) is
+%	\[
+%	\lambda_1(\mathcal{L})
+%	=
+%	\min\{\|\mathbf{x}\| : \mathbf{x}\in\mathcal{L},\ \mathbf{x}\neq \mathbf{0}\}.
+%	\]
+%\end{definition}
+%
+%More generally:
+%
+%\begin{definition}
+%	The \(i\)-th successive minimum \(\lambda_i(\mathcal{L})\) is the smallest radius \(r\) such that the closed Euclidean ball of radius \(r\) centered at the origin contains \(i\) linearly independent lattice vectors.
+%\end{definition}
+%
+%Thus
+%\[
+%\lambda_1(\mathcal{L}) \le \lambda_2(\mathcal{L}) \le \cdots \le \lambda_n(\mathcal{L}).
+%\]
+%
+%\subsection{Why successive minima matter}
+%
+%The first minimum measures the shortest nonzero lattice vector. Higher successive minima measure how quickly one can find multiple independent short vectors. These quantities are central in the geometry of numbers and in the analysis of lattice algorithms.
+%
+%\section{Minkowski theory and geometric bounds}
+%
+%The uploaded chapter highlights Minkowski's theorem as the classical bridge between lattice geometry and volume arguments :contentReference[oaicite:3]{index=3}
+%
+%\subsection{Minkowski's theorem}
+%
+%A central principle of geometry of numbers is that a sufficiently large symmetric convex body must contain a nonzero lattice point.
+%
+%A standard corollary is the bound
+%\[
+%\lambda_1(\mathcal{L}) \le \sqrt{n}\,\det(\mathcal{L})^{1/n}.
+%\]
+%
+%This tells us that every \(n\)-dimensional lattice has a nonzero vector whose length is bounded in terms of the determinant.
+%
+%\subsection{Interpretation}
+%
+%This bound is existential, not algorithmic:
+%\begin{itemize}
+%	\item it guarantees a short vector exists,
+%	\item but it does not explain how to find that vector efficiently.
+%\end{itemize}
+%
+%That gap between existence and computation is exactly where lattice reduction algorithms become important.
+%
+%\section{Dual lattices}
+%
+%\subsection{Definition}
+%
+%The dual lattice of \(\mathcal{L}\subseteq\mathbb{R}^n\) is
+%\[
+%\mathcal{L}^*
+%=
+%\{\mathbf{y}\in\mathbb{R}^n : \langle \mathbf{y},\mathbf{x}\rangle \in \mathbb{Z}\ \text{for all } \mathbf{x}\in\mathcal{L}\}.
+%\]
+%
+%\subsection{Basis of the dual lattice}
+%
+%If \(B\) is a basis matrix of \(\mathcal{L}\), then a basis matrix of \(\mathcal{L}^*\) is
+%\[
+%B^* = (B^{-1})^T.
+%\]
+%
+%\subsection{Determinant relation}
+%
+%The determinants of a lattice and its dual satisfy
+%\[
+%\det(\mathcal{L}^*) = \frac{1}{\det(\mathcal{L})}.
+%\]
+%
+%\subsection{Why dual lattices matter}
+%
+%Dual lattices appear naturally in:
+%\begin{itemize}
+%	\item transference theorems,
+%	\item \(q\)-ary lattice constructions,
+%	\item cryptographic reductions,
+%	\item trapdoor and decoding analyses.
+%\end{itemize}
+%
+%They often translate statements about short primal vectors into statements about covering or structure in the dual space.
+%
+%\section{Lattice basis quality}
+%
+%Not every basis of a lattice is equally useful. Some bases are geometrically well behaved, while others are extremely skewed.
+%
+%\subsection{Good basis versus bad basis}
+%
+%A basis is informally called \emph{good} if its vectors are:
+%\begin{itemize}
+%	\item relatively short,
+%	\item reasonably close to orthogonal.
+%\end{itemize}
+%
+%A basis is \emph{bad} if:
+%\begin{itemize}
+%	\item its vectors are long,
+%	\item they are highly non-orthogonal,
+%	\item geometric information about the lattice becomes hidden.
+%\end{itemize}
+%
+%Cryptography often relies on the tension between these two views:
+%\begin{itemize}
+%	\item the public description may be a bad basis,
+%	\item a secret key may encode a good basis or trapdoor.
+%\end{itemize}
+%
+%\section{LLL reduction}
+%
+%The Lenstra--Lenstra--Lov\'asz algorithm is the most classical polynomial-time lattice reduction algorithm mentioned in the file :contentReference[oaicite:4]{index=4}
+%
+%\subsection{Motivation}
+%
+%Since Gram--Schmidt does not preserve the lattice, one seeks a different goal:
+%not a perfectly orthogonal basis, but a basis that is \emph{close} to orthogonal while still being a valid lattice basis.
+%
+%\subsection{LLL-reduced basis}
+%
+%Let \(\mathbf{b}_1,\dots,\mathbf{b}_n\) be a lattice basis and let \(\mathbf{b}_1^*,\dots,\mathbf{b}_n^*\) be its Gram--Schmidt orthogonalization. The basis is called \emph{LLL-reduced} if:
+%\[
+%|\mu_{i,j}| \le \frac12
+%\qquad \text{for } 1\le j < i \le n,
+%\]
+%and
+%\[
+%\|\mathbf{b}_i^*\|^2
+%\ge
+%\left(\frac34 - \mu_{i,i-1}^2\right)\|\mathbf{b}_{i-1}^*\|^2
+%\qquad \text{for } 2\le i \le n.
+%\]
+%
+%The first condition is called \emph{size reduction}, while the second is the \emph{Lov\'asz condition}.
+%
+%\subsection{Why LLL matters}
+%
+%The LLL algorithm outputs a reduced basis in polynomial time. Its first basis vector is guaranteed to be reasonably short:
+%\[
+%\|\mathbf{b}_1\|
+%\le
+%2^{(n-1)/2}\lambda_1(\mathcal{L}).
+%\]
+%
+%Thus LLL does not generally solve SVP exactly in high dimensions, but it gives an approximation guarantee.
+%
+%\subsection{Practical meaning}
+%
+%In low dimensions, LLL often works surprisingly well and may actually recover the shortest vector. In higher dimensions, the worst-case approximation factor becomes too large for exact recovery, but the algorithm remains extremely useful.
+%
+%\subsection{Conceptual role in cryptography}
+%
+%LLL is important because it turns cryptanalytic questions into basis reduction questions. If a cryptographic weakness can be encoded as a short vector in a lattice, then LLL may reveal it, especially in small or moderate dimensions.
+%
+%\section{Gram--Schmidt log and geometric series viewpoint}
+%
+%The file also introduces a heuristic picture of reduced bases through the Gram--Schmidt profile :contentReference[oaicite:5]{index=5}
+%
+%Given a basis \(B\) with Gram--Schmidt vectors \(\mathbf{b}_1^*,\dots,\mathbf{b}_n^*\), one studies the sequence
+%\[
+%\log\left(\frac{\|\mathbf{b}_i^*\|}{\det(\mathcal{L})^{1/n}}\right), \qquad i=1,\dots,n.
+%\]
+%
+%Empirically, for reduced bases this profile often resembles a straight line. This observation leads to the \emph{geometric series assumption} (GSA), a widely used heuristic in the analysis of lattice algorithms.
+%
+%For preliminaries purposes, the key message is simple:
+%
+%\begin{quote}
+%	A reduced basis typically has Gram--Schmidt lengths that decrease in a regular geometric fashion.
+%\end{quote}
+%
+%This heuristic is not a theorem in full generality, but it is an important modeling principle.
+%
+%\section{Fundamental hard problems on lattices}
+%
+%The uploaded chapter next introduces the main hard problems that lattice cryptography and lattice cryptanalysis are built on :contentReference[oaicite:6]{index=6}
+%
+%\subsection{Shortest Vector Problem (SVP)}
+%
+%\begin{definition}
+%	Given a basis \(B\) of a lattice \(\mathcal{L}\), the \emph{Shortest Vector Problem} asks for a nonzero vector
+%	\[
+%	\mathbf{x}\in\mathcal{L}
+%	\]
+%	such that
+%	\[
+%	\|\mathbf{x}\|=\lambda_1(\mathcal{L}).
+%	\]
+%\end{definition}
+%
+%This is a search problem.
+%
+%\subsection{Approximate SVP}
+%
+%For an approximation factor \(\gamma \ge 1\), the problem \(\mathrm{SVP}_\gamma\) asks for a nonzero lattice vector \(\mathbf{x}\) such that
+%\[
+%\|\mathbf{x}\| \le \gamma \lambda_1(\mathcal{L}).
+%\]
+%
+%This is often the more algorithmically relevant version.
+%
+%\subsection{Unique SVP}
+%
+%A promise version called unique-SVP assumes a large gap:
+%\[
+%\lambda_2(\mathcal{L}) > \gamma \lambda_1(\mathcal{L}).
+%\]
+%The task is then to recover a shortest vector. This problem can be easier because the shortest vector is isolated from the rest of the lattice.
+%
+%\subsection{Closest Vector Problem (CVP)}
+%
+%\begin{definition}
+%	Given a lattice basis \(B\) and a target point \(\mathbf{t}\in\mathbb{R}^n\), the \emph{Closest Vector Problem} asks for a lattice vector \(\mathbf{y}\in\mathcal{L}(B)\) minimizing
+%	\[
+%	\|\mathbf{t}-\mathbf{y}\|.
+%	\]
+%\end{definition}
+%
+%This is also a search problem.
+%
+%\subsection{Approximate CVP}
+%
+%Given approximation factor \(\gamma\), the problem \(\mathrm{CVP}_\gamma\) asks for a lattice vector \(\mathbf{y}\) satisfying
+%\[
+%\|\mathbf{t}-\mathbf{y}\|
+%\le
+%\gamma \cdot \mathrm{dist}(\mathbf{t},\mathcal{L}).
+%\]
+%
+%\subsection{Bounded-Distance Decoding (BDD)}
+%
+%BDD is a promise version of CVP.
+%
+%\begin{definition}
+%	Given a lattice basis \(B\), a target \(\mathbf{t}\notin\mathcal{L}(B)\), and a parameter \(\alpha\), the bounded-distance decoding problem asks for \(\mathbf{y}\in\mathcal{L}(B)\) such that
+%	\[
+%	\|\mathbf{t}-\mathbf{y}\| \le \alpha \lambda_1(\mathcal{L}).
+%	\]
+%\end{definition}
+%
+%When \(\alpha < \frac12\), the solution is unique. Hence BDD is easier than arbitrary CVP because the target is promised to be unusually close to exactly one lattice point.
+%
+%\subsection{Why these problems matter}
+%
+%These problems play different roles:
+%\begin{itemize}
+%	\item SVP captures the problem of finding short hidden structure,
+%	\item CVP captures decoding or approximation to a lattice point,
+%	\item BDD captures the case where the target is very close to the lattice,
+%	\item approximate variants are what many practical algorithms actually solve.
+%\end{itemize}
+%
+%\section{\(q\)-ary lattices}
+%
+%The file later introduces \(q\)-ary lattices as an important special class for cryptography :contentReference[oaicite:7]{index=7}
+%
+%\subsection{Definition}
+%
+%A lattice \(\mathcal{L}\subseteq \mathbb{Z}^m\) is called \(q\)-ary if
+%\[
+%q\mathbb{Z}^m \subseteq \mathcal{L} \subseteq \mathbb{Z}^m
+%\]
+%for some positive integer \(q\).
+%
+%\subsection{Lattices from a modular matrix}
+%
+%Let
+%\[
+%A \in \mathbb{Z}_q^{n\times m}.
+%\]
+%Two important associated lattices are
+%\[
+%\Lambda_q(A)
+%=
+%\{\mathbf{y}\in\mathbb{Z}^m : \mathbf{y}\equiv A^T\mathbf{z}\pmod q \text{ for some } \mathbf{z}\in\mathbb{Z}^n\},
+%\]
+%and
+%\[
+%\Lambda_q^\perp(A)
+%=
+%\{\mathbf{y}\in\mathbb{Z}^m : A\mathbf{y}\equiv \mathbf{0}\pmod q\}.
+%\]
+%
+%\subsection{Why these lattices matter}
+%
+%These objects convert modular linear-algebraic constraints into genuine lattices. This is a key bridge between:
+%\begin{itemize}
+%	\item modular equations,
+%	\item short integer relations,
+%	\item lattice reduction.
+%\end{itemize}
+%
+%\subsection{Duality intuition}
+%
+%Up to scaling by \(q\), these two \(q\)-ary lattices behave as duals of each other. This is one reason dual-lattice language appears so frequently in lattice cryptography.
+%
+%\section{SIS as a lattice problem}
+%
+%\subsection{Definition of SIS}
+%
+%The Short Integer Solution problem asks:
+%
+%Given vectors
+%\[
+%\mathbf{a}_1,\dots,\mathbf{a}_m \in (\mathbb{Z}/q\mathbb{Z})^n,
+%\]
+%find a short integer vector
+%\[
+%\mathbf{z}=(z_1,\dots,z_m)\in\mathbb{Z}^m
+%\]
+%such that
+%\[
+%z_1\mathbf{a}_1+\cdots+z_m\mathbf{a}_m \equiv \mathbf{0}\pmod q.
+%\]
+%
+%Often ``short'' means that the coefficients are small, for example in \(\{-1,0,1\}\).
+%
+%\subsection{Lattice interpretation}
+%
+%If one forms the matrix
+%\[
+%A = (\mathbf{a}_1\ \cdots\ \mathbf{a}_m)\in\mathbb{Z}_q^{n\times m},
+%\]
+%then SIS asks for a short nonzero vector in
+%\[
+%\Lambda_q^\perp(A)=\{\mathbf{z}\in\mathbb{Z}^m : A\mathbf{z}\equiv \mathbf{0}\pmod q\}.
+%\]
+%
+%Thus SIS is naturally a shortest-vector-type problem in a \(q\)-ary lattice.
+%
+%\section{Lattice viewpoint behind Coppersmith-type methods}
+%
+%The uploaded chapter concludes by explaining that small modular roots can be found by building a carefully chosen lattice and then reducing it :contentReference[oaicite:8]{index=8}
+%
+%\subsection{High-level idea}
+%
+%Suppose one seeks a small root \(x_0\) of a polynomial congruence
+%\[
+%f(x_0)\equiv 0 \pmod N.
+%\]
+%The main strategy is:
+%\begin{enumerate}
+%	\item build several auxiliary polynomials that also vanish at \(x_0\) modulo powers of \(N\),
+%	\item encode their coefficients into a lattice,
+%	\item use lattice reduction to find a short integer linear combination,
+%	\item derive from this a polynomial that vanishes at \(x_0\) over the integers, not merely modulo \(N\),
+%	\item recover \(x_0\) by ordinary root finding.
+%\end{enumerate}
+%
+%\subsection{Why this belongs in preliminaries}
+%
+%The later method can look mysterious if the reader does not already understand:
+%\begin{itemize}
+%	\item how polynomial coefficients can be viewed as lattice vectors,
+%	\item why short vectors correspond to small-coefficient polynomials,
+%	\item why LLL is used as the engine that finds the needed relation.
+%\end{itemize}
+%
+%So the main preliminary lesson is:
+%
+%\begin{quote}
+%	Lattice reduction is not only about geometric shortest vectors. It is also a general mechanism for extracting hidden small relations from structured integer data.
+%\end{quote}
+%
+%\section{Conceptual map of the chapter}
+%
+%At this point the reader should keep the following hierarchy in mind:
+%\[
+%\text{Linear Algebra}
+%\longrightarrow
+%\text{Gram--Schmidt}
+%\longrightarrow
+%\text{Lattices}
+%\longrightarrow
+%\text{Basis Reduction}
+%\longrightarrow
+%\text{Hard Problems and Cryptographic Applications}.
+%\]
+%
+%More specifically:
+%\begin{itemize}
+%	\item vector spaces explain span and basis,
+%	\item Gram--Schmidt explains orthogonality,
+%	\item lattices restrict coefficients from \(\mathbb{R}\) to \(\mathbb{Z}\),
+%	\item determinant measures lattice density,
+%	\item minima quantify short vectors,
+%	\item LLL produces a practically useful reduced basis,
+%	\item SVP, CVP, BDD, and SIS express the main computational tasks.
+%\end{itemize}
+%
+%\section{Common sources of confusion}
+%
+%\subsection{Vector-space basis versus lattice basis}
+%
+%A real change of basis preserves the vector space, but not necessarily the lattice. A lattice basis change must be unimodular over \(\mathbb{Z}\).
+%
+%\subsection{Gram--Schmidt basis versus lattice basis}
+%
+%The Gram--Schmidt vectors \(\mathbf{b}_i^*\) usually do not belong to the lattice basis as integer combinations. They are geometric tools, not generally a new lattice basis.
+%
+%\subsection{Shortest vector versus first basis vector}
+%
+%The first basis vector of an arbitrary basis need not be short. Only after reduction can one expect the first basis vector to approximate the shortest vector.
+%
+%\subsection{Determinant versus shortest vector}
+%
+%The determinant measures volume, not the exact shortest vector. It constrains what must exist, but does not identify the actual vector.
+%
+%\subsection{Exact versus approximate problems}
+%
+%In practice, most efficient lattice algorithms solve approximation problems rather than exact worst-case versions.
+%
+%\section{Summary}
+%
+%The preliminaries needed for the lattice chapter may be summarized as follows:
+%\begin{itemize}
+%	\item A lattice is the set of integer linear combinations of linearly independent vectors in \(\mathbb{R}^n\).
+%	\item The Euclidean norm and inner product provide the geometry in which lattice problems are posed.
+%	\item Gram--Schmidt orthogonalization helps analyze a basis, even though it usually does not preserve the lattice itself.
+%	\item The determinant of a lattice is the volume of its fundamental parallelepiped.
+%	\item The first minimum \(\lambda_1(\mathcal{L})\) is the length of the shortest nonzero lattice vector.
+%	\item LLL reduction computes, in polynomial time, a basis whose first vector is guaranteed to be reasonably short.
+%	\item The central computational problems are SVP, CVP, and BDD.
+%	\item \(q\)-ary lattices and SIS translate modular equations into lattice problems.
+%	\item Lattice reduction also underlies attacks such as Coppersmith's method for finding small modular roots.
+%\end{itemize}
+%
+%These ideas are the minimum conceptual toolkit needed to read the main lattice material comfortably :contentReference[oaicite:9]{index=9}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 %% ============================================================
@@ -215,3 +977,5 @@ Many hardness notions can be expressed as:
 %% ============================================================
 %% End preliminaries
 %% ============================================================
+
+

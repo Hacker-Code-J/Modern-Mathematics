@@ -1,0 +1,341 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath,amssymb,mathtools}
+\usepackage[a4paper,margin=0.9in]{geometry}
+\usepackage{enumitem}
+\pagestyle{empty}
+
+\begin{document}
+	
+	\begin{center}
+		{\Large \textbf{Exercise Sheet}}\\[4pt]
+		{\large \textbf{Cohomology on \(\mathbb{R}^2\setminus\{0\}\), \(S^2\), \(T^2\), and Gauss--Bonnet}}
+	\end{center}
+	
+	\vspace{0.8em}
+	
+	\section*{A. Winding form on \(\mathbb{R}^2\setminus\{0\}\)}
+	
+	\begin{enumerate}[leftmargin=2em,label=\textbf{A\arabic*.}]
+		\item Let
+		\[
+		\eta=\frac{-y\,dx+x\,dy}{x^2+y^2}
+		\qquad\text{on }\mathbb{R}^2\setminus\{0\}.
+		\]
+		Rewrite \(\eta\) in polar coordinates
+		\[
+		x=r\cos\theta,\qquad y=r\sin\theta,
+		\]
+		and show that
+		\[
+		\eta=d\theta.
+		\]
+		
+		\item Compute directly that
+		\[
+		d\eta=0
+		\]
+		on \(\mathbb{R}^2\setminus\{0\}\).
+		
+		\item Let \(\gamma(t)=(\cos t,\sin t)\), \(0\le t\le 2\pi\). Compute
+		\[
+		\int_\gamma \eta.
+		\]
+		
+		\item Explain why the result of A3 proves that \(\eta\) is not exact.
+		
+		\item Let \(\gamma_n(t)=(\cos nt,\sin nt)\), \(0\le t\le 2\pi\), where \(n\in\mathbb{Z}\). Compute
+		\[
+		\int_{\gamma_n}\eta.
+		\]
+		Interpret the answer in terms of winding number.
+		
+		\item Show that if \(\gamma\) is a closed curve in \(\mathbb{R}^2\setminus\{0\}\) which does not wind around the origin, then
+		\[
+		\int_\gamma \eta=0.
+		\]
+	\end{enumerate}
+	
+	\section*{B. Area form on \(S^2\)}
+	
+	\begin{enumerate}[leftmargin=2em,label=\textbf{B\arabic*.}]
+		\item Parametrize the unit sphere by
+		\[
+		X(\theta,\phi)
+		=
+		(\sin\phi\cos\theta,\sin\phi\sin\theta,\cos\phi),
+		\qquad
+		0<\theta<2\pi,\quad 0<\phi<\pi.
+		\]
+		Compute \(X_\theta\) and \(X_\phi\).
+		
+		\item Show that the induced metric on \(S^2\) is
+		\[
+		ds^2=d\phi^2+\sin^2\phi\,d\theta^2.
+		\]
+		
+		\item Deduce that the area form is
+		\[
+		dA=\sin\phi\,d\theta\wedge d\phi.
+		\]
+		
+		\item Show that \(dA\) is closed.
+		
+		\item Compute
+		\[
+		\int_{S^2} dA.
+		\]
+		
+		\item Explain why the result of B5 proves that \(dA\) is not exact.
+		
+		\item Conclude that
+		\[
+		[dA]\neq 0\in H^2_{\mathrm{dR}}(S^2).
+		\]
+		
+		\item Explain informally why
+		\[
+		H^1_{\mathrm{dR}}(S^2)=0.
+		\]
+	\end{enumerate}
+	
+	\section*{C. Local primitives on \(S^2\)}
+	
+	\begin{enumerate}[leftmargin=2em,label=\textbf{C\arabic*.}]
+		\item Let
+		\[
+		U_N=S^2\setminus\{N\},\qquad U_S=S^2\setminus\{S\}.
+		\]
+		Define
+		\[
+		\alpha_N=(1-\cos\phi)\,d\theta
+		\qquad\text{on }U_N.
+		\]
+		Compute \(d\alpha_N\).
+		
+		\item Define
+		\[
+		\alpha_S=-(1+\cos\phi)\,d\theta
+		\qquad\text{on }U_S.
+		\]
+		Compute \(d\alpha_S\).
+		
+		\item Show that \(d\alpha_N\) and \(d\alpha_S\) both agree with the area form up to orientation convention.
+		
+		\item On \(U_N\cap U_S\), compute
+		\[
+		\alpha_N-\alpha_S.
+		\]
+		
+		\item Explain why the formula
+		\[
+		\alpha_N-\alpha_S=2\,d\theta
+		\]
+		shows that the obstruction to global exactness of \(dA\) is related to winding.
+		
+		\item Compare this with the winding-form example on \(\mathbb{R}^2\setminus\{0\}\).
+	\end{enumerate}
+	
+	\section*{D. Cohomology of the torus \(T^2\)}
+	
+	\begin{enumerate}[leftmargin=2em,label=\textbf{D\arabic*.}]
+		\item Let
+		\[
+		T^2=\mathbb{R}^2/\mathbb{Z}^2.
+		\]
+		Explain why the forms \(dx\) and \(dy\) on \(\mathbb{R}^2\) descend to well-defined \(1\)-forms on \(T^2\).
+		
+		\item Show that
+		\[
+		d(dx)=0,\qquad d(dy)=0.
+		\]
+		
+		\item Let
+		\[
+		\gamma_x(t)=(t,0)\mod\mathbb{Z}^2,\qquad
+		\gamma_y(t)=(0,t)\mod\mathbb{Z}^2,
+		\qquad 0\le t\le 1.
+		\]
+		Compute
+		\[
+		\int_{\gamma_x}dx,\qquad \int_{\gamma_x}dy,\qquad
+		\int_{\gamma_y}dx,\qquad \int_{\gamma_y}dy.
+		\]
+		
+		\item Explain why \(dx\) is not exact.
+		
+		\item Explain why \(dy\) is not exact.
+		
+		\item Show that \([dx]\) and \([dy]\) are linearly independent in
+		\[
+		H^1_{\mathrm{dR}}(T^2).
+		\]
+		
+		\item Conclude that
+		\[
+		H^1_{\mathrm{dR}}(T^2)\cong \mathbb{R}^2.
+		\]
+		
+		\item Explain why \(x\) and \(y\) are not globally single-valued functions on \(T^2\), even though upstairs on \(\mathbb{R}^2\) one has
+		\[
+		dx=d(x),\qquad dy=d(y).
+		\]
+	\end{enumerate}
+	
+	\section*{E. The top class on \(T^2\)}
+	
+	\begin{enumerate}[leftmargin=2em,label=\textbf{E\arabic*.}]
+		\item Show that
+		\[
+		d(dx\wedge dy)=0.
+		\]
+		
+		\item Compute
+		\[
+		\int_{T^2}dx\wedge dy
+		\]
+		using the square fundamental domain \([0,1]\times[0,1]\).
+		
+		\item Explain why \(dx\wedge dy\) is not exact.
+		
+		\item Conclude that
+		\[
+		[dx\wedge dy]\neq 0 \in H^2_{\mathrm{dR}}(T^2).
+		\]
+		
+		\item Verify the wedge-product relations
+		\[
+		[dx]\wedge[dx]=0,\qquad [dy]\wedge[dy]=0,
+		\]
+		\[
+		[dx]\wedge[dy]=[dx\wedge dy],\qquad
+		[dy]\wedge[dx]=-[dx\wedge dy].
+		\]
+		
+		\item Explain in words why the top-degree class on the torus comes from wedging the two basic winding classes.
+	\end{enumerate}
+	
+	\section*{F. Curvature form and Gauss--Bonnet}
+	
+	\begin{enumerate}[leftmargin=2em,label=\textbf{F\arabic*.}]
+		\item Let \(M\) be an oriented Riemannian surface with Gaussian curvature \(K\) and area form \(dA\). Explain why
+		\[
+		K\,dA
+		\]
+		is automatically closed.
+		
+		\item Suppose locally there is a connection \(1\)-form \(\omega_{12}\) such that
+		\[
+		d\omega_{12}=K\,dA.
+		\]
+		Explain why this means the curvature form is locally exact.
+		
+		\item State the Gauss--Bonnet theorem for a compact oriented surface.
+		
+		\item For the unit sphere, use \(K\equiv 1\) to compute
+		\[
+		\int_{S^2}K\,dA.
+		\]
+		
+		\item Verify that your answer in F4 agrees with
+		\[
+		2\pi\chi(S^2).
+		\]
+		
+		\item For the flat torus with metric
+		\[
+		ds^2=dx^2+dy^2,
+		\]
+		show that
+		\[
+		K\equiv 0.
+		\]
+		
+		\item Deduce that
+		\[
+		\int_{T^2}K\,dA=0.
+		\]
+		
+		\item Verify that your answer in F7 agrees with
+		\[
+		2\pi\chi(T^2).
+		\]
+		
+		\item Explain why
+		\[
+		[dA]\neq 0 \text{ on } T^2
+		\qquad\text{but}\qquad
+		[K\,dA]=0
+		\]
+		for the flat torus.
+	\end{enumerate}
+	
+	\section*{G. Euler class and the sphere transition function}
+	
+	\begin{enumerate}[leftmargin=2em,label=\textbf{G\arabic*.}]
+		\item Define stereographic coordinates on \(S^2\setminus\{N\}\) and \(S^2\setminus\{S\}\) by
+		\[
+		z=\frac{X+iY}{1-Z},
+		\qquad
+		w=\frac{X-iY}{1+Z}.
+		\]
+		
+		\item Show that on the overlap,
+		\[
+		w=\frac{1}{z}.
+		\]
+		
+		\item Compute the derivative
+		\[
+		\frac{dw}{dz}.
+		\]
+		
+		\item Restrict to the equator, where \(z=e^{i\theta}\), and show that
+		\[
+		\frac{dw}{dz}=-e^{-2i\theta}.
+		\]
+		
+		\item Explain why this transition function winds twice around the circle as \(\theta\) goes from \(0\) to \(2\pi\).
+		
+		\item Explain why this implies that the tangent bundle \(TS^2\) has Euler number \(2\).
+		
+		\item Compare this with
+		\[
+		\frac{1}{2\pi}\int_{S^2}K\,dA.
+		\]
+	\end{enumerate}
+	
+	\section*{H. Synthesis questions}
+	
+	\begin{enumerate}[leftmargin=2em,label=\textbf{H\arabic*.}]
+		\item What is the common idea behind the following three facts?
+		\[
+		\eta=d\theta \text{ locally on }\mathbb{R}^2\setminus\{0\},
+		\]
+		\[
+		dA=d\alpha_N=d\alpha_S \text{ locally on }S^2,
+		\]
+		\[
+		dx=d(x),\quad dy=d(y) \text{ upstairs on }\mathbb{R}^2.
+		\]
+		
+		\item Explain in your own words the difference between:
+		\[
+		\text{closed}
+		\qquad\text{and}\qquad
+		\text{exact}.
+		\]
+		
+		\item Explain in your own words why \(S^2\) has nontrivial \(H^2\) but trivial \(H^1\).
+		
+		\item Explain in your own words why \(T^2\) has nontrivial \(H^1\) and nontrivial \(H^2\).
+		
+		\item Explain in your own words why Gauss--Bonnet is a statement about the curvature form \(K\,dA\), not about the area form \(dA\) alone.
+		
+		\item Write one paragraph explaining the slogan
+		\[
+		\boxed{\text{local primitives may exist, but a global primitive may fail to exist.}}
+		\]
+		using examples from \(\mathbb{R}^2\setminus\{0\}\), \(S^2\), and \(T^2\).
+	\end{enumerate}
+	
+\end{document}

@@ -1,0 +1,778 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{framed}
+
+\title{Lecture Notes: Concrete Cohomology on \(S^2\) and \(T^2\)\\
+from Winding Forms to Gauss--Bonnet}
+\author{}
+\date{}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{remark}{Remark}
+\newtheorem{exercise}{Exercise}
+
+\newenvironment{takeaway}
+{\begin{framed}\noindent\textbf{Takeaway. }}
+{\end{framed}}
+
+\newenvironment{remember}
+{\begin{framed}\noindent\textbf{What should I remember? }}
+{\end{framed}}
+
+\begin{document}
+\maketitle
+
+\tableofcontents
+
+\section{The main question}
+
+These notes are about one question:
+
+\[
+\boxed{\text{When is a closed form not exact?}}
+\]
+
+That is the concrete meaning of cohomology.
+
+We will study this through three examples:
+\begin{itemize}[leftmargin=2em]
+\item the winding form on \(\mathbb{R}^2\setminus\{0\}\),
+\item the area form on \(S^2\),
+\item the forms \(dx,dy,dx\wedge dy\) on \(T^2\).
+\end{itemize}
+
+Then we will connect this to curvature and Gauss--Bonnet.
+
+\begin{takeaway}
+Cohomology measures the failure of local primitives to glue into global primitives.
+\end{takeaway}
+
+\section{de Rham cohomology}
+
+For a smooth manifold \(M\),
+\[
+H^k_{\mathrm{dR}}(M)
+=
+\frac{\{\text{closed }k\text{-forms}\}}{\{\text{exact }k\text{-forms}\}}.
+\]
+
+So:
+\begin{itemize}[leftmargin=2em]
+\item \(\omega\) is \emph{closed} if \(d\omega=0\),
+\item \(\omega\) is \emph{exact} if \(\omega=d\eta\).
+\end{itemize}
+
+Every exact form is closed:
+\[
+\omega=d\eta \implies d\omega=d^2\eta=0.
+\]
+
+But not every closed form is exact.
+
+That is exactly where cohomology lives.
+
+\begin{takeaway}
+A nonzero cohomology class is represented by a form that is closed but not exact.
+\end{takeaway}
+
+\begin{remember}
+To understand cohomology concretely, do not start with abstraction. Start with:
+\[
+\text{compute } d\omega,\quad \text{compute periods/integrals},\quad \text{test exactness.}
+\]
+\end{remember}
+
+\section{First example: the winding form on \(\mathbb{R}^2\setminus\{0\}\)}
+
+Consider
+\[
+\eta=\frac{-y\,dx+x\,dy}{x^2+y^2}.
+\]
+
+This is the standard winding form.
+
+\subsection{Step 1: rewrite in polar coordinates}
+
+Write
+\[
+x=r\cos\theta,\qquad y=r\sin\theta.
+\]
+Then
+\[
+dx=\cos\theta\,dr-r\sin\theta\,d\theta,
+\qquad
+dy=\sin\theta\,dr+r\cos\theta\,d\theta.
+\]
+
+Compute:
+\begin{align*}
+-y\,dx+x\,dy
+&=
+-r\sin\theta(\cos\theta\,dr-r\sin\theta\,d\theta)
++r\cos\theta(\sin\theta\,dr+r\cos\theta\,d\theta)\\
+&=
+-r\sin\theta\cos\theta\,dr+r^2\sin^2\theta\,d\theta
++r\sin\theta\cos\theta\,dr+r^2\cos^2\theta\,d\theta\\
+&=
+r^2(\sin^2\theta+\cos^2\theta)\,d\theta\\
+&=
+r^2\,d\theta.
+\end{align*}
+
+Therefore
+\[
+\eta=d\theta.
+\]
+
+So locally the winding form is just the differential of the angle.
+
+\subsection{Step 2: why it is closed}
+
+Since locally \(\eta=d\theta\),
+\[
+d\eta=d(d\theta)=0.
+\]
+
+So \(\eta\) is closed.
+
+\subsection{Step 3: why it is not exact}
+
+Integrate around the unit circle:
+\[
+\gamma(t)=(\cos t,\sin t),\qquad 0\le t\le 2\pi.
+\]
+Then
+\[
+\int_\gamma \eta=\int_0^{2\pi} d\theta=2\pi.
+\]
+
+But if \(\eta=df\) globally, then for every closed curve,
+\[
+\int_\gamma \eta=\int_\gamma df=0.
+\]
+
+Contradiction.
+
+So \(\eta\) is not exact.
+
+Thus
+\[
+[\eta]\neq 0 \in H^1_{\mathrm{dR}}(\mathbb{R}^2\setminus\{0\}).
+\]
+
+\begin{takeaway}
+The winding form is closed but not exact because there is no globally single-valued angle function on \(\mathbb{R}^2\setminus\{0\}\).
+\end{takeaway}
+
+\begin{remember}
+The first concrete test for non-exactness is:
+\[
+\text{find a closed curve with nonzero integral.}
+\]
+\end{remember}
+
+\section{Second example: the sphere \(S^2\)}
+
+Now move from a \(1\)-form on a punctured plane to a \(2\)-form on a sphere.
+
+The key object is the area form.
+
+\subsection{Step 1: spherical coordinates}
+
+Write
+\[
+X(\theta,\phi)=
+(\sin\phi\cos\theta,\sin\phi\sin\theta,\cos\phi),
+\qquad
+0<\theta<2\pi,\quad 0<\phi<\pi.
+\]
+
+The induced metric is
+\[
+ds^2=d\phi^2+\sin^2\phi\,d\theta^2.
+\]
+
+So the area form is
+\[
+dA=\sin\phi\,d\theta\wedge d\phi.
+\]
+
+\subsection{Step 2: why \(dA\) is closed}
+
+Since \(S^2\) is \(2\)-dimensional, any \(3\)-form on \(S^2\) is automatically zero.
+
+But \(d(dA)\) is a \(3\)-form.
+
+So
+\[
+d(dA)=0.
+\]
+
+Therefore \(dA\) is closed.
+
+\subsection{Step 3: compute the total integral}
+
+Now compute:
+\begin{align*}
+\int_{S^2}dA
+&=
+\int_0^{2\pi}\int_0^\pi \sin\phi\,d\phi\,d\theta\\
+&=
+\int_0^{2\pi}\left[-\cos\phi\right]_{\phi=0}^{\phi=\pi}\,d\theta\\
+&=
+\int_0^{2\pi}2\,d\theta\\
+&=
+4\pi.
+\end{align*}
+
+\subsection{Step 4: why \(dA\) is not exact}
+
+If \(dA=d\alpha\) globally, then by Stokes,
+\[
+\int_{S^2}dA=\int_{S^2}d\alpha=\int_{\partial S^2}\alpha=0.
+\]
+
+But we just found
+\[
+\int_{S^2}dA=4\pi.
+\]
+
+So \(dA\) is not exact.
+
+Thus
+\[
+[dA]\neq 0\in H^2_{\mathrm{dR}}(S^2).
+\]
+
+\begin{takeaway}
+On the sphere, the interesting nontrivial cohomology class is in degree \(2\), represented by the area form.
+\end{takeaway}
+
+\begin{remember}
+For a compact oriented surface,
+\[
+\text{if a }2\text{-form has nonzero total integral, it cannot be exact.}
+\]
+\end{remember}
+
+\section{Why \(H^1(S^2)=0\)}
+
+This is worth pausing over.
+
+On \(\mathbb{R}^2\setminus\{0\}\), the hole gave a nontrivial \(H^1\)-class.
+
+On \(S^2\), there is no such \(1\)-dimensional hole.
+
+Concretely, every loop on \(S^2\) bounds a region. So if \(\omega\) is a closed \(1\)-form and \(\gamma=\partial D\), then
+\[
+\int_\gamma \omega = \int_D d\omega = 0.
+\]
+
+So all periods vanish.
+
+Hence every closed \(1\)-form is exact, and
+\[
+H^1_{\mathrm{dR}}(S^2)=0.
+\]
+
+Therefore
+\[
+H^0_{\mathrm{dR}}(S^2)\cong\mathbb{R},\qquad
+H^1_{\mathrm{dR}}(S^2)=0,\qquad
+H^2_{\mathrm{dR}}(S^2)\cong\mathbb{R}.
+\]
+
+\begin{takeaway}
+The sphere has no winding \(1\)-classes, but it does have a nontrivial top-degree area class.
+\end{takeaway}
+
+\section{Local primitives on \(S^2\)}
+
+This is the sphere-version of the winding story.
+
+Cover \(S^2\) by
+\[
+U_N=S^2\setminus\{N\},\qquad
+U_S=S^2\setminus\{S\}.
+\]
+
+Define
+\[
+\alpha_N=(1-\cos\phi)\,d\theta
+\qquad\text{on }U_N,
+\]
+and
+\[
+\alpha_S=-(1+\cos\phi)\,d\theta
+\qquad\text{on }U_S.
+\]
+
+Then
+\[
+d\alpha_N=\sin\phi\,d\phi\wedge d\theta,
+\qquad
+d\alpha_S=\sin\phi\,d\phi\wedge d\theta.
+\]
+
+So on both charts, the area form is locally a derivative.
+
+Now subtract on the overlap:
+\[
+\alpha_N-\alpha_S
+=
+(1-\cos\phi)d\theta+(1+\cos\phi)d\theta
+=
+2\,d\theta.
+\]
+
+So the mismatch between the two local primitives is twice the winding form.
+
+\begin{takeaway}
+The area form on \(S^2\) is locally exact, but the local primitives differ by angular winding on the overlap.
+\end{takeaway}
+
+\begin{remember}
+For \(S^2\):
+\[
+\text{local exactness} + \text{overlap winding} = \text{global non-exactness}.
+\]
+\end{remember}
+
+\section{Third example: the torus \(T^2\)}
+
+Now we study
+\[
+T^2=\mathbb{R}^2/\mathbb{Z}^2.
+\]
+
+Unlike the sphere, the torus really does have two independent winding directions.
+
+\subsection{Step 1: the forms \(dx\) and \(dy\)}
+
+The coordinate forms \(dx\) and \(dy\) on \(\mathbb{R}^2\) descend to global \(1\)-forms on \(T^2\).
+
+They are closed:
+\[
+d(dx)=0,\qquad d(dy)=0.
+\]
+
+\subsection{Step 2: test exactness by periods}
+
+Consider the basic loops
+\[
+\gamma_x(t)=(t,0)\mod\mathbb{Z}^2,\qquad
+\gamma_y(t)=(0,t)\mod\mathbb{Z}^2,\qquad 0\le t\le 1.
+\]
+
+Then
+\[
+\int_{\gamma_x}dx=1,\qquad \int_{\gamma_x}dy=0,
+\]
+\[
+\int_{\gamma_y}dx=0,\qquad \int_{\gamma_y}dy=1.
+\]
+
+Therefore neither \(dx\) nor \(dy\) is exact.
+
+So
+\[
+[dx],[dy]\neq 0 \in H^1_{\mathrm{dR}}(T^2).
+\]
+
+And since the two loops separate them, they are linearly independent.
+
+Hence
+\[
+H^1_{\mathrm{dR}}(T^2)\cong \mathbb{R}^2,
+\]
+with basis \([dx],[dy]\).
+
+\begin{takeaway}
+The torus has two independent winding \(1\)-classes: \([dx]\) and \([dy]\).
+\end{takeaway}
+
+\subsection{Step 3: the top class \(dx\wedge dy\)}
+
+Now consider
+\[
+dx\wedge dy.
+\]
+
+It is closed:
+\[
+d(dx\wedge dy)=0.
+\]
+
+And
+\[
+\int_{T^2}dx\wedge dy
+=
+\int_0^1\int_0^1 dx\,dy
+=
+1.
+\]
+
+So it is not exact.
+
+Thus
+\[
+[dx\wedge dy]\neq 0 \in H^2_{\mathrm{dR}}(T^2).
+\]
+
+So the torus has
+\[
+H^0_{\mathrm{dR}}(T^2)\cong\mathbb{R},\qquad
+H^1_{\mathrm{dR}}(T^2)\cong\mathbb{R}^2,\qquad
+H^2_{\mathrm{dR}}(T^2)\cong\mathbb{R}.
+\]
+
+\begin{takeaway}
+On \(T^2\), the top-degree class comes from wedging the two basic winding classes:
+\[
+[dx]\wedge[dy]=[dx\wedge dy].
+\]
+\end{takeaway}
+
+\begin{remember}
+The torus is different from the sphere because it has genuine \(1\)-dimensional winding directions.
+\end{remember}
+
+\section{The local-to-global point of view}
+
+Suppose \(\omega\) is a closed \(2\)-form on a manifold.
+
+Then on each small open set \(U_i\), the Poincar\'e lemma gives
+\[
+\omega|_{U_i}=d\alpha_i.
+\]
+
+So closed forms always have local primitives.
+
+On overlaps,
+\[
+d(\alpha_i-\alpha_j)=0.
+\]
+
+So the differences are closed \(1\)-forms, and often locally exact:
+\[
+\alpha_i-\alpha_j=df_{ij}.
+\]
+
+These overlap functions \(f_{ij}\) measure the failure of the local primitives to glue.
+
+Exponentiating them gives transition functions
+\[
+g_{ij}=e^{if_{ij}},
+\]
+which define line bundles.
+
+\begin{takeaway}
+Cohomology, overlap data, and line bundles are different languages for the same obstruction.
+\end{takeaway}
+
+\section{Curvature and Gauss--Bonnet}
+
+Now bring geometry into the picture.
+
+Let \(M\) be an oriented Riemannian surface, with Gaussian curvature \(K\) and area form \(dA\).
+
+Then the curvature \(2\)-form is
+\[
+K\,dA.
+\]
+
+\subsection{Why this is closed}
+
+Since \(M\) is \(2\)-dimensional,
+\[
+d(K\,dA)=0.
+\]
+
+So \(K\,dA\) defines a cohomology class in \(H^2_{\mathrm{dR}}(M)\).
+
+\subsection{Why this is locally exact}
+
+Locally, if we choose a positively oriented orthonormal frame, the Levi-Civita connection is given by a local \(1\)-form \(\omega_{12}\), and
+\[
+d\omega_{12}=K\,dA.
+\]
+
+So curvature is locally the derivative of a connection form.
+
+Again:
+\[
+\text{local primitive exists, global primitive may fail.}
+\]
+
+That failure is the Euler class.
+
+\subsection{Gauss--Bonnet}
+
+The Gauss--Bonnet theorem says
+\[
+\int_M K\,dA = 2\pi\chi(M).
+\]
+
+So total curvature is topological.
+
+\begin{takeaway}
+The cohomology class of the curvature form remembers the Euler characteristic.
+\end{takeaway}
+
+\begin{remember}
+Gauss--Bonnet is not about the area form \(dA\) by itself. It is about the curvature form
+\[
+K\,dA.
+\]
+\end{remember}
+
+\section{Check Gauss--Bonnet on \(S^2\)}
+
+For the unit sphere,
+\[
+K\equiv 1.
+\]
+
+So
+\[
+K\,dA=dA.
+\]
+
+Hence
+\[
+\int_{S^2}K\,dA
+=
+\int_{S^2}dA
+=
+4\pi.
+\]
+
+Since
+\[
+\chi(S^2)=2,
+\]
+we get
+\[
+2\pi\chi(S^2)=4\pi.
+\]
+
+Therefore
+\[
+\int_{S^2}K\,dA=2\pi\chi(S^2).
+\]
+
+\begin{takeaway}
+On \(S^2\), the curvature class is nontrivial:
+\[
+[K\,dA]=[dA]\neq 0.
+\]
+\end{takeaway}
+
+\section{Check Gauss--Bonnet on \(T^2\)}
+
+Take the flat torus with metric
+\[
+ds^2=dx^2+dy^2.
+\]
+
+Then
+\[
+K\equiv 0.
+\]
+
+So
+\[
+K\,dA=0.
+\]
+
+Hence
+\[
+\int_{T^2}K\,dA=0.
+\]
+
+Since
+\[
+\chi(T^2)=0,
+\]
+we get
+\[
+\int_{T^2}K\,dA=2\pi\chi(T^2)=0.
+\]
+
+\begin{takeaway}
+On the flat torus, the curvature class vanishes even though the area class does not.
+\end{takeaway}
+
+\begin{remember}
+Do not confuse:
+\[
+[dA]\neq 0
+\qquad\text{with}\qquad
+[K\,dA].
+\]
+For a flat torus,
+\[
+[dA]\neq 0,\qquad [K\,dA]=0.
+\]
+\end{remember}
+
+\section{Euler class on \(S^2\) from stereographic coordinates}
+
+We now make the sphere story even more concrete.
+
+Let
+\[
+N=(0,0,1),\qquad S=(0,0,-1).
+\]
+
+Define stereographic coordinates:
+\[
+z=\frac{X+iY}{1-Z}
+\qquad\text{from the north pole,}
+\]
+\[
+w=\frac{X-iY}{1+Z}
+\qquad\text{from the south pole.}
+\]
+
+On the overlap,
+\[
+w=\frac{1}{z}.
+\]
+
+So the tangent-bundle transition function is the derivative:
+\[
+\frac{dw}{dz}=-\frac{1}{z^2}.
+\]
+
+Restrict to the equator, where \(z=e^{i\theta}\). Then
+\[
+\frac{dw}{dz}=-e^{-2i\theta}.
+\]
+
+This winds twice around the unit circle as \(\theta\) runs from \(0\) to \(2\pi\).
+
+So the tangent bundle of \(S^2\) has clutching degree \(2\), hence Euler number
+\[
+e(TS^2)[S^2]=2.
+\]
+
+This matches
+\[
+\chi(S^2)=2
+\]
+and also matches
+\[
+\frac{1}{2\pi}\int_{S^2}K\,dA
+=
+\frac{1}{2\pi}\cdot 4\pi
+=
+2.
+\]
+
+\begin{takeaway}
+For the sphere, overlap winding, Euler class, and total curvature all encode the same number:
+\[
+2.
+\]
+\end{takeaway}
+
+\section{Big picture}
+
+Let us compare the three spaces.
+
+\subsection*{\(\mathbb{R}^2\setminus\{0\}\)}
+The winding form is closed but not exact:
+\[
+\eta=\frac{-y\,dx+x\,dy}{x^2+y^2},\qquad [\eta]\neq 0\in H^1.
+\]
+
+\subsection*{\(S^2\)}
+The area form is closed but not exact:
+\[
+dA=\sin\phi\,d\theta\wedge d\phi,\qquad [dA]\neq 0\in H^2.
+\]
+Also,
+\[
+\int_{S^2}K\,dA=4\pi=2\pi\chi(S^2).
+\]
+
+\subsection*{\(T^2\)}
+The classes \([dx]\) and \([dy]\) generate \(H^1\), and \([dx\wedge dy]\) generates \(H^2\). For the flat torus,
+\[
+[K\,dA]=0.
+\]
+
+\begin{takeaway}
+The same idea appears everywhere:
+\[
+\boxed{\text{local primitives exist, but global primitives may fail to exist.}}
+\]
+\end{takeaway}
+
+\section{Exercises}
+
+\begin{exercise}
+Show directly that
+\[
+d\!\left(\frac{-y\,dx+x\,dy}{x^2+y^2}\right)=0
+\]
+on \(\mathbb{R}^2\setminus\{0\}\).
+\end{exercise}
+
+\begin{exercise}
+Compute
+\[
+\int_{|z|=1}\frac{-y\,dx+x\,dy}{x^2+y^2}.
+\]
+Why does this prove the winding form is not exact?
+\end{exercise}
+
+\begin{exercise}
+Verify that on the unit sphere,
+\[
+dA=\sin\phi\,d\theta\wedge d\phi.
+\]
+\end{exercise}
+
+\begin{exercise}
+Compute
+\[
+\int_{S^2}dA=4\pi.
+\]
+Why does this prove \(dA\) is not exact?
+\end{exercise}
+
+\begin{exercise}
+Compute
+\[
+d((1-\cos\phi)d\theta),\qquad
+d(-(1+\cos\phi)d\theta),
+\]
+and compare the two local primitives on the overlap.
+\end{exercise}
+
+\begin{exercise}
+On \(T^2=\mathbb{R}^2/\mathbb{Z}^2\), compute the periods of \(dx\) and \(dy\) on the two basic loops and prove that \([dx]\) and \([dy]\) are linearly independent.
+\end{exercise}
+
+\begin{exercise}
+Compute
+\[
+\int_{T^2}dx\wedge dy
+\]
+and explain why \(dx\wedge dy\) is not exact.
+\end{exercise}
+
+\begin{exercise}
+Check Gauss--Bonnet directly for the unit sphere and the flat torus.
+\end{exercise}
+
+\begin{exercise}
+Explain why the stereographic transition function of \(TS^2\) has winding number \(2\) along the equator.
+\end{exercise}
+
+\end{document}

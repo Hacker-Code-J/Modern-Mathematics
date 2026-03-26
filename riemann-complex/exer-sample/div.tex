@@ -1,0 +1,1545 @@
+\documentclass[11pt]{article}
+
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{xcolor}
+
+\hypersetup{
+	colorlinks=true,
+	linkcolor=blue,
+	urlcolor=blue,
+	citecolor=blue
+}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{exercise}{Exercise}
+\newtheorem*{solution}{Selected solution}
+\newtheorem*{remark}{Remark}
+
+\newcommand{\CP}{\mathbf{CP}^1}
+\newcommand{\C}{\mathbf{C}}
+\newcommand{\Div}{\operatorname{Div}}
+\newcommand{\ord}{\operatorname{ord}}
+\newcommand{\degD}{\operatorname{deg}}
+\newcommand{\OO}{\mathcal{O}}
+\newcommand{\MM}{\mathcal{M}}
+
+\begin{document}
+	
+	\begin{center}
+		{\LARGE Exercises on \(\boldsymbol{D \sim \deg(D)[\infty]}\) on \(\boldsymbol{\CP}\)}\\[0.5em]
+		{\large computation, geometry, and divisor intuition}
+	\end{center}
+	
+	\bigskip
+	
+	\section*{Setup}
+	
+	Let
+	\[
+	X=\CP=\C\cup\{\infty\}.
+	\]
+	Use the affine coordinate \(z\) on \(X\setminus\{\infty\}\), and near \(\infty\) use
+	\[
+	w=\frac{1}{z},
+	\]
+	so that \(w=0\) corresponds to the point \(\infty\).
+	
+	For a nonzero meromorphic function \(f\), its principal divisor is
+	\[
+	(f)=\sum_{p\in X}\ord_p(f)[p].
+	\]
+	
+	\bigskip
+	
+	\begin{theorem}
+		For every divisor \(D\) on \(\CP\),
+		\[
+		D \sim \deg(D)[\infty].
+		\]
+		Equivalently, two divisors on \(\CP\) are linearly equivalent if and only if they have the same degree.
+	\end{theorem}
+	
+	\begin{remark}
+		The point of the exercises is not just to know the theorem, but to feel why it is inevitable on \(\CP\): every finite point can be moved to \(\infty\) by a rational function, and all divisor-class information collapses to degree.
+	\end{remark}
+	
+	\hrule
+	\bigskip
+	
+	\section*{Part I. Core computations}
+	
+	\begin{exercise}
+		Compute the divisor of \(z\) on \(\CP\). Show that
+		\[
+		(z)=[0]-[\infty].
+		\]
+	\end{exercise}
+	
+	\begin{exercise}
+		For \(a\in\C\), compute the divisor of \(z-a\). Show that
+		\[
+		(z-a)=[a]-[\infty].
+		\]
+	\end{exercise}
+	
+	\begin{exercise}
+		For distinct \(a,b\in\C\), compute
+		\[
+		\left(\frac{z-a}{z-b}\right).
+		\]
+		Deduce that
+		\[
+		[a]\sim [b].
+		\]
+	\end{exercise}
+	
+	\begin{exercise}
+		Compute the divisor of \(z^n\) for \(n\in\mathbf{Z}\).
+	\end{exercise}
+	
+	\begin{exercise}
+		Let
+		\[
+		f(z)=\prod_{j=1}^r (z-a_j)^{m_j},
+		\]
+		where the \(a_j\) are distinct points of \(\C\) and \(m_j\in\mathbf{Z}\).
+		Compute \((f)\) explicitly.
+	\end{exercise}
+	
+	\hrule
+	\bigskip
+	
+	\section*{Part II. Order at \(\infty\)}
+	
+	\begin{exercise}
+		Let \(P(z)\) be a nonzero polynomial of degree \(d\). Show that
+		\[
+		\ord_\infty(P)=-d.
+		\]
+	\end{exercise}
+	
+	\begin{exercise}
+		Let
+		\[
+		f(z)=\frac{P(z)}{Q(z)}
+		\]
+		with nonzero polynomials \(P,Q\). Show that
+		\[
+		\ord_\infty(f)=\deg(Q)-\deg(P).
+		\]
+	\end{exercise}
+	
+	\begin{exercise}
+		Prove directly that every principal divisor on \(\CP\) has degree \(0\).
+	\end{exercise}
+	
+	\begin{exercise}
+		Compute the divisor of
+		\[
+		f(z)=\frac{z^2+1}{z(z-1)^3}.
+		\]
+		You must include the order at \(\infty\).
+	\end{exercise}
+	
+	\hrule
+	\bigskip
+	
+	\section*{Part III. Building \(\boldsymbol{D\sim \deg(D)[\infty]}\)}
+	
+	\begin{exercise}
+		Using \(z-a\), prove that for each \(a\in\C\),
+		\[
+		[a]\sim [\infty].
+		\]
+	\end{exercise}
+	
+	\begin{exercise}
+		Let
+		\[
+		D=\sum_{j=1}^r n_j[a_j]
+		\]
+		with \(a_j\in\C\). Show directly that
+		\[
+		D\sim \left(\sum_{j=1}^r n_j\right)[\infty].
+		\]
+		Construct an explicit rational function whose divisor is
+		\[
+		D-\deg(D)[\infty].
+		\]
+	\end{exercise}
+	
+	\begin{exercise}
+		Now let
+		\[
+		D=\sum_{j=1}^r n_j[a_j]+m[\infty].
+		\]
+		Show that
+		\[
+		D\sim \deg(D)[\infty].
+		\]
+	\end{exercise}
+	
+	\begin{exercise}
+		Prove that for divisors \(D,E\) on \(\CP\),
+		\[
+		D\sim E \quad\Longleftrightarrow\quad \deg(D)=\deg(E).
+		\]
+	\end{exercise}
+	
+	\hrule
+	\bigskip
+	
+	\section*{Part IV. Concrete divisor engineering}
+	
+	\begin{exercise}
+		Show that
+		\[
+		[0]+[1]+[2]-3[\infty]
+		\]
+		is principal, and construct an explicit rational function with this divisor.
+	\end{exercise}
+	
+	\begin{exercise}
+		Find an explicit rational function \(f\) such that
+		\[
+		(f)=2[0]-[3]-[\infty].
+		\]
+	\end{exercise}
+	
+	\begin{exercise}
+		Determine whether
+		\[
+		D=3[1]-2[i]+5[-2]-6[\infty]
+		\]
+		is principal. If it is, construct \(f\) explicitly.
+	\end{exercise}
+	
+	\begin{exercise}
+		Let
+		\[
+		D=2[0]-[1]+4[\infty].
+		\]
+		Find \(n\in\mathbf{Z}\) such that
+		\[
+		D\sim n[\infty],
+		\]
+		and explicitly write a principal divisor equal to \(D-n[\infty]\).
+	\end{exercise}
+	
+	\begin{exercise}
+		Give a necessary and sufficient condition for
+		\[
+		[p_1]+\cdots+[p_r]\sim [q_1]+\cdots+[q_s]
+		\]
+		on \(\CP\).
+	\end{exercise}
+	
+	\hrule
+	\bigskip
+	
+	\section*{Part V. Through the spaces \(\boldsymbol{L(D)}\)}
+	
+	For a divisor \(D\), define
+	\[
+	L(D)=\{f\in \MM(X)^\times : (f)+D\ge 0\}\cup \{0\}.
+	\]
+	
+	\begin{exercise}
+		Compute \(L(n[\infty])\) for \(n\ge 0\), and show that
+		\[
+		L(n[\infty])=\operatorname{span}_{\C}\{1,z,z^2,\dots,z^n\}.
+		\]
+	\end{exercise}
+	
+	\begin{exercise}
+		Show that if \(D\sim n[\infty]\) and \(n\ge 0\), then
+		\[
+		\dim_\C L(D)=n+1.
+		\]
+	\end{exercise}
+	
+	\begin{exercise}
+		Compute \(\dim_\C L(D)\) for:
+		\[
+		D=[0]+[1], \qquad D=[0]-[\infty], \qquad D=2[\infty], \qquad D=-[\infty].
+		\]
+	\end{exercise}
+	
+	\begin{exercise}
+		Let
+		\[
+		D=[a]+[b]+[\infty], \qquad a\neq b.
+		\]
+		Show that \(D\sim 3[\infty]\), and then find a basis of \(L(D)\).
+	\end{exercise}
+	
+	\hrule
+	\bigskip
+	
+	\section*{Part VI. Conceptual questions}
+	
+	\begin{exercise}
+		Explain geometrically why \(\infty\) can ``collect'' all zeros and poles on \(\CP\).
+	\end{exercise}
+	
+	\begin{exercise}
+		A student says: ``If \(D\sim \deg(D)[\infty]\), then all points of \(\CP\) are literally the same.''  
+		Write a careful correction distinguishing:
+		\begin{itemize}[topsep=0.2em]
+			\item equality of points,
+			\item equality of divisors,
+			\item linear equivalence of divisors.
+		\end{itemize}
+	\end{exercise}
+	
+	\begin{exercise}
+		Explain why the statement
+		\[
+		D\sim \deg(D)[\infty]
+		\]
+		fails on a general compact Riemann surface of genus \(g>0\).
+	\end{exercise}
+	
+	\hrule
+	\bigskip
+	
+	\section*{Selected solutions}
+	
+	\begin{solution}[Exercise 1]
+		The function \(z\) has a simple zero at \(0\), so
+		\[
+		\ord_0(z)=1.
+		\]
+		It has no zero or pole at any finite \(a\neq 0\), so
+		\[
+		\ord_a(z)=0 \qquad (a\neq 0,\infty).
+		\]
+		
+		At \(\infty\), use \(w=1/z\). Then
+		\[
+		z=\frac{1}{w},
+		\]
+		which has a simple pole at \(w=0\). Hence
+		\[
+		\ord_\infty(z)=-1.
+		\]
+		Therefore
+		\[
+		(z)=[0]-[\infty].
+		\]
+	\end{solution}
+	
+	\begin{solution}[Exercise 2]
+		At \(z=a\), the function \(z-a\) vanishes simply, so
+		\[
+		\ord_a(z-a)=1.
+		\]
+		At any other finite point, the order is \(0\).
+		
+		Near \(\infty\), write
+		\[
+		z-a=\frac{1-aw}{w}.
+		\]
+		Since \(1-aw\) is nonvanishing at \(w=0\), this has a simple pole at \(w=0\). Thus
+		\[
+		\ord_\infty(z-a)=-1.
+		\]
+		Hence
+		\[
+		(z-a)=[a]-[\infty].
+		\]
+	\end{solution}
+	
+	\begin{solution}[Exercise 3]
+		Using the previous computation,
+		\[
+		\left(\frac{z-a}{z-b}\right)=(z-a)-(z-b)=([a]-[\infty])-([b]-[\infty])=[a]-[b].
+		\]
+		So \([a]-[b]\) is principal, which means
+		\[
+		[a]\sim [b].
+		\]
+	\end{solution}
+	
+	\begin{solution}[Exercise 7]
+		Write
+		\[
+		P(z)=a_m z^m+\cdots,\qquad Q(z)=b_n z^n+\cdots
+		\]
+		with \(a_m,b_n\neq 0\), where \(m=\deg(P)\) and \(n=\deg(Q)\).
+		Then near \(\infty\),
+		\[
+		P(z)=w^{-m}(a_m+\cdots),\qquad Q(z)=w^{-n}(b_n+\cdots),
+		\]
+		so
+		\[
+		\frac{P(z)}{Q(z)}=w^{\,n-m}\cdot \frac{a_m+\cdots}{b_n+\cdots}.
+		\]
+		The second factor is holomorphic and nonvanishing at \(w=0\), hence
+		\[
+		\ord_\infty\!\left(\frac{P}{Q}\right)=n-m=\deg(Q)-\deg(P).
+		\]
+	\end{solution}
+	
+	\begin{solution}[Exercise 11]
+		Take
+		\[
+		f(z)=\prod_{j=1}^r (z-a_j)^{n_j}.
+		\]
+		If some \(n_j<0\), that factor contributes a pole instead of a zero, which is exactly what is needed.
+		
+		From the divisor formula for powers and products,
+		\[
+		(f)=\sum_{j=1}^r n_j[a_j]-\left(\sum_{j=1}^r n_j\right)[\infty].
+		\]
+		But
+		\[
+		\deg(D)=\sum_{j=1}^r n_j,
+		\]
+		so
+		\[
+		(f)=D-\deg(D)[\infty].
+		\]
+		Hence
+		\[
+		D\sim \deg(D)[\infty].
+		\]
+	\end{solution}
+	
+	\begin{solution}[Exercise 13]
+		If \(D\sim E\), then \(D-E\) is principal, and every principal divisor has degree \(0\). Therefore
+		\[
+		\deg(D)=\deg(E).
+		\]
+		
+		Conversely, assume \(\deg(D)=\deg(E)\). Then
+		\[
+		\deg(D-E)=0.
+		\]
+		By the previous exercise,
+		\[
+		D-E\sim 0,
+		\]
+		since every degree-zero divisor on \(\CP\) is principal. Therefore
+		\[
+		D\sim E.
+		\]
+		So on \(\CP\), linear equivalence classes are exactly degree classes.
+	\end{solution}
+	
+	\begin{solution}[Exercise 14]
+		Take
+		\[
+		f(z)=z(z-1)(z-2).
+		\]
+		Then
+		\[
+		(f)=(z)+(z-1)+(z-2)
+		\]
+		and each term equals \([a]-[\infty]\) for the appropriate \(a\). Hence
+		\[
+		(f)=[0]+[1]+[2]-3[\infty].
+		\]
+		So the divisor is principal.
+	\end{solution}
+	
+	\begin{solution}[Exercise 15]
+		We want zeros and poles matching
+		\[
+		2[0]-[3]-[\infty].
+		\]
+		A double zero at \(0\) comes from \(z^2\), and a simple pole at \(3\) comes from dividing by \(z-3\). So try
+		\[
+		f(z)=\frac{z^2}{z-3}.
+		\]
+		Then
+		\[
+		(f)=2[0]-[3]-[\infty],
+		\]
+		because the numerator has degree \(2\) and denominator degree \(1\), so \(f\) has a simple pole at \(\infty\).
+	\end{solution}
+	
+	\begin{solution}[Exercise 16]
+		Its degree is
+		\[
+		3-2+5-6=0.
+		\]
+		On \(\CP\), every degree-zero divisor is principal. An explicit function is
+		\[
+		f(z)=\frac{(z-1)^3(z+2)^5}{(z-i)^2 z^6}.
+		\]
+		Indeed,
+		\[
+		(f)=3[1]+5[-2]-2[i]-6[0].
+		\]
+		This is not yet the divisor \(D\), because \(D\) has \(-6[\infty]\), not \(-6[0]\). So instead build it using the basic blocks \(z-a\):
+		\[
+		f(z)=\frac{(z-1)^3(z+2)^5}{(z-i)^2}.
+		\]
+		Then
+		\[
+		(f)=3[1]-2[i]+5[-2]-6[\infty].
+		\]
+		So \(D\) is principal.
+	\end{solution}
+	
+	\begin{solution}[Exercise 17]
+		First compute the degree:
+		\[
+		\deg(D)=2-1+4=5.
+		\]
+		So
+		\[
+		D\sim 5[\infty].
+		\]
+		Now
+		\[
+		D-5[\infty]=2[0]-[1]-[\infty].
+		\]
+		An explicit function with this divisor is
+		\[
+		f(z)=\frac{z^2}{z-1}.
+		\]
+		Indeed,
+		\[
+		(f)=2[0]-[1]-[\infty].
+		\]
+	\end{solution}
+	
+	\begin{solution}[Exercise 19]
+		A rational function lies in \(L(n[\infty])\) exactly when it has no poles except possibly at \(\infty\), and its pole order there is at most \(n\). Such functions are exactly polynomials of degree at most \(n\). Therefore
+		\[
+		L(n[\infty])=\{a_0+a_1z+\cdots+a_n z^n : a_j\in\C\},
+		\]
+		so
+		\[
+		L(n[\infty])=\operatorname{span}_{\C}\{1,z,\dots,z^n\}.
+		\]
+	\end{solution}
+	
+	\begin{solution}[Exercise 22]
+		The special feature of \(\CP\) is that every point \(a\in\C\) satisfies
+		\[
+		[a]-[\infty]=(z-a),
+		\]
+		so each finite point can be transferred to \(\infty\) by a principal divisor. Repeating this for all points appearing in a divisor collapses the divisor to one supported only at \(\infty\), and the only invariant left is total degree.
+		
+		On a higher-genus compact Riemann surface, degree-zero divisors need not be principal. So even if \(\deg(D)=0\), one cannot generally conclude \(D\sim 0\). That is precisely why the statement
+		\[
+		D\sim \deg(D)[\infty]
+		\]
+		is special to genus \(0\).
+	\end{solution}
+	
+	\hrule
+	\bigskip
+	
+	\section*{Very short summary to remember}
+	
+	On \(\CP\),
+	\[
+	(z-a)=[a]-[\infty].
+	\]
+	That single computation implies:
+	\[
+	[a]\sim [\infty] \quad \text{for every } a\in\C,
+	\]
+	hence every divisor is equivalent to one supported at \(\infty\), namely
+	\[
+	D\sim \deg(D)[\infty].
+	\]
+	So
+	\[
+	\Div(\CP)/\sim \;\cong\; \mathbf{Z},
+	\]
+	with isomorphism given by degree.
+	
+	\newpage
+	\paragraph{Winding-form proof of $D\sim \deg(D)[\infty]$ on $\mathbf{CP}^1$.}
+	For a meromorphic function $f$ and a small positively oriented loop $\gamma_p$ around $p$,
+	\[
+	\operatorname{ord}_p(f)=\frac{1}{2\pi i}\int_{\gamma_p}\frac{df}{f}.
+	\]
+	Thus the principal divisor of $f$ records the local winding numbers of $f$ around $0$:
+	\[
+	(f)=\sum_{p\in \mathbf{CP}^1}\left(\frac{1}{2\pi i}\int_{\gamma_p}\frac{df}{f}\right)[p].
+	\]
+	
+	For $a\in \mathbf{C}$, take $f(z)=z-a$. Around $a$,
+	\[
+	\frac{1}{2\pi i}\int_{\gamma_a}\frac{d(z-a)}{z-a}=1,
+	\]
+	while near $\infty$, using $w=1/z$,
+	\[
+	z-a=\frac{1-aw}{w},
+	\qquad
+	\frac{d(z-a)}{z-a}=d\log(1-aw)-d\log w,
+	\]
+	so
+	\[
+	\frac{1}{2\pi i}\int_{\gamma_\infty}\frac{d(z-a)}{z-a}=-1.
+	\]
+	Hence
+	\[
+	(z-a)=[a]-[\infty],
+	\]
+	so $[a]\sim [\infty]$.
+	
+	Now let
+	\[
+	D=\sum_j n_j[a_j].
+	\]
+	Set
+	\[
+	f(z)=\prod_j (z-a_j)^{n_j}.
+	\]
+	Then
+	\[
+	\frac{df}{f}=\sum_j n_j\frac{d(z-a_j)}{z-a_j}.
+	\]
+	Therefore
+	\[
+	\operatorname{ord}_{a_j}(f)=n_j,
+	\qquad
+	\operatorname{ord}_\infty(f)=-\sum_j n_j.
+	\]
+	So
+	\[
+	(f)=\sum_j n_j[a_j]-\left(\sum_j n_j\right)[\infty]
+	= D-\deg(D)[\infty].
+	\]
+	Thus
+	\[
+	D\sim \deg(D)[\infty].
+	\]
+	
+	\newpage
+	\section*{Exercises on \texorpdfstring{$D\sim \deg(D)[\infty]$}{D~deg(D)[infinity]} via the winding form on \texorpdfstring{$\mathbf{CP}^1$}{CP1}}
+	
+	\subsection*{Guiding principle}
+	
+	Let
+	\[
+	X=\mathbf{CP}^1=\mathbf{C}\cup\{\infty\}.
+	\]
+	For a nonzero meromorphic function \(f\) on \(X\), and a small positively oriented loop \(\gamma_p\) around a point \(p\in X\), we have
+	\[
+	\operatorname{ord}_p(f)=\frac{1}{2\pi i}\int_{\gamma_p}\frac{df}{f}.
+	\]
+	So the divisor
+	\[
+	(f)=\sum_{p\in X}\operatorname{ord}_p(f)[p]
+	\]
+	can be read entirely from integrals of the winding form
+	\[
+	\frac{df}{f}.
+	\]
+	
+	The goal of these exercises is to understand the statement
+	\[
+	D\sim \deg(D)[\infty]
+	\]
+	by interpreting divisors as local winding-number data.
+	
+	\subsection*{Coordinates and conventions}
+	
+	Use the affine coordinate \(z\) on \(X\setminus\{\infty\}\), and near \(\infty\) use
+	\[
+	w=\frac{1}{z},
+	\]
+	so that \(w=0\) corresponds to the point \(\infty\).
+	
+	For each point \(p\), let \(\gamma_p\) denote a sufficiently small positively oriented loop around \(p\).
+	
+	\bigskip
+	\hrule
+	\bigskip
+	
+	\subsection*{Part I. Local winding numbers as orders}
+	
+	\begin{enumerate}
+		\item Let \(f(z)=z\). Compute
+		\[
+		\frac{1}{2\pi i}\int_{\gamma_0}\frac{dz}{z}.
+		\]
+		Then compute the corresponding integral around \(\infty\) by rewriting \(z\) in the coordinate \(w=1/z\). Conclude that
+		\[
+		(z)=[0]-[\infty].
+		\]
+		
+		\item Let \(f(z)=z-a\) for \(a\in\mathbf{C}\). Compute
+		\[
+		\frac{1}{2\pi i}\int_{\gamma_a}\frac{d(z-a)}{z-a}.
+		\]
+		Then pass to the coordinate \(w=1/z\) and compute
+		\[
+		\frac{1}{2\pi i}\int_{\gamma_\infty}\frac{d(z-a)}{z-a}.
+		\]
+		Conclude that
+		\[
+		(z-a)=[a]-[\infty].
+		\]
+		
+		\item Let
+		\[
+		f(z)=\frac{z-a}{z-b},
+		\qquad a\neq b.
+		\]
+		Compute
+		\[
+		\frac{df}{f}
+		=
+		\frac{d(z-a)}{z-a}-\frac{d(z-b)}{z-b}.
+		\]
+		Use loop integrals to determine the order of \(f\) at \(a\), \(b\), and \(\infty\). Deduce that
+		\[
+		\left(\frac{z-a}{z-b}\right)=[a]-[b].
+		\]
+		
+		\item Let \(m\in\mathbf{Z}\) and \(f(z)=(z-a)^m\). Show directly from
+		\[
+		\frac{df}{f}=m\frac{d(z-a)}{z-a}
+		\]
+		that
+		\[
+		\operatorname{ord}_a(f)=m.
+		\]
+		
+		\item Suppose near \(p\) one has
+		\[
+		f=(\zeta-\zeta(p))^m u
+		\]
+		in a local coordinate \(\zeta\), where \(u\) is holomorphic and nowhere zero. Show that
+		\[
+		\frac{df}{f}=m\frac{d\zeta}{\zeta-\zeta(p)}+\frac{du}{u},
+		\]
+		and explain why
+		\[
+		\frac{1}{2\pi i}\int_{\gamma_p}\frac{df}{f}=m.
+		\]
+		This is the local argument principle in divisor language.
+	\end{enumerate}
+	
+	\bigskip
+	\hrule
+	\bigskip
+	
+	\subsection*{Part II. Understanding \texorpdfstring{$\infty$}{infinity} through the winding form}
+	
+	\begin{enumerate}
+		\setcounter{enumi}{5}
+		
+		\item Rewrite
+		\[
+		z-a=\frac{1-aw}{w}
+		\]
+		in the coordinate \(w=1/z\), and compute
+		\[
+		\frac{d(z-a)}{z-a}=d\log(1-aw)-d\log w.
+		\]
+		Use this to explain why the winding contribution at \(\infty\) is \(-1\).
+		
+		\item Let \(P(z)\) be a polynomial of degree \(d\). Show, using \(w=1/z\), that
+		\[
+		\operatorname{ord}_\infty(P)
+		=
+		\frac{1}{2\pi i}\int_{\gamma_\infty}\frac{dP}{P}
+		=-d.
+		\]
+		
+		\item Let
+		\[
+		f(z)=\frac{P(z)}{Q(z)}
+		\]
+		for nonzero polynomials \(P,Q\). Show that
+		\[
+		\frac{df}{f}=\frac{dP}{P}-\frac{dQ}{Q},
+		\]
+		and deduce from winding integrals that
+		\[
+		\operatorname{ord}_\infty(f)=\deg(Q)-\deg(P).
+		\]
+		
+		\item Let
+		\[
+		f(z)=\frac{(z-a_1)\cdots (z-a_r)}{(z-b_1)\cdots (z-b_s)}.
+		\]
+		Compute \(\operatorname{ord}_\infty(f)\) from the winding form. Explain why:
+		\begin{itemize}
+			\item \(f\) has a zero at \(\infty\) if \(s>r\),
+			\item \(f\) has a pole at \(\infty\) if \(r>s\),
+			\item \(f\) is nonvanishing and finite at \(\infty\) if \(r=s\).
+		\end{itemize}
+		
+		\item Compute the divisor of
+		\[
+		f(z)=\frac{z^2+1}{z(z-1)^3}
+		\]
+		entirely by integrating \(\frac{df}{f}\) around the relevant points.
+	\end{enumerate}
+	
+	\bigskip
+	\hrule
+	\bigskip
+	
+	\subsection*{Part III. Global balance: why degree appears}
+	
+	\begin{enumerate}
+		\setcounter{enumi}{10}
+		
+		\item Let \(f\) be a nonzero meromorphic function on \(\mathbf{CP}^1\). Explain why the residues of \(\frac{df}{f}\) are exactly the integers \(\operatorname{ord}_p(f)\).
+		
+		\item Use the residue theorem on \(\mathbf{CP}^1\) to prove
+		\[
+		\sum_{p\in \mathbf{CP}^1}\operatorname{ord}_p(f)=0.
+		\]
+		Interpret this as the statement
+		\[
+		\deg (f)=0.
+		\]
+		
+		\item Explain in words why the total positive winding and total negative winding must balance on a compact Riemann surface.
+		
+		\item Show that if
+		\[
+		(f)=\sum_p n_p[p],
+		\]
+		then
+		\[
+		\sum_p n_p=0.
+		\]
+		Why is this the precise reason that principal divisors preserve degree?
+		
+		\item Let
+		\[
+		f(z)=\prod_{j=1}^r (z-a_j)^{n_j}.
+		\]
+		Compute
+		\[
+		\frac{df}{f}=\sum_{j=1}^r n_j\frac{d(z-a_j)}{z-a_j}.
+		\]
+		Use winding integrals to show
+		\[
+		(f)=\sum_{j=1}^r n_j[a_j]-\left(\sum_{j=1}^r n_j\right)[\infty].
+		\]
+	\end{enumerate}
+	
+	\bigskip
+	\hrule
+	\bigskip
+	
+	\subsection*{Part IV. From winding data to \texorpdfstring{$D\sim \deg(D)[\infty]$}{D~deg(D)[infinity]}}
+	
+	\begin{enumerate}
+		\setcounter{enumi}{15}
+		
+		\item Using the function \(z-a\), explain through winding integrals why
+		\[
+		[a]\sim [\infty].
+		\]
+		
+		\item Let
+		\[
+		D=\sum_{j=1}^r n_j[a_j]
+		\]
+		with \(a_j\in\mathbf{C}\). Consider
+		\[
+		f(z)=\prod_{j=1}^r (z-a_j)^{n_j}.
+		\]
+		Show, by computing local winding numbers, that
+		\[
+		(f)=D-\deg(D)[\infty].
+		\]
+		Conclude that
+		\[
+		D\sim \deg(D)[\infty].
+		\]
+		
+		\item Now let
+		\[
+		D=\sum_{j=1}^r n_j[a_j]+m[\infty].
+		\]
+		Use the previous exercise to show carefully that
+		\[
+		D\sim \deg(D)[\infty].
+		\]
+		
+		\item Prove that on \(\mathbf{CP}^1\), two divisors \(D,E\) are linearly equivalent if and only if
+		\[
+		\deg(D)=\deg(E).
+		\]
+		Your proof must explicitly use the integral interpretation of orders.
+		
+		\item Explain why the theorem says that on \(\mathbf{CP}^1\), a divisor class is exactly the same thing as the total net winding stored at \(\infty\).
+	\end{enumerate}
+	
+	\bigskip
+	\hrule
+	\bigskip
+	
+	\subsection*{Part V. Concrete winding-engineering problems}
+	
+	\begin{enumerate}
+		\setcounter{enumi}{20}
+		
+		\item Construct a rational function \(f\) whose winding form satisfies
+		\[
+		\frac{1}{2\pi i}\int_{\gamma_0}\frac{df}{f}=1,\qquad
+		\frac{1}{2\pi i}\int_{\gamma_1}\frac{df}{f}=1,\qquad
+		\frac{1}{2\pi i}\int_{\gamma_2}\frac{df}{f}=1.
+		\]
+		What must the winding at \(\infty\) be? Write the full divisor of \(f\).
+		
+		\item Construct \(f\) such that
+		\[
+		\frac{1}{2\pi i}\int_{\gamma_0}\frac{df}{f}=2,\qquad
+		\frac{1}{2\pi i}\int_{\gamma_3}\frac{df}{f}=-1.
+		\]
+		Determine automatically what the winding at \(\infty\) must be, and write \((f)\).
+		
+		\item Let
+		\[
+		D=3[1]-2[i]+5[-2]-6[\infty].
+		\]
+		Construct \(f\) with \((f)=D\) by matching the required local winding numbers.
+		
+		\item Let
+		\[
+		D=2[0]-[1]+4[\infty].
+		\]
+		Find \(n\) such that
+		\[
+		D\sim n[\infty].
+		\]
+		Then explicitly construct a function \(f\) whose winding data realizes
+		\[
+		D-n[\infty].
+		\]
+		
+		\item Give a necessary and sufficient condition, in terms of total winding number, for
+		\[
+		[p_1]+\cdots+[p_r]\sim [q_1]+\cdots+[q_s]
+		\]
+		on \(\mathbf{CP}^1\).
+	\end{enumerate}
+	
+	\bigskip
+	\hrule
+	\bigskip
+	
+	\subsection*{Part VI. Conceptual exercises}
+	
+	\begin{enumerate}
+		\setcounter{enumi}{25}
+		
+		\item A principal divisor is the collection of local winding numbers of a global meromorphic function. Explain this statement carefully.
+		
+		\item Why does the function \(z-a\) show that a single unit of winding can be moved from \(a\) to \(\infty\)?
+		
+		\item Explain why \(\infty\) acts as the unique ``balancing point'' for winding data on \(\mathbf{CP}^1\).
+		
+		\item A student says: ``Since \([a]\sim[\infty]\), the points \(a\) and \(\infty\) are equal.''  
+		Correct this using the difference between:
+		\begin{itemize}
+			\item points,
+			\item divisors,
+			\item principal divisors,
+			\item winding data of meromorphic functions.
+		\end{itemize}
+		
+		\item Explain why the same argument does \emph{not} show that every degree-zero divisor is principal on a compact Riemann surface of genus \(g>0\).  
+		What special global feature of \(\mathbf{CP}^1\) is being used?
+	\end{enumerate}
+	
+	\bigskip
+	\hrule
+	\bigskip
+	
+	\subsection*{Selected solutions}
+	
+	\paragraph{Solution to Exercise 2.}
+	Let \(f(z)=z-a\). Around \(a\),
+	\[
+	\frac{1}{2\pi i}\int_{\gamma_a}\frac{d(z-a)}{z-a}=1,
+	\]
+	since \(z-a\) winds once around \(0\).
+	
+	At \(\infty\), write
+	\[
+	z-a=\frac{1-aw}{w}.
+	\]
+	Then
+	\[
+	\frac{d(z-a)}{z-a}=d\log(1-aw)-d\log w.
+	\]
+	The first term is holomorphic near \(w=0\), so its integral around \(\gamma_\infty\) is \(0\). The second contributes \(-2\pi i\). Therefore
+	\[
+	\frac{1}{2\pi i}\int_{\gamma_\infty}\frac{d(z-a)}{z-a}=-1.
+	\]
+	Hence
+	\[
+	(z-a)=[a]-[\infty].
+	\]
+	
+	\paragraph{Solution to Exercise 12.}
+	The meromorphic \(1\)-form \(\dfrac{df}{f}\) has residue
+	\[
+	\operatorname{res}_p\!\left(\frac{df}{f}\right)=\operatorname{ord}_p(f)
+	\]
+	at each point \(p\). Since \(\mathbf{CP}^1\) is compact, the residue theorem gives
+	\[
+	\sum_{p\in\mathbf{CP}^1}\operatorname{res}_p\!\left(\frac{df}{f}\right)=0.
+	\]
+	Therefore
+	\[
+	\sum_{p\in\mathbf{CP}^1}\operatorname{ord}_p(f)=0,
+	\]
+	which is exactly
+	\[
+	\deg (f)=0.
+	\]
+	
+	\paragraph{Solution to Exercise 17.}
+	Let
+	\[
+	D=\sum_{j=1}^r n_j[a_j]
+	\]
+	and define
+	\[
+	f(z)=\prod_{j=1}^r (z-a_j)^{n_j}.
+	\]
+	Then
+	\[
+	\frac{df}{f}=\sum_{j=1}^r n_j\frac{d(z-a_j)}{z-a_j}.
+	\]
+	So for each \(a_k\),
+	\[
+	\frac{1}{2\pi i}\int_{\gamma_{a_k}}\frac{df}{f}=n_k.
+	\]
+	Thus \(\operatorname{ord}_{a_k}(f)=n_k\).
+	
+	By global balance,
+	\[
+	\operatorname{ord}_\infty(f)=-\sum_{j=1}^r n_j.
+	\]
+	Hence
+	\[
+	(f)=\sum_{j=1}^r n_j[a_j]-\left(\sum_{j=1}^r n_j\right)[\infty]
+	= D-\deg(D)[\infty].
+	\]
+	Therefore
+	\[
+	D\sim \deg(D)[\infty].
+	\]
+	
+	\paragraph{Solution to Exercise 22.}
+	We want
+	\[
+	(f)=3[1]-2[i]+5[-2]-6[\infty].
+	\]
+	Take
+	\[
+	f(z)=\frac{(z-1)^3(z+2)^5}{(z-i)^2}.
+	\]
+	Then
+	\[
+	\frac{df}{f}
+	=
+	3\frac{d(z-1)}{z-1}
+	+
+	5\frac{d(z+2)}{z+2}
+	-
+	2\frac{d(z-i)}{z-i}.
+	\]
+	So the local winding numbers are \(3\) at \(1\), \(5\) at \(-2\), \(-2\) at \(i\), and the remaining balance at \(\infty\) is
+	\[
+	-(3+5-2)=-6.
+	\]
+	Thus indeed
+	\[
+	(f)=3[1]-2[i]+5[-2]-6[\infty].
+	\]
+	
+	\bigskip
+	\hrule
+	\bigskip
+	
+	\subsection*{One-line slogan}
+	
+	On \(\mathbf{CP}^1\), a divisor is a prescribed pattern of local winding numbers, and a rational function can realize that pattern everywhere except for one necessary balancing term at \(\infty\). That balancing term is exactly \(\deg(D)[\infty]\).
+	
+	\newpage
+	\section*{Parallel handout: divisor language vs.\ winding-integral language on \texorpdfstring{$\mathbf{CP}^1$}{CP1}}
+	
+	\subsection*{Purpose}
+	
+	This handout presents the statement
+	\[
+	D\sim \deg(D)[\infty]
+	\qquad\text{on } \mathbf{CP}^1
+	\]
+	through two parallel viewpoints:
+	
+	\begin{center}
+		\begin{tabular}{c c c}
+			\textbf{divisor / order viewpoint}
+			&
+			\(\Longleftrightarrow\)
+			&
+			\textbf{winding / integral viewpoint}
+		\end{tabular}
+	\end{center}
+	
+	The point is that these are not two different theories. They are the same theory written in two different languages.
+	
+	\bigskip
+	
+	\subsection*{Setup}
+	
+	Let
+	\[
+	X=\mathbf{CP}^1=\mathbf{C}\cup\{\infty\}.
+	\]
+	Use the affine coordinate \(z\) on \(X\setminus\{\infty\}\), and near \(\infty\) use
+	\[
+	w=\frac{1}{z},
+	\]
+	so that \(w=0\) corresponds to \(\infty\).
+	
+	For a nonzero meromorphic function \(f\), define its principal divisor by
+	\[
+	(f)=\sum_{p\in X}\operatorname{ord}_p(f)[p].
+	\]
+	
+	For a small positively oriented loop \(\gamma_p\) around \(p\), one has
+	\[
+	\operatorname{ord}_p(f)=\frac{1}{2\pi i}\int_{\gamma_p}\frac{df}{f}.
+	\]
+	
+	\bigskip
+	\hrule
+	\bigskip
+	
+	\subsection*{Dictionary}
+	
+	\[
+	\renewcommand{\arraystretch}{1.6}
+	\begin{array}{|p{0.43\textwidth}|p{0.43\textwidth}|}
+		\hline
+		\textbf{Divisor / order language} & \textbf{Winding / integral language} \\
+		\hline
+		\(\operatorname{ord}_p(f)\) is the zero/pole order of \(f\) at \(p\). &
+		\(\displaystyle \operatorname{ord}_p(f)=\frac{1}{2\pi i}\int_{\gamma_p}\frac{df}{f}\) is the winding number of \(f(\gamma_p)\) around \(0\). \\
+		\hline
+		A zero of order \(m\) contributes \(+m[p]\). &
+		A local winding number \(+m\) contributes \(+m\). \\
+		\hline
+		A pole of order \(m\) contributes \(-m[p]\). &
+		A local winding number \(-m\) contributes \(-m\). \\
+		\hline
+		\((f)\) is the principal divisor of \(f\). &
+		\((f)\) is the collection of all local winding numbers of \(f\). \\
+		\hline
+		\(\deg(f)=0\). &
+		\(\displaystyle \sum_{p\in X}\frac{1}{2\pi i}\int_{\gamma_p}\frac{df}{f}=0\), i.e.\ total winding balances globally. \\
+		\hline
+		\(D\sim E\) means \(D-E=(f)\). &
+		\(D\sim E\) means the difference between \(D\) and \(E\) is realized by winding data of a global meromorphic function. \\
+		\hline
+		\([a]-[\infty]=(z-a)\). &
+		\(z-a\) has winding \(+1\) at \(a\) and winding \(-1\) at \(\infty\). \\
+		\hline
+	\end{array}
+	\]
+	
+	\bigskip
+	\hrule
+	\bigskip
+	
+	\subsection*{The basic model computation}
+	
+	\subsubsection*{Left column: divisor computation}
+	
+	Let \(f(z)=z-a\). Then:
+	\[
+	\operatorname{ord}_a(z-a)=1.
+	\]
+	Near \(\infty\), using \(w=1/z\),
+	\[
+	z-a=\frac{1-aw}{w},
+	\]
+	so \(z-a\) has a simple pole at \(w=0\), hence
+	\[
+	\operatorname{ord}_\infty(z-a)=-1.
+	\]
+	Therefore
+	\[
+	(z-a)=[a]-[\infty].
+	\]
+	
+	\subsubsection*{Right column: winding computation}
+	
+	Again let \(f(z)=z-a\). Around a small loop \(\gamma_a\),
+	\[
+	\frac{1}{2\pi i}\int_{\gamma_a}\frac{d(z-a)}{z-a}=1.
+	\]
+	So \(f\) winds once around \(0\) near \(a\).
+	
+	Near \(\infty\), write
+	\[
+	z-a=\frac{1-aw}{w}.
+	\]
+	Then
+	\[
+	\frac{d(z-a)}{z-a}=d\log(1-aw)-d\log w.
+	\]
+	The first term contributes \(0\) around \(w=0\), while the second contributes \(-2\pi i\). So
+	\[
+	\frac{1}{2\pi i}\int_{\gamma_\infty}\frac{d(z-a)}{z-a}=-1.
+	\]
+	Hence \(z-a\) contributes one unit of winding at \(a\) and minus one unit at \(\infty\).
+	
+	\bigskip
+	
+	\[
+	\boxed{(z-a)=[a]-[\infty]}
+	\]
+	
+	\bigskip
+	
+	This is the single most important computation in the entire story.
+	
+	\bigskip
+	\hrule
+	\bigskip
+	
+	\subsection*{What \texorpdfstring{$[a]\sim[\infty]$}{[a]~[infinity]} means in the two languages}
+	
+	\[
+	\renewcommand{\arraystretch}{1.7}
+	\begin{array}{|p{0.43\textwidth}|p{0.43\textwidth}|}
+		\hline
+		\textbf{Divisor / order language} & \textbf{Winding / integral language} \\
+		\hline
+		\([a]\sim [\infty]\) because \([a]-[\infty]=(z-a)\) is principal. &
+		A single positive winding at \(a\) can be transferred to \(\infty\) by the function \(z-a\). \\
+		\hline
+	\end{array}
+	\]
+	
+	So linear equivalence here means: one can redistribute local winding data by multiplying by a global meromorphic function.
+	
+	\bigskip
+	\hrule
+	\bigskip
+	
+	\subsection*{The ratio \texorpdfstring{$\frac{z-a}{z-b}$}{(z-a)/(z-b)}}
+	
+	\subsubsection*{Left column}
+	
+	\[
+	\left(\frac{z-a}{z-b}\right)=(z-a)-(z-b)=([a]-[\infty])-([b]-[\infty])=[a]-[b].
+	\]
+	Hence
+	\[
+	[a]\sim [b].
+	\]
+	
+	\subsubsection*{Right column}
+	
+	Let
+	\[
+	f(z)=\frac{z-a}{z-b}.
+	\]
+	Then
+	\[
+	\frac{df}{f}
+	=
+	\frac{d(z-a)}{z-a}-\frac{d(z-b)}{z-b}.
+	\]
+	So:
+	\[
+	\frac{1}{2\pi i}\int_{\gamma_a}\frac{df}{f}=1,\qquad
+	\frac{1}{2\pi i}\int_{\gamma_b}\frac{df}{f}=-1,
+	\]
+	and the contribution at \(\infty\) cancels:
+	\[
+	\frac{1}{2\pi i}\int_{\gamma_\infty}\frac{df}{f}=0.
+	\]
+	Thus the function creates one positive winding at \(a\), one negative winding at \(b\), and nothing else.
+	
+	\bigskip
+	
+	\[
+	\boxed{\left(\frac{z-a}{z-b}\right)=[a]-[b]}
+	\]
+	
+	\bigskip
+	\hrule
+	\bigskip
+	
+	\subsection*{General divisor supported on finite points}
+	
+	Let
+	\[
+	D=\sum_{j=1}^r n_j[a_j],
+	\qquad a_j\in\mathbf{C}.
+	\]
+	Define
+	\[
+	f(z)=\prod_{j=1}^r (z-a_j)^{n_j}.
+	\]
+	
+	\subsubsection*{Left column}
+	
+	Using \((z-a_j)=[a_j]-[\infty]\),
+	\[
+	(f)=\sum_{j=1}^r n_j([a_j]-[\infty])
+	=\sum_{j=1}^r n_j[a_j]-\left(\sum_{j=1}^r n_j\right)[\infty].
+	\]
+	Therefore
+	\[
+	(f)=D-\deg(D)[\infty].
+	\]
+	So
+	\[
+	D\sim \deg(D)[\infty].
+	\]
+	
+	\subsubsection*{Right column}
+	
+	Since
+	\[
+	\frac{df}{f}
+	=
+	\sum_{j=1}^r n_j\frac{d(z-a_j)}{z-a_j},
+	\]
+	the local winding at \(a_j\) is \(n_j\):
+	\[
+	\frac{1}{2\pi i}\int_{\gamma_{a_j}}\frac{df}{f}=n_j.
+	\]
+	The total winding over all points must sum to zero, so the contribution at \(\infty\) is
+	\[
+	-\sum_{j=1}^r n_j=-\deg(D).
+	\]
+	Hence the winding pattern realized by \(f\) is exactly
+	\[
+	D-\deg(D)[\infty].
+	\]
+	Therefore the only leftover information in the divisor class is total degree.
+	
+	\bigskip
+	
+	\[
+	\boxed{D\sim \deg(D)[\infty]}
+	\]
+	
+	\bigskip
+	\hrule
+	\bigskip
+	
+	\subsection*{Why principal divisors have degree zero}
+	
+	\[
+	\renewcommand{\arraystretch}{1.7}
+	\begin{array}{|p{0.43\textwidth}|p{0.43\textwidth}|}
+		\hline
+		\textbf{Divisor / order language} & \textbf{Winding / integral language} \\
+		\hline
+		\(\deg(f)=\sum_p \operatorname{ord}_p(f)=0\). &
+		\(\displaystyle \sum_p \frac{1}{2\pi i}\int_{\gamma_p}\frac{df}{f}=0\). Total winding on a compact surface must balance. \\
+		\hline
+		This follows because principal divisors do not change degree. &
+		This follows because \(\frac{df}{f}\) is meromorphic and the sum of its residues is \(0\). \\
+		\hline
+	\end{array}
+	\]
+	
+	More explicitly,
+	\[
+	\operatorname{res}_p\!\left(\frac{df}{f}\right)=\operatorname{ord}_p(f),
+	\]
+	so by the residue theorem,
+	\[
+	\sum_{p\in \mathbf{CP}^1}\operatorname{ord}_p(f)=0.
+	\]
+	
+	\bigskip
+	\hrule
+	\bigskip
+	
+	\subsection*{The theorem in parallel form}
+	
+	\subsubsection*{Theorem}
+	For every divisor \(D\) on \(\mathbf{CP}^1\),
+	\[
+	D\sim \deg(D)[\infty].
+	\]
+	
+	\subsubsection*{Proof in divisor language}
+	Write
+	\[
+	D=\sum_{j=1}^r n_j[a_j]+m[\infty].
+	\]
+	Then
+	\[
+	\sum_{j=1}^r n_j[a_j]\sim \left(\sum_{j=1}^r n_j\right)[\infty].
+	\]
+	Hence
+	\[
+	D\sim \left(\sum_{j=1}^r n_j\right)[\infty]+m[\infty]
+	=\deg(D)[\infty].
+	\]
+	
+	\subsubsection*{Proof in winding language}
+	Each factor \(z-a_j\) contributes one positive unit of winding at \(a_j\) and one negative unit at \(\infty\). Raising to power \(n_j\) scales that by \(n_j\). Multiplying all factors adds the winding data. So every prescribed local winding pattern on finite points can be realized by a rational function, and the only necessary balancing term is the negative total winding at \(\infty\). That balancing coefficient is exactly \(-\deg(D)\). Hence \(D\) is equivalent to concentrating all net winding at \(\infty\), namely \(\deg(D)[\infty]\).
+	
+	\bigskip
+	\hrule
+	\bigskip
+	
+	\subsection*{Consequences in parallel form}
+	
+	\[
+	\renewcommand{\arraystretch}{1.7}
+	\begin{array}{|p{0.43\textwidth}|p{0.43\textwidth}|}
+		\hline
+		\textbf{Divisor / order language} & \textbf{Winding / integral language} \\
+		\hline
+		Two divisors \(D,E\) are linearly equivalent iff \(\deg(D)=\deg(E)\). &
+		Two winding patterns are equivalent iff they have the same total net winding. \\
+		\hline
+		\(\Div(\mathbf{CP}^1)/\sim \;\cong\; \mathbf{Z}\). &
+		A divisor class is determined by the net winding stored at \(\infty\). \\
+		\hline
+		Every degree-zero divisor is principal on \(\mathbf{CP}^1\). &
+		Any winding pattern with total sum \(0\) can be realized by a rational function on \(\mathbf{CP}^1\). \\
+		\hline
+	\end{array}
+	\]
+	
+	\bigskip
+	\hrule
+	\bigskip
+	
+	\subsection*{What is special about \texorpdfstring{$\mathbf{CP}^1$}{CP1}?}
+	
+	\subsubsection*{Divisor language}
+	On \(\mathbf{CP}^1\), every point satisfies
+	\[
+	[a]-[\infty]=(z-a).
+	\]
+	So every point is linearly equivalent to \(\infty\).
+	
+	\subsubsection*{Winding language}
+	There is a global affine coordinate \(z\) on \(\mathbf{C}\subset \mathbf{CP}^1\), and the functions \(z-a\) let us create one unit of local winding at any chosen finite point, balanced by \(-1\) at \(\infty\). This gives enormous control over local winding data.
+	
+	On a higher-genus compact Riemann surface, there is no such global coordinate and no analogous family of globally defined functions \(z-a\). So arbitrary degree-zero winding data need not come from a global meromorphic function.
+	
+	\bigskip
+	\hrule
+	\bigskip
+	
+	\subsection*{Exercises in parallel style}
+	
+	\begin{enumerate}
+		\item Fill in the two-column proof that
+		\[
+		(z)=[0]-[\infty].
+		\]
+		
+		\item Fill in the two-column proof that
+		\[
+		\left(\frac{z-a}{z-b}\right)=[a]-[b].
+		\]
+		
+		\item Let
+		\[
+		f(z)=\frac{(z-1)^3(z+2)^5}{(z-i)^2}.
+		\]
+		Compute \((f)\) in divisor language, then recompute it from loop integrals of \(\frac{df}{f}\).
+		
+		\item Let
+		\[
+		D=2[0]-[1]+4[\infty].
+		\]
+		Find \(\deg(D)\), then explain in both languages why
+		\[
+		D\sim 5[\infty].
+		\]
+		
+		\item Explain in both languages why the divisor
+		\[
+		[0]+[1]+[2]-3[\infty]
+		\]
+		is principal.
+		
+		\item Write a short paragraph explaining the sentence:
+		\[
+		\text{``A divisor on }\mathbf{CP}^1\text{ is local winding data, and degree is the net winding at }\infty\text{.''}
+		\]
+	\end{enumerate}
+	
+	\bigskip
+	\hrule
+	\bigskip
+	
+	\subsection*{Final slogan}
+	
+	\begin{center}
+		\fbox{
+			\parbox{0.88\textwidth}{
+				On \(\mathbf{CP}^1\), divisor theory and winding-number theory are the same thing:
+				\[
+				\operatorname{ord}_p(f)=\frac{1}{2\pi i}\int_{\gamma_p}\frac{df}{f}.
+				\]
+				The function \(z-a\) moves one unit of winding from \(a\) to \(\infty\). Repeating this for every point appearing in a divisor collapses the divisor to a single coefficient at \(\infty\), namely \(\deg(D)\). Thus
+				\[
+				D\sim \deg(D)[\infty].
+				\]
+			}
+		}
+	\end{center}
+
+\newpage
+Two divisors \(D,E\) on a Riemann surface \(X\) are linearly equivalent if
+\[
+D-E=(f)
+\]
+for some nonzero meromorphic function \(f\in \mathcal M(X)^\times\).
+
+Using the winding form, this means:
+\[
+D-E
+=
+\sum_{p\in X}
+\left(
+\frac{1}{2\pi i}\int_{\gamma_p}\frac{df}{f}
+\right)[p].
+\]
+So \(D\sim E\) exactly when the difference between the coefficients of \(D\) and \(E\) is realized by the local winding numbers of one global meromorphic function.
+
+\newpage
+A divisor \(D\) determines a line bundle \(\mathcal O(D)\). Two divisors \(D,E\) are linearly equivalent iff
+\[
+D-E=(g)
+\]
+for some nonzero meromorphic function \(g\). This is equivalent to
+\[
+\mathcal O(D)\cong \mathcal O(E).
+\]
+
+Indeed, if \(E=D+(g)\), then multiplication by \(g^{-1}\) defines an isomorphism
+\[
+\mathcal O(D)\xrightarrow{\sim}\mathcal O(E).
+\]
+Locally, the coefficient of \([p]\) in \(E-D\) is
+\[
+\operatorname{ord}_p(g)=\frac{1}{2\pi i}\int_{\gamma_p}\frac{dg}{g},
+\]
+so the difference between \(D\) and \(E\) is exactly the local winding data of the meromorphic change of frame \(g\). Thus linearly equivalent divisors define the same holomorphic line bundle.
+	
+\end{document}

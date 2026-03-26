@@ -1,0 +1,342 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath,amssymb,mathtools}
+\usepackage[a4paper,margin=0.8in]{geometry}
+\usepackage{enumitem}
+\usepackage{framed}
+\pagestyle{empty}
+
+\begin{document}
+	
+	\begin{center}
+		{\Large \textbf{Master Summary Sheet}}\\[4pt]
+		{\large \textbf{Cohomology on \(\mathbb{R}^2\setminus\{0\}\), \(S^2\), \(T^2\), and Gauss--Bonnet}}
+	\end{center}
+	
+	\vspace{0.5em}
+	
+	\begin{framed}
+		\noindent\textbf{Main principle.}
+		\[
+		\boxed{\text{Cohomology measures when a closed form is not exact.}}
+		\]
+		Equivalently:
+		\[
+		\boxed{\text{local primitives may exist, but a global primitive may fail to exist.}}
+		\]
+	\end{framed}
+	
+	\section*{1. de Rham cohomology}
+	
+	\[
+	H^k_{\mathrm{dR}}(M)
+	=
+	\frac{\{\text{closed }k\text{-forms}\}}{\{\text{exact }k\text{-forms}\}}.
+	\]
+	
+	\begin{itemize}[leftmargin=2em,itemsep=0.2em]
+		\item \(\omega\) is \textbf{closed} if \(d\omega=0\).
+		\item \(\omega\) is \textbf{exact} if \(\omega=d\eta\).
+		\item Exact \(\Rightarrow\) closed, since \(d^2=0\).
+		\item To prove \(\omega\) is \emph{not} exact, find a closed cycle \(C\) with
+		\[
+		\int_C \omega \neq 0.
+		\]
+	\end{itemize}
+	
+	\section*{2. Model example: winding form on \(\mathbb{R}^2\setminus\{0\}\)}
+	
+	\[
+	\eta=\frac{-y\,dx+x\,dy}{x^2+y^2}.
+	\]
+	
+	In polar coordinates,
+	\[
+	x=r\cos\theta,\qquad y=r\sin\theta,
+	\]
+	one gets
+	\[
+	\eta=d\theta.
+	\]
+	
+	So:
+	\[
+	d\eta=0.
+	\]
+	
+	But around the unit circle,
+	\[
+	\int_{|z|=1}\eta=\int_0^{2\pi}d\theta=2\pi\neq 0.
+	\]
+	
+	Therefore:
+	\[
+	[\eta]\neq 0 \in H^1_{\mathrm{dR}}(\mathbb{R}^2\setminus\{0\}).
+	\]
+	
+	\begin{framed}
+		\noindent\textbf{Meaning.} The angle \(\theta\) exists locally but not as a globally single-valued function.
+	\end{framed}
+	
+	\section*{3. Sphere \(S^2\)}
+	
+	Using spherical coordinates,
+	\[
+	X(\theta,\phi)=(\sin\phi\cos\theta,\sin\phi\sin\theta,\cos\phi),
+	\]
+	the metric is
+	\[
+	ds^2=d\phi^2+\sin^2\phi\,d\theta^2,
+	\]
+	so the area form is
+	\[
+	dA=\sin\phi\,d\theta\wedge d\phi.
+	\]
+	
+	Since \(S^2\) is \(2\)-dimensional,
+	\[
+	d(dA)=0,
+	\]
+	so \(dA\) is closed.
+	
+	Also,
+	\[
+	\int_{S^2}dA
+	=
+	\int_0^{2\pi}\int_0^\pi \sin\phi\,d\phi\,d\theta
+	=
+	4\pi.
+	\]
+	
+	Hence \(dA\) is not exact. Therefore
+	\[
+	[dA]\neq 0\in H^2_{\mathrm{dR}}(S^2).
+	\]
+	
+	So:
+	\[
+	H^0_{\mathrm{dR}}(S^2)\cong \mathbb{R},\qquad
+	H^1_{\mathrm{dR}}(S^2)=0,\qquad
+	H^2_{\mathrm{dR}}(S^2)\cong \mathbb{R}.
+	\]
+	
+	\subsection*{Local primitives on \(S^2\)}
+	
+	On
+	\[
+	U_N=S^2\setminus\{N\},\qquad U_S=S^2\setminus\{S\},
+	\]
+	define
+	\[
+	\alpha_N=(1-\cos\phi)\,d\theta,\qquad
+	\alpha_S=-(1+\cos\phi)\,d\theta.
+	\]
+	
+	Then locally,
+	\[
+	d\alpha_N=dA,\qquad d\alpha_S=dA
+	\]
+	up to orientation convention, and on the overlap,
+	\[
+	\alpha_N-\alpha_S=2\,d\theta.
+	\]
+	
+	\begin{framed}
+		\noindent\textbf{Meaning.} The area form is locally exact, but the local primitives differ by winding on the overlap.
+	\end{framed}
+	
+	\section*{4. Torus \(T^2=\mathbb{R}^2/\mathbb{Z}^2\)}
+	
+	The forms \(dx,dy\) descend to global \(1\)-forms on \(T^2\), with
+	\[
+	d(dx)=0,\qquad d(dy)=0.
+	\]
+	
+	Let
+	\[
+	\gamma_x(t)=(t,0)\mod \mathbb{Z}^2,\qquad
+	\gamma_y(t)=(0,t)\mod \mathbb{Z}^2,\qquad 0\le t\le 1.
+	\]
+	
+	Then
+	\[
+	\int_{\gamma_x}dx=1,\qquad \int_{\gamma_y}dy=1,
+	\]
+	so neither \(dx\) nor \(dy\) is exact.
+	
+	Thus
+	\[
+	[dx],[dy]\neq 0 \in H^1_{\mathrm{dR}}(T^2).
+	\]
+	
+	Now
+	\[
+	dx\wedge dy
+	\]
+	is closed, and
+	\[
+	\int_{T^2}dx\wedge dy=1,
+	\]
+	so it is not exact. Hence
+	\[
+	[dx\wedge dy]\neq 0 \in H^2_{\mathrm{dR}}(T^2).
+	\]
+	
+	Therefore
+	\[
+	H^0_{\mathrm{dR}}(T^2)\cong \mathbb{R},\qquad
+	H^1_{\mathrm{dR}}(T^2)\cong \mathbb{R}^2,\qquad
+	H^2_{\mathrm{dR}}(T^2)\cong \mathbb{R}.
+	\]
+	
+	The ring structure is
+	\[
+	[dx]\wedge[dy]=[dx\wedge dy],\qquad
+	[dy]\wedge[dx]=-[dx\wedge dy].
+	\]
+	
+	\begin{framed}
+		\noindent\textbf{Meaning.} On the torus, the two basic winding directions are \([dx]\) and \([dy]\), and their wedge gives the top class.
+	\end{framed}
+	
+	\section*{5. Curvature and Gauss--Bonnet}
+	
+	For an oriented Riemannian surface \(M\), with Gaussian curvature \(K\) and area form \(dA\), the curvature \(2\)-form is
+	\[
+	K\,dA.
+	\]
+	
+	Since \(M\) is \(2\)-dimensional,
+	\[
+	d(K\,dA)=0,
+	\]
+	so \(K\,dA\) is closed.
+	
+	Locally, if \(\omega_{12}\) is the connection \(1\)-form for a positively oriented orthonormal frame, then
+	\[
+	d\omega_{12}=K\,dA.
+	\]
+	
+	So curvature is \emph{locally exact}.
+	
+	Gauss--Bonnet says:
+	\[
+	\boxed{\int_M K\,dA = 2\pi\chi(M).}
+	\]
+	
+	Equivalently,
+	\[
+	\boxed{\frac{1}{2\pi}[K\,dA]=e(TM)}
+	\]
+	in de Rham cohomology, where \(e(TM)\) is the Euler class.
+	
+	\section*{6. Check Gauss--Bonnet on \(S^2\) and \(T^2\)}
+	
+	\subsection*{Sphere}
+	For the unit sphere,
+	\[
+	K\equiv 1.
+	\]
+	So
+	\[
+	K\,dA=dA,
+	\qquad
+	\int_{S^2}K\,dA=4\pi.
+	\]
+	Since
+	\[
+	\chi(S^2)=2,
+	\]
+	we get
+	\[
+	4\pi=2\pi\chi(S^2).
+	\]
+	
+	\subsection*{Flat torus}
+	For the flat torus,
+	\[
+	K\equiv 0.
+	\]
+	So
+	\[
+	K\,dA=0,
+	\qquad
+	\int_{T^2}K\,dA=0.
+	\]
+	Since
+	\[
+	\chi(T^2)=0,
+	\]
+	we get
+	\[
+	0=2\pi\chi(T^2).
+	\]
+	
+	\begin{framed}
+		\noindent\textbf{Important distinction.}
+		\[
+		[dA]\neq 0 \text{ on }T^2,
+		\qquad
+		[K\,dA]=0 \text{ for the flat torus.}
+		\]
+		Gauss--Bonnet is about \(K\,dA\), not about \(dA\) alone.
+	\end{framed}
+	
+	\section*{7. Sphere transition function and Euler class}
+	
+	In stereographic coordinates,
+	\[
+	z=\frac{X+iY}{1-Z},\qquad
+	w=\frac{X-iY}{1+Z},
+	\]
+	and on the overlap,
+	\[
+	w=\frac{1}{z}.
+	\]
+	
+	So the tangent-bundle transition function is
+	\[
+	\frac{dw}{dz}=-\frac{1}{z^2}.
+	\]
+	
+	Along the equator, \(z=e^{i\theta}\), so
+	\[
+	\frac{dw}{dz}=-e^{-2i\theta}.
+	\]
+	
+	This winds twice around \(S^1\). Hence the tangent bundle of \(S^2\) has degree \(2\), so
+	\[
+	e(TS^2)[S^2]=2.
+	\]
+	
+	This matches:
+	\[
+	\chi(S^2)=2,
+	\qquad
+	\frac{1}{2\pi}\int_{S^2}K\,dA=2.
+	\]
+	
+	\section*{8. Final memory map}
+	
+	\[
+	\begin{array}{c|c|c|c}
+		\text{Space} & \text{Closed not exact form} & \text{Nonzero cohomology} & \text{Gauss--Bonnet} \\
+		\hline
+		\mathbb{R}^2\setminus\{0\} & \eta=d\theta & H^1 & \text{winding} \\
+		S^2 & dA & H^2 & \int K\,dA=4\pi \\
+		T^2 & dx,\,dy,\,dx\wedge dy & H^1,H^2 & \int K\,dA=0 \text{ (flat)} \\
+	\end{array}
+	\]
+	
+	\begin{framed}
+		\noindent\textbf{Ultimate summary.}
+		\[
+		\boxed{
+			\text{Winding form } \longrightarrow \text{cohomology class } \longrightarrow
+			\text{overlap obstruction } \longrightarrow
+			\text{Euler class } \longrightarrow
+			\text{Gauss--Bonnet.}
+		}
+		\]
+	\end{framed}
+	
+\end{document}
