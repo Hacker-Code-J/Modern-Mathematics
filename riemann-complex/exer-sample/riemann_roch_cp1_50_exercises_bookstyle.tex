@@ -1,0 +1,868 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{microtype}
+\usepackage{titlesec}
+\geometry{margin=1in}
+\hypersetup{colorlinks=true,linkcolor=blue,urlcolor=blue,citecolor=blue}
+
+\setlength{\parskip}{0.45em}
+\setlength{\parindent}{0pt}
+\setlist[itemize]{leftmargin=2em}
+\setlist[enumerate]{leftmargin=2.25em}
+
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\CP}{\mathbb{CP}}
+\newcommand{\PP}{\mathbb{P}}
+\newcommand{\OO}{\mathcal{O}}
+\newcommand{\MM}{\mathcal{M}}
+\newcommand{\Div}{\operatorname{Div}}
+\newcommand{\Pic}{\operatorname{Pic}}
+\newcommand{\ord}{\operatorname{ord}}
+\newcommand{\degd}{\operatorname{deg}}
+\newcommand{\supp}{\operatorname{supp}}
+\newcommand{\CPone}{\CP^1}
+\newcommand{\into}{\hookrightarrow}
+\newcommand{\surj}{\twoheadrightarrow}
+\newcommand{\ellD}{\ell}
+\newcommand{\Cstar}{\C^{\times}}
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{exercise}{Exercise}
+\newtheorem{remark}[theorem]{Remark}
+
+\titleformat{\section}{\large\bfseries}{\thesection.}{0.6em}{}
+\titleformat{\subsection}{\normalsize\bfseries}{\thesubsection.}{0.6em}{}
+
+\title{Riemann--Roch on the Projective Line\\[4pt]
+\large A Book-Style Introduction with 50 Exercises}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+\section{Introduction}
+The purpose of this chapter is to understand the Riemann--Roch theorem in the simplest compact Riemann surface,
+\[
+X=\CPone.
+\]
+For an arbitrary compact Riemann surface $X$ of genus $g$, the Riemann--Roch theorem states that
+\[
+\ellD(D)-\ellD(K-D)=\degd D+1-g,
+\]
+where $D$ is a divisor on $X$, $K$ is a canonical divisor, and
+\[
+L(D)=\{f\in \MM(X)\setminus\{0\}:(f)+D\ge 0\}\cup\{0\},
+\qquad
+\ellD(D)=\dim_{\C}L(D).
+\]
+On the projective line the genus is $0$, so the formula becomes
+\[
+\ellD(D)-\ellD(K-D)=\degd D+1.
+\]
+
+What makes $\CPone$ special is that every relevant object can be computed explicitly. Meromorphic functions are rational functions, every divisor class is determined by degree, the canonical divisor is easy to write down, and the spaces $L(D)$ can be described by elementary polynomial calculations. Consequently, the theorem becomes a concrete identity rather than a mysterious abstract statement.
+
+The chapter proceeds as follows. We begin with the geometry of $\CPone$, then study meromorphic functions and divisors, compute divisor classes and spaces of sections, determine the canonical divisor, and finally prove Riemann--Roch in this setting. The last section contains fifty exercises arranged in increasing order of difficulty.
+
+\section{The projective line}
+\subsection{Definition and affine charts}
+\begin{definition}
+The \emph{complex projective line} is the quotient
+\[
+\CPone=(\C^2\setminus\{(0,0)\})/\Cstar,
+\]
+where $\lambda\in\Cstar$ acts by
+\[
+\lambda\cdot(Z_0,Z_1)=(\lambda Z_0,\lambda Z_1).
+\]
+The class of $(Z_0,Z_1)$ is denoted by $[Z_0:Z_1]$.
+\end{definition}
+
+The two standard affine charts are
+\[
+U_0=\{[Z_0:Z_1]\in\CPone: Z_0\neq 0\},
+\qquad
+U_{\infty}=\{[Z_0:Z_1]\in\CPone: Z_1\neq 0\}.
+\]
+On $U_0$ one uses the coordinate
+\[
+z=\frac{Z_1}{Z_0},
+\]
+and on $U_{\infty}$ one uses
+\[
+w=\frac{Z_0}{Z_1}.
+\]
+On the overlap $U_0\cap U_{\infty}$ these coordinates satisfy
+\[
+w=\frac{1}{z}.
+\]
+Thus $\CPone$ is obtained by gluing two copies of $\C$ by inversion.
+
+\begin{remark}
+The distinguished point
+\[
+\infty=[0:1]
+\]
+lies in $U_{\infty}$ and corresponds to $w=0$. In the chart $U_0\cong\C$, the projective line looks like the complex plane together with one additional point at infinity.
+\end{remark}
+
+\subsection{Meromorphic functions on \texorpdfstring{$\CPone$}{CP1}}
+\begin{proposition}
+Every meromorphic function on $\CPone$ is a rational function in the affine coordinate $z$. Equivalently,
+\[
+\MM(\CPone)=\C(z).
+\]
+\end{proposition}
+
+\begin{proof}
+Every rational function in $z$ defines a meromorphic function on $U_0\cong\C$, and after the substitution $z=1/w$ it is meromorphic near $w=0$, hence on all of $\CPone$.
+
+Conversely, let $f\in\MM(\CPone)$. Restricting to the chart $U_0\cong\C$, we obtain a meromorphic function on $\C$. Since the only point omitted by the affine chart is $\infty$, the function has at worst an isolated singularity there. A meromorphic function on $\C$ with at worst a pole at infinity is rational. Therefore $f\in\C(z)$.
+\end{proof}
+
+\begin{remark}
+This is the first great simplification of the genus-zero case: all global meromorphic data are encoded by elementary algebra in one variable.
+\end{remark}
+
+\section{Divisors on the projective line}
+\subsection{Orders and principal divisors}
+\begin{definition}
+A \emph{divisor} on $\CPone$ is a finite formal sum
+\[
+D=\sum_{p\in \CPone} n_p[p],\qquad n_p\in\Z.
+\]
+Its \emph{degree} is
+\[
+\degd D=\sum_{p\in\CPone} n_p.
+\]
+If $f\in\MM(\CPone)^\times$, then its \emph{principal divisor} is
+\[
+(f)=\sum_{p\in\CPone}\ord_p(f)[p].
+\]
+\end{definition}
+
+\begin{example}
+Consider the function $z-a$ on $U_0$. It has a simple zero at $a\in\C$. To compute its order at $\infty$, write $z=1/w$. Then
+\[
+z-a=\frac{1-aw}{w}.
+\]
+Near $w=0$ the factor $1-aw$ is a unit and $1/w$ has a simple pole. Hence
+\[
+(z-a)=[a]-[\infty].
+\]
+\end{example}
+
+\begin{example}
+For distinct $a,b\in\C$,
+\[
+\left(\frac{z-a}{z-b}\right)=[a]-[b].
+\]
+This is an elementary but fundamental example of a principal divisor.
+\end{example}
+
+\begin{lemma}
+If $m\in\Z$, then
+\[
+(z^m)=m[0]-m[\infty].
+\]
+\end{lemma}
+
+\begin{proof}
+For $m\ge 0$, the function $z^m$ has a zero of order $m$ at $0$ and, since $z=1/w$ near $\infty$, a pole of order $m$ at $\infty$. The case $m<0$ follows by applying the positive case to $z^{-m}$ and then negating the divisor.
+\end{proof}
+
+\begin{proposition}
+Every principal divisor on $\CPone$ has degree $0$.
+\end{proposition}
+
+\begin{proof}
+Let $f=P/Q$ with coprime polynomials $P,Q\in\C[z]$, where $\deg P=m$ and $\deg Q=n$. The total order of the finite zeros of $f$ is $m$, and the total order of the finite poles is $-n$. Near $\infty$ we have
+\[
+f(1/w)=\frac{P(1/w)}{Q(1/w)}\sim c\,w^{n-m},
+\]
+so
+\[
+\ord_{\infty}(f)=n-m.
+\]
+Hence
+\[
+\degd(f)=m-n+(n-m)=0.
+\]
+\end{proof}
+
+\subsection{Linear equivalence}
+\begin{definition}
+Two divisors $D,E$ are \emph{linearly equivalent}, written $D\sim E$, if there exists $f\in\MM(\CPone)^\times$ such that
+\[
+D-E=(f).
+\]
+\end{definition}
+
+\begin{theorem}
+Every divisor on $\CPone$ is linearly equivalent to a unique multiple of $[\infty]$. More precisely, for every divisor $D$,
+\[
+D\sim (\degd D)[\infty].
+\]
+Consequently,
+\[
+\Pic(\CPone)\cong \Z,
+\qquad
+[D]\longmapsto \degd D.
+\]
+\end{theorem}
+
+\begin{proof}
+Write the divisor in the form
+\[
+D=\sum_{i=1}^r m_i[a_i]-\sum_{j=1}^s n_j[b_j]+c[\infty],
+\]
+where $a_i,b_j\in\C$ and $m_i,n_j>0$. Consider the rational function
+\[
+h(z)=\frac{\prod_{i=1}^r (z-a_i)^{m_i}}{\prod_{j=1}^s (z-b_j)^{n_j}}.
+\]
+Using $(z-a)=[a]-[\infty]$, we obtain
+\[
+(h)=\sum_{i=1}^r m_i[a_i]-\sum_{j=1}^s n_j[b_j]-\left(\sum_{i=1}^r m_i-\sum_{j=1}^s n_j\right)[\infty].
+\]
+Subtracting, we find
+\[
+D-(h)=\left(c+\sum_{i=1}^r m_i-\sum_{j=1}^s n_j\right)[\infty]=(\degd D)[\infty].
+\]
+Thus $D\sim (\degd D)[\infty]$.
+
+Uniqueness follows from degree: if $m[\infty]\sim n[\infty]$, then $(m-n)[\infty]$ is principal and therefore has degree $0$, so $m=n$.
+\end{proof}
+
+\begin{remark}
+This theorem is the divisor-theoretic incarnation of the statement that line bundles on $\CPone$ are classified by degree.
+\end{remark}
+
+\section{The spaces \texorpdfstring{$L(D)$}{L(D)}}
+\subsection{Definition and first reduction}
+\begin{definition}
+For a divisor $D$ on $\CPone$, define
+\[
+L(D)=\{f\in\MM(\CPone)^\times:(f)+D\ge 0\}\cup\{0\}.
+\]
+Its dimension over $\C$ is denoted by
+\[
+\ellD(D)=\dim_{\C}L(D).
+\]
+\end{definition}
+
+The meaning of $L(D)$ is straightforward: it is the space of meromorphic functions whose poles are bounded by $D$. Since every divisor is linearly equivalent to $n[\infty]$, the study of $L(D)$ reduces to the study of the special divisors $n[\infty]$.
+
+\begin{lemma}
+If $D\sim E$, then multiplication by a suitable meromorphic function induces an isomorphism
+\[
+L(D)\cong L(E).
+\]
+In particular, $\ellD(D)=\ellD(E)$.
+\end{lemma}
+
+\begin{proof}
+If $D-E=(h)$, define
+\[
+T_h\colon L(E)\longrightarrow L(D),\qquad f\longmapsto fh.
+\]
+Then
+\[
+(f)+E\ge 0 \iff (fh)+D=(f)+(h)+D=(f)+E\ge 0,
+\]
+so $T_h$ is well-defined. Its inverse is multiplication by $h^{-1}$.
+\end{proof}
+
+\subsection{Explicit computation of \texorpdfstring{$L(n[\infty])$}{L(n[∞])}}
+\begin{proposition}
+For $n\in\Z$,
+\[
+L(n[\infty])=
+\begin{cases}
+0, & n<0,\\[4pt]
+\{\text{polynomials in $z$ of degree at most $n$}\}, & n\ge 0.
+\end{cases}
+\]
+Consequently,
+\[
+\ellD(n[\infty])=
+\begin{cases}
+0, & n<0,\\
+n+1, & n\ge 0.
+\end{cases}
+\]
+\end{proposition}
+
+\begin{proof}
+Assume first that $n\ge 0$. Let $f\in L(n[\infty])$. Then $f$ has no poles on $\C$, so it is an entire function in the coordinate $z$. The condition $(f)+n[\infty]\ge 0$ says that the pole order of $f$ at $\infty$ is at most $n$. Therefore $f$ is a polynomial of degree at most $n$.
+
+Conversely, every polynomial of degree at most $n$ has pole order at most $n$ at $\infty$, so it belongs to $L(n[\infty])$.
+
+If $n<0$, then every element of $L(n[\infty])$ would have to vanish at $\infty$ and be holomorphic on all of $\CPone$. But every global holomorphic function on a compact Riemann surface is constant, and no nonzero constant can vanish at $\infty$. Hence $L(n[\infty])=0$.
+\end{proof}
+
+\begin{corollary}
+If $D$ is any divisor on $\CPone$ and $d=\degd D$, then
+\[
+\ellD(D)=
+\begin{cases}
+0, & d<0,\\
+d+1, & d\ge 0.
+\end{cases}
+\]
+\end{corollary}
+
+\begin{proof}
+Since $D\sim d[\infty]$, the preceding lemma gives $\ellD(D)=\ellD(d[\infty])$, and the result follows from the proposition.
+\end{proof}
+
+\section{The line bundles \texorpdfstring{$\OO(n)$}{O(n)}}
+\subsection{Transition functions}
+The divisor $n[\infty]$ corresponds to a line bundle usually denoted by $\OO(n)$. In concrete terms, it is described on the standard cover $\{U_0,U_{\infty}\}$ by the transition function $z^n$ on the overlap.
+
+A holomorphic section of $\OO(n)$ is given by a pair of holomorphic functions
+\[
+s_0\in \OO(U_0),\qquad s_{\infty}\in \OO(U_{\infty}),
+\]
+satisfying
+\[
+s_{\infty}(w)=w^n s_0(1/w)
+\qquad\text{on }U_0\cap U_{\infty}.
+\]
+
+\begin{proposition}
+For every integer $n$,
+\[
+H^0(\CPone,\OO(n))\cong L(n[\infty]).
+\]
+In particular,
+\[
+h^0(\CPone,\OO(n))=
+\begin{cases}
+0,& n<0,\\
+n+1,& n\ge 0.
+\end{cases}
+\]
+\end{proposition}
+
+\begin{proof}
+A meromorphic function $f\in L(n[\infty])$ may be interpreted as a meromorphic section of the bundle associated with the divisor $n[\infty]$, and the condition $(f)+n[\infty]\ge 0$ says exactly that this section is holomorphic. Conversely, every holomorphic section determines such a meromorphic function.
+
+More concretely, if $n\ge 0$, then $s_0(z)$ must be a polynomial of degree at most $n$, because the expression $w^n s_0(1/w)$ has to extend holomorphically across $w=0$. Thus the space of sections has basis
+\[
+1,z,z^2,\dots,z^n.
+\]
+If $n<0$, no nonzero holomorphic section can satisfy the gluing condition.
+\end{proof}
+
+\begin{remark}
+The bundles $\OO(n)$ are the basic line bundles on the projective line. Every holomorphic line bundle on $\CPone$ is isomorphic to exactly one of them.
+\end{remark}
+
+\section{The canonical divisor}
+\subsection{Meromorphic differentials}
+A meromorphic $1$-form on $\CPone$ can be written in the affine chart as
+\[
+\omega=f(z)\,dz,
+\qquad f(z)\in \C(z).
+\]
+To compute the divisor of $dz$, write $z=1/w$. Then
+\[
+dz=d\left(\frac{1}{w}\right)=-\frac{1}{w^2}\,dw.
+\]
+Therefore $dz$ has a pole of order $2$ at $\infty$ and no zeros or poles elsewhere.
+
+\begin{proposition}
+The divisor of $dz$ is
+\[
+(dz)=-2[\infty].
+\]
+Hence a canonical divisor on $\CPone$ is
+\[
+K\sim -2[\infty].
+\]
+In particular,
+\[
+\degd K=-2.
+\]
+\end{proposition}
+
+\begin{proof}
+The computation in the coordinate $w$ shows that near $w=0$,
+\[
+dz=-w^{-2}dw,
+\]
+so $\ord_{\infty}(dz)=-2$. Elsewhere $dz$ is a nowhere-vanishing holomorphic differential in the coordinate $z$. Hence $(dz)=-2[\infty]$.
+\end{proof}
+
+\begin{remark}
+The identity $\degd K=-2$ is the genus-zero instance of the general formula
+\[
+\degd K=2g-2.
+\]
+\end{remark}
+
+\section{Riemann--Roch on \texorpdfstring{$\CPone$}{CP1}}
+\begin{theorem}[Riemann--Roch on the projective line]
+For every divisor $D$ on $\CPone$,
+\[
+\ellD(D)-\ellD(K-D)=\degd D+1.
+\]
+\end{theorem}
+
+\begin{proof}
+Let $d=\degd D$. Since $D\sim d[\infty]$ and $K\sim -2[\infty]$, we have
+\[
+K-D\sim -(d+2)[\infty].
+\]
+Therefore
+\[
+\ellD(D)=\ellD(d[\infty]),
+\qquad
+\ellD(K-D)=\ellD(-(d+2)[\infty]).
+\]
+We now consider three cases.
+
+\emph{Case 1: $d\ge 0$.} Then
+\[
+\ellD(D)=d+1,
+\qquad
+\ellD(K-D)=0,
+\]
+so
+\[
+\ellD(D)-\ellD(K-D)=d+1.
+\]
+
+\emph{Case 2: $d=-1$.} Then both spaces are zero, and again
+\[
+0-0=0=d+1.
+\]
+
+\emph{Case 3: $d\le -2$.} Then
+\[
+\ellD(D)=0,
+\qquad
+\ellD(K-D)=\ellD((-d-2)[\infty])=-d-1,
+\]
+whence
+\[
+\ellD(D)-\ellD(K-D)=0-(-d-1)=d+1.
+\]
+This proves the formula in all cases.
+\end{proof}
+
+\begin{corollary}
+For every divisor $D$ on $\CPone$,
+\[
+\ellD(D)=\max\{\degd D+1,0\}.
+\]
+\end{corollary}
+
+\begin{proof}
+This is the explicit dimension formula already established above. It may also be read off from Riemann--Roch because $\ellD(K-D)$ vanishes precisely when $\degd D\ge -1$.
+\end{proof}
+
+\subsection{Interpretation}
+The theorem on $\CPone$ should be viewed as a complete and explicit model of the general theory.
+
+\begin{itemize}
+    \item Meromorphic functions are rational functions.
+    \item Divisor classes are controlled by a single integer, namely degree.
+    \item The canonical divisor is $-2[\infty]$.
+    \item The space $L(D)$ depends only on degree and can be written down by hand.
+\end{itemize}
+
+Thus the genus-zero case exhibits in its simplest form the central idea of Riemann--Roch: the dimension of a space of meromorphic functions is governed by degree, corrected by the canonical divisor.
+
+\section{A homogeneous viewpoint}
+It is often useful to describe sections of $\OO(n)$ by homogeneous polynomials. If $n\ge 0$, every homogeneous polynomial
+\[
+F(Z_0,Z_1)=\sum_{k=0}^{n} a_k Z_0^{n-k}Z_1^k
+\]
+of degree $n$ determines a section of $\OO(n)$. On the chart $U_0$, dividing by $Z_0^n$ yields the polynomial
+\[
+F(1,z)=\sum_{k=0}^{n} a_k z^k.
+\]
+Hence
+\[
+H^0(\CPone,\OO(n))\cong \{\text{homogeneous polynomials of degree $n$ in $Z_0,Z_1$}\}.
+\]
+This identifies the complete linear system $|n[\infty]|$ with the linear system of degree-$n$ homogeneous polynomials and leads naturally to the map
+\[
+\CPone\longrightarrow \PP^n,
+\qquad
+[Z_0:Z_1]\longmapsto [Z_0^n:Z_0^{n-1}Z_1:\dots:Z_1^n],
+\]
+whose image is the rational normal curve.
+
+\section{Fifty exercises}
+The following exercises are arranged from basic computations to more structural consequences. The first twenty are foundational, the next twenty develop fluency with divisors and line bundles, and the final ten emphasize synthesis.
+
+\subsection*{Basic geometry and meromorphic functions}
+\begin{exercise}
+Show that the two standard charts $U_0$ and $U_{\infty}$ cover $\CPone$, and verify directly that the transition relation on the overlap is $w=1/z$.
+\end{exercise}
+
+\begin{exercise}
+Identify the points $0=[1:0]$ and $\infty=[0:1]$ in the two affine charts.
+\end{exercise}
+
+\begin{exercise}
+Show that the map
+\[
+\C\cup\{\infty\}\longrightarrow \CPone,
+\qquad
+z\longmapsto [1:z],\qquad \infty\longmapsto [0:1],
+\]
+is a bijection.
+\end{exercise}
+
+\begin{exercise}
+Compute $\ord_{\infty}(z)$, $\ord_{\infty}(1/z)$, and $\ord_{\infty}(z^m)$ for $m\in\Z$.
+\end{exercise}
+
+\begin{exercise}
+Show that $\MM(\CPone)=\C(z)$ by proving that a meromorphic function on $\C$ with at most a pole at $\infty$ is rational.
+\end{exercise}
+
+\begin{exercise}
+Let $P(z)$ be a nonzero polynomial of degree $n$ with roots $a_1,\dots,a_r$ of multiplicities $m_1,\dots,m_r$. Prove that
+\[
+(P)=\sum_{i=1}^r m_i[a_i]-n[\infty].
+\]
+\end{exercise}
+
+\begin{exercise}
+Let $Q(z)$ be a nonzero polynomial of degree $m$. Compute the divisor of $1/Q(z)$.
+\end{exercise}
+
+\begin{exercise}
+Show that
+\[
+\left(\frac{z-a}{z-b}\right)=[a]-[b]
+\]
+for distinct $a,b\in\C$.
+\end{exercise}
+
+\begin{exercise}
+Let
+\[
+f(z)=\frac{(z-a)^r(z-c)^s}{(z-b)^t}
+\]
+with $a,b,c$ distinct. Compute $(f)$ explicitly.
+\end{exercise}
+
+\begin{exercise}
+Verify directly from rational functions that every principal divisor on $\CPone$ has degree zero.
+\end{exercise}
+
+\subsection*{Divisors and linear equivalence}
+\begin{exercise}
+Show that every point $[a]$ with $a\in\C$ is linearly equivalent to $[\infty]$.
+\end{exercise}
+
+\begin{exercise}
+Prove that every degree-zero divisor on $\CPone$ is principal.
+\end{exercise}
+
+\begin{exercise}
+Let
+\[
+D=[a_1]+[a_2]+\cdots+[a_n]-n[\infty].
+\]
+Construct explicitly a rational function $f$ such that $(f)=D$.
+\end{exercise}
+
+\begin{exercise}
+Given a divisor
+\[
+D=\sum_i m_i[a_i]-\sum_j n_j[b_j]+c[\infty],
+\]
+write down explicitly a rational function $h$ for which $D-(h)=(\degd D)[\infty]$.
+\end{exercise}
+
+\begin{exercise}
+Show that if $m[\infty]\sim n[\infty]$, then $m=n$.
+\end{exercise}
+
+\begin{exercise}
+Deduce that the degree map defines an isomorphism
+\[
+\Pic(\CPone)\cong \Z.
+\]
+\end{exercise}
+
+\begin{exercise}
+Let $D=2[0]-[1]-[\infty]$. Show that $D$ is principal and find one rational function with divisor $D$.
+\end{exercise}
+
+\begin{exercise}
+Let $D=[0]+[1]-2[\infty]$. Describe all nonzero functions $f\in\C(z)$ such that $(f)+2[\infty]\ge 0$ and $f$ vanishes at both $0$ and $1$.
+\end{exercise}
+
+\begin{exercise}
+Suppose $D$ and $E$ are divisors on $\CPone$ with $\degd D=\degd E$. Prove that $D\sim E$.
+\end{exercise}
+
+\begin{exercise}
+Show that the Abelian group $\Div(\CPone)/\operatorname{Prin}(\CPone)$ is generated by the class of $[\infty]$.
+\end{exercise}
+
+\subsection*{The spaces \texorpdfstring{$L(D)$}{L(D)}}
+\begin{exercise}
+Prove that if $D\sim E$, then multiplication by a suitable meromorphic function induces an isomorphism $L(D)\cong L(E)$.
+\end{exercise}
+
+\begin{exercise}
+Show that
+\[
+L(0)=\C.
+\]
+\end{exercise}
+
+\begin{exercise}
+Show that if $n<0$, then $L(n[\infty])=0$.
+\end{exercise}
+
+\begin{exercise}
+Show that if $n\ge 0$, then $L(n[\infty])$ is the space of polynomials in $z$ of degree at most $n$.
+\end{exercise}
+
+\begin{exercise}
+Deduce that
+\[
+\ellD(n[\infty])=
+\begin{cases}
+0,& n<0,\\
+n+1,& n\ge 0.
+\end{cases}
+\]
+\end{exercise}
+
+\begin{exercise}
+Let $D=[0]+[1]-[\infty]$. Compute $\ellD(D)$ and produce an explicit basis for $L(D)$.
+\end{exercise}
+
+\begin{exercise}
+Let $D=2[0]+[1]-3[\infty]$. Compute $\ellD(D)$ and find a basis for $L(D)$.
+\end{exercise}
+
+\begin{exercise}
+Let $D=[0]-2[\infty]$. Determine all functions in $L(D)$.
+\end{exercise}
+
+\begin{exercise}
+Show that if $\degd D<0$, then $L(D)=0$.
+\end{exercise}
+
+\begin{exercise}
+Show that if $\degd D\ge 0$, then $\ellD(D)=\degd D+1$.
+\end{exercise}
+
+\subsection*{The bundles \texorpdfstring{$\OO(n)$}{O(n)}}
+\begin{exercise}
+Write out carefully the gluing condition for a holomorphic section of $\OO(n)$ on the standard cover $\{U_0,U_{\infty}\}$.
+\end{exercise}
+
+\begin{exercise}
+For $n\ge 0$, prove directly from the gluing condition that every holomorphic section of $\OO(n)$ is represented on $U_0$ by a polynomial of degree at most $n$.
+\end{exercise}
+
+\begin{exercise}
+For $n<0$, prove directly from the gluing condition that $H^0(\CPone,\OO(n))=0$.
+\end{exercise}
+
+\begin{exercise}
+Show that
+\[
+h^0(\CPone,\OO(n))=
+\begin{cases}
+0,& n<0,\\
+n+1,& n\ge 0.
+\end{cases}
+\]
+\end{exercise}
+
+\begin{exercise}
+Identify $H^0(\CPone,\OO(n))$ with the vector space of homogeneous polynomials of degree $n$ in two variables.
+\end{exercise}
+
+\begin{exercise}
+Show that every holomorphic line bundle on $\CPone$ is isomorphic to $\OO(n)$ for a unique integer $n$.
+\end{exercise}
+
+\begin{exercise}
+Show that
+\[
+\OO(a)\otimes \OO(b)\cong \OO(a+b).
+\]
+\end{exercise}
+
+\begin{exercise}
+Show that the dual bundle of $\OO(n)$ is $\OO(-n)$.
+\end{exercise}
+
+\begin{exercise}
+Using divisors, explain why $\OO(D)\cong \OO(\degd D)$ on $\CPone$.
+\end{exercise}
+
+\begin{exercise}
+Show that the complete linear system $|n[\infty]|$ defines the map
+\[
+\CPone\longrightarrow \PP^n,
+\qquad
+[Z_0:Z_1]\longmapsto [Z_0^n:Z_0^{n-1}Z_1:\dots:Z_1^n],
+\]
+and describe its image.
+\end{exercise}
+
+\subsection*{Canonical divisor and Riemann--Roch}
+\begin{exercise}
+Compute $(dz)$ on $\CPone$.
+\end{exercise}
+
+\begin{exercise}
+Compute the divisor of $z^m\,dz$ for $m\in\Z$.
+\end{exercise}
+
+\begin{exercise}
+Show that a canonical divisor on $\CPone$ is linearly equivalent to $-2[\infty]$.
+\end{exercise}
+
+\begin{exercise}
+Verify that $\degd K=-2$.
+\end{exercise}
+
+\begin{exercise}
+Compute $\ellD(K)$.
+\end{exercise}
+
+\begin{exercise}
+Let $D=n[\infty]$. Compute $\ellD(K-D)$ for all integers $n$.
+\end{exercise}
+
+\begin{exercise}
+Verify Riemann--Roch directly for the divisors $D=-2[\infty]$, $D=-[\infty]$, $D=0$, $D=[\infty]$, and $D=2[\infty]$.
+\end{exercise}
+
+\begin{exercise}
+Give a case-by-case proof of Riemann--Roch on $\CPone$ using only the explicit formula for $\ellD(n[\infty])$ and the identity $K\sim -2[\infty]$.
+\end{exercise}
+
+\begin{exercise}
+Show that for every divisor $D$ on $\CPone$,
+\[
+\ellD(D)=\max\{\degd D+1,0\}.
+\]
+Explain why this is special to genus zero.
+\end{exercise}
+
+\begin{exercise}
+Write a short proof, in textbook style, explaining why $\CPone$ is the natural first example for learning the Riemann--Roch theorem.
+\end{exercise}
+
+\section{Hints to the exercises}
+The following hints are intentionally brief. They are meant to guide a first reading without replacing the proofs.
+
+\subsection*{Exercises 1--10}
+\begin{enumerate}[label=\textbf{\arabic*.}, start=1]
+    \item Use the definitions $U_0=\{Z_0\neq 0\}$ and $U_{\infty}=\{Z_1\neq 0\}$.
+    \item In the $z$-chart, $0=[1:0]$ and in the $w$-chart, $\infty=[0:1]$ becomes $w=0$.
+    \item Check injectivity and surjectivity separately.
+    \item Use $z=1/w$ near $\infty$.
+    \item Study the singularity at $\infty$ via $w=1/z$.
+    \item Factor the polynomial and examine $z=1/w$.
+    \item Negate the divisor from the polynomial case.
+    \item Use the divisor of $z-a$ and subtract.
+    \item Add the contributions from zeros, poles, and $\infty$.
+    \item Write $f=P/Q$ with $P,Q$ coprime.
+\end{enumerate}
+
+\subsection*{Exercises 11--20}
+\begin{enumerate}[label=\textbf{\arabic*.}, start=11]
+    \item Use $(z-a)=[a]-[\infty]$.
+    \item First reduce the divisor to the form $\sum m_i[a_i]-n[\infty]$.
+    \item Take $f(z)=\prod_i(z-a_i)$ with multiplicities.
+    \item Use the proof of the theorem on linear equivalence.
+    \item Compare degrees.
+    \item Surjectivity comes from the theorem; injectivity comes from Exercise 15.
+    \item Try $f(z)=z^2/(z-1)$.
+    \item Such functions lie in $L(2[\infty])$ and must vanish at $0$ and $1$.
+    \item Reduce both divisors to $\degd D\,[\infty]$.
+    \item Use the preceding exercise and the definition of the quotient group.
+\end{enumerate}
+
+\subsection*{Exercises 21--30}
+\begin{enumerate}[label=\textbf{\arabic*.}, start=21]
+    \item If $D-E=(h)$, multiply by $h$.
+    \item These are exactly the global holomorphic functions on $\CPone$.
+    \item Any nonzero element would have to be holomorphic and vanish at $\infty$.
+    \item Pole order at $\infty$ controls the polynomial degree.
+    \item Count the basis $1,z,\dots,z^n$.
+    \item Reduce to $[\infty]$ using linear equivalence.
+    \item Again reduce to $\degd D\,[\infty]$.
+    \item The condition at $\infty$ forces a polynomial degree bound, and the zero at $0$ imposes divisibility by $z$.
+    \item Replace $D$ by $(\degd D)[\infty]$.
+    \item Use Exercise 25 together with linear equivalence.
+\end{enumerate}
+
+\subsection*{Exercises 31--40}
+\begin{enumerate}[label=\textbf{\arabic*.}, start=31]
+    \item Translate the transition function $z^n$ into the relation between local representatives.
+    \item Write $s_{\infty}(w)=w^n s_0(1/w)$ and demand holomorphicity at $w=0$.
+    \item The same relation forces all coefficients to vanish.
+    \item Combine Exercises 32 and 33.
+    \item Homogenize a polynomial in $z$.
+    \item Use $\Pic(\CPone)\cong\Z$ and denote the degree-$n$ class by $\OO(n)$.
+    \item Tensor products multiply transition functions.
+    \item Dual bundles invert transition functions.
+    \item Use $D\sim (\degd D)[\infty]$.
+    \item The image is the rational normal curve.
+\end{enumerate}
+
+\subsection*{Exercises 41--50}
+\begin{enumerate}[label=\textbf{\arabic*.}, start=41]
+    \item Write $z=1/w$.
+    \item Combine $(z^m)=m[0]-m[\infty]$ with $(dz)=-2[\infty]$.
+    \item This is exactly the preceding proposition.
+    \item Read the degree from the divisor.
+    \item Since $K\sim -2[\infty]$, use the formula for $\ellD(n[\infty])$.
+    \item Replace $K-D$ by $-(n+2)[\infty]$.
+    \item Compute both sides numerically in each case.
+    \item Split into the cases $n\ge 0$, $n=-1$, and $n\le -2$.
+    \item The formula follows from $D\sim (\degd D)[\infty]$; the genus-zero feature is that degree alone determines the class.
+    \item Mention rational functions, divisor classes, the canonical divisor, and the explicit dimension count.
+\end{enumerate}
+
+\section{Concluding summary}
+On the projective line, Riemann--Roch is completely transparent because the geometry is controlled by a single point at infinity. The decisive facts are the following:
+\begin{enumerate}
+    \item $\MM(\CPone)=\C(z)$.
+    \item Every divisor is linearly equivalent to $\degd D\,[\infty]$.
+    \item The spaces $L(n[\infty])$ are precisely the polynomial spaces of degree at most $n$.
+    \item A canonical divisor is $-2[\infty]$.
+\end{enumerate}
+With these in hand, the formula
+\[
+\ellD(D)-\ellD(K-D)=\degd D+1
+\]
+becomes an elementary computation. Precisely for this reason, the case of $\CPone$ should be mastered before one approaches the theorem on higher-genus compact Riemann surfaces.
+
+\end{document}

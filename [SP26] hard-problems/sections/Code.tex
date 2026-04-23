@@ -7,77 +7,81 @@ Syndrome decoding asks: given $H$ and $s$, find a low-weight $e$ with syndrome $
 
 \section{Syndrome Decoding (SD)}
 
-\subsection{Formal Statements}
-\begin{definition}[Search-SD]
-	Given $H\in\Ftwo^{(n-k)\times n}$, a syndrome $s\in\Ftwo^{n-k}$, and an integer weight $w$,
-	find $e\in\Ftwo^n$ such that
-	\[
-	He^\top = s
-	\quad\text{and}\quad
-	\wt(e)=w.
-	\]
-\end{definition}
-
-\begin{definition}[Decisional SD (DSD)]
-	Distinguish:
-	\begin{itemize}[leftmargin=*]
-		\item $\calD_0$: $e\from \Ftwo^n$ uniform subject to $\wt(e)=w$, and $s=He^\top$.
-		\item $\calD_1$: $s\from \Ftwo^{n-k}$ uniform.
-	\end{itemize}
-	Given $(H,s)$ output whether $s$ is a syndrome of a weight-$w$ error vector with non-negligible advantage.
-\end{definition}
-
-\subsection{Why SD is Hard}
-For random $H$, the mapping $e\mapsto He^\top$ is linear and many-to-one. The hardness comes from the combinatorial explosion of possible $e$ of weight $w$:
-\[
-\#\{e\in\Ftwo^n:\wt(e)=w\} = \binom{n}{w}.
-\]
-Brute force is exponential in $n$ for typical $w$ scaling.
-
-\subsection{Information Set Decoding (ISD) Family (High-Level)}
-The dominant attacks are \emph{information set decoding} and its refinements (Prange, Stern, Dumer, BJMM, and modern variants). The meta-idea:
-\begin{itemize}[leftmargin=*]
-	\item guess an ``information set'' of coordinates where the error is assumed sparse/structured,
-	\item reduce the decoding task to a smaller combinatorial search,
-	\item repeat until success with certain probability.
-\end{itemize}
-Complexities are typically $2^{c n}$ with constant $c$ depending on rate $k/n$ and relative weight $w/n$.
-
-\subsection{Exercises (SD)}
-\begin{exercise}[Upper-undergrad: syndrome as coset]
-	Fix $H$. Show that the set $\{e\in\Ftwo^n : He^\top = s\}$ is an affine subspace (a coset of $\ker(H)$). What is its size?
-\end{exercise}
-
-\begin{exercise}[Masters: counting solutions]
-	Assume $H$ is full rank. For random $s$, what is the expected number of solutions $e$ of weight exactly $w$? Express it using $\binom{n}{w}$ and $2^{n-k}$ and justify the approximation.
-\end{exercise}
-
-\begin{exercise}[PhD: ISD success probability sketch]
-	In Prange's algorithm, one chooses a set $I$ of $k$ positions and hopes the error is zero on $I$. Derive the success probability in terms of $n,k,w$ and the expected work factor.
-\end{exercise}
+%\subsection{Formal Statements}
+%\begin{definition}[Search-SD]
+%	Given $H\in\Ftwo^{(n-k)\times n}$, a syndrome $s\in\Ftwo^{n-k}$, and an integer weight $w$,
+%	find $e\in\Ftwo^n$ such that
+%	\[
+%	He^\top = s
+%	\quad\text{and}\quad
+%	\wt(e)=w.
+%	\]
+%\end{definition}
+%
+%\begin{definition}[Decisional SD (DSD)]
+%	Distinguish:
+%	\begin{itemize}[leftmargin=*]
+%		\item $\calD_0$: $e\from \Ftwo^n$ uniform subject to $\wt(e)=w$, and $s=He^\top$.
+%		\item $\calD_1$: $s\from \Ftwo^{n-k}$ uniform.
+%	\end{itemize}
+%	Given $(H,s)$ output whether $s$ is a syndrome of a weight-$w$ error vector with non-negligible advantage.
+%\end{definition}
+%
+%\subsection{Why SD is Hard}
+%For random $H$, the mapping $e\mapsto He^\top$ is linear and many-to-one. The hardness comes from the combinatorial explosion of possible $e$ of weight $w$:
+%\[
+%\#\{e\in\Ftwo^n:\wt(e)=w\} = \binom{n}{w}.
+%\]
+%Brute force is exponential in $n$ for typical $w$ scaling.
+%
+%\subsection{Information Set Decoding (ISD) Family (High-Level)}
+%The dominant attacks are \emph{information set decoding} and its refinements (Prange, Stern, Dumer, BJMM, and modern variants). The meta-idea:
+%\begin{itemize}[leftmargin=*]
+%	\item guess an ``information set'' of coordinates where the error is assumed sparse/structured,
+%	\item reduce the decoding task to a smaller combinatorial search,
+%	\item repeat until success with certain probability.
+%\end{itemize}
+%Complexities are typically $2^{c n}$ with constant $c$ depending on rate $k/n$ and relative weight $w/n$.
+%
+%\subsection{Exercises (SD)}
+%\begin{exercise}[Upper-undergrad: syndrome as coset]
+%	Fix $H$. Show that the set $\{e\in\Ftwo^n : He^\top = s\}$ is an affine subspace (a coset of $\ker(H)$). What is its size?
+%\end{exercise}
+%
+%\begin{exercise}[Masters: counting solutions]
+%	Assume $H$ is full rank. For random $s$, what is the expected number of solutions $e$ of weight exactly $w$? Express it using $\binom{n}{w}$ and $2^{n-k}$ and justify the approximation.
+%\end{exercise}
+%
+%\begin{exercise}[PhD: ISD success probability sketch]
+%	In Prange's algorithm, one chooses a set $I$ of $k$ positions and hopes the error is zero on $I$. Derive the success probability in terms of $n,k,w$ and the expected work factor.
+%\end{exercise}
 
 \section{QC Syndrome Decoding (QCSD)}
 
-\subsection{Quasi-Cyclic Structure}
-A binary quasi-cyclic (QC) code often uses a parity-check matrix built from circulant blocks.
-For block size $p$, a circulant matrix is determined by its first row; multiplication corresponds to polynomial multiplication modulo $x^p-1$.
+%\subsection{Quasi-Cyclic Structure}
+%A binary quasi-cyclic (QC) code often uses a parity-check matrix built from circulant blocks.
+%For block size $p$, a circulant matrix is determined by its first row; multiplication corresponds to polynomial multiplication modulo $x^p-1$.
+%
+%\subsection{Problem Statement}
+%\begin{definition}[QCSD / DQCSD]
+%	Same as SD/DSD, except $H$ is drawn from a QC ensemble (block-circulant structure), and sometimes $e$ is restricted to QC form. Given $(H,s,w)$ find $e$ with $He^\top=s$ and $\wt(e)=w$, or distinguish structured syndromes from uniform.
+%\end{definition}
+%
+%\subsection{Security Subtleties}
+%QC structure reduces public key sizes dramatically but introduces algebraic symmetry. Best practice is to choose parameters so that known structural attacks (e.g., exploiting cyclic shifts, folding, or module-based speedups) do not reduce security below target.
+%
+%\subsection{Exercises (QCSD)}
+%\begin{exercise}[Masters: circulant-as-polynomial]
+%	Show how multiplying a circulant matrix by a vector corresponds to polynomial multiplication modulo $x^p-1$.
+%\end{exercise}
+%
+%\begin{exercise}[PhD: symmetry and attack surface]
+%	Explain how cyclic symmetry can introduce additional low-weight codewords or enable collision-style shortcuts. Give at least one concrete avenue (high-level) by which QC structure can be exploited.
+%\end{exercise}
 
-\subsection{Problem Statement}
-\begin{definition}[QCSD / DQCSD]
-	Same as SD/DSD, except $H$ is drawn from a QC ensemble (block-circulant structure), and sometimes $e$ is restricted to QC form. Given $(H,s,w)$ find $e$ with $He^\top=s$ and $\wt(e)=w$, or distinguish structured syndromes from uniform.
-\end{definition}
 
-\subsection{Security Subtleties}
-QC structure reduces public key sizes dramatically but introduces algebraic symmetry. Best practice is to choose parameters so that known structural attacks (e.g., exploiting cyclic shifts, folding, or module-based speedups) do not reduce security below target.
 
-\subsection{Exercises (QCSD)}
-\begin{exercise}[Masters: circulant-as-polynomial]
-	Show how multiplying a circulant matrix by a vector corresponds to polynomial multiplication modulo $x^p-1$.
-\end{exercise}
 
-\begin{exercise}[PhD: symmetry and attack surface]
-	Explain how cyclic symmetry can introduce additional low-weight codewords or enable collision-style shortcuts. Give at least one concrete avenue (high-level) by which QC structure can be exploited.
-\end{exercise}
 
 
 %\subsection*{4.1\ Linear codes}

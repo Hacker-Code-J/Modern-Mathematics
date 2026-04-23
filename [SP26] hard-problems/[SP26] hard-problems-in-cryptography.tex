@@ -40,6 +40,10 @@
 \usepackage{bm}
 %\usepackage{enumerate}
 
+
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta}
+
 % ---------- Hyperref setup ----------
 \hypersetup{
 	colorlinks=true,
@@ -64,7 +68,7 @@
 \newtheorem{assumption}[theorem]{Assumption}
 \newtheorem{exercise}{Exercise}[section]
 
-\theoremstyle{remark}
+%\theoremstyle{remark}
 \newtheorem{remark}[theorem]{Remark}
 \newtheorem{example}[theorem]{Example}
 
@@ -79,6 +83,7 @@
 %% Distributions and sampling
 %\newcommand{\getsr}{\xleftarrow{\$}}
 \newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
 \newcommand{\Zq}{\Z_q}
 \newcommand{\F}{\mathbb{F}}
 \newcommand{\Ftwo}{\mathbb{F}_2}
@@ -573,7 +578,7 @@
 %\newpage\input{sections/IFP.tex}	
 %\newpage\input{sections/DLP.tex}
 \newpage\input{sections/Lattice.tex}
-%\newpage\input{sections/Code.tex}
+\newpage\input{sections/Code.tex}
 %	
 %	\newpage
 %	\section{Isogenies (Supersingular Isogeny Problems)}
@@ -606,5 +611,8 @@
 \appendix
 \chapter{Exercises for Lattice}
 \input{exercise/exer-lattice}
+
+\chapter{Solutions for Lattice}
+\input{exercise/exer-lattice-sol}
 
 \end{document}

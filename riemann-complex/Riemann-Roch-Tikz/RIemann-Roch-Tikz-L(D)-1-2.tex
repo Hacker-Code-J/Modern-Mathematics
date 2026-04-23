@@ -1,0 +1,178 @@
+%\documentclass[tikz,border=10pt]{standalone}
+%\usepackage{amsmath,amssymb}
+%\usetikzlibrary{arrows.meta,positioning,calc,decorations.pathmorphing}
+%
+%\newcommand{\ord}{\operatorname{ord}}
+%
+%\begin{document}
+%	\begin{tikzpicture}[
+	%		>=Latex,
+	%		font=\small,
+	%		panel/.style={
+		%			rounded corners=5pt, thick},
+	%		title/.style={font=\large\bfseries},
+	%		point/.style={circle, fill=black, inner sep=1.4pt},
+	%		good/.style={green!50!black, thick},
+	%		bad/.style={red!70!black, thick},
+	%		flow/.style={->, thick, black},
+	%		every node/.style={align=center}
+	%		]
+	%		
+	%		% =========================================================
+	%		% PANEL A: Local Correction (Sections 1 & 8)
+	%		% =========================================================
+	%		\node[panel, minimum width=6cm, minimum height=4.6cm] (A) at (0,0) {};
+	%		
+	%		% left local disk
+	%		\node[point,label={[yshift=-1mm]below:$p$}] at (-1.55,0.1) {};
+	%		\draw[dashed] (-1.55,0.1) circle (0.48);
+	%		\node[bad] at (-1.55,1.1) {$f=z^{-m}u$};
+	%		\node[red!75!black] at (-1.55,-1.08) {pole order $m$};
+	%		
+	%		% a little "blow-up" graphic
+	%		\draw[bad] (-1.92,-0.48) .. controls (-1.78,-0.05) and (-1.66,0.03) .. (-1.57,0.08);
+	%		\draw[bad] (-1.18,-0.48) .. controls (-1.32,-0.05) and (-1.44,0.03) .. (-1.53,0.08);
+	%		
+	%		% arrow
+	%		\draw[flow] (-0.52,0.1) -- (0.52,0.1);
+	%		\node[above] at (0,0.1) {$\times\, z^n$};
+	%		
+	%		% right local disk
+	%		\node[point,label={[yshift=-1mm]below:$p$}] at (1.55,0.1) {};
+	%		\draw[dashed] (1.55,0.1) circle (0.48);
+	%		\node[good] at (1.55,1.03) {$z^n f=z^{\,n-m}u$};
+	%		\draw[good] (1.15,-0.12) .. controls (1.34,0.30) and (1.76,0.32) .. (1.96,-0.08);
+	%		\node[blue!70!black,align=center] at (1.55,-1.08) {holomorphic\\ iff $n-m\ge 0$};
+	%	\end{tikzpicture}
+%\end{document}
+
+
+\documentclass[tikz,border=8pt]{standalone}
+\usepackage{amsmath}
+\usetikzlibrary{arrows.meta}
+
+% Fonts
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{newpxtext,newpxmath}
+\usepackage{sectsty}
+
+\renewcommand{\d}{\mathrm d}
+
+\begin{document}
+	
+	\begin{tikzpicture}[
+		>=Latex,
+		line cap=round,
+		line join=round,
+		font=\small,
+		x=1cm,y=1cm
+		]
+		
+		%------------------------------------------------
+		% Parameters
+		%------------------------------------------------
+		\def\px{0.5}
+		\def\py{-0.5}
+		\def\rho{1}
+		
+		% Styles
+		\tikzset{
+			zero/.style={blue!70!black, fill=blue!70!black},
+			polemark/.style={red!75!black, very thick},
+			imgf/.style={violet, thick},
+			imgg/.style={green!60!black, thick}
+		}
+		
+		%	\def\rho{1.75}
+		%====================================================
+		% 3. Domain of g : z-plane again
+		%====================================================
+		\begin{scope}[shift={(0,-6)}]
+			\node[font=\normalsize] at (0,-2.3) {$z$-plane (domain of $g$)};
+			
+			% axes
+			\draw[->] (-2.8,0)--(2.8,0) node[right] {$\Re z$};
+			\draw[->] (0,-1.8)--(0,1.8) node[above] {$\Im z$};
+			
+			% same contour around p
+			\draw[blue, thick] (\px,\py) circle (\rho);
+			\draw[blue,->] (\px+\rho,\py) arc[start angle=0,end angle=35,radius=\rho];
+			\node[blue] at (1.75,0.95) {$C_p:\ |z-p|=\rho$};
+			
+			% p regular for g
+			\fill[green!60!black] (\px,\py) circle (1.8pt);
+			\node[green!50!black, right] at (\px+0.10,\py-0.16) {$p$};
+			%		\node[green!50!black] at (-1.5,-1.95) {regular point};
+			
+			% zero at z=-1
+			\fill[zero] (-1,0) circle (2pt);
+			\node[blue!70!black, above left] at (-1,0) {$-1$};
+			%		\node[blue!70!black] at (-1.55,1.65) {zero of order $1$};
+		\end{scope}
+		
+		% Arrow for g
+		\draw[->, blue] (3.75,-5.5) -- (7.75,-5.5)
+		node[midway, above] {$\displaystyle g(z)=(z-p)^2f(z)=z+1$}
+		node[midway, below, align=center, blue!70!black] {%
+			$\displaystyle \log g = \log (z+1)$\\ [2pt]
+			$\displaystyle \frac{\d g}{g}=\frac{\d z}{z+1}$\\[4pt]
+			$\displaystyle \operatorname{ord}_{-1}(f)=1$
+			%		$\displaystyle \operatorname{ord}_p(g)=0,\; \operatorname{ord}_{-1}(g)=1$\\[2pt]
+			%		$\displaystyle \frac{df}{f}=\log $
+			%%		$\displaystyle g \text{ is holomorphic at } p$
+		};
+		
+		%	\draw[->, blue!70!black] (23.2,-0.4) -- (27.2,-0.4)
+		%	node[midway, below, align=center] {%
+			%		$\displaystyle \operatorname{ord}_p(g)=0,\qquad \operatorname{ord}_{-1}(g)=1$\\[2pt]
+			%		$\displaystyle g \text{ is holomorphic at } p$};
+		
+		%====================================================
+		% 4. Codomain of g : g-plane
+		%====================================================
+		\begin{scope}[shift={(11,-6)}]
+			\node[font=\normalsize] at (0,-2.3) {$g(z)$-plane (codomain of $g$)};
+			
+			% axes
+			\draw[->] (-2.8,0)--(2.8,0) node[right] {$\Re g$};
+			\draw[->] (0,-1.8)--(0,1.8) node[above] {$\Im g$};
+			
+			% origin
+			\fill (0,0) circle (1.6pt);
+			\node[below left] at (0,0) {$0$};
+			\node[blue!70!black, above left] at (0,0) {$g(-1)=0$};
+			
+			% center g(p)=p+1
+			\fill[green!60!black] (\px+1,\py) circle (2pt);
+			\node[green!50!black, right] at (\px+1,\py) {$g(p)=p+1$};
+			
+			% image circle g(C_p)
+			\draw[imgg] ({\px+1},{\py}) circle (\rho);
+			\draw[imgg,->] ({\px+1+\rho},{\py}) arc[start angle=0,end angle=35,radius=\rho];
+			
+			\node[green!50!black] at (2.15,1) {$g[C_p]$};
+			%		\node[align=center] at (0,-2.45) {ordinary translated circle\\no singular behavior};
+		\end{scope}
+		
+		%	%====================================================
+		%	% Bottom summary
+		%	%====================================================
+		%	\node[draw=black, align=left, text width=18cm] at (8,-15) {%
+			%%		\texttt{Zeros and poles}\\[4pt]
+			%%		$f(z)=\dfrac{z+1}{(z-p)^2}$ has a zero at $z=-1$ and a pole of order $2$ at $z=p$.\\[6pt]
+			%%		$g(z)=(z-p)^2f(z)=z+1$ keeps the same zero at $z=-1$, but the pole at $p$ is canceled.\\[6pt]
+			%%		$\operatorname{ord}_{-1}(f)=\operatorname{ord}_{-1}(g)=1,\qquad
+			%%		\operatorname{ord}_p(f)=-2,\qquad
+			%%		\operatorname{ord}_p(g)=0.$%
+			%		$f$ has pole order at most 2 at $p$ $\iff$ $(z-p)^2f$ is holomorphic at $p$ $\iff$ $\operatorname{ord}_{p}((z-p)^2f)\geq 0$ $\iff$ $\operatorname{ord}_p(f)+2\geq 0$.
+			%	};
+		%
+%		\draw[dashed] (-3,-3.25) rectangle (15,3.5);
+		\draw[dashed] (-3,-8.75) rectangle (15,-3.5);
+		
+		%	\draw[->,bend angle=45,start angle=0,end angle=90] (16, -1) to (16, -2);
+		
+	\end{tikzpicture}
+	
+\end{document}

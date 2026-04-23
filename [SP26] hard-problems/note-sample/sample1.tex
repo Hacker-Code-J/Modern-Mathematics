@@ -1,0 +1,214 @@
+\documentclass[12pt]{article}
+\usepackage{amsmath,amssymb}
+\usepackage[margin=1in]{geometry}
+
+\begin{document}
+	
+	\section*{Annotated explanation of the definition of a full-rank lattice}
+	
+	We are given the statement:
+	
+	\[
+	\text{A (full-rank) lattice } \Lambda \subset \mathbb{R}^n \text{ is }
+	\Lambda = \{B\mathbf{z} : \mathbf{z}\in\mathbb{Z}^n\}
+	\]
+	for some basis matrix \(B\in\mathbb{R}^{n\times n}\).
+	
+	\bigskip
+	
+	This means the following.
+	
+	\subsection*{1. What is \(B\)?}
+	
+	The matrix \(B\in\mathbb{R}^{n\times n}\) is an \(n\times n\) real matrix whose columns are
+	\[
+	B=
+	\begin{bmatrix}
+		\mathbf{b}_1 & \mathbf{b}_2 & \cdots & \mathbf{b}_n
+	\end{bmatrix}.
+	\]
+	
+	So the columns of \(B\) are vectors
+	\[
+	\mathbf{b}_1,\mathbf{b}_2,\dots,\mathbf{b}_n\in\mathbb{R}^n.
+	\]
+	
+	Since \(B\) is called a \emph{basis matrix}, its columns are linearly independent. Hence they form a basis of \(\mathbb{R}^n\).
+	
+	\subsection*{2. What is \(\mathbf{z}\in\mathbb{Z}^n\)?}
+	
+	The vector \(\mathbf{z}\) is an integer vector:
+	\[
+	\mathbf{z}=
+	\begin{pmatrix}
+		z_1\\
+		z_2\\
+		\vdots\\
+		z_n
+	\end{pmatrix},
+	\qquad z_1,z_2,\dots,z_n\in\mathbb{Z}.
+	\]
+	
+	So each coordinate of \(\mathbf{z}\) must be an integer.
+	
+	\subsection*{3. What does \(B\mathbf{z}\) mean?}
+	
+	When we multiply \(B\) by \(\mathbf{z}\), we get
+	\[
+	B\mathbf{z}
+	=
+	z_1\mathbf{b}_1+z_2\mathbf{b}_2+\cdots+z_n\mathbf{b}_n.
+	\]
+	
+	So \(B\mathbf{z}\) is an \emph{integer linear combination} of the columns of \(B\).
+	
+	\subsection*{4. What is the set \(\Lambda=\{B\mathbf{z}:\mathbf{z}\in\mathbb{Z}^n\}\)?}
+	
+	This means:
+	\[
+	\Lambda
+	=
+	\left\{
+	z_1\mathbf{b}_1+z_2\mathbf{b}_2+\cdots+z_n\mathbf{b}_n
+	:\ z_1,\dots,z_n\in\mathbb{Z}
+	\right\}.
+	\]
+	
+	So \(\Lambda\) is the set of all points you can get by taking integer combinations of the basis vectors \(\mathbf{b}_1,\dots,\mathbf{b}_n\).
+	
+	\subsection*{5. Why is it called a lattice?}
+	
+	Because the resulting set is a discrete, regularly repeated grid of points in \(\mathbb{R}^n\).
+	
+	It is like the usual integer grid \(\mathbb{Z}^n\), except it may be stretched, rotated, or skewed by the matrix \(B\).
+	
+	\subsection*{6. Why ``full-rank''?}
+	
+	The phrase \emph{full-rank} means that \(B\) has rank \(n\). Equivalently, its columns are linearly independent.
+	
+	Therefore the lattice is not trapped in a lower-dimensional subspace. It lives in all \(n\) dimensions of \(\mathbb{R}^n\).
+	
+	\subsection*{7. Compare with the real span}
+	
+	If we allowed real coefficients instead of integer coefficients, we would get
+	\[
+	\{B\mathbf{a}:\mathbf{a}\in\mathbb{R}^n\}
+	=
+	\mathbb{R}^n
+	\]
+	because \(B\) is invertible.
+	
+	But in the lattice definition we only allow integer vectors \(\mathbf{z}\in\mathbb{Z}^n\), so we get only a discrete subset:
+	\[
+	\Lambda=\{B\mathbf{z}:\mathbf{z}\in\mathbb{Z}^n\}.
+	\]
+	
+	Thus:
+	\begin{itemize}
+		\item real coefficients give a whole continuous space,
+		\item integer coefficients give a discrete grid of lattice points.
+	\end{itemize}
+	
+	\subsection*{8. Standard example}
+	
+	If
+	\[
+	B=I_n,
+	\]
+	the identity matrix, then
+	\[
+	\Lambda=\{I_n\mathbf{z}:\mathbf{z}\in\mathbb{Z}^n\}=\mathbb{Z}^n.
+	\]
+	
+	So the standard integer lattice is the simplest example of a full-rank lattice.
+	
+	\subsection*{9. Example in \(\mathbb{R}^2\)}
+	
+	Let
+	\[
+	B=
+	\begin{pmatrix}
+		2 & 1\\
+		0 & 1
+	\end{pmatrix}.
+	\]
+	Then its columns are
+	\[
+	\mathbf{b}_1=
+	\begin{pmatrix}
+		2\\
+		0
+	\end{pmatrix},
+	\qquad
+	\mathbf{b}_2=
+	\begin{pmatrix}
+		1\\
+		1
+	\end{pmatrix}.
+	\]
+	
+	The lattice is
+	\[
+	\Lambda
+	=
+	\{B\mathbf{z}:\mathbf{z}\in\mathbb{Z}^2\}.
+	\]
+	
+	If
+	\[
+	\mathbf{z}=
+	\begin{pmatrix}
+		z_1\\
+		z_2
+	\end{pmatrix},
+	\qquad z_1,z_2\in\mathbb{Z},
+	\]
+	then
+	\[
+	B\mathbf{z}
+	=
+	\begin{pmatrix}
+		2 & 1\\
+		0 & 1
+	\end{pmatrix}
+	\begin{pmatrix}
+		z_1\\
+		z_2
+	\end{pmatrix}
+	=
+	\begin{pmatrix}
+		2z_1+z_2\\
+		z_2
+	\end{pmatrix}.
+	\]
+	
+	Therefore
+	\[
+	\Lambda
+	=
+	\left\{
+	\begin{pmatrix}
+		2z_1+z_2\\
+		z_2
+	\end{pmatrix}
+	: z_1,z_2\in\mathbb{Z}
+	\right\}.
+	\]
+	
+	This is a skewed infinite grid in the plane.
+	
+	\subsection*{10. Plain English summary}
+	
+	The definition
+	\[
+	\Lambda=\{B\mathbf{z}:\mathbf{z}\in\mathbb{Z}^n\}
+	\]
+	means:
+	
+	\begin{quote}
+		Choose \(n\) linearly independent vectors in \(\mathbb{R}^n\).  
+		Then take all possible whole-number combinations of those vectors.  
+		The set of resulting points is the lattice.
+	\end{quote}
+	
+\end{document}
