@@ -19,11 +19,6 @@
 
 \newcommand{\Sym}{\mathrm{Sym}}
 
-%\newcommand{\F}{\mathbb{F}}
-%\newcommand{\R}{\mathbb{R}}
-%\newcommand{\C}{\mathbb{C}}
-%\newcommand{\Span}{\operatorname{span}}
-%\newcommand{\Mat}{\operatorname{Mat}}
 \newcommand{\tr}{\operatorname{tr}}
 \renewcommand{\d}{\mathrm{d}} % For the exterior derivative 'd'
 \newcommand{\pderiv}[2]{\frac{\partial #1}{\partial #2}}
@@ -1037,44 +1032,626 @@ Then
 \end{proof}
 
 \newpage
-%\defbox[Eigenspace]{
-%\begin{definition}
-%	Let $T:V\to V$ be $\F$-linear, and let $\lambda\in\F$.
-%	The \textbf{eigenspace} of $T$ associated to $\lambda$ is
-%	\[
-%	E_\lambda(T)\coloneqq \{\textbf{u}\in V: T(\textbf{u})=\lambda \textbf{u}\}=\ker(T-\lambda\mathrm{Id}).
-%	\]
-%\end{definition}}
-%
-%\medskip
-%
-%\thmbox[Rank-Nullity Theorem]{\begin{theorem}
-%Let $T:V\to W$ be linear with $V$ finite-dimensional. Then
-%\[
-%\dim V=\dim\ker(T)+\dim\mathrm{Im}(T).
-%\]
-%\end{theorem}}
-%\corbox[Eigenspace dimension via rank]{\begin{corollary}
-%Let $T:V\to V$ be $\F$-linear and $\lambda\in\F$,
-%\[
-%\dim E_\lambda(T)=\dim V-\dim\mathrm{Im}(T-\lambda\id).
-%\]
-%\end{corollary}}
-%\begin{proof}
-%	Apply Rank-Nullity Theorem to $(T-\lambda\mathrm{Id}):V\to V$.
-%\end{proof}
+\section*{Determinant and Trace of a Linear Operator}
 
+Let $T:V\to V$ be a linear operator on a finite-dimensional vector space $V$ over $\F$.
+
+\defbox[Determinant and trace of a linear operator]{\begin{definition}
+Choose any basis $\basis$ of $V$.  Define \[
+\det(T):=\det([T]_{\basis}),
+\qquad
+\tr(T):=\tr([T]_{\basis}).
+\]
+\end{definition}}
+\begin{remark}
+We must check that these definitions do not depend on the choice of basis.
+\end{remark}
+
+\medskip
+
+\lembox[Similarity preserves Determinant and Trace]{\begin{lemma}
+Let $A,B\in\Mat_{n\times n}(\F)$.  Suppose there exists an invertible matrix $P$ such that \[
+A=P^{-1}BP.
+\] Then \[
+\det(A)=\det(B),
+\qquad
+\tr(A)=\tr(B).
+\]
+\end{lemma}}
+\begin{proof}
+	For the determinant,
+	\[
+	\det(A)=\det(P^{-1}BP)
+	=\det(P^{-1})\det(B)\det(P)
+	=\det(B).
+	\]
+	For the trace, 	\[
+	\tr(A)=\tr(P^{-1}BP)
+	=\tr(BPP^{-1})
+	=\tr(B).
+	\] since $\tr(XY)=\tr(YX)$ for square matrices $X,Y$.
+\end{proof}
+\begin{remark}
+If $\basis$ and $\basis'$ are two bases of $V$, then $[T]_{\basis}$ and $[T]_{\basis'}$ are similar matrices.  Therefore determinant and trace are well-defined invariants of the operator $T$.
+\end{remark}
+
+\section*{Eigenvalues and the Determinant Condition}
+Recall that $\vec{u}\in V$ is an eigenvector of $T$ with eigenvalue $\lambda$ if and only if \[
+\vec{u}\neq 0,\qquad
+(T-\lambda\id_V)(\vec{u})=0.
+\] Thus
+\[
+\lambda\text{ is an eigenvalue}
+\quad\Longleftrightarrow\quad
+\ker(T-\lambda\id_V)\neq\{\vec{0}\}.
+\]
+
+\probox{\begin{proposition}
+Let $T:V\to V$ be a linear operator on a finite-dimensional vector space.  Then \[
+\lambda\in\F\text{ is an eigenvalue of }T
+\quad\Longleftrightarrow\quad
+\det(T-\lambda\id_V)=0.
+\]
+\end{proposition}}
+\begin{proof}
+Choose a basis $\basis$ of $V$.  Then
+\[
+[T-\lambda\id_V]_{\beta}=[T]_{\beta}-\lambda I.
+\]
+Now
+\[
+\ker(T-\lambda\id_V)\neq\{0\}
+\]
+if and only if the matrix $[T]_{\beta}-\lambda I$ has a nontrivial kernel.  Since $V$ is finite-dimensional, this happens if and only if the matrix is not invertible, which happens if and only if its determinant is zero.  Hence
+\[
+\lambda\text{ is an eigenvalue}
+\quad\Longleftrightarrow\quad
+\det([T]_{\beta}-\lambda I)=0.
+\]
+But this determinant is exactly $\det(T-\lambda\id_V)$.
+\end{proof}
+
+\defbox[Characteristic polynomial of a linear operator]{\begin{definition}
+		The characteristic polynomial of $T$ is
+		\[
+		\varphi_T(t)=\det(T-t\id_V).
+		\]
+\end{definition}}
+\begin{remark}
+$\lambda\text{ is an eigenvalue of }T
+\quad\Longleftrightarrow\quad
+\varphi_T(\lambda)=0.$
+\end{remark}
+
+\subsection{Linear Independence of Eigenvectors with Distinct Eigenvalues}
+\lembox{\begin{lemma}
+	Let $u_1,\dots,u_k$ be eigenvectors of $T$ with eigenvalues
+	\[
+	\lambda_1,\dots,\lambda_k.
+	\]
+	Assume the eigenvalues are mutually distinct:
+	\[
+	\lambda_i\neq\lambda_j
+	\quad\text{whenever}\quad i\neq j.
+	\]
+	Then
+	\[
+	\{u_1,\dots,u_k\}
+	\]
+	is linearly independent.
+\end{lemma}}
+\begin{proof}
+	Suppose not.  Let $h$ be the smallest positive integer such that
+	\[
+	\{u_1,\dots,u_h\}
+	\]
+	is linearly dependent.  Then $h\geq 2$, and $\{u_1,\dots,u_{h-1}\}$ is linearly independent.
+	
+	There exist scalars $a_1,\dots,a_h$, not all zero, such that
+	\[
+	a_1u_1+a_2u_2+\cdots+a_hu_h=0. \tag{1}
+	\]
+	By minimality of $h$, we must have $a_h\neq 0$.
+	
+	Apply $T$ to (1).  Since $T(u_i)=\lambda_i u_i$, we get
+	\[
+	a_1\lambda_1u_1+a_2\lambda_2u_2+\cdots+a_h\lambda_hu_h=0. \tag{2}
+	\]
+	Multiply (1) by $\lambda_h$:
+	\[
+	a_1\lambda_hu_1+a_2\lambda_hu_2+\cdots+a_h\lambda_hu_h=0. \tag{3}
+	\]
+	Subtract (3) from (2):
+	\[
+	a_1(\lambda_1-\lambda_h)u_1+\cdots+a_{h-1}(\lambda_{h-1}-\lambda_h)u_{h-1}=0.
+	\]
+	Since $u_1,\dots,u_{h-1}$ are linearly independent, each coefficient is zero:
+	\[
+	a_i(\lambda_i-\lambda_h)=0,
+	\qquad 1\leq i\leq h-1.
+	\]
+	Because the eigenvalues are distinct, $\lambda_i-\lambda_h\neq 0$, so
+	\[
+	a_i=0,
+	\qquad 1\leq i\leq h-1.
+	\]
+	Then (1) becomes
+	\[
+	a_hu_h=0.
+	\]
+	Since $u_h\neq 0$, we get $a_h=0$, contradiction.
+	
+	Therefore the eigenvectors are linearly independent.
+\end{proof}
+
+\corbox{\begin{corollary}
+	Let $\dim V=n$.  If $T:V\to V$ has $n$ distinct eigenvalues in $\F$, then $T$ is diagonalizable over $\F$.
+\end{corollary}}
+\begin{proof}
+	Choose one eigenvector for each eigenvalue.  By the lemma, these $n$ eigenvectors are linearly independent.  Since $\dim V=n$, they form a basis of $V$.  Hence $V$ has a basis consisting of eigenvectors, so $T$ is diagonalizable.
+\end{proof}
+
+\begin{remark}
+	The converse is false.  A linear operator may be diagonalizable even if it has fewer than $n$ distinct eigenvalues.  The identity map on an $n$-dimensional vector space has only one eigenvalue, $1$, but it is diagonalizable.
+\end{remark}
+
+%\section{Diagonalization III}
+
+\section*{Eigenspaces}
+\defbox[Eigenspace]{\begin{definition}
+Let $\lambda$ be an eigenvalue of $T:V\to V$.  Define
+\[
+E_{\lambda}=\{u\in V:T(u)=\lambda u\}.
+\]
+This is called the \emph{eigenspace} corresponding to $\lambda$.
+\end{definition}}
+\begin{remark}
+Since
+\[
+T(u)=\lambda u
+\quad\Longleftrightarrow\quad
+(T-\lambda\id_V)(u)=0,
+\]
+we have
+\[
+E_{\lambda}=\ker(T-\lambda\id_V).
+\]
+Therefore $E_{\lambda}$ is a subspace of $V$.
+\end{remark}
+
+\medskip
+\begin{exercise}
+	Show directly that $E_{\lambda}\leq V$.
+\end{exercise}
+
+\begin{proof}[Solution]
+	Let $u,v\in E_{\lambda}$ and $c\in\F$.  Then
+	\[
+	T(u+v)=T(u)+T(v)=\lambda u+\lambda v=\lambda(u+v),
+	\]
+	so $u+v\in E_{\lambda}$.  Also
+	\[
+	T(cu)=cT(u)=c\lambda u=\lambda(cu),
+	\]
+	so $cu\in E_{\lambda}$.  Thus $E_{\lambda}$ is a subspace.
+\end{proof}
+
+\section*{Rank-nullity and Eigenspace Dimension}
+For a linear map $T:V\to W$, the first isomorphism theorem gives
+\[
+V/\ker(T)\cong \operatorname{Im}(T).
+\]
+Taking dimensions gives
+\[
+\dim V-\dim\ker(T)=\dim\operatorname{Im}(T).
+\]
+Therefore
+\[
+\dim V=\operatorname{nullity}(T)+\operatorname{rank}(T).
+\]
+This is the rank-nullity theorem.
+
+Applying this to $T-\lambda\id_V$, we get
+\[
+\dim E_{\lambda}
+=\dim\ker(T-\lambda\id_V)
+=\dim V-\operatorname{rank}(T-\lambda\id_V).
+\]
+
+The number
+\[
+\dim E_{\lambda}
+\]
+is called the \emph{geometric multiplicity} of the eigenvalue $\lambda$.
+
+
+\begin{example}[A diagonalizable $2\times2$ matrix]
+Let
+\[
+A=\begin{pmatrix}1&1\\1&1\end{pmatrix}.
+\]
+Then
+\[
+\varphi_A(t)=\det(A-tI)
+=\begin{vmatrix}1-t&1\\1&1-t\end{vmatrix}
+=(1-t)^2-1
+=t^2-2t
+=t(t-2).
+\]
+So the eigenvalues are
+\[
+\lambda=0,
+\qquad
+\lambda=2.
+\]
+
+For $\lambda=0$,
+\[
+E_0=\ker(A)=\Span\left\{\begin{pmatrix}1\\-1\end{pmatrix}\right\}.
+\]
+For $\lambda=2$,
+\[
+E_2=\ker(A-2I)=\Span\left\{\begin{pmatrix}1\\1\end{pmatrix}\right\}.
+\]
+Thus $A$ has two linearly independent eigenvectors in $\R^2$, so it is diagonalizable.
+\end{example}
+
+\begin{example}[Diagonalizable with repeated eigenvalue]
+Let
+\[
+A=\begin{pmatrix}
+	4&0&1\\
+	2&3&2\\
+	1&0&4
+\end{pmatrix}.
+\]
+Then
+\[
+\varphi_A(t)=\det(A-tI)
+=\begin{vmatrix}
+	4-t&0&1\\
+	2&3-t&2\\
+	1&0&4-t
+\end{vmatrix}.
+\]
+Expanding along the second column,
+\[
+\varphi_A(t)
+=(3-t)\begin{vmatrix}4-t&1\\1&4-t\end{vmatrix}
+=(3-t)((4-t)^2-1).
+\]
+Thus
+\[
+\varphi_A(t)=(3-t)(t^2-8t+15)
+=(3-t)(t-3)(t-5)
+=-(t-3)^2(t-5).
+\]
+The eigenvalues are
+\[
+3,
+\qquad
+5.
+\]
+There are only two distinct eigenvalues, but $A$ may still be diagonalizable.
+
+For $\lambda=5$,
+\[
+A-5I=
+\begin{pmatrix}
+	-1&0&1\\
+	2&-2&2\\
+	1&0&-1
+\end{pmatrix}.
+\]
+The rank is $2$, so
+\[
+\dim E_5=3-2=1.
+\]
+Solving gives
+\[
+E_5=\Span\left\{
+\begin{pmatrix}1\\2\\1\end{pmatrix}
+\right\}.
+\]
+
+For $\lambda=3$,
+\[
+A-3I=
+\begin{pmatrix}
+	1&0&1\\
+	2&0&2\\
+	1&0&1
+\end{pmatrix}.
+\]
+The rank is $1$, so
+\[
+\dim E_3=3-1=2.
+\]
+Solving gives
+\[
+E_3=\Span\left\{
+\begin{pmatrix}1\\0\\-1\end{pmatrix},
+\begin{pmatrix}0\\1\\0\end{pmatrix}
+\right\}.
+\]
+
+Hence
+\[
+\dim E_3+\dim E_5=2+1=3=\dim\R^3.
+\]
+Therefore $A$ is diagonalizable.  One eigenbasis is
+\[
+\beta=
+\left\{
+\begin{pmatrix}1\\0\\-1\end{pmatrix},
+\begin{pmatrix}0\\1\\0\end{pmatrix},
+\begin{pmatrix}1\\2\\1\end{pmatrix}
+\right\},
+\]
+and with respect to this basis,
+\[
+[L_A]_{\beta}=
+\begin{pmatrix}
+	3&0&0\\
+	0&3&0\\
+	0&0&5
+\end{pmatrix}.
+\]
+\end{example}
+
+
+\section*{Sums and direct sums of subspaces}
+\defbox[Sum of subspaces]{\begin{definition}
+Let $U,W\leq V$.  Define
+\[
+U+W=\{u+w:u\in U,\ w\in W\}.
+\]
+This is called the sum of $U$ and $W$.
+\end{definition}}
+
+
+\begin{exercise}
+	Show that
+	\[
+	U+W\leq V
+	\]
+	and
+	\[
+	U\cap W\leq U+W.
+	\]
+\end{exercise}
+
+\defbox[Direct sum]{\begin{definition}
+	Let $U,W\leq V$.  We say
+	\[
+	V=U\oplus W
+	\]
+	if
+	\[
+	V=U+W
+	\]
+	and
+	\[
+	U\cap W=\{0\}.
+	\]
+\end{definition}}
+\begin{remark}
+Equivalently,
+\[
+V=U\oplus W
+\]
+means that every vector $v\in V$ can be written uniquely as
+\[
+v=u+w,
+\qquad
+u\in U,
+\quad
+w\in W.
+\]
+
+More generally, for subspaces $W_1,\dots,W_m\leq V$, we write
+\[
+V=W_1\oplus W_2\oplus\cdots\oplus W_m
+\]
+if every vector $v\in V$ can be written uniquely as
+\[
+v=w_1+w_2+\cdots+w_m,
+\qquad
+w_i\in W_i.
+\]
+
+Equivalently,
+\[
+V=W_1+\cdots+W_m
+\]
+and
+\[
+W_j\cap\left(W_1+\cdots+W_{j-1}+W_{j+1}+\cdots+W_m\right)=\{0\}
+\]
+for each $j$.
+\end{remark}
+
+\begin{exercise}
+	Let $u_1,\dots,u_n$ be a basis for $V$.  Let
+	\[
+	U=\Span\{u_1,\dots,u_k\},
+	\qquad
+	W=\Span\{u_{k+1},\dots,u_n\}.
+	\]
+	Show that
+	\[
+	V=U\oplus W.
+	\]
+\end{exercise}
+
+\section*{Diagonalization criterion using eigenspaces}
+
+Let $T:V\to V$ be a linear operator on an $n$-dimensional vector space.  Suppose the distinct eigenvalues of $T$ are
+\[
+\lambda_1,\dots,\lambda_k,
+\qquad k\leq n.
+\]
+For each $i$, let
+\[
+E_{\lambda_i}=\ker(T-\lambda_i\id_V).
+\]
+
+\thmbox[Diagonalization theorem]{\begin{theorem}
+		The linear operator $T$ is diagonalizable if and only if
+		\[
+		V=E_{\lambda_1}\oplus E_{\lambda_2}\oplus\cdots\oplus E_{\lambda_k}.
+		\]
+\end{theorem}}
+\begin{proof}
+	First suppose $T$ is diagonalizable.  Then there exists a basis $\beta$ of $V$ consisting of eigenvectors.  Group this basis according to eigenvalue:
+	\[
+	\beta=
+	\{u_{11},\dots,u_{1m_1},
+	u_{21},\dots,u_{2m_2},
+	\dots,
+	u_{k1},\dots,u_{km_k}\},
+	\]
+	where each $u_{ij}$ has eigenvalue $\lambda_i$.
+	
+	Let
+	\[
+	W_i=\Span\{u_{i1},\dots,u_{im_i}\}.
+	\]
+	Since $\beta$ is a basis,
+	\[
+	V=W_1\oplus\cdots\oplus W_k.
+	\]
+	Clearly
+	\[
+	W_i\subseteq E_{\lambda_i}.
+	\]
+	We claim that actually $W_i=E_{\lambda_i}$.
+	
+	Let $v\in E_{\lambda_i}$.  Since $V=W_1\oplus\cdots\oplus W_k$, write uniquely
+	\[
+	v=w_1+\cdots+w_k,
+	\qquad
+	w_j\in W_j.
+	\]
+	Then
+	\[
+	T(v)=\lambda_i v.
+	\]
+	But also, since $T$ acts as multiplication by $\lambda_j$ on $W_j$,
+	\[
+	T(v)=\lambda_1w_1+\cdots+\lambda_kw_k.
+	\]
+	Thus
+	\[
+	0=T(v)-\lambda_i v
+	=\sum_{j=1}^k(\lambda_j-\lambda_i)w_j.
+	\]
+	By uniqueness in the direct sum, each component must be zero.  Hence for $j\neq i$,
+	\[
+	(\lambda_j-\lambda_i)w_j=0.
+	\]
+	Since $\lambda_j\neq\lambda_i$, we get $w_j=0$ for all $j\neq i$.  Therefore $v=w_i\in W_i$.  Thus
+	\[
+	E_{\lambda_i}=W_i.
+	\]
+	Hence
+	\[
+	V=E_{\lambda_1}\oplus\cdots\oplus E_{\lambda_k}.
+	\]
+	
+	Conversely, suppose
+	\[
+	V=E_{\lambda_1}\oplus\cdots\oplus E_{\lambda_k}.
+	\]
+	For each $i$, choose a basis $\beta_i$ of $E_{\lambda_i}$.  Then
+	\[
+	\beta=\beta_1\cup\cdots\cup\beta_k
+	\]
+	is a basis of $V$ because the sum is direct.  Every vector in $\beta_i$ is an eigenvector with eigenvalue $\lambda_i$.  Therefore $\beta$ is a basis of $V$ consisting of eigenvectors.  Hence $T$ is diagonalizable.
+\end{proof}
+
+\corbox[Dimension criterion]{\begin{corollary}
+		Let $T:V\to V$ have distinct eigenvalues $\lambda_1,\dots,\lambda_k$ in $\F$.  Then $T$ is diagonalizable over $\F$ if and only if
+		\[
+		\dim E_{\lambda_1}+\cdots+\dim E_{\lambda_k}=\dim V.
+		\]
+\end{corollary}}
+\begin{proof}
+	Eigenspaces corresponding to distinct eigenvalues have zero intersection in the direct-sum sense, by the linear-independence lemma.  Therefore
+	\[
+	E_{\lambda_1}+\cdots+E_{\lambda_k}
+	\]
+	is automatically a direct sum.  Thus it equals $V$ if and only if its dimension equals $\dim V$, namely if and only if
+	\[
+	\sum_{i=1}^k\dim E_{\lambda_i}=\dim V.
+	\]
+\end{proof}
+
+\begin{remark}
+	If
+	\[
+	V=E_{\lambda_1}\oplus\cdots\oplus E_{\lambda_k}
+	\]
+	and $m_i=\dim E_{\lambda_i}$, then with respect to a basis obtained by joining bases of the eigenspaces,
+	\[
+	[T]_{\beta}
+	=\begin{pmatrix}
+		\lambda_1 I_{m_1}&&&0\\
+		&\lambda_2 I_{m_2}&&\\
+		&&\ddots&\\
+		0&&&\lambda_k I_{m_k}
+	\end{pmatrix}.
+	\]
+	This is a diagonal matrix whose diagonal entries are the eigenvalues repeated according to the dimensions of their eigenspaces.
+\end{remark}
+
+\newpage
+\section*{Summary}
+\begin{itemize}
+	\item An eigenvector is a nonzero vector $u$ satisfying $T(u)=\lambda u$.
+	\item A linear operator is diagonalizable if and only if it has a basis consisting of eigenvectors.
+	\item For a matrix $A$, diagonalization means finding $P$ invertible and $D$ diagonal such that
+	\[
+	D=P^{-1}AP.
+	\]
+	\item The eigenvalues of $A$ are the roots of
+	\[
+	\varphi_A(t)=\det(A-tI).
+	\]
+	\item Eigenvectors corresponding to distinct eigenvalues are linearly independent.
+	\item If $\dim V=n$ and $T$ has $n$ distinct eigenvalues, then $T$ is diagonalizable.
+	\item The eigenspace corresponding to $\lambda$ is
+	\[
+	E_\lambda=\ker(T-\lambda\id_V).
+	\]
+	\item The operator $T$ is diagonalizable if and only if
+	\[
+	V=\bigoplus_{\lambda} E_\lambda,
+	\]
+	where the sum runs over the distinct eigenvalues of $T$.
+	\item Equivalently,
+	\[
+	T\text{ is diagonalizable}
+	\quad\Longleftrightarrow\quad
+	\sum_{\lambda}\dim E_\lambda=\dim V,
+	\]
+	provided all eigenvalues needed for diagonalization lie in the field $\F$.
+	\item Diagonalizability depends on the field.  A real rotation matrix with angle not $0$ or $\pi$ is not diagonalizable over $\R$, but it is diagonalizable over $\C$.
+\end{itemize}
+
+
+\newpage
 
 \vfill
 \begin{thebibliography}{9}
 	\bibitem{linear_algebra_h}
 	수학의 즐거움, Enjoying Math. ``수학 공부, 기초부터 대학원 수학까지, 31. 선형대수학 (h) 고유벡터와 행렬의 대각화 -1'' YouTube Video, 29:46. Published 
 	November 06, 2019. URL: \url{https://www.youtube.com/watch?v=RSOxa1rI_Kk}.
-%	\bibitem{linear_algebra_i}
-%	수학의 즐거움, Enjoying Math. ``수학 공부, 기초부터 대학원 수학까지, 32. 선형대수학 (i) 고유치와 행렬의 대각화 -2'' YouTube Video, 30:21. Published 
-%	November 08, 2019. URL: \url{https://www.youtube.com/watch?v=bjEuNw0FnPw}.
-%	\bibitem{linear_algebra_j}
-%	수학의 즐거움, Enjoying Math. ``수학 공부, 기초부터 대학원 수학까지, 33. 선형대수학 (j) 행렬의 대각화와 고유공간'' YouTube Video, 29:59. Published 
-%	November 09, 2019. URL: \url{https://www.youtube.com/watch?v=AlTo9fqlSn8}.
+	\bibitem{linear_algebra_i}
+	수학의 즐거움, Enjoying Math. ``수학 공부, 기초부터 대학원 수학까지, 32. 선형대수학 (i) 고유치와 행렬의 대각화 -2'' YouTube Video, 30:21. Published 
+	November 08, 2019. URL: \url{https://www.youtube.com/watch?v=bjEuNw0FnPw}.
+	\bibitem{linear_algebra_j}
+	수학의 즐거움, Enjoying Math. ``수학 공부, 기초부터 대학원 수학까지, 33. 선형대수학 (j) 행렬의 대각화와 고유공간'' YouTube Video, 29:59. Published 
+	November 09, 2019. URL: \url{https://www.youtube.com/watch?v=AlTo9fqlSn8}.
 \end{thebibliography}
 \end{document}
