@@ -1,0 +1,226 @@
+% Lines Cut Principal Divisors  (source §11; added: precise intersection
+% multiplicity, Bezout for line-and-cubic proved directly, line at infinity,
+% and the full collinear <=> sum-zero equivalence via L(3O))
+\chapter{Lines Cut Principal Divisors}
+\label{ch:lines_divisors}
+
+Abel's law (\cref{ch:abel}) decides principality by a balance condition; this
+chapter supplies the geometry that meets it. A projective line restricted to the
+cubic is a meromorphic function, and its divisor is \(P + Q + R - 3O\) where
+\(P, Q, R\) are the three intersection points. Feeding this into Abel's law turns
+collinearity into the group equation \(P + Q + R = O\), and the converse holds
+too: that is the equivalence on which the chord--tangent law rests.
+
+Throughout, \(\Phi : T \xrightarrow{\sim} E\) is the isomorphism of
+\cref{thm:emb-iso}; for a point \(P \in E\) we write \(\phi(P) = \Phi^{-1}(P) \in T\)
+and define the sum of points of \(E\) by transport, \(P \oplus Q :=
+\Phi(\phi(P) + \phi(Q))\), with identity \(O\). The point of the chapter is to
+compute this sum geometrically.
+
+\section{Projective Lines as Functions on the Cubic}
+\label{sec:lin-lines}
+
+A projective line is the zero set of a homogeneous linear form
+\[
+  \ell(X, Y, Z) = aX + bY + cZ, \qquad (a,b,c) \ne 0 .
+\]
+A single linear form is not a function on \(\CP^2\) (it is a section of a line
+bundle), but the ratio of two linear forms is. Using the line at infinity \(Z\)
+as comparison,
+\[
+  \frac{\ell}{Z} \quad\text{is a meromorphic function on } E .
+\]
+Its zeros are where \(\ell\) vanishes on \(E\); its poles are where \(Z\) vanishes
+on \(E\). We make both precise.
+
+\section{Intersection Multiplicity and B\'ezout}
+\label{sec:lin-bezout}
+
+\begin{definition}
+\label{def:lin-mult}
+Let \(L = \{\ell = 0\}\) be a line and \(P \in E\) a point. Choose a linear form
+\(m\) with \(m(P) \ne 0\); then \(\ell/m\) is a rational function on \(E\),
+holomorphic and finite near \(P\). The \emph{intersection multiplicity} of \(L\)
+and \(E\) at \(P\) is
+\[
+  I_P(L, E) = \ord_P\!\left( \frac{\ell}{m} \right) \ge 0,
+\]
+the order of vanishing of \(\ell/m\) at \(P\) in a local coordinate on \(E\). It is
+independent of \(m\) (any two choices differ by a unit at \(P\)).
+\end{definition}
+
+\begin{proposition}[B\'ezout for a line and a cubic]
+\label{prop:lin-bezout}
+A projective line \(L\) meets the cubic \(E\) in exactly three points, counted with
+intersection multiplicity:
+\[
+  L \cdot E := \sum_{P \in L \cap E} I_P(L,E)\, P
+  = P + Q + R, \qquad \deg(L \cdot E) = 3 .
+\]
+\end{proposition}
+
+\begin{proof}
+Parametrize \(L\) by a projective coordinate \(s \in \CP^1\): a line is a
+\(\CP^1\), so its points are \([X(s) : Y(s) : Z(s)]\) with \(X, Y, Z\) linear in
+\(s\). Substituting into \(F(X,Y,Z) = Y^2 Z - 4X^3 + g_2 X Z^2 + g_3 Z^3\) yields a
+homogeneous polynomial \(F(s)\) of degree \(3\) in \(s\) --- a binary cubic form ---
+not identically zero (since \(E\) contains no line). Over \(\C\), counting in
+\(\CP^1\), it has exactly three roots with multiplicity, and the multiplicity of
+the root \(s_0\) equals \(I_{P_0}(L,E)\) at the corresponding point
+\(P_0 = [X(s_0):Y(s_0):Z(s_0)]\). Hence \(L \cdot E\) has degree three.
+\end{proof}
+
+So the zero divisor of \(\ell\) on \(E\) is \(\divisor_0(\ell|_E) = P + Q + R\),
+the three intersection points.
+
+\section{The Divisor of the Line at Infinity}
+\label{sec:lin-infinity}
+
+The comparison form \(Z\) cuts out the line at infinity, which we already analyzed.
+
+\begin{proposition}
+\label{prop:lin-infinity}
+\(\divisor_0(Z|_E) = 3O\): the line at infinity meets \(E\) only at \(O\), with
+multiplicity three.
+\end{proposition}
+
+\begin{proof}
+By \cref{prop:emb-flex}, \(Z = 0\) meets \(E\) solely at \(O = [0:1:0]\) and \(O\)
+is a flex with intersection multiplicity three. Explicitly, in the chart \(Y = 1\)
+with \(u = X/Y\), \(v = Z/Y\), the curve is \(v = 4u^3 - g_2 u v^2 - g_3 v^3\), so
+near \((0,0)\), \(v = 4u^3 + (\text{higher order})\); thus \(u\) is a local
+coordinate at \(O\) and \(Z/Y = v\) vanishes to order three. Hence
+\(\ord_O(Z|_E) = 3\) and \(\divisor_0(Z|_E) = 3O\).
+\end{proof}
+
+\section{The Principal Divisor of a Line}
+\label{sec:lin-principal}
+
+\begin{theorem}
+\label{thm:lin-principal}
+If a line \(L\) meets \(E\) in \(P + Q + R\) (with multiplicity), then the
+rational function \(\ell/Z\) on \(E\) has divisor
+\[
+  \boxed{\ \divisor\!\left( \frac{\ell}{Z} \right) = P + Q + R - 3O .\ }
+\]
+In particular \(P + Q + R \sim 3O\), so \(P + Q + R - 3O\) is principal.
+\end{theorem}
+
+\begin{proof}
+As a ratio of linear forms, \(\ell/Z\) is meromorphic on \(E\) with
+\(\divisor(\ell/Z) = \divisor_0(\ell|_E) - \divisor_0(Z|_E)\). By
+\cref{prop:lin-bezout}, \(\divisor_0(\ell|_E) = P + Q + R\), and by
+\cref{prop:lin-infinity}, \(\divisor_0(Z|_E) = 3O\). Subtracting gives the boxed
+formula; being the divisor of a function it is principal, and \(P+Q+R \sim 3O\).
+\end{proof}
+
+\begin{keyidea}{The line divisor}
+Every projective line cuts the cubic in a divisor linearly equivalent to \(3O\):
+\[
+  P + Q + R \sim 3O,
+  \qquad\text{equivalently}\qquad
+  P + Q + R - 3O \ \text{is principal} .
+\]
+Because \(O\) is a flex, the line at infinity itself cuts \(3O\); every other line
+cuts a divisor in the same class.
+\end{keyidea}
+
+\section{Collinearity Equals Summing to Zero}
+\label{sec:lin-collinear}
+
+Now combine \cref{thm:lin-principal} with Abel's law. The result is the geometric
+characterization of the group law.
+
+\begin{theorem}[Collinearity criterion]
+\label{thm:lin-collinear}
+For three points \(P, Q, R \in E\) (listed with the multiplicities of a line, so
+that ``collinear'' includes tangency), the following are equivalent:
+\begin{enumerate}
+\item \(P, Q, R\) are collinear, i.e.\ \(P + Q + R = L \cdot E\) for some line
+  \(L\);
+\item \(P + Q + R - 3O\) is principal;
+\item \(\phi(P) + \phi(Q) + \phi(R) = 0\) in \(T\), i.e.\
+  \(P \oplus Q \oplus R = O\).
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+\(\textbf{(1)} \Rightarrow \textbf{(2)}\) is \cref{thm:lin-principal}.
+
+\(\textbf{(2)} \Leftrightarrow \textbf{(3)}\): transport to \(T\) by the
+isomorphism \(\Phi\). The divisor \([\phi(P)] + [\phi(Q)] + [\phi(R)] - 3[\phi(O)]
+= [\phi(P)]+[\phi(Q)]+[\phi(R)] - 3[0]\) is principal iff, by
+\cref{cor:abel-three-point}, \(\phi(P) + \phi(Q) + \phi(R) = 0\) in \(T\).
+
+\(\textbf{(2)} \Rightarrow \textbf{(1)}\): suppose \(D = P + Q + R - 3O\) is
+principal, \(D = \divisor(f)\). Then \(f\) has poles only at \(O\), of order at
+most three, so \(f \in L(3O)\). By \cref{prop:rr-counts}, \(L(3O)\) has basis
+\(\{1, \wp, \wp'\}\) (pulled back through \(\Phi\), these are
+\(1, X/Z, Y/Z\)), so \(f = (a\,Y + b\,X + c\,Z)/Z = \ell/Z\) for a linear form
+\(\ell = aY + bX + cZ\). The zeros of \(f\) are then \(L \cap E\) for the line
+\(L = \{\ell = 0\}\), so \(P, Q, R\) are collinear.
+\end{proof}
+
+\begin{remark}
+\label{rem:lin-converse}
+The step \(\textbf{(2)} \Rightarrow \textbf{(1)}\) is where \(L(3O)\) does its
+work: \emph{every} function with a pole of order \(\le 3\) only at \(O\) is the
+restriction of a line. This is what makes lines, rather than higher curves, the
+right tool for the group law --- the geometry of \(E\) in \(\CP^2\) sees exactly the
+class \(3O\).
+\end{remark}
+
+\section{Summary}
+\label{sec:lin-summary}
+
+A line \(L = \{\ell = 0\}\) restricts to the function \(\ell/Z\) on \(E\). It meets
+\(E\) in three points with multiplicity (\cref{prop:lin-bezout}), and the line at
+infinity meets \(E\) at \(3O\) (\cref{prop:lin-infinity}), so
+\(\divisor(\ell/Z) = P + Q + R - 3O\) is principal (\cref{thm:lin-principal}):
+every line cuts a divisor \(\sim 3O\). Pairing this with Abel's law gives the
+collinearity criterion (\cref{thm:lin-collinear}): three points of \(E\) are
+collinear if and only if they sum to \(O\) in the transported group, the converse
+direction relying on \(L(3O) = \langle 1, \wp, \wp'\rangle\). \Cref{ch:transport}
+packages this as the statement that the chord--tangent construction \emph{is} the
+group law.
+
+\section*{Exercises}
+\addcontentsline{toc}{section}{Exercises}
+
+\begin{exercise}
+\label{ex:lin-vertical}
+Show that a vertical line \(x = c\) meets \(E : y^2 = 4x^3 - g_2 x - g_3\) in the
+two affine points \((c, \pm y_0)\) and in \(O\) at infinity, so
+\(L \cdot E = (c, y_0) + (c, -y_0) + O\). Using \cref{thm:lin-collinear}, deduce
+\((c, y_0) \oplus (c, -y_0) = O\): the two points are inverses, recovering the
+reflection law of \cref{sec:emb-reflection}.
+\end{exercise}
+
+\begin{exercise}
+\label{ex:lin-mult-welldef}
+Prove that \(I_P(L, E)\) in \cref{def:lin-mult} is independent of the auxiliary
+linear form \(m\) with \(m(P) \ne 0\). (Two such forms differ by a function that is
+a unit at \(P\).)
+\end{exercise}
+
+\begin{exercise}
+\label{ex:lin-tangent}
+Show that the line \(L\) is tangent to \(E\) at \(P\) if and only if
+\(I_P(L, E) \ge 2\), and that then \(L \cdot E = 2P + R'\) for some \(R'\).
+(This is the tangent case used in doubling, \cref{ch:chord_tangent_cases}.)
+\end{exercise}
+
+\begin{exercise}
+\label{ex:lin-infinity-mult}
+Redo the local computation of \cref{prop:lin-infinity} carefully: in the chart
+\(Y = 1\), solve \(v = 4u^3 - g_2 u v^2 - g_3 v^3\) for \(v\) as a power series in
+\(u\), and confirm \(v = 4u^3 + O(u^5)\), so \(\ord_O(Z|_E) = 3\).
+\end{exercise}
+
+\begin{exercise}
+\label{ex:lin-three-collinear}
+Use \cref{thm:lin-collinear} to prove: given any two points \(P, Q \in E\), the
+third intersection \(R\) of the line \(PQ\) with \(E\) satisfies \(R = -(P \oplus Q)\)
+in the group, so \(P \oplus Q = -R\) is the reflection of \(R\). Identify which
+line to use when \(P = Q\).
+\end{exercise}

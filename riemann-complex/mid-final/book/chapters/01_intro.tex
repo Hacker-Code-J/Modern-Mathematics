@@ -1,0 +1,290 @@
+% Introduction and Overview  (source §1; added: reading guide, dependency
+% diagram as a labeled figure, main theorem stated up front)
+\chapter{Introduction and Overview}
+\label{ch:intro}
+
+\section{A Construction That Should Not Work}
+\label{sec:intro-construction}
+
+Take a smooth cubic curve in the plane, for instance
+\[
+  E:\quad y^2 = 4x^3 - g_2 x - g_3,
+\]
+and the following recipe for ``adding'' two of its points. Given points
+\(P\) and \(Q\) on \(E\), draw the straight line through them. A line meets a
+cubic in three points, so it strikes \(E\) at one further point \(R\). Reflect
+\(R\) across the \(x\)-axis to obtain a point we call \(P \oplus Q\). To add a
+point to itself, use the tangent line at \(P\) in place of the chord. This is
+the \emph{chord--tangent law}.
+
+Nothing about this recipe looks like it should produce a group. Reflecting a
+third intersection point is a geometric gesture, not an algebraic operation;
+there is no visible reason for it to be associative, and no visible reason for
+inverses to behave. Yet the chord--tangent law \emph{is} an abelian group law,
+with associativity holding exactly. The standard elementary proofs of
+associativity are long case analyses or invocations of the Cayley--Bacharach
+theorem, and they leave the impression that the group structure is a lucky
+accident of plane geometry.
+
+It is not an accident. These notes explain the following single fact, which
+makes every group axiom transparent at once.
+
+\begin{quote}
+The chord--tangent law on a smooth plane cubic is not an arbitrary geometric
+trick. It is exactly the abelian group law on the complex torus
+\(T = \C/\Lambda\), transported to the cubic by the Weierstrass functions
+\(\wp\) and \(\wp'\).
+\end{quote}
+
+The slogan is
+\[
+  \boxed{
+    \text{addition on } \C/\Lambda
+    \quad\Longleftrightarrow\quad
+    \text{chord--tangent addition on } E
+  }
+\]
+where, in homogeneous coordinates \([X:Y:Z]\) on \(\CP^2\),
+\[
+  E:\quad Y^2 Z = 4X^3 - g_2 X Z^2 - g_3 Z^3 .
+\]
+On the torus side, addition is nothing more than addition of complex numbers
+modulo a lattice \(\Lambda\); it is associative and commutative for the most
+elementary of reasons. The entire mystery of the chord--tangent law dissolves
+once we exhibit a dictionary between the two pictures.
+
+\section{The Answer Stated First}
+\label{sec:intro-answer}
+
+We state the destination now, before any of the machinery is built, so that
+every later chapter can be read as a step toward it. The terms appearing here
+(\emph{lattice}, \emph{Weierstrass function}, \emph{divisor}, \emph{point at
+infinity}) are defined from scratch in the chapters that follow; forward
+references point to the precise statements.
+
+\begin{theorem}[Main theorem]
+\label{thm:main}
+Let \(\Lambda \subset \C\) be a lattice and let \(\wp\) be the Weierstrass
+function of \(\Lambda\), with derivative \(\wp'\). Set
+\[
+  E:\quad Y^2 Z = 4X^3 - g_2 X Z^2 - g_3 Z^3 \subset \CP^2 ,
+\]
+with \(g_2, g_3\) the invariants of \(\Lambda\). Then the map
+\[
+  \Phi : \C/\Lambda \longrightarrow E,
+  \qquad
+  \Phi(z) =
+  \begin{cases}
+    [\wp(z) : \wp'(z) : 1], & z \notin \Lambda,\\[2pt]
+    [0 : 1 : 0] =: O,       & z \in \Lambda,
+  \end{cases}
+\]
+is an isomorphism of compact Riemann surfaces, and it is an isomorphism of
+groups when \(E\) carries the chord--tangent law and \(\C/\Lambda\) carries
+addition modulo \(\Lambda\). Equivalently: three points of \(E\), counted with
+intersection multiplicity, are collinear if and only if their \(\Phi\)-preimages
+in \(\C/\Lambda\) sum to \(0\).
+\end{theorem}
+
+The map \(\Phi\) is constructed in \cref{ch:embedding}; that it lands on \(E\)
+comes from the differential equation for \(\wp\) in \cref{ch:weierstrass_wp};
+that it is a bijection of Riemann surfaces is \cref{ch:embedding}; and the
+collinearity statement, which is the heart of the matter, is proved in
+\cref{ch:lines_divisors,ch:transport} using Abel's sum law from
+\cref{ch:abel}.
+
+\begin{keyidea}{Main conclusion}
+If a line meets the cubic in three points \(P, Q, R\), counted with
+intersection multiplicity, then those three points add to zero in the group law
+transported from the torus:
+\[
+  P + Q + R = O .
+\]
+Solving for \(P + Q\) gives
+\[
+  P + Q = -R .
+\]
+Geometrically, this means: draw the line through \(P\) and \(Q\), take the
+third intersection \(R\), then reflect \(R\) across the \(x\)-axis.
+\end{keyidea}
+
+\section{The Chain of Ideas}
+\label{sec:intro-chain}
+
+The proof of \cref{thm:main} is a chain of structural facts, each of which is
+of independent interest and each of which occupies one part of this book. The
+logical skeleton is shown in \cref{fig:dependency}.
+
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[node distance=1.2cm]
+  \node[visualnode, text width=3.2cm] (torus) {complex torus\\\(T=\C/\Lambda\)};
+  \node[visualnode, text width=3.3cm, right=1.4cm of torus] (wp) {functions\\\(\wp,\wp'\)};
+  \node[visualnode, text width=3.2cm, right=1.4cm of wp] (cubic) {plane cubic\\\(E\subset\CP^2\)};
+  \node[visualnode, text width=3.3cm, below=1.1cm of wp] (div) {principal divisors\\have Abel sum zero};
+  \node[visualnode, text width=3.3cm, below=1.1cm of cubic] (line) {a line cuts\\\(P+Q+R\)};
+  \draw[arrow] (torus) -- node[above, labelnode] {\(\Phi\)} (wp);
+  \draw[arrow] (wp) -- (cubic);
+  \draw[arrow] (line) -- (div);
+  \draw[arrow] (div) -- node[left, labelnode] {\(P+Q+R=O\)} (torus);
+  \draw[arrow] (cubic) -- (line);
+\end{tikzpicture}
+\caption{The chain of ideas behind \cref{thm:main}. The torus supplies the
+group law; the Weierstrass functions \(\wp,\wp'\) carry it onto the cubic
+\(E\); a line meeting \(E\) in \(P,Q,R\) records the divisor \(P+Q+R\); that
+divisor is principal, so by Abel's sum law its points sum to \(0\) back on the
+torus. The loop closes, and the chord--tangent law is forced.}
+\label{fig:dependency}
+\end{figure}
+
+Read clockwise from the upper left, the chain runs as follows.
+
+\begin{enumerate}
+\item \textbf{The torus carries an obvious group law.} The quotient
+\(\C/\Lambda\) inherits addition from \(\C\). Associativity, commutativity, and
+inverses are immediate because they already hold in \(\C\)
+(\cref{ch:lattices,ch:torus_group_surface}).
+
+\item \textbf{The torus is a Riemann surface of genus one.} As a smooth compact
+surface \(\C/\Lambda \cong S^1 \times S^1\) is a doughnut; as a Riemann surface
+it has genus one. This is what eventually forces the cubic equation
+(\cref{ch:torus_group_surface}).
+
+\item \textbf{Meromorphic functions on the torus are scarce.} A nonconstant
+holomorphic function cannot exist (Liouville), and the orders of zeros and poles
+of a meromorphic function obey rigid global constraints
+(\cref{ch:elliptic_liouville,ch:divisors}).
+
+\item \textbf{Riemann--Roch counts those functions.} On a genus-one surface the
+dimension counts are sharp enough to single out a function with a double pole
+(\(\wp\)) and one with a triple pole (\(\wp'\)), and to force a single algebraic
+relation between them (\cref{ch:riemann_roch,ch:weierstrass_wp}).
+
+\item \textbf{That relation is the cubic.} The differential equation
+\(\wp'^2 = 4\wp^3 - g_2\wp - g_3\) says precisely that \((\wp,\wp')\) traces out
+\(E\). The map \(\Phi\) of \cref{thm:main} is the resulting embedding
+(\cref{ch:weierstrass_wp,ch:embedding}).
+
+\item \textbf{Lines cut principal divisors.} A line meeting \(E\) at \(P,Q,R\)
+defines a meromorphic function on \(E\) whose divisor is
+\(P + Q + R - 3O\). Pulled back to the torus, principal divisors have Abel sum
+zero, which is exactly \(P + Q + R = O\)
+(\cref{ch:abel,ch:lines_divisors,ch:transport}).
+\end{enumerate}
+
+Everything after that --- the explicit chord and tangent formulas, the role of
+the point at infinity as the identity, the two-torsion points, the closed-form
+addition laws --- is the working-out of this one loop
+(\crefrange{ch:chord_tangent_cases}{ch:synthesis}).
+
+\section{How to Read This Book}
+\label{sec:intro-reading}
+
+The book is organized into six parts that follow the chain above.
+
+\begin{description}[leftmargin=1.4em, style=nextline]
+\item[Part I --- Tori as Riemann Surfaces
+  (\cref{ch:lattices,ch:torus_group_surface}).]
+  Lattices, the quotient \(\C/\Lambda\), its complex structure, its group law,
+  and its genus.
+\item[Part II --- Elliptic Functions
+  (\cref{ch:elliptic_liouville,ch:divisors}).]
+  Doubly periodic meromorphic functions, Liouville's theorems, orders, and
+  divisors.
+\item[Part III --- Riemann--Roch on Genus One (\cref{ch:riemann_roch}).]
+  The spaces \(L(D)\), the canonical divisor, and the dimension counts that
+  make \(\wp\) and \(\wp'\) inevitable.
+\item[Part IV --- The Weierstrass Functions
+  (\cref{ch:weierstrass_wp,ch:embedding}).]
+  Construction of \(\wp\), the differential equation, and the embedding
+  \(\Phi\) into \(\CP^2\). The convergence, Eisenstein-series, and
+  field-generation material of \cref{ch:weierstrass_wp} is the most technical in
+  the book (graduate level) and may be skimmed on a first reading without losing
+  the main thread.
+\item[Part V --- The Group Law on the Cubic
+  (\crefrange{ch:abel}{ch:chord_tangent_cases}).]
+  Abel's sum law, lines as principal divisors, the transport of the group law,
+  and the chord--tangent law case by case.
+\item[Part VI --- Formulas, Computations, and Synthesis
+  (\crefrange{ch:coordinate_formulas}{ch:synthesis}).]
+  Closed-form addition and doubling formulas, the analytic addition formula, a
+  fully worked numerical example, and pointers onward.
+\end{description}
+
+Four appendices support the main text.
+\Cref{app:A} is a self-contained refresher on the complex analysis the book
+relies on (Liouville's theorem, residues, the argument principle, Laurent
+series); a reader who is rusty should skim it first.
+\Cref{app:B} records how the present material grew out of a course's midterm and
+final examinations, for readers who want that bridge.
+\Cref{app:C} documents the Sage scripts that compute the exact coordinates for
+every figure, so that all pictures are reproducible.
+\Cref{app:D} contains full solutions to every exercise.
+
+\paragraph{Prerequisites.}
+We assume one course in single-variable complex analysis (holomorphic and
+meromorphic functions, Laurent series, residues, Liouville's theorem, the
+argument principle), comfort with quotient spaces from point-set topology, and
+the basics of abelian groups and linear algebra. No prior exposure to Riemann
+surfaces, divisors, or Riemann--Roch is assumed; these are developed here in the
+single case of genus one.
+
+\paragraph{Standing notation.}
+The following symbols are fixed throughout. The complex numbers, reals, and
+integers are \(\C\), \(\R\), \(\Z\); the upper half-plane is \(\HH\); and
+\(\CP^n\) is complex projective space. A \emph{lattice} is written
+\(\Lambda = \Z\omega_1 + \Z\omega_2\), and the associated \emph{complex torus}
+is \(T = \C/\Lambda\), with \(O\) the image of \(0\), which will turn out to be
+the group identity. The Weierstrass function and its derivative are \(\wp\) and
+\(\wp'\); the invariants of \(\Lambda\) are \(g_2, g_3\), with discriminant
+\(\Delta = g_2^3 - 27 g_3^2\). We write \(\Div\) for divisors, \(\divisor(f)\)
+for the divisor of a function, \(\ord_p\) for order at \(p\), and \(L(D)\) for
+the Riemann--Roch space of a divisor \(D\). Addition on the torus is written
+\(+\); the chord--tangent law on \(E\) is written \(\oplus\) until
+\cref{thm:main} identifies the two, after which we use \(+\) for both.
+
+\section{Summary}
+\label{sec:intro-summary}
+
+The chord--tangent law looks like an arbitrary geometric construction, but it is
+the image of ordinary addition on a complex torus under the Weierstrass
+embedding \(\Phi\). \Cref{thm:main} is the precise statement, and
+\cref{fig:dependency} is its proof in outline: the torus gives the group law,
+\(\wp\) and \(\wp'\) carry it to the cubic, and the fact that a line cuts a
+principal divisor closes the loop. The rest of the book builds each link of that
+chain in turn.
+
+\section*{Exercises}
+\addcontentsline{toc}{section}{Exercises}
+
+\begin{exercise}
+\label{ex:intro-thirdpoint}
+In the chord--tangent recipe, a line through two points \(P, Q\) of a cubic is
+asserted to meet the curve in exactly one further point \(R\). Assuming the
+points are counted with multiplicity and that we work in the projective plane,
+explain informally why a third intersection point must exist. (The precise tool
+is B\'ezout's theorem; see \cref{ch:lines_divisors}.)
+\end{exercise}
+
+\begin{exercise}
+\label{ex:intro-tangent}
+Explain why \emph{doubling} a point \(P\) (computing \(P \oplus P\)) uses the
+tangent line at \(P\) rather than a chord. What happens to the chord through
+\(P\) and \(Q\) as \(Q \to P\)?
+\end{exercise}
+
+\begin{exercise}
+\label{ex:intro-liouville}
+Recall Liouville's theorem: a bounded entire function is constant. Granting that
+a meromorphic function on the torus \(\C/\Lambda\) with no poles is, in effect,
+a bounded entire function, explain in one sentence why there is no nonconstant
+holomorphic function on \(\C/\Lambda\). (This is proved carefully in
+\cref{ch:elliptic_liouville}.)
+\end{exercise}
+
+\begin{exercise}
+\label{ex:intro-map-arrows}
+Using \cref{fig:dependency} and the chapter list in
+\cref{sec:intro-reading}, match each of the five arrows in the diagram to the
+chapter that establishes it.
+\end{exercise}

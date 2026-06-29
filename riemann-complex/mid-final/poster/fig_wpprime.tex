@@ -1,0 +1,20 @@
+% The companion graph: wp' on the real axis.  Odd, with a triple pole at every lattice
+% point, vanishing at the half-periods (where wp has its extrema).  The pair (wp, wp')
+% is exactly the (x, y) of the embedding.  (Truncated lattice sum, clipped to the box.)
+\begin{tikzpicture}[>=Latex, yscale=0.62]
+  \draw[->, black!55, line width=0.6pt] (-0.9,0)--(7.6,0) node[right, font=\small] {$x$};
+  \draw[->, black!55, line width=0.6pt] (0,-5.6)--(0,5.9) node[above, font=\small] {$\wp'(x)$};
+  \foreach \p in {0,3,6}{\draw[formrust!55, dashed, line width=0.8pt] (\p,-5.4)--(\p,5.4);}
+  \begin{scope}
+    \clip (-0.9,-5.4) rectangle (7.6,5.4);
+    \foreach \lo/\hi in {0.6/2.4, 3.6/5.4, 6.6/6.95}{
+      \draw[formplum!72!black, line width=1.5pt, smooth, samples=70, domain=\lo:\hi]
+        plot (\x,{-2*( 1/(\x*\x*\x) + 1/((\x-3)*(\x-3)*(\x-3))
+                     + 1/((\x+3)*(\x+3)*(\x+3)) + 1/((\x-6)*(\x-6)*(\x-6)) )});}
+  \end{scope}
+  \foreach \h in {1.5,4.5}{\fill[formteal!70!black] (\h,0) circle (2.3pt);}
+  \node[font=\small, below] at (0,-0.05) {$0$};
+  \node[font=\small, below] at (3,-0.05) {$\omega$};
+  \node[font=\small, below] at (6,-0.05) {$2\omega$};
+  \node[formplum!65!black, font=\small, anchor=south] at (4.7,4.9) {$\wp'$: odd, triple pole};
+\end{tikzpicture}

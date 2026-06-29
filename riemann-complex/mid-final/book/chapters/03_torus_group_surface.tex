@@ -1,0 +1,396 @@
+% The Torus as Group and as Surface  (source §3.3–3.5; added: full S^1 x S^1
+% proof, genus / Euler-characteristic computation via a CW structure, and the
+% distinction between the topological and the complex structure)
+\chapter{The Torus as Group and as Surface}
+\label{ch:torus_group_surface}
+
+\Cref{ch:lattices} made \(T = \C/\Lambda\) into a compact Riemann surface. This
+chapter adds the two structures that make it the right home for the elliptic
+group law. First, \(T\) is an abelian group, and its operations are holomorphic,
+so \(T\) is a complex Lie group; this is the group whose law \cref{thm:main}
+transports to the cubic. Second, \(T\) is topologically a torus of genus one,
+and that single integer is what gives Riemann--Roch its simple shape in
+\cref{ch:riemann_roch}. We close by separating what is topological (the same for
+every \(\Lambda\)) from what is complex-analytic (the part that depends on
+\(\Lambda\)).
+
+\section{The Group Law}
+\label{sec:tg-group-law}
+
+The complex plane is an abelian group under addition, and \(\Lambda\) is a
+subgroup, so the quotient inherits an operation.
+
+\begin{proposition}
+\label{prop:tg-welldef}
+The formula
+\[
+  [u] + [v] = [u + v]
+\]
+is well defined on \(\C/\Lambda\) and makes it an abelian group with identity
+\(0_T = [0]\) and inverses \(-[z] = [-z]\).
+\end{proposition}
+
+\begin{proof}
+Suppose \(u' \equiv u\) and \(v' \equiv v \pmod \Lambda\), say
+\(u' = u + \lambda_1\) and \(v' = v + \lambda_2\) with
+\(\lambda_1, \lambda_2 \in \Lambda\). Then
+\(u' + v' = (u + v) + (\lambda_1 + \lambda_2)\), and
+\(\lambda_1 + \lambda_2 \in \Lambda\) because \(\Lambda\) is a subgroup, so
+\([u' + v'] = [u + v]\); the operation does not depend on representatives. The
+group axioms are inherited from \((\C, +)\): associativity and commutativity
+descend immediately, \([0]\) is a two-sided identity, and \([-z]\) is the
+inverse of \([z]\).
+\end{proof}
+
+Equivalently, \(\pi : \C \to T\) is a surjective homomorphism of abelian groups
+with kernel \(\Lambda\), so \(T \cong \C/\Lambda\) as groups --- the quotient in
+the group-theoretic sense agrees with the quotient as a space. Adding two
+classes is carried out by lifting, adding in \(\C\), and reducing back into the
+fundamental parallelogram (\cref{fig:grouplaw}).
+
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[scale=1.05, every node/.style={font=\small}]
+  % Fundamental parallelogram with sage-verified geometry
+  \draw[draw=formteal!55!black, fill=formteal!8, line width=0.7pt]
+    (0,0) -- (\latwax,\latway) -- (\latsxc,\latsyc) -- (\latwbx,\latwby) -- cycle;
+  % Adjacent translate (where u+v lands)
+  \draw[draw=formteal!45!black, dashed, line width=0.35pt, opacity=0.5]
+    (\latwax,\latway) -- (2*\latwax,2*\latway)
+    -- ({2*\latwax+\latwbx},{2*\latway+\latwby})
+    -- (\latsxc,\latsyc);
+  % Two points u, v
+  \fill[formrust!85!black] (\grupux,\grupuy) circle (1.8pt);
+  \node[formrust!60!black, below right] at (\grupux,\grupuy) {$[u]$};
+  \fill[formrust!85!black] (\grupvx,\grupvy) circle (1.8pt);
+  \node[formrust!60!black, above left] at (\grupvx,\grupvy) {$[v]$};
+  % u+v lifted
+  \fill[formgold!85!black] (\grupsumx,\grupsumy) circle (1.8pt);
+  \node[formgold!50!black, above right] at (\grupsumx,\grupsumy) {$u+v$};
+  \draw[-{Latex[length=2mm]}, draw=formgold!75!black, line width=0.7pt, dashed]
+    (\grupux,\grupuy) -- (\grupsumx,\grupsumy);
+  \draw[-{Latex[length=2mm]}, draw=formgold!75!black, line width=0.7pt, dashed]
+    (\grupvx,\grupvy) -- (\grupsumx,\grupsumy);
+  % Reduced representative (inside P_Lambda) via subtracting omega_1
+  \fill[formplum] (\grupredx,\grupredy) circle (1.8pt);
+  \node[formplum, above left, font=\small] at (\grupredx,\grupredy) {$[u+v]$};
+  \draw[-{Latex[length=2.5mm]}, draw=formplum, line width=0.9pt]
+    (\grupsumx,\grupsumy) to[bend left=22] (\grupredx,\grupredy);
+  \node[formplum, font=\scriptsize] at (1.7,2.6) {translate by $-\omega_1$};
+  % Origin
+  \fill[black] (0,0) circle (1.6pt) node[below left] {$[0]$};
+  % Annotation with sage-verified arithmetic
+  \node[draw=black!40, rounded corners=2pt, fill=formivory, align=left, anchor=west,
+        inner sep=4pt, font=\scriptsize] at (4.5,1.45)
+    {$u=0.40\,\omega_1+0.30\,\omega_2$\\
+     $v=0.70\,\omega_1+0.60\,\omega_2$\\
+     $u+v=1.10\,\omega_1+0.90\,\omega_2$\\
+     reduce: subtract $\omega_1$\\
+     to get $[u+v]=0.10\,\omega_1+0.90\,\omega_2$};
+\end{tikzpicture}
+\caption{Addition on \(T = \C/\Lambda\): lift \([u]\) and \([v]\) to \(\C\), add
+to get \(u+v\), then reduce modulo \(\Lambda\) back into \(P_\Lambda\). The
+arithmetic shown is computed by \texttt{sagemath/02\_torus\_group\_law.sage}.}
+\label{fig:grouplaw}
+\end{figure}
+
+The group law is not merely set-theoretic: it is compatible with the complex
+structure of \cref{ch:lattices}.
+
+\begin{proposition}[\texorpdfstring{$T$}{T} is a complex Lie group]
+\label{prop:tg-lie}
+Addition \(m : T \times T \to T\), \(m([z],[w]) = [z+w]\), and negation
+\(\iota : T \to T\), \(\iota([z]) = [-z]\), are holomorphic. Consequently every
+translation
+\[
+  \tau_a : T \to T, \qquad \tau_a([z]) = [z + a] \quad (a \in \C)
+\]
+is a biholomorphic automorphism of \(T\), and the translations act simply
+transitively on \(T\).
+\end{proposition}
+
+\begin{proof}
+In the charts of \cref{thm:lat-riemann-surface} the maps \(m\) and \(\iota\)
+lift to \((z,w) \mapsto z+w\) and \(z \mapsto -z\) on open subsets of \(\C\),
+which are holomorphic; since \(\pi\) is a local biholomorphism, \(m\) and
+\(\iota\) are holomorphic on \(T\). Fixing \(a\), the translation \(\tau_a\) is
+holomorphic with holomorphic inverse \(\tau_{-a}\), hence biholomorphic. Given
+\([z], [w] \in T\), the unique translation carrying \([z]\) to \([w]\) is
+\(\tau_{w-z}\), so the action is simply transitive.
+\end{proof}
+
+\begin{remark}
+\label{rem:tg-homogeneous}
+Simple transitivity says \(T\) looks the same at every point: the translation
+\(\tau_a\) is a biholomorphism carrying \(0_T\) to \([a]\). We use this
+homogeneity constantly --- for instance to move a divisor so that one of its
+points sits at the origin --- and it is the reason a single local computation at
+\(0_T\) often suffices.
+\end{remark}
+
+\section{The Torus as a Product of Circles}
+\label{sec:tg-product}
+
+The abstract law \([u]+[v]=[u+v]\) has a concrete realization that makes
+commutativity transparent.
+
+\paragraph{The circle group.}
+The unit circle
+\[
+  S^1 = \{ z \in \C : |z| = 1 \} = \{ e^{i\theta} : \theta \in \R \}
+\]
+is an abelian group under complex multiplication, since
+\(e^{i\alpha} e^{i\beta} = e^{i(\alpha+\beta)} = e^{i\beta} e^{i\alpha}\). The
+homomorphism \(t \mapsto e^{2\pi i t}\) from \(\R\) onto \(S^1\) has kernel
+\(\Z\), so the first isomorphism theorem gives
+\[
+  \R/\Z \;\cong\; S^1 .
+\]
+The circle is the real line wound onto itself, with the group law becoming angle
+addition.
+
+\begin{proposition}[Torus \(\cong\) product of circles]
+\label{prop:tg-s1xs1}
+Let \(\Lambda = \Z\omega_1 + \Z\omega_2\). The map
+\[
+  \Psi : \C/\Lambda \longrightarrow S^1 \times S^1,
+  \qquad
+  [\,s\omega_1 + t\omega_2\,] \longmapsto \bigl( e^{2\pi i s},\, e^{2\pi i t} \bigr)
+\]
+is an isomorphism of topological groups.
+\end{proposition}
+
+\begin{proof}
+Since \(\omega_1, \omega_2\) are \(\R\)-independent, every \(z \in \C\) has a
+unique expression \(z = s\omega_1 + t\omega_2\) with \(s, t \in \R\). The
+real-linear isomorphism \(\phi : \R^2 \to \C\), \((s,t) \mapsto s\omega_1 +
+t\omega_2\), carries \(\Z^2\) onto \(\Lambda\), so it descends to an isomorphism
+\(\R^2/\Z^2 \xrightarrow{\sim} \C/\Lambda\) of abelian groups. Composing the
+inverse with the coordinatewise exponential
+\(\R^2/\Z^2 = (\R/\Z)^2 \to S^1 \times S^1\) yields \(\Psi\).
+
+\emph{Homomorphism.} Writing \([z_k] = [s_k\omega_1 + t_k\omega_2]\),
+\[
+  \Psi([z_1]+[z_2])
+  = \bigl( e^{2\pi i(s_1+s_2)}, e^{2\pi i(t_1+t_2)} \bigr)
+  = \bigl( e^{2\pi i s_1} e^{2\pi i s_2}, e^{2\pi i t_1} e^{2\pi i t_2} \bigr)
+  = \Psi([z_1])\,\Psi([z_2]).
+\]
+\emph{Injectivity.} If \(\Psi([z]) = (1,1)\) then \(e^{2\pi i s} = e^{2\pi i t}
+= 1\), so \(s, t \in \Z\) and \(z \in \Lambda\), i.e.\ \([z] = [0]\).
+\emph{Surjectivity.} The class \([s\omega_1 + t\omega_2]\) maps to
+\((e^{2\pi i s}, e^{2\pi i t})\). \emph{Homeomorphism.} \(\Psi\) is a continuous
+bijection between compact Hausdorff spaces, hence a homeomorphism.
+\end{proof}
+
+\begin{corollary}
+\label{cor:tg-abelian}
+\(T = \C/\Lambda\) is an abelian group, and as a topological group it is
+independent of \(\Lambda\): every complex torus is isomorphic to
+\(S^1 \times S^1\).
+\end{corollary}
+
+\begin{proof}
+\(S^1\) is abelian, a product of abelian groups is abelian, and \(\Psi\)
+transports this to \(T\). The isomorphism class of \(S^1 \times S^1\) does not
+involve \(\Lambda\).
+\end{proof}
+
+\begin{keyidea}{Why commutativity is obvious from the circle picture}
+A class \([s\omega_1 + t\omega_2]\) corresponds to a pair of angles
+\((e^{2\pi i s}, e^{2\pi i t})\), one winding in the \(\omega_1\)-direction and
+one in the \(\omega_2\)-direction. Adding classes rotates the two circles
+independently,
+\[
+  (e^{2\pi i s_1}, e^{2\pi i t_1})\,(e^{2\pi i s_2}, e^{2\pi i t_2})
+  = (e^{2\pi i(s_1+s_2)}, e^{2\pi i(t_1+t_2)}),
+\]
+and rotating by \(\alpha\) then \(\beta\) equals rotating by \(\beta\) then
+\(\alpha\). Commutativity of the group law is just commutativity of adding real
+angles.
+\end{keyidea}
+
+\begin{warning}
+\label{warn:tg-not-biholo}
+\Cref{prop:tg-s1xs1} is an isomorphism of \emph{topological} groups, not of
+Riemann surfaces. The product \(S^1 \times S^1\) carries no preferred complex
+structure; the map \(\Psi\) uses the real coordinates \(s, t\) and is only
+real-analytic, not holomorphic. The complex structure of \(T\), which remembers
+the shape \(\tau\) of \cref{ch:lattices}, is exactly the information that
+\(\Psi\) discards. We return to this in \cref{sec:tg-top-vs-complex}.
+\end{warning}
+
+\section{Genus and Euler Characteristic}
+\label{sec:tg-genus}
+
+Topologically \(T\) is built from the parallelogram \(P_\Lambda\) by gluing
+opposite edges, and this gluing gives it a cell decomposition from which the
+Euler characteristic is immediate.
+
+\begin{proposition}
+\label{prop:tg-euler}
+The torus \(T\) has Euler characteristic \(\chi(T) = 0\), and hence genus
+\(g = 1\).
+\end{proposition}
+
+\begin{proof}
+Identifying opposite edges of \(P_\Lambda\) as in \cref{fig:cwtorus} produces a
+CW structure on \(T\): the four corners are all glued to a single point, the two
+pairs of opposite edges become two edge-loops \(a, b\), and the interior is one
+\(2\)-cell. Thus
+\[
+  V = 1, \qquad E = 2, \qquad F = 1,
+\]
+so
+\[
+  \chi(T) = V - E + F = 1 - 2 + 1 = 0 .
+\]
+(As a check, \(\chi(S^1 \times S^1) = \chi(S^1)\,\chi(S^1) = 0 \cdot 0 = 0\) by
+the product formula, agreeing with \cref{prop:tg-s1xs1}.) For a compact,
+connected, orientable surface the Euler characteristic and the genus \(g\) --- the
+number of handles --- are related by \(\chi = 2 - 2g\). Setting \(2 - 2g = 0\)
+gives \(g = 1\).
+\end{proof}
+
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[scale=1.2, every node/.style={font=\small}]
+  % The identified square: bottom and top are edge a, left and right are edge b
+  \coordinate (BL) at (0,0);
+  \coordinate (BR) at (3,0);
+  \coordinate (TR) at (3,3);
+  \coordinate (TL) at (0,3);
+  \fill[formteal!7] (BL) -- (BR) -- (TR) -- (TL) -- cycle;
+  % edge a: bottom and top, single arrow
+  \draw[postaction={decorate, decoration={markings, mark=at position 0.55 with {\arrow[draw=formrust!75!black]{>}}}}, formrust!75!black, line width=1pt] (BL) -- (BR);
+  \draw[postaction={decorate, decoration={markings, mark=at position 0.55 with {\arrow[draw=formrust!75!black]{>}}}}, formrust!75!black, line width=1pt] (TL) -- (TR);
+  % edge b: left and right, double arrow
+  \draw[postaction={decorate, decoration={markings, mark=at position 0.5 with {\arrow[draw=formgold!75!black]{>}}, mark=at position 0.6 with {\arrow[draw=formgold!75!black]{>}}}}, formgold!75!black, line width=1pt] (BL) -- (TL);
+  \draw[postaction={decorate, decoration={markings, mark=at position 0.5 with {\arrow[draw=formgold!75!black]{>}}, mark=at position 0.6 with {\arrow[draw=formgold!75!black]{>}}}}, formgold!75!black, line width=1pt] (BR) -- (TR);
+  % all four corners are the single vertex v
+  \foreach \p in {BL,BR,TR,TL}{\fill[formteal!80!black] (\p) circle (2pt);}
+  \node[below left]  at (BL) {$v$};
+  \node[below right] at (BR) {$v$};
+  \node[above right] at (TR) {$v$};
+  \node[above left]  at (TL) {$v$};
+  \node[formrust!70!black] at (1.5,-0.3) {$a$};
+  \node[formrust!70!black] at (1.5,3.3)  {$a$};
+  \node[formgold!60!black] at (-0.3,1.5) {$b$};
+  \node[formgold!60!black] at (3.3,1.5)  {$b$};
+  \node[formteal!55!black] at (1.5,1.5) {$F$};
+  % Count annotation
+  \node[draw=black!40, rounded corners=2pt, fill=formivory, align=left,
+        inner sep=4pt, font=\scriptsize, anchor=west] at (3.9,1.5)
+    {$V = 1$ (all corners $= v$)\\
+     $E = 2$ (loops $a, b$)\\
+     $F = 1$ (the square)\\[2pt]
+     $\chi = 1 - 2 + 1 = 0$\\
+     $\chi = 2 - 2g \Rightarrow g = 1$};
+\end{tikzpicture}
+\caption{The CW structure on the torus. Gluing the two \(a\)-edges and the two
+\(b\)-edges of the square sends all four corners to one vertex \(v\), leaves two
+edge-loops \(a, b\), and one \(2\)-cell \(F\); hence \(\chi(T) = 0\) and
+\(g = 1\).}
+\label{fig:cwtorus}
+\end{figure}
+
+\begin{remark}
+\label{rem:tg-genus-matters}
+The genus is the one topological number that controls the function theory of a
+compact Riemann surface. For genus one the Riemann--Roch theorem
+(\cref{ch:riemann_roch}) takes the especially clean form \(\ell(D) = \deg D\) for
+divisors of positive degree, and it is this that pins down the dimensions of the
+spaces of functions used to build \(\wp\) and \(\wp'\). Everything downstream
+rests on \(g = 1\).
+\end{remark}
+
+\section{Topological versus Complex Structure}
+\label{sec:tg-top-vs-complex}
+
+It is worth separating clearly the two layers we have placed on \(T\).
+
+\begin{itemize}
+\item \textbf{Topological / smooth layer (the same for all \(\Lambda\)).} By
+\cref{cor:tg-abelian} every complex torus is, as a topological group, the single
+object \(S^1 \times S^1\); by \cref{prop:tg-euler} it has genus one. No invariant
+at this level distinguishes one lattice from another --- all complex tori are
+diffeomorphic.
+
+\item \textbf{Complex-analytic layer (depends on \(\Lambda\)).} The holomorphic
+structure of \cref{thm:lat-riemann-surface} is extra data. By
+\cref{prop:lat-normal-form} it is recorded, up to isomorphism, by the point
+\(\tau \in \HH\) modulo \(\mathrm{SL}_2(\Z)\); two tori \(\C/\Lambda\) and
+\(\C/\Lambda'\) are biholomorphic if and only if their \(\tau\)-classes agree.
+\end{itemize}
+
+Thus the diffeomorphism type is rigid (one torus) while the biholomorphism type
+varies in the one-parameter family \(\HH / \mathrm{SL}_2(\Z)\). The single
+complex number that separates the classes is the \(j\)-invariant of
+\cref{ch:synthesis}. \Cref{warn:tg-not-biholo} is the concrete face of this: the
+real coordinates \((s,t)\) trivialize \(T\) topologically but are blind to the
+complex structure that the rest of the book exploits.
+
+\section{Summary}
+\label{sec:tg-summary}
+
+The torus \(T = \C/\Lambda\) is an abelian group under \([u]+[v]=[u+v]\), with
+holomorphic addition and negation, so it is a complex Lie group on which the
+translations act simply transitively (\cref{prop:tg-welldef,prop:tg-lie}). As a
+topological group it is \(S^1 \times S^1\), which makes commutativity visibly the
+commutativity of adding angles, but this identification is only real-analytic and
+forgets the complex structure (\cref{prop:tg-s1xs1,warn:tg-not-biholo}). A CW
+decomposition gives \(\chi(T) = 0\) and genus \(g = 1\)
+(\cref{prop:tg-euler}), the topological fact behind the simple form of
+Riemann--Roch. All complex tori share this topology; what varies is the complex
+structure, recorded by \(\tau \in \HH/\mathrm{SL}_2(\Z)\).
+
+\section*{Exercises}
+\addcontentsline{toc}{section}{Exercises}
+
+\begin{exercise}
+\label{ex:tg-lie-holo}
+Complete the details of \cref{prop:tg-lie}: writing the addition map in two
+overlapping charts of \cref{thm:lat-riemann-surface}, verify explicitly that the
+transition makes \(m : T \times T \to T\) holomorphic, and deduce that
+\(\iota([z]) = [-z]\) is biholomorphic.
+\end{exercise}
+
+\begin{exercise}
+\label{ex:tg-two-torsion}
+Show that the negation map \(\iota([z]) = [-z]\) has exactly four fixed points on
+\(T\), namely
+\[
+  [0],\quad \Bigl[\tfrac{\omega_1}{2}\Bigr],\quad
+  \Bigl[\tfrac{\omega_2}{2}\Bigr],\quad
+  \Bigl[\tfrac{\omega_1+\omega_2}{2}\Bigr].
+\]
+These are the \emph{two-torsion} points, the solutions of \(2[z] = [0]\); they
+reappear as the branch points of \(\wp\) in \cref{ch:embedding} and as the
+two-torsion of the group law in \cref{ch:chord_tangent_cases}.
+\end{exercise}
+
+\begin{exercise}
+\label{ex:tg-first-iso}
+Fill in the first-isomorphism-theorem argument for \(\R/\Z \cong S^1\): check
+that \(t \mapsto e^{2\pi i t}\) is a continuous surjective homomorphism with
+kernel \(\Z\), and that the induced bijection \(\R/\Z \to S^1\) is a
+homeomorphism (use compactness of \([0,1]\)).
+\end{exercise}
+
+\begin{exercise}
+\label{ex:tg-euler-refine}
+Recompute \(\chi(T)\) using a finer CW structure --- for instance subdivide
+\(P_\Lambda\) into two triangles before gluing --- and confirm you again obtain
+\(\chi(T) = 0\), illustrating the invariance of the Euler characteristic.
+\end{exercise}
+
+\begin{exercise}
+\label{ex:tg-homeo-not-biholo}
+Show that \(\C/(\Z + \Z i)\) and \(\C/(\Z + \Z\,2i)\) are homeomorphic (indeed
+diffeomorphic) as real surfaces. Granting the standard fact that the points
+\(\tau = i\) and \(\tau = 2i\) lie in the closed fundamental domain
+\(\{\,|\tau| \ge 1,\ |\operatorname{Re}\tau| \le \tfrac12\,\}\) of
+\(\mathrm{SL}_2(\Z)\) and are not identified by it, conclude (using
+\cref{ch:lattices}) that the two tori are \emph{not} biholomorphic. Explain why
+this does not contradict \cref{cor:tg-abelian}.
+\end{exercise}

@@ -1,0 +1,275 @@
+% Outer theme for CodingTealArc.
+%
+% Visual design:
+%   • Header bar    — dark teal background (#003F46) with section navigation tabs
+%   • Progress strip— thin bar below nav tabs, divided into sections; each
+%                     segment fills AccentCyan as slides advance (dim = not yet done)
+%   • Logo circle   — white inner circle in teal ring, top-right corner
+%   • Circular arc  — AccentCyan arc sweeping CCW around the logo
+%   • Footline      — three-segment bar with author | title | date
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{beamerouterthemeCodingTealArc}[2026/04/30 v1.0.0 The CodingTealArc Beamer Theme]
+
+\RequirePackage{tikz}
+\RequirePackage{calc}
+
+% ── progress-style options ────────────────────────────────────────────────────
+
+\def\beamer@progressmovingCircCnt{movingCircCnt}
+\def\beamer@progressfixedCircCnt{fixedCircCnt}
+\def\beamer@progresscorner{corner}
+\def\beamer@progressstyle{movingCircCnt}        % default: animated arc
+\DeclareOptionBeamer{progressstyle}{\def\beamer@progressstyle{#1}}
+\DeclareOptionBeamer{rotationcw}{\def\beamer@rotationcw{true}}
+\DeclareOptionBeamer{shownavsym}{\def\beamer@shownavsym{true}}
+\ProcessOptionsBeamer
+
+% ── geometry ──────────────────────────────────────────────────────────────────
+
+\newlength{\beamer@height}
+\usebeamerfont{frametitle}
+\setlength{\beamer@height}{2.5\baselineskip}
+\reset@font
+
+\newlength{\beamer@logoradius}
+\setlength{\beamer@logoradius}{0.95\beamer@height/2}
+
+\newlength{\beamer@borderwidth}
+\setlength{\beamer@borderwidth}{1.05mm}
+
+\newlength{\beamer@logoinnerradius}
+\setlength{\beamer@logoinnerradius}{0.85\beamer@logoradius}
+
+\newlength{\beamer@logoouterradius}
+\setlength{\beamer@logoouterradius}{\beamer@logoinnerradius+\beamer@borderwidth}
+
+\newlength{\beamer@counterradius}
+\setlength{\beamer@counterradius}{\beamer@logoinnerradius/2+\beamer@logoouterradius/2}
+
+% ── beamer templates ──────────────────────────────────────────────────────────
+
+\mode<presentation>
+{
+  \ifbeamercolorempty[fg]{CodingTealArc}
+  {
+    \setbeamercolor{CodingTealArc}{use={structure,palette sidebar primary},
+      fg=palette sidebar primary.fg,bg=structure.fg}
+  }
+
+  % headline — section navigation tabs only (Feather style, section-only for
+  %            compactness when there are many sections)
+  \setbeamertemplate{headline}
+  {
+    \leavevmode%
+    \hbox{%
+      \begin{beamercolorbox}[wd=\paperwidth,ht=2.5ex,dp=3.125ex]{palette quaternary}%
+        \insertsectionnavigationhorizontal{\paperwidth}{}{}
+      \end{beamercolorbox}%
+    }
+    \codingtealarcheaderbackground
+  }
+
+  % footline — author | title | date ────────────────────────────────────────
+  \setbeamertemplate{footline}
+  {
+    \begin{beamercolorbox}[wd=\paperwidth,ht=2.25ex,dp=1ex]{headfoot}
+      \usebeamercolor[fg]{frametitle}\usebeamerfont{section in head/foot}%
+      \makebox[.27\paperwidth][l]{\hspace*{2ex}\textbf{\insertshortauthor}}%
+      \makebox[.46\paperwidth][c]{\textbf{\insertshorttitle}}%
+      \makebox[.27\paperwidth][r]{\textbf{\insertshortdate}\hspace*{2ex}}%
+    \end{beamercolorbox}
+  }
+
+  % frame title ─────────────────────────────────────────────────────────────
+  \setbeamertemplate{frametitle}
+  {
+    \begin{minipage}[c][0.6\beamer@height][c]{\textwidth}
+      {\usebeamercolor[fg]{frametitle}\usebeamerfont{frametitle}\insertframetitle\par}
+      {\usebeamercolor[fg]{framesubtitle}\usebeamerfont{framesubtitle}\insertframesubtitle\par}
+    \end{minipage}
+  }
+
+  \ifx\beamer@shownavsym\undefined
+    \setbeamertemplate{navigation symbols}{}
+  \fi
+
+  % Suppress per-frame mini-dot indicators inside the section tabs.
+  % With many frames (100+) the pgfmath x-position calculation overflows;
+  % plain section name tabs without dots are cleaner for long presentations.
+  \setbeamertemplate{mini frame}{}
+  \setbeamertemplate{mini frame in current subsection}{}
+}
+
+% ── header background + circular arc progress ─────────────────────────────────
+%
+%  Layout (overlay coordinates):
+%    UL  ──────────────────────────── header bar ──────────────────────────── HLR
+%                                       (dark teal)
+%    thin AccentCyan line across full width
+%
+%    three footline rectangles at bottom:
+%      [dark teal] | [AccentCyan] | [dark teal]
+%
+%    logo circle (top-right, inside header):
+%      outer ring (AccentCyan!20) → inner disc (white) → logo image
+%
+%    circular arc (around logo, starts at 3-o'clock, sweeps CCW):
+%      AccentCyan arc, dot at arc tip, frame-number node at arc start
+
+\newcommand{\codingtealarcheaderbackground}[0]
+{
+  \begin{tikzpicture}[overlay]
+
+    \coordinate (UL)   at (0,0);
+    \coordinate (HLR)  at (\paperwidth,-0.6\beamer@height);
+
+    \coordinate (ULL1) at (0,  0.025\beamer@height);
+    \coordinate (LLR1) at (\paperwidth,-0.025\beamer@height);
+
+    \coordinate (ULF1) at (0.02\paperwidth, -5.8\beamer@height);
+    \coordinate (LFR1) at (0.2\paperwidth,  -6.0\beamer@height);
+    \coordinate (ULF2) at (0.3\paperwidth,  -5.8\beamer@height);
+    \coordinate (LFR2) at (0.7\paperwidth,  -6.0\beamer@height);
+    \coordinate (ULF3) at (0.8\paperwidth,  -5.8\beamer@height);
+    \coordinate (LFR3) at (0.98\paperwidth, -6.0\beamer@height);
+
+    \coordinate (logopos) at
+      ([shift={(-\beamer@logoouterradius-2.05\beamer@borderwidth,
+                \beamer@height-\beamer@logoouterradius-8\beamer@borderwidth)}] HLR);
+
+    {
+      \usebeamercolor{CodingTealArc}
+
+      % header background rectangle
+      \draw[draw=none,fill=CodingTealArc.bg] (UL) rectangle (HLR);
+
+      % ── per-section progress strip ──────────────────────────────────────────
+      % Replaces the single accent line.
+      %
+      % \sectionentry{num}{title}{startpage}{shorttitle}{part} — fires when a
+      %   named section begins; ##4 is the SHORT TITLE, not end page.
+      % \beamer@sectionpages{startpage}{endpage} — fires once per section
+      %   immediately after its slides, giving the true page range.
+      %
+      % Strategy: \sectionentry increments a counter so \beamer@sectionpages
+      % knows it is processing a real section (not the pre-section title page).
+      % The pre-section \beamer@sectionpages (for page 1) is skipped (counter=0).
+      % \insertpresentationendpage is {{conditional…\the\beamer@tempcount}} and
+      % cannot be assigned to a counter or parsed by pgfmath.  Use the underlying
+      % count register \beamer@endpageofdocument directly (same value, no braces).
+      % \insertframestartpage is a plain number macro — safe to \edef.
+      \@tempcnta=\beamer@endpageofdocument\relax
+      \ifnum\@tempcnta<1 \@tempcnta=1 \fi
+      \edef\ctarc@totalpgs{\the\@tempcnta}%
+      \edef\ctarc@curpg{\insertframestartpage}%
+      {%
+        \def\ctarc@seccnt{0}%
+        % count each named section entry
+        \def\sectionentry##1##2##3##4##5{%
+          \edef\ctarc@seccnt{\the\numexpr\ctarc@seccnt+1\relax}%
+        }%
+        % \beamer@sectionpages{s}{e}: draw bar for the just-completed section
+        \def\beamer@sectionpages##1##2{%
+          \ifnum\ctarc@seccnt>0
+            \pgfmathsetmacro{\ctarc@xs}{(##1-1)/\ctarc@totalpgs*\paperwidth}%
+            \pgfmathsetmacro{\ctarc@xe}{min(\ctarc@totalpgs,##2)/\ctarc@totalpgs*\paperwidth}%
+            \pgfmathsetmacro{\ctarc@xp}{%
+              max(\ctarc@xs,min(\ctarc@xe,\ctarc@curpg/\ctarc@totalpgs*\paperwidth))%
+            }%
+            % dim background
+            \fill[AccentCyan!22]
+              (\ctarc@xs pt, 0.025\beamer@height) rectangle (\ctarc@xe pt, -0.025\beamer@height);
+            % filled portion
+            \fill[AccentCyan]
+              (\ctarc@xs pt, 0.025\beamer@height) rectangle (\ctarc@xp pt, -0.025\beamer@height);
+            % section divider (drawn at the left edge; skip first section)
+            \ifnum\ctarc@seccnt>1
+              \draw[CodingTealArc.bg, line width=0.7pt]
+                (\ctarc@xs pt, 0.04\beamer@height) -- (\ctarc@xs pt, -0.04\beamer@height);
+            \fi
+          \fi
+        }%
+        % suppress other \dohead entries that would be no-ops or cause errors here
+        \def\slideentry##1##2##3##4##5##6{}%
+        \def\beamer@framepages##1##2{}%
+        \def\beamer@subsectionpages##1##2{}%
+        \dohead
+      }%
+
+      % three-segment footline
+%      \draw[draw=none,fill=TealDarkCyan!90] (ULF1) rectangle (LFR1);
+%      \draw[draw=none,fill=AccentCyan]      (ULF2) rectangle (LFR2);
+%      \draw[draw=none,fill=TealDarkCyan!90] (ULF3) rectangle (LFR3);
+
+      % logo outer ring
+      \fill[fill=CodingTealArc.fg!20] (logopos) circle (\beamer@logoouterradius);
+
+      % logo inner white disc
+      \fill[fill=normal text.bg]      (logopos) circle (\beamer@logoinnerradius);
+
+      % logo image
+      \node at (logopos)
+        {\includegraphics[width=1.6\beamer@logoradius]{assets/branding/circle_logo.pdf}};
+
+      % ── circular arc progress ────────────────────────────────────────────────
+      % \inserttotalframenumber defaults to 1 on the first compile pass
+      % (beamer reads the real value from the .aux on subsequent passes).
+      % Clamping the ratio to [0,1] via min(1, frame/total) guarantees the
+      % arc angle stays in [-330, 330]° regardless of the default value,
+      % preventing PGF from drawing multi-revolution arcs that overflow.
+      \ifx\beamer@progressstyle\beamer@progressmovingCircCnt
+
+        \ifx\beamer@rotationcw\undefined
+          \pgfmathsetmacro{\ctarc@angle}{330*min(1,\insertframenumber/\inserttotalframenumber)}
+        \else
+          \pgfmathsetmacro{\ctarc@angle}{-330*min(1,\insertframenumber/\inserttotalframenumber)}
+        \fi
+
+        % draw the arc
+        \draw[color=AccentCyan, line width=0.7*\beamer@borderwidth]
+          ([xshift=\beamer@counterradius] logopos)
+          arc[radius=\beamer@counterradius, start angle=0, end angle=\ctarc@angle];
+
+        % dot at the arc tip
+        \fill[fill=CodingTealArc.bg]
+          ([shift={(\ctarc@angle:\beamer@counterradius)}] logopos)
+          circle (0.7\beamer@borderwidth);
+
+        % frame-number node at arc start (3-o'clock position)
+        \node[fill=normal text.bg, draw=CodingTealArc.fg, thick, circle,
+              minimum width=2*\beamer@borderwidth, font=\sffamily]
+          at ([xshift=\beamer@counterradius] logopos)
+          {{\usebeamercolor[fg]{normal text}\insertframenumber}};
+
+      \fi
+
+      \ifx\beamer@progressstyle\beamer@progressfixedCircCnt
+
+        \ifx\beamer@rotationcw\undefined
+          \pgfmathsetmacro{\ctarc@angle}{330*min(1,\insertframenumber/\inserttotalframenumber)}
+        \else
+          \pgfmathsetmacro{\ctarc@angle}{-330*min(1,\insertframenumber/\inserttotalframenumber)}
+        \fi
+
+        \draw[color=AccentCyan, line width=0.7*\beamer@borderwidth]
+          ([xshift=\beamer@counterradius] logopos)
+          arc[radius=\beamer@counterradius, start angle=0, end angle=\ctarc@angle];
+
+        \node[fill=normal text.bg, draw=CodingTealArc.fg, circle, thick,
+              minimum width=2*\beamer@borderwidth]
+          at ([xshift=\beamer@counterradius] logopos)
+          {{\usebeamercolor[fg]{normal text}\insertframenumber}};
+
+      \fi
+    }
+  \end{tikzpicture}
+}
+
+% ── block colors ──────────────────────────────────────────────────────────────
+
+\setbeamertemplate{blocks}[rounded][shadow=true]
+\setbeamercolor{block title}{fg=frametitle.fg, bg=frametitle.bg}
+\setbeamercolor{block body}{parent=normal text, use=block title, bg=CodingTealArc.fg!30}
+
+\mode<all>

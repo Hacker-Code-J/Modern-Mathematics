@@ -1,0 +1,89 @@
+\chapter{Abel's Theorem and the Jacobian}
+\label{ch:abel-jacobian}
+
+Let \(T=\C/\Lambda\).  If
+\[
+  D=\sum n_i[p_i]\in\Div^0(T),
+\]
+choose lifts \(z_i\in\C\) of \(p_i\) and define
+\[
+  \smap(D)=\sum n_i z_i \pmod{\Lambda}.
+\]
+Because \(\sum n_i=0\), changing lifts changes the sum by an element of
+\(\Lambda\).  Thus \(\smap(D)\in T\) is well-defined.
+
+\begin{theorem}[Abel's theorem on a torus]
+\label{thm:abel-torus-new}
+A degree-zero divisor \(D\) on \(T\) is principal if and only if
+\(\smap(D)=0\) in \(T\).
+\end{theorem}
+
+\begin{proof}[Proof sketch]
+If \(D=\divisor(f)\), the elliptic Liouville laws of
+\cref{thm:elliptic-liouville} show that the Abel sum vanishes.  Conversely, if
+the degree and Abel sum vanish, one constructs an elliptic function with exactly
+the prescribed zeros and poles.  A standard construction uses the Weierstrass
+\(\sigma\)-function; Riemann--Roch gives another route.
+\end{proof}
+
+\begin{corollary}
+\label{cor:pic-torus}
+The Abel--Jacobi map induces an isomorphism
+\[
+  \Pic^0(T)\cong T=\C/\Lambda.
+\]
+\end{corollary}
+
+Transporting this statement to the cubic gives the geometric identification
+\[
+  \Pic^0(E)\cong E(\C).
+\]
+The map is \(P\mapsto[P]-[O]\), and Abel's theorem tells us exactly when two such
+degree-zero divisor classes are equal.
+
+\section*{Exercises}
+\addcontentsline{toc}{section}{Exercises}
+
+\exerciseintent{Compute the Abel sum of the simplest degree-zero divisor.}
+\begin{exercise}
+Choose lifts \(p,q\in\C\) of \(P,Q\in T\).  Compute
+\(\smap([P]-[Q])\) from the definition and show that it is the class of
+\(p-q\) modulo \(\Lambda\), hence \(P-Q\) in the group \(T\).
+\end{exercise}
+
+\exerciseintent{Use Abel's theorem to recognize when a two-point divisor is principal.}
+\begin{exercise}
+Choose lifts \(p,q,0\in\C\) of \(P,Q,O\).  Compute the Abel sum of
+\([P]+[Q]-2[O]\).  Use Abel's theorem to turn the congruence
+\(p+q\equiv0\pmod{\Lambda}\) into a principal-divisor criterion.
+\end{exercise}
+
+\exerciseintent{Use Abel sums to prove injectivity of the point-to-divisor-class map.}
+\begin{exercise}
+Assume \([P]-[O]=[Q]-[O]\) in \(\Pic^0(T)\).  Subtract the two divisor classes,
+compute the Abel sum of \([P]-[Q]\), and conclude that \(P=Q\).
+\end{exercise}
+
+\exerciseintent{Check additivity of the Abel-sum map term by term.}
+\begin{exercise}
+Write
+\[
+  D=\sum_i n_i[p_i],\qquad D'=\sum_j m_j[q_j],
+\]
+with chosen lifts of all points.  Compute both sides of
+\[
+  \smap(D+D')=\smap(D)+\smap(D')
+\]
+term by term in \(\C/\Lambda\).
+\end{exercise}
+
+\exerciseintent{Verify that principal divisors are killed so the Abel-sum map descends to \(\Pic^0\).}
+\begin{exercise}
+Let \(D\in\Div^0(T)\) and let \(f\) be a nonzero meromorphic function on \(T\).
+Compute
+\[
+  \smap(D+\divisor(f))-\smap(D).
+\]
+Use Abel's theorem to show that this difference is \(0\), and then verify that
+the induced map \(\Pic^0(T)\to T\) is a group homomorphism.
+\end{exercise}

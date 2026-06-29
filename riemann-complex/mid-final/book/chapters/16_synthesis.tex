@@ -1,0 +1,206 @@
+% Synthesis and Further Directions  (source §22 + new: a synthesis "three views"
+% figure, and pointers onward -- j-invariant/moduli, isogenies/torsion, curves
+% over Q and F_p, modular forms and modularity)
+\chapter{Synthesis and Further Directions}
+\label{ch:synthesis}
+
+We have reached the destination announced in \cref{ch:intro}. This closing
+chapter recollects the argument as a single chain, then sketches the directions
+the subject opens onto --- the moduli of elliptic curves, isogenies and torsion,
+the arithmetic over \(\Q\) and finite fields, and the link to modular forms ---
+each of which begins exactly where this book ends.
+
+\section{The Complete Chain}
+\label{sec:syn-chain}
+
+The proof of \cref{thm:main} is the following chain, each link a chapter.
+
+\begin{enumerate}
+\item A lattice \(\Lambda \subset \C\) gives a compact genus-one Riemann surface
+\(T = \C/\Lambda\) (\cref{ch:lattices,ch:torus_group_surface}).
+\item \(T\) carries the intrinsic abelian group law \([u]+[v]=[u+v]\)
+(\cref{prop:tg-welldef}).
+\item A genus-one dimension count forces the first nonconstant function to have a
+double pole --- the Weierstrass \(\wp\)
+(\cref{prop:rr-counts,ch:weierstrass_wp}).
+\item The functions \(1, \wp, \wp'\) span \(L(3O)\) and define a map
+\(\Phi : T \to \CP^2\) (\cref{sec:emb-l3o}).
+\item The differential equation \(\wp'^2 = 4\wp^3 - g_2\wp - g_3\) places the image
+on the cubic \(E\) (\cref{thm:wp-ode,prop:emb-lands}).
+\item The origin \(0 \in T\) maps to \(O = [0:1:0]\), and \(\Phi\) is a
+biholomorphism (\cref{prop:emb-holo,thm:emb-iso}).
+\item The inverse \(z \mapsto -z\) becomes \((x,y) \mapsto (x,-y)\)
+(\cref{sec:emb-reflection}).
+\item A line cuts \(E\) in \(P+Q+R\); since \(Z = 0\) cuts \(3O\), the divisor
+\(P+Q+R-3O\) is principal (\cref{thm:lin-principal}).
+\item Principal divisors on \(T\) have Abel sum zero, so \(P+Q+R = O\)
+(\cref{thm:abel-law,thm:lin-collinear}).
+\item Hence \(P \oplus Q = -R\): the chord--tangent law (\cref{thm:tr-main}).
+\end{enumerate}
+
+Three descriptions of one group have emerged, all canonically isomorphic
+(\cref{fig:syn-threeviews}): the \emph{analytic} group \((\C/\Lambda, +)\), the
+\emph{geometric} group \((E, \boxplus)\) of chord--tangent, and the
+\emph{algebraic} group \(\Pic^0(E)\) of degree-zero divisor classes.
+
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[every node/.style={font=\small}]
+  \node[visualnode, text width=3.0cm] (an) at (0,0)
+    {\textbf{analytic}\\$(\C/\Lambda,\,+)$\\addition mod $\Lambda$};
+  \node[visualnode, text width=3.0cm] (geo) at (7,0)
+    {\textbf{geometric}\\$(E,\,\boxplus)$\\chord--tangent};
+  \node[visualnode, text width=3.0cm] (alg) at (3.5,-2.6)
+    {\textbf{algebraic}\\$\Pic^0(E)$\\divisor classes};
+  \draw[arrow] (an) -- node[above, labelnode] {$\Phi$ (\cref{thm:emb-iso})} (geo);
+  \draw[arrow] (geo) -- node[right, labelnode, xshift=2pt] {$P \mapsto [P]-[O]$} (alg);
+  \draw[arrow] (alg) -- node[left, labelnode, xshift=-2pt] {$\bar\sigma$ (\cref{thm:div-pic-iso})} (an);
+\end{tikzpicture}
+\caption{Three views of one group. The Weierstrass embedding \(\Phi\) identifies
+the analytic and geometric groups; the Abel--Jacobi map \(\bar\sigma\) identifies
+the algebraic group \(\Pic^0(E)\) with the torus; and \(P \mapsto [P]-[O]\) closes
+the triangle. All three are the same abelian group.}
+\label{fig:syn-threeviews}
+\end{figure}
+
+\begin{keyidea}{Final takeaway}
+The chord--tangent law is the visible projective shadow of the simple addition
+law \([u]+[v]=[u+v]\) on the complex torus. The Weierstrass embedding turns
+addition into line intersection because line intersections give principal
+divisors, and principal divisors have zero Abel sum. The torus explains the
+group; the cubic displays it; the divisor classes name it.
+\end{keyidea}
+
+\section{Further Directions}
+\label{sec:syn-further}
+
+Everything below takes \((E, O) \cong (\C/\Lambda, 0)\) as its starting point.
+
+\subsection{The \texorpdfstring{$j$}{j}-Invariant and Moduli}
+\label{sec:syn-j}
+
+\Cref{prop:lat-normal-form} reduced the classification of complex tori to
+\(\HH / \mathrm{SL}_2(\Z)\). A single number resolves it: the \emph{\(j\)-invariant}
+\[
+  j = 1728\,\frac{g_2^3}{g_2^3 - 27 g_3^2} = 1728\,\frac{g_2^3}{\Delta}.
+\]
+Two elliptic curves over \(\C\) are isomorphic iff they have the same \(j\), and
+\(j : \HH / \mathrm{SL}_2(\Z) \to \C\) is a bijection: the moduli space of elliptic
+curves is the \(j\)-line \(\C\). As a function of \(\tau\), \(j(\tau)\) is the
+basic modular function, invariant under \(\mathrm{SL}_2(\Z)\). The lemniscatic
+curve \(y^2 = 4x^3 - 4x\) of our examples has \(j = 1728\)
+(\cref{ex:syn-j1728}), a curve with extra symmetry (complex multiplication by
+\(\Z[i]\)).
+
+\subsection{Isogenies and Torsion}
+\label{sec:syn-isogeny}
+
+An \emph{isogeny} is a nonconstant holomorphic group homomorphism
+\(E \to E'\); analytically it is induced by \(z \mapsto \alpha z\) for some
+\(\alpha \in \C\) with \(\alpha\Lambda \subseteq \Lambda'\). The most important
+example is multiplication by \(n\),
+\[
+  [n] : E \to E, \qquad P \mapsto \underbrace{P \oplus \cdots \oplus P}_{n},
+\]
+a rational map of degree \(n^2\) whose kernel is the \(n\)-torsion. Over \(\C\),
+\[
+  E[n] = \{ P : nP = O \} = \tfrac1n\Lambda / \Lambda \cong (\Z/n\Z)^2 ,
+\]
+generalizing the \(E[2] \cong (\Z/2\Z)^2\) of \cref{sec:cases-torsion}. The
+torsion carries the Weil pairing \(E[n] \times E[n] \to \mu_n\), a perfect
+alternating pairing that pervades the arithmetic theory.
+
+\subsection{Elliptic Curves over \texorpdfstring{$\Q$}{Q} and Finite Fields}
+\label{sec:syn-arithmetic}
+
+Because the group law is given by rational formulas (\cref{prop:coord-field}), it
+runs over any field. Two cases drive modern number theory.
+
+Over \(\Q\), the \emph{Mordell--Weil theorem} states that \(E(\Q)\) is a finitely
+generated abelian group,
+\[
+  E(\Q) \cong \Z^r \oplus E(\Q)_{\mathrm{tors}},
+\]
+with \(r\) the \emph{rank}. The torsion is completely classified (Mazur); the rank
+is deep, conjecturally governed by the \(L\)-function through the
+Birch--Swinnerton-Dyer conjecture.
+
+Over a finite field \(\F_p\), the group \(E(\F_p)\) is finite with
+\[
+  \#E(\F_p) = p + 1 - a_p, \qquad |a_p| \le 2\sqrt p
+\]
+(Hasse's bound). The difficulty of inverting the map \(n \mapsto nP\) in
+\(E(\F_p)\) --- the elliptic curve discrete logarithm problem --- is the basis of
+elliptic-curve cryptography.
+
+\subsection{Modular Forms and Modularity}
+\label{sec:syn-modular}
+
+The Eisenstein series \(G_4, G_6\) that produced \(g_2, g_3\)
+(\cref{def:wp-eisenstein}) are the first \emph{modular forms}: under
+\(\Lambda \mapsto \alpha\Lambda\) they scale by \(\alpha^{-4}, \alpha^{-6}\), so as
+functions of \(\tau\) they satisfy \(G_k(\tfrac{a\tau+b}{c\tau+d}) =
+(c\tau+d)^k G_k(\tau)\). The discriminant \(\Delta = g_2^3 - 27g_3^2\) is a cusp
+form of weight \(12\), and \(j = 1728 g_2^3/\Delta\) has weight \(0\)
+(\cref{ex:syn-weight}). The arithmetic of elliptic curves over \(\Q\) is bound to
+modular forms by the \emph{modularity theorem} (Wiles, Taylor--Wiles,
+Breuil--Conrad--Diamond--Taylor): every elliptic curve over \(\Q\) arises from a
+weight-two modular form. Its most famous consequence is Fermat's Last Theorem.
+
+\subsection{Where to Read Next}
+\label{sec:syn-reading}
+
+Silverman's \emph{The Arithmetic of Elliptic Curves} \cite{silverman} is the
+standard entry to the arithmetic theory; Silverman--Tate, \emph{Rational Points on
+Elliptic Curves} \cite{silverman-tate}, is a gentler start. For the
+complex-analytic and modular side, see Diamond--Shurman, \emph{A First Course in
+Modular Forms} \cite{diamond-shurman}, and Serre, \emph{A Course in Arithmetic}
+\cite{serre}. Each of these opens at the point reached here: the elliptic curve is
+a complex torus, and its group law is addition.
+
+\section{Summary}
+\label{sec:syn-summary}
+
+The chord--tangent law is addition on \(\C/\Lambda\) transported by
+\((\wp, \wp')\), and the same group appears in three guises --- analytic,
+geometric, algebraic (\cref{fig:syn-threeviews}). From this single fact the
+subject branches: the \(j\)-invariant classifies the curves
+(\cref{sec:syn-j}); isogenies and torsion organize the maps between them
+(\cref{sec:syn-isogeny}); the rational group law carries the theory over \(\Q\)
+and \(\F_p\) into number theory and cryptography (\cref{sec:syn-arithmetic}); and
+the Eisenstein series tie it to modular forms and, through modularity, to Fermat
+(\cref{sec:syn-modular}). The torus was the key throughout: it makes a mysterious
+geometric construction into the most natural thing in the world, the addition of
+points.
+
+\section*{Exercises}
+\addcontentsline{toc}{section}{Exercises}
+
+\begin{exercise}
+\label{ex:syn-j1728}
+Compute the \(j\)-invariant of \(E : y^2 = 4x^3 - 4x\) (so \(g_2 = 4\),
+\(g_3 = 0\)). Confirm \(\Delta = 64\) and \(j = 1728\). What is \(j\) for a curve
+with \(g_2 = 0\) (so \(y^2 = 4x^3 - g_3\))?
+\end{exercise}
+
+\begin{exercise}
+\label{ex:syn-torsion}
+Show that over \(\C\), \(E[n] = \tfrac1n\Lambda/\Lambda \cong (\Z/n\Z)^2\), and
+that multiplication by \(n\), realized as \(z \mapsto nz\) on \(\C/\Lambda\), is an
+\(n^2\)-to-one map, so \([n]\) has degree \(n^2\).
+\end{exercise}
+
+\begin{exercise}
+\label{ex:syn-weight}
+Using \(G_k(\alpha\Lambda) = \alpha^{-k} G_k(\Lambda)\), show that under
+\(\Lambda \mapsto \alpha\Lambda\) one has \(g_2 \mapsto \alpha^{-4} g_2\),
+\(g_3 \mapsto \alpha^{-6} g_3\), \(\Delta \mapsto \alpha^{-12}\Delta\), and hence
+\(j\) is invariant. Interpret these as the weights \(4, 6, 12, 0\).
+\end{exercise}
+
+\begin{exercise}
+\label{ex:syn-hasse}
+Take \(E : y^2 = x^3 + 1\) over \(\F_5\). List its affine points, add the point at
+infinity, and find \(\#E(\F_5)\). Check that it satisfies the Hasse bound
+\(|{\#E(\F_5)} - 6| \le 2\sqrt5\), and identify the group structure.
+\end{exercise}

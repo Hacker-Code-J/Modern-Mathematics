@@ -1,0 +1,41 @@
+% Cosets and standard array visualization.
+\documentclass[tikz, border=8pt]{standalone}
+\input{coding-fig-common.tex}
+
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+  \node[title text] at (0,3.05) {Cosets and a Standard Array};
+  \node[caption text] at (0,2.64) {$\mathbb F_q^n=\coprod (a+\mathcal C)$, one syndrome per row};
+
+  \foreach \r/\leader/\syn/\col in {0/0/000/TealDarkCyan,1/e_1/100/BlueCode,2/e_2/010/AmberCode,3/e_3/110/ErrorRed}{
+    \pgfmathsetmacro{\y}{1.55-0.72*\r}
+    \node[process, minimum width=1.12cm, minimum height=0.42cm, fill=\col!8, draw=\col!65] at (-4.75,\y)
+      {\scriptsize $\leader$};
+    \node[tiny label, anchor=east] at (-5.38,\y) {$s=\syn$};
+    \foreach \c in {0,1,...,7}{
+      \pgfmathsetmacro{\x}{-3.65+0.88*\c}
+      \node[bit, minimum width=0.72cm, fill=\col!8, draw=\col!45] at (\x,\y)
+        {\scriptsize $w_{\r\c}$};
+    }
+  }
+
+  \draw[decorate, decoration={brace, amplitude=5pt}, TealDarkCyan!80, line width=0.8pt]
+    (-3.98,1.94) -- (2.92,1.94)
+    node[midway, above=0.15cm, tiny label] {the code $\mathcal C$};
+
+  \draw[flow blue] (-4.75,0.83) -- (-3.65,0.83)
+    node[midway, above, tiny label] {add leader};
+  \draw[flow amber] (-4.75,0.11) -- (-3.65,0.11);
+  \draw[flow red] (-4.75,-0.61) -- (-3.65,-0.61);
+
+  \node[panel, align=left, anchor=north west] at (3.38,1.9) {
+    \small\textbf{Nearest-neighbor decoding}\\[-1pt]
+    \scriptsize compute syndrome\\
+    \scriptsize choose row leader\\
+    \scriptsize subtract it
+  };
+
+  \node[caption text] at (0,-1.95)
+    {Rows are cosets; columns are translates of the same linear code.};
+\end{tikzpicture}
+\end{document}

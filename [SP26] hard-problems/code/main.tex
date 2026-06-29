@@ -1,0 +1,86 @@
+\documentclass[10pt,aspectratio=1610,compress,dvipsnames]{beamer}
+
+\makeatletter
+\def\input@path{{tex/}{chapters/}}
+\makeatother
+
+\input{tex/preamble}
+\input{tex/title-page}
+\input{tex/tcolorbox}
+\input{tex/listing}
+\input{tex/algorithm}
+\input{tex/commands}
+
+\begin{document}
+
+%-------------------------------------------------------
+% TITLE PAGE
+%-------------------------------------------------------
+\HardProblemLens{The syndrome of a linear code is the pivot: it enables perfect decoding, and it hides the hard problem.}
+\begin{frame}[plain,noframenumbering]
+  \titlepage
+\end{frame}
+
+%-------------------------------------------------------
+% TABLE OF CONTENTS
+%-------------------------------------------------------
+\section*{Contents}
+\HardProblemLens{The story moves from easy algebraic decoding to hard random decoding, then to the compact quasi-cyclic compromise.}
+\begin{frame}{\textbf{Contents}}
+  \tableofcontents
+\end{frame}
+
+%-------------------------------------------------------
+% I. INTRODUCTION
+%-------------------------------------------------------
+\section{I. Introduction}
+\HardProblemLens{The same linear algebra that makes decoding easy for Hamming codes makes it hard for random codes.}
+\input{chapters/chap0_intro}
+
+%-------------------------------------------------------
+% II. WHEN DECODING IS EASY
+%-------------------------------------------------------
+\section{II. When Decoding Is Easy}
+\HardProblemLens{Algebraic structure — projective geometry, polynomial rings, cyclic symmetry — converts syndrome lookup into a closed-form formula.}
+\input{chapters/chap1_algebraic_decoding}
+
+%-------------------------------------------------------
+% III. SYNDROME DECODING PROBLEM
+%-------------------------------------------------------
+\section{III. Syndrome Decoding Problem}
+\HardProblemLens{Remove algebraic structure and the syndrome becomes a dead end: no formula, only exponential search.}
+\input{chapters/chap2_syndrome_decoding}
+
+%-------------------------------------------------------
+% IV. QUASI-CYCLIC SYNDROME DECODING
+%-------------------------------------------------------
+\section{IV. Quasi-Cyclic Syndrome Decoding}
+\HardProblemLens{Quasi-cyclic structure compresses keys from megabytes to kilobytes while keeping the essential hardness of SDP.}
+\input{chapters/chap3_qc_syndrome_decoding}
+
+%-------------------------------------------------------
+% CLOSING FRAME
+%-------------------------------------------------------
+\HardProblemLens{Algebraic structure gives efficiency; lack of it gives hardness; quasi-cyclic structure gives both.}
+\begin{frame}[plain]
+  \begin{center}\bfseries\centering
+    \vspace{1.35cm}
+    {\Huge\color{TealDarkCyan} Thank You}\\[.5cm]
+    {\large\color{black} Ji, Yong-hyeon}\\[.3cm]
+    {\normalsize\texttt{hacker3740@gmail.com}}\\[.5cm]
+    \begin{minipage}{.80\textwidth}
+      \small\color{Ink}
+      \textbf{Big picture.}\;
+      Hamming and cyclic codes show that algebraic structure turns syndrome decoding into a closed-form map.
+      Remove that structure and the same syndrome equation becomes NP-hard.\\[.2cm]
+      \textbf{Details to remember.}\;
+      SDP is NP-complete (Berlekamp--McEliece--van Tilborg 1978);
+      QCSD adds quasi-cyclic structure for compact keys;
+      BIKE and HQC are the PQC instances.
+    \end{minipage}\\[.5cm]
+    {\small\color{gray} Enjoying Math $\cdot$ Hard Problems $\cdot$ 2026}
+    \bigskip
+  \end{center}
+\end{frame}
+
+\end{document}

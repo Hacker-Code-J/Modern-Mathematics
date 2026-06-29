@@ -1,0 +1,88 @@
+\chapter{Riemann--Roch in Genus One}
+\label{ch:riemann-roch}
+
+For a divisor \(D\), define
+\[
+  L(D)=\{f\in\M(X): \divisor(f)+D\ge 0\}\cup\{0\}.
+\]
+Thus \(L(D)\) is the vector space of meromorphic functions whose poles are bounded
+by \(D\).
+
+\begin{theorem}[Riemann--Roch]
+\label{thm:rr}
+On a compact Riemann surface of genus \(g\),
+\[
+  \ell(D)-\ell(K-D)=\degdiv D+1-g,
+\]
+where \(K\) is a canonical divisor and \(\ell(D)=\dim_\C L(D)\).
+\end{theorem}
+
+We will use the theorem in its genus-one form.  On a complex torus, \(dz\) is a
+nowhere-vanishing holomorphic \(1\)-form, so \(K\sim0\).  Since \(g=1\), the
+formula becomes
+\[
+  \ell(D)-\ell(-D)=\degdiv D.
+\]
+If \(\deg D>0\), then \(L(-D)=0\), and therefore \(\ell(D)=\deg D\).
+
+\begin{corollary}
+\label{cor:ell-nO}
+For \(T=\C/\Lambda\) and \(O=[0]\),
+\[
+  \ell(nO)=n\qquad(n\ge 1).
+\]
+\end{corollary}
+
+This is the dimension count behind the fact that \(1,\wp,\wp'\) span \(L(3O)\).
+The function \(1\) has no pole, \(\wp\) has a
+double pole at \(O\), and \(\wp'\) has a triple pole at \(O\).  Since
+\(\ell(3O)=3\), these three functions exhaust the space.
+
+\begin{warning}
+Riemann--Roch is a deep theorem in general.  In this book it is used as a
+standard final-exam tool and interpreted carefully in genus one.  Claims that
+require more algebraic geometry are explicitly labeled as such.
+\end{warning}
+
+\section*{Exercises}
+\addcontentsline{toc}{section}{Exercises}
+
+\exerciseintent{Use genus-one Riemann--Roch as a dimension calculator.}
+\begin{exercise}
+Using \(\ell(nO)=n\), compute \(\dim L(O)\), \(\dim L(2O)\), and
+\(\dim L(3O)\) by substituting \(n=1,2,3\).
+\end{exercise}
+
+\exerciseintent{Show why \(L(O)\) contains no nonconstant function.}
+\begin{exercise}
+Split into two cases.  If \(f\in L(O)\) has no pole, use compactness to compute
+that it is constant.  If \(f\) has a simple pole at \(O\), compute its total
+pole order and compare with the elliptic-function pole-order obstruction from
+Chapter 4.
+\end{exercise}
+
+\exerciseintent{Use pole orders to prove linear independence of \(1,\wp,\wp'\).}
+\begin{exercise}
+Suppose \(a+b\wp+c\wp'=0\).  Compare the pole orders \(0,2,3\) at \(O\) and use
+the largest pole order term to compute successively that \(c=b=a=0\).
+\end{exercise}
+
+\exerciseintent{Combine membership, pole-order independence, and dimension to identify \(L(2O)\).}
+\begin{exercise}
+Use \(\ell(2O)=2\) and the pole order of \(\wp\) to prove
+\[
+  L(2O)=\Span_\C(1,\wp).
+\]
+Your proof should explicitly check membership of \(1,\wp\), linear independence
+by pole order, and the dimension count.
+\end{exercise}
+
+\exerciseintent{Identify \(L(3O)\), the coordinate space behind the Weierstrass map.}
+\begin{exercise}
+Use \(\ell(3O)=3\) and the pole orders of \(\wp\) and \(\wp'\) to prove
+\[
+  L(3O)=\Span_\C(1,\wp,\wp').
+\]
+Your proof should explicitly check membership, pole-order independence, and the
+dimension count.
+\end{exercise}

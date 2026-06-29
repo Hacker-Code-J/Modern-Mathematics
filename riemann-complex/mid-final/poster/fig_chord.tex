@@ -1,0 +1,18 @@
+% Chord law on E: y^2 = 4x^3 - 4x, using Sage-computed chord coordinates.
+\begin{tikzpicture}[scale=1.0, every node/.style={font=\small}]
+  \draw[->, black!45, line width=0.5pt] (-1.7,0) -- (2.7,0) node[right, black!55] {$x$};
+  \draw[->, black!45, line width=0.5pt] (0,-3.3) -- (0,3.5) node[above, black!55] {$y$};
+  \drawprecisecurve
+  \foreach \rt in {\rooteone,\rootetwo,\rootethree}
+    \fill[formteal!60!black] (\rt,0) circle (1.4pt);
+  \draw[draw=formplum, line width=0.9pt] (\chordlefta,\chordleftb) -- (\chordrighta,\chordrightb);
+  \draw[dashed, line width=0.5pt, formgold!75!black] (\chordRx,\chordRy) -- (\chordSx,\chordSy);
+  \fill[formrust!85!black] (\chordPx,\chordPy) circle (2.4pt);
+  \node[formrust!60!black, above left]  at (\chordPx,\chordPy) {$P$};
+  \fill[formrust!85!black] (\chordQx,\chordQy) circle (2.4pt);
+  \node[formrust!60!black, above right] at (\chordQx,\chordQy) {$Q$};
+  \fill[formteal!85!black] (\chordRx,\chordRy) circle (2.4pt);
+  \node[formteal!60!black, above left]  at (\chordRx,\chordRy) {$R$};
+  \fill[formgold!85!black] (\chordSx,\chordSy) circle (2.8pt);
+  \node[formgold!50!black, below left]  at (\chordSx,\chordSy) {$P\oplus Q=-R$};
+\end{tikzpicture}

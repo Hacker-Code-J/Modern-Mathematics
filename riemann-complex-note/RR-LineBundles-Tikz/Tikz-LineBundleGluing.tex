@@ -1,0 +1,60 @@
+% Tikz-LineBundleGluing.tex
+% Two copies of C (charts U_0 and U_∞) glued by w=1/z on the overlap C^×.
+% A fiber over the equator |z|=1 shows the twist s_0 = z^n s_∞.
+% Inset: winding number computation ∮d(z^n)/z^n = n.
+\begin{tikzpicture}[scale=1.0, >=stealth]
+
+  % ── U_0 chart (left disk) ──────────────────────────
+  \fill[blue!8] (-3,0) circle (1.5cm);
+  \draw[line width=1pt, blue!60] (-3,0) circle (1.5cm);
+  \node[font=\small, blue!70] at (-3, 1.8) {$U_0\cong\mathbb{C}$};
+  \node[font=\footnotesize] at (-3, 0) {$z$};
+  % origin/infinity indication
+  \filldraw[black] (-3,0) circle (1.5pt);
+  \node[font=\footnotesize, below] at (-3,-0.15) {$z=0$};
+
+  % ── U_∞ chart (right disk) ─────────────────────────
+  \fill[red!8] (3,0) circle (1.5cm);
+  \draw[line width=1pt, red!60] (3,0) circle (1.5cm);
+  \node[font=\small, red!70] at (3, 1.8) {$U_\infty\cong\mathbb{C}$};
+  \node[font=\footnotesize] at (3, 0) {$w$};
+  \filldraw[black] (3,0) circle (1.5pt);
+  \node[font=\footnotesize, below] at (3,-0.15) {$w=0\,(\infty)$};
+
+  % ── Overlap annulus (centre) ───────────────────────
+  \fill[purple!10] (0,0) ellipse (0.8cm and 1.2cm);
+  \draw[line width=0.8pt, purple!60] (0,0) ellipse (0.8cm and 1.2cm);
+  \node[font=\footnotesize, purple!80] at (0, 1.45) {$U_0\cap U_\infty$};
+  \node[font=\footnotesize, purple!80] at (0, -1.45) {$\cong\mathbb{C}^\times$};
+
+  % Gluing map w = 1/z
+  \draw[->, line width=0.9pt, orange] (-1.8, 0.4) -- (-0.9, 0.4)
+    node[midway, above, font=\footnotesize, orange]{$z$};
+  \draw[->, line width=0.9pt, orange] (1.8, 0.4) -- (0.9, 0.4)
+    node[midway, above, font=\footnotesize, orange]{$w=1/z$};
+
+  % Gluing label
+  \node[font=\small] at (0, -2.2) {gluing: $w = 1/z$};
+
+  % ── Fiber twist annotation ─────────────────────────
+  \draw[<->, line width=0.8pt, gray] (-0.6, -0.6) -- (0.6, -0.6);
+  \node[font=\footnotesize, align=center] at (0, -0.85)
+    {$s_0(z) = z^n\cdot s_\infty(1/z)$};
+
+  % ── Winding number inset (top right) ──────────────
+  \begin{scope}[shift={(5.5, 0.6)}, scale=0.75]
+    \draw[->] (-1.2,0)--(1.2,0);
+    \draw[->] (0,-1.1)--(0,1.1);
+    \draw[line width=1pt, purple,
+          decoration={markings,
+            mark=at position 0.25 with {\arrow[purple]{>}},
+            mark=at position 0.75 with {\arrow[purple]{>}}
+          },
+          postaction={decorate}]
+      (0,0) circle (0.7cm);
+    \filldraw[white, draw=black] (0,0) circle (0.06);
+    \node[font=\scriptsize, purple] at (0.5, 0.55) {$|z|{=}1$};
+    \node[font=\scriptsize, align=center] at (0,-1.5)
+      {$\dfrac{1}{2\pi i}\oint \dfrac{d(z^n)}{z^n}=n$};
+  \end{scope}
+\end{tikzpicture}

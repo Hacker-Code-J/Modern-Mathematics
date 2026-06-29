@@ -1,0 +1,206 @@
+% Complex Tori and Elliptic Curves --- SYNTHESIS poster (A0 portrait).
+% "One object, three faces", organized for richness: each face over C is developed with its
+% core machinery -- analytic (lattice, wp, Eisenstein, periods), geometric (divisors,
+% Riemann-Roch, the |3O| embedding, the Jacobian, Hodge cohomology), algebraic (the cubic,
+% the group scheme, torsion, degenerations).  Column 3 specializes to a finite field for the
+% arithmetic frontier.  Standalone sheet; shares figuremacros/palette.  Build x2.
+\documentclass[25pt, a0paper, portrait, margin=14mm, innermargin=15mm,
+               blockverticalspace=11mm, colspace=15mm, subcolspace=8mm]{tikzposter}
+
+\usepackage{amsmath,amssymb,mathtools}
+
+\input{figuremacros}
+
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\CP}{\mathbb{CP}}
+\newcommand{\HH}{\mathbb{H}}
+\newcommand{\Pic}{\operatorname{Pic}}
+\newcommand{\Div}{\operatorname{Div}}
+\newcommand{\ord}{\operatorname{ord}}
+\newcommand{\Jac}{\operatorname{Jac}}
+\newcommand{\divisor}{\operatorname{div}}
+
+\newcommand{\sagedir}{../sagemath}
+\input{\sagedir/coords.tex}
+\input{\sagedir/coords_torus.tex}
+\input{\sagedir/coords_curve_sample.tex}
+
+\definecolorstyle{book}{}{%
+  \colorlet{backgroundcolor}{formivory!55}%
+  \colorlet{framecolor}{formteal!70!black}%
+}{%
+  \colorlet{titlefgcolor}{formivory}%
+  \colorlet{titlebgcolor}{formteal!88!black}%
+}{%
+  \colorlet{blocktitlebgcolor}{formteal}%
+  \colorlet{blocktitlefgcolor}{white}%
+  \colorlet{blockbodybgcolor}{white}%
+  \colorlet{blockbodyfgcolor}{black}%
+}{%
+  \colorlet{innerblocktitlebgcolor}{formgold}%
+  \colorlet{innerblocktitlefgcolor}{black}%
+  \colorlet{innerblockbodybgcolor}{formgold!18}%
+  \colorlet{innerblockbodyfgcolor}{black}%
+}{%
+  \colorlet{notefgcolor}{black}%
+  \colorlet{notebgcolor}{formgold!22}%
+  \colorlet{notefrcolor}{formgold!80!black}%
+}
+\usetheme{Default}
+\usecolorstyle{book}
+
+\newcommand{\figH}[2]{\par\smallskip{\centering\resizebox{!}{#1}{#2}\par}\smallskip}
+\newcommand{\figcap}[1]{{\centering\small\itshape #1\par}\smallskip}
+\newcommand{\callout}[3]{%
+  \par\medskip\noindent
+  \begin{tikzpicture}
+    \node[fill=#1!17, draw=#1!80!black, line width=1.1pt, rounded corners=6pt,
+          inner sep=11pt, text width=\dimexpr\linewidth-38pt\relax, align=left]
+      {\textbf{#2}\, #3};
+  \end{tikzpicture}\par\medskip}
+
+\title{Complex Tori and Elliptic Curves}
+\author{One Object, Three Faces --- over $\C$}
+\institute{The same compact complex Lie group as a torus $\C/\Lambda$, a Jacobian $\Pic^0(E)$, and a curve $E(\C)$}
+\makeatletter
+\settitle{%
+  \centering\color{titlefgcolor}%
+  {\fontsize{56}{64}\selectfont\bfseries \@title}\\[0.28em]
+  {\fontsize{34}{40}\selectfont\bfseries \@author}\\[0.16em]
+  {\fontsize{22}{27}\selectfont\itshape \@institute}%
+}
+\makeatother
+
+\begin{document}
+\maketitle[width=\textwidth]
+
+% ===================== HEADER: thesis + trinity =====================
+\block{\large One Object, Three Faces, over $\C$}{%
+\normalsize
+\begin{minipage}[c]{0.40\linewidth}
+A single object --- a compact one-dimensional complex Lie group, a \emph{one-dimensional
+abelian variety} --- appears in three guises: the torus $\C/\Lambda$ (analytic), the
+Jacobian $\Pic^0(E)$ (geometric), the projective curve $E(\C)$ (algebraic).
+\textbf{Uniformization makes all three one group}, by explicit biholomorphisms. Columns 1--2
+develop each face; column 3 specializes the field to $\F_p$ for the arithmetic frontier.
+\callout{formteal}{The thesis.}{$\C/\Lambda\cong\Pic^0(E)\cong E(\C)$ as complex Lie
+groups; analysis, geometry, and algebra describe \emph{one} object.}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.57\linewidth}
+{\centering\resizebox{0.99\linewidth}{!}{\input{fig_synth_trinity}}\par}
+{\centering\small\itshape The maps: $\Phi=[\wp{:}\wp'{:}1]$ (torus to cubic);
+$P\mapsto[P]-[O]$ (curve to Jacobian); Abel--Jacobi $\mathfrak{s}$ (divisor to a point of
+$\C/\Lambda$). Compose around the triangle and return to the start.\par}
+\end{minipage}}
+
+\begin{columns}
+
+%========================= COLUMN 1: analytic + geometric =========================
+\column{0.33}
+
+\block{\large \textbf{1.} Analytic: the torus $\C/\Lambda$}{%
+\normalsize
+A \textbf{lattice} $\Lambda=\Z\omega_1+\Z\omega_2$ ($\omega_2/\omega_1\in\HH$) tiles $\C$;
+$T=\C/\Lambda$ is topologically $S^1\!\times\!S^1$, a compact \textbf{genus-$1$ Riemann
+surface} and a \textbf{complex Lie group}, $[u]\oplus[v]=[u+v]$.
+\figH{156pt}{\begin{tikzpicture}\drawprecisetorus\end{tikzpicture}}
+\figcap{$\C$ tiled by $\Lambda$, glued into the torus --- the group carried to all faces.}
+\textbf{The Weierstrass function.} The simplest non-constant elliptic function,
+\[ \wp(z)=\frac1{z^2}+\!\!\sum_{\lambda\neq0}\!\Big(\frac1{(z-\lambda)^2}-\frac1{\lambda^2}\Big), \]
+has one double pole per cell. With the Eisenstein series $g_2=60G_4,\ g_3=140G_6$ it obeys
+$\wp'^2=4\wp^3-g_2\wp-g_3$, and $\C(\wp,\wp')$ is the \emph{entire} field of elliptic
+functions.
+\par\smallskip
+\textbf{Periods \& uniformization.} The holomorphic $1$-forms are exactly $\C\,dz$, with
+$\oint_{\gamma_i}dz=\omega_i$, so $\Lambda$ is the period lattice. Conversely every genus-$1$
+surface with a base point is such a $\C/\Lambda$, unique up to scaling.}
+
+\block{\large \textbf{2.} Geometric: divisors, Riemann--Roch, $\Pic^0$}{%
+\normalsize
+A \textbf{divisor} $D=\sum n_i[P_i]$ has degree $\sum n_i$; principal divisors
+$\divisor(f)$ have degree $0$.
+\par\smallskip
+\textbf{Riemann--Roch.} On genus $1$, $\ell(D)=\deg D$ for $\deg D>0$. Hence $\ell(nO)=n$,
+and $1,\wp,\wp'$ span $L(3O)$ --- \emph{these are the functions that embed $E$ as a plane
+cubic.}
+\par\smallskip
+\textbf{The Jacobian.} $\Pic^0(E)=\Div^0(E)/\{\divisor(f)\}$, the degree-$0$ line bundles.
+By \textbf{Abel's theorem} (principal $\iff$ degree and sum vanish), the sum map
+$\mathfrak{s}(\sum n_i[P_i])=\sum n_iz_i$ gives $\Pic^0(E)\cong\C/\Lambda$, and
+$P\mapsto[P]-[O]$ makes $E$ its own Jacobian, $E\cong\Jac(E)$.
+\figH{180pt}{\input{fig_synth_abeljacobi}}
+\figcap{Abel--Jacobi sends a degree-$0$ divisor to $\sum n_iz_i$, vanishing exactly on
+principal divisors --- so $\Pic^0(E)=\C/\Lambda$.}}
+
+%========================= COLUMN 2: algebraic + cohomology + moduli =========================
+\column{0.33}
+
+\block{\large \textbf{3.} Algebraic: the curve $E(\C)$}{%
+\normalsize
+The embedding $\Phi=[\wp{:}\wp'{:}1]$, $\Phi(0)=O=[0{:}1{:}0]$, is a \textbf{biholomorphism}
+of $\C/\Lambda$ onto the smooth cubic $E:\,y^2=4x^3-g_2x-g_3\subset\CP^2$ --- a projective
+curve of genus $1$ and a one-dimensional \textbf{abelian variety}.
+\figH{160pt}{\input{fig_chord}}
+\figcap{Chord--tangent on $E$: the line through $P,Q$ meets $E$ again at $R$; reflecting
+gives $P\oplus Q$. Over $\C$ this is the transported torus addition.}
+\textbf{An algebraic group.} The law is \emph{rational} in $g_2,g_3$ (Vieta),
+$x_{P\oplus Q}=\tfrac{m^2}{4}-x_P-x_Q$, so $E$ is a \textbf{group scheme}. Its torsion is
+$E[2]=\{O,e_1,e_2,e_3\}$ (the roots) and $E[n]\cong(\Z/n\Z)^2$.
+\par\smallskip
+\textbf{Smooth vs.\ singular.} $E$ is smooth iff $\Delta=g_2^3-27g_3^2\neq0$; as
+$\Delta\to0$ the torus pinches to a \emph{node} (group $\C^\ast$) or a \emph{cusp}
+($\C$). The class is $j=1728\,g_2^3/\Delta$.}
+
+\block{\large \textbf{3$'$.} Cohomology and moduli (over $\C$)}{%
+\normalsize
+The Jacobian is also Hodge data --- the exponential sequence of sheaves realizes the same
+group:
+\figH{156pt}{\input{fig_synth_expseq}}
+\figcap{$\Pic^0(E)=H^1(\mathcal{O}_E)/H^1(\Z)=\C/\Lambda$; the Hodge piece
+$H^{1,0}=\C\,dz$ is Face~1's holomorphic form.}
+All such objects are organized by their shape $\tau\in\HH$ modulo $\mathrm{SL}_2(\Z)$, with
+global coordinate $j$:
+\figH{142pt}{\input{fig_synth_moduli}}
+\figcap{$\HH/\mathrm{SL}_2(\Z)\xrightarrow{\sim}\C$ via the $j$-invariant; $i,\rho$ are the
+extra-symmetric curves.}
+\callout{formgold}{One object.}{Over $\C$, $\C/\Lambda$, $\Pic^0(E)$ and $E(\C)$ are three
+\emph{presentations} of one abelian variety --- not merely isomorphic, but biholomorphic.}}
+
+%========================= COLUMN 3: over F_p and the frontier =========================
+\column{0.34}
+
+\block{\large \textbf{4.} Specialize: over $\F_p$, the frontier}{%
+\normalsize
+The group law is rational, so $E$ makes sense over any field. Over a finite field the three
+faces collapse to a finite group --- and a new world opens.
+\par\smallskip
+\textbf{Finite fields \& Hasse.} $E(\F_p)$ is a finite abelian group with
+$\#E(\F_p)=p+1-a_p$, $|a_p|\le 2\sqrt p$: a band of width $4\sqrt p$ about $p+1$. (For
+$y^2=x^3+2x+1$, $E(\F_{13})$ is cyclic of order $8$.)
+\figH{206pt}{\input{fig_synth_hasse}}
+\figcap{Real counts $\#E(\F_p)$ for $y^2=x^3-x+1$, $p\le 89$: all inside the Hasse band
+$p+1\pm2\sqrt p$.}
+\textbf{Cryptography.} Adding is fast but \emph{dividing} is not: recovering $n$ from $nP$
+is the elliptic-curve discrete logarithm, the hardness behind ECC and ECDSA.
+\par\smallskip
+\textbf{Galois and the Tate module.} The torsion $E[\ell^n]$ carries a
+$\operatorname{Gal}(\overline\Q/\Q)$-action --- the curve's arithmetic genome.
+\figH{214pt}{\input{fig_synth_tate}}
+\figcap{The torsion levels form an inverse system; its limit $T_\ell E\cong\Z_\ell^2$ carries
+$\rho:\operatorname{Gal}(\overline\Q/\Q)\to\mathrm{GL}_2(\Z_\ell)$.}
+\textbf{Modularity, BSD, CM.} Every $E/\Q$ is \emph{modular} (Wiles --- the theorem behind
+Fermat); the rank of $E(\Q)$ is governed by Birch--Swinnerton-Dyer; and CM curves (like
+$y^2=x^3-x$, $j=1728$) tie to class field theory.
+\callout{formteal}{One identity, two worlds.}{Over $\C$ the three faces are one geometry;
+over $\F_p$ or $\Q$ the same law is arithmetic. The dictionary runs in every direction.}
+\par\smallskip
+{\footnotesize\textbf{Author:} \(\langle\)Your Name\(\rangle\) \,\textbullet\,
+\(\langle\)email\(\rangle\) \,\textbullet\, seeking PhD positions in arithmetic \& algebraic
+geometry. \;Companion to the main poster and the gallery.}}
+
+\end{columns}
+\end{document}

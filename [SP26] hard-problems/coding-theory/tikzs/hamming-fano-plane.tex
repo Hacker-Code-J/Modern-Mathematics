@@ -1,0 +1,52 @@
+% Fano plane visualization for the [7,4,3] Hamming code.
+\documentclass[tikz, border=8pt]{standalone}
+\input{coding-fig-common.tex}
+
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+  \node[title text] at (0,3.28) {The Fano Plane Behind $\operatorname{Ham}(3,2)$};
+  \node[caption text] at (0,2.88) {Dependent triples of parity-check columns are projective lines.};
+
+  \coordinate (p1) at (90:2.1);
+  \coordinate (p2) at (210:2.1);
+  \coordinate (p3) at (330:2.1);
+  \coordinate (p4) at ($(p1)!0.5!(p2)$);
+  \coordinate (p5) at ($(p1)!0.5!(p3)$);
+  \coordinate (p6) at ($(p2)!0.5!(p3)$);
+  \coordinate (p7) at (0,0);
+
+  \draw[TealDarkCyan!70, line width=1.1pt] (p1)--(p2)--(p3)--cycle;
+  \draw[BlueCode!70, line width=1.1pt] (p1)--(p6);
+  \draw[BlueCode!70, line width=1.1pt] (p2)--(p5);
+  \draw[BlueCode!70, line width=1.1pt] (p3)--(p4);
+  \draw[AmberCode!80, line width=1.1pt] (0,0.61) circle (1.05);
+
+  \foreach \p in {p1,p2,p3,p4,p5,p6,p7}{
+    \fill[Paper] (\p) circle (0.15);
+    \draw[TealDarkCyan, line width=0.9pt] (\p) circle (0.15);
+    \fill[AccentCyan] (\p) circle (0.055);
+  }
+  \node[tiny label, above=0.12cm of p1] {$001$};
+  \node[tiny label, below left=0.12cm of p2] {$010$};
+  \node[tiny label, below right=0.12cm of p3] {$100$};
+  \node[tiny label, left=0.12cm of p4] {$011$};
+  \node[tiny label, right=0.12cm of p5] {$101$};
+  \node[tiny label, below=0.12cm of p6] {$110$};
+  \node[tiny label, above right=0.12cm of p7] {$111$};
+
+  \node[process amber, align=center] at (4.0,0.95) {
+    \small line $=$ triple\\[-1pt]
+    \scriptsize $a+b+c=0$
+  };
+  \node[process blue, align=center] at (4.0,-0.72) {
+    \small incidence vector\\[-1pt]
+    \scriptsize weight-$3$ codeword
+  };
+  \draw[flow amber] (3.0,0.72) -- (1.18,0.6);
+  \draw[flow blue] (2.8,-0.72) -- (p7);
+
+  \node[panel, align=center] at (0,-2.58) {
+    \small The minimum distance $3$ is visible as the smallest projective line.
+  };
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,148 @@
+% -- math shorthands ----------------------------------------------------------
+
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+
+\newcommand{\set}[1]{\left\{#1\right\}}
+\newcommand{\abs}[1]{\left|#1\right|}
+\newcommand{\norm}[1]{\left\lVert #1\right\rVert}
+\newcommand{\inner}[2]{\left\langle #1,#2\right\rangle}
+\newcommand{\gen}[1]{\left\langle #1\right\rangle}
+\newcommand{\iprod}[1]{\left\langle #1\right\rangle}
+\newcommand{\vect}[1]{\mathbf{#1}}
+\newcommand{\mat}[1]{\mathbf{#1}}
+\newcommand{\Lat}{\mathcal{L}}
+\newcommand{\Ldual}{\Lat^{\!*}}
+\newcommand{\fund}{\mathcal{P}}
+\newcommand{\ball}{\mathcal{B}}
+\newcommand{\setdiff}{\mathbin{\backslash}}
+\newcommand{\poly}{\operatorname{poly}}
+\newcommand{\negl}{\operatorname{negl}}
+\newcommand{\rank}{\operatorname{rank}}
+\newcommand{\Span}{\operatorname{span}}
+\newcommand{\vol}{\operatorname{vol}}
+\newcommand{\detlat}{\det(\Lat)}
+\newcommand{\dist}{\operatorname{dist}}
+\newcommand{\diag}{\operatorname{diag}}
+\newcommand{\GL}{\operatorname{GL}}
+\newcommand{\Otilde}{\widetilde{O}}
+\newcommand{\eps}{\varepsilon}
+
+% -- presentation teaching lens -----------------------------------------------
+
+\newcommand{\hardproblemlens}{%
+  Compact algebraic data can hide difficult Euclidean search.%
+}
+\newcommand{\HardProblemLens}[1]{%
+  \gdef\hardproblemlens{#1}%
+}
+
+\definecolor{accent}{HTML}{1F4E79}
+\definecolor{softaccent}{HTML}{EAF2F8}
+\definecolor{softgray}{HTML}{F6F7F9}
+\definecolor{successdraw}{HTML}{27AE60}
+\definecolor{successfill}{HTML}{EAFAF1}
+\definecolor{errordraw}{HTML}{C0392B}
+\definecolor{errorfill}{HTML}{FDEDEC}
+
+\definecolor{Ink}{HTML}{101A24}
+\definecolor{Paper}{HTML}{F8FBFC}
+\definecolor{Grid}{HTML}{DCEAEC}
+\definecolor{BlueCode}{HTML}{3155A4}
+\definecolor{AmberCode}{HTML}{B87511}
+\definecolor{ErrorRed}{HTML}{D33F49}
+\definecolor{GoodGreen}{HTML}{3C8D4F}
+\definecolor{VioletCode}{HTML}{6E5AA8}
+
+\tikzset{
+  every picture/.style={
+    font=\sffamily,
+    line cap=round,
+    line join=round
+  },
+  title text/.style={
+    font=\sffamily\bfseries\large,
+    text=TealDarkCyan
+  },
+  caption text/.style={
+    font=\sffamily\small,
+    text=Ink!72
+  },
+  tiny label/.style={
+    font=\sffamily\scriptsize,
+    text=Ink!72
+  },
+  lattice point/.style={
+    circle,
+    fill=TealDarkCyan,
+    inner sep=1.15pt
+  },
+  thin lattice line/.style={
+    line width=0.35pt,
+    draw=Grid
+  },
+  basis vector/.style={
+    -{Stealth[length=3.2pt]},
+    line width=1.15pt,
+    draw=BlueCode!86
+  },
+  short vector/.style={
+    -{Stealth[length=3.2pt]},
+    line width=1.25pt,
+    draw=ErrorRed!86
+  },
+  panel/.style={
+    draw=TealDarkCyan!26,
+    fill=Paper,
+    rounded corners=3pt,
+    line width=0.8pt,
+    inner sep=6pt
+  },
+  process/.style={
+    draw=TealDarkCyan!68,
+    fill=TealDarkCyan!7,
+    rounded corners=3pt,
+    line width=0.9pt,
+    align=center,
+    inner sep=6pt
+  },
+  process blue/.style={
+    process,
+    draw=BlueCode!70,
+    fill=BlueCode!8,
+    text=BlueCode!80!black
+  },
+  process amber/.style={
+    process,
+    draw=AmberCode!75,
+    fill=AmberCode!10,
+    text=AmberCode!80!black
+  },
+  process red/.style={
+    process,
+    draw=ErrorRed!75,
+    fill=ErrorRed!9,
+    text=ErrorRed!85!black
+  },
+  flow/.style={
+    -{Stealth[length=3.0pt]},
+    line width=0.95pt,
+    draw=TealDarkCyan!80
+  },
+  flow blue/.style={
+    flow,
+    draw=BlueCode!80
+  },
+  flow amber/.style={
+    flow,
+    draw=AmberCode!82
+  },
+  flow red/.style={
+    flow,
+    draw=ErrorRed!80
+  }
+}

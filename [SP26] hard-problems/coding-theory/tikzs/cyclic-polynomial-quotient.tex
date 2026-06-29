@@ -1,0 +1,32 @@
+% Vector-polynomial dictionary and quotient wrap-around.
+\documentclass[tikz, border=8pt]{standalone}
+\input{coding-fig-common.tex}
+
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+  \node[title text] at (0,3.02) {Vector--Polynomial Dictionary};
+  \node[caption text] at (0,2.62) {Length-$n$ words become polynomials modulo $X^n-1$.};
+
+  \foreach \i/\b in {0/c_0,1/c_1,2/c_2,3/c_3,4/c_4,5/c_5,6/c_6}{
+    \node[bit teal, minimum width=0.64cm] (v\i) at (-4.2+0.62*\i,1.15) {$\b$};
+  }
+  \node[tiny label, below=0.15cm of v3] {vector in $\mathbb F_q^7$};
+
+  \node[process blue, minimum width=3.0cm] (poly) at (0,-0.20)
+    {$c_0+c_1X+\cdots+c_6X^6$};
+  \node[process amber, minimum width=3.0cm] (ring) at (4.1,-0.20)
+    {$R_7=\mathbb F_q[X]/(X^7-1)$};
+
+  \draw[flow] (v3.south) -- (poly.north);
+  \draw[flow blue] (poly) -- (ring);
+
+  \foreach \i in {0,...,7}{
+    \node[bit, minimum width=0.48cm, minimum height=0.42cm] (x\i) at (-2.1+0.6*\i,-1.7) {$X^{\i}$};
+  }
+  \draw[flow red] (x7.north) .. controls (2.5,-0.95) and (-2.45,-0.95) .. (x0.north)
+    node[midway, above=0.1cm, tiny label] {$X^7=1$};
+  \node[caption text] at (0,-2.48)
+    {Wrap-around is not a convention; it is the relation $X^7-1=0$.};
+\end{tikzpicture}
+\end{document}
+

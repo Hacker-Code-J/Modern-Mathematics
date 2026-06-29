@@ -1,0 +1,265 @@
+% Complex Tori and Elliptic Curves --- A0 portrait academic poster.
+% A NARRATED poster (not a book-map): it tells ONE story --- the chord-tangent law on a
+% cubic IS addition on the torus C/Lambda, carried over by the Weierstrass functions ---
+% motivating each step in words before symbols, with one worked example.
+%
+% Layout discipline (this revision fixes the earlier clipping/size mess):
+%  * figures are sized by a UNIFORM HEIGHT (\figH) so their stroke and label weights match;
+%  * the dependency diagram lives in its OWN full-width block, sized by height, so the block
+%    grows to it and nothing overflows (the old side-by-side minipage made it clip);
+%  * the header carries only text, in two balanced columns.
+% Reuses the book's Sage figures and palette (figuremacros.tex mirrors ../book/preamble.tex;
+% coordinates from ../sagemath).  Build:  pdflatex poster.tex  (twice).
+\documentclass[25pt, a0paper, portrait, margin=14mm, innermargin=15mm,
+               blockverticalspace=12mm, colspace=16mm, subcolspace=8mm]{tikzposter}
+
+\usepackage{amsmath,amssymb,mathtools}
+
+\input{figuremacros}
+
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\CP}{\mathbb{CP}}
+\newcommand{\HH}{\mathbb{H}}
+\newcommand{\Pic}{\operatorname{Pic}}
+\newcommand{\ord}{\operatorname{ord}}
+
+\newcommand{\sagedir}{../sagemath}
+\input{\sagedir/coords.tex}
+\input{\sagedir/coords_torus.tex}
+\input{\sagedir/coords_curve_sample.tex}
+
+\definecolorstyle{book}{}{%
+  \colorlet{backgroundcolor}{formivory!55}%
+  \colorlet{framecolor}{formteal!70!black}%
+}{%
+  \colorlet{titlefgcolor}{formivory}%
+  \colorlet{titlebgcolor}{formteal!88!black}%
+}{%
+  \colorlet{blocktitlebgcolor}{formteal}%
+  \colorlet{blocktitlefgcolor}{white}%
+  \colorlet{blockbodybgcolor}{white}%
+  \colorlet{blockbodyfgcolor}{black}%
+}{%
+  \colorlet{innerblocktitlebgcolor}{formgold}%
+  \colorlet{innerblocktitlefgcolor}{black}%
+  \colorlet{innerblockbodybgcolor}{formgold!18}%
+  \colorlet{innerblockbodyfgcolor}{black}%
+}{%
+  \colorlet{notefgcolor}{black}%
+  \colorlet{notebgcolor}{formgold!22}%
+  \colorlet{notefrcolor}{formgold!80!black}%
+}
+\usetheme{Default}
+\usecolorstyle{book}
+
+% --- helpers -----------------------------------------------------------------
+% Size a figure by a fixed HEIGHT (keeps aspect, keeps stroke/label weight uniform).
+\newcommand{\figH}[2]{\par\smallskip{\centering\resizebox{!}{#1}{#2}\par}\smallskip}
+% Explanatory caption under a figure.
+\newcommand{\figcap}[1]{{\centering\small\itshape #1\par}\smallskip}
+% A coloured call-out box spanning the block width (safe inner margins, no overflow).
+\newcommand{\callout}[3]{%
+  \par\medskip\noindent
+  \begin{tikzpicture}
+    \node[fill=#1!17, draw=#1!80!black, line width=1.1pt, rounded corners=6pt,
+          inner sep=12pt, text width=\dimexpr\linewidth-40pt\relax, align=left]
+      {\textbf{#2}\, #3};
+  \end{tikzpicture}\par\medskip}
+
+\title{Complex Tori and Elliptic Curves}
+\author{Why ``draw a line and reflect'' on a cubic is secretly addition on a torus}
+\institute{A self-contained route from one course in complex analysis to the group law on an elliptic curve}
+\makeatletter
+\settitle{%
+  \centering\color{titlefgcolor}%
+  {\fontsize{56}{64}\selectfont\bfseries \@title}\\[0.30em]
+  {\fontsize{28}{34}\selectfont \@author}\\[0.18em]
+  {\fontsize{22}{27}\selectfont\itshape \@institute}%
+}
+\makeatother
+
+\begin{document}
+\maketitle[width=\textwidth]
+
+% ===================== HEADER 1: the puzzle (text only, two columns) =====================
+\block{\large A Bizarre Rule --- and Why It Is Secretly Arithmetic}{%
+\normalsize
+\begin{minipage}[t]{0.515\linewidth}
+On a smooth cubic curve there is a strange way to ``add'' two points $P$ and $Q$:
+\emph{draw the straight line through them, find the third point $R$ where it meets the
+curve, then reflect $R$ across the $x$-axis.} Call the result $P\oplus Q$.
+\par\medskip
+Astonishingly, this rule is commutative \emph{and} associative --- it turns the points of
+the curve into an abelian group. \textbf{Why should ``draw a line and reflect'' obey the
+laws of arithmetic? And why, of all things, the reflection?}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.455\linewidth}
+This poster answers both. The cubic only \emph{looks} like a curve in the plane; it is
+secretly a \emph{torus} $\C/\Lambda$ --- the complex plane rolled up by a lattice. On the
+torus, $\oplus$ is nothing but addition of complex numbers, $z\bmod\Lambda$, which is
+obviously a group. The Weierstrass functions $\wp,\wp'$ \emph{draw} the torus as the cubic,
+and carry ordinary addition exactly onto ``line, third point, reflect.''
+\callout{formteal}{Main theorem.}{$\Phi([z])=[\wp(z):\wp'(z):1]$, with $0\mapsto
+O=[0{:}1{:}0]$, is an isomorphism $\C/\Lambda\xrightarrow{\,\sim\,}E$ of \emph{both}
+Riemann surfaces \emph{and} groups. Every feature of the rule, the reflection included,
+is then forced.}
+\end{minipage}}
+
+% ===================== HEADER 2: the logical spine (own block, sized by height) =====================
+\block{\large The Argument at a Glance}{%
+\begin{minipage}[c]{0.50\linewidth}
+{\centering\resizebox{0.86\linewidth}{!}{\input{fig_dependency}}\par}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.46\linewidth}
+\normalsize
+The torus has an effortless addition. The bridge $\Phi$ carries it to the cubic. A
+\emph{line} meets the cubic in three points whose torus-sum is $0$ --- and that single loop
+\emph{is} the chord--tangent law. The three columns below walk it in order:
+\par\smallskip
+\textbf{(1--2)} the two characters --- torus and elliptic functions;\\
+\textbf{(3--4)} the bridge --- the Weierstrass $\wp$ and the embedding;\\
+\textbf{(5--6)} the payoff --- ``line, then reflect,'' and why one object wears three faces.
+\end{minipage}}
+
+\begin{columns}
+
+%========================= COLUMN 1: the two characters =========================
+\column{0.33}
+
+\block{\large \textbf{1.} The torus $\C/\Lambda$: addition you already know}{%
+\normalsize
+A \emph{lattice} $\Lambda=\Z\omega_1+\Z\omega_2$ is a grid of parallelograms tiling the
+plane $\C$. Glue the opposite edges of one tile and you get a \textbf{torus} (a donut
+surface) $T=\C/\Lambda$: a point of $T$ is just a complex number ``read modulo the grid.''
+\par\medskip
+\textbf{Its addition is free.} Add the two complex numbers and wrap around:
+\[ [u]\,\oplus\,[v]\;=\;[\,u+v\,]. \]
+This inherits everything from $\C$: commutative and associative, identity $[0]$, inverse
+$[-z]$. \emph{No geometry, no effort --- the torus is already a perfect abelian group.}
+\figH{162pt}{\input{fig_torusadd}}
+\figcap{To add: form $u+v$ in $\C$ (dashed), then wrap back into the tile by a period.
+$[u]\oplus[v]=[u+v]$.}
+\figH{185pt}{\begin{tikzpicture}\drawprecisetorus\end{tikzpicture}}
+\figcap{The same tiling, glued into the torus surface --- the group we transport.}}
+
+\block{\large \textbf{2.} Elliptic functions: rigid by Liouville}{%
+\normalsize
+To compare the torus with a curve we need \emph{functions on the torus} --- functions on
+$\C$ that repeat on the grid, $f(z+\omega)=f(z)$. These are \textbf{elliptic functions},
+and they are astonishingly rigid.
+\par\smallskip
+\emph{Why rigid?} A doubly periodic function with no poles is bounded, so by Liouville's
+theorem it is \textbf{constant}. Hence any non-constant one \emph{must} have poles --- and
+integrating around one tile (opposite sides cancel) shows it has as many poles as zeros.
+The very simplest possible has a single double pole.
+\callout{formgold}{The seed.}{Even the \emph{positions} are pinned down: integrating
+$z\,f'(z)/f(z)$ around a tile gives the \textbf{Abel relation}
+\[ \sum(\text{zeros})-\sum(\text{poles})\in\Lambda . \]
+This one fact is what forces the reflection step at the very end.}
+The function realising the simplest case --- one double pole, nothing else --- is the
+\emph{Weierstrass} $\wp$, built next.
+\figH{202pt}{\input{fig_period}}
+\figcap{Integrate $f,\ f'/f,\ z\,f'/f$ counterclockwise around one tile $\partial P_\Lambda$.
+Opposite sides carry equal values ($f$ repeats), so they cancel --- forcing
+$\#$zeros $=\#$poles and the Abel relation
+$\sum(\text{zeros})-\sum(\text{poles})\in\Lambda$.}}
+
+%========================= COLUMN 2: the bridge =========================
+\column{0.33}
+
+\block{\large \textbf{3.} The Weierstrass function $\wp$: the simplest one}{%
+\normalsize
+To \emph{build} an elliptic function with a single double pole, sum $1/z^2$ over the whole
+lattice (with constants for convergence):
+\[ \wp(z)=\frac{1}{z^2}+\!\!\sum_{\lambda\in\Lambda\setminus 0}\!\!
+   \Big(\frac{1}{(z-\lambda)^2}-\frac{1}{\lambda^2}\Big). \]
+It is even, one double pole per tile; its derivative $\wp'$ is odd, with a triple pole.
+\figH{160pt}{\input{fig_poles}}
+\figcap{The sum runs over the whole lattice, planting a double pole at every $\lambda$; near
+$z$ the four closest terms dominate.}
+\par\medskip
+\textbf{One magic identity.} Near $0$, $\wp=z^{-2}+3G_4z^2+\cdots$, so $\wp'^2$ and
+$4\wp^3$ \emph{both} begin with $4z^{-6}$. Subtract them and the right multiples of $\wp$
+and $1$: every pole cancels, leaving a bounded --- hence constant --- function. So $\wp$
+and $\wp'$ satisfy one cubic relation:
+\[ \boxed{\;\wp'^2 = 4\wp^3 - g_2\,\wp - g_3\;}\qquad g_2=60G_4,\ \ g_3=140G_6. \]
+\figH{188pt}{\input{fig_wp}}
+\figcap{On the real axis $\wp$ has a double pole at every lattice point and one valley per
+period, bottoming at a real root $e_1=\wp(\omega/2)$ --- the picture behind ``a single
+double pole.''}}
+
+\block{\large \textbf{4.} The bridge $\Phi$: drawing the torus as a cubic}{%
+\normalsize
+Now send each torus point to the projective point
+\[ \Phi(z)=[\wp(z):\wp'(z):1],\qquad \Phi(0)=O=[0{:}1{:}0]. \]
+The boxed identity puts the image on the cubic $E:\,y^2=4x^3-g_2x-g_3$, and in fact $\Phi$
+is a biholomorphism $\C/\Lambda\xrightarrow{\,\sim\,}E$. \emph{Why a bijection?} $\wp$ is
+$2$-to-$1$ (it is even), and $\wp'$ tells the two preimages apart by its sign --- the
+branched cover below.
+\figH{216pt}{\input{fig_branched}}
+\figcap{$\wp:T\to\CP^1$ folds the torus $2$-to-$1$ onto the sphere, branching only over the
+three roots $e_1,e_2,e_3$ and $\infty$. Recording $\wp'$ as well unfolds it into the cubic
+$E$ --- a flawless dictionary $T\cong E$.}
+\callout{formteal}{Now the payoff.}{We have a perfect dictionary $T\cong E$. \emph{Transport
+the torus's effortless addition through $\Phi$} --- what does it become on the curve?}}
+
+%========================= COLUMN 3: payoff, example, outlook =========================
+\column{0.34}
+
+\block{\large \textbf{5.} The payoff: addition becomes ``line, then reflect''}{%
+\normalsize
+Here is the one fact behind it all. A line $ax+by+c=0$ pulls back to $a\wp+b\wp'+c$, an
+elliptic function with a \emph{single triple pole} at $O$ --- so exactly three zeros, which
+(by Abel) sum to $0$ on the torus:
+\[ P,Q,R\ \text{collinear on }E\ \Longleftrightarrow\ P\oplus Q\oplus R=O. \]
+Thus $P\oplus Q=\ominus R$. And $\ominus$ on the torus is $z\mapsto-z$, i.e.\
+$(x,y)\mapsto(x,-y)$ ($\wp$ even, $\wp'$ odd) --- \textbf{reflection across the $x$-axis}.
+Mystery solved.
+\figH{200pt}{\input{fig_chord}}
+\figcap{The line through $P$ and $Q$ meets $E$ at a third point $R$; reflecting $R$ across
+the $x$-axis gives $P\oplus Q$. Collinear means torus-sum $0$; reflection is $z\mapsto-z$.}}
+
+\block{\large \textbf{6.} Why it matters: one object, three faces}{%
+\normalsize
+What we built is a single abelian group seen three ways --- and the isomorphisms between
+those views \emph{are} the subject:
+\[ \underbrace{\C/\Lambda}_{\text{analysis}}\ \cong\
+   \underbrace{\Pic^0(E)}_{\text{geometry}}\ \cong\
+   \underbrace{E(k)}_{\text{arithmetic}}. \]
+\callout{formgold}{Three faces.}{\textbf{Analytic} --- $\C/\Lambda$: complex numbers added
+modulo a lattice.\\ \textbf{Geometric} --- $\Pic^0(E)$: degree-$0$ divisor classes (line
+bundles); Abel--Jacobi makes $E$ its own Jacobian.\\ \textbf{Arithmetic} --- $E(k)$: the
+points themselves, under chord--tangent, over \emph{any} field $k$.}
+That last face is the doorway to modern number theory: because the law is \emph{rational},
+it travels to every field at once.
+\par\smallskip
+\textbf{Over $\Q$.}\ \ Mordell--Weil: $E(\Q)\cong\Z^{r}\oplus E(\Q)_{\mathrm{tors}}$ is
+finitely generated. The \emph{rank} $r$ is deep --- Birch--Swinnerton-Dyer (a Clay
+Millennium Prize problem) predicts it from the order of vanishing of the $L$-function
+$L(E,s)$ at $s=1$.
+\par\smallskip
+\textbf{Over $\F_p$.}\ \ Hasse's bound $\bigl|\#E(\F_p)-(p+1)\bigr|\le 2\sqrt p$ pins the
+point count, and the hardness of \emph{reversing} the group law underwrites
+elliptic-curve cryptography.
+\par\smallskip
+\textbf{Galois \& modularity.}\ \ The torsion assembles into a representation
+$\rho:\operatorname{Gal}(\overline\Q/\Q)\to\mathrm{GL}_2(\Z_\ell)$; every $E/\Q$ is
+\emph{modular} --- the theorem behind Wiles's proof of Fermat's Last Theorem.
+\par\smallskip
+And $j=1728\,g_2^3/\Delta$ names the curve inside the moduli space of \emph{all} elliptic
+curves --- the next picture:
+\figH{172pt}{\input{fig_modular}}
+\figcap{$F$ is one representative per torus, so $\HH/\mathrm{SL}_2(\Z)$ is the moduli space
+of complex tori --- coordinate the $j$-invariant; $i,\rho$ are the extra-symmetric tori.}
+\par\smallskip
+{\footnotesize\textbf{Author:} \(\langle\)Your Name\(\rangle\) \,\textbullet\,
+\(\langle\)email\(\rangle\) \,\textbullet\, seeking PhD positions in arithmetic \& algebraic
+geometry. \;From the textbook \emph{Complex Tori and Elliptic Curves} (self-contained;
+${\sim}80$ solved exercises).}}
+
+\end{columns}
+\end{document}

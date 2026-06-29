@@ -1,0 +1,41 @@
+\begin{tikzpicture}[scale=1.0, every node/.style={font=\small}]
+  % Top: precise torus with the four 2-torsion (half-lattice) points marked.
+  \begin{scope}[yshift=2.0cm, scale=0.85]
+    \drawprecisetorus
+    \fill[formrust!85!black] (\torusMarkhalfsumx,\torusMarkhalfsumy) circle (3pt);
+    \node[formrust!60!black, above, font=\scriptsize]
+      at (\torusMarkhalfsumx,\torusMarkhalfsumy) {$[\tfrac{\omega_1+\omega_2}{2}]$};
+    \fill[formrust!85!black] (\torusMarkzerox,\torusMarkzeroy) circle (3pt);
+    \node[formrust!60!black, below right, font=\scriptsize]
+      at (\torusMarkzerox,\torusMarkzeroy) {$[\tfrac{\omega_1}{2}]$};
+    \fill[formrust!85!black] (\torusMarkhalftwox,\torusMarkhalftwoy) circle (3pt);
+    \node[formrust!60!black, below left, font=\scriptsize]
+      at (\torusMarkhalftwox,\torusMarkhalftwoy) {$[\tfrac{\omega_2}{2}]$};
+    \fill[formrust!85!black] (\torusMarkhalfonex,\torusMarkhalfoney) circle (3pt);
+    \node[formrust!60!black, right, font=\scriptsize]
+      at (\torusMarkhalfonex,\torusMarkhalfoney) {$[0]$};
+    \node[formteal!55!black] at (-3.0,1.0) {$T$};
+  \end{scope}
+  \draw[-{Latex[length=3mm]}, formplum, line width=1.1pt] (0,0.7) -- (0,-0.1);
+  \node[formplum] at (0.35,0.3) {$\wp$, deg 2};
+  \begin{scope}[yshift=-1.5cm, scale=1.1]
+    \drawprecisesphere
+    \fill[formrust!85!black] (\sphereNorthx,\sphereNorthy) circle (2.4pt);
+    \node[formrust!60!black, above, font=\scriptsize]
+      at (\sphereNorthx,\sphereNorthy) {$\infty$};
+    \fill[formrust!85!black] (-0.707,-0.354) circle (2.4pt);
+    \node[formrust!60!black, left, font=\scriptsize] at (-0.78,-0.354) {$e_1$};
+    \fill[formrust!85!black] (0,-0.500) circle (2.4pt);
+    \node[formrust!60!black, below, font=\scriptsize] at (0,-0.56) {$e_2$};
+    \fill[formrust!85!black] (0.707,-0.354) circle (2.4pt);
+    \node[formrust!60!black, right, font=\scriptsize] at (0.78,-0.354) {$e_3$};
+    \node[formteal!55!black] at (-1.65,0.6) {$\CP^1$};
+  \end{scope}
+  \node[draw=black!40, rounded corners=2pt, fill=formivory, align=left, anchor=west,
+        inner sep=4pt] at (3.4,0.4)
+    {The map $\wp:T\to\CP^1$ is a\\$2:1$ branched cover\\
+     with $4$ branch values:\\
+     three roots $e_1,e_2,e_3$ and $\infty$.\\
+     Riemann--Hurwitz:\\
+     $0=2{\cdot}2-4{\cdot}(2-1)$.};
+\end{tikzpicture}

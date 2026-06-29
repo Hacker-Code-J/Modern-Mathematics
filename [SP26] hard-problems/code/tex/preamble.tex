@@ -1,0 +1,64 @@
+\usetheme[]{CodingTealArc}
+
+%-------------------------------------------------------
+% PACKAGES
+%-------------------------------------------------------
+
+\usepackage{helvet}
+\usepackage{fontspec}
+\usepackage{unicode-math}
+\setmainfont{TeX Gyre Termes}
+\setmathfont{TeX Gyre Pagella Math}
+
+\setsansfont[
+Path = fonts/,
+UprightFont = *Medium.ttf,
+BoldFont    = *Bold.ttf
+]{GmarketSansTTF}
+\usepackage{textcomp}
+\renewcommand{\ttdefault}{lmtt}
+
+\newcommand{\chref}[2]{
+  \href{#1}{{\usebeamercolor[bg]{CodingTealArc} #2}}
+}
+
+\makeatletter
+\def\blfootnote{\gdef\@thefnmark{}\@footnotetext}
+\makeatother
+
+\usepackage{listings}
+\usepackage{tikz}
+\usepackage{pgfplots, pgfplotstable}
+\pgfplotsset{compat=1.18}
+\usetikzlibrary{
+  3d,
+  angles,
+  arrows,
+  arrows.meta,
+  backgrounds,
+  bending,
+  calc,
+  decorations.pathmorphing,
+  decorations.pathreplacing,
+  decorations.markings,
+  fit,
+  matrix,
+  patterns,
+  patterns.meta,
+  positioning,
+  shadows,
+  shapes,
+  shapes.geometric,
+  tikzmark,
+  quotes
+}
+\usetikzlibrary{mindmap}
+
+\usepackage{multicol}
+\renewcommand{\lstlistingname}{Code}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{adjustbox}
+\usepackage{kotex}
+\usepackage{soul}
+\usepackage{colortbl}

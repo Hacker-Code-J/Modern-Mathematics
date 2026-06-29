@@ -1,0 +1,48 @@
+% Classical Hamming parity coverage by binary position labels.
+\documentclass[tikz, border=8pt]{standalone}
+\input{coding-fig-common.tex}
+
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+  \node[title text] at (0,3.05) {Parity Checks from Binary Position Labels};
+  \node[caption text] at (0,2.64) {Positions $1,\ldots,7$ are read by the checks $p_1,p_2,p_4$.};
+
+  \foreach \i/\bin in {1/001,2/010,3/011,4/100,5/101,6/110,7/111}{
+    \node[bit teal, minimum width=0.68cm] at (-3.15+1.05*\i,1.55) {\i};
+    \node[tiny label] at (-3.15+1.05*\i,1.04) {$\bin$};
+  }
+  \node[tiny label, anchor=east] at (-2.48,1.55) {position};
+  \node[tiny label, anchor=east] at (-2.48,1.04) {binary};
+
+  \foreach \row/\name/\y/\col in {1/p_1/0.25/TealDarkCyan,2/p_2/-0.55/BlueCode,3/p_4/-1.35/AmberCode}{
+    \node[process, minimum width=0.72cm, minimum height=0.42cm, fill=\col!9, draw=\col!65] at (-2.2,\y) {$\name$};
+  }
+
+  \foreach \i in {1,3,5,7}{
+    \node[bit, fill=TealDarkCyan!12, draw=TealDarkCyan!60] at (-3.15+1.05*\i,0.25) {$1$};
+  }
+  \foreach \i in {2,3,6,7}{
+    \node[bit, fill=BlueCode!12, draw=BlueCode!60] at (-3.15+1.05*\i,-0.55) {$1$};
+  }
+  \foreach \i in {4,5,6,7}{
+    \node[bit, fill=AmberCode!14, draw=AmberCode!65] at (-3.15+1.05*\i,-1.35) {$1$};
+  }
+  \foreach \i in {2,4,6}{
+    \node[bit] at (-3.15+1.05*\i,0.25) {$0$};
+  }
+  \foreach \i in {1,4,5}{
+    \node[bit] at (-3.15+1.05*\i,-0.55) {$0$};
+  }
+  \foreach \i in {1,2,3}{
+    \node[bit] at (-3.15+1.05*\i,-1.35) {$0$};
+  }
+
+  \node[process red, align=center] at (0,-2.55) {
+    \small syndrome $101$\\[-1pt]
+    \scriptsize points to position $5$
+  };
+  \draw[flow red] (2.10,0.25) .. controls (2.65,-0.7) and (1.1,-1.92) .. (0.35,-2.2);
+  \draw[flow red] (2.10,-1.35) .. controls (2.65,-1.72) and (1.2,-2.15) .. (0.42,-2.42);
+\end{tikzpicture}
+\end{document}
+

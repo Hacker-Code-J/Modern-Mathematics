@@ -1,0 +1,22 @@
+% Birch--Swinnerton-Dyer: the analytic rank ord_{s=1} L(E,s) should equal the algebraic
+% rank.  Near s=1, L(E,s) ~ c (s-1)^r : rank 0 stays off the axis, rank 1 crosses simply,
+% rank 2 touches tangentially.
+\begin{tikzpicture}[>=Latex]
+  \draw[->, black!55, line width=0.6pt] (-0.2,0)--(3.3,0) node[right, font=\small] {$s$};
+  \draw[->, black!55, line width=0.6pt] (0,-1.7)--(0,2.3) node[above, font=\small] {$L(E,s)$};
+  \draw[black!30, dashed, line width=0.6pt] (1.5,-1.6)--(1.5,2.2);
+  \node[font=\small, below] at (1.5,0) {$s=1$};
+  % rank 0: never vanishes
+  \draw[formteal!70!black, line width=1.3pt, smooth, samples=40, domain=0.35:2.65]
+    plot (\x,{0.75+0.55*(\x-1.5)*(\x-1.5)});
+  \node[formteal!60!black, font=\footnotesize, anchor=west] at (2.4,1.9) {rank $0$};
+  % rank 1: simple zero
+  \draw[formrust!72!black, line width=1.3pt, smooth, samples=40, domain=0.45:2.55]
+    plot (\x,{1.15*(\x-1.5)});
+  \node[formrust!65!black, font=\footnotesize, anchor=west] at (2.45,1.05) {rank $1$};
+  % rank 2: double zero (tangent)
+  \draw[formplum!65!black, line width=1.3pt, smooth, samples=40, domain=0.55:2.45]
+    plot (\x,{-1.6*(\x-1.5)*(\x-1.5)});
+  \node[formplum!60!black, font=\footnotesize, anchor=east] at (0.9,-1.25) {rank $2$};
+  \fill[black] (1.5,0) circle (2.2pt);
+\end{tikzpicture}

@@ -1,0 +1,30 @@
+% Addition on the torus C/Lambda: lift u and v, add as complex numbers (the dashed
+% parallelogram), then wrap back into the fundamental tile by subtracting a period.
+% [u]+[v] = [u+v].  Here u+v lands in the neighbouring tile and reduces by -omega_1.
+\begin{tikzpicture}[>=Latex]
+  \def\ax{3.4}\def\ay{0}\def\bx{1.0}\def\by{2.5}
+  % the neighbouring tile to the right (where the lifted sum lands), faint
+  \draw[formteal!18, line width=0.5pt, fill=formteal!3]
+    (\ax,0)--(2*\ax,0)--(2*\ax+\bx,\by)--(\ax+\bx,\by)--cycle;
+  % the fundamental tile
+  \draw[formteal!60!black, line width=1pt, fill=formteal!8]
+    (0,0)--(\ax,\ay)--(\ax+\bx,\ay+\by)--(\bx,\by)--cycle;
+  % basis vectors
+  \draw[->, formslate, line width=1pt] (0,0)--(\ax,\ay) node[midway, below=2pt, font=\small] {$\omega_1$};
+  \draw[->, formslate, line width=1pt] (0,0)--(\bx,\by) node[midway, left=1pt, font=\small] {$\omega_2$};
+  % u, v and their lifted sum
+  \coordinate (O) at (0,0);
+  \coordinate (u) at (2.2,0.6);
+  \coordinate (v) at (2.1,1.5);
+  \coordinate (s) at (4.3,2.1);   % u+v
+  \coordinate (sr) at (0.9,2.1);  % (u+v) - omega_1, reduced into the fundamental tile
+  \draw[formrust!55, line width=0.8pt, dashed] (O)--(u)--(s)--(v)--cycle;
+  \fill[formrust!85!black] (u) circle (2.5pt) node[below right=-1pt, font=\small, formrust!70!black] {$u$};
+  \fill[formrust!85!black] (v) circle (2.5pt) node[above left=-1pt, font=\small, formrust!70!black] {$v$};
+  \fill[formgold!72!black] (s) circle (2.4pt) node[right=1pt, font=\small, formgold!55!black] {$u+v$};
+  % wrap back by a period
+  \draw[->, formgold!82!black, line width=1pt, dashed] (s)--(sr)
+    node[midway, above, font=\small] {$-\,\omega_1$};
+  \fill[formgold!90!black] (sr) circle (2.9pt) node[above left=-1pt, font=\small, formgold!52!black] {$[u{+}v]$};
+  \fill[black] (O) circle (1.8pt) node[below left, font=\small] {$0$};
+\end{tikzpicture}

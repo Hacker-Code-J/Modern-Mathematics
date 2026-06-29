@@ -1,0 +1,17 @@
+% Why wp has a double pole at every lattice point: it is the sum  sum_lambda (z-lambda)^-2
+% over the whole lattice.  A grid of double-pole markers, with a sample point z receiving
+% its dominant contributions from the four nearest lattice points.
+\begin{tikzpicture}[>=Latex]
+  \def\ax{1.75}\def\bx{0.55}\def\by{1.5}
+  \foreach \i in {-1,0,1,2}{\foreach \j in {0,1,2}{
+    \node[formrust!85!black] at (\i*\ax+\j*\bx,\j*\by) {$\boldsymbol\times$};}}
+  \coordinate (z) at (1.15,0.92);
+  \foreach \px/\py in {0/0, 1.75/0, 0.55/1.5, 2.30/1.5}{
+    \draw[formteal!55, line width=0.6pt, ->] (z)--(\px,\py);}
+  \fill[formslate] (z) circle (2.4pt);
+  \node[formslate, font=\small, above right=-1pt] at (z) {$z$};
+  \node[formrust!72!black, font=\small, anchor=south] at (1.55,3.18)
+    {a double pole at every $\lambda\in\Lambda$};
+  \node[formteal!58!black, font=\small, anchor=north] at (1.55,-0.45)
+    {$\displaystyle \wp(z)=\sum_{\lambda\in\Lambda}\frac{1}{(z-\lambda)^2}$ (regularized)};
+\end{tikzpicture}

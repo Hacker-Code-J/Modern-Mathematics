@@ -1,0 +1,23 @@
+% Real points of E: y^2 = 4x^3 - 4x.  Two components -- a compact oval over [e1,e2] and an
+% unbounded branch over [e3, infty) meeting at O at infinity.  The three roots together
+% with O form the 2-torsion E[2] = {O, e1, e2, e3} = (Z/2)^2.
+\begin{tikzpicture}[>=Latex, xscale=1.28, yscale=0.6]
+  \draw[->, black!50, line width=0.5pt] (-1.6,0)--(2.5,0) node[right, font=\small] {$x$};
+  \draw[->, black!50, line width=0.5pt] (0,-5.7)--(0,6.0) node[above, font=\small] {$y$};
+  \draw[formteal!62!black, line width=1.3pt, smooth, samples=60, domain=-1:0]
+    plot (\x,{ 2*sqrt(max(\x*\x*\x-\x,0))});
+  \draw[formteal!62!black, line width=1.3pt, smooth, samples=60, domain=-1:0]
+    plot (\x,{-2*sqrt(max(\x*\x*\x-\x,0))});
+  \draw[formteal!62!black, line width=1.3pt, smooth, samples=80, domain=1:2.12]
+    plot (\x,{ 2*sqrt(max(\x*\x*\x-\x,0))});
+  \draw[formteal!62!black, line width=1.3pt, smooth, samples=80, domain=1:2.12]
+    plot (\x,{-2*sqrt(max(\x*\x*\x-\x,0))});
+  \foreach \r in {-1,0,1}{\fill[formrust!85!black] (\r,0) circle (2.5pt);}
+  \node[below left=-1pt, font=\small, formrust!70!black] at (-1,0) {$e_1$};
+  \node[below right=-1pt, font=\small, formrust!70!black] at (0,0) {$e_2$};
+  \node[below right=-1pt, font=\small, formrust!70!black] at (1,0) {$e_3$};
+  \node[formteal!55!black, font=\small] at (-0.5,1.65) {oval};
+  \node[formteal!55!black, font=\small] at (1.95,2.0) {branch};
+  \node[formslate, font=\small, anchor=south] at (2.05,5.2) {$\to O$};
+  \node[formslate, font=\small, anchor=north] at (2.05,-5.0) {$\to O$};
+\end{tikzpicture}

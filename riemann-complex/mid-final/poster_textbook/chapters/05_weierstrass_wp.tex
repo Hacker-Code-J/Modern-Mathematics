@@ -1,0 +1,92 @@
+\chapter{The Weierstrass \texorpdfstring{\(\wp\)}{wp}-Function}
+\label{ch:weierstrass-wp}
+
+The analytic theory of elliptic curves centers on the Weierstrass function
+\[
+  \wp(z)=\frac{1}{z^2}+
+  \sum_{\lambda\in\Lambda\setminus\{0\}}
+  \left(\frac{1}{(z-\lambda)^2}-\frac{1}{\lambda^2}\right).
+\]
+The subtraction term makes the series converge normally on compact sets away from
+\(\Lambda\).  The function is even, \(\Lambda\)-periodic, and has one double pole
+per fundamental parallelogram.
+
+\begin{definition}
+The Eisenstein series of weight \(k\) is
+\[
+  G_k(\Lambda)=\sum_{\lambda\in\Lambda\setminus\{0\}}\lambda^{-k}
+\]
+for \(k>2\).  Set \(g_2=60G_4\) and \(g_3=140G_6\).
+\end{definition}
+
+\begin{theorem}[The differential equation]
+\label{thm:wp-ode-new}
+The Weierstrass function satisfies
+\[
+  \wp'(z)^2=4\wp(z)^3-g_2\wp(z)-g_3.
+\]
+\end{theorem}
+
+\begin{proof}[Proof sketch]
+Compare Laurent expansions at \(0\).  Both sides have principal part
+\(4z^{-6}\), and the constants \(g_2,g_3\) are chosen so that the remaining
+negative and constant terms cancel.  The difference is then a holomorphic
+elliptic function, hence constant by \cref{prop:no-holomorphic-elliptic}; its
+Laurent expansion shows that constant is \(0\).
+\end{proof}
+
+\begin{corollary}
+The functions \(x=\wp(z)\) and \(y=\wp'(z)\) land on the affine cubic
+\[
+  y^2=4x^3-g_2x-g_3.
+\]
+\end{corollary}
+
+This is the exact moment where the analytic face becomes algebraic.  The final
+exam's minimal-polynomial problem for \(\wp'\) over \(\C(\wp)\) is the algebraic
+shadow of this differential equation.
+
+\section*{Exercises}
+\addcontentsline{toc}{section}{Exercises}
+
+\exerciseintent{Prove evenness of \(\wp\) by reindexing the defining lattice sum.}
+\begin{exercise}
+Use the defining lattice sum for \(\wp\).  Substitute \(-z\) for \(z\), then
+reindex the lattice terms by \(\lambda\mapsto-\lambda\) to show by calculation
+that \(\wp(-z)=\wp(z)\).
+\end{exercise}
+
+\exerciseintent{Use the chain rule to derive the oddness of \(\wp'\).}
+\begin{exercise}
+Differentiate the identity \(\wp(-z)=\wp(z)\) with respect to \(z\).  Keep track
+of the chain-rule minus sign and compute the resulting parity of \(\wp'\).
+\end{exercise}
+
+\exerciseintent{Read the Weierstrass differential equation as algebraicity over \(\C(\wp)\).}
+\begin{exercise}
+Assuming \cref{thm:wp-ode-new}, write an explicit quadratic polynomial
+\[
+  Y^2-(4\wp^3-g_2\wp-g_3)\in \C(\wp)[Y]
+\]
+that is satisfied by \(Y=\wp'\).  Use this calculation to show that \(\wp'\) is
+algebraic of degree at most \(2\) over \(\C(\wp)\).
+\end{exercise}
+
+\exerciseintent{Extract the pole orders that will feed the genus-one Riemann--Roch calculation.}
+\begin{exercise}
+Using the Laurent expansions
+\[
+  \wp(z)=z^{-2}+O(z^2),\qquad \wp'(z)=-2z^{-3}+O(z),
+\]
+compute the pole orders of \(\wp\) and \(\wp'\) at \(O\in T\).
+\end{exercise}
+
+\exerciseintent{Substitute the Weierstrass functions into the cubic equation.}
+\begin{exercise}
+Set \(x=\wp(z)\) and \(y=\wp'(z)\).  Substitute these expressions into
+\cref{thm:wp-ode-new} and verify directly that the pair \((x,y)\) lies on the
+affine cubic
+\[
+  y^2=4x^3-g_2x-g_3.
+\]
+\end{exercise}

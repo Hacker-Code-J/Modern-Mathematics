@@ -1,0 +1,23 @@
+% Main theme file for CodingTealArc.
+% Combines the teal color palette of CodingTeal with the circular arc
+% progress indicator of the Feather theme.
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{beamerthemeCodingTealArc}[2026/04/30 v1.0.0 The CodingTealArc Beamer Theme]
+
+\RequirePackage{tikz}
+\RequirePackage{calc}
+
+\DeclareOptionBeamer{progressstyle}{\PassOptionsToPackage{progressstyle=#1}{beamerouterthemeCodingTealArc}}
+\DeclareOptionBeamer{rotationcw}{\PassOptionsToPackage{rotationcw}{beamerouterthemeCodingTealArc}}
+\DeclareOptionBeamer{shownavsym}{\PassOptionsToPackage{shownavsym}{beamerouterthemeCodingTealArc}}
+\ProcessOptionsBeamer
+
+\mode<presentation>
+{
+  \useinnertheme{CodingTealArc}
+  \useoutertheme{CodingTealArc}
+  \usecolortheme{CodingTealArc}
+}
+
+\mode<all>

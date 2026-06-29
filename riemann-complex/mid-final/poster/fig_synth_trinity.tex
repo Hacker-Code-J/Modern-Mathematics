@@ -1,0 +1,22 @@
+% The TRINITY: one abelian group seen three ways, with the isomorphisms between them.
+%   analytic  C/Lambda  --Phi-->  E(k) arithmetic  --[P]-[O]-->  Pic^0(E) geometric  --s-->
+% back to C/Lambda.  Every edge is an isomorphism.
+\begin{tikzpicture}[>=Latex,
+    face/.style={rectangle, rounded corners=8pt, line width=1.3pt, align=center,
+      inner sep=11pt, minimum width=5.6cm, minimum height=2.7cm},
+    iso/.style={latex-latex, line width=1.8pt, draw=formslate},
+    lbl/.style={fill=white, draw=black!12, rounded corners=2pt, inner sep=4pt,
+      font=\small, align=center}]
+  \node[face, draw=formteal!72!black, top color=formteal!3, bottom color=formteal!20] (an)
+    at (0,7.2) {\textbf{analytic}\\[2pt]$\C/\Lambda$\\[1pt]{\footnotesize the torus}};
+  \node[face, draw=formgold!85!black, top color=formgold!4, bottom color=formgold!24] (geo)
+    at (-7.4,0) {\textbf{geometric}\\[2pt]$\Pic^0(E)$\\[1pt]{\footnotesize the Jacobian}};
+  \node[face, draw=formrust!75!black, top color=formrust!4, bottom color=formrust!20] (ar)
+    at (7.4,0) {\textbf{algebraic}\\[2pt]$E(\C)$\\[1pt]{\footnotesize the complex curve}};
+  \draw[iso] (an) -- node[lbl] {$\Phi=[\wp{:}\wp'{:}1]$} (ar);
+  \draw[iso] (ar) -- node[lbl] {$P\mapsto[P]-[O]$} (geo);
+  \draw[iso] (geo) -- node[lbl] {Abel--Jacobi $\;\mathfrak{s}$} (an);
+  \node[draw=formteal!35, fill=formteal!6, rounded corners=5pt, inner sep=7pt,
+        align=center, font=\itshape, text=formteal!45!black] at (0,1.75)
+    {one abelian group,\\ three names};
+\end{tikzpicture}

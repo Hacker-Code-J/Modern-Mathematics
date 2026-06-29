@@ -1,0 +1,1097 @@
+%=======================================================
+% CHAPTER 1: LINEAR CODES
+%=======================================================
+
+\begin{frame}[plain]
+  \begin{center}\bfseries\centering
+    \includegraphics[scale=1]{assets/branding/opa0}
+    \vspace{-5.75cm}\\
+    {\adjustbox{scale=2.15}{\color{TealDarkCyan}\;II.\;Linear Codes}}
+    \bigskip\bigskip
+    {\ }\vspace{4cm}\\
+    \bigskip
+  \end{center}
+\end{frame}
+
+
+%%--- EXISTING FRAME RESTORED ---
+%\begin{frame}{\textbf{II. Linear Codes}}{The ambient space}
+%\small
+%\defbox[Hamming space]{
+%Fix a finite field $\F_q$. The set $\F_q^n$ is simultaneously a vector space and a metric space with
+%\[
+%  d(x,y)=\#\{i:x_i\ne y_i\}.
+%\]
+%}
+%\begin{itemize}
+%  \item The metric is translation invariant: $d(x+z,y+z)=d(x,y)$.
+%  \item The spheres are combinatorial objects:
+%  \[
+%    |B_t(0)|=\sum_{i=0}^t \binom{n}{i}(q-1)^i.
+%  \]
+%  \item Coding theory asks for large subsets with large mutual distance.
+%\end{itemize}
+%\end{frame}
+
+%\begin{frame}{\textbf{II. Linear Codes}}{Codes as metric subsets}
+%\small
+%\defbox[Code]{
+%A code of length $n$ over $\F_q$ is a subset $\code\subseteq \F_q^n$. Its minimum distance is
+%\[
+%  d(\code)=\min\{d(x,y):x,y\in\code,\ x\ne y\}.
+%\]
+%}
+%\begin{block}{Mathematician's viewpoint}
+%The fundamental problem is an extremal problem in a finite metric space:
+%\[
+%  A_q(n,d)=\max\{|\code|:\code\subseteq\F_q^n,\ d(\code)\ge d\}.
+%\]
+%\end{block}
+%\end{frame}
+
+\begin{frame}{\textbf{II. Linear Codes}}{Linear Code}
+\small
+\defbox[Linear Encoding]{
+\textbf{Definition.}\; A \textbf{linear encoding} over \(\F_q\) is a linear map
+\[
+\F_q^k \longrightarrow \F_q^n,
+\qquad
+\vect{x}\longmapsto \vect{c}.
+\]}
+
+\defbox[Linear code]{
+\textbf{Definition.}\; A \textbf{linear $[n,k,d]_q$ code} is a $k$-dimensional subspace \[
+\code\le \F_q^n
+\] with minimum distance $d$. The elements of \(\code\) are called \textbf{codewords}.}
+\end{frame}
+
+%\begin{frame}{\textbf{II. Linear Codes}}{Weight}
+%\small
+%\defbox[Hamming weight]{
+%For $x=(x_1,\ldots,x_n)\in\F_q^n$,
+%\[
+%  \wt(x)=|\supp(x)|,\qquad \supp(x)=\{i:x_i\ne0\}.
+%\]
+%}
+%\begin{block}{Lemma}
+%For a linear code $\code$,
+%\[
+%  d(\code)=\min_{0\ne c\in\code}\wt(c).
+%\]
+%\end{block}
+%\textbf{Proof.} If $x,y\in\code$, then $x-y\in\code$ and $d(x,y)=\wt(x-y)$.
+%\end{frame}
+
+%--- Slide: Generator Matrices ---
+\begin{frame}{\textbf{II. Linear Codes}}{Generator Matrices}
+\small
+\defbox[Generator matrix]{
+\textbf{Definition.}\; A \textbf{generator matrix} for an $\nkcode{n}{k}{q}$ code is a matrix $\vect{G}\in\F_q^{k\times n}$ whose rows form a basis of $\code$. Encoding is the linear map \[
+\F_q^k\longrightarrow \F_q^n,\qquad \vect{m}\longmapsto \vect{m}\vect{G}.
+\]}
+%\begin{itemize}
+%  \item The code is the row space of $G$.
+%  \item Different bases give different generator matrices for the same code.
+%%  \item Replacing $G$ by $UG$, $U\in\operatorname{GL}_k(\F_q)$, changes coordinates on messages only.
+%\end{itemize}
+\vfill
+\textbf{Example (The Hamming Code $[7,4,3]_2$).}\; 
+%The $[7,4,3]_2$ code has $k=4$ message bits and $n=7$ codeword bits. 
+Consider \[
+\vect{G} = \begin{bmatrix}
+	1&0&0&0&0&1&1\\
+	0&1&0&0&1&0&1\\
+	0&0&1&0&1&1&0\\
+	0&0&0&1&1&1&1
+\end{bmatrix}_{4\times 7}
+\] Encode message $\vect{m} = (1,0,1,1)$:
+\[
+\vect{c} = \vect{m}\vect{G} = \begin{bmatrix}
+	1 & 0 & 1 & 1
+\end{bmatrix}
+\cdot \vect{G} = \begin{bmatrix}
+	1 & 0 & 1 & 1 & 0 & 1 & 0
+\end{bmatrix}.
+\]
+%\begin{center}
+%\begin{tikzpicture}[scale=0.82]
+%	% Show the codeword as colored blocks
+%	\foreach \i/\v/\type in {1/1/msg, 2/0/msg, 3/1/msg, 4/1/msg, 5/0/par, 6/1/par, 7/0/par} {
+%		\pgfmathsetmacro{\xp}{(\i-1)*0.85}
+%		\ifnum\i<5
+%		\node[minimum size=0.78cm, draw=TealDarkCyan, thick, rounded corners=3pt,
+%		fill=TealDarkCyan!15, font=\small\bfseries] at (\xp,0) {$\v$};
+%		\else
+%		\node[minimum size=0.78cm, draw=AccentCyan, thick, rounded corners=3pt,
+%		fill=AccentCyan!18, font=\small\bfseries] at (\xp,0) {$\v$};
+%		\fi
+%		\node[font=\tiny, TealDarkCyan] at (\xp,-0.58) {$c_{\i}$};
+%	}
+%	\draw[TealDarkCyan,    decorate, decoration={brace,amplitude=5pt,raise=3pt}]
+%	(-0.4,0.4) -- (2.95,0.4) node[midway,above=7pt,font=\scriptsize]{message ($k=4$)};
+%	\draw[AccentCyan, decorate, decoration={brace,amplitude=5pt,raise=3pt}]
+%	(3.4,0.4) -- (5.55,0.4) node[midway,above=7pt,font=\scriptsize]{parity ($r=3$)};
+%\end{tikzpicture}
+%\end{center}
+%\begin{itemize}
+%\item Rate $R = 4/7 \approx 57\%$ — sending 4 bits of info for every 7 bits transmitted
+%\item The 3 parity bits are \emph{linear combinations} of the 4 message bits
+%\end{itemize}
+\end{frame}
+
+%\begin{frame}{\textbf{II. Linear Codes}}{Equivalence of descriptions}
+%\small
+%\thmbox[Row-space equivalence]{
+%Two full-rank matrices $G,G'\in\F_q^{k\times n}$ generate the same code if and only if
+%\[
+%  G'=UG
+%\]
+%for some $U\in\operatorname{GL}_k(\F_q)$.
+%}
+%\begin{itemize}
+%  \item This is just change of basis in the subspace $\code$.
+%  \item The code is the invariant object; the matrix is a coordinate choice.
+%  \item Many computational algorithms are Gaussian elimination on this statement.
+%\end{itemize}
+%\end{frame}
+
+\begin{frame}{\textbf{II. Linear Codes}}{Systematic Form}
+\small
+\defbox[Systematic Form]{
+\textbf{Definition.}\;	A code is said to be in \textbf{systematic form} if it has a generator matrix of the form \[
+	\mathbf{G}=[\mathbf{I}_k\mid \mathbf{A}]
+\]}
+\begin{itemize}
+  \item The message appears visibly in the first $k$ coordinates.
+  \item The remaining $n-k$ coordinates are parity symbols.
+  \item Systematic form is convenient, but it is not an intrinsic property of the code.
+\end{itemize}
+\begin{center}
+\begin{tikzpicture}[x=1cm,y=1cm]
+	\node[process] (msg) at (-4.55,0) {$\vect{m}$\\[-1pt]\scriptsize message};
+	\foreach \i/\b in {1/1,2/0,3/1,4/1}{
+		\node[bit teal, right={-0.01cm of msg}, xshift={0.45*\i cm-0.2cm}] (m\i) at (-5.8+0.05*\i,-1) {$\b$};
+	}
+	
+	\node[process blue, minimum width=2.35cm, minimum height=1.48cm] (G) at (0,0) {
+		\large $\vect{G}=[\vect{I}_k\mid \vect{P}]$
+%		\\[4pt] \scriptsize row space $=\mathcal C$
+	};
+	
+	\node[process amber] (code) at (4.45,0) {$\vect{c}=\vect{m}\vect{G}$\\[-1pt]\scriptsize codeword};
+	\foreach \i/\b/\sty in {
+		1/1/teal,2/0/teal,3/1/teal,4/1/teal,
+		5/0/amber,6/0/amber,7/1/amber
+	}{
+		\ifnum\i<5
+		\node[bit teal] at (2.6+0.46*\i,-1) {$\b$};
+		\else
+		\node[bit amber] at (2.6+0.46*\i,-1) {$\b$};
+		\fi
+	}
+	\draw[decorate, decoration={brace, amplitude=4pt}, TealDarkCyan!75, line width=0.7pt]
+	(4.66,-1.35) -- (2.86,-1.35)
+	node[midway, below=0.12cm, tiny label] {message};
+	\draw[decorate, decoration={brace, amplitude=4pt}, AmberCode!85, line width=0.7pt]
+	(6.06,-1.35) -- (4.66,-1.35)
+	node[midway, below=0.12cm, tiny label] {parity};
+	
+	\draw[flow] (msg) -- (G)
+	node[midway, above=0.12cm, tiny label] {linear map};
+	\draw[flow blue] (G) -- (code)
+	node[midway, above=0.12cm, tiny label] {redundancy};
+\end{tikzpicture}
+\end{center}
+%\begin{block}{Caution}
+%Coordinate permutations preserve distance, but they change the visible positions of message and parity symbols.
+%\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{\textbf{II. Linear Codes}}{Parity-check Matrices}
+\small
+\defbox[Parity-check Matrix]{
+A \textbf{parity-check matrix} is a matrix $\vect{H}\in\F_q^{(n-k)\times n}$ such that \[
+	\code=\ker(\vect{H})=\{\vect{c}\in\F_q^n:\vect{H}\vect{c}^T=0\}.
+\]}
+\begin{itemize}
+  \item If $\vect{G}$ generates $\code$, then $\vect{G}\vect{H}^T=0$.
+%  \item The rows of $\vect{H}$ generate the dual code $\code^\perp$.
+%  \item The equation $\vect{H}\vect{c}^T=0$ is a system of homogeneous parity constraints.
+\end{itemize}
+\begin{center}
+\begin{tikzpicture}
+  \matrix[matrix of nodes,
+nodes={bit blue},
+column sep=-0.8pt,
+row sep=-0.8pt,
+%left delimiter={[},
+%right delimiter={]},
+] (H) at (-3.65,0.35) {
+	0&1&1&1&1&0&0\\
+	1&0&1&1&0&1&0\\
+	1&1&0&1&0&0&1\\
+%	1&0&1&0&1&0&1\\
+%	0&1&1&0&0&1&1\\
+%	0&0&0&1&1&1&1\\
+};
+\node[tiny label, above=0.18cm of H] {$\vect{H}$};
+
+%\foreach \i/\b/\sty in {1/1/teal,2/0/teal,3/1/teal,4/1/teal,5/1/error,6/0/teal,7/1/teal}{
+%	\ifnum\i=5
+%	\node[bit error] (v\i) at (-1.1+0.46*\i,-1.45) {$\b$};
+%	\else
+%	\node[bit teal] (v\i) at (-1.1+0.46*\i,-1.45) {$\b$};
+%	\fi
+%}
+%\node[tiny label, below=0.12cm of v4] {$\vect{v}$};
+%\draw[ErrorRed, line width=0.9pt] (v5.north west) -- (v5.south east);
+%\draw[ErrorRed, line width=0.9pt] (v5.south west) -- (v5.north east);
+%\node[ErrorRed!85!black, font=\scriptsize\bfseries, below=0.12cm of v5] {error};
+
+\node[process, minimum width=1.7cm] (mult) at (.5,0.35) {$\vect{H}\vect{c}^T$};
+\matrix[matrix of nodes,
+nodes={bit error},
+row sep=-0.8pt,
+left delimiter={(},
+right delimiter={)}
+] (s) at (3.4,0.35) {
+	1\\0\\0\\
+};
+\node[tiny label, above=0.18cm of s] {$\vect{s}$};
+
+%\node[process red, minimum width=2.55cm] (lookup) at (6,0.35)
+%{lookup column\\[-1pt]\scriptsize $\vect{s}=\vect{H}_5$};
+
+\draw[flow] (H.east) -- (mult.west);
+\draw[flow] (mult.east) -- (s.west);
+%\draw[flow red] (s.south) -- (lookup.north);
+%\draw[flow red] (lookup.south) .. controls (6,-0.5) and (0.7,-0.5) .. (v5.north)
+%%node[midway, below, tiny label] {flip coordinate $5$}
+%;
+\end{tikzpicture}
+\end{center}
+\end{frame}
+
+\begin{frame}{\textbf{II. Linear Codes}}{Duality}
+\small
+\defbox[Dual code]{
+\textbf{Definition.}\; The dual of $\code\le\F_q^n$ is
+\[
+  \code^\perp=\{\vect{y}\in\F_q^n:\langle \vect{x},\vect{y}\rangle=0\text{ for all }\vect{x}\in\code\}.
+\]}
+\textbf{Remark (Dimension identity).}\; $ \dim\code+\dim\code^\perp=n.$
+%\begin{itemize}
+%  \item A parity-check matrix for $\code$ is a generator matrix for $\code^\perp$.
+%  \item Duality exchanges constraints and codewords.
+%\end{itemize}
+\end{frame}
+
+%\begin{frame}{\textbf{II. Linear Codes}}{Distance from checks}
+%\small
+%\thmbox[Column criterion]{
+%Let $H$ be a parity-check matrix of $\code$. Then $d(\code)$ is the least number of columns of $H$ that are linearly dependent.
+%}
+%\begin{proof}
+%A vector $c$ of weight $s$ satisfies $Hc^T=0$ exactly when a linear combination of the $s$ corresponding columns is zero.
+%\end{proof}
+%\begin{itemize}
+%  \item No zero column means $d\ge2$.
+%  \item No proportional columns means $d\ge3$.
+%  \item This criterion is the entrance to Hamming codes.
+%\end{itemize}
+%\end{frame}
+
+\begin{frame}{\textbf{II. Linear Codes}}{Syndromes}
+\small
+\defbox[Syndrome]{
+\textbf{Proposition.}\; For a received word $\vect{y}=\vect{c}+\vect{e}$, 
+\[
+\vect{H}\vect{y}^T=
+\vect{H}\vect{c}^T+
+\vect{H}\vect{e}^T
+=
+\vect{H}\vect{e}^T.
+\]}
+\begin{itemize}
+%  \item The syndrome depends only on the error coset.
+  \item $\vect{H}\vect{y}^T=0$ if and only if $\vec{y}\in\code$.
+%  \item Decoding is the problem of choosing a likely error in each coset.
+\end{itemize}
+\end{frame}
+
+%%--- NEW: Syndrome Decoding Walkthrough ---
+%\begin{frame}{\textbf{II. Linear Codes}}{Syndrome Decoding: Step by Step}
+%\small
+%Using the $[7,4,3]$ Hamming code with
+%$H = \begin{bmatrix}1&0&1&0&1&0&1\\0&1&1&0&0&1&1\\0&0&0&1&1&1&1\end{bmatrix}$.
+%
+%\medskip
+%\begin{columns}[T,onlytextwidth]
+%  \begin{column}{.52\textwidth}
+%    \textbf{Step 1.} Transmitted $c = (1,0,1,1,0,1,0)$.
+%
+%    \textbf{Step 2.} Noise flips bit 5: $e = (0,0,0,0,1,0,0)$.
+%
+%    \textbf{Step 3.} Received $v = (1,0,1,1,\textcolor{AccentCyan}{\mathbf{1}},1,0)$.
+%
+%    \smallskip
+%    \textbf{Step 4.} Compute syndrome $s = Hv^T$:
+%    \[
+%    s = \begin{pmatrix}1\\0\\1\end{pmatrix}.
+%    \]
+%
+%    \textbf{Step 5.} Column 5 of $H$ is $(1,0,1)^T = s$.
+%
+%    \textbf{Step 6.} Flip bit 5. Corrected! $\hat{c} = c$. \checkmark
+%  \end{column}
+%  \begin{column}{.45\textwidth}
+%    \begin{tikzpicture}[scale=0.80]
+%      % Syndrome → column lookup table
+%      \node[font=\scriptsize\bfseries, TealDarkCyan] at (1.5,3.4) {Syndrome lookup};
+%      \foreach \i/\s in {1/{001},2/{010},3/{011},4/{100},5/{101},6/{110},7/{111}} {
+%        \pgfmathsetmacro{\yy}{3.0-(\i-1)*0.38}
+%        \ifnum\i=5
+%          \node[draw=AccentCyan,fill=AccentCyan!18,rounded corners=2pt,
+%                minimum width=2.5cm,minimum height=0.32cm,font=\scriptsize]
+%            at (1.5,\yy) {\textbf{col \i} $\to s=(1,0,1)^T$ \checkmark};
+%        \else
+%          \node[draw=TealDarkCyan!30,rounded corners=2pt,
+%                minimum width=2.5cm,minimum height=0.32cm,font=\scriptsize]
+%            at (1.5,\yy) {col \i\ $\to$ column $\i$ of $H$};
+%        \fi
+%      }
+%    \end{tikzpicture}
+%
+%    \smallskip
+%    \begin{block}{}
+%    \centering\footnotesize
+%    The syndrome \emph{is} the error address.\\
+%    Zero syndrome $\Rightarrow$ no error detected.
+%    \end{block}
+%  \end{column}
+%\end{columns}
+%\end{frame}
+%
+%\begin{frame}{\textbf{II. Linear Codes}}{Cosets}
+%\small
+%\defbox[Coset decomposition]{
+%The ambient space is a disjoint union of cosets:
+%\[
+%  \F_q^n=\coprod_{a\in A}(a+\code),
+%\]
+%where $|A|=q^{n-k}$.
+%}
+%\begin{itemize}
+%  \item All words in the same coset have the same syndrome.
+%  \item Syndromes parameterize cosets when $H$ has full rank.
+%  \item Decoding assigns to each coset a chosen representative of small weight.
+%\end{itemize}
+%\end{frame}
+%
+%%--- NEW: Coset Decomposition Visualized ---
+%\begin{frame}{\textbf{II. Linear Codes}}{Coset Decomposition: Concrete Example}
+%\small
+%Using the $[3,1,3]$ repetition code $\code=\{000,111\}$ inside $\F_2^3$ (8 elements).
+%
+%\medskip
+%\begin{center}
+%\begin{tikzpicture}[
+%  cw/.style={draw=TealDarkCyan, thick, rounded corners=3pt,
+%             minimum width=1.05cm, minimum height=0.55cm, font=\scriptsize\bfseries,
+%             fill=TealDarkCyan!15},
+%  ldr/.style={draw=AccentCyan, thick, rounded corners=3pt,
+%              minimum width=1.05cm, minimum height=0.55cm, font=\scriptsize\bfseries,
+%              fill=AccentCyan!18}
+%]
+%  % Header row
+%  \node[font=\scriptsize\bfseries, TealDarkCyan] at (-1.2,1.1) {Leader};
+%  \node[font=\scriptsize\bfseries, TealDarkCyan] at ( 0.3,1.1) {Coset};
+%  \node[font=\scriptsize\bfseries, TealDarkCyan] at ( 1.9,1.1) {Syndrome};
+%  \node[font=\scriptsize\bfseries, TealDarkCyan] at ( 3.3,1.1) {Decoding};
+%  \draw[TealDarkCyan!40, thick] (-1.75,0.85) -- (4.1,0.85);
+%  % Coset 0: leader 000, elements 000+000=000 and 000+111=111
+%  \node[cw] at (-1.2, 0.5) {$000$};
+%  \node[cw] at ( 0.0, 0.5) {$\{000,$};
+%  \node[cw] at ( 0.7, 0.5) {$111\}$};
+%  \node[font=\scriptsize, TealDarkCyan] at (1.9,0.5) {$s=00$};
+%  \node[font=\scriptsize, TealDarkCyan] at (3.3,0.5) {no error};
+%  % Coset 1: leader 100
+%  \node[ldr] at (-1.2, 0.0) {$100$};
+%  \node[cw]  at ( 0.0, 0.0) {$\{100,$};
+%  \node[cw]  at ( 0.7, 0.0) {$011\}$};
+%  \node[font=\scriptsize, AccentCyan] at (1.9,0.0) {$s=11$};
+%  \node[font=\scriptsize, AccentCyan] at (3.3,0.0) {flip bit 1};
+%  % Coset 2: leader 010
+%  \node[ldr] at (-1.2,-0.5) {$010$};
+%  \node[cw]  at ( 0.0,-0.5) {$\{010,$};
+%  \node[cw]  at ( 0.7,-0.5) {$101\}$};
+%  \node[font=\scriptsize, AccentCyan] at (1.9,-0.5) {$s=10$};
+%  \node[font=\scriptsize, AccentCyan] at (3.3,-0.5) {flip bit 2};
+%  % Coset 3: leader 001
+%  \node[ldr] at (-1.2,-1.0) {$001$};
+%  \node[cw]  at ( 0.0,-1.0) {$\{001,$};
+%  \node[cw]  at ( 0.7,-1.0) {$110\}$};
+%  \node[font=\scriptsize, AccentCyan] at (1.9,-1.0) {$s=01$};
+%  \node[font=\scriptsize, AccentCyan] at (3.3,-1.0) {flip bit 3};
+%\end{tikzpicture}
+%\end{center}
+%
+%\begin{columns}[T,onlytextwidth]
+%  \begin{column}{.48\textwidth}
+%    \textcolor{TealDarkCyan}{\textbf{Reading the table}}
+%    \begin{itemize}
+%      \item Each row is one coset of $\code$
+%      \item The \textcolor{AccentCyan}{\textbf{leader}} is the most likely error pattern
+%      \item The syndrome uniquely identifies the coset
+%    \end{itemize}
+%  \end{column}
+%  \begin{column}{.48\textwidth}
+%    \begin{block}{All 8 words are covered}
+%    The 4 cosets are disjoint and together contain all $2^3=8$ elements of $\F_2^3$. Every received word is in exactly one coset.
+%    \end{block}
+%  \end{column}
+%\end{columns}
+%\end{frame}
+
+%\begin{frame}{\textbf{II. Linear Codes}}{Standard arrays}
+%\small
+%\defbox[Coset leader]{
+%A coset leader is an element of least Hamming weight in a coset $a+\code$.
+%}
+%\begin{itemize}
+%  \item The standard array lists cosets by their leaders.
+%  \item Nearest-neighbor decoding subtracts the coset leader.
+%  \item The method is conceptually clean but exponential in $n-k$.
+%\end{itemize}
+%\begin{block}{Principle}
+%Good algebraic families replace the standard array by structure.
+%\end{block}
+%\end{frame}
+%
+%%--- NEW: Nearest-Neighbor Decision Regions ---
+%\begin{frame}{\textbf{II. Linear Codes}}{Nearest-Neighbor Decision Regions}
+%\small
+%Each coset's leader defines a \textbf{decision region}: when you receive a word, you correct to the nearest codeword.
+%
+%\medskip
+%\begin{center}
+%\begin{tikzpicture}[scale=0.85]
+%  % Draw F_2^3 as 3-cube with colors by coset
+%  % Coset 0 (code): 000 and 111 — TealDarkCyan
+%  % Coset 1: 100 and 011 — AccentCyan!70
+%  % Coset 2: 010 and 101 — AccentCyan!50
+%  % Coset 3: 001 and 110 — AccentCyan!30
+%  % Positions: 000=(0,0), 100=(2,0), 010=(1,0.9), 110=(3,0.9)
+%  %            001=(0.5,1.6), 101=(2.5,1.6), 011=(1.5,2.5), 111=(3.5,2.5)
+%  % Draw edges of 3-cube
+%  \draw[TealDarkCyan!30,thick] (0,0)--(2,0); \draw[TealDarkCyan!30,thick] (0,0)--(1,0.9);
+%  \draw[TealDarkCyan!30,thick] (0,0)--(0.5,1.6); \draw[TealDarkCyan!30,thick] (2,0)--(3,0.9);
+%  \draw[TealDarkCyan!30,thick] (2,0)--(2.5,1.6); \draw[TealDarkCyan!30,thick] (1,0.9)--(3,0.9);
+%  \draw[TealDarkCyan!30,thick] (1,0.9)--(1.5,2.5); \draw[TealDarkCyan!30,thick] (0.5,1.6)--(2.5,1.6);
+%  \draw[TealDarkCyan!30,thick] (0.5,1.6)--(1.5,2.5); \draw[TealDarkCyan!30,thick] (3,0.9)--(3.5,2.5);
+%  \draw[TealDarkCyan!30,thick] (2.5,1.6)--(3.5,2.5); \draw[TealDarkCyan!30,thick] (1.5,2.5)--(3.5,2.5);
+%  % Nodes colored by coset
+%  \node[circle,draw=TealDarkCyan,fill=TealDarkCyan!25,minimum size=0.62cm,font=\tiny\bfseries]
+%    at (0,0) {$000$};
+%  \node[circle,draw=AccentCyan,fill=AccentCyan!20,minimum size=0.62cm,font=\tiny\bfseries]
+%    at (2,0) {$100$};
+%  \node[circle,draw=AccentCyan,fill=AccentCyan!15,minimum size=0.62cm,font=\tiny\bfseries]
+%    at (1,0.9) {$010$};
+%  \node[circle,draw=TealDarkCyan!60,fill=TealDarkCyan!10,minimum size=0.62cm,font=\tiny\bfseries]
+%    at (3,0.9) {$110$};
+%  \node[circle,draw=TealDarkCyan!60,fill=TealDarkCyan!10,minimum size=0.62cm,font=\tiny\bfseries]
+%    at (0.5,1.6) {$001$};
+%  \node[circle,draw=AccentCyan,fill=AccentCyan!15,minimum size=0.62cm,font=\tiny\bfseries]
+%    at (2.5,1.6) {$101$};
+%  \node[circle,draw=AccentCyan,fill=AccentCyan!20,minimum size=0.62cm,font=\tiny\bfseries]
+%    at (1.5,2.5) {$011$};
+%  \node[circle,draw=TealDarkCyan,fill=TealDarkCyan!25,minimum size=0.62cm,font=\tiny\bfseries]
+%    at (3.5,2.5) {$111$};
+%  % Labels for codewords
+%  \node[font=\tiny,TealDarkCyan,below=3pt] at (0,0)     {\textbf{codeword}};
+%  \node[font=\tiny,TealDarkCyan,above=3pt] at (3.5,2.5) {\textbf{codeword}};
+%  % Decision arrows
+%  \draw[->,AccentCyan,thick,bend right=20] (2,0) to (0,0);
+%  \draw[->,AccentCyan,thick,bend right=15] (1,0.9) to (0,0);
+%  \draw[->,AccentCyan,thick,bend right=15] (0.5,1.6) to (0,0);
+%  \draw[->,AccentCyan!80,thick,bend left=20] (1.5,2.5) to (3.5,2.5);
+%  \draw[->,AccentCyan!80,thick,bend left=15] (2.5,1.6) to (3.5,2.5);
+%  \draw[->,AccentCyan!80,thick,bend left=15] (3,0.9) to (3.5,2.5);
+%\end{tikzpicture}
+%\end{center}
+%
+%\vspace{-4pt}
+%Each non-codeword points to its \textbf{nearest codeword} (distance 1 away). This is nearest-neighbor decoding applied to the $[3,1,3]$ code.
+%\end{frame}
+
+\begin{frame}{\textbf{II. Linear Codes}}{Correction and detection}
+\small
+\thmbox[Distance theorem]{
+A code of minimum distance $d$ detects every error of weight at most $d-1$ and corrects every error of weight at most
+\[
+  t=\left\lfloor\frac{d-1}{2}\right\rfloor.
+\]
+}
+\begin{itemize}
+  \item Detection: no nonzero error of weight $<d$ is a codeword.
+  \item Correction: balls of radius $t$ around distinct codewords are disjoint.
+\end{itemize}
+\end{frame}
+
+%%--- NEW: The Packing Picture ---
+%\begin{frame}{\textbf{II. Linear Codes}}{The Packing Picture}
+%\small
+%\begin{columns}[T,onlytextwidth]
+%  \begin{column}{.50\textwidth}
+%    Think of $\F_q^n$ as a big space with $q^n$ points. A code places $q^k$ \textbf{codewords} in this space, each surrounded by an \textbf{error-correction ball} of radius $t$.
+%
+%    \medskip
+%    \begin{center}
+%    \begin{tikzpicture}[scale=0.88]
+%      % Background space
+%      \fill[TealDarkCyan!6] (-2.8,-2.3) rectangle (2.8,2.3);
+%      \node[font=\tiny, TealDarkCyan!60] at (2.2,2.0) {$\F_2^n$};
+%      % Three codewords with correction balls
+%      \fill[AccentCyan!25] (-1.4, 0.9) circle (0.75);
+%      \fill[TealDarkCyan]  (-1.4, 0.9) circle (3pt)
+%        node[above=3pt,font=\tiny]{$c_1$};
+%      \fill[AccentCyan!25] ( 1.3, 0.9) circle (0.75);
+%      \fill[TealDarkCyan]  ( 1.3, 0.9) circle (3pt)
+%        node[above=3pt,font=\tiny]{$c_2$};
+%      \fill[AccentCyan!25] ( 0.0,-1.1) circle (0.75);
+%      \fill[TealDarkCyan]  ( 0.0,-1.1) circle (3pt)
+%        node[above=3pt,font=\tiny]{$c_3$};
+%      % Label balls
+%      \node[font=\tiny, AccentCyan!70!TealDarkCyan] at (-2.3,-0.5)
+%        {balls of};
+%      \node[font=\tiny, AccentCyan!70!TealDarkCyan] at (-2.3,-0.8)
+%        {radius $t$};
+%      % Show disjoint
+%      \draw[dashed, TealDarkCyan!50] (-2.8,0) -- (2.8,0);
+%      \node[font=\tiny, TealDarkCyan!50] at (2.1,-0.15) {balls don't overlap};
+%    \end{tikzpicture}
+%    \end{center}
+%  \end{column}
+%  \begin{column}{.47\textwidth}
+%    \thmbox[Hamming bound]{
+%    $q^k \cdot |B_t| \le q^n$, where $|B_t| = \sum_{i=0}^{t}\binom{n}{i}(q-1)^i$.
+%    }
+%
+%    \medskip
+%    \textcolor{TealDarkCyan}{\textbf{Interpretation}}
+%    \begin{itemize}
+%      \item Each codeword "claims" all points within distance $t$
+%      \item These claimed regions cannot overlap
+%      \item More codewords $\Rightarrow$ smaller (or no) balls $\Rightarrow$ less correction
+%    \end{itemize}
+%
+%    \medskip
+%    \defbox[Perfect code]{
+%    A code meeting the bound with equality tiles $\F_q^n$ exactly — every point is in exactly one ball. \textbf{No space is wasted.}
+%    }
+%  \end{column}
+%\end{columns}
+%\end{frame}
+
+\begin{frame}{\textbf{II. Linear Codes}}{Packing}
+\small
+\thmbox[Hamming bound]{
+If $\code$ is an $[n,k,d]_q$ code and $t=\lfloor(d-1)/2\rfloor$, then
+\[
+  q^k\sum_{i=0}^t \binom{n}{i}(q-1)^i\le q^n.
+\]
+}
+%\begin{proof}
+%The balls of radius $t$ around codewords are disjoint subsets of $\F_q^n$.
+%\end{proof}
+%\begin{block}{Perfect code}
+%Equality means the radius-$t$ balls tile the whole Hamming space.
+%\end{block}
+\end{frame}
+
+\begin{frame}{\textbf{II. Linear Codes}}{Singleton bound}
+\small
+\thmbox[Singleton bound]{
+Every $[n,k,d]_q$ code satisfies
+\[
+  d\le n-k+1.
+\]
+}
+%\begin{proof}
+%Delete $d-1$ coordinates. Distinct codewords must remain distinct, so $q^k\le q^{n-d+1}$.
+%\end{proof}
+\begin{itemize}
+  \item Codes meeting the bound are called MDS codes.
+  \item Reed--Solomon codes are the standard nonbinary MDS examples.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{\textbf{II. Linear Codes}}{Gilbert--Varshamov idea}
+\small
+\thmbox[Existence principle]{
+There exist linear codes whose parameters are good because a greedy construction cannot cover the whole space too early.
+}
+\[
+  q^k\sum_{i=0}^{d-2}\binom{n-1}{i}(q-1)^i < q^n
+  \quad\Rightarrow\quad
+  \text{an }[n,k,d]_q\text{ code exists.}
+\]
+%\begin{itemize}
+%  \item This is not a construction one wants to implement.
+%  \item It proves that the asymptotic landscape is nontrivial.
+%  \item Algebraic families try to approach such existence bounds explicitly.
+%\end{itemize}
+\end{frame}
+
+\begin{frame}{\textbf{II. Linear Codes}}{Griesmer bound}
+\small
+\thmbox[Griesmer bound]{
+For a linear $[n,k,d]_q$ code,
+\[
+  n\ge \sum_{i=0}^{k-1}\left\lceil \frac{d}{q^i}\right\rceil.
+\]
+}
+%\begin{itemize}
+%  \item This is stronger than Singleton in many small-parameter cases.
+%  \item It comes from repeatedly puncturing on the support of a minimum word.
+%  \item It is a linear-code bound: linearity is essential.
+%\end{itemize}
+\end{frame}
+
+%\begin{frame}{\textbf{II. Linear Codes}}{Puncturing}
+%\small
+%\defbox[Puncturing]{
+%Puncturing a code at coordinate $i$ means deleting the $i$-th coordinate from every word.
+%}
+%\begin{itemize}
+%  \item Length decreases by one.
+%  \item Dimension usually stays the same, but can drop.
+%  \item Minimum distance can decrease by at most one.
+%\end{itemize}
+%\begin{block}{Use}
+%Puncturing is the basic operation for inductive arguments on code parameters.
+%\end{block}
+%\end{frame}
+%
+%\begin{frame}{\textbf{II. Linear Codes}}{Shortening}
+%\small
+%\defbox[Shortening]{
+%Shortening at coordinate $i$ means first selecting codewords with $c_i=0$, then puncturing at $i$.
+%}
+%\begin{itemize}
+%  \item Length decreases by one.
+%  \item Dimension can decrease by one.
+%  \item Minimum distance does not decrease.
+%\end{itemize}
+%\begin{block}{Duality}
+%Puncturing and shortening are dual operations:
+%\[
+%  (\text{puncture } \code)^\perp=\text{shorten }(\code^\perp).
+%\]
+%\end{block}
+%\end{frame}
+
+\begin{frame}{\textbf{II. Linear Codes}}{Weight enumerators}
+\small
+\defbox[Weight enumerator]{
+The weight enumerator is
+\[
+  W_{\code}(X,Y)=\sum_{c\in\code}X^{n-\wt(c)}Y^{\wt(c)}.
+\]
+}
+\begin{itemize}
+  \item It records the distribution of weights.
+  \item The minimum distance is the first nonzero exponent of $Y$ after the constant term.
+  \item It is a coarser invariant than the code but a powerful one.
+\end{itemize}
+\end{frame}
+
+%--- NEW: Weight Distribution Bar Chart [7,4,3] ---
+\begin{frame}{\textbf{II. Linear Codes}}{Weight Distribution of the $[7,4,3]$ Code}
+\small
+The weight enumerator of $\operatorname{Ham}(3,2)$ is
+$W(X,Y)=X^7+7X^4Y^3+7X^3Y^4+Y^7$.
+This means the 16 codewords have weights:
+
+\medskip
+\begin{center}
+\begin{tikzpicture}[scale=0.88]
+  \draw[-Stealth,TealDarkCyan,thick] (-0.3,0) -- (8.5,0)
+    node[right,font=\small]{weight};
+  \draw[-Stealth,TealDarkCyan,thick] (0,-0.2) -- (0,3.2)
+    node[above,font=\small]{count};
+  % Gridlines
+  \foreach \y in {1,2,3,4,5,6,7} {
+    \draw[TealDarkCyan!15] (0,\y*0.35) -- (8.2,\y*0.35);
+    \node[font=\tiny,TealDarkCyan!70,left=2pt] at (0,\y*0.35) {\y};
+  }
+  % Bars (weight 0..7, counts: 1,0,0,7,7,0,0,1)
+  % weight 0 → count 1
+  \fill[TealDarkCyan!40] (0.2,0) rectangle (0.8,0.35);
+  \node[font=\tiny,TealDarkCyan] at (0.5,-0.18) {0};
+  \node[font=\tiny,TealDarkCyan] at (0.5,0.43) {1};
+  % weight 1 → count 0
+  \node[font=\tiny,gray] at (1.5,-0.18) {1};
+  % weight 2 → count 0
+  \node[font=\tiny,gray] at (2.5,-0.18) {2};
+  % weight 3 → count 7
+  \fill[AccentCyan] (3.2,0) rectangle (3.8,2.45);
+  \node[font=\tiny,TealDarkCyan] at (3.5,-0.18) {3};
+  \node[font=\small\bfseries,AccentCyan] at (3.5,2.62) {7};
+  % weight 4 → count 7
+  \fill[AccentCyan] (4.2,0) rectangle (4.8,2.45);
+  \node[font=\tiny,TealDarkCyan] at (4.5,-0.18) {4};
+  \node[font=\small\bfseries,AccentCyan] at (4.5,2.62) {7};
+  % weight 5 → 0
+  \node[font=\tiny,gray] at (5.5,-0.18) {5};
+  % weight 6 → 0
+  \node[font=\tiny,gray] at (6.5,-0.18) {6};
+  % weight 7 → 1
+  \fill[TealDarkCyan!40] (7.2,0) rectangle (7.8,0.35);
+  \node[font=\tiny,TealDarkCyan] at (7.5,-0.18) {7};
+  \node[font=\tiny,TealDarkCyan] at (7.5,0.43) {1};
+  % annotation
+  \draw[<->,AccentCyan,thick] (3.2,2.7) -- (4.8,2.7)
+    node[midway,above,font=\scriptsize]{$d=3$ (minimum)};
+\end{tikzpicture}
+\end{center}
+
+\begin{columns}[T,onlytextwidth]
+  \begin{column}{.48\textwidth}
+    \textcolor{TealDarkCyan}{\textbf{What we learn}}
+    \begin{itemize}
+      \item No codeword has weight 1 or 2 $\Rightarrow d \ge 3$
+      \item The 7 weight-3 words are the Fano plane lines
+      \item Symmetric: $\code$ contains the all-ones word
+    \end{itemize}
+  \end{column}
+  \begin{column}{.48\textwidth}
+    \begin{block}{MacWilliams duality}
+    The weight distribution of the dual (simplex) code follows by the MacWilliams transform applied to this bar chart.
+    \end{block}
+  \end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{\textbf{II. Linear Codes}}{MacWilliams identity}
+\small
+\thmbox[MacWilliams identity]{
+For a linear $[n,k]_q$ code,
+\[
+  W_{\code^\perp}(X,Y)=\frac{1}{|\code|}W_{\code}(X+(q-1)Y,X-Y).
+\]
+}
+\begin{itemize}
+  \item The identity is a finite Fourier transform.
+  \item It turns the weight distribution of $\code$ into that of $\code^\perp$.
+  \item It is one of the central reasons duality is computationally useful.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{\textbf{II. Linear Codes}}{Self-orthogonality}
+\small
+\defbox[Self-orthogonal and self-dual]{
+A code is self-orthogonal if $\code\subseteq\code^\perp$ and self-dual if $\code=\code^\perp$.
+}
+\begin{itemize}
+  \item Self-dual binary codes have dimension $n/2$.
+  \item Doubly-even self-dual codes have all weights divisible by $4$.
+  \item Such codes connect coding theory to lattices and modular forms.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{\textbf{II. Linear Codes}}{Equivalent codes}
+\small
+\defbox[Monomial equivalence]{
+Two $q$-ary linear codes are equivalent if one is obtained from the other by permuting coordinates and multiplying coordinates by nonzero scalars.
+}
+\begin{itemize}
+  \item Over $\F_2$, this is just coordinate permutation.
+  \item Equivalent codes have the same parameters and weight enumerator.
+  \item Classification means classification up to this equivalence.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{\textbf{II. Linear Codes}}{Automorphisms}
+\small
+\defbox[Automorphism group]{
+\[
+  \Aut(\code)=\{\pi\in S_n:\pi(\code)=\code\}
+\]
+in the binary case.
+}
+\begin{itemize}
+  \item A large automorphism group is a sign of hidden geometry.
+  \item Symmetry reduces decoding complexity.
+  \item Hamming and cyclic codes both arise from strong symmetry.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{\textbf{II. Linear Codes}}{Repetition code}
+\small
+\defbox[Repetition code]{
+\[
+  \code=\{(a,a,\ldots,a):a\in\F_q\}
+\]
+is an $[n,1,n]_q$ code.
+}
+\begin{itemize}
+  \item It has maximal distance for dimension $1$.
+  \item Its rate is $1/n$, so it is inefficient.
+  \item It corrects $\lfloor(n-1)/2\rfloor$ errors by majority vote when $q=2$.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{\textbf{II. Linear Codes}}{Single parity-check code}
+\small
+\defbox[Parity-check code]{
+\[
+  \code=\{x\in\F_q^n:x_1+\cdots+x_n=0\}
+\]
+is an $[n,n-1,2]_q$ code.
+}
+\begin{itemize}
+  \item The parity-check matrix is $H=[1\;1\;\cdots\;1]$.
+  \item It detects one error but cannot correct one error.
+  \item It is the dual of the repetition code.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{\textbf{II. Linear Codes}}{The simplex code}
+\small
+\defbox[Binary simplex code]{
+Let $H_r$ be the matrix whose columns are all nonzero vectors of $\F_2^r$. The row space of $H_r$ is the simplex code.
+}
+\begin{itemize}
+  \item It has parameters $[2^r-1,r,2^{r-1}]_2$.
+  \item Every nonzero codeword has the same weight.
+  \item Its dual is the binary Hamming code.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{\textbf{II. Linear Codes}}{Matroid viewpoint}
+\small
+\defbox[Vector matroid of a code]{
+A parity-check matrix $H$ defines a matroid on the coordinate set $\{1,\ldots,n\}$ by linear dependence of columns.
+}
+\begin{itemize}
+  \item Circuits of the matroid correspond to minimal support codewords.
+  \item The minimum distance is the size of the smallest circuit.
+  \item Projective geometry enters when the columns of $H$ are projective points.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{\textbf{II. Linear Codes}}{Tanner graphs}
+\small
+\defbox[Tanner graph]{
+Given a parity-check matrix $H$, form a bipartite graph with variable nodes $1,\ldots,n$ and check nodes equal to the rows of $H$.
+}
+\begin{itemize}
+  \item An edge joins variable $j$ to check $i$ when $H_{ij}\ne0$.
+  \item Sparse $H$ gives iterative decoding algorithms.
+  \item Classical algebraic codes often have dense checks; LDPC codes emphasize sparsity.
+\end{itemize}
+\end{frame}
+
+%--- NEW: Tanner Graph for [7,4,3] ---
+\begin{frame}{\textbf{II. Linear Codes}}{Tanner Graph for the $[7,4,3]$ Code}
+\small
+\begin{columns}[T,onlytextwidth]
+  \begin{column}{.52\textwidth}
+    The parity-check matrix $H_3$ gives a bipartite graph with $7$ \textcolor{TealDarkCyan}{\textbf{variable nodes}} and $3$ \textcolor{AccentCyan}{\textbf{check nodes}}.
+
+    \medskip
+    \begin{tikzpicture}[scale=0.78]
+      % Variable nodes: v1..v7 at top
+      \node[circle,draw=TealDarkCyan,fill=TealDarkCyan!15,minimum size=0.55cm,
+            font=\tiny\bfseries] (v1) at (0,   2.0) {$v_1$};
+      \node[circle,draw=TealDarkCyan,fill=TealDarkCyan!15,minimum size=0.55cm,
+            font=\tiny\bfseries] (v2) at (0.9, 2.0) {$v_2$};
+      \node[circle,draw=TealDarkCyan,fill=TealDarkCyan!15,minimum size=0.55cm,
+            font=\tiny\bfseries] (v3) at (1.8, 2.0) {$v_3$};
+      \node[circle,draw=TealDarkCyan,fill=TealDarkCyan!15,minimum size=0.55cm,
+            font=\tiny\bfseries] (v4) at (2.7, 2.0) {$v_4$};
+      \node[circle,draw=TealDarkCyan,fill=TealDarkCyan!15,minimum size=0.55cm,
+            font=\tiny\bfseries] (v5) at (3.6, 2.0) {$v_5$};
+      \node[circle,draw=TealDarkCyan,fill=TealDarkCyan!15,minimum size=0.55cm,
+            font=\tiny\bfseries] (v6) at (4.5, 2.0) {$v_6$};
+      \node[circle,draw=TealDarkCyan,fill=TealDarkCyan!15,minimum size=0.55cm,
+            font=\tiny\bfseries] (v7) at (5.4, 2.0) {$v_7$};
+      % Check nodes: c1..c3 at bottom
+      \node[rectangle,draw=AccentCyan,fill=AccentCyan!18,minimum size=0.58cm,
+            rounded corners=3pt,font=\tiny\bfseries] (c1) at (0.9, 0) {$c_1$};
+      \node[rectangle,draw=AccentCyan,fill=AccentCyan!18,minimum size=0.58cm,
+            rounded corners=3pt,font=\tiny\bfseries] (c2) at (2.7, 0) {$c_2$};
+      \node[rectangle,draw=AccentCyan,fill=AccentCyan!18,minimum size=0.58cm,
+            rounded corners=3pt,font=\tiny\bfseries] (c3) at (4.5, 0) {$c_3$};
+      % Edges from H_3:
+      % Row 1 (c1): positions 1,3,5,7
+      \draw[TealDarkCyan!60] (v1)--(c1); \draw[TealDarkCyan!60] (v3)--(c1);
+      \draw[TealDarkCyan!60] (v5)--(c1); \draw[TealDarkCyan!60] (v7)--(c1);
+      % Row 2 (c2): positions 2,3,6,7
+      \draw[AccentCyan!60] (v2)--(c2); \draw[AccentCyan!60] (v3)--(c2);
+      \draw[AccentCyan!60] (v6)--(c2); \draw[AccentCyan!60] (v7)--(c2);
+      % Row 3 (c3): positions 4,5,6,7
+      \draw[TealDarkCyan!40] (v4)--(c3); \draw[TealDarkCyan!40] (v5)--(c3);
+      \draw[TealDarkCyan!40] (v6)--(c3); \draw[TealDarkCyan!40] (v7)--(c3);
+    \end{tikzpicture}
+  \end{column}
+  \begin{column}{.45\textwidth}
+    \textcolor{TealDarkCyan}{\textbf{How to read the graph}}
+    \begin{itemize}
+      \item Variable node $v_j$ = bit $j$ of the codeword
+      \item Check node $c_i$ = parity equation $i$
+      \item Edge $(v_j, c_i)$ means bit $j$ appears in check $i$
+    \end{itemize}
+
+    \medskip
+    \textcolor{TealDarkCyan}{\textbf{Each check node says:}}
+    \[
+      c_1{:}\; v_1 \oplus v_3 \oplus v_5 \oplus v_7 = 0
+    \]
+    \[
+      c_2{:}\; v_2 \oplus v_3 \oplus v_6 \oplus v_7 = 0
+    \]
+    \[
+      c_3{:}\; v_4 \oplus v_5 \oplus v_6 \oplus v_7 = 0
+    \]
+
+%    \medskip
+%    \begin{block}{LDPC connection}
+%    Modern LDPC codes use \emph{sparse} Tanner graphs --- most bits are in only 3--4 checks. This enables fast iterative decoding.
+%    \end{block}
+  \end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{\textbf{II. Linear Codes}}{Decoding hardness}
+\small
+\thmbox[Syndrome decoding problem]{
+Given $H$, a syndrome $s$, and an integer $t$, decide whether there exists $e$ with
+\[
+  He^T=s,\qquad \wt(e)\le t.
+\]
+}
+\begin{itemize}
+  \item This problem is NP-complete in general.
+  \item Code-based cryptography is built around this hardness.
+  \item Algebraic code families are useful because they add trapdoor-like structure.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{\textbf{II. Linear Codes}}{Perfect codes}
+\small
+\defbox[Perfect code]{
+A code correcting $t$ errors is perfect if the radius-$t$ balls around codewords partition $\F_q^n$.
+}
+\[
+  |\code|\sum_{i=0}^t \binom{n}{i}(q-1)^i=q^n.
+\]
+\begin{itemize}
+  \item Perfect codes are extremely rare.
+  \item The binary Hamming codes are perfect one-error-correcting codes.
+  \item The Golay codes are the exceptional perfect codes.
+\end{itemize}
+\end{frame}
+
+%%--- NEW: Linear Codes in Practice ---
+%\begin{frame}{\textbf{II. Linear Codes}}{Linear Codes in Practice}
+%\small
+%\begin{columns}[T,onlytextwidth]
+%  \begin{column}{.50\textwidth}
+%    \textcolor{TealDarkCyan}{\textbf{Where you use them every day}}
+%
+%    \medskip
+%    \begin{tabular}{p{2.0cm}|p{3.2cm}}
+%      \textbf{Application} & \textbf{Code} \\\hline
+%      \rowcolor{TealDarkCyan!8}
+%      ECC RAM & Extended Hamming $[72,64,4]_2$ \\
+%      RAID-6 disks & Reed--Solomon over $\F_{2^8}$ \\
+%      \rowcolor{TealDarkCyan!8}
+%      USB / Ethernet & CRC (cyclic) \\
+%      QR codes & Reed--Solomon RS$(255,\cdot)$ \\
+%      \rowcolor{TealDarkCyan!8}
+%      Satellite TV & Turbo / LDPC codes \\
+%    \end{tabular}
+%
+%    \medskip
+%    \textcolor{TealDarkCyan}{\textbf{Why linear specifically?}}
+%    \begin{itemize}
+%      \item Encoding $m \mapsto mG$ costs $O(nk)$ — fast
+%      \item Syndrome $Hv^T$ costs $O(n(n{-}k))$ — fast
+%      \item Parameters can be \emph{proved}, not just measured
+%    \end{itemize}
+%  \end{column}
+%  \begin{column}{.47\textwidth}
+%    \begin{tikzpicture}[scale=0.88]
+%      % Bar chart: rate vs correction
+%      \draw[-Stealth,TealDarkCyan,thick] (0,0)--(4.0,0)
+%        node[right,font=\scriptsize]{Rate $R$};
+%      \draw[-Stealth,TealDarkCyan,thick] (0,0)--(0,3.2)
+%        node[above,font=\scriptsize]{$t$ errors corrected};
+%      % Repetition [3,1]
+%      \fill[TealDarkCyan!40] (0,0) rectangle (0.4,1.0);
+%      \node[font=\tiny,rotate=90,white] at (0.2,0.5){Rep[3]};
+%      % Hamming [7,4]
+%      \fill[TealDarkCyan!60] (0.6,0) rectangle (1.2,0.5);
+%      \node[font=\tiny,rotate=90,white] at (0.9,0.25){Ham[7,4]};
+%      % BCH [15,7]
+%      \fill[AccentCyan!70] (1.4,0) rectangle (2.0,1.0);
+%      \node[font=\tiny,rotate=90,white] at (1.7,0.5){BCH[15,7]};
+%      % RS [255,223]
+%      \fill[AccentCyan] (2.2,0) rectangle (3.6,1.5);
+%      \node[font=\tiny,rotate=90,white] at (2.9,0.75){RS[255,223]};
+%      % Axis labels
+%      \node[font=\tiny,TealDarkCyan] at (0.2,-0.25) {$\frac{1}{3}$};
+%      \node[font=\tiny,TealDarkCyan] at (0.9,-0.25) {$\frac{4}{7}$};
+%      \node[font=\tiny,TealDarkCyan] at (1.7,-0.25) {$\frac{7}{15}$};
+%      \node[font=\tiny,TealDarkCyan] at (2.9,-0.25) {$\frac{223}{255}$};
+%      \node[font=\tiny,TealDarkCyan] at (-0.3,0.5) {$1$};
+%      \node[font=\tiny,TealDarkCyan] at (-0.3,1.0) {$2$};
+%      \node[font=\tiny,TealDarkCyan] at (-0.3,1.5) {$16$};
+%    \end{tikzpicture}
+%  \end{column}
+%\end{columns}
+%\end{frame}
+
+\begin{frame}{\textbf{II. Linear Codes}}{Why linear codes are central}
+\small
+\begin{columns}[T,onlytextwidth]
+  \begin{column}{.48\textwidth}
+    \defbox[Algebra]{
+    \begin{itemize}\small
+      \item subspaces
+      \item duality
+      \item matrices
+      \item finite fields
+    \end{itemize}
+    }
+  \end{column}
+  \begin{column}{.48\textwidth}
+    \defbox[Algorithms]{
+    \begin{itemize}\small
+      \item encoding by $G$
+      \item checking by $H$
+      \item syndrome decoding
+      \item structured families
+    \end{itemize}
+    }
+  \end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{\textbf{II. Linear Codes}}{The road to Hamming}
+\small
+\begin{block}{Question}
+Can we construct a linear code that corrects one error and wastes no syndrome?
+\end{block}
+\begin{itemize}
+  \item One error at one of $n$ positions gives $n$ possibilities.
+  \item No error gives one more possibility.
+  \item A parity-check matrix with $r$ rows has $2^r$ binary syndromes.
+\end{itemize}
+\[
+  n+1=2^r
+\]
+is the numerology of binary Hamming codes.
+\end{frame}

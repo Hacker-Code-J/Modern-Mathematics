@@ -1,0 +1,104 @@
+\chapter{Elliptic Functions on \texorpdfstring{\(\C/\Lambda\)}{C/Lambda}}
+\label{ch:elliptic-functions}
+
+A meromorphic function on \(T=\C/\Lambda\) is the same thing as a meromorphic
+function \(f\) on \(\C\) satisfying \(f(z+\lambda)=f(z)\) for every
+\(\lambda\in\Lambda\).  Such functions are called elliptic functions.
+
+\begin{definition}
+An elliptic function for \(\Lambda\) is a meromorphic function
+\(f:\C\to\CP^1\) that is \(\Lambda\)-periodic.
+\end{definition}
+
+Compactness immediately rules out holomorphic examples.
+
+\begin{proposition}
+\label{prop:no-holomorphic-elliptic}
+A holomorphic elliptic function is constant.
+\end{proposition}
+
+\begin{proof}
+It descends to a holomorphic function on the compact surface \(T\), so
+\cref{prop:compact-functions} applies.
+\end{proof}
+
+The useful elliptic functions must therefore have poles.  The exam residue
+method now gives three constraints.  In one period parallelogram, an elliptic
+function has residue sum zero, as many zeros as poles counted with multiplicity,
+and the weighted sum of its zeros minus the weighted sum of its poles lies in
+\(\Lambda\).
+
+\begin{theorem}[Elliptic Liouville laws]
+\label{thm:elliptic-liouville}
+Let \(f\) be a nonzero elliptic function.  In a fundamental parallelogram avoiding
+zeros and poles on its boundary,
+\[
+  \sum \Res(f\,dz)=0,\qquad
+  \sum \ord_a(f)=0,\qquad
+  \sum_{\ord_a(f)>0}\ord_a(f)a-\sum_{\ord_b(f)<0}(-\ord_b(f))b\in\Lambda .
+\]
+\end{theorem}
+
+\begin{proof}[Proof sketch]
+Integrate \(f\,dz\), \(f'/f\,dz\), and \(z f'/f\,dz\) around the boundary of a
+period parallelogram.  Periodicity makes opposite sides cancel in the first two
+integrals.  In the third integral, opposite sides cancel up to periods, which is
+why the final answer is only well-defined modulo \(\Lambda\).
+\end{proof}
+
+\begin{keyidea}{The bridge to Abel}
+The third law is already Abel's theorem in its torus form: a principal divisor of
+degree zero has Abel sum zero in \(\C/\Lambda\).
+\end{keyidea}
+
+\section*{Exercises}
+\addcontentsline{toc}{section}{Exercises}
+
+\exerciseintent{Use the residue obstruction to rule out a single simple pole on a torus.}
+\begin{exercise}
+Assume a nonconstant elliptic function has total pole order \(1\).  Write the
+Laurent expansion at its unique simple pole, compute the residue contribution,
+and use the residue-sum law to obtain a contradiction.  Conclude that the total
+pole order is at least \(2\).
+\end{exercise}
+
+\exerciseintent{Compute boundary cancellation on a period parallelogram via the argument principle.}
+\begin{exercise}
+Apply the argument principle on a fundamental parallelogram \(P\):
+\[
+  \frac{1}{2\pi i}\int_{\partial P}\frac{f'}{f}\,dz.
+\]
+Pair the four side integrals using periodicity and compute why the total is
+\(0\).  Conclude that the number of zeros equals the number of poles, counted
+with multiplicity.
+\end{exercise}
+
+\exerciseintent{See why Abel sums naturally live modulo the lattice.}
+\begin{exercise}
+Let a lift \(a_i\in\C\) of a point of \(T\) be replaced by \(a_i+\lambda_i\),
+with \(\lambda_i\in\Lambda\).  Compute how
+\(\sum_i m_i a_i\) changes, and conclude that the Abel sum is naturally a point
+of \(\C/\Lambda\), not of \(\C\).
+\end{exercise}
+
+\exerciseintent{Verify the descent/ascent between elliptic functions and meromorphic functions on the quotient.}
+\begin{exercise}
+Let \(q:\C\to T=\C/\Lambda\) be the quotient map.  Show that a meromorphic
+function \(F\) on \(T\) pulls back to an elliptic function by computing
+\((F\circ q)(z+\lambda)\).  Conversely, if \(f(z+\lambda)=f(z)\), compute why
+the formula \(F([z])=f(z)\) is independent of the chosen representative.
+\end{exercise}
+
+\exerciseintent{Compute an explicit principal-divisor Abel sum and connect it to \(\smap(\divisor(f))=0\).}
+\begin{exercise}
+Let \(f\) be a nonzero elliptic function with divisor
+\[
+  \divisor(f)=[a_1]+[a_2]-[b_1]-[b_2]
+\]
+on \(T\), with chosen lifts \(a_1,a_2,b_1,b_2\in\C\).  Use the third identity
+in \cref{thm:elliptic-liouville} to compute
+\[
+  a_1+a_2-b_1-b_2\pmod{\Lambda}.
+\]
+Then rewrite the calculation as \(\smap(\divisor(f))=0\).
+\end{exercise}

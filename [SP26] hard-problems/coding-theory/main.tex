@@ -1,0 +1,71 @@
+\documentclass[10pt,aspectratio=1610,compress,dvipsnames]{beamer}
+
+% \input@path lets \input{tex/foo} and \input{chapters/foo} resolve without
+% explicit subdirectory paths in chapter files.
+\makeatletter
+\def\input@path{{tex/}{chapters/}}
+\makeatother
+
+\input{tex/preamble}
+\input{tex/title-page}
+\input{tex/tcolorbox}
+\input{tex/listing}
+\input{tex/algorithm}
+\input{tex/commands}
+
+\begin{document}
+
+%-------------------------------------------------------
+% TITLE PAGE
+%-------------------------------------------------------
+\begin{frame}[plain,noframenumbering]
+  \titlepage
+\end{frame}
+
+%-------------------------------------------------------
+% TABLE OF CONTENTS
+%-------------------------------------------------------
+\section*{Contents}
+\begin{frame}{\textbf{Contents}}
+  \tableofcontents
+\end{frame}
+
+%-------------------------------------------------------
+% I. INTRODUCTION
+%-------------------------------------------------------
+\section{I. Introduction}
+\input{chapters/chap0_intro}
+
+%-------------------------------------------------------
+% II. LINEAR CODES
+%-------------------------------------------------------
+\section{II. Linear Codes}
+\input{chapters/chap1_linear_codes}
+
+%-------------------------------------------------------
+% III. HAMMING CODES
+%-------------------------------------------------------
+\section{III. Hamming Codes}
+\input{chapters/chap2_hamming_codes}
+
+%-------------------------------------------------------
+% IV. CYCLIC CODES
+%-------------------------------------------------------
+\section{IV. Cyclic Codes}
+\input{chapters/chap3_cyclic_codes}
+
+%-------------------------------------------------------
+% CLOSING FRAME
+%-------------------------------------------------------
+\begin{frame}[plain]
+  \begin{center}\bfseries\centering
+    \vspace{2cm}
+    {\Huge\color{TealDarkCyan} Thank You}\\[.5cm]
+    {\large\color{black} Ji, Yong-hyeon}\\[.3cm]
+    {\normalsize\texttt{hacker3740@gmail.com}}\\[.5cm]
+    {\small\color{gray} 2026 Spring $\cdot$ Colloquium $\cdot$ 2026}
+    \bigskip
+  \end{center}
+\end{frame}
+
+\end{document}

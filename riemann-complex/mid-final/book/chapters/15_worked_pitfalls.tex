@@ -1,0 +1,201 @@
+% Worked Computations and Pitfalls  (source §20, §21; added: a fully numeric
+% Sage-style example with exact arithmetic, the y=2Y change of variables to the
+% standard form, and an expanded pitfalls checklist)
+\chapter{Worked Computations and Pitfalls}
+\label{ch:worked_pitfalls}
+
+This chapter is practice. We carry the chord computation through once
+symbolically, then once with explicit numbers on \(E : y^2 = 4x^3 - 4x\),
+verifying that the result lands back on the curve. We then reconcile our
+normalization with the textbook form \(y^2 = x^3 + ax + b\), and close with a
+checklist of the mistakes that most often derail a group-law calculation.
+
+\section{A Complete Symbolic Computation}
+\label{sec:wk-symbolic}
+
+Let \(P = (x_1, y_1)\), \(Q = (x_2, y_2)\) be finite points of \(E : y^2 = 4x^3 -
+g_2 x - g_3\) with \(x_1 \ne x_2\). Define
+\[
+  m = \frac{y_2 - y_1}{x_2 - x_1}, \qquad b = y_1 - m x_1,
+  \qquad \text{so the chord is } y = mx + b .
+\]
+Substitute into the cubic and collect terms:
+\[
+  (mx + b)^2 = 4x^3 - g_2 x - g_3
+  \;\Longrightarrow\;
+  4x^3 - m^2 x^2 - (g_2 + 2mb)x - (g_3 + b^2) = 0 .
+\]
+Because \(P, Q\) lie on both curves, \(x_1, x_2\) are two roots; call the third
+\(x_3\). Matching this against \(4(x - x_1)(x - x_2)(x - x_3)\), the
+\(x^2\)-coefficients give \(-4(x_1 + x_2 + x_3) = -m^2\), so
+\[
+  x_3 = \frac{m^2}{4} - x_1 - x_2 .
+\]
+The third intersection is \(R = (x_3,\, m x_3 + b)\), and the group sum is
+\(P \oplus Q = \ominus R = (x_3, -(m x_3 + b))\):
+\[
+  \boxed{\,
+  P \oplus Q = \left( \frac{m^2}{4} - x_1 - x_2,\;
+  -m\!\left( \frac{m^2}{4} - x_1 - x_2 \right) - b \right).
+  \,}
+\]
+This is \cref{thm:coord-add} rederived from scratch; the point of repeating it is
+the method --- chord, substitute, Vieta, reflect.
+
+\section{A Fully Numeric Example}
+\label{sec:wk-numeric}
+
+Take \(E : y^2 = 4x^3 - 4x\) (so \(g_2 = 4\), \(g_3 = 0\); roots
+\(e_1 = -1, e_2 = 0, e_3 = 1\)), and the two points
+\[
+  P = \bigl( 2,\, 2\sqrt6 \bigr), \qquad Q = \bigl( -\tfrac12,\, \tfrac{\sqrt6}{2} \bigr),
+\]
+both on \(E\): \(4\cdot 8 - 8 = 24 = (2\sqrt6)^2\) and
+\(4(-\tfrac18) - 4(-\tfrac12) = \tfrac32 = (\tfrac{\sqrt6}{2})^2\). Then
+\[
+  m = \frac{\tfrac{\sqrt6}{2} - 2\sqrt6}{-\tfrac12 - 2}
+    = \frac{-\tfrac32\sqrt6}{-\tfrac52} = \frac{3\sqrt6}{5},
+  \qquad m^2 = \frac{9 \cdot 6}{25} = \frac{54}{25}.
+\]
+The \(x\)-coordinate of the sum is
+\[
+  x_3 = \frac{m^2}{4} - x_1 - x_2 = \frac{54}{100} - 2 + \tfrac12
+      = \frac{27}{50} - \frac{75}{50} = -\frac{24}{25},
+\]
+and
+\[
+  y_3 = m(x_1 - x_3) - y_1
+      = \frac{3\sqrt6}{5}\Bigl( 2 + \tfrac{24}{25} \Bigr) - 2\sqrt6
+      = \frac{3\sqrt6}{5}\cdot\frac{74}{25} - 2\sqrt6
+      = \frac{222\sqrt6 - 250\sqrt6}{125}
+      = -\frac{28\sqrt6}{125}.
+\]
+Thus
+\[
+  P \oplus Q = \left( -\frac{24}{25},\; -\frac{28\sqrt6}{125} \right),
+\]
+and one verifies it lies on \(E\): \(\bigl(\tfrac{28\sqrt6}{125}\bigr)^2 =
+\tfrac{4704}{15625}\) while \(4x_3^3 - 4x_3 = 4\bigl(-\tfrac{24}{25}\bigr)^3 -
+4\bigl(-\tfrac{24}{25}\bigr) = \tfrac{4704}{15625}\) as well
+(\cref{ex:wk-numeric-check}). The arithmetic is exact; the same steps run over any
+field once \(\sqrt6\) is whatever element squares to \(6\) there.
+
+\section{Comparison with the Standard Form \texorpdfstring{$y^2 = x^3 + ax + b$}{y2=x3+ax+b}}
+\label{sec:wk-standard}
+
+Many texts normalize the cubic so its leading coefficient is one. The change of
+variable is a vertical rescale.
+
+\begin{proposition}
+\label{prop:wk-standard}
+The substitution \(X = x\), \(Y = y/2\) carries \(E : y^2 = 4x^3 - g_2 x - g_3\)
+to
+\[
+  E' : \quad Y^2 = X^3 + aX + b, \qquad a = -\frac{g_2}{4}, \quad b = -\frac{g_3}{4},
+\]
+an isomorphism of elliptic curves. Under it the addition formula
+\(x_{P\oplus Q} = m^2/4 - x_1 - x_2\) becomes the familiar
+\(X_{P\oplus Q} = M^2 - X_1 - X_2\), where \(M = m/2\) is the slope in the
+\((X,Y)\) coordinates.
+\end{proposition}
+
+\begin{proof}
+Setting \(y = 2Y\) in \(y^2 = 4x^3 - g_2 x - g_3\) gives \(4Y^2 = 4X^3 - g_2 X -
+g_3\), i.e.\ \(Y^2 = X^3 - \tfrac{g_2}{4}X - \tfrac{g_3}{4}\). The map
+\((x,y) \mapsto (x, y/2)\) is invertible and regular, hence an isomorphism fixing
+\(O\). A line \(y = mx + b\) becomes \(Y = \tfrac{m}{2}X + \tfrac{b}{2}\), so the
+slope transforms as \(M = m/2\); substituting into \(x_3 = m^2/4 - x_1 - x_2 =
+(m/2)^2 - x_1 - x_2 = M^2 - X_1 - X_2\) gives the standard formula.
+\end{proof}
+
+So the factor \(\tfrac14\) in our addition law is not a special feature of \(\wp\):
+it is exactly the leading coefficient \(4\) of \(4x^3\), and it disappears the
+moment one rescales \(y\) to make the cubic monic. We kept the \(4\) because it is
+what the differential equation \(\wp'^2 = 4\wp^3 - g_2\wp - g_3\) produces
+naturally.
+
+\section{Common Pitfalls}
+\label{sec:wk-pitfalls}
+
+\begin{enumerate}
+\item \textbf{Forgetting the point at infinity.} The group law is incomplete
+without \(O = [0:1:0]\). It is the identity, and it is where every vertical line
+meets \(E\); dropping it breaks closure (\cref{sec:cases-vertical}).
+
+\item \textbf{Calling the third intersection the sum.} A line gives
+\(P \oplus Q \oplus R = O\), so \(P \oplus Q = \ominus R\), \emph{not} \(R\). The
+final reflection is mandatory (\cref{sec:cases-chord}).
+
+\item \textbf{Ignoring multiplicity.} For \(P = Q\) use the tangent, which meets
+\(E\) at \(P\) with multiplicity two: \(L \cdot E = 2P + R\). The divisor rule is
+unchanged; only the line changes (\cref{sec:cases-double}).
+
+\item \textbf{Treating reflection as a drawing trick.} The reflection
+\((x,y) \mapsto (x,-y)\) is the inverse map; it is \((x,y)\mapsto(x,-y)\) precisely
+because \(\wp\) is even and \(\wp'\) is odd (\cref{sec:aa-reflection}).
+
+\item \textbf{Using \(\ell(nO) = n\) without the genus.} Those dimension counts
+are genus-one facts, resting on the absence of an order-one elliptic function
+(\cref{cor:ell-order2,prop:rr-counts}). They fail on curves of other genus.
+
+\item \textbf{Confusing affine and projective equations.} The affine
+\(y^2 = 4x^3 - g_2 x - g_3\) omits \(O\); the compact curve is the projective
+\(Y^2 Z = 4X^3 - g_2 X Z^2 - g_3 Z^3\). Statements about the group law live on the
+projective curve (\cref{prop:emb-flex}).
+
+\item \textbf{Forgetting \(\Delta \ne 0\).} If \(g_2^3 - 27 g_3^2 = 0\) the cubic
+is singular, not an elliptic curve, and the ``group law'' degenerates. Smoothness
+is what \cref{cor:wp-smooth} guarantees from the distinctness of the \(e_i\).
+\end{enumerate}
+
+\section{Summary}
+\label{sec:wk-summary}
+
+The chord computation, done symbolically, gives \(P \oplus Q\) in closed form
+(\cref{sec:wk-symbolic}); done numerically on \(y^2 = 4x^3 - 4x\) it produces
+\(P \oplus Q = (-\tfrac{24}{25}, -\tfrac{28\sqrt6}{125})\), exactly on the curve
+(\cref{sec:wk-numeric}). The rescale \(y = 2Y\) converts to the monic form
+\(Y^2 = X^3 + aX + b\) and explains the factor \(\tfrac14\)
+(\cref{prop:wk-standard}). The recurring pitfalls --- omitting \(O\), forgetting
+the reflection, mishandling multiplicity or the genus, or working with a singular
+cubic --- all trace back to one principle: the group law lives on the smooth
+projective curve and is governed by \(P \oplus Q \oplus R = O\).
+
+\section*{Exercises}
+\addcontentsline{toc}{section}{Exercises}
+
+\begin{exercise}
+\label{ex:wk-numeric-check}
+Verify that \(P \oplus Q = (-\tfrac{24}{25}, -\tfrac{28\sqrt6}{125})\) of
+\cref{sec:wk-numeric} satisfies \(y^2 = 4x^3 - 4x\), and compute
+\(\ominus(P \oplus Q)\).
+\end{exercise}
+
+\begin{exercise}
+\label{ex:wk-doubling-symbolic}
+Repeat the symbolic computation of \cref{sec:wk-symbolic} for doubling: starting
+from the tangent at \(P = (x_1, y_1)\) with slope \(m = (12x_1^2 - g_2)/(2y_1)\),
+derive \(2P = (\tfrac{m^2}{4} - 2x_1,\, -m(\tfrac{m^2}{4} - 2x_1) - b)\).
+\end{exercise}
+
+\begin{exercise}
+\label{ex:wk-standard-recompute}
+Convert \(E : y^2 = 4x^3 - 4x\) to standard form \(Y^2 = X^3 + aX + b\) via
+\(Y = y/2\) (find \(a, b\)), recompute \(P \oplus Q\) from \cref{sec:wk-numeric} in
+the \((X,Y)\) coordinates, and check it matches after mapping back by \(y = 2Y\).
+\end{exercise}
+
+\begin{exercise}
+\label{ex:wk-pitfall-instances}
+For each of pitfalls 1, 2, and 7 in \cref{sec:wk-pitfalls}, give a concrete
+calculation where the mistake produces a wrong or undefined answer, and show how
+the correct principle fixes it.
+\end{exercise}
+
+\begin{exercise}
+\label{ex:wk-associativity-numeric}
+With \(P = (2, 2\sqrt6)\), \(Q = (-\tfrac12, \tfrac{\sqrt6}{2})\), and a third
+point \(S\) of your choice on \(E : y^2 = 4x^3 - 4x\), verify numerically that
+\((P \oplus Q) \oplus S = P \oplus (Q \oplus S)\). (Associativity is guaranteed by
+\cref{rem:tr-associativity}; this is a consistency check on the formulas.)
+\end{exercise}

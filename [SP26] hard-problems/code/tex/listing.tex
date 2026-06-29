@@ -1,0 +1,245 @@
+\usepackage{listings}
+%\definecolor{type}{HTML}{4EC9B0} %  A turquoise or teal.
+\definecolor{atompurple}{rgb}{0.7, 0.4, 0.8}
+\definecolor{keyword}{HTML}{8e4e9e}
+\definecolor{myblue}{HTML}{3471d8}
+\definecolor{type}{HTML}{4EC9B0}
+\definecolor{golden}{HTML}{d19a66}
+
+% Change "Listing" to another name, e.g., "Code"
+\renewcommand{\lstlistingname}{Code}
+\lstdefinestyle{normal}{
+	frame=single, % Border
+	basicstyle=\tt\small, % Code font style
+	breaklines=true, % Break long lines into multiple lines automatically
+	aboveskip=1.5\baselineskip, % Vertical whitespace before the listing
+	tabsize=3, % How many space to a tab
+}
+\lstdefinestyle{shell}{
+	keywordstyle={\bfseries\color{JungleGreen}},
+	morekeywords={jasminc, -ec},
+	%	numbers=left, % Line numbers location
+	%	numbersep=6pt, % Whitespace to the right of line numbers
+	%	numberstyle=\tiny\it, % Line numbers font style
+	linewidth=\textwidth,  % Sets the listing width to match the text width
+	frame=single, % Border
+	basicstyle=\tt\scriptsize, % Code font style
+	breaklines=true, % Break long lines into multiple lines automatically
+	aboveskip=1.5\baselineskip, % Vertical whitespace before the listing
+	tabsize=2, % How many space to a tab
+}
+\lstdefinestyle{c}{
+	language=C,
+	basicstyle=\ttfamily\small,        % Basic font style
+	keywordstyle=\color{keyword}\bfseries,       % Keywords in bold blue
+	keywordstyle=[2]\color{myblue}\bfseries,
+	keywordstyle=[3]\color{magenta}\bfseries,
+	keywordstyle=[4]\color{purple}\bfseries,
+	stringstyle=\color{red!70},               % Strings in reddish color
+	commentstyle=\color{green!50!black}\itshape, % Comments in italic green-black
+	numberstyle=\tiny\color{gray},            % Line numbers in tiny gray font
+	numbers=left,                             % Line numbers on the left
+	stepnumber=1,                             % Number every line
+	numbersep=8pt,                            % Space between line numbers and code
+%	backgroundcolor=\color{gray!10},          % Light gray background
+	frame=single,                             % Single-line frame around the code
+	rulecolor=\color{gray},                   % Frame color
+	tabsize=4,                                % Tab space width
+	showstringspaces=false,                   % Don't show spaces in strings
+	breaklines=true,                          % Line breaking enabled
+	breakatwhitespace=true,                   % Break lines at whitespace
+	captionpos=b,                             % Caption below the code
+	escapeinside={\%*}{*)},                   % Allow LaTeX within code
+	morekeywords={printf, scanf, main, size_t, uint8_t, uint16_t, uint32_t, uint64_t},
+	morekeywords=[2]{randomSeed, hashArray,
+	expandChallenge, expandATF_vec_copy, expandColumns, expandSeeds,
+	invertingOnATF, actingOnATFS, columnsMatrix, columnsDecomposition,
+	multiplicationModuloP, addmul_P32_into_64, reductionModuloP,
+	reductionStrict, inversionModuloP},
+	morekeywords=[3]{crypto_sign_keypair, crypto_sign},
+	morekeywords=[4]{lu}
+}
+% Command to Include Rust Code
+\newcommand{\ccode}[2][]{%
+	\lstinputlisting[style=c,#1]{#2}
+}
+
+% Inline Code Highlighting
+\newcommand{\cinline}[1]{%
+	\lstinline[style=c]|#1|%
+}
+\lstdefinestyle{asm}{
+	%	language=[x86masm]Assembler,
+	language=C,
+	basicstyle=\ttfamily\small,
+	keywordstyle=\color{blue},
+	commentstyle=\color{gray!50},
+	stringstyle=\color{orange},
+	morekeywords={.data, .align, .asciz, .text, .global, .type, .size, .extern, stp, mov, adr, ldr, add, bl, ret, ldp, and,
+	movk, lsr, mul, sub, uxtw, cmp, blt, str, cbnz},
+	numbers=none,
+	frame=single,                             % Single-line frame around the code
+	rulecolor=\color{gray},                   % Frame color
+}
+
+%\lstdefinestyle{jasmin}{
+%	language=[x86masm]Assembler, % Closest to Jasmin syntax
+%	basicstyle=\ttfamily\small, % Monospace font for code
+%	keywordstyle=\color{blue}\bfseries, % Keywords in blue and bold
+%	stringstyle=\color{orange}, % Strings in orange
+%	commentstyle=\color{green!60!black}\itshape, % Comments in green
+%	numbers=left, % Line numbers on the left
+%	numberstyle=\tiny\color{gray}, % Line number style
+%	stepnumber=1, % Show every line number
+%	numbersep=5pt, % Space between numbers and code
+%	frame=single, % Single frame around code
+%	tabsize=4, % Tab width
+%	showstringspaces=false, % Don't underline spaces in strings
+%	breaklines=true, % Wrap long lines
+%	captionpos=b, % Caption at the bottom
+%	morekeywords={mov, add, sub, mul, xor, and, or, shl, shr, call, ret, lea}, % Add Jasmin-specific keywords
+%	escapeinside={(*@}{@*)} % For embedding LaTeX inside code
+%}
+
+
+
+%
+%% --------------------------------------------------------------------
+%\newcommand{\dslash}{\mathbin{\mathsf{/\mkern-4mu/}}}
+%\newcommand{\dslasheq}{\mathbin{\mathsf{/\mkern-4mu/\mkern-8mu=}}}
+%\newcommand{\slasheq}{\mathbin{\mathsf{/\mkern-6mu=}}}
+
+% --------------------------------------------------------------------
+\definecolor{OliveGreen}{rgb}{0.33, 0.5, 0.18}
+\definecolor{Blue}{rgb}{0.06, 0.2, 0.65}
+\definecolor{grey}{rgb}{0.43, 0.5, 0.5}
+\lstdefinestyle{jasmin}{
+	mathescape=true,
+	columns=fullflexible,
+	keepspaces=true,
+	captionpos=b,
+	frame=tb,
+%	xleftmargin=.1\textwidth,
+%	xrightmargin=.1\textwidth,
+	rangebeginprefix={(**\ begin\ },
+	rangeendprefix={(**\ end\ },
+	rangesuffix={\ *)},
+	includerangemarker=false,
+	basicstyle=\small\sffamily,
+	identifierstyle={},
+	keywordstyle=[1]{\color{OliveGreen}},
+	keywordstyle=[2]{\color{keyword}\bfseries},
+	keywordstyle=[3]{\color{Blue}},
+	keywordstyle=[4]{\bfseries\color{OliveGreen}},
+	keywordstyle=[5]{\color{Red}},
+	keywordstyle=[6]{\color{golden}},
+	keywordstyle=[7]{\bfseries\color{magenta}},
+%	morekeywords=[7]{xor, aes, enc, dec},
+	morekeywords=[2]{fn,for,to,downto,if,else,do,while,return,param},
+	morekeywords=[3]{u256,u128,u64,u32,u16,u8,bool,int},
+	morekeywords=[1]{reg,stack,inline,export},
+	comment=[l][\color{grey}]{//},
+	morecomment=[s][\color{grey}]{/*}{*/},
+	alsoletter ={_},
+	literate=
+	{-}{-}{1}%
+	{->}{$\rightarrow$}{1}%
+	{4u64}{4u64}{1}%
+	{>>}{$\gg$}{1}%
+	{<<}{$\ll$}{1}%,
+}[keywords,comments]
+\newcommand{\jasmincode}[2][]{%
+	\lstinputlisting[style=jasmin,#1]{#2}
+}
+\newcommand{\jasmininline}[1]{%
+	\lstinline[style=jasmin]|#1|%
+}
+
+\newcommand{\dslash}{\mathbin{\mathsf{/\mkern-4mu/}}}
+\newcommand{\dslasheq}{\mathbin{\mathsf{/\mkern-4mu/\mkern-8mu=}}}
+\newcommand{\slasheq}{\mathbin{\mathsf{/\mkern-6mu=}}}
+\newcommand{\drarrow}{\raisebox{.07em}{$\mathbin{\scriptstyle\mathsf{-\mkern-3mu>}}$}}
+\newcommand{\dlarrow}{\raisebox{.07em}{$\mathbin{\scriptstyle\mathsf{<\mkern-3mu-}}$}}
+\newcommand{\drrarrow}{\raisebox{.07em}{$\mathbin{\scriptstyle\mathsf{-\mkern-3mu>\mkern-3mu>}}$}}
+\newcommand{\dllarrow}{\raisebox{.07em}{$\mathbin{\scriptstyle\mathsf{<\mkern-3mu<\mkern-3mu-}}$}}
+\lstdefinestyle{easycrypt}{
+	upquote=true,
+	escapechar=\#,
+	mathescape=false,
+	columns=fullflexible,
+	keepspaces=true,
+	captionpos=b,
+	frame=tb,
+%	xleftmargin=.1\textwidth,
+%	xrightmargin=.1\textwidth,
+	rangebeginprefix={(**\ begin\ },
+	rangeendprefix={(**\ end\ },
+	rangesuffix={\ *)},
+	includerangemarker=false,
+	basicstyle=\small\ttfamily,
+	identifierstyle={},
+	keywordstyle=[1]{\bfseries\color{violet}},
+	keywordstyle=[2]{\bfseries\color{olive}},
+	keywordstyle=[3]{\bfseries\color{blue}},
+	keywordstyle=[4]{\bfseries\color{blue}},
+	keywordstyle=[5]{\bfseries\color{red}},
+	keywordstyle=[6]{\bfseries\color{violet}},
+	morekeywords=[1]{arg},
+	morecomment=[n][\itshape]{(*}{*)},
+	morecomment=[n][\bfseries]{(**}{*)},
+	morekeywords=[1]{forall,exists,fun,glob,let,in,var,proc,if,then,else,elif,while,assert,return,res,equiv,hoare,phoare,islossless,async},
+	morekeywords=[2]{axiom,axiomatized,lemma,realize,proof,qed,abort,goal,end,import,export,include,local,declare,hint,nosmt,module,of,const,op,pred,inductive,notation,abbrev,require,theory,abstract,section,type,class,instance,print,search,as,Pr,clone,with,rename,prover,timeout,why3,dump,remove,Top,Self},
+	morekeywords=[3]{beta,iota,zeta,eta,logic,delta,simplify,congr,change,split,left,right,case,pose,cut,have,suff,elim,clear,wlog,apply,rewrite,rwnormal,subst,progress,trivial,auto,idtac,move,modpath,field,fieldeq,ring,ringeq,algebra,replace,transitivity,symmetry,seq,wp,sp,sim,skip,call,rcondt,rcondf,swap,cfold,rnd,pr_bounded,bypr,byphoare,byequiv,fel,conseq,exfalso,inline,alias,fission,fusion,unroll,splitwhile,kill,eager},
+	morekeywords=[4]{try,first,last,do,strict,expect},
+	morekeywords=[5]{exact,assumption,smt,by,reflexivity,done,solve},
+	morekeywords=[6]{admit,admitted},
+	literate=
+	{tau}{$\tau$}1
+	{sigma}{$\sigma$}1
+	% note double "_" below
+	% in actual EasyCrypt examples, do not use __
+	% in specifications, these are rendered as subscripts
+	{__1}{${}_{\!1}$}1
+	{__2}{${}_{\!2}$}1
+	{__3}{${}_{\!3}$}1
+	{__n}{${}_{\!n}$}1
+	{__p}{${}_{\!p}$}1
+	{,,,}{$\mathrel{\ldots}$}1
+	{...}{$\mathrel{\cdots}$}1
+	{->}{$\drarrow$}1
+	{<-}{$\dlarrow$}1
+	{->>}{$\drrarrow$}2
+	{<<-}{$\dllarrow$}2
+}
+\newcommand{\easycryptcode}[2][]{%
+	\lstinputlisting[style=easycrypt,#1]{#2}
+}
+\newcommand{\easycryptinline}[1]{%
+	\lstinline[style=easycrypt]|#1|%
+}
+
+
+%\lstdefinestyle{easycrypt}{
+%	language=ML, % EasyCrypt syntax is close to ML
+%	basicstyle=\ttfamily\small, % Monospace font for code
+%	keywordstyle=\color{purple}\bfseries, % Keywords in purple and bold
+%	commentstyle=\color{green!60!black}, % Comments in green
+%	stringstyle=\color{orange}, % Strings in orange
+%	numbers=left, % Line numbers on the left
+%	numberstyle=\tiny\color{gray}, % Line number style
+%	stepnumber=1, % Show every line number
+%	numbersep=5pt, % Space between numbers and code
+%	frame=single, % Single frame around code
+%	tabsize=4, % Tab width
+%	showstringspaces=false, % Don't underline spaces in strings
+%	breaklines=true, % Wrap long lines
+%	captionpos=b, % Caption at the bottom
+%	morekeywords={module, axiom, lemma, theorem, proof, qed, fun, let, in, forall, exists, if, then, else, return, assume, while, do, match, with}, % EasyCrypt-specific keywords
+%	escapeinside={(*@}{@*)} % For embedding LaTeX inside code
+%}
+%\newcommand{\easycryptcode}[2][]{%
+%	\lstinputlisting[style=easycrypt,#1]{#2}
+%}
+%\newcommand{\easycryptinline}[1]{%
+%	\lstinline[style=easycrypt]|#1|%
+%}

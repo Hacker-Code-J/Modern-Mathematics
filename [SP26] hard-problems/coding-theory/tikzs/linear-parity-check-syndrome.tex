@@ -1,0 +1,56 @@
+% Parity-check matrix and syndrome decoding diagram.
+\documentclass[tikz, border=8pt]{standalone}
+\input{coding-fig-common.tex}
+
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+  \node[title text] at (0,2.82) {Parity Checks and Syndromes};
+  \node[caption text] at (0,2.40) {$v=c+e,\quad s(v)=Hv^T=He^T$};
+
+  \matrix[matrix of nodes,
+    nodes={bit blue},
+    column sep=-0.8pt,
+    row sep=-0.8pt,
+    left delimiter={[},
+    right delimiter={]},
+  ] (H) at (-3.65,0.35) {
+    1&0&1&0&1&0&1\\
+    0&1&1&0&0&1&1\\
+    0&0&0&1&1&1&1\\
+  };
+  \node[tiny label, above=0.18cm of H] {$H$};
+
+  \foreach \i/\b/\sty in {1/1/teal,2/0/teal,3/1/teal,4/1/teal,5/1/error,6/0/teal,7/1/teal}{
+    \ifnum\i=5
+      \node[bit error] (v\i) at (-1.1+0.46*\i,-1.45) {$\b$};
+    \else
+      \node[bit teal] (v\i) at (-1.1+0.46*\i,-1.45) {$\b$};
+    \fi
+  }
+  \node[tiny label, below=0.12cm of v4] {$v$};
+  \draw[ErrorRed, line width=0.9pt] (v5.north west) -- (v5.south east);
+  \draw[ErrorRed, line width=0.9pt] (v5.south west) -- (v5.north east);
+  \node[ErrorRed!85!black, font=\scriptsize\bfseries, above=0.12cm of v5] {error};
+
+  \node[process, minimum width=1.7cm] (mult) at (1.4,0.35) {$Hv^T$};
+  \matrix[matrix of nodes,
+    nodes={bit error},
+    row sep=-0.8pt,
+    left delimiter={(},
+    right delimiter={)}
+  ] (s) at (3.4,0.35) {
+    1\\0\\1\\
+  };
+  \node[tiny label, above=0.18cm of s] {$s$};
+
+  \node[process red, minimum width=2.55cm] (lookup) at (3.4,-1.45)
+    {lookup column\\[-1pt]\scriptsize $s=H_5$};
+
+  \draw[flow] (H.east) -- (mult.west);
+  \draw[flow] (mult.east) -- (s.west);
+  \draw[flow red] (s.south) -- (lookup.north);
+  \draw[flow red] (lookup.west) .. controls (1.5,-2.35) and (0.7,-2.22) .. (v5.south)
+    node[midway, below, tiny label] {flip coordinate $5$};
+\end{tikzpicture}
+\end{document}
+

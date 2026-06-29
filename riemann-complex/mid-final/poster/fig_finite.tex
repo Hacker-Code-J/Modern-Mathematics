@@ -1,0 +1,12 @@
+% The same rational group law works over a finite field.  E(F_7): y^2 = 4x^3 - 4x over
+% F_7 has the 7 affine points below plus O, eight in all; the points with y=0 (x=0,1,6)
+% are the 2-torsion.  (Point set verified with python.)
+\begin{tikzpicture}[>=Latex, scale=0.92]
+  \foreach \x in {0,...,6}{\foreach \y in {0,...,6}{\fill[black!13] (\x,\y) circle (1.3pt);}}
+  \draw[->, black!55, line width=0.6pt] (-0.4,0)--(6.7,0) node[right, font=\small] {$x$};
+  \draw[->, black!55, line width=0.6pt] (0,-0.4)--(0,6.7) node[above, font=\small] {$y$};
+  \foreach \x/\y in {0/0, 1/0, 6/0, 4/3, 4/4, 5/2, 5/5}{
+    \fill[formrust!85!black] (\x,\y) circle (3.2pt);}
+  \foreach \x in {0,1,6}{\draw[formteal!60!black, line width=1pt] (\x,0) circle (5pt);}
+  \node[font=\small, anchor=north] at (3,-0.7) {$\#E(\F_7)=7+1=8$ \ (circled: $2$-torsion)};
+\end{tikzpicture}

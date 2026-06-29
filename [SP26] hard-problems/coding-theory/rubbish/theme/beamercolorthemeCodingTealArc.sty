@@ -1,0 +1,35 @@
+% Color theme for CodingTealArc — teal palette from CodingTeal theme.
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{beamercolorthemeCodingTealArc}[2026/04/30 v1.0.0 The CodingTealArc Beamer Theme]
+
+\mode<presentation>
+{
+  % ── palette ────────────────────────────────────────────────────────────────
+  \definecolor{TealDarkCyan}{HTML}{003F46}
+  \definecolor{AccentCyan}{HTML}{007575}
+
+  \definecolor{beamer@barcolor}{HTML}{007575}
+  \definecolor{beamer@normaltextcolor}{RGB}{0,0,0}
+  \definecolor{beamer@headercolor}{HTML}{003F46}
+
+  % ── beamer color assignments ────────────────────────────────────────────────
+  \setbeamercolor{structure}{fg=beamer@headercolor}
+  \setbeamercolor{normal text}{fg=beamer@normaltextcolor}
+  \setbeamercolor{frametitle}{fg=white,bg=beamer@headercolor}
+  \setbeamercolor{framesubtitle}{fg=white,bg=beamer@headercolor}
+  \setbeamercolor{headfoot}{fg=white,bg=beamer@headercolor}
+  \setbeamercolor{palette quaternary}{fg=white,bg=beamer@headercolor}
+  \setbeamercolor{section in head/foot}{fg=white,bg=beamer@headercolor}
+  \setbeamercolor{section in head/foot shaded}{fg=white!70!beamer@headercolor,bg=beamer@headercolor}
+  \setbeamercolor{subsection in head/foot}{fg=white,bg=beamer@headercolor}
+  \setbeamercolor{subsection in head/foot shaded}{fg=white!70!beamer@headercolor,bg=beamer@headercolor}
+  \setbeamercolor{alerted text}{fg=beamer@barcolor}
+  \setbeamercolor{block title alerted}{fg=white,bg=beamer@barcolor}
+  \setbeamercolor{block body alerted}{fg=beamer@normaltextcolor,bg=beamer@barcolor!8}
+  \setbeamercolor{title}{fg=beamer@headercolor}
+  \setbeamercolor{subtitle}{fg=beamer@barcolor}
+  \setbeamercolor{CodingTealArc}{fg=beamer@barcolor,bg=beamer@headercolor}
+}
+
+\mode<all>

@@ -1,0 +1,56 @@
+% Inner theme for CodingTealArc — title/final page layout.
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{beamerinnerthemeCodingTealArc}[2026/04/30 v1.0.0 The CodingTealArc Beamer Theme]
+
+\mode<presentation>
+{
+  % ── font sizes ──────────────────────────────────────────────────────────────
+  \setbeamerfont{institute}{family=\rmfamily, size=\footnotesize}
+  \setbeamerfont{title}{family=\rmfamily, size=\Large}
+  \setbeamerfont{subtitle}{family=\rmfamily, size=\large}
+  \setbeamerfont{author}{family=\rmfamily, size=\normalsize}
+  \setbeamerfont{date}{family=\rmfamily, size=\footnotesize}
+
+  % ── title page ──────────────────────────────────────────────────────────────
+  \setbeamertemplate{title page}
+  {
+    \begin{minipage}[c][\textheight][c]{\textwidth}
+      \centering
+      {\vspace{1cm}}
+      {\usebeamerfont{title}\usebeamercolor[fg]{title}\inserttitle}\vspace*{10pt}
+      {\usebeamerfont{subtitle}\usebeamercolor[fg]{subtitle}\insertsubtitle}\vspace*{30pt}
+      {\usebeamerfont{author}\insertauthor}\vspace*{30pt}
+      {\usebeamerfont{institute}\insertinstitute}\vspace*{30pt}
+      {\usebeamerfont{date}\insertdate}\vspace*{\baselineskip}
+    \end{minipage}
+  }
+
+  % ── final page ──────────────────────────────────────────────────────────────
+  \defbeamertemplate{final page}{text}[1]
+  {
+    \begin{minipage}[c][\textheight][c]{\textwidth}
+      \centering
+      #1
+    \end{minipage}
+  }
+  \newcommand{\finalpage}[1]
+  {
+    \setbeamertemplate{final page}[text]{#1}
+    \usebeamertemplate{final page}
+  }
+
+  % ── optional background command (uncomment to add a background image) ────────
+  \newcommand{\1}
+  {
+    \setbeamertemplate{background}
+    {
+%     \includegraphics[trim=-3.5cm 0 0 -0cm, scale=1]{assets/branding/opa0.png}
+    }
+  }
+
+  % ── bibliography style ───────────────────────────────────────────────────────
+  \setbeamertemplate{bibliography item}[text]
+}
+
+\mode<all>

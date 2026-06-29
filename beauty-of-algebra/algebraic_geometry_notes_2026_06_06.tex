@@ -1,0 +1,1408 @@
+\documentclass[11pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{tikz-cd}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{exercise}[theorem]{Exercise}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{calculation}[theorem]{Standard computation}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+\newcommand{\A}{\mathbb{A}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\Pj}{\mathbb{P}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\K}{K}
+\newcommand{\V}{\operatorname{V}}
+\newcommand{\image}{\operatorname{im}}
+\newcommand{\Frac}{\operatorname{Frac}}
+\newcommand{\Gal}{\operatorname{Gal}}
+\newcommand{\sourceunclear}[2]{%
+  \par\smallskip
+  \noindent\textbf{TODO: unclear from source, page #1.} #2
+  \par\smallskip
+}
+
+\title{Algebraic Geometry and Galois Theory\\
+       \large Lecture Notes from June 6, 2026}
+\author{Based on \texttt{Note Jun 6, 2026 algebraic geometry 1.pdf}}
+\date{June 6, 2026}
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+
+\section{Guiding Theme}
+
+% Source: PDF pp. 1--9
+These notes organize the source around one main idea: algebraic geometry turns
+geometric objects into fields of functions, and those fields can then be
+studied by field-theoretic methods.  In the examples below, projective curves
+such as rational curves and elliptic curves give finite extensions of simpler
+function fields.  This is the point at which algebraic geometry meets Galois
+theory.
+
+The route is:
+\[
+\begin{tikzcd}[column sep=large]
+  \text{variety}
+    \arrow[r, "\text{regular functions}"]
+  & \text{coordinate ring}
+    \arrow[r, "\text{fractions}"]
+  & \text{function field}
+    \arrow[r, "\text{comparison}"]
+  & \text{field extension}.
+\end{tikzcd}
+\]
+The final example is an elliptic curve \(E\) whose function field is a
+quadratic extension of \(\C(x)\).
+
+The source is handwritten.  The main mathematical content has been written in
+a textbook style, while unreadable arrows, labels, or diagrams are explicitly
+marked as unclear.  Several computations below are included as standard
+background calculations so that the algebra can be checked line by line; these
+are labeled as standard computations rather than as newly recovered source
+content.
+
+\section{Learning Goals and Notation}
+
+\subsection*{Prerequisites}
+
+These notes assume basic field theory, vector spaces, polynomial rings, and
+quotient rings.  Some standard background from algebraic geometry and Riemann
+surface theory is used as context, especially projective space, homogeneous
+polynomials, and the fact that compact Riemann surfaces can be realized as
+projective algebraic curves.
+
+\subsection*{Learning goals}
+
+After reading these notes, a student should be able to:
+\begin{itemize}
+\item explain how a finite field extension is a vector space over the base
+field;
+\item carry out explicit basis, coordinate-ring, fraction-field, and
+invariant-field calculations;
+\item define affine and projective varieties, coordinate rings, and function
+fields;
+\item use homogeneous coordinates on projective space;
+\item compute the images of the quadratic and cubic Veronese maps;
+\item pass from a projective Weierstrass equation to its affine chart;
+\item describe why the elliptic curve \(y^2=x^3+ax+b\) gives a quadratic
+extension of \(\C(x)\) with Galois group \(\Z/2\Z\).
+\end{itemize}
+
+\subsection*{Notation}
+
+\[
+\begin{array}{c|l}
+\text{Notation} & \text{Meaning}\\ \hline
+k & \text{a base field}\\
+\C,\Q,\F_q & \text{the complex numbers, rationals, and a finite field}\\
+\A^n_k & \text{affine }n\text{-space over }k\\
+\Pj^N_k & \text{projective }N\text{-space over }k\\
+\V(I) & \text{zero locus of an ideal }I\\
+k[X] & \text{coordinate ring of an affine variety }X\\
+\K(X) & \text{function field of an irreducible variety }X\\
+{[x_0:\cdots:x_N]} & \text{homogeneous coordinates}\\
+E & \text{the elliptic curve in Weierstrass form}\\
+F\subseteq L & \text{an extension of fields}\\
+\Gal(L/F) & \text{Galois group of }L/F
+\end{array}
+\]
+
+\section{Field Extensions as Linear Algebra}
+
+We begin with the field-theoretic side of the story.  A finite extension of
+fields is not just a larger field: it is also a finite-dimensional vector space
+over the smaller field.  This is the linear-algebraic structure that later
+appears when a map of curves produces an extension of function fields.
+
+% Source: PDF p. 1
+\begin{definition}
+Let \(F \subseteq E\) be fields.  The extension \(E/F\) is called
+\emph{finite} if \(E\) is finite-dimensional as a vector space over \(F\):
+\[
+  [E:F]:=\dim_F E<\infty.
+\]
+It is \emph{finitely generated} if there exist
+\(\alpha_1,\ldots,\alpha_n\in E\) such that
+\[
+  E=F(\alpha_1,\ldots,\alpha_n).
+\]
+\end{definition}
+
+% Source: PDF p. 1
+\begin{remark}
+The source emphasizes that finite field extensions can be studied ``via
+linear algebra.''  If \(F\subseteq E\), then \(E\) is an \(F\)-vector space:
+addition is the addition of the field \(E\), and scalar multiplication is
+\[
+  F\times E\longrightarrow E,\qquad (a,v)\longmapsto av.
+\]
+The multiplication on \(E\) is compatible with this vector-space structure:
+it is \(F\)-bilinear as a map
+\[
+  E\times E\longrightarrow E,\qquad (u,v)\longmapsto uv.
+\]
+Thus a finite extension is simultaneously a field and a finite-dimensional
+vector space over the smaller field.
+\end{remark}
+
+\begin{calculation}[Two extensions as vector spaces]
+The following computations are standard background examples of the slogan
+``field extensions can be studied by linear algebra.''
+
+First consider \(\C/\mathbb{R}\).  As a real vector space,
+\[
+  \C=\mathbb{R}\cdot 1\oplus \mathbb{R}\cdot i,
+  \qquad [\C:\mathbb{R}]=2.
+\]
+If \(z=a+bi\), then its coordinate column in the ordered basis \((1,i)\) is
+\[
+  [z]_{(1,i)}=\begin{pmatrix}a\\ b\end{pmatrix}.
+\]
+Multiplication by a fixed element \(u=p+qi\) is an \(\mathbb{R}\)-linear map
+\[
+  m_u\colon \C\longrightarrow \C,\qquad z\longmapsto uz.
+\]
+Since
+\[
+  (p+qi)(a+bi)=(pa-qb)+(qa+pb)i,
+\]
+the matrix of \(m_u\) in the basis \((1,i)\) is
+\[
+  [m_u]_{(1,i)}
+  =
+  \begin{pmatrix}
+    p & -q\\
+    q & p
+  \end{pmatrix}.
+\]
+Thus field multiplication becomes an explicit linear transformation.
+
+Similarly, let \(d\in\Q\) be squarefree and not a square.  Then
+\[
+  \Q(\sqrt d)=\Q\cdot 1\oplus \Q\cdot \sqrt d,
+  \qquad [\Q(\sqrt d):\Q]=2.
+\]
+For \(u=a+b\sqrt d\), multiplication by \(u\) is determined by
+\[
+  (a+b\sqrt d)(r+s\sqrt d)=(ar+bds)+(as+br)\sqrt d.
+\]
+Hence, in the ordered basis \((1,\sqrt d)\),
+\[
+  [m_u]_{(1,\sqrt d)}
+  =
+  \begin{pmatrix}
+    a & bd\\
+    b & a
+  \end{pmatrix}.
+\]
+\end{calculation}
+
+\begin{remark}[Section summary]
+A field extension \(E/F\) can be studied by linear algebra when \(E\) is
+finite-dimensional over \(F\).  Later, a geometric map of curves will produce
+such an extension at the level of function fields.
+\end{remark}
+
+\sourceunclear{1}{The handwritten operation diagram compares
+\((F,+_F,\cdot_F)\) and \((E,+_E,\cdot_E)\), but several arrows and labels are
+not legible enough to transcribe with confidence.}
+
+\section{Varieties and Function Fields}
+
+The geometric objects in these notes are varieties: spaces cut out by
+polynomial equations.  The algebra attached to such a space is its coordinate
+ring, and the field of fractions of that ring is its function field.
+
+% Source: PDF p. 2
+\begin{definition}
+Let \(k\) be a field.  An affine algebraic set in \(\A^n_k\) is the common
+zero locus
+\[
+  \V(I)=\{p\in \A^n_k \mid f(p)=0\text{ for every }f\in I\}
+\]
+of an ideal \(I\subseteq k[x_1,\ldots,x_n]\).  In these notes, an affine
+variety is an algebraic set whose vanishing ideal is prime.  Equivalently, its
+coordinate ring is an integral domain.
+\end{definition}
+
+% Source: PDF p. 2
+\begin{definition}
+A smooth \(n\)-manifold is a topological space \(M\) which is locally modeled
+on Euclidean space.  More precisely, for every \(p\in M\) there is an open
+neighborhood \(U_p\subseteq M\) and a homeomorphism
+\[
+  U_p\cong \mathbb{R}^n
+\]
+compatible with a differentiable atlas.
+\end{definition}
+
+% Source: PDF p. 2
+\begin{remark}
+The contrast in the source is the following.  A smooth manifold is locally
+modeled on \(\mathbb{R}^n\), whereas an algebraic variety is locally or
+globally described by polynomial equations.  The geometric intuition can look
+similar, but the definitions impose different kinds of structure.
+\end{remark}
+
+% Source: PDF p. 2
+\begin{definition}
+Let \(X=\V(I)\subseteq \A^n_k\) be an affine variety with \(I\) prime.  Its
+coordinate ring is
+\[
+  k[X]=k[x_1,\ldots,x_n]/I.
+\]
+Since \(I\) is prime, \(k[X]\) is an integral domain.  Its \emph{function
+field} is
+\[
+  \K(X):=\Frac(k[X]).
+\]
+\end{definition}
+
+\begin{remark}
+Elements of \(\K(X)\) are rational functions on \(X\).  They can be thought of
+as quotients \(f/g\) of polynomial functions, with \(g\) not identically zero.
+This is the algebraic-geometric analogue of passing from a space to the field
+of functions on it.
+\end{remark}
+
+\begin{example}
+For the affine line \(X=\A^1_{\C}\), the coordinate ring is \(\C[x]\), so
+\[
+  \K(\A^1_{\C})=\Frac(\C[x])=\C(x).
+\]
+Thus \(\C(x)\) is the field of rational functions in one variable.
+\end{example}
+
+\begin{calculation}[A coordinate ring computed from a parametrized parabola]
+This is a standard computation illustrating how an equation becomes a quotient
+ring.  Let
+\[
+  X=\V(y-x^2)\subseteq \A^2_{\C}.
+\]
+The coordinate ring is
+\[
+  \C[X]=\C[x,y]/(y-x^2).
+\]
+Define a \(\C\)-algebra homomorphism
+\[
+  \Phi\colon \C[x,y]\longrightarrow \C[t],
+  \qquad
+  \Phi(x)=t,\quad \Phi(y)=t^2.
+\]
+Then
+\[
+  \Phi(y-x^2)=t^2-t^2=0,
+\]
+so \((y-x^2)\subseteq \ker\Phi\).  Conversely, every polynomial
+\(f(x,y)\in \C[x,y]\) can be reduced modulo \(y-x^2\) by replacing \(y\) with
+\(x^2\).  Thus
+\[
+  f(x,y)\equiv f(x,x^2)\pmod{(y-x^2)}.
+\]
+If \(\Phi(f)=f(t,t^2)=0\) as a polynomial in \(t\), then
+\[
+  f(x,x^2)=0,
+\]
+so the reduction of \(f\) is zero and \(f\in (y-x^2)\).  Hence
+\[
+  \ker\Phi=(y-x^2).
+\]
+By the first isomorphism theorem,
+\[
+  \C[x,y]/(y-x^2)\cong \C[t].
+\]
+Therefore
+\[
+  \K(X)=\Frac(\C[X])\cong \Frac(\C[t])=\C(t).
+\]
+In this example the coordinate \(t\) is the parameter, while the coordinate
+functions on \(X\) satisfy \(x=t\) and \(y=t^2\).
+\end{calculation}
+
+\begin{calculation}[A second affine example]
+Let
+\[
+  U=\V(xy-1)\subseteq \A^2_{\C}.
+\]
+The equation \(xy=1\) allows \(y=x^{-1}\).  Algebraically,
+\[
+  \C[U]=\C[x,y]/(xy-1).
+\]
+The homomorphism
+\[
+  \Psi\colon \C[x,y]\longrightarrow \C[t,t^{-1}],
+  \qquad
+  \Psi(x)=t,\quad \Psi(y)=t^{-1}
+\]
+satisfies \(\Psi(xy-1)=0\), and the same elimination argument gives
+\[
+  \C[x,y]/(xy-1)\cong \C[t,t^{-1}].
+\]
+Its function field is
+\[
+  \K(U)=\Frac(\C[t,t^{-1}])=\C(t).
+\]
+This example shows that different affine curves may have the same function
+field even though their coordinate rings are not the same.
+\end{calculation}
+
+\begin{remark}[Section summary]
+The coordinate ring records polynomial functions on a variety.  Passing to its
+fraction field allows quotients of polynomial functions and produces the
+function field.
+\end{remark}
+
+\sourceunclear{2}{The page contains illustrative local-chart drawings and a
+quotient-like picture, but the precise equivalence relation and labels in
+those drawings are not fully readable.}
+
+\section{Projective Space and Projective Varieties}
+
+Projective space is introduced because many naturally occurring curves are
+best understood after adding their points at infinity.  This is also the
+setting in which compact Riemann surfaces become algebraic curves: the
+embedding theorem places them inside complex projective space.
+
+% Source: PDF p. 3
+\begin{definition}
+Let \(k\) be a field and \(N\geq 0\).  Projective \(N\)-space over \(k\) is
+\[
+  \Pj^N_k
+  =
+  \bigl(k^{N+1}\setminus\{(0,\ldots,0)\}\bigr)\big/{\sim},
+\]
+where
+\[
+  (x_0,\ldots,x_N)\sim (y_0,\ldots,y_N)
+\]
+if and only if there exists \(\lambda\in k^\times\) such that
+\[
+  (y_0,\ldots,y_N)=(\lambda x_0,\ldots,\lambda x_N).
+\]
+The equivalence class of a nonzero vector is written
+\[
+  [x_0:\cdots:x_N].
+\]
+\end{definition}
+
+\begin{remark}
+The brackets \([x_0:\cdots:x_N]\) are homogeneous coordinates.  Multiplying
+all coordinates by the same nonzero scalar does not change the point:
+\[
+  [x_0:\cdots:x_N]=[\lambda x_0:\cdots:\lambda x_N],
+  \qquad \lambda\in k^\times.
+\]
+This is why equations on projective space must be homogeneous: if
+\(f(x_0,\ldots,x_N)=0\), then the truth of the equation should not depend on
+which representative of \([x_0:\cdots:x_N]\) is chosen.
+\end{remark}
+
+\begin{calculation}[Rescaling and homogeneous equations]
+Let
+\[
+  F(X,Y,Z)=XZ-Y^2.
+\]
+This polynomial is homogeneous of degree \(2\).  If
+\([X:Y:Z]=[\lambda X:\lambda Y:\lambda Z]\), then
+\[
+  F(\lambda X,\lambda Y,\lambda Z)
+  =
+  (\lambda X)(\lambda Z)-(\lambda Y)^2
+  =
+  \lambda^2(XZ-Y^2)
+  =
+  \lambda^2 F(X,Y,Z).
+\]
+Since \(\lambda\neq 0\), the equation \(F=0\) is true for one representative
+if and only if it is true for every representative.  Therefore
+\[
+  XZ-Y^2=0
+\]
+is a well-defined equation on \(\Pj^2_{\C}\).
+
+By contrast, the nonhomogeneous equation \(X+1=0\) is not well-defined on
+\(\Pj^1_{\C}\).  The two vectors \((-1,1)\) and \((-2,2)\) represent the same
+projective point:
+\[
+  [-1:1]=[-2:2].
+\]
+But
+\[
+  -1+1=0,\qquad -2+1=-1\neq 0.
+\]
+Thus the truth of the equation depends on the representative, so it cannot
+define a subset of projective space.
+\end{calculation}
+
+\begin{definition}
+A projective algebraic set in \(\Pj^N_k\) is the common zero locus of
+homogeneous polynomials.  If \(I\subseteq k[X_0,\ldots,X_N]\) is a homogeneous
+ideal, write
+\[
+  \V(I)=\{[x_0:\cdots:x_N]\in \Pj^N_k
+  \mid f(x_0,\ldots,x_N)=0\text{ for every }f\in I\}.
+\]
+An irreducible projective algebraic set is a projective variety.
+\end{definition}
+
+\begin{remark}[Explanatory background]
+Projective space is covered by affine charts.  For example, the chart
+\(x_i\neq 0\) in \(\Pj^N_k\) is obtained by scaling so that \(x_i=1\).  This
+is the projective analogue of choosing coordinates on a local patch.
+\end{remark}
+
+% Source: PDF p. 3
+\begin{example}
+The source lists several base fields that may be used in projective geometry:
+\[
+  \C,\qquad \Q,\qquad \F_q,\qquad \text{number fields}.
+\]
+\end{example}
+
+\begin{remark}[Section summary]
+Projective geometry uses homogeneous coordinates and homogeneous equations.
+It is the natural setting for compact algebraic curves because it includes
+points at infinity.
+\end{remark}
+
+\section{Realizing Smooth Manifolds as Varieties}
+
+The source next asks when familiar smooth spaces can be described by
+polynomial equations.  This is false for arbitrary smooth manifolds, but true
+in the one-dimensional complex case that matters here.
+
+% Source: PDF p. 3
+\begin{remark}
+Not every smooth manifold can be realized as an algebraic variety.  The source
+records compact Riemann surfaces as an important positive case.
+\end{remark}
+
+% Source: PDF p. 3
+\begin{theorem}[Compact Riemann surfaces as projective curves]
+Let \(M\) be a compact Riemann surface.  Then \(M\) can be embedded into
+complex projective space:
+\[
+  \varphi\colon M\hookrightarrow \Pj^N_{\C}
+\]
+for some \(N\).  Its image is a closed complex submanifold of
+\(\Pj^N_{\C}\), and by Chow's theorem it is a closed algebraic subvariety.
+Thus \(M\) can be regarded as a smooth projective algebraic curve over
+\(\C\).
+\end{theorem}
+
+% Source: PDF p. 3
+\begin{remark}
+The conclusion is that, after choosing such an embedding,
+\[
+  M\cong \image(\varphi)\subseteq \Pj^N_{\C}.
+\]
+This is the bridge from the analytic object \(M\) to an algebraic object
+defined by homogeneous equations.
+\end{remark}
+
+\begin{remark}[Section summary]
+Compact Riemann surfaces are special: although arbitrary smooth manifolds need
+not be algebraic, compact Riemann surfaces can be embedded as projective
+algebraic curves over \(\C\).
+\end{remark}
+
+\sourceunclear{3}{The handwritten notes include an embedding diagram
+\(M\to \Pj^N_{\C}\) and comments about injectivity/embedding.  The main meaning
+is clear, but some side annotations are not readable enough to transcribe
+exactly.}
+
+\section{The Projective Line}
+
+The simplest projective curve is \(\Pj^1_{\C}\).  It is the main comparison
+object for the later elliptic curve: maps to \(\Pj^1_{\C}\) correspond to
+subfields isomorphic to \(\C(x)\) inside a curve's function field.
+
+% Source: PDF pp. 4--5
+\begin{example}
+The complex projective line is
+\[
+  \Pj^1_{\C}
+  =
+  \bigl(\C^2\setminus\{(0,0)\}\bigr)\big/{\C^\times}.
+\]
+It is identified with the Riemann sphere:
+\[
+  \Pj^1_{\C}\cong S^2.
+\]
+\end{example}
+
+\begin{remark}[Affine charts on \(\Pj^1\)]
+The two standard affine charts are obtained by choosing a nonzero coordinate.
+If \(y\neq 0\), then
+\[
+  [x:y]=[x/y:1].
+\]
+If \(x\neq 0\), then
+\[
+  [x:y]=[1:y/x].
+\]
+Thus \(\Pj^1_{\C}\) is obtained by gluing two copies of the affine line.
+\end{remark}
+
+\begin{example}
+On the chart \(y\neq 0\), the coordinate is \(t=x/y\).  On the chart
+\(x\neq 0\), the coordinate is \(s=y/x\).  On the overlap both coordinates
+are nonzero and satisfy
+\[
+  s=1/t.
+\]
+\end{example}
+
+\begin{calculation}[The function field of \(\Pj^1_{\C}\)]
+This is a standard computation behind the later notation
+\(\K(\Pj^1_{\C})=\C(x)\).  On the affine chart \(y\neq 0\), write
+\[
+  t=x/y.
+\]
+Rational functions on this chart are elements of \(\C(t)\).  On the other
+chart \(x\neq 0\), write
+\[
+  s=y/x.
+\]
+On the overlap, \(s=1/t\), so
+\[
+  \C(s)=\C(1/t)=\C(t).
+\]
+Thus the two affine charts give the same rational function field:
+\[
+  \K(\Pj^1_{\C})=\C(t).
+\]
+Later the same field is written \(\C(x)\) when the coordinate comes from the
+\(x\)-coordinate map on the elliptic curve.
+\end{calculation}
+
+\begin{remark}[Section summary]
+The curve \(\Pj^1_{\C}\) is the projective line, or Riemann sphere.  Its
+function field is \(\C(x)\), so it becomes the base curve for the later
+degree-two map from an elliptic curve.
+\end{remark}
+
+\section{Veronese Embeddings and Rational Curves}
+
+The Veronese maps are the first concrete examples of parametrized projective
+curves.  They show how a curve that is abstractly \(\Pj^1_{\C}\) can appear
+inside a higher-dimensional projective space as the zero set of homogeneous
+polynomial equations.
+
+% Source: PDF p. 4
+\begin{example}[The quadratic Veronese embedding]
+Define
+\[
+  \nu_2\colon \Pj^1_{\C}\longrightarrow \Pj^2_{\C},
+  \qquad
+  [x:y]\longmapsto [x^2:xy:y^2].
+\]
+This is well-defined because replacing \((x,y)\) by \((\lambda x,\lambda y)\)
+multiplies all three target coordinates by the common scalar \(\lambda^2\).
+Writing homogeneous coordinates on \(\Pj^2_{\C}\) as \([X:Y:Z]\), every point
+in the image satisfies
+\[
+  XZ-Y^2=0.
+\]
+Indeed,
+\[
+  (x^2)(y^2)-(xy)^2=0.
+\]
+\end{example}
+
+\begin{proposition}
+The map \(\nu_2\) is injective, and its image is the conic
+\[
+  \V(XZ-Y^2)\subseteq \Pj^2_{\C}.
+\]
+\end{proposition}
+
+\begin{proof}
+First suppose
+\[
+  \nu_2([x:y])=\nu_2([x':y']).
+\]
+If \(x\neq 0\), then the first and second coordinates of
+\([x^2:xy:y^2]\) determine \(y/x\).  Hence
+\([x:y]=[1:y/x]\) is determined by the image.  If \(x=0\), then the image is
+\([0:0:1]\), so the preimage is \([0:1]\).  Thus \(\nu_2\) is injective.
+
+We have already checked that \(\image(\nu_2)\subseteq \V(XZ-Y^2)\).  Conversely,
+let \([X:Y:Z]\in \V(XZ-Y^2)\).  If \(X\neq 0\), then
+\[
+  [X:Y:Z]=[1:Y/X:Z/X],
+\]
+and the equation gives \(Z/X=(Y/X)^2\).  Hence
+\[
+  [X:Y:Z]=[1:t:t^2]=\nu_2([1:t])
+  \qquad \text{with } t=Y/X.
+\]
+If \(X=0\), then the equation gives \(Y=0\), so the point is
+\([0:0:1]=\nu_2([0:1])\).  Therefore the conic is exactly the image.
+\end{proof}
+
+\begin{calculation}[Recovering the parameter for the conic]
+On the affine chart \(x\neq 0\) of the source, every point of
+\(\Pj^1_{\C}\) has the form \([1:t]\).  Substituting into \(\nu_2\) gives
+\[
+  \nu_2([1:t])=[1:t:t^2].
+\]
+Thus on the target chart \(X\neq 0\), the parameter is recovered by
+\[
+  t=\frac{Y}{X},
+  \qquad
+  \frac{Z}{X}=t^2.
+\]
+The single source point with \(x=0\) is \([0:1]\), and its image is
+\[
+  \nu_2([0:1])=[0:0:1].
+\]
+This is the point at infinity on the conic relative to the affine chart
+\(X\neq 0\).  The computation shows explicitly how the parametrization and
+the equation \(XZ-Y^2=0\) encode the same curve.
+\end{calculation}
+
+% Source: PDF pp. 4--5
+\begin{example}[The cubic Veronese embedding]
+Define
+\[
+  \nu_3\colon \Pj^1_{\C}\longrightarrow \Pj^3_{\C},
+  \qquad
+  [x:y]\longmapsto [x^3:x^2y:xy^2:y^3].
+\]
+Writing homogeneous coordinates on \(\Pj^3_{\C}\) as \([X:Y:Z:W]\), the
+source records the image as
+\[
+  \image(\nu_3)
+  =
+  \left\{
+  [X:Y:Z:W]\in \Pj^3_{\C}
+  \ \middle|\
+  \begin{array}{l}
+    Y^2=XZ,\\
+    Z^2=YW,\\
+    YZ=XW
+  \end{array}
+  \right\}.
+\]
+The equations follow by substituting
+\[
+  X=x^3,\qquad Y=x^2y,\qquad Z=xy^2,\qquad W=y^3.
+\]
+For example, \(Y^2=x^4y^2=XZ\), \(Z^2=x^2y^4=YW\), and
+\(YZ=x^3y^3=XW\).
+\end{example}
+
+\begin{proposition}
+The three equations displayed above cut out the image of \(\nu_3\).
+\end{proposition}
+
+\begin{proof}
+The substitution in the previous example proves that every point of
+\(\image(\nu_3)\) satisfies the three equations.  Conversely, let
+\([X:Y:Z:W]\) satisfy them.
+
+If \(X\neq 0\), scale the point so that \(X=1\).  Put \(t=Y/X\).  The equation
+\(Y^2=XZ\) gives \(Z/X=t^2\), and the equation \(YZ=XW\) gives
+\(W/X=t^3\).  Hence the point is
+\[
+  [1:t:t^2:t^3]=\nu_3([1:t]).
+\]
+If \(X=0\), then \(Y^2=XZ=0\), so \(Y=0\).  Then \(Z^2=YW=0\), so \(Z=0\).
+The point is therefore \([0:0:0:1]=\nu_3([0:1])\).  Thus the common zero locus
+is exactly \(\image(\nu_3)\).
+\end{proof}
+
+\begin{calculation}[Recovering the parameter for the twisted cubic]
+On the source chart \(x\neq 0\), write a point as \([1:t]\).  Then
+\[
+  \nu_3([1:t])=[1:t:t^2:t^3].
+\]
+On the target chart \(X\neq 0\), the parameter is recovered from
+\[
+  t=\frac{Y}{X}.
+\]
+The defining equations then force the remaining coordinates:
+\[
+  \frac{Z}{X}
+  =
+  \left(\frac{Y}{X}\right)^2=t^2,
+  \qquad
+  \frac{W}{X}
+  =
+  \frac{YZ}{X^2}=t^3.
+\]
+At the source point \([0:1]\), the image is
+\[
+  \nu_3([0:1])=[0:0:0:1].
+\]
+This is the point at infinity of the twisted cubic with respect to the chart
+\(X\neq 0\).
+\end{calculation}
+
+\begin{remark}
+The curves \(\image(\nu_2)\) and \(\image(\nu_3)\) are rational curves because
+they are parametrized by \(\Pj^1_{\C}\).  The quadratic case gives a conic in
+\(\Pj^2_{\C}\), while the cubic case gives a twisted cubic in
+\(\Pj^3_{\C}\).
+\end{remark}
+
+\begin{remark}[Section summary]
+The Veronese maps show how a parametrized curve can be translated into
+implicit homogeneous equations.  This prepares the way for studying curves by
+their equations rather than by pictures alone.
+\end{remark}
+
+\section{A Plane Cubic Model of an Elliptic Curve}
+
+The rational curves above have function field \(\C(t)\).  The next example is
+different: a nonsingular plane cubic is a genus-one curve.  Analytically it is
+related to a complex torus, while algebraically it is described by a
+Weierstrass equation.
+
+% Source: PDF pp. 6--7
+\begin{example}
+The source records a map from a torus \(T\) into \(\Pj^2_{\C}\) whose image is
+given by the homogeneous cubic equation
+\[
+  Y^2Z-X^3-aXZ^2-bZ^3=0.
+\]
+Equivalently,
+\[
+  Y^2Z=X^3+aXZ^2+bZ^3.
+\]
+The corresponding projective curve is
+\[
+  E=\V(Y^2Z-X^3-aXZ^2-bZ^3)\subseteq \Pj^2_{\C}.
+\]
+When this cubic is nonsingular, it is an elliptic curve.
+\end{example}
+
+\begin{remark}
+For the Weierstrass cubic above, nonsingularity is equivalent to the cubic
+polynomial
+\[
+  x^3+ax+b
+\]
+having distinct roots.  Equivalently, its discriminant is nonzero:
+\[
+  -16(4a^3+27b^2)\neq 0.
+\]
+This condition is not written explicitly in the source, but it is the standard
+condition needed for the phrase ``elliptic curve'' in this model.
+\end{remark}
+
+% Source: PDF p. 7
+\begin{remark}[The affine chart \(Z\neq 0\)]
+On the inhomogeneous open set \(Z\neq 0\), choose the representative with
+\(Z=1\).  Put
+\[
+  x=X/Z,\qquad y=Y/Z.
+\]
+Then the projective equation becomes the affine Weierstrass equation
+\[
+  y^2=x^3+ax+b.
+\]
+Thus the affine part of \(E\) is
+\[
+  E\cap\{Z\neq 0\}
+  =
+  \{(x,y)\in \C^2\mid y^2=x^3+ax+b\}.
+\]
+\end{remark}
+
+\begin{calculation}[Dehomogenizing the cubic]
+On the chart \(Z\neq 0\), divide
+\[
+  Y^2Z=X^3+aXZ^2+bZ^3
+\]
+by \(Z^3\).  This gives
+\[
+  \left(\frac{Y}{Z}\right)^2
+  =
+  \left(\frac{X}{Z}\right)^3
+  +a\left(\frac{X}{Z}\right)+b.
+\]
+With
+\[
+  x=X/Z,\qquad y=Y/Z,
+\]
+the equation becomes
+\[
+  y^2=x^3+ax+b.
+\]
+Conversely, any affine solution \((x,y)\) gives the projective point
+\[
+  [X:Y:Z]=[x:y:1],
+\]
+and direct substitution gives
+\[
+  y^2\cdot 1=x^3+a x\cdot 1^2+b\cdot 1^3.
+\]
+Thus the affine equation and the \(Z\neq 0\) part of the projective equation
+are exactly the same calculation in different coordinates.
+\end{calculation}
+
+\begin{remark}[The point at infinity]
+The points of \(E\) with \(Z=0\) satisfy
+\[
+  -X^3=0,
+\]
+so \(X=0\).  Since \([0:0:0]\) is not a point of projective space, \(Y\neq 0\),
+and there is exactly one point at infinity:
+\[
+  [0:1:0].
+\]
+Therefore
+\[
+  E=
+  \{(x,y)\in \C^2\mid y^2=x^3+ax+b\}\cup\{[0:1:0]\}.
+\]
+\end{remark}
+
+\begin{calculation}[The point at infinity and the sign involution]
+Set \(Z=0\) in the homogeneous equation:
+\[
+  Y^2Z-X^3-aXZ^2-bZ^3=0.
+\]
+Every term containing \(Z\) vanishes, leaving
+\[
+  -X^3=0.
+\]
+Hence \(X=0\).  A projective point cannot have all coordinates zero, so
+\(Y\neq 0\).  Rescaling by \(Y^{-1}\) gives the unique point
+\[
+  [0:Y:0]=[0:1:0].
+\]
+
+On the affine chart, the map
+\[
+  \iota(x,y)=(x,-y)
+\]
+preserves the equation because
+\[
+  (-y)^2=y^2=x^3+ax+b.
+\]
+The point at infinity is also fixed by the corresponding projective map
+\[
+  [X:Y:Z]\longmapsto [X:-Y:Z],
+\]
+since
+\[
+  [0:-1:0]=[0:1:0].
+\]
+\end{calculation}
+
+\begin{remark}[Section summary]
+The projective cubic contains the affine Weierstrass curve together with one
+point at infinity.  When nonsingular, this projective curve is an elliptic
+curve.
+\end{remark}
+
+\begin{remark}[The 180-degree quotient picture]
+% Source: PDF p. 6
+The source also draws a torus with a \(180^\circ\) rotation and a folding
+picture.  This should be read as a quotient picture, not as a deformation that
+turns a torus itself into a sphere.  Topologically, a complex elliptic curve is
+a torus.  The order-two symmetry may be visualized as a \(180^\circ\) rotation
+identifying paired points.  In the Weierstrass model, the same symmetry is the
+involution
+\[
+  \iota\colon E\longrightarrow E,
+  \qquad
+  \iota(x,y)=(x,-y).
+\]
+Taking the quotient means that a point and its partner under \(\iota\) are
+regarded as the same point.  The quotient by this involution is the projective
+line \(\Pj^1_{\C}\), which is the Riemann sphere.  Algebraically, the quotient
+map is the two-to-one map given by the \(x\)-coordinate, developed in the next
+section.
+\end{remark}
+
+\sourceunclear{6}{The source draws a map from a torus \(T\) to the plane
+cubic, but it does not specify the formula for the map.  These notes therefore
+record only the image equation.  The \(180^\circ\) quotient picture is
+included above, but the source does not provide its full branch or fixed-point
+data.}
+
+\section{The Function Field of the Elliptic Curve}
+
+The field-theoretic content of the elliptic-curve example appears when we
+compare the function field of \(E\) with the function field of \(\Pj^1_{\C}\).
+The \(x\)-coordinate gives a two-to-one map \(E\to\Pj^1_{\C}\), and this
+becomes a degree-two extension of function fields.
+
+% Source: PDF pp. 8--9
+\begin{definition}
+Let
+\[
+  E=\V(Y^2Z-X^3-aXZ^2-bZ^3)\subseteq \Pj^2_{\C}
+\]
+be the nonsingular projective cubic above.  As standard background, passing
+from an irreducible curve to a nonempty affine open subset does not change its
+function field.  On the affine chart \(Z\neq 0\), the coordinate ring is
+\[
+  \C[x,y]\big/(y^2-x^3-ax-b).
+\]
+Its function field is the fraction field
+\[
+  \K(E)
+  =
+  \Frac\!\left(\C[x,y]\big/(y^2-x^3-ax-b)\right).
+\]
+Equivalently,
+\[
+  \K(E)\cong \C(x)[T]\big/(T^2-x^3-ax-b),
+\]
+where the class of \(T\) is the function \(y\).
+\end{definition}
+
+\begin{calculation}[Deriving \(\K(E)=\C(x)(y)\)]
+Let
+\[
+  f(x)=x^3+ax+b.
+\]
+On the affine chart \(Z\neq 0\), the coordinate ring is
+\[
+  A=\C[x,y]/(y^2-f(x)).
+\]
+No nonzero polynomial in \(\C[x]\) lies in the ideal \((y^2-f(x))\), so the
+class of \(x\) gives a copy of \(\C[x]\) inside \(A\).  In particular, inside
+the fraction field of \(A\), the element \(x\) is transcendental over \(\C\)
+and \(y\) satisfies
+\[
+  y^2=f(x).
+\]
+After passing from \(\C[x]\) to its fraction field \(\C(x)\), we obtain the
+localized algebra
+\[
+  \C(x)[y]/(y^2-f(x)).
+\]
+Every polynomial in \(y\) can be reduced to degree at most one using
+\(y^2=f(x)\).  Explicitly,
+\[
+  y^{2m}=f(x)^m,
+  \qquad
+  y^{2m+1}=f(x)^m y.
+\]
+Therefore every element of \(\C(x)[y]/(y^2-f(x))\) has the form
+\[
+  a(x)+b(x)y,
+  \qquad a(x),b(x)\in \C(x).
+\]
+Since \(f(x)\) has distinct roots, it is not a square in \(\C(x)\).  Hence
+\(T^2-f(x)\) is irreducible over \(\C(x)\), so this localized algebra is a
+field.  It is therefore the fraction field of \(A\), and
+\[
+  \K(E)=\C(x)(y),
+  \qquad y^2=f(x).
+\]
+Thus \(\K(E)\) is generated over \(\C(x)\) by one square root, and every
+element of \(\K(E)\) can be written uniquely as \(a(x)+b(x)y\).
+\end{calculation}
+
+% Source: PDF pp. 8--9
+\begin{remark}
+The function field of the projective line is
+\[
+  \K(\Pj^1_{\C})=\C(x).
+\]
+The rational function \(x=X/Z\) on \(E\) has a pole at the point at infinity.
+By the standard fact that a nonconstant rational function on a nonsingular
+projective curve defines a morphism to \(\Pj^1\), it gives a morphism
+\[
+  E\longrightarrow \Pj^1_{\C}.
+\]
+On affine points this morphism is simply
+\[
+  (x,y)\longmapsto [x:1],
+\]
+and the point at infinity \([0:1:0]\) maps to \([1:0]\).
+At the level of function fields, it corresponds to the inclusion
+\[
+  \C(x)\subseteq \K(E).
+\]
+This is an example of the general reversal: a map of varieties gives an
+inclusion of function fields in the opposite direction.
+\end{remark}
+
+\[
+\begin{tikzcd}
+  E \arrow[r, "\pi=x"] & E/\langle\iota\rangle \cong \Pj^1_{\C}\\
+  \K(E) & \K(E)^{\langle\iota^*\rangle}=\K(\Pj^1_{\C})=\C(x) \arrow[l, hook]
+\end{tikzcd}
+\]
+
+% Source: PDF p. 8
+\begin{remark}[The degree-two map]
+For a generic value of \(x\), the equation
+\[
+  y^2=x^3+ax+b
+\]
+has two solutions:
+\[
+  y=\pm\sqrt{x^3+ax+b}.
+\]
+Therefore the morphism \(E\to \Pj^1_{\C}\) defined by \(x\) is a degree-two
+map.  The source records this as a ``\(2:1\) map.''
+\end{remark}
+
+% Source: PDF p. 9
+\begin{proposition}
+Let
+\[
+  F=\C(x),
+  \qquad
+  L=\K(E).
+\]
+Then
+\[
+  L=F(y),\qquad y^2=x^3+ax+b,
+\]
+and \(L/F\) is a quadratic extension.  Moreover,
+\[
+  \Gal(L/F)\cong \Z/2\Z.
+\]
+\end{proposition}
+
+\begin{proof}
+Since \(L\cong \C(x)[T]/(T^2-x^3-ax-b)\), the field \(L\) is obtained from
+\(F=\C(x)\) by adjoining a root \(y\) of
+\[
+  T^2-(x^3+ax+b)\in F[T].
+\]
+Because \(x^3+ax+b\) has distinct roots, it has simple zeros as a rational
+function of \(x\).  A square in \(\C(x)\) has every zero and pole of even
+order, so \(x^3+ax+b\) is not a square in \(F\).  Therefore
+\[
+  [L:F]=2.
+\]
+The nontrivial automorphism over \(F\) fixes \(x\) and sends
+\[
+  y\longmapsto -y.
+\]
+Indeed, this assignment preserves the defining relation because
+\[
+  (-y)^2=y^2=x^3+ax+b.
+\]
+It has order two, and a quadratic extension has at most two \(F\)-automorphisms.
+Thus
+\[
+  \Gal(L/F)=\{1,\sigma\},
+  \qquad
+  \sigma(x)=x,\quad \sigma(y)=-y,
+\]
+so
+\[
+  \Gal(L/F)\cong \Z/2\Z.
+\]
+\end{proof}
+
+\begin{remark}
+Geometrically, the involution \(\iota(x,y)=(x,-y)\) exchanges the two points in
+a generic fiber of the map \(E\to \Pj^1_{\C}\).  Algebraically, the induced
+automorphism \(\iota^*\) is the nontrivial automorphism of the quadratic
+function-field extension \(\K(E)/\C(x)\).
+\end{remark}
+
+\begin{calculation}[Computing the invariant field]
+Write a general element of \(\K(E)\) over \(\C(x)\) as
+\[
+  u=a(x)+b(x)y,
+  \qquad a(x),b(x)\in \C(x).
+\]
+The pullback action of the involution is
+\[
+  \iota^*(x)=x,\qquad \iota^*(y)=-y.
+\]
+Therefore
+\[
+  \iota^*(u)
+  =
+  \iota^*\bigl(a(x)+b(x)y\bigr)
+  =
+  a(x)-b(x)y.
+\]
+The element \(u\) is invariant precisely when
+\[
+  a(x)+b(x)y=a(x)-b(x)y.
+\]
+Subtracting gives
+\[
+  2b(x)y=0.
+\]
+Since the ground field is \(\C\), the characteristic is zero, and \(y\neq 0\)
+in the function field.  Hence \(b(x)=0\).  Therefore the invariant elements
+are exactly
+\[
+  u=a(x)\in \C(x),
+\]
+and so
+\[
+  \K(E)^{\langle \iota^*\rangle}=\C(x).
+\]
+\end{calculation}
+
+\begin{remark}[Invariant functions]
+In standard algebraic language, checking which quantities are unchanged by the
+\(180^\circ\) symmetry means taking invariants.  The induced action on rational
+functions is
+\[
+  \iota^*\colon \K(E)\longrightarrow \K(E),
+  \qquad
+  \iota^*(x)=x,\quad \iota^*(y)=-y.
+\]
+Then a rational function \(f\in \K(E)\) is unchanged by the symmetry precisely
+when
+\[
+  \iota^*(f)=f.
+\]
+The fixed field of this order-two action is
+\[
+  \K(E)^{\langle\iota^*\rangle}=\C(x).
+\]
+An invariant rational function has the same value at paired points
+\[
+  P\quad\text{and}\quad \iota(P)
+\]
+wherever both values are defined, so it descends to a rational function on the
+quotient curve.  Thus the invariant functions are exactly the rational
+functions of the \(x\)-coordinate, which is why the quotient curve has function
+field \(\C(x)=\K(\Pj^1_{\C})\).
+\end{remark}
+
+\begin{remark}[Section summary]
+The elliptic curve function field is obtained from \(\C(x)\) by adjoining
+one square root.  The sign change of that square root is the nontrivial Galois
+automorphism, and the functions fixed by this sign change are exactly
+\(\C(x)\).
+\end{remark}
+
+\sourceunclear{8}{The page indicates a two-to-one map and sketches the square
+root description of the fibers.  Branch points or ramification data are not
+specified in the source.}
+
+\section{Summary: From Geometry to Galois Theory}
+
+The lecture's main chain of ideas can now be read in one line:
+\[
+  E:\ y^2=x^3+ax+b
+  \quad\leadsto\quad
+  \K(E)=\C(x)(y)
+  \quad\leadsto\quad
+  \K(E)/\C(x).
+\]
+The map \(E\to\Pj^1_{\C}\) defined by the \(x\)-coordinate is generically
+two-to-one, because a typical value of \(x\) gives the two points
+\[
+  (x,\sqrt{x^3+ax+b})
+  \qquad\text{and}\qquad
+  (x,-\sqrt{x^3+ax+b}).
+\]
+On function fields, this means that \(\K(E)\) is obtained from \(\C(x)\) by
+adjoining one square root:
+\[
+  y^2=x^3+ax+b.
+\]
+The nontrivial symmetry of the extension fixes \(x\) and sends \(y\) to
+\(-y\).  Therefore the Galois group is the two-element group
+\[
+  \Gal(\K(E)/\C(x))\cong \Z/2\Z.
+\]
+Equivalently, the base field \(\C(x)\) is the field of rational functions on
+the quotient \(E/\langle\iota\rangle\cong \Pj^1_{\C}\).
+
+\section{Exercises}
+
+\begin{exercise}
+Let \(F\subseteq E\) be a finite field extension.  Explain explicitly why
+\(E\) is an \(F\)-vector space, and identify the scalar multiplication map.
+\end{exercise}
+
+\begin{exercise}
+For the extension \(\Q(\sqrt d)/\Q\), with \(d\) squarefree and not a square,
+write the matrix for multiplication by \(a+b\sqrt d\) in the basis
+\((1,\sqrt d)\).
+\end{exercise}
+
+\begin{exercise}
+Compute the coordinate ring and function field of the affine parabola
+\[
+  X=\V(y-x^2)\subseteq \A^2_{\C}.
+\]
+Write the homomorphism to \(\C[t]\), compute its kernel, and identify the
+fraction field.
+\end{exercise}
+
+\begin{exercise}
+Compute the coordinate ring and function field of
+\[
+  U=\V(xy-1)\subseteq \A^2_{\C}.
+\]
+Explain why \(y\) becomes \(x^{-1}\) in the coordinate ring.
+\end{exercise}
+
+\begin{exercise}
+Show that the equation \(XZ-Y^2=0\) is well-defined on \(\Pj^2_{\C}\); that
+is, its truth is unchanged when \([X:Y:Z]\) is rescaled.
+\end{exercise}
+
+\begin{exercise}
+Give an explicit example showing that the equation \(X+1=0\) is not
+well-defined on \(\Pj^1_{\C}\).
+\end{exercise}
+
+\begin{exercise}
+For the quadratic Veronese map
+\[
+  \nu_2([x:y])=[x^2:xy:y^2],
+\]
+verify by substitution that every image point satisfies \(XZ-Y^2=0\).  Then
+recover the parameter \(t\) on the chart \(X\neq 0\).
+\end{exercise}
+
+\begin{exercise}
+Repeat the injectivity argument for the cubic Veronese map
+\[
+  \nu_3([x:y])=[x^3:x^2y:xy^2:y^3].
+\]
+\end{exercise}
+
+\begin{exercise}
+Verify directly that the three equations
+\[
+  Y^2=XZ,\qquad Z^2=YW,\qquad YZ=XW
+\]
+hold for every point in the image of \(\nu_3\).
+\end{exercise}
+
+\begin{exercise}
+On the chart \(Z\neq 0\), check that the homogeneous equation
+\[
+  Y^2Z=X^3+aXZ^2+bZ^3
+\]
+reduces to \(y^2=x^3+ax+b\).  Then check separately that the only point of
+the curve with \(Z=0\) is \([0:1:0]\).
+\end{exercise}
+
+\begin{exercise}
+Verify directly that the transformation
+\[
+  (x,y)\longmapsto (x,-y)
+\]
+preserves the affine equation \(y^2=x^3+ax+b\).
+\end{exercise}
+
+\begin{exercise}
+Let \(f(x)=x^3+ax+b\).  In the field \(\C(x)(y)\) with \(y^2=f(x)\), reduce
+\[
+  c_0(x)+c_1(x)y+c_2(x)y^2+c_3(x)y^3
+\]
+to the form \(A(x)+B(x)y\), where \(A(x),B(x)\in \C(x)\).
+\end{exercise}
+
+\begin{exercise}
+Let \(\iota^*\) be the automorphism of \(\K(E)\) determined by
+\(\iota^*(x)=x\) and \(\iota^*(y)=-y\).  Using
+\[
+  \K(E)=\C(x)\oplus \C(x)y
+\]
+as a vector space over \(\C(x)\), show that the invariant subfield is
+\[
+  \K(E)^{\langle\iota^*\rangle}=\C(x).
+\]
+\end{exercise}
+
+\begin{exercise}
+Let \(L=\C(x)(y)\), where \(y^2=x^3+ax+b\), and assume
+\(x^3+ax+b\) has distinct roots.  Verify that the map
+\[
+  \sigma(x)=x,\qquad \sigma(y)=-y
+\]
+defines a nontrivial \(\C(x)\)-automorphism of \(L\), and compute
+\(\sigma^2\).
+\end{exercise}
+
+\begin{exercise}
+Explain in words why invariant rational functions are constant on paired
+points \(P\) and \(\iota(P)\), and why this means they descend to rational
+functions on the quotient \(E/\langle\iota\rangle\).
+\end{exercise}
+
+\section*{Hints}
+
+\begin{enumerate}
+\item Use the field operations of \(E\): addition is addition in \(E\), and
+scalar multiplication is \((a,v)\mapsto av\) for \(a\in F\), \(v\in E\).
+\item Compute
+\((a+b\sqrt d)(r+s\sqrt d)=(ar+bds)+(as+br)\sqrt d\).
+\item Use the map \(x\mapsto t\), \(y\mapsto t^2\).  The relation
+\(y=x^2\) lets you eliminate \(y\), so the coordinate ring is isomorphic to
+\(\C[t]\).
+\item Use the map \(x\mapsto t\), \(y\mapsto t^{-1}\).  The relation
+\(xy=1\) makes \(y\) the inverse of \(x\).
+\item Substitute \((\lambda X,\lambda Y,\lambda Z)\) into \(XZ-Y^2\).
+\item Compare the two representatives \([-1:1]\) and \([-2:2]\).
+\item Substitute \(X=x^2\), \(Y=xy\), and \(Z=y^2\).  On \(X\neq 0\), use
+\(t=Y/X\).
+\item Work on the charts \(x\neq 0\) and \(x=0\), as in the proof for
+\(\nu_2\).
+\item Substitute \(X=x^3\), \(Y=x^2y\), \(Z=xy^2\), and \(W=y^3\).
+\item Set \(Z=1\) on the affine chart.  For \(Z=0\), the homogeneous equation
+forces \(X=0\), leaving the single projective point \([0:1:0]\).
+\item The square of \(-y\) is the same as the square of \(y\).
+\item Replace \(y^2\) by \(f(x)\) and \(y^3\) by \(f(x)y\).
+\item Write a general element as \(a(x)+b(x)y\).  Applying \(\iota^*\) gives
+\(a(x)-b(x)y\), so invariance forces \(b(x)=0\).
+\item Check that \(\sigma\) preserves the relation \(y^2=x^3+ax+b\), then
+apply \(\sigma\) twice.
+\item If \(f(P)=f(\iota(P))\), then the value depends only on the equivalence
+class of \(P\) in the quotient.
+\end{enumerate}
+
+\section*{Further Reading}
+
+The references below are standard background sources and are not part of the
+handwritten lecture source.
+\begin{itemize}
+\item Robin Hartshorne, \emph{Algebraic Geometry}, Chapters I.1--I.3, for
+varieties, projective space, and morphisms.
+\item Igor Shafarevich, \emph{Basic Algebraic Geometry 1}, for an introductory
+treatment of affine and projective varieties.
+\item William Fulton, \emph{Algebraic Curves}, for plane curves and function
+fields.
+\item Rick Miranda, \emph{Algebraic Curves and Riemann Surfaces}, for the
+bridge between compact Riemann surfaces and algebraic curves.
+\item Joseph H. Silverman and John Tate, \emph{Rational Points on Elliptic
+Curves}, for elliptic curves in Weierstrass form.
+\end{itemize}
+
+\section*{Unclear Source Items}
+
+\begin{itemize}
+\item TODO: unclear from source, page 1.  Several arrows in the operation
+diagram for \((F,+_F,\cdot_F)\) and \((E,+_E,\cdot_E)\) are illegible.
+\item TODO: unclear from source, page 2.  The illustrative quotient/local-chart
+drawings are not labeled precisely enough to reconstruct as formal diagrams.
+\item TODO: unclear from source, page 3.  Some side annotations near the
+embedding \(M\to\Pj^N_{\C}\) are not readable.
+\item TODO: unclear from source, page 6.  The explicit torus-to-cubic map is
+not given.
+\item TODO: unclear from source, page 8.  The square-root sketch does not
+include branch or ramification details.
+\end{itemize}
+
+\end{document}

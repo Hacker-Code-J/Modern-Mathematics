@@ -1,0 +1,64 @@
+% The Exam-to-Lecture Bridge  (source §2, relocated; records how the material
+% grew out of a course's midterm and final, with cross-references to the chapters)
+\chapter{The Exam-to-Lecture Bridge}
+\label{app:B}
+
+These notes grew out of a course whose midterm and final assembled exactly the
+tools the main argument needs. This appendix records that lineage, for readers who
+want to see where each ingredient came from; each item points to the chapter that
+develops it in full.
+
+\section{From the Midterm}
+\label{sec:B-midterm}
+
+\begin{enumerate}
+\item \textbf{Differential forms and Stokes' theorem.} Integral theorems are best
+read as statements about differential forms. The residue theorem on a compact
+Riemann surface (\cref{thm:A-residue-compact}) is another global Stokes-type
+identity --- the vanishing of a sum of local data --- and it is the form used in
+\cref{ch:divisors}.
+
+\item \textbf{Cauchy--Green and residues.} That residues are global obstructions
+--- local singular data constrained by a global sum --- is the philosophy behind
+Abel's law (\cref{ch:elliptic_liouville,ch:abel}): the zeros and poles of an
+elliptic function cannot be prescribed freely.
+
+\item \textbf{The torus as a quotient.} The midterm computed invariants of real
+and complex tori. The complex torus \(T = \C/\Lambda\) is the source of the group
+law here (\cref{ch:lattices,ch:torus_group_surface}).
+
+\item \textbf{Euler characteristic of a torus.} The midterm found \(\chi(T) = 0\);
+with \(\chi = 2 - 2g\) this gives genus \(g = 1\) (\cref{prop:tg-euler}), exactly
+the genus that makes Riemann--Roch take its elliptic-curve form.
+\end{enumerate}
+
+\section{From the Final}
+\label{sec:B-final}
+
+\begin{enumerate}
+\item \textbf{Compact Riemann surfaces and meromorphic maps.} The final used that
+nonconstant holomorphic maps between compact Riemann surfaces are finite branched
+coverings. Here \(\wp, \wp'\) are meromorphic on the compact surface \(T\), and
+\(\wp : T \to \CP^1\) is the degree-two cover of \cref{sec:wp-roots}.
+
+\item \textbf{Principal divisors have degree zero.} Proved on the final via the
+logarithmic derivative \(df/f\); it is the degree half of Abel's law
+(\cref{thm:div-degzero}).
+
+\item \textbf{Riemann--Roch.} On a genus-one surface it predicts the dimensions
+\(\ell(nO) = n\) that force \(1, \wp, \wp'\) to be the coordinate functions ---
+counts the present treatment derives elementarily
+(\cref{prop:rr-counts,sec:rr-functions}).
+
+\item \textbf{The torus and \(\wp\).} The final's \(\wp\)-problem derived
+\(\wp'^2 = 4\wp^3 - g_2\wp - g_3\) (\cref{thm:wp-ode}), which is precisely the
+equation of the plane cubic.
+\end{enumerate}
+
+\begin{keyidea}{Exam-to-lecture bridge}
+The midterm supplies the geometric and differential-form intuition; the final
+supplies the compact Riemann surface tools. Together they explain why the
+algebraic-looking chord--tangent rule is forced by complex analysis: the torus has
+genus one, principal divisors balance, and Riemann--Roch produces \(\wp\) and
+\(\wp'\).
+\end{keyidea}

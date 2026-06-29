@@ -1,0 +1,570 @@
+% The Weierstrass wp-Function  (source §7; added: full convergence proof,
+% rigorous periodicity/evenness, Eisenstein series and Laurent expansion,
+% complete derivation of wp'^2 = 4wp^3 - g2 wp - g3, the roots e_i, the
+% discriminant Delta != 0, wp as a degree-2 branched cover, and generation of
+% the field of elliptic functions)
+\chapter{The Weierstrass \texorpdfstring{$\wp$}{wp}-Function}
+\label{ch:weierstrass_wp}
+
+Riemann--Roch told us (\cref{ch:riemann_roch}) that the torus must carry a
+function with a double pole at \(O\); it did not produce one. This chapter
+constructs it explicitly --- the Weierstrass function \(\wp\) --- proves the
+series converges, and derives by hand the relation
+\(\wp'^2 = 4\wp^3 - g_2\wp - g_3\) predicted in \cref{rem:rr-cubic-preview}. The
+roots of the right-hand side are distinct (\(\Delta \ne 0\)), so the cubic is
+smooth; \(\wp\) realizes the torus as a double cover of \(\CP^1\); and the pair
+\((\wp, \wp')\) generates the whole field of elliptic functions. Everything the
+later chapters need about \(\wp\) is established here.
+
+\section{Definition and Convergence}
+\label{sec:wp-def}
+
+\begin{definition}
+\label{def:wp}
+For a lattice \(\Lambda\), the \emph{Weierstrass function} is
+\[
+  \wp(z) = \frac{1}{z^2}
+  + \sum_{\lambda \in \Lambda \setminus \{0\}}
+    \left( \frac{1}{(z-\lambda)^2} - \frac{1}{\lambda^2} \right).
+\]
+\end{definition}
+
+The subtracted \(1/\lambda^2\) is what makes the series converge; without it the
+sum of \(1/(z-\lambda)^2\) would diverge. Convergence rests on a counting
+estimate for the lattice.
+
+\begin{lemma}[Lattice sum estimate]
+\label{lem:wp-latsum}
+The number of lattice points with \(|\lambda| \le R\) is \(O(R^2)\), and
+consequently
+\[
+  \sum_{\lambda \in \Lambda \setminus \{0\}} \frac{1}{|\lambda|^{s}} < \infty
+  \qquad\text{for every } s > 2 .
+\]
+\end{lemma}
+
+\begin{proof}
+By \cref{ex:lat-discrete} the lattice points are separated, so disjoint disks of
+a fixed radius \(\rho\) about them lie within \(|\lambda| \le R + \rho\); comparing
+areas, their number is at most \(\pi(R+\rho)^2/(\pi\rho^2) = O(R^2)\). Grouping
+the nonzero lattice points into annuli \(n \le |\lambda| < n+1\), each annulus
+contains \(O(n)\) points, each contributing \(\le n^{-s}\), so
+\(\sum_\lambda |\lambda|^{-s} \le \sum_{n\ge 1} O(n)\,n^{-s}
+= \sum_{n \ge 1} O(n^{1-s})\), which converges for \(s > 2\).
+\end{proof}
+
+\begin{proposition}
+\label{prop:wp-converges}
+The series defining \(\wp\) converges absolutely and uniformly on every compact
+subset of \(\C \setminus \Lambda\). Hence \(\wp\) is meromorphic on \(\C\), with a
+double pole and zero residue at each lattice point and no other poles.
+\end{proposition}
+
+\begin{proof}
+Fix \(R > 0\) and consider \(|z| \le R\). For \(|\lambda| \ge 2R\),
+\[
+  \left| \frac{1}{(z-\lambda)^2} - \frac{1}{\lambda^2} \right|
+  = \left| \frac{z(2\lambda - z)}{\lambda^2 (z-\lambda)^2} \right|
+  \le \frac{R\,(2|\lambda| + R)}{|\lambda|^2 (|\lambda| - R)^2}
+  \le \frac{R \cdot 3|\lambda|}{|\lambda|^2 (|\lambda|/2)^2}
+  = \frac{12 R}{|\lambda|^3}.
+\]
+By \cref{lem:wp-latsum} with \(s = 3\), \(\sum_\lambda |\lambda|^{-3} < \infty\),
+so by the Weierstrass \(M\)-test the tail \(\sum_{|\lambda| \ge 2R}\) converges
+uniformly on \(|z| \le R\); the finitely many remaining terms are meromorphic
+there. Thus \(\wp\) is meromorphic, and near a lattice point \(\lambda_0\) the
+term \(1/(z-\lambda_0)^2\) supplies a double pole with zero residue while the rest
+is holomorphic.
+\end{proof}
+
+\section{Periodicity and Evenness}
+\label{sec:wp-periodic}
+
+\begin{proposition}
+\label{prop:wp-even-periodic}
+\(\wp\) is even, \(\wp(-z) = \wp(z)\), and \(\Lambda\)-periodic,
+\(\wp(z+\lambda) = \wp(z)\). Its derivative
+\[
+  \wp'(z) = -2 \sum_{\lambda \in \Lambda} \frac{1}{(z-\lambda)^3}
+\]
+is \(\Lambda\)-periodic and odd, with a triple pole at each lattice point.
+\end{proposition}
+
+\begin{proof}
+\emph{Evenness.} Replacing \(z\) by \(-z\) and reindexing \(\lambda \mapsto
+-\lambda\) (which permutes \(\Lambda\)),
+\(\wp(-z) = \tfrac1{z^2} + \sum_\lambda\bigl(\tfrac1{(z+\lambda)^2} -
+\tfrac1{\lambda^2}\bigr) = \wp(z)\).
+
+\emph{The derivative.} Differentiating the uniformly convergent series term by
+term gives \(\wp'(z) = -2\sum_{\lambda}(z-\lambda)^{-3}\), where now the sum runs
+over \emph{all} \(\lambda \in \Lambda\) (the \(\lambda = 0\) term is the
+derivative of \(1/z^2\)). This sum is manifestly periodic: for \(\mu \in \Lambda\),
+substituting \(z \mapsto z+\mu\) permutes the summands \(\lambda \mapsto
+\lambda - \mu\), so \(\wp'(z+\mu) = \wp'(z)\). It is odd because
+\(\wp = \) even implies \(\wp'\) odd (or directly from the symmetric sum).
+
+\emph{Periodicity of \(\wp\).} For a basis vector \(\omega\), the function
+\(g(z) = \wp(z+\omega) - \wp(z)\) has \(g'(z) = \wp'(z+\omega) - \wp'(z) = 0\), so
+\(g\) is a constant \(c\). Evaluating at \(z = -\omega/2\) (not a lattice point)
+and using evenness, \(c = \wp(\omega/2) - \wp(-\omega/2) = 0\). Hence
+\(\wp(z+\omega) = \wp(z)\) for each basis vector, so \(\wp\) is
+\(\Lambda\)-periodic.
+\end{proof}
+
+Thus \(\wp\) is an elliptic function of order two (one double pole per period),
+the minimal order allowed by \cref{cor:ell-order2}, and \(\wp'\) is elliptic of
+order three.
+
+\section{Eisenstein Series and the Laurent Expansion}
+\label{sec:wp-eisenstein}
+
+\begin{definition}
+\label{def:wp-eisenstein}
+For an even integer \(m \ge 4\) the \emph{Eisenstein series} of weight \(m\) is
+\[
+  G_m = G_m(\Lambda) = \sum_{\lambda \in \Lambda \setminus \{0\}} \frac{1}{\lambda^{m}},
+\]
+which converges by \cref{lem:wp-latsum}. For odd \(m\) the sum vanishes by the
+symmetry \(\lambda \mapsto -\lambda\).
+\end{definition}
+
+\begin{proposition}
+\label{prop:wp-laurent}
+Near \(z = 0\),
+\[
+  \wp(z) = \frac{1}{z^2} + \sum_{k \ge 1} (2k+1)\,G_{2k+2}\, z^{2k}
+  = \frac{1}{z^2} + 3 G_4 z^2 + 5 G_6 z^4 + O(z^6).
+\]
+\end{proposition}
+
+\begin{proof}
+For \(0 < |z| < |\lambda|\), expand \(\frac{1}{(z-\lambda)^2} =
+\frac{1}{\lambda^2}\bigl(1 - z/\lambda\bigr)^{-2}
+= \frac{1}{\lambda^2} \sum_{n \ge 0} (n+1)\,(z/\lambda)^n\), so
+\[
+  \frac{1}{(z-\lambda)^2} - \frac{1}{\lambda^2}
+  = \sum_{n \ge 1} (n+1)\,\frac{z^n}{\lambda^{n+2}} .
+\]
+Summing over \(\lambda \ne 0\) (absolute convergence justifies interchange) and
+adding \(1/z^2\),
+\[
+  \wp(z) = \frac{1}{z^2} + \sum_{n \ge 1} (n+1)\,G_{n+2}\,z^n .
+\]
+The odd-\(n\) terms drop (\(G_{n+2} = 0\) for \(n\) odd), leaving the stated even
+series with \(a_2 = 3G_4\), \(a_4 = 5G_6\).
+\end{proof}
+
+\section{The Differential Equation}
+\label{sec:wp-ode}
+
+\begin{theorem}[Weierstrass differential equation]
+\label{thm:wp-ode}
+With \(g_2 = 60 G_4\) and \(g_3 = 140 G_6\),
+\[
+  \boxed{\ \wp'^2 = 4\wp^3 - g_2 \wp - g_3 .\ }
+\]
+\end{theorem}
+
+\begin{proof}
+From \cref{prop:wp-laurent}, \(\wp = z^{-2} + 3G_4 z^2 + 5G_6 z^4 + O(z^6)\) and
+\(\wp' = -2z^{-3} + 6 G_4 z + 20 G_6 z^3 + O(z^5)\). Squaring and cubing,
+\[
+  \wp'^2 = 4 z^{-6} - 24 G_4 z^{-2} - 80 G_6 + O(z^2),
+  \qquad
+  4\wp^3 = 4 z^{-6} + 36 G_4 z^{-2} + 60 G_6 + O(z^2).
+\]
+Subtracting, the order-six poles cancel and
+\[
+  \wp'^2 - 4\wp^3 = -60 G_4 z^{-2} - 140 G_6 + O(z^2).
+\]
+Adding \(g_2 \wp = 60 G_4 z^{-2} + O(z^2)\) and the constant \(g_3 = 140 G_6\)
+cancels the remaining negative power and constant:
+\[
+  F := \wp'^2 - 4\wp^3 + g_2 \wp + g_3 = O(z^2) .
+\]
+Now \(F\) is elliptic (a polynomial in \(\wp, \wp'\)), and its only possible poles
+are at lattice points; the computation shows \(F\) is holomorphic at \(0\), and by
+periodicity at every lattice point, so \(F\) is holomorphic on the compact torus,
+hence constant (\cref{thm:ell-const}). Since \(F = O(z^2) \to 0\) as
+\(z \to 0\), that constant is \(0\). Therefore \(\wp'^2 = 4\wp^3 - g_2\wp - g_3\).
+\end{proof}
+
+\begin{keyidea}{The birth of the cubic}
+The equation \(\wp'^2 = 4\wp^3 - g_2\wp - g_3\) is not guessed. A specific
+polynomial in \(\wp\) and \(\wp'\) was arranged to have no pole at the origin;
+being elliptic and pole-free it is constant, and the Laurent expansion shows the
+constant is zero. The map \(z \mapsto (\wp(z), \wp'(z))\) therefore lands on the
+plane cubic \(y^2 = 4x^3 - g_2 x - g_3\) --- the embedding of
+\cref{ch:embedding}.
+\end{keyidea}
+
+\section{The Roots, the Discriminant, and the Double Cover}
+\label{sec:wp-roots}
+
+The cubic factors over \(\C\) as \(4\wp^3 - g_2\wp - g_3 = 4(\wp - e_1)(\wp - e_2)
+(\wp - e_3)\). The roots have a direct meaning on the torus.
+
+\begin{proposition}
+\label{prop:wp-roots}
+Let \(\tfrac{\omega_1}{2}, \tfrac{\omega_2}{2}, \tfrac{\omega_1+\omega_2}{2}\) be
+the three nonzero half-periods and set
+\(e_1 = \wp(\tfrac{\omega_1}{2})\), \(e_2 = \wp(\tfrac{\omega_2}{2})\),
+\(e_3 = \wp(\tfrac{\omega_1+\omega_2}{2})\). Then:
+\begin{enumerate}
+\item \(\wp'\) vanishes exactly at the three half-periods, each a simple zero;
+\item \(4\wp^3 - g_2\wp - g_3 = 4(\wp-e_1)(\wp-e_2)(\wp-e_3)\);
+\item \(e_1, e_2, e_3\) are distinct.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) \(\wp'\) is odd and periodic, so at a half-period \(\omega/2\), writing
+\(-\omega/2 \equiv \omega/2 \pmod\Lambda\), \(\wp'(\omega/2) = \wp'(-\omega/2) =
+-\wp'(\omega/2)\), hence \(\wp'(\omega/2) = 0\). That is three zeros; \(\wp'\) has
+order three (triple pole at \(O\)), so by \cref{thm:ell-valence} it has exactly
+three zeros, and these are simple.
+
+(2) By \cref{thm:wp-ode}, \(\wp'^2 = 4\wp^3 - g_2\wp - g_3\) vanishes wherever
+\(\wp' = 0\), i.e.\ at the half-periods, where \(\wp\) takes the values
+\(e_1, e_2, e_3\). So \(e_1, e_2, e_3\) are the roots of the cubic
+\(4x^3 - g_2 x - g_3\), giving the factorization.
+
+(3) Suppose \(e_1 = e_2\). The function \(\wp - e_1\) has order two (double pole
+at \(O\)), so exactly two zeros. It vanishes at \(\omega_1/2\), and there
+\((\wp - e_1)' = \wp' = 0\), so that zero is double --- using up both zeros. Then
+\(\wp - e_1\) cannot also vanish at \(\omega_2/2\), contradicting
+\(\wp(\omega_2/2) = e_2 = e_1\). Hence \(e_1 \ne e_2\), and similarly all three
+are distinct.
+\end{proof}
+
+\begin{definition}
+\label{def:wp-discriminant}
+The \emph{discriminant} of \(\Lambda\) is \(\Delta = g_2^3 - 27 g_3^2\).
+\end{definition}
+
+\begin{corollary}
+\label{cor:wp-smooth}
+\(\Delta = 16\,(e_1 - e_2)^2 (e_2 - e_3)^2 (e_1 - e_3)^2 \ne 0\). Equivalently the
+cubic \(y^2 = 4x^3 - g_2 x - g_3\) is nonsingular.
+\end{corollary}
+
+\begin{proof}
+For \(4x^3 - g_2 x - g_3 = 4(x-e_1)(x-e_2)(x-e_3)\) the elementary symmetric
+relations give \(e_1+e_2+e_3 = 0\), and a standard discriminant computation yields
+\(g_2^3 - 27 g_3^2 = 16 \prod_{i<j}(e_i - e_j)^2\). By \cref{prop:wp-roots}(3) the
+\(e_i\) are distinct, so \(\Delta \ne 0\). A plane cubic \(y^2 = p(x)\) is singular
+exactly when \(p\) has a repeated root, which \(\Delta \ne 0\) excludes.
+\end{proof}
+
+The geometric content is that \(\wp\) presents the torus as a branched double
+cover of the sphere (\cref{fig:branchedcover}): a generic value is attained twice
+(\(\wp\) has order two), while the four values \(e_1, e_2, e_3, \infty\) are
+attained once, at the half-periods and at \(O\). The Riemann--Hurwitz count
+\(\chi(T) = 2\,\chi(\CP^1) - (\text{branch points})\) reads
+\(0 = 2 \cdot 2 - 4\), confirming genus one.
+
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[scale=1.0, every node/.style={font=\small}]
+  % Top: precise torus with the four 2-torsion (half-lattice) points marked.
+  \begin{scope}[yshift=2.0cm, scale=0.85]
+    \drawprecisetorus
+    \fill[formrust!85!black] (\torusMarkhalfsumx,\torusMarkhalfsumy) circle (3pt);
+    \node[formrust!60!black, above, font=\scriptsize]
+      at (\torusMarkhalfsumx,\torusMarkhalfsumy) {$[\tfrac{\omega_1+\omega_2}{2}]$};
+    \fill[formrust!85!black] (\torusMarkzerox,\torusMarkzeroy) circle (3pt);
+    \node[formrust!60!black, below right, font=\scriptsize]
+      at (\torusMarkzerox,\torusMarkzeroy) {$[\tfrac{\omega_1}{2}]$};
+    \fill[formrust!85!black] (\torusMarkhalftwox,\torusMarkhalftwoy) circle (3pt);
+    \node[formrust!60!black, below left, font=\scriptsize]
+      at (\torusMarkhalftwox,\torusMarkhalftwoy) {$[\tfrac{\omega_2}{2}]$};
+    \fill[formrust!85!black] (\torusMarkhalfonex,\torusMarkhalfoney) circle (3pt);
+    \node[formrust!60!black, right, font=\scriptsize]
+      at (\torusMarkhalfonex,\torusMarkhalfoney) {$[0]$};
+    \node[formteal!55!black] at (-3.0,1.0) {$T$};
+  \end{scope}
+  \draw[-{Latex[length=3mm]}, formplum, line width=1.1pt] (0,0.7) -- (0,-0.1);
+  \node[formplum] at (0.35,0.3) {$\wp$, deg 2};
+  \begin{scope}[yshift=-1.5cm, scale=1.1]
+    \drawprecisesphere
+    \fill[formrust!85!black] (\sphereNorthx,\sphereNorthy) circle (2.4pt);
+    \node[formrust!60!black, above, font=\scriptsize]
+      at (\sphereNorthx,\sphereNorthy) {$\infty$};
+    \fill[formrust!85!black] (-0.707,-0.354) circle (2.4pt);
+    \node[formrust!60!black, left, font=\scriptsize] at (-0.78,-0.354) {$e_1$};
+    \fill[formrust!85!black] (0,-0.500) circle (2.4pt);
+    \node[formrust!60!black, below, font=\scriptsize] at (0,-0.56) {$e_2$};
+    \fill[formrust!85!black] (0.707,-0.354) circle (2.4pt);
+    \node[formrust!60!black, right, font=\scriptsize] at (0.78,-0.354) {$e_3$};
+    \node[formteal!55!black] at (-1.65,0.6) {$\CP^1$};
+  \end{scope}
+  \node[draw=black!40, rounded corners=2pt, fill=formivory, align=left, anchor=west,
+        inner sep=4pt] at (3.4,0.4)
+    {The map $\wp:T\to\CP^1$ is a\\$2:1$ branched cover\\
+     with $4$ branch values:\\
+     three roots $e_1,e_2,e_3$ and $\infty$.\\
+     Riemann--Hurwitz:\\
+     $0=2{\cdot}2-4{\cdot}(2-1)$.};
+\end{tikzpicture}
+\caption{\(\wp\) as a degree-two branched cover \(T \to \CP^1\). The four branch
+points are the half-periods (mapping to \(e_1, e_2, e_3\)) and \(O\) (mapping to
+\(\infty\)). Torus and sphere are rendered from \texttt{sagemath/08\_torus\_render.sage}
+and \texttt{sagemath/10\_sphere\_render.sage}.}
+\label{fig:branchedcover}
+\end{figure}
+
+\section{Generation of the Field of Elliptic Functions}
+\label{sec:wp-generation}
+
+We promised in \cref{ch:elliptic_liouville} that \(\wp, \wp'\) generate all
+elliptic functions. We can now prove it, and identify the field structure.
+
+\begin{theorem}
+\label{thm:wp-generation}
+The field of \(\Lambda\)-elliptic functions is \(\C(\wp, \wp')\). Moreover
+\(\wp' \notin \C(\wp)\), so \(\C(\wp,\wp')\) is a degree-two extension of
+\(\C(\wp)\), with \(\wp'\) satisfying the minimal relation
+\(\wp'^2 = 4\wp^3 - g_2\wp - g_3\).
+\end{theorem}
+
+\begin{proof}
+\emph{Minimality.} Every element of \(\C(\wp)\) is even, since \(\wp\) is even, so
+a rational function \(R(\wp)\) satisfies \(R(\wp)(-z) = R(\wp)(z)\). But \(\wp'\)
+is odd and not identically zero, so \(\wp' \notin \C(\wp)\). As \(\wp'^2 \in
+\C(\wp)\) by \cref{thm:wp-ode}, the extension \(\C(\wp,\wp')/\C(\wp)\) has degree
+exactly two.
+
+\emph{Generation.} Let \(f\) be elliptic. Split it into even and odd parts,
+\[
+  f = f_+ + f_-, \quad
+  f_+(z) = \tfrac12\bigl(f(z) + f(-z)\bigr), \quad
+  f_-(z) = \tfrac12\bigl(f(z) - f(-z)\bigr),
+\]
+both elliptic. Then \(f_-/\wp'\) is even (odd over odd), so it suffices to show
+every even elliptic function lies in \(\C(\wp)\). Let \(h\) be even elliptic.
+Since \(h(-z) = h(z)\), its divisor is invariant under \(z \mapsto -z\), so its
+zeros and poles occur in pairs \(\{[a], [-a]\}\) of equal order --- except at the
+four two-torsion points, where \([a] = [-a]\). At a two-torsion point \(a\) the
+order of \(h\) is \emph{even}: in the local coordinate \(w = z - a\) the
+involution \(z \mapsto -z\) is \(w \mapsto -w\) (because \(2a \in \Lambda\)), and
+\(h(a+w) = h(a-w)\), so \(h\) is an even function of \(w\) and vanishes (or blows
+up) to even order.
+
+Now match \(\divisor(h)\) with a rational function of \(\wp\). For a
+non-two-torsion pair where \(h\) has order \(m\), the factor
+\((\wp - \wp(a))^{m}\) has divisor \(m\bigl([a] + [-a] - 2[O]\bigr)\). For a
+two-torsion point \(a\) where \(h\) has order \(2m\), the factor
+\((\wp - \wp(a))^{m}\) has divisor \(2m\bigl([a] - [O]\bigr)\), because
+\(\wp - \wp(a)\) has a \emph{double} zero at the half-period \(a\) (there
+\(\wp' = 0\), \cref{prop:wp-roots}). Let \(R(\wp)\) be the product of these
+factors, the exponent positive at zeros of \(h\) and negative at its poles. Then
+\(\divisor(h)\) and \(\divisor R(\wp)\) agree at every point except possibly
+\(O\); both have degree \(0\) (\cref{thm:div-degzero}), so their coefficients at
+\(O\) agree too, and \(\divisor(h) = \divisor R(\wp)\). Hence \(h/R(\wp)\) is
+elliptic with no zeros or poles, so it is constant, and \(h \in \C(\wp)\).
+Therefore \(f = f_+ + (f_-/\wp')\,\wp' \in \C(\wp,\wp')\).
+\end{proof}
+
+\section{The \texorpdfstring{$\sigma$}{sigma}-Function and the Converse of Abel}
+\label{sec:wp-sigma}
+
+The converse of Abel's law --- that a degree-zero divisor with Abel sum zero is the
+divisor of an elliptic function --- was deferred in
+\cref{ch:divisors,ch:riemann_roch} to an existence theorem. We now discharge it
+\emph{constructively}, building the function explicitly from a third Weierstrass
+function.
+
+\begin{definition}
+\label{def:wp-sigma}
+The Weierstrass \emph{sigma function} is
+\[
+  \sigma(z) = z \prod_{\lambda \in \Lambda\setminus\{0\}}
+  \Bigl(1 - \tfrac{z}{\lambda}\Bigr)
+  \exp\!\Bigl(\tfrac{z}{\lambda} + \tfrac12\bigl(\tfrac{z}{\lambda}\bigr)^2\Bigr).
+\]
+\end{definition}
+
+\begin{proposition}
+\label{prop:wp-sigma}
+The product converges normally on compact sets, so \(\sigma\) is entire; it is odd,
+\(\sigma(-z) = -\sigma(z)\), and its zeros are exactly the lattice points, each
+simple.
+\end{proposition}
+
+\begin{proof}
+Taking logarithms, the factor at \(\lambda\) contributes
+\[
+  \log\!\Bigl(1 - \tfrac{z}{\lambda}\Bigr) + \tfrac{z}{\lambda}
+  + \tfrac12\bigl(\tfrac{z}{\lambda}\bigr)^2
+  = -\sum_{m\ge3}\frac1m\Bigl(\tfrac{z}{\lambda}\Bigr)^m
+  = O\bigl(|\lambda|^{-3}\bigr)
+\]
+for \(|z|\le R\), \(|\lambda|\ge 2R\); by \cref{lem:wp-latsum} with \(s = 3\) the
+sum converges normally, so the product converges to an entire function whose zeros
+are those of
+its factors --- \(z = 0\) from the leading \(z\), and \(z = \lambda\) from
+\(1 - z/\lambda\) --- each simple. For oddness, re-index \(\lambda \mapsto -\lambda\):
+\(\sigma(-z) = -z\prod(1 + z/\lambda)\exp(-z/\lambda + \tfrac12(z/\lambda)^2)
+= -\sigma(z)\).
+\end{proof}
+
+The logarithmic derivative \(\zeta = \sigma'/\sigma\) is the Weierstrass
+\emph{zeta function}
+\[
+  \zeta(z) = \frac1z + \sum_{\lambda\neq0}
+  \Bigl(\frac{1}{z-\lambda} + \frac1\lambda + \frac{z}{\lambda^2}\Bigr),
+\]
+odd, with a simple pole of residue \(1\) at each lattice point. Differentiating
+term by term, \(\zeta'(z) = -\tfrac1{z^2} + \sum_{\lambda\neq0}\bigl(-\tfrac1{(z-\lambda)^2}
++ \tfrac1{\lambda^2}\bigr) = -\wp(z)\) (\cref{def:wp}); equivalently
+\(\wp = -(\log\sigma)''\), so this \(\sigma\) is the one attached to the book's
+\(\wp\).
+
+\begin{proposition}[Quasi-periodicity]
+\label{prop:wp-sigma-quasi}
+For each basis period \(\omega_k\) there is a constant \(\eta_k = 2\zeta(\omega_k/2)\)
+with
+\[
+  \zeta(z+\omega_k) = \zeta(z) + \eta_k,
+  \qquad
+  \sigma(z+\omega_k) = -\,\sigma(z)\,\exp\!\bigl(\eta_k(z + \tfrac{\omega_k}{2})\bigr).
+\]
+\end{proposition}
+
+\begin{proof}
+Since \(\zeta' = -\wp\) is \(\Lambda\)-periodic (\cref{prop:wp-even-periodic}),
+\(\zeta(z+\omega_k) - \zeta(z)\) is constant; evaluating at \(z = -\omega_k/2\) and
+using \(\zeta\) odd gives the constant \(2\zeta(\omega_k/2) =: \eta_k\). As
+\((\log\sigma)' = \zeta\), \(\tfrac{d}{dz}\log\tfrac{\sigma(z+\omega_k)}{\sigma(z)}
+= \eta_k\), so \(\sigma(z+\omega_k) = \sigma(z)\,e^{\eta_k z + c_k}\) for a constant
+\(c_k\). Setting \(z = -\omega_k/2\) and using \(\sigma(-\omega_k/2) =
+-\sigma(\omega_k/2) \neq 0\) gives \(e^{c_k - \eta_k\omega_k/2} = -1\), which is the
+stated formula.
+\end{proof}
+
+\begin{remark}
+\label{rem:wp-legendre}
+The quasi-periods obey the Legendre relation \(\eta_1\omega_2 - \eta_2\omega_1 =
+2\pi i\) for a positively oriented basis (integrate \(\zeta\) around a period
+parallelogram); we will not need it.
+\end{remark}
+
+\begin{theorem}[Converse of Abel, constructively]
+\label{thm:wp-converse}
+Let \(D = \sum_{i=1}^n [a_i] - \sum_{i=1}^n [b_i]\) be a divisor of degree zero on
+\(T\) with Abel sum zero, \(\sum_i a_i \equiv \sum_i b_i \pmod\Lambda\). Then \(D\)
+is principal, \(D = \divisor(F)\), with
+\[
+  F(z) = \frac{\prod_{i=1}^n \sigma(z - a_i)}{\prod_{i=1}^n \sigma(z - b_i)} .
+\]
+\end{theorem}
+
+\begin{proof}
+Adjusting one representative by a lattice vector --- which changes neither its class
+nor \(D\) --- we may assume \(\sum_i a_i = \sum_i b_i\) in \(\C\). By
+\cref{prop:wp-sigma} the \(a_i\) are simple zeros and the \(b_i\) simple poles of
+\(F\) (with multiplicity if repeated), so \(\divisor(F) = D\). For periodicity, by
+\cref{prop:wp-sigma-quasi} each basis period gives
+\[
+  \frac{F(z+\omega_k)}{F(z)}
+  = \frac{\prod_i\bigl(-e^{\eta_k(z - a_i + \omega_k/2)}\bigr)}
+         {\prod_i\bigl(-e^{\eta_k(z - b_i + \omega_k/2)}\bigr)}
+  = \exp\!\Bigl(\eta_k\bigl(\textstyle\sum_i b_i - \sum_i a_i\bigr)\Bigr) = 1 :
+\]
+the \((-1)^n\) factors and the \(nz + n\omega_k/2\) terms cancel because the counts
+are equal (degree zero), and the exponent vanishes because \(\sum a_i = \sum b_i\)
+(Abel sum zero). So \(F\) is elliptic with \(\divisor(F) = D\), and \(D\) is
+principal.
+\end{proof}
+
+\begin{remark}
+\label{rem:wp-selfcontained}
+\Cref{thm:wp-converse} is the converse of Abel's law; it completes the isomorphism
+\(\Pic^0(T) \cong T\) (\cref{thm:div-pic-iso,cor:rr-degree-one}) with no appeal to
+Riemann--Roch. Together with the elementary counts of \cref{prop:rr-counts}, every
+load-bearing result in the book is now proved from within it. Riemann--Roch
+(\cref{thm:rr}) remains as the general theorem, illuminating but unneeded.
+\end{remark}
+
+\section{Summary}
+\label{sec:wp-summary}
+
+The Weierstrass function \(\wp(z) = z^{-2} + \sum_{\lambda \ne 0}\bigl((z-\lambda)^{-2}
+- \lambda^{-2}\bigr)\) converges (\cref{prop:wp-converges}) to an even elliptic
+function of order two, with odd derivative \(\wp'\) of order three
+(\cref{prop:wp-even-periodic}). Its Laurent expansion has Eisenstein coefficients
+\(G_4, G_6\) (\cref{prop:wp-laurent}), and a pole-cancellation argument yields the
+differential equation \(\wp'^2 = 4\wp^3 - g_2\wp - g_3\) with \(g_2 = 60G_4\),
+\(g_3 = 140G_6\) (\cref{thm:wp-ode}). The roots \(e_i = \wp(\omega_i/2)\) are the
+values of \(\wp\) at the half-periods and are distinct, so the discriminant
+\(\Delta = g_2^3 - 27g_3^2\) is nonzero and the cubic is smooth
+(\cref{prop:wp-roots,cor:wp-smooth}); \(\wp\) exhibits \(T\) as a double cover of
+\(\CP^1\) branched over \(e_1, e_2, e_3, \infty\). Finally \(\C(\wp, \wp')\) is the
+full field of elliptic functions, a quadratic extension of \(\C(\wp)\)
+(\cref{thm:wp-generation}). Finally the sigma function \(\sigma\)
+(\cref{def:wp-sigma}), a third Weierstrass function, builds an elliptic function
+with any prescribed balanced divisor, proving the converse of Abel's law
+constructively (\cref{thm:wp-converse}) --- so \(\Pic^0(T) \cong T\) needs no
+Riemann--Roch. The next chapter turns \((\wp, \wp')\) into the embedding of
+\cref{thm:main}.
+
+\section*{Exercises}
+\addcontentsline{toc}{section}{Exercises}
+
+\begin{exercise}
+\label{ex:wp-convergence}
+Prove \cref{lem:wp-latsum} in detail, and use it to justify term-by-term
+differentiation of the \(\wp\)-series, giving
+\(\wp'(z) = -2\sum_{\lambda}(z-\lambda)^{-3}\).
+\end{exercise}
+
+\begin{exercise}
+\label{ex:wp-g2g3}
+From the Laurent expansion derive \(a_2 = 3G_4\) and \(a_4 = 5G_6\), and confirm
+\(g_2 = 20a_2 = 60G_4\) and \(g_3 = 28a_4 = 140G_6\). (Match the
+\(z^{-2}\) and constant terms of \(\wp'^2 - 4\wp^3\).)
+\end{exercise}
+
+\begin{exercise}
+\label{ex:wp-roots-distinct}
+Give the discriminant computation \(g_2^3 - 27g_3^2 = 16\prod_{i<j}(e_i-e_j)^2\)
+starting from \(e_1+e_2+e_3 = 0\), \(e_1e_2+e_1e_3+e_2e_3 = -g_2/4\),
+\(e_1e_2e_3 = g_3/4\). Conclude \(\Delta \ne 0\) from
+\cref{prop:wp-roots}(3).
+\end{exercise}
+
+\begin{exercise}
+\label{ex:wp-field}
+Show every elliptic function \(f\) can be written \(f = A(\wp) + B(\wp)\,\wp'\)
+with \(A, B\) rational, by splitting \(f\) into even and odd parts as in
+\cref{thm:wp-generation}. Where is \(\wp' \notin \C(\wp)\) used?
+\end{exercise}
+
+\begin{exercise}
+\label{ex:wp-recurrence}
+Differentiate \(\wp'^2 = 4\wp^3 - g_2\wp - g_3\) to obtain
+\(\wp'' = 6\wp^2 - \tfrac12 g_2\). Expanding both sides in Laurent series, derive
+a recurrence expressing each Eisenstein coefficient \(G_{2k}\) (\(k \ge 4\)) as a
+polynomial in \(G_4\) and \(G_6\). (Thus all \(G_{2k}\) are determined by
+\(G_4, G_6\).)
+\end{exercise}
+
+\begin{exercise}
+\label{ex:wp-sigma-quasi}
+Complete the proof of \cref{prop:wp-sigma-quasi}: starting from \(\zeta(z+\omega_k)
+= \zeta(z) + \eta_k\) and \((\log\sigma)' = \zeta\), integrate to get
+\(\sigma(z+\omega_k) = \sigma(z)\,e^{\eta_k z + c_k}\), then determine the constant
+\(c_k\) by setting \(z = -\omega_k/2\) and using that \(\sigma\) is odd, obtaining
+\(\sigma(z+\omega_k) = -\sigma(z)\,e^{\eta_k(z + \omega_k/2)}\).
+\end{exercise}
+
+\begin{exercise}
+\label{ex:wp-converse-check}
+In the proof of \cref{thm:wp-converse}, verify the cancellation
+\(F(z+\omega_k)/F(z) = \exp\!\bigl(\eta_k(\sum_i b_i - \sum_i a_i)\bigr)\) in
+detail, and identify exactly where the two hypotheses are used: that the number of
+zeros equals the number of poles (degree zero), and that \(\sum_i a_i = \sum_i b_i\)
+(Abel sum zero). Which hypothesis fails, and what goes wrong, for the divisor
+\([a] - [0]\) with \(a \notin \Lambda\)?
+\end{exercise}

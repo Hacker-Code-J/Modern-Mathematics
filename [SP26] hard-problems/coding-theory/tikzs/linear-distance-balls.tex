@@ -1,0 +1,34 @@
+% Packing balls around codewords.
+\documentclass[tikz, border=8pt]{standalone}
+\input{coding-fig-common.tex}
+
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+  \node[title text] at (0,3.08) {Distance, Detection, and Correction};
+  \node[caption text] at (0,2.67) {If $d(\mathcal C)\ge 2t+1$, radius-$t$ balls around codewords are disjoint.};
+
+  \foreach \x/\y/\name in {-3.3/0.82/c_1,0/0.15/c_2,3.3/0.82/c_3,-1.65/-1.35/c_4,1.65/-1.35/c_5}{
+    \fill[AccentCyan!10] (\x,\y) circle (0.72);
+    \draw[AccentCyan!50, dashed, line width=0.8pt] (\x,\y) circle (0.72);
+    \fill[AccentCyan!18] (\x,\y) circle (0.36);
+    \draw[TealDarkCyan!72, line width=1pt] (\x,\y) circle (0.36);
+    \fill[Paper] (\x,\y) circle (0.11);
+    \draw[TealDarkCyan, line width=0.8pt] (\x,\y) circle (0.11);
+    \fill[AccentCyan] (\x,\y) circle (0.045);
+    \node[tiny label, above=0.14cm] at (\x,\y) {$\name$};
+  }
+
+  \draw[flow amber] (-3.3,0.82) -- (0,0.15)
+    node[midway, above=0.14cm, tiny label] {$\ge d$};
+  \draw[flow amber] (0,0.15) -- (3.3,0.82)
+    node[midway, above=0.14cm, tiny label] {$\ge d$};
+
+  \node[process blue, minimum width=2.4cm] at (-3.3,-2.55)
+    {\small detect $\le d-1$\\[-1pt]\scriptsize no small error is a codeword};
+  \node[process, minimum width=2.4cm] at (0,-2.55)
+    {\small correct $\le t$\\[-1pt]\scriptsize unique nearest ball};
+  \node[process amber, minimum width=2.4cm] at (3.3,-2.55)
+    {\small Hamming bound\\[-1pt]\scriptsize count disjoint balls};
+\end{tikzpicture}
+\end{document}
+

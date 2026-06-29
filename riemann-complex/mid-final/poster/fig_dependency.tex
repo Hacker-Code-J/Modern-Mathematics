@@ -1,0 +1,40 @@
+% The argument as a closed LOOP: build the torus into a cubic along the top
+% (T -> wp,wp' -> E), then a line on E hands three points back to the torus whose
+% sum is zero (bottom), and the return arrow IS the group law.  Teal = the three
+% spaces; gold = the two mechanisms; the rust return arrow is the punchline.
+% Drawn at native scale; poster.tex sizes it to the block width.  (shadings loaded;
+% no shadows library -- depth comes from a subtle top/bottom gradient.)
+\begin{tikzpicture}[
+    >=Latex, line cap=round, line join=round,
+    obj/.style={rectangle, rounded corners=7pt, draw=formteal!72!black, line width=1.2pt,
+      top color=formteal!3, bottom color=formteal!20, align=center,
+      inner sep=9pt, minimum width=5.8cm, minimum height=2.6cm},
+    fact/.style={rectangle, rounded corners=7pt, draw=formgold!85!black, line width=1.2pt,
+      top color=formgold!4, bottom color=formgold!26, align=center,
+      inner sep=9pt, minimum width=5.8cm, minimum height=2.6cm},
+    flow/.style={-{Latex[length=4mm,width=3mm]}, line width=1.7pt, draw=formslate},
+    back/.style={-{Latex[length=4.6mm,width=3.4mm]}, line width=2.2pt, draw=formrust!88!black},
+    chip/.style={fill=white, draw=black!16, rounded corners=2.5pt, inner sep=4pt,
+      font=\small, align=center},
+    achip/.style={fill=formrust!9, draw=formrust!55, rounded corners=2.5pt, inner sep=5pt,
+      font=\small\bfseries, text=formrust!72!black, align=center},
+  ]
+  % --- the three spaces (top row) ---
+  \node[obj] (T)  at (0,0)  {\textbf{complex torus}\\[2pt]$T=\C/\Lambda$\\[1pt]{\footnotesize\itshape addition is free}};
+  \node[obj] (wp) at (9,0)  {\textbf{Weierstrass}\\\textbf{functions} $\wp,\wp'$};
+  \node[obj] (E)  at (18,0) {\textbf{plane cubic}\\[2pt]$E\subset\CP^2$\\[1pt]{\footnotesize$y^2=4x^3-g_2x-g_3$}};
+  % --- the two mechanisms (bottom row) ---
+  \node[fact] (line) at (18,-7.4) {\textbf{a line meets }$\boldsymbol{E}$\\[2pt]in three points $P,Q,R$};
+  \node[fact] (div)  at (0,-7.4)  {\textbf{their torus-sum is }$\boldsymbol{0}$\\[2pt]$P\oplus Q\oplus R=O$};
+  % --- central tie: a focal badge linking the two rows ---
+  \node[rounded corners=6pt, draw=formteal!45!black, line width=1pt, align=center,
+        fill=white, fill opacity=0.9, text opacity=1, inner sep=8pt, text=formteal!42!black]
+        at (9,-3.85)
+    {\itshape the loop closes:\\[3pt]{\large$\C/\Lambda\;\cong\;E$}\\[2pt]\itshape= the group law};
+  % --- arrows around the loop ---
+  \draw[flow] (T)  -- node[chip,above=1pt] {$\Phi$\\[1pt]{\footnotesize$[\wp{:}\wp'{:}1]$}} (wp);
+  \draw[flow] (wp) -- node[chip,above=1pt] {lands\\on $E$} (E);
+  \draw[flow] (E)  -- node[chip,left=3pt] {cut by\\a line} (line);
+  \draw[flow] (line) -- node[chip,below=1pt] {Abel relation:\ \ $\sum z_i\equiv 0 \ (\mathrm{mod}\ \Lambda)$} (div);
+  \draw[back] (div) -- node[achip,right=3pt] {collinear\\$\Leftrightarrow$ sum $=O$} (T);
+\end{tikzpicture}

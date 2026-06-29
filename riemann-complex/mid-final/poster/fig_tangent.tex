@@ -1,0 +1,29 @@
+% Doubling 2P by the tangent line (the worked example).  On y^2=4x^3-4x the tangent at
+% P=(2,2sqrt6) meets the curve again at R=(25/24, 35sqrt6/144); reflecting R across the
+% x-axis gives 2P.  (A uniform x/y scaling is applied for a readable aspect ratio; it is
+% affine, so tangency and the three intersections are preserved exactly.)
+\begin{tikzpicture}[>=Latex, xscale=1.35, yscale=0.58]
+  \draw[->, black!50, line width=0.5pt] (-1.5,0)--(2.65,0) node[right, font=\small] {$x$};
+  \draw[->, black!50, line width=0.5pt] (0,-5.8)--(0,6.1) node[above, font=\small] {$y$};
+  % the cubic: oval (x in [-1,0]) and unbounded branch (x >= 1)
+  \draw[formteal!62!black, line width=1.2pt, smooth, samples=60, domain=-1:0]
+    plot (\x,{ 2*sqrt(max(\x*\x*\x-\x,0))});
+  \draw[formteal!62!black, line width=1.2pt, smooth, samples=60, domain=-1:0]
+    plot (\x,{-2*sqrt(max(\x*\x*\x-\x,0))});
+  \draw[formteal!62!black, line width=1.2pt, smooth, samples=80, domain=1:2.12]
+    plot (\x,{ 2*sqrt(max(\x*\x*\x-\x,0))});
+  \draw[formteal!62!black, line width=1.2pt, smooth, samples=80, domain=1:2.12]
+    plot (\x,{-2*sqrt(max(\x*\x*\x-\x,0))});
+  \foreach \r in {-1,0,1}{\fill[formteal!60!black] (\r,0) circle (1.8pt);}
+  % the tangent line at P
+  \draw[formplum, line width=1.2pt] (0.95,0.184)--(2.16,5.617);
+  % reflect R down to 2P
+  \draw[formgold!80!black, dashed, line width=0.9pt] (1.0417,0.595)--(1.0417,-0.595);
+  % the three marked points
+  \fill[formrust!88!black] (2,4.899) circle (3.0pt);
+  \node[left=2pt, formrust!70!black] at (2,4.899) {$P$};
+  \fill[formteal!88!black] (1.0417,0.595) circle (2.6pt);
+  \node[right=2pt, formteal!55!black] at (1.0417,0.595) {$R$};
+  \fill[formgold!90!black] (1.0417,-0.595) circle (3.2pt);
+  \node[right=2pt, formgold!52!black] at (1.0417,-0.595) {$2P$};
+\end{tikzpicture}

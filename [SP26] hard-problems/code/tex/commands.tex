@@ -1,0 +1,163 @@
+% -- math shorthands ----------------------------------------------------------
+
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+
+\newcommand{\set}[1]{\left\{#1\right\}}
+\newcommand{\abs}[1]{\left|#1\right|}
+\newcommand{\norm}[1]{\left\lVert #1\right\rVert}
+\newcommand{\inner}[2]{\left\langle #1,#2\right\rangle}
+\newcommand{\gen}[1]{\left\langle #1\right\rangle}
+\newcommand{\ideal}[1]{\left\langle #1\right\rangle}
+\newcommand{\vect}[1]{\mathbf{#1}}
+\newcommand{\mat}[1]{\mathbf{#1}}
+
+% -- coding theory shorthands -------------------------------------------------
+
+\newcommand{\code}{\mathcal{C}}
+\newcommand{\wt}{\operatorname{wt}}
+\newcommand{\rank}{\operatorname{rank}}
+\newcommand{\Span}{\operatorname{span}}
+\newcommand{\supp}{\operatorname{supp}}
+\newcommand{\poly}{\operatorname{poly}}
+\newcommand{\negl}{\operatorname{negl}}
+\newcommand{\ol}[1]{\overline{#1}}
+
+\newcommand{\nkcode}[3]{[#1,#2]_{#3}}
+\newcommand{\nkdcode}[4]{[#1,#2,#3]_{#4}}
+
+% -- presentation teaching lens -----------------------------------------------
+
+\newcommand{\hardproblemlens}{%
+  Code-based hardness lives in the gap between linear algebra and combinatorial search.%
+}
+\newcommand{\HardProblemLens}[1]{%
+  \gdef\hardproblemlens{#1}%
+}
+
+% -- colors -------------------------------------------------------------------
+
+\definecolor{accent}{HTML}{1F4E79}
+\definecolor{softaccent}{HTML}{EAF2F8}
+\definecolor{softgray}{HTML}{F6F7F9}
+\definecolor{successdraw}{HTML}{27AE60}
+\definecolor{successfill}{HTML}{EAFAF1}
+\definecolor{errordraw}{HTML}{C0392B}
+\definecolor{errorfill}{HTML}{FDEDEC}
+
+\definecolor{Ink}{HTML}{101A24}
+\definecolor{Paper}{HTML}{F8FBFC}
+\definecolor{Grid}{HTML}{DCEAEC}
+\definecolor{BlueCode}{HTML}{3155A4}
+\definecolor{AmberCode}{HTML}{B87511}
+\definecolor{ErrorRed}{HTML}{D33F49}
+\definecolor{GoodGreen}{HTML}{3C8D4F}
+\definecolor{VioletCode}{HTML}{6E5AA8}
+
+% -- tikz styles --------------------------------------------------------------
+
+\tikzset{
+  every picture/.style={
+    font=\sffamily,
+    line cap=round,
+    line join=round
+  },
+  title text/.style={
+    font=\sffamily\bfseries\large,
+    text=TealDarkCyan
+  },
+  caption text/.style={
+    font=\sffamily\small,
+    text=Ink!72
+  },
+  tiny label/.style={
+    font=\sffamily\scriptsize,
+    text=Ink!72
+  },
+  bit/.style={
+    draw=TealDarkCyan!55,
+    fill=Paper,
+    minimum width=0.46cm,
+    minimum height=0.46cm,
+    inner sep=0pt,
+    font=\sffamily\scriptsize\bfseries
+  },
+  bit teal/.style={
+    bit,
+    fill=AccentCyan!13,
+    draw=AccentCyan!75,
+    text=TealDarkCyan
+  },
+  bit blue/.style={
+    bit,
+    fill=BlueCode!12,
+    draw=BlueCode!72,
+    text=BlueCode!85!black
+  },
+  bit amber/.style={
+    bit,
+    fill=AmberCode!15,
+    draw=AmberCode!72,
+    text=AmberCode!85!black
+  },
+  bit error/.style={
+    bit,
+    fill=ErrorRed!13,
+    draw=ErrorRed!80,
+    text=ErrorRed!85!black
+  },
+  panel/.style={
+    draw=TealDarkCyan!26,
+    fill=Paper,
+    rounded corners=3pt,
+    line width=0.8pt,
+    inner sep=6pt
+  },
+  process/.style={
+    draw=TealDarkCyan!68,
+    fill=TealDarkCyan!7,
+    rounded corners=3pt,
+    line width=0.9pt,
+    align=center,
+    inner sep=6pt
+  },
+  process blue/.style={
+    process,
+    draw=BlueCode!70,
+    fill=BlueCode!8,
+    text=BlueCode!80!black
+  },
+  process amber/.style={
+    process,
+    draw=AmberCode!75,
+    fill=AmberCode!10,
+    text=AmberCode!80!black
+  },
+  process red/.style={
+    process,
+    draw=ErrorRed!75,
+    fill=ErrorRed!9,
+    text=ErrorRed!85!black
+  },
+  flow/.style={
+    -{Stealth[length=3.0pt]},
+    line width=0.95pt,
+    draw=TealDarkCyan!80
+  },
+  flow blue/.style={
+    flow,
+    draw=BlueCode!80
+  },
+  flow amber/.style={
+    flow,
+    draw=AmberCode!82
+  },
+  flow red/.style={
+    flow,
+    draw=ErrorRed!80
+  }
+}

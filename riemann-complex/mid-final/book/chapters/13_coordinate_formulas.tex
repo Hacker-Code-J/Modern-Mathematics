@@ -1,0 +1,224 @@
+% Explicit Coordinate Formulas  (source §17; added: full derivations, all
+% special cases, and the observation that the law is given by rational maps, so
+% E is an algebraic group defined over any field with Delta != 0)
+\chapter{Explicit Coordinate Formulas}
+\label{ch:coordinate_formulas}
+
+The divisor argument of \cref{ch:transport} explains \emph{why} the
+chord--tangent construction is a group law; for computation we want the law as
+formulas. This chapter derives the closed forms for addition and doubling on
+\[
+  E : \quad y^2 = 4x^3 - g_2 x - g_3,
+\]
+tabulates the degenerate cases, and observes that because the formulas are
+rational, the group law makes sense --- and stays a group --- over any field, not
+just \(\C\). That observation is what carries elliptic curves into number theory
+and cryptography (\cref{ch:synthesis}).
+
+\section{Addition of Distinct, Non-Inverse Points}
+\label{sec:coord-add}
+
+\begin{theorem}[Addition formula]
+\label{thm:coord-add}
+Let \(P = (x_1, y_1)\) and \(Q = (x_2, y_2)\) be finite points of \(E\) with
+\(P \ne Q\) and \(Q \ne \ominus P\); then \(x_1 \ne x_2\). With slope and
+intercept
+\[
+  m = \frac{y_2 - y_1}{x_2 - x_1}, \qquad b = y_1 - m x_1,
+\]
+the sum \(P \oplus Q = (x_3, y_3)\) is
+\[
+  \boxed{\,x_3 = \frac{m^2}{4} - x_1 - x_2, \qquad
+  y_3 = -(m x_3 + b) = m(x_1 - x_3) - y_1 .\,}
+\]
+\end{theorem}
+
+\begin{proof}
+The line through \(P\) and \(Q\) is \(y = mx + b\). Substituting into the cubic,
+\[
+  (mx + b)^2 = 4x^3 - g_2 x - g_3
+  \quad\Longrightarrow\quad
+  4x^3 - m^2 x^2 - (g_2 + 2mb)x - (g_3 + b^2) = 0 .
+\]
+Its three roots are the \(x\)-coordinates \(x_1, x_2, x_R\) of the intersection
+points \(P, Q, R\). Vieta's formula for the sum of roots (negative of the
+\(x^2\)-coefficient divided by the leading coefficient) gives
+\(x_1 + x_2 + x_R = m^2/4\), so the third intersection has
+\(x_R = \tfrac{m^2}{4} - x_1 - x_2\). By \cref{thm:tr-main},
+\(P \oplus Q = \ominus R\), and reflection fixes the \(x\)-coordinate, so
+\(x_3 = x_R\). The \(y\)-coordinate is the reflection of the line value:
+\(y_3 = -(m x_R + b)\). Using \(b = y_1 - m x_1\) this is
+\(y_3 = m(x_1 - x_3) - y_1\).
+\end{proof}
+
+\section{Doubling}
+\label{sec:coord-double}
+
+\begin{theorem}[Doubling formula]
+\label{thm:coord-double}
+Let \(P = (x_1, y_1)\) with \(y_1 \ne 0\). The tangent slope is
+\[
+  m = \frac{12 x_1^2 - g_2}{2 y_1},
+\]
+and \(2P = (x_3, y_3)\) is
+\[
+  \boxed{\,x_3 = \frac{m^2}{4} - 2 x_1, \qquad
+  y_3 = m(x_1 - x_3) - y_1 .\,}
+\]
+\end{theorem}
+
+\begin{proof}
+Differentiating \(y^2 = 4x^3 - g_2 x - g_3\) implicitly gives
+\(2y\,y' = 12 x^2 - g_2\), so the tangent at \(P\) has slope
+\(m = (12 x_1^2 - g_2)/(2 y_1)\) (finite since \(y_1 \ne 0\)). The tangent meets
+\(E\) at \(P\) with multiplicity two, so \(x_1\) is a double root of the cubic of
+\cref{thm:coord-add}; Vieta gives \(2x_1 + x_R = m^2/4\), hence
+\(x_R = \tfrac{m^2}{4} - 2x_1\). As before \(2P = \ominus R\), so
+\(x_3 = x_R\) and \(y_3 = m(x_1 - x_3) - y_1\).
+\end{proof}
+
+The doubling formula is the \(Q \to P\) limit of the addition formula: the secant
+slope \((y_2 - y_1)/(x_2 - x_1)\) tends to the tangent slope \((12x_1^2 - g_2)/
+(2y_1)\), and \(x_1 + x_2 + x_R = m^2/4\) becomes \(2x_1 + x_R = m^2/4\)
+(\cref{ex:coord-limit}).
+
+\section{The Degenerate Cases}
+\label{sec:coord-special}
+
+The formulas above assume two finite, non-inverse points. The remaining cases are
+read off directly from the group law (\cref{sec:cases-vertical,sec:cases-torsion}).
+
+\begin{center}
+\begin{tabular}{c|c|l}
+Situation & Result & Reason\\
+\hline
+\(P = O\) & \(P \oplus Q = Q\) & \(O\) is the identity\\
+\(Q = O\) & \(P \oplus Q = P\) & \(O\) is the identity\\
+\(Q = \ominus P\) (so \(x_1 = x_2\), \(y_2 = -y_1\)) & \(P \oplus Q = O\) & vertical line\\
+\(P = Q\),\ \(y_1 = 0\) & \(2P = O\) & two-torsion (vertical tangent)\\
+\(P = Q\),\ \(y_1 \ne 0\) & doubling formula & \cref{thm:coord-double}
+\end{tabular}
+\end{center}
+
+The case \(Q = \ominus P\) is exactly where the slope \(m = (y_2-y_1)/(x_2-x_1)\)
+has a zero denominator: a vertical line has no finite slope, and the sum is the
+point at infinity \(O\). A program implementing the group law tests for this case
+separately (\cref{ex:coord-vertical}).
+
+\section{The Group Law Is Algebraic}
+\label{sec:coord-algebraic}
+
+The formulas of \cref{thm:coord-add,thm:coord-double} are \emph{rational}: \(x_3\)
+and \(y_3\) are quotients of polynomials in \(x_1, y_1, x_2, y_2\) with
+coefficients in \(\Z[g_2, g_3]\). This has a consequence reaching well beyond the
+complex numbers.
+
+\begin{proposition}
+\label{prop:coord-field}
+Let \(k \subseteq \C\) be a subfield containing \(g_2, g_3\). Then the set of
+\(k\)-rational points
+\[
+  E(k) = \{ (x,y) \in k^2 : y^2 = 4x^3 - g_2 x - g_3 \} \cup \{O\}
+\]
+is a subgroup of \((E, \oplus)\).
+\end{proposition}
+
+\begin{proof}
+The identity \(O\) and the inverse \(\ominus(x,y) = (x,-y)\) of a \(k\)-point are
+\(k\)-points. For closure, if \(P, Q \in E(k)\) the addition and doubling formulas
+produce \(x_3, y_3\) as rational expressions in the coordinates and \(g_2, g_3\),
+all in \(k\); since \(k\) is a field these lie in \(k\), and \((x_3,y_3)\)
+satisfies the curve equation, so \(P \oplus Q \in E(k)\). The degenerate cases
+yield \(O\) or a \(k\)-point as well.
+\end{proof}
+
+\begin{remark}
+\label{rem:coord-anyfield}
+Nothing in the formulas used that \(k\) sits inside \(\C\). Over \emph{any} field
+\(k\) (of characteristic \(\ne 2, 3\)) with \(\Delta = g_2^3 - 27 g_3^2 \ne 0\), the
+same rational maps define an abelian group law on \(E(k)\), with the same
+geometric meaning. This is the foundation of the arithmetic of elliptic curves:
+the group \(E(\Q)\) (Mordell--Weil), the groups \(E(\F_p)\) used in cryptography,
+and the reduction maps between them. The complex-analytic uniformization of this
+book explains \emph{why} the law is associative; the algebraic formulas let it run
+over any field (\cref{ch:synthesis}).
+\end{remark}
+
+\section{A Small Worked Example}
+\label{sec:coord-example}
+
+On \(E : y^2 = 4x^3 - 4x\) (so \(g_2 = 4\), \(g_3 = 0\)), take
+\(P = (2, 2\sqrt 6)\), which lies on \(E\) since \(4\cdot 8 - 8 = 24 = (2\sqrt6)^2\).
+Doubling: the slope is
+\[
+  m = \frac{12 \cdot 4 - 4}{2 \cdot 2\sqrt 6} = \frac{44}{4\sqrt 6} = \frac{11}{\sqrt 6},
+\]
+so
+\[
+  x_{2P} = \frac{m^2}{4} - 2\cdot 2 = \frac{121/6}{4} - 4 = \frac{121}{24} - \frac{96}{24}
+  = \frac{25}{24},
+\]
+and \(y_{2P} = m(x_1 - x_{2P}) - y_1 = \tfrac{11}{\sqrt6}\bigl(2 - \tfrac{25}{24}\bigr)
+- 2\sqrt6 = \tfrac{11}{\sqrt6}\cdot\tfrac{23}{24} - 2\sqrt6
+= \tfrac{253}{24\sqrt6} - 2\sqrt6 = \tfrac{253 - 288}{24\sqrt6} = -\tfrac{35}{24\sqrt6}\).
+One checks \((x_{2P}, y_{2P})\) satisfies \(y^2 = 4x^3 - 4x\)
+(\cref{ex:coord-check}). A fuller symbolic computation, and the comparison with the
+more common normalization \(y^2 = x^3 + ax + b\), is carried out in
+\cref{ch:worked_pitfalls}.
+
+\section{Summary}
+\label{sec:coord-summary}
+
+For distinct non-inverse points the sum has \(x_3 = \tfrac{m^2}{4} - x_1 - x_2\),
+\(y_3 = m(x_1 - x_3) - y_1\) with \(m = (y_2-y_1)/(x_2-x_1)\)
+(\cref{thm:coord-add}); doubling replaces \(m\) by the tangent slope
+\((12x_1^2 - g_2)/(2y_1)\) and \(x_1 + x_2\) by \(2x_1\)
+(\cref{thm:coord-double}). The identity, inverse, and two-torsion cases are
+degenerate (\cref{sec:coord-special}). Because the formulas are rational, the
+group law is algebraic: \(E(k)\) is a group for any field \(k\) with
+\(\Delta \ne 0\) (\cref{prop:coord-field,rem:coord-anyfield}), the gateway to the
+arithmetic theory.
+
+\section*{Exercises}
+\addcontentsline{toc}{section}{Exercises}
+
+\begin{exercise}
+\label{ex:coord-yform}
+Derive the two equivalent forms of the \(y\)-coordinate in \cref{thm:coord-add},
+\[
+  y_3 = -(m x_3 + b) = m(x_1 - x_3) - y_1,
+\]
+using \(b = y_1 - m x_1\). Why is the form \(m(x_1 - x_3) - y_1\) preferable
+numerically?
+\end{exercise}
+
+\begin{exercise}
+\label{ex:coord-commute}
+Verify directly from \cref{thm:coord-add} that the addition formula is symmetric
+under swapping \(P \leftrightarrow Q\), so \(P \oplus Q = Q \oplus P\): the slope,
+\(x_3\), and \(y_3\) are all unchanged. (Commutativity, visible in the formula.)
+\end{exercise}
+
+\begin{exercise}
+\label{ex:coord-limit}
+Show that as \(Q \to P\) along \(E\) (with \(y_1 \ne 0\)), the secant slope
+\((y_2-y_1)/(x_2-x_1)\) converges to the tangent slope \((12x_1^2 - g_2)/(2y_1)\),
+and that the addition formula limits to the doubling formula. (Differentiate the
+curve relation \(y_2^2 - y_1^2 = 4(x_2^3 - x_1^3) - g_2(x_2 - x_1)\).)
+\end{exercise}
+
+\begin{exercise}
+\label{ex:coord-vertical}
+Explain how the addition formula ``detects'' the case \(Q = \ominus P\): show that
+\(x_1 = x_2\) with \(P \ne Q\) forces \(y_2 = -y_1\), making the slope undefined,
+and that the geometric answer is \(P \oplus Q = O\). Write pseudocode for the full
+group law branching on the degenerate cases.
+\end{exercise}
+
+\begin{exercise}
+\label{ex:coord-check}
+Verify that the doubled point \((x_{2P}, y_{2P}) = \bigl(\tfrac{25}{24},
+-\tfrac{35}{24\sqrt6}\bigr)\) of \cref{sec:coord-example} satisfies
+\(y^2 = 4x^3 - 4x\). Then compute \(\ominus(2P)\) and confirm it is
+\((x_{2P}, +\tfrac{35}{24\sqrt6})\).
+\end{exercise}

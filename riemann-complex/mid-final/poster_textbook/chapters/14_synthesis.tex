@@ -1,0 +1,109 @@
+\chapter{Synthesis: The Three Faces of One Group}
+\label{ch:synthesis}
+
+We can now assemble the whole argument without skipping any major arrow.
+
+\begin{center}
+\resizebox{0.86\linewidth}{!}{\classicTrinityDiagram}
+\end{center}
+
+\begin{enumerate}
+\item A lattice \(\Lambda\subset\C\) gives a compact genus-one complex Lie group
+  \(T=\C/\Lambda\).
+\item Elliptic functions are meromorphic functions on \(T\).
+\item The Weierstrass function \(\wp\) has one double pole at \(O\), and
+  \(\wp'\) has one triple pole.
+\item The differential equation
+  \(\wp'^2=4\wp^3-g_2\wp-g_3\) produces a cubic \(E\).
+\item Riemann--Roch explains why \(1,\wp,\wp'\) are exactly the functions needed
+  for the projective map \(T\to\CP^2\).
+\item The map \(\Phi=[\wp:\wp':1]\) identifies \(T\) with the smooth cubic
+  \(E(\C)\).
+\item Divisors and Abel's theorem identify \(\Pic^0(E)\) with the same group.
+\item A line meeting \(E\) in \(P,Q,R\) cuts a principal divisor
+  \([P]+[Q]+[R]-3[O]\).
+\item Abel's theorem gives \(P+Q+R=O\), so the group sum of \(P\) and \(Q\) is
+  the reflection of \(R\).
+\item Because the addition formulas are rational, the same cubic opens into
+  arithmetic over \(\Q\) and finite fields.
+\end{enumerate}
+
+\begin{theorem}[Three-face theorem]
+\label{thm:three-face}
+Over \(\C\), the analytic torus \(\C/\Lambda\), the Jacobian \(\Pic^0(E)\), and
+the smooth cubic \(E(\C)\) are isomorphic as complex Lie groups.  Equivalently,
+the identifying maps are biholomorphic group isomorphisms.  Under these
+identifications, the chord--tangent rule on \(E\) is the group law on
+\(\C/\Lambda\) transported by \(\Phi=[\wp:\wp':1]\).
+\end{theorem}
+
+\begin{proof}
+The analytic-to-algebraic identification is \cref{thm:wp-embedding-new}.  The
+geometric identification with the Jacobian is \cref{cor:pic-torus} transported
+through \(\Phi\).  The equality between transported addition and chord--tangent
+addition is \cref{thm:transport-new}.
+\end{proof}
+
+\section*{Exercises}
+\addcontentsline{toc}{section}{Exercises}
+
+\exerciseintent{Recover the forced reflection step from the line-divisor Abel equation.}
+\begin{exercise}
+Compute the line-divisor relation for collinear \(P,Q,R\):
+\[
+  [P]+[Q]+[R]-3[O]\in\Prin(E).
+\]
+Apply Abel's theorem to get \(P+Q+R=O\), and solve this equation for the
+chord--tangent sum \(P\boxplus Q\).
+\end{exercise}
+
+\exerciseintent{Organize the three languages and the maps between them.}
+\begin{exercise}
+Make a three-column table with headings analytic, divisor-theoretic, and
+algebraic.  Place \(\C/\Lambda\), \(\Pic^0(E)\), \(E(\C)\), \(\wp\), divisors,
+and lines in the appropriate columns.  Add a second row containing the explicit
+maps
+\[
+  \Phi=[\wp:\wp':1],\qquad P\mapsto[P]-[O],
+\]
+and the Abel--Jacobi map.
+\end{exercise}
+
+\exerciseintent{Map each chapter block to the calculation type it contributes.}
+\begin{exercise}
+Make a chapter-to-method table.  For each block of chapters, record one
+calculation type: residue or integral calculation, lattice linear-algebra
+calculation, pole-order dimension count, divisor coefficient calculation, line
+intersection calculation, cohomology quotient calculation, or finite-field point
+count.
+\end{exercise}
+
+\exerciseintent{Audit the two main maps as complex Lie group isomorphisms and mark theorem inputs.}
+\begin{exercise}
+Make a map-check table for
+\[
+  \C/\Lambda\cong\Pic^0(E)\cong E(\C)
+\]
+as complex Lie groups.  Use rows \(\Phi\) and \(P\mapsto[P]-[O]\), and columns:
+formula, source, target, group-law compatibility, holomorphicity input, and
+inverse or bijectivity input.  In each entry, mark whether it is a direct
+calculation from the exercises or an accepted named theorem.
+\end{exercise}
+
+\exerciseintent{Compute final Jacobian addition from the Abel sum of \([P_1]+[P_2]-[S]-[O]\).}
+\begin{exercise}
+Give a final dictionary for a point \(z\in\C/\Lambda\).  Include its torus
+notation, its cubic notation, its divisor-class notation, and the rule for
+adding two such points in each language.  Write the formulas for
+\(\Phi(z)\), \([\Phi(z)]-[O]\), \(\Phi(z_1+z_2)\), and the corresponding sum in
+\(\Pic^0(E)\).  Then, for \(P_i=\Phi(z_i)\) and \(S=\Phi(z_1+z_2)\), compute
+the Abel sum of
+\[
+  [P_1]+[P_2]-[S]-[O]
+\]
+and use Abel's theorem to prove
+\[
+  ([P_1]-[O])+([P_2]-[O])=[S]-[O]
+\]
+in \(\Pic^0(E)\).
+\end{exercise}

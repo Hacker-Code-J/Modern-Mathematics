@@ -1,0 +1,116 @@
+% Complex Tori and Elliptic Curves --- COMPANION GALLERY (A0 portrait).
+% Page 1 (poster.tex) carries the argument and is full; this second sheet collects six
+% further TikZ visualizations of the same object.  Shares figuremacros/palette and the
+% Sage coordinates.  Build:  pdflatex poster_gallery.tex  (twice).
+\documentclass[25pt, a0paper, portrait, margin=14mm, innermargin=15mm,
+               blockverticalspace=14mm, colspace=18mm, subcolspace=8mm]{tikzposter}
+
+\usepackage{amsmath,amssymb,mathtools}
+
+\input{figuremacros}
+
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\CP}{\mathbb{CP}}
+\newcommand{\HH}{\mathbb{H}}
+
+\newcommand{\sagedir}{../sagemath}
+\input{\sagedir/coords.tex}
+
+\definecolorstyle{book}{}{%
+  \colorlet{backgroundcolor}{formivory!55}%
+  \colorlet{framecolor}{formteal!70!black}%
+}{%
+  \colorlet{titlefgcolor}{formivory}%
+  \colorlet{titlebgcolor}{formteal!88!black}%
+}{%
+  \colorlet{blocktitlebgcolor}{formteal}%
+  \colorlet{blocktitlefgcolor}{white}%
+  \colorlet{blockbodybgcolor}{white}%
+  \colorlet{blockbodyfgcolor}{black}%
+}{%
+  \colorlet{innerblocktitlebgcolor}{formgold}%
+  \colorlet{innerblocktitlefgcolor}{black}%
+  \colorlet{innerblockbodybgcolor}{formgold!18}%
+  \colorlet{innerblockbodyfgcolor}{black}%
+}{%
+  \colorlet{notefgcolor}{black}%
+  \colorlet{notebgcolor}{formgold!22}%
+  \colorlet{notefrcolor}{formgold!80!black}%
+}
+\usetheme{Default}
+\usecolorstyle{book}
+
+\newcommand{\figH}[2]{\par\smallskip{\centering\resizebox{!}{#1}{#2}\par}\smallskip}
+\newcommand{\figcap}[1]{{\centering\small\itshape #1\par}\smallskip}
+
+\title{Complex Tori and Elliptic Curves}
+\author{Companion Gallery --- six further pictures of the same object}
+\institute{Read alongside the main poster: the real and finite faces of $E$, the torsion and moduli structure, and the degenerations}
+\makeatletter
+\settitle{%
+  \centering\color{titlefgcolor}%
+  {\fontsize{56}{64}\selectfont\bfseries \@title}\\[0.30em]
+  {\fontsize{28}{34}\selectfont \@author}\\[0.18em]
+  {\fontsize{22}{27}\selectfont\itshape \@institute}%
+}
+\makeatother
+
+\begin{document}
+\maketitle[width=\textwidth]
+
+\block{\large Gallery --- More Pictures of the Same Story}{%
+\normalsize
+The main poster carries the argument that the chord--tangent law on a cubic \emph{is}
+addition on the torus $\C/\Lambda$. This companion sheet enriches it with six further
+pictures of the \emph{same} object: the real and finite-field faces of $E$, the second
+Weierstrass function $\wp'$, the torsion and moduli structure, and the degenerations that
+force the discriminant $\Delta\neq0$.}
+
+\begin{columns}
+
+\column{0.5}
+
+\block{\large The real picture: two components}{%
+\figH{380pt}{\input{fig_realE}}
+\figcap{Over $\R$, $E:\,y^2=4x^3-4x$ has a compact \emph{oval} over $[e_1,e_2]$ and an
+\emph{unbounded branch} over $[e_3,\infty)$, both ends running to $O$ at infinity. The
+three roots together with $O$ are the $2$-torsion $E[2]=\{O,e_1,e_2,e_3\}\cong(\Z/2\Z)^2$.}}
+
+\block{\large Torsion: $E[n]\cong(\Z/n\Z)^2$}{%
+\figH{330pt}{\input{fig_torsion3}}
+\figcap{The $n$-torsion is $\tfrac1n\Lambda/\Lambda$ --- a regular $n\times n$ grid inside
+one tile, so $E[n]\cong(\Z/n\Z)^2$. Shown for $n=3$: the nine three-torsion points,
+exactly the flexes of $E$.}}
+
+\block{\large Over a finite field: $E(\F_7)$}{%
+\figH{360pt}{\input{fig_finite}}
+\figcap{Because the addition law is \emph{rational}, it works mod $p$. Solving
+$y^2=4x^3-4x$ over $\F_7$ gives seven affine points; with $O$, $\#E(\F_7)=8$. The full
+$2$-torsion (circled) makes $E(\F_7)\cong\Z/2\oplus\Z/4$.}}
+
+\column{0.5}
+
+\block{\large The other function: $\wp'$}{%
+\figH{325pt}{\input{fig_wpprime}}
+\figcap{Beside $\wp$ lives its derivative $\wp'$: odd, with a \emph{triple} pole at every
+lattice point, vanishing at the half-periods (where $\wp$ has its extrema). The pair
+$(\wp,\wp')$ is precisely the $(x,y)$ of the embedding $\Phi=[\wp:\wp':1]$.}}
+
+\block{\large Moduli: shape sets the $j$-invariant}{%
+\figH{260pt}{\input{fig_lattices}}
+\figcap{Homothetic lattices give the same torus; the shape $\tau\in\HH$, taken modulo
+$\mathrm{SL}_2(\Z)$, is recorded by the $j$-invariant. The square ($\tau=i$, $j=1728$) and
+hexagonal ($\tau=\rho$, $j=0$) lattices are the two extra-symmetric ones.}}
+
+\block{\large Why $\Delta\neq0$: node and cusp}{%
+\figH{310pt}{\input{fig_degenerate}}
+\figcap{As $\Delta\to0$ the torus degenerates: two roots colliding give a \emph{node}
+(group $\C^\ast$), and a triple root a \emph{cusp} (group $\C$). Only the smooth case,
+$\Delta\neq0$, is an elliptic curve.}}
+
+\end{columns}
+\end{document}

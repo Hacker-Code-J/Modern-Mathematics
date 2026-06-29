@@ -1,0 +1,90 @@
+\documentclass[10pt,aspectratio=1610,compress,dvipsnames]{beamer}
+
+% \input@path lets \input{tex/foo} and \input{chapters/foo} resolve without
+% explicit subdirectory paths in chapter files.
+\makeatletter
+\def\input@path{{tex/}{chapters/}}
+\makeatother
+
+\input{tex/preamble}
+\input{tex/title-page}
+\input{tex/tcolorbox}
+\input{tex/listing}
+\input{tex/algorithm}
+\input{tex/commands}
+
+\begin{document}
+
+%-------------------------------------------------------
+% TITLE PAGE
+%-------------------------------------------------------
+\HardProblemLens{The named problems are different interfaces to the same lattice-hardness engine.}
+\begin{frame}[plain,noframenumbering]
+  \titlepage
+\end{frame}
+
+%-------------------------------------------------------
+% TABLE OF CONTENTS
+%-------------------------------------------------------
+\section*{Contents}
+\HardProblemLens{The deck builds from lattices to geometry, then from hard search to cryptographic assumptions.}
+\begin{frame}{\textbf{Contents}}
+  \tableofcontents
+\end{frame}
+
+%-------------------------------------------------------
+% I. INTRODUCTION
+%-------------------------------------------------------
+\section{I. Introduction}
+\HardProblemLens{Every application points to the same gap: easy algebraic descriptions can hide hard geometry.}
+\input{chapters/chap0_intro}
+
+%-------------------------------------------------------
+% II. LATTICES
+%-------------------------------------------------------
+\section{II. Lattices}
+\HardProblemLens{A lattice basis is public algebra; the invariant object is a geometric point set with lengths and volume.}
+\input{chapters/chap1_lattices}
+
+%-------------------------------------------------------
+% III. GEOMETRY OF NUMBERS
+%-------------------------------------------------------
+\section{III. Geometry of Numbers}
+\HardProblemLens{Volume arguments prove short structure exists, while algorithms still have to find it.}
+\input{chapters/chap2_geometry_of_numbers}
+
+%-------------------------------------------------------
+% IV. HARD PROBLEMS
+%-------------------------------------------------------
+\section{IV. Hard Problems}
+\HardProblemLens{SVP, CVP, SIVP, and GapSVP isolate the search and decision tasks that reductions rely on.}
+\input{chapters/chap3_hard_problems}
+
+%-------------------------------------------------------
+% V. CRYPTOGRAPHIC LATTICES
+%-------------------------------------------------------
+\section{V. Cryptographic Lattices}
+\HardProblemLens{LWE/LWR hide secrets with noise or rounding; SIS hides short relations in modular linear maps.}
+\input{chapters/chap4_cryptographic_lattices}
+
+%-------------------------------------------------------
+% CLOSING FRAME
+%-------------------------------------------------------
+\HardProblemLens{Remember the two templates: noisy decoding for LWE/LWR and short relations for SIS.}
+\begin{frame}[plain]
+  \begin{center}\bfseries\centering
+    \vspace{1.35cm}
+    {\Huge\color{TealDarkCyan} Thank You}\\[.5cm]
+    {\large\color{black} Ji, Yong-hyeon}\\[.3cm]
+    {\normalsize\texttt{hacker3740@gmail.com}}\\[.5cm]
+    \begin{minipage}{.76\textwidth}
+      \small\color{Ink}
+      \textbf{Big picture.}\; Lattice cryptography is built from compact public algebra and hard hidden geometry.\\[.2cm]
+      \textbf{Details to remember.}\; LWE/LWR are noisy or rounded decoding; SIS and Module-SIS are short-relation search.
+    \end{minipage}\\[.5cm]
+    {\small\color{gray} Enjoying Math $\cdot$ Hard Problems $\cdot$ 2026}
+    \bigskip
+  \end{center}
+\end{frame}
+
+\end{document}

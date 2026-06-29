@@ -1,0 +1,41 @@
+% Tikz-Stokes-DegZero.tex
+% Compact surface X with excised disks around zeros/poles p_j.
+% Boundary circles C_j(r) appear with inward orientation.
+% Stokes: ∫_{X_r} dω = ∫_{∂X_r} ω = 0  ⟹  ∑ ord_{p_j}(f) = 0
+\begin{tikzpicture}[scale=1.0]
+  % Surface X_r (filled ellipse, representing the Riemann surface minus disks)
+  \fill[softgray!60] (0,0) ellipse (3.2cm and 1.8cm);
+  \draw[line width=1pt] (0,0) ellipse (3.2cm and 1.8cm);
+  \node[font=\small] at (0, 1.5) {$X_r$};
+
+  % Disk D_1(r) around p_1 (a zero)
+  \fill[white] (-1.5, 0) circle (0.5cm);
+  \draw[line width=0.9pt,
+        decoration={markings,
+          mark=at position 0.2 with {\arrow{<}},
+          mark=at position 0.7 with {\arrow{<}}
+        },
+        postaction={decorate}]
+    (-1.5, 0) circle (0.5cm);
+  \filldraw[red] (-1.5,0) circle (2pt) node[below, font=\footnotesize]{$p_1$};
+  \node[font=\footnotesize, above right] at (-1.05, 0.35) {$C_1(r)$};
+
+  % Disk D_2(r) around p_2 (a pole)
+  \fill[white] (1.4, 0) circle (0.45cm);
+  \draw[line width=0.9pt,
+        decoration={markings,
+          mark=at position 0.2 with {\arrow{<}},
+          mark=at position 0.7 with {\arrow{<}}
+        },
+        postaction={decorate}]
+    (1.4, 0) circle (0.45cm);
+  \filldraw[red] (1.4,0) circle (2pt) node[below, font=\footnotesize]{$p_2$};
+  \node[font=\footnotesize, above right] at (1.82, 0.32) {$C_2(r)$};
+
+  % Orientation annotation: inward (clockwise) for removed disks
+  \node[font=\footnotesize, align=center] at (0,-2.5)
+    {$\partial X_r = -C_1(r) - C_2(r)$ (inward orientation)\\[2pt]
+     $\displaystyle 0=\int_{X_r}d\omega = \int_{\partial X_r}\omega
+       = -\sum_j\oint_{C_j(r)}\frac{df}{f}
+       = -2\pi i\sum_j\operatorname{ord}_{p_j}(f)$};
+\end{tikzpicture}

@@ -1,0 +1,99 @@
+\begin{tikzpicture}[every node/.style={font=\small}]
+  %=== Panel 1: Lattice Lambda ============================================
+  % Scale 0.70: fundamental domain is 3.1*0.70 = 2.17 cm wide.
+  % Tiles for i in {-1,0,1}, j in {0,1} (6 cells, 2 rows above x-axis).
+  % Rightmost tile corner (i=1,j=1): (6.2,3.9)*0.70 = (4.34,2.73) cm in parent.
+  \begin{scope}[scale=0.70]
+    % Background lattice tiles
+    \foreach \i in {-1,0,1}{
+      \foreach \j in {0,1}{
+        \pgfmathsetmacro{\xa}{\i*\latwax+\j*\latwbx}
+        \pgfmathsetmacro{\ya}{\i*\latway+\j*\latwby}
+        \pgfmathsetmacro{\xb}{(\i+1)*\latwax+\j*\latwbx}
+        \pgfmathsetmacro{\yb}{(\i+1)*\latway+\j*\latwby}
+        \pgfmathsetmacro{\xc}{(\i+1)*\latwax+(\j+1)*\latwbx}
+        \pgfmathsetmacro{\yc}{(\i+1)*\latway+(\j+1)*\latwby}
+        \pgfmathsetmacro{\xd}{\i*\latwax+(\j+1)*\latwbx}
+        \pgfmathsetmacro{\yd}{\i*\latway+(\j+1)*\latwby}
+        \draw[draw=formteal!50!black, fill=formteal!6, line width=0.35pt, opacity=0.80]
+          (\xa,\ya) -- (\xb,\yb) -- (\xc,\yc) -- (\xd,\yd) -- cycle;
+      }
+    }
+    % Lattice points
+    \foreach \i in {-1,0,1,2}{
+      \foreach \j in {0,1,2}{
+        \pgfmathsetmacro{\xx}{\i*\latwax+\j*\latwbx}
+        \pgfmathsetmacro{\yy}{\i*\latway+\j*\latwby}
+        \fill[formteal!80!black] (\xx,\yy) circle (1.2pt);
+      }
+    }
+    % Fundamental parallelogram (highlighted)
+    \draw[draw=formrust!72!black, fill=formrust!13, line width=0.85pt]
+      (0,0) -- (\latwax,\latway) -- (\latsxc,\latsyc) -- (\latwbx,\latwby) -- cycle;
+    % Basis vectors with arrows
+    \draw[-{Latex[length=1.8mm]}, formrust!78!black, line width=0.65pt]
+      (0,0) -- (\latwax,\latway)
+      node[midway, below, font=\scriptsize, inner sep=1.5pt] {$\omega_1$};
+    \draw[-{Latex[length=1.8mm]}, formrust!78!black, line width=0.65pt]
+      (0,0) -- (\latwbx,\latwby)
+      node[midway, left, font=\scriptsize, inner sep=1.5pt] {$\omega_2$};
+    \fill[black] (0,0) circle (1.7pt);
+    \node[below left, inner sep=1.5pt, font=\scriptsize] at (0,0) {$0$};
+    \node[formrust!55!black, font=\scriptsize]
+      at (\latcellcx,\latcellcy) {$P_\Lambda$};
+    % Caption (in scope coords, below domain)
+    \node[font=\small, anchor=north] at ({(\latwax+\latwbx)/2},{\latway-0.65})
+      {lattice $\Lambda\subset\C$};
+  \end{scope}
+
+  %=== Arrow: quotient map pi: C -> C/Lambda ==============================
+  % Arrow placed between rightmost tile edge (~4.34 cm) and torus left edge.
+  % Torus: xshift=6.30, scale=0.47 => left edge = 6.30 - 2.5*0.47 = 5.125 cm.
+  \draw[-{Latex[length=2.2mm]}, formplum, line width=0.9pt] (4.55,1.0) -- (5.00,1.0);
+  \node[formplum, above, font=\scriptsize, inner sep=2pt] at (4.775,1.0)
+    {$\pi$};
+  \node[formplum, below, font=\scriptsize, inner sep=2pt] at (4.775,1.0)
+    {$/\Lambda$};
+
+  %=== Panel 2: Torus T = C/Lambda ========================================
+  % At scale 0.47: outer silhouette radius = 2.5*0.47 = 1.175 cm.
+  % Scope center at parent (6.30, 1.0).
+  \begin{scope}[xshift=6.30cm, yshift=1.0cm, scale=0.47]
+    \drawprecisetorus
+    \node[font=\small, anchor=north] at (0,-2.72)
+      {torus $T=\C/\Lambda$};
+  \end{scope}
+
+  %=== Arrow: Weierstrass embedding Phi ===================================
+  % Torus right edge = 6.30 + 2.5*0.47 = 7.475 cm.
+  \draw[-{Latex[length=2.2mm]}, formplum, line width=0.9pt] (7.65,1.0) -- (8.15,1.0);
+  \node[formplum, above, font=\scriptsize, inner sep=2pt] at (7.90,1.0)
+    {$\Phi$};
+  \node[formplum, below, font=\scriptsize, inner sep=2pt] at (7.90,1.0)
+    {$\wp,\wp'$};
+
+  %=== Panel 3: Elliptic curve E: y^2 = 4x^3 - 4x ========================
+  % Scope center at parent (9.40, 1.0).
+  % At scale 0.56: x in [-1.55, 1.69] maps to parent x in [8.532, 10.346].
+  \begin{scope}[xshift=9.40cm, yshift=1.0cm, scale=0.56]
+    % Axes
+    \draw[->, black!50, line width=0.5pt]
+      (-1.55,0) -- (2.00,0) node[right, black!55, font=\scriptsize] {$x$};
+    \draw[->, black!50, line width=0.5pt]
+      (0,-3.70) -- (0,3.85) node[above, black!55, font=\scriptsize] {$y$};
+    % Root tick marks
+    \draw[black!40, line width=0.4pt] (-1,-0.12) -- (-1,0.12);
+    \draw[black!40, line width=0.4pt] ( 0,-0.12) -- ( 0,0.12);
+    \draw[black!40, line width=0.4pt] ( 1,-0.12) -- ( 1,0.12);
+    \node[black!60, below, font=\scriptsize] at (-1,-0.12) {$e_1$};
+    \node[black!60, below right, font=\scriptsize] at (0,-0.12) {$e_2$};
+    \node[black!60, below, font=\scriptsize] at (1,-0.12) {$e_3$};
+    % Curve arcs from sage-computed coordinate lists
+    \drawprecisecurve
+    % Caption and equation label
+    \node[font=\small, anchor=north] at (0.25,-3.85)
+      {cubic $E\subset\CP^2$};
+    \node[font=\scriptsize, formteal!50!black, anchor=north west] at (-1.50,3.85)
+      {$y^2=4x^3-4x$};
+  \end{scope}
+\end{tikzpicture}

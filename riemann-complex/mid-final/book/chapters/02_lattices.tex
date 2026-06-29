@@ -1,0 +1,452 @@
+% Lattices and the Complex Torus  (source §3.1–3.2; added: lattice
+% equivalence/homothety, the period ratio tau, explicit charts proving
+% C/Lambda is a Riemann surface)
+\chapter{Lattices and the Complex Torus}
+\label{ch:lattices}
+
+The object that carries the group law in \cref{thm:main} is the quotient
+\(\C/\Lambda\) of the plane by a lattice. This chapter introduces lattices and
+their fundamental parallelograms, records the one piece of freedom in choosing a
+basis (the period ratio \(\tau\) and the action of \(\mathrm{SL}_2(\Z)\)), and
+then builds the complex structure on \(\C/\Lambda\) explicitly, proving that it
+is a compact Riemann surface. The group law and the genus are taken up in
+\cref{ch:torus_group_surface}.
+
+\section{Lattices}
+\label{sec:lat-lattices}
+
+\begin{definition}
+\label{def:lattice}
+A \emph{lattice} in \(\C\) is a subgroup
+\[
+  \Lambda = \Z\omega_1 + \Z\omega_2
+\]
+where \(\omega_1, \omega_2 \in \C\) are linearly independent over \(\R\). The
+pair \((\omega_1, \omega_2)\) is called a \emph{basis} of \(\Lambda\), and
+\(\omega_1, \omega_2\) are its \emph{periods}.
+\end{definition}
+
+Real-linear independence of \(\omega_1\) and \(\omega_2\) is equivalent to the
+condition
+\[
+  \frac{\omega_2}{\omega_1} \notin \R ,
+\]
+and it says geometrically that the two periods span a parallelogram of nonzero
+area. That parallelogram,
+\[
+  P_\Lambda = \{\, s\omega_1 + t\omega_2 : 0 \le s, t \le 1 \,\},
+\]
+is the \emph{fundamental parallelogram} of the basis (\cref{fig:lattice}). Every
+point of \(\C\) is congruent modulo \(\Lambda\) to exactly one point of the
+half-open parallelogram \(\{ s\omega_1 + t\omega_2 : 0 \le s, t < 1 \}\), so
+\(P_\Lambda\) tiles the plane under translation by \(\Lambda\).
+
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[scale=0.9, every node/.style={font=\small}]
+  % Lattice basis vectors (from sagemath/coords.tex)
+  \pgfmathsetmacro{\axa}{\latwax}
+  \pgfmathsetmacro{\aya}{\latway}
+  \pgfmathsetmacro{\bxb}{\latwbx}
+  \pgfmathsetmacro{\byb}{\latwby}
+  % Tile the plane with lattice translates
+  \foreach \i in {-2,-1,0,1,2}{
+    \foreach \j in {-1,0,1}{
+      \pgfmathsetmacro{\xa}{\i*\axa+\j*\bxb}
+      \pgfmathsetmacro{\ya}{\i*\aya+\j*\byb}
+      \pgfmathsetmacro{\xb}{(\i+1)*\axa+\j*\bxb}
+      \pgfmathsetmacro{\yb}{(\i+1)*\aya+\j*\byb}
+      \pgfmathsetmacro{\xc}{(\i+1)*\axa+(\j+1)*\bxb}
+      \pgfmathsetmacro{\yc}{(\i+1)*\aya+(\j+1)*\byb}
+      \pgfmathsetmacro{\xd}{\i*\axa+(\j+1)*\bxb}
+      \pgfmathsetmacro{\yd}{\i*\aya+(\j+1)*\byb}
+      \draw[draw=formteal!55!black, fill=formteal!6, line width=0.4pt, opacity=0.85]
+        (\xa,\ya) -- (\xb,\yb) -- (\xc,\yc) -- (\xd,\yd) -- cycle;
+    }
+  }
+  % Lattice points
+  \foreach \i in {-2,-1,0,1,2,3}{
+    \foreach \j in {-1,0,1,2}{
+      \pgfmathsetmacro{\xx}{\i*\axa+\j*\bxb}
+      \pgfmathsetmacro{\yy}{\i*\aya+\j*\byb}
+      \fill[formteal!85!black] (\xx,\yy) circle (1.3pt);
+    }
+  }
+  % Highlight the fundamental parallelogram at origin
+  \draw[draw=formrust!70!black, fill=formrust!15, line width=0.9pt]
+    (0,0) -- (\latwax,\latway) -- (\latsxc,\latsyc) -- (\latwbx,\latwby) -- cycle;
+  \draw[-{Latex[length=2mm]}, thick, formrust!75!black] (0,0) -- (\latwax,\latway)
+    node[midway, below] {$\omega_1$};
+  \draw[-{Latex[length=2mm]}, thick, formrust!75!black] (0,0) -- (\latwbx,\latwby)
+    node[midway, left] {$\omega_2$};
+  \fill[black] (0,0) circle (1.6pt) node[below left] {$0$};
+  \node[formrust!50!black] at (\latcellcx,\latcellcy) {$P_\Lambda$};
+  % Annotation: sage-verified facts
+  \node[draw=black!40, rounded corners=2pt, fill=formivory, align=left,
+        inner sep=4pt, anchor=west, font=\scriptsize] at (7.3,1.8)
+    {$\omega_1=\latomegaone$\\
+     $\omega_2=\latomegatwo$\\
+     $\tau=\omega_2/\omega_1$ has\\$\operatorname{Im}\tau\approx 0.6707>0$.\\
+     Cell area $=3.9050$.};
+\end{tikzpicture}
+\caption{A lattice \(\Lambda = \Z\omega_1 + \Z\omega_2\) and the fundamental
+parallelogram \(P_\Lambda\) (shaded). The translates of \(P_\Lambda\) tile the
+plane. The coordinates shown are computed by \texttt{sagemath/01\_lattice.sage}.}
+\label{fig:lattice}
+\end{figure}
+
+\begin{remark}
+\label{rem:lat-discrete}
+A lattice is a \emph{discrete} subgroup of \(\C\): the distance
+\[
+  m(\Lambda) := \min_{\lambda \in \Lambda \setminus \{0\}} |\lambda|
+\]
+is strictly positive. Indeed, the values \(|s\omega_1 + t\omega_2|\) for
+\((s,t)\) ranging over the compact set \(\{ \max(|s|,|t|) = 1\}\) attain a
+positive minimum \(c > 0\) by real-linear independence, and any nonzero
+\(\lambda = a\omega_1 + b\omega_2\) with \(a,b \in \Z\) has
+\(|\lambda| \ge c \cdot \max(|a|,|b|) \ge c\). This number \(m(\Lambda)\) reappears
+when we build coordinate charts in \cref{sec:lat-charts}.
+\end{remark}
+
+\section{Bases and the Period Ratio}
+\label{sec:lat-basis}
+
+A lattice has many bases. If \((\omega_1, \omega_2)\) is a basis, so is any pair
+obtained from it by an integer change of variables with determinant \(\pm 1\).
+
+\begin{proposition}[Change of basis]
+\label{prop:lat-basis-change}
+Let \(\Lambda = \Z\omega_1 + \Z\omega_2\). A pair \((\omega_1', \omega_2')\) is
+another basis of \(\Lambda\) if and only if
+\[
+  \begin{pmatrix} \omega_2' \\ \omega_1' \end{pmatrix}
+  =
+  \begin{pmatrix} a & b \\ c & d \end{pmatrix}
+  \begin{pmatrix} \omega_2 \\ \omega_1 \end{pmatrix},
+  \qquad
+  M = \begin{pmatrix} a & b \\ c & d \end{pmatrix} \in \mathrm{GL}_2(\Z),
+\]
+that is, with \(a,b,c,d \in \Z\) and \(\det M = ad - bc = \pm 1\).
+\end{proposition}
+
+\begin{proof}
+If \((\omega_1', \omega_2')\) is given by an integer matrix \(M\), then
+\(\omega_1', \omega_2' \in \Lambda\), so \(\Z\omega_1' + \Z\omega_2' \subseteq
+\Lambda\). When \(\det M = \pm 1\) the inverse \(M^{-1}\) is again an integer
+matrix, so \(\omega_1, \omega_2 \in \Z\omega_1' + \Z\omega_2'\) and the inclusion
+is an equality; the two periods are \(\R\)-independent because \(\det M \ne 0\).
+Conversely, if both pairs are bases of \(\Lambda\), then each \(\omega_i'\) is an
+integer combination of \(\omega_1, \omega_2\) and vice versa, giving integer
+matrices \(M\) and \(N\) with \(MN = I\); hence \(\det M \det N = 1\) with both
+determinants integers, so \(\det M = \pm 1\).
+\end{proof}
+
+The shape of \(\Lambda\), as opposed to its scale and rotation, is captured by a
+single complex number.
+
+\begin{definition}
+\label{def:tau}
+The \emph{period ratio} of a basis \((\omega_1, \omega_2)\) is
+\[
+  \tau = \frac{\omega_2}{\omega_1} \in \C \setminus \R .
+\]
+After possibly swapping \(\omega_1\) and \(\omega_2\) we may, and from now on do,
+choose the basis so that \(\operatorname{Im}\tau > 0\); we call such a basis
+\emph{positively oriented} and regard \(\tau\) as an element of the upper
+half-plane \(\HH\).
+\end{definition}
+
+\begin{proposition}[\texorpdfstring{$\tau$}{tau} transforms by a M\"obius map]
+\label{prop:lat-tau-mobius}
+If \((\omega_1', \omega_2')\) is obtained from \((\omega_1, \omega_2)\) by the
+matrix \(M = \left(\begin{smallmatrix} a & b \\ c & d \end{smallmatrix}\right)
+\in \mathrm{GL}_2(\Z)\) as in \cref{prop:lat-basis-change}, then the period
+ratios are related by
+\[
+  \tau' = \frac{a\tau + b}{c\tau + d},
+  \qquad
+  \operatorname{Im}\tau' = \frac{\det M}{|c\tau + d|^2}\,\operatorname{Im}\tau .
+\]
+In particular, both bases are positively oriented if and only if
+\(\det M = +1\), i.e.\ \(M \in \mathrm{SL}_2(\Z)\).
+\end{proposition}
+
+\begin{proof}
+Dividing numerator and denominator of \(\omega_2'/\omega_1' =
+(a\omega_2 + b\omega_1)/(c\omega_2 + d\omega_1)\) by \(\omega_1\) gives the stated
+formula for \(\tau'\). For the imaginary part, a direct computation with
+\(\tau = x + iy\) gives
+\(\operatorname{Im}\frac{a\tau+b}{c\tau+d}
+= \frac{(ad-bc)\,y}{|c\tau+d|^2}\), which is the claim. Since
+\(\operatorname{Im}\tau > 0\) and \(|c\tau+d|^2 > 0\), the sign of
+\(\operatorname{Im}\tau'\) equals the sign of \(\det M\).
+\end{proof}
+
+\section{Lattice Equivalence and Homothety}
+\label{sec:lat-homothety}
+
+The Riemann surface \(\C/\Lambda\) does not change if we rotate and rescale the
+whole picture. The precise notion is homothety.
+
+\begin{definition}
+\label{def:homothety}
+Two lattices \(\Lambda, \Lambda'\) are \emph{homothetic} (or \emph{equivalent})
+if \(\Lambda' = \alpha\Lambda\) for some \(\alpha \in \C^\times\).
+\end{definition}
+
+Multiplication by \(\alpha\) is a holomorphic automorphism of \(\C\) carrying
+\(\Lambda\) onto \(\Lambda'\), so it descends to a biholomorphism
+\(\C/\Lambda \xrightarrow{\sim} \C/\Lambda'\), \([z] \mapsto [\alpha z]\)
+(\cref{ch:torus_group_surface} checks it also respects the group law).
+Homothetic lattices therefore give isomorphic tori, and every lattice has a
+preferred representative in its class.
+
+\begin{proposition}[Normal form]
+\label{prop:lat-normal-form}
+Every lattice is homothetic to a lattice of the form
+\[
+  \Lambda_\tau = \Z + \Z\tau, \qquad \tau \in \HH .
+\]
+Two such lattices are homothetic, \(\Lambda_\tau \sim \Lambda_{\tau'}\), if and
+only if
+\[
+  \tau' = \frac{a\tau + b}{c\tau + d}
+  \quad\text{for some }
+  \begin{pmatrix} a & b \\ c & d \end{pmatrix} \in \mathrm{SL}_2(\Z).
+\]
+Consequently homothety classes of lattices are in bijection with the orbit space
+\(\HH / \mathrm{SL}_2(\Z)\).
+\end{proposition}
+
+\begin{proof}
+Given \(\Lambda = \Z\omega_1 + \Z\omega_2\) with a positively oriented basis,
+scale by \(\alpha = 1/\omega_1\): then \(\alpha\Lambda = \Z + \Z\tau\) with
+\(\tau = \omega_2/\omega_1 \in \HH\). This proves the normal form.
+
+For the equivalence, suppose \(\Lambda_{\tau'} = \alpha\Lambda_\tau\). Then
+\((\alpha, \alpha\tau)\) and \((1, \tau')\) are two positively oriented bases of
+the same lattice \(\Lambda_{\tau'}\), so by
+\cref{prop:lat-basis-change,prop:lat-tau-mobius} they differ by a matrix in
+\(\mathrm{SL}_2(\Z)\), and the period ratios obey
+\(\tau' = (a\tau+b)/(c\tau+d)\). Conversely, if \(\tau'\) is the M\"obius image
+of \(\tau\) under \(M \in \mathrm{SL}_2(\Z)\), then \(c\tau + d\) scales
+\(\Lambda_\tau\) onto \(\Lambda_{\tau'}\), so the two are homothetic. The final
+statement is a restatement: the class of \(\tau\) modulo
+\(\mathrm{SL}_2(\Z)\) determines, and is determined by, the homothety class.
+\end{proof}
+
+\begin{remark}
+\label{rem:lat-moduli}
+The quotient \(\HH / \mathrm{SL}_2(\Z)\) is the \emph{moduli space} of complex
+tori: it parametrizes them up to isomorphism. A single complex invariant, the
+\(j\)-invariant \(j(\tau)\), gives a bijection of this quotient with \(\C\). We
+will not need the modular theory here; it is sketched among the further
+directions in \cref{ch:synthesis}. What matters now is only that, up to
+isomorphism, we may always take \(\Lambda = \Z + \Z\tau\).
+\end{remark}
+
+\section{The Quotient Surface}
+\label{sec:lat-quotient}
+
+Fix a lattice \(\Lambda\). Define an equivalence relation on \(\C\) by
+\[
+  z \sim w \quad\Longleftrightarrow\quad z - w \in \Lambda,
+\]
+and form the quotient
+\[
+  T = \C/\Lambda .
+\]
+A point of \(T\) is a coset \([z] = z + \Lambda\), and the \emph{quotient map}
+\[
+  \pi : \C \to \C/\Lambda, \qquad z \mapsto [z]
+\]
+is given the quotient topology: \(U \subseteq T\) is open exactly when
+\(\pi^{-1}(U)\) is open in \(\C\). Geometrically, \(T\) is the fundamental
+parallelogram with opposite edges glued (\cref{fig:glue}).
+
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[scale=1.0, every node/.style={font=\small}]
+  % Left: fundamental parallelogram with side identifications
+  \begin{scope}
+    \draw[draw=formteal!55!black, fill=formteal!8, line width=0.7pt]
+      (0,0) -- (2.4,0.2) -- (3.0,1.7) -- (0.6,1.5) -- cycle;
+    % Side identification arrows (double-arrow markers)
+    \draw[postaction={decorate, decoration={markings, mark=at position 0.55 with {\arrow[draw=formrust!75!black]{>}}, mark=at position 0.5 with {\arrow[draw=formrust!75!black, shift={(2pt,0)}]{>}}}}, formrust!75!black, line width=0.8pt] (0,0) -- (2.4,0.2);
+    \draw[postaction={decorate, decoration={markings, mark=at position 0.55 with {\arrow[draw=formrust!75!black]{>}}, mark=at position 0.5 with {\arrow[draw=formrust!75!black, shift={(2pt,0)}]{>}}}}, formrust!75!black, line width=0.8pt] (0.6,1.5) -- (3.0,1.7);
+    \draw[postaction={decorate, decoration={markings, mark=at position 0.55 with {\arrow[draw=formgold!75!black]{>}}}}, formgold!75!black, line width=0.8pt] (0,0) -- (0.6,1.5);
+    \draw[postaction={decorate, decoration={markings, mark=at position 0.55 with {\arrow[draw=formgold!75!black]{>}}}}, formgold!75!black, line width=0.8pt] (2.4,0.2) -- (3.0,1.7);
+    % Annotations
+    \node at (1.2,0.0) {$\omega_1$};
+    \node at (0.0,0.75) {$\omega_2$};
+    \node[formteal!60!black] at (1.5,0.95) {$P_\Lambda$};
+    \node at (1.5,-0.55) {\textbf{fundamental parallelogram}};
+  \end{scope}
+  % Arrow with quotient
+  \draw[-{Latex[length=3mm]}, formplum, line width=1pt] (3.6,0.85) -- (4.6,0.85);
+  \node[formplum] at (4.1,1.2) {$\pi$};
+  \node[formplum, font=\scriptsize] at (4.1,0.5) {glue};
+  % Right: precise torus rendered from sage
+  \begin{scope}[xshift=6.5cm, yshift=0.85cm, scale=0.65]
+    \drawprecisetorus
+    \node at (0,-1.85) {\textbf{torus }$T=\C/\Lambda$};
+  \end{scope}
+\end{tikzpicture}
+\caption{Gluing opposite edges of the fundamental parallelogram (matching
+arrowheads) produces the torus \(T = \C/\Lambda\). The torus on the right is
+rendered from coordinates computed by \texttt{sagemath/08\_torus\_render.sage}.}
+\label{fig:glue}
+\end{figure}
+
+\begin{proposition}[Topology of the torus]
+\label{prop:lat-topology}
+The map \(\pi\) is continuous, open, and surjective, and \(T = \C/\Lambda\) is a
+compact, connected, Hausdorff topological space.
+\end{proposition}
+
+\begin{proof}
+Continuity and surjectivity are immediate from the definition of the quotient
+topology. For openness, if \(V \subseteq \C\) is open then
+\(\pi^{-1}(\pi(V)) = \bigcup_{\lambda \in \Lambda} (V + \lambda)\) is a union of
+translates of \(V\), hence open; so \(\pi(V)\) is open. Compactness follows
+because \(\pi\) maps the compact parallelogram \(P_\Lambda\) onto all of \(T\)
+(every coset has a representative in \(P_\Lambda\)), and the continuous image of
+a compact set is compact; connectedness is inherited from \(\C\) the same way.
+
+For the Hausdorff property, let \([z] \ne [w]\). Set \(\delta = \tfrac13
+\min_{\lambda \in \Lambda}|z - w - \lambda| > 0\) (the minimum is positive
+because \([z] \ne [w]\) and \(\Lambda\) is discrete). The saturated open sets
+\(\pi(D(z,\delta))\) and \(\pi(D(w,\delta))\) are disjoint neighborhoods of
+\([z]\) and \([w]\): if they met, some \(z' \in D(z,\delta)\) and
+\(w' \in D(w,\delta)\) would satisfy \(z' - w' \in \Lambda\), forcing
+\(|z - w - \lambda| < 2\delta\) for some \(\lambda\), contradicting the choice of
+\(\delta\).
+\end{proof}
+
+\section{The Complex Structure: Explicit Charts}
+\label{sec:lat-charts}
+
+So far \(T\) is only a topological space. We now equip it with a holomorphic
+atlas and prove it is a Riemann surface. The idea is simple: away from scale
+\(m(\Lambda)\) of \cref{rem:lat-discrete}, the quotient map \(\pi\) is injective,
+so its local inverses serve as charts, and the transition maps are translations
+by lattice vectors --- biholomorphic.
+
+\begin{theorem}[\texorpdfstring{$\C/\Lambda$}{C/Lambda} is a compact Riemann surface]
+\label{thm:lat-riemann-surface}
+The quotient \(T = \C/\Lambda\) carries a unique complex structure for which the
+projection \(\pi : \C \to T\) is holomorphic. With this structure \(T\) is a
+compact Riemann surface, and \(\pi\) is a holomorphic covering map and a local
+biholomorphism.
+\end{theorem}
+
+\begin{proof}
+Let \(m = m(\Lambda)\) and fix \(r\) with \(0 < r < m/2\). For any
+\(z_0 \in \C\) the restriction \(\pi|_{D(z_0, r)}\) is injective: if
+\(\pi(z) = \pi(z')\) with \(z, z' \in D(z_0, r)\), then
+\(z - z' \in \Lambda\) and \(|z - z'| < 2r < m\), so \(z - z' = 0\). Hence
+\(\pi|_{D(z_0,r)}\) is a continuous open bijection onto the open set
+\(U_{z_0} = \pi(D(z_0, r))\), i.e.\ a homeomorphism. Define the chart
+\[
+  \varphi_{z_0} = \bigl(\pi|_{D(z_0,r)}\bigr)^{-1} : U_{z_0} \to D(z_0, r)
+  \subseteq \C .
+\]
+As \(z_0\) ranges over \(\C\), the sets \(U_{z_0}\) cover \(T\).
+
+\emph{Transition maps.} Suppose \(U_{z_0} \cap U_{z_1} \ne \varnothing\) and let
+\(p\) lie in the overlap, with \(\varphi_{z_0}(p) = z\) and
+\(\varphi_{z_1}(p) = z'\). Then \(\pi(z) = \pi(z') = p\), so
+\(\lambda := z - z' \in \Lambda\). On the connected component of the overlap
+containing \(p\), the difference \(\varphi_{z_0} - \varphi_{z_1}\) is a
+continuous \(\Lambda\)-valued function, hence locally constant, so
+\[
+  \varphi_{z_0} \circ \varphi_{z_1}^{-1}(w) = w + \lambda
+\]
+is translation by a fixed \(\lambda \in \Lambda\). Translations are
+biholomorphic, so the charts \(\{(U_{z_0}, \varphi_{z_0})\}\) form a holomorphic
+atlas. The underlying space is compact, connected, and Hausdorff by
+\cref{prop:lat-topology}, so \(T\) is a compact Riemann surface.
+
+\emph{The projection.} In the chart \(\varphi_{z_0}\) the map \(\pi\) reads, for
+\(z \in D(z_0, r)\), as \(\varphi_{z_0}(\pi(z)) = z\); that is, \(\pi\) is the
+identity in these coordinates. Thus \(\pi\) is holomorphic and a local
+biholomorphism. Each \(U_{z_0}\) is evenly covered ---
+\(\pi^{-1}(U_{z_0}) = \bigsqcup_{\lambda \in \Lambda} (D(z_0,r) + \lambda)\) is a
+disjoint union of disks each mapped homeomorphically onto \(U_{z_0}\) --- so
+\(\pi\) is a covering map.
+
+\emph{Uniqueness.} If \(T\) carried another complex structure making \(\pi\)
+holomorphic, then \(\pi\), being a local homeomorphism, would be a local
+biholomorphism for it as well, and the two structures would share the local
+inverses \(\varphi_{z_0}\) as charts; hence they coincide.
+\end{proof}
+
+\begin{remark}
+\label{rem:lat-translation-holo}
+Because the charts above use the coordinate \(z\) of \(\C\) directly, a function
+\(f : T \to \C\) is holomorphic at \([z_0]\) precisely when its lift
+\(f \circ \pi\) is holomorphic at \(z_0\) in the ordinary sense. Holomorphic and
+meromorphic functions on \(T\) are therefore the same thing as
+\(\Lambda\)-periodic holomorphic and meromorphic functions on \(\C\) --- the
+\emph{elliptic functions} of \cref{ch:elliptic_liouville}. Likewise every
+translation \(z \mapsto z + a\) of \(\C\) descends to a biholomorphism of \(T\),
+a fact we use constantly once the group law is in place.
+\end{remark}
+
+\section{Summary}
+\label{sec:lat-summary}
+
+A lattice \(\Lambda = \Z\omega_1 + \Z\omega_2\) is a discrete, rank-two subgroup
+of \(\C\); its bases differ by \(\mathrm{GL}_2(\Z)\), and a positively oriented
+basis pins down a period ratio \(\tau \in \HH\) on which \(\mathrm{SL}_2(\Z)\)
+acts by M\"obius transformations. Up to homothety every lattice is
+\(\Z + \Z\tau\), and homothety classes form the moduli space
+\(\HH/\mathrm{SL}_2(\Z)\). The quotient \(T = \C/\Lambda\) is a compact Riemann
+surface: its charts are the local inverses of \(\pi\), valid on disks of radius
+below \(m(\Lambda)/2\), and the transition maps are lattice translations. With
+this structure holomorphic functions on \(T\) are exactly the
+\(\Lambda\)-periodic holomorphic functions on \(\C\).
+
+\section*{Exercises}
+\addcontentsline{toc}{section}{Exercises}
+
+\begin{exercise}
+\label{ex:lat-area}
+Show that the area of the fundamental parallelogram \(P_\Lambda\) equals
+\(|\operatorname{Im}(\overline{\omega_1}\,\omega_2)|\), and verify that this
+number is independent of the choice of basis. (Use
+\cref{prop:lat-basis-change}.)
+\end{exercise}
+
+\begin{exercise}
+\label{ex:lat-discrete}
+Prove in detail the estimate \(|a\omega_1 + b\omega_2| \ge c\,\max(|a|,|b|)\)
+from \cref{rem:lat-discrete}, identifying the constant \(c\) as a minimum over a
+compact set. Conclude that a lattice has only finitely many points in any
+bounded region.
+\end{exercise}
+
+\begin{exercise}
+\label{ex:lat-square}
+Let \(\Lambda = \Z + \Z i\) (the square lattice, \(\tau = i\)). Find a matrix in
+\(\mathrm{SL}_2(\Z)\) fixing \(\tau = i\) under the M\"obius action of
+\cref{prop:lat-tau-mobius}, and interpret it as a symmetry of the lattice.
+\end{exercise}
+
+\begin{exercise}
+\label{ex:lat-homothety-iso}
+Let \(\Lambda' = \alpha\Lambda\) with \(\alpha \in \C^\times\). Verify directly
+that \([z] \mapsto [\alpha z]\) is a well-defined homeomorphism
+\(\C/\Lambda \to \C/\Lambda'\), and that in the charts of
+\cref{thm:lat-riemann-surface} it is biholomorphic.
+\end{exercise}
+
+\begin{exercise}
+\label{ex:lat-chart-radius}
+Show that the radius in \cref{thm:lat-riemann-surface} cannot exceed
+\(m(\Lambda)/2\): exhibit a lattice and a disk of radius \(r > m(\Lambda)/2\) on
+which \(\pi\) fails to be injective. Check, conversely, that the injectivity
+argument in the proof goes through for every \(r \le m(\Lambda)/2\), so the
+threshold \(m(\Lambda)/2\) is sharp.
+\end{exercise}

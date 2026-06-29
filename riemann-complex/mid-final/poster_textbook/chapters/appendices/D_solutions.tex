@@ -1,0 +1,1603 @@
+\chapter{Solutions to Exercises}
+\label{app:solutions}
+
+\section{Chapter 1}
+
+\textbf{1.1.} Write
+\[
+  \omega_{\mathrm{wind}}=P\,dx+Q\,dy,\qquad
+  P=\frac{-y}{x^2+y^2},\quad Q=\frac{x}{x^2+y^2}.
+\]
+Away from the origin,
+\[
+  \frac{\partial Q}{\partial x}
+  =\frac{y^2-x^2}{(x^2+y^2)^2}
+  =\frac{\partial P}{\partial y}.
+\]
+Thus
+\[
+  d\omega_{\mathrm{wind}}
+  =\left(\frac{\partial Q}{\partial x}
+  -\frac{\partial P}{\partial y}\right)dx\wedge dy=0.
+\]
+
+\begin{center}
+\begin{tikzpicture}[>=Latex, every node/.style={font=\small}]
+  \node[smallvisual] (form) at (0,0)
+    {$\omega_{\mathrm{wind}}=P\,dx+Q\,dy$};
+  \node[smallvisual] (test) at (3.8,0)
+    {$d\omega=(Q_x-P_y)\,dx\wedge dy$};
+  \node[smallvisual] (zero) at (7.2,0)
+    {$Q_x=P_y$\\ \(d\omega_{\mathrm{wind}}=0\)};
+  \draw[->, line width=0.5pt] (form) -- (test);
+  \draw[->, line width=0.5pt] (test) -- (zero);
+\end{tikzpicture}
+\end{center}
+
+\textbf{1.2.} With \(x=\cos t\), \(y=\sin t\), one has
+\[
+  dx=-\sin t\,dt,\qquad dy=\cos t\,dt.
+\]
+Thus
+\[
+  -y\,dx+x\,dy=\sin^2t\,dt+\cos^2t\,dt=dt,
+\]
+and the denominator is \(1\).  The integral from \(0\) to \(2\pi\) is
+\(2\pi\).
+
+\begin{center}
+\begin{tikzpicture}[>=Latex, scale=1.0, every node/.style={font=\small}]
+  \draw[->, black!55, line width=0.45pt] (-1.7,0) -- (1.9,0) node[right] {$x$};
+  \draw[->, black!55, line width=0.45pt] (0,-1.6) -- (0,1.85) node[above] {$y$};
+  \draw[black, line width=0.65pt] (0,0) circle (1.05);
+  \fill[black] (0.74,0.74) circle (1.5pt);
+  \draw[->, line width=0.55pt] (0.74,0.74) -- (0.32,1.16)
+    node[above left] {$\omega_{\mathrm{wind}}(\dot\gamma)=1$};
+  \draw[->, line width=0.45pt, black!60] (0,0) -- (0.74,0.74)
+    node[midway, below right] {$r$};
+  \draw[->, line width=0.45pt] (0.45,0)
+    arc[start angle=0,end angle=45,radius=0.45];
+  \node at (0.64,0.2) {$\theta$};
+  \node[align=center] at (0,-2.05)
+    {On \(S^1\), the winding form pulls back to \(d\theta=dt\).};
+\end{tikzpicture}
+\end{center}
+
+\textbf{1.3.} Write \(f=(z-p)^m u(z)\), where \(u(p)\ne0\).  Then
+\[
+  \frac{df}{f}=m\,\frac{dz}{z-p}+\frac{du}{u}.
+\]
+The second term is holomorphic near \(p\), so the residue is \(m=\ord_p(f)\).
+
+\begin{center}
+\begin{tikzpicture}[>=Latex, every node/.style={font=\small}]
+  \node[smallvisual] (factor) at (0,0)
+    {$f=(z-p)^m u$\\ \(u(p)\ne0\)};
+  \node[smallvisual] (log) at (3.45,0)
+    {$df/f=m\,dz/(z-p)+du/u$};
+  \node[smallvisual] (res) at (6.85,0)
+    {$\Res_p(df/f)=m$\\ \(=\ord_p(f)\)};
+  \draw[->, line width=0.5pt] (factor) -- (log);
+  \draw[->, line width=0.5pt] (log) -- (res);
+\end{tikzpicture}
+\end{center}
+
+\textbf{1.4.} By Exercise 1.3, the residue of \(df/f\) at \(p\) is
+\(\ord_p(f)\).  On a compact Riemann surface the sum of residues of a
+meromorphic one-form is zero.  Therefore
+\[
+  0=\sum_p\Res_p(df/f)=\sum_p\ord_p(f)=\degdiv\divisor(f).
+\]
+
+\begin{center}
+\begin{tikzpicture}[>=Latex, every node/.style={font=\small}]
+  \draw[line width=0.6pt] (0,0) ellipse (2.05 and 0.9);
+  \foreach \x/\y/\m in {-1.1/0.25/{m_1},0.15/-0.2/{m_2},1.15/0.28/{m_3}}{
+    \fill[black] (\x,\y) circle (1.5pt);
+    \node[above] at (\x,\y) {$\m$};
+  }
+  \node[align=center] at (4.6,0.15)
+    {$\displaystyle\sum_p\Res_p(df/f)=0$\\[3pt]
+     \(\displaystyle\sum_p\ord_p(f)=0\)};
+  \draw[->, line width=0.55pt] (2.25,0) -- (3.25,0);
+  \node at (0,-1.25) {compact surface};
+\end{tikzpicture}
+\end{center}
+
+\section{Chapter 2}
+
+\textbf{2.1.} If \(\chi=0\), then \(0=2-2g\), so \(g=1\).
+
+\begin{center}
+\begin{tikzpicture}[>=Latex, every node/.style={font=\small}]
+  \node[smallvisual] (chi) at (0,0) {$\chi=0$};
+  \node[smallvisual] (eq) at (2.4,0) {$0=2-2g$};
+  \node[smallvisual] (genus) at (4.8,0) {$g=1$};
+  \draw[->, line width=0.5pt] (chi) -- (eq);
+  \draw[->, line width=0.5pt] (eq) -- (genus);
+\end{tikzpicture}
+\end{center}
+
+\textbf{2.2.} Noncompact surfaces need not give compact images, so a maximum of
+\(|f|\) may not exist.  For example, \(f(z)=z\) on \(\C\) is holomorphic and
+nonconstant.
+
+\begin{center}
+\begin{tikzpicture}[>=Latex, every node/.style={font=\small}]
+  \draw[->, black!55, line width=0.45pt] (-2.2,0) -- (2.2,0) node[right] {$\C$};
+  \draw[->, black!55, line width=0.45pt] (0,-0.7) -- (0,0.85);
+  \draw[->, line width=0.55pt] (-1.5,0) -- (1.55,0)
+    node[midway, above] {$f(z)=z$};
+  \node[align=center] at (0,-1.15)
+    {noncompact domain: \(|f|\) can grow without a maximum};
+\end{tikzpicture}
+\end{center}
+
+\textbf{2.3.} For a nonzero meromorphic function, zeros and poles are isolated.
+An infinite subset of a compact surface has an accumulation point.  That would
+contradict isolation: a holomorphic function with accumulating zeros is
+identically zero locally, and poles are isolated by the local form
+\((z-p)^{-m}u(z)\).  Hence the zero and pole sets are finite.
+
+\begin{center}
+\begin{tikzpicture}[>=Latex, every node/.style={font=\small}]
+  \draw[line width=0.6pt] (0,0) ellipse (2.0 and 0.9);
+  \foreach \x/\y in {-1.2/0.25,-0.45/-0.18,0.65/0.22,1.25/-0.2}{
+    \fill[black] (\x,\y) circle (1.35pt);}
+  \draw[dashed, line width=0.45pt] (1.25,-0.2) circle (0.32);
+  \node[align=center] at (4.35,0.15)
+    {isolated zeros/poles\\on a compact surface\\must be finite};
+  \draw[->, line width=0.55pt] (2.25,0) -- (3.05,0);
+\end{tikzpicture}
+\end{center}
+
+\textbf{2.4.} A parallelogram with opposite sides identified has one face, two
+edge classes, and one vertex class.  Hence
+\[
+  \chi=1-2+1=0.
+\]
+Since \(\chi=2-2g\), the quotient has \(g=1\).  Thus the quotient surface is a
+torus.
+
+\begin{center}
+\begin{tikzpicture}[>=Latex, every node/.style={font=\small}]
+  \coordinate (A) at (0,0);
+  \coordinate (B) at (2.7,0);
+  \coordinate (C) at (3.55,1.45);
+  \coordinate (D) at (0.85,1.45);
+  \draw[line width=0.6pt] (A)--(B)--(C)--(D)--cycle;
+  \draw[->, line width=0.55pt] ($(A)!0.36!(B)$) -- ($(A)!0.64!(B)$);
+  \draw[->, line width=0.55pt] ($(D)!0.64!(C)$) -- ($(D)!0.36!(C)$);
+  \draw[->, line width=0.55pt] ($(A)!0.35!(D)$) -- ($(A)!0.65!(D)$);
+  \draw[->, line width=0.55pt] ($(B)!0.65!(C)$) -- ($(B)!0.35!(C)$);
+  \node[below] at (1.35,0) {$\omega_1$};
+  \node[left] at (0.42,0.72) {$\omega_2$};
+  \draw[->, line width=0.55pt] (4.1,0.72) -- node[above] {identify sides} (5.3,0.72);
+  \begin{scope}[xshift=6.9cm, yshift=0.72cm, scale=0.23]
+    \drawprecisetorus
+  \end{scope}
+  \node[align=center] at (6.9,-1.0)
+    {one face, two edge classes,\\one vertex class};
+\end{tikzpicture}
+\end{center}
+
+\section{Chapter 3}
+
+\textbf{3.1.} If \(u'=u+\lambda\) and \(v'=v+\mu\), then
+\[
+  u'+v'=u+v+\lambda+\mu.
+\]
+Since \(\lambda+\mu\in\Lambda\), this represents the same class as \(u+v\).
+
+\begin{center}
+\begin{tikzpicture}[>=Latex, every node/.style={font=\small}]
+  \node[smallvisual] (reps) at (0,0)
+    {$u'=u+\lambda$\\ \(v'=v+\mu\)};
+  \node[smallvisual] (sum) at (3.6,0)
+    {$u'+v'=u+v+\lambda+\mu$};
+  \node[smallvisual] (same) at (7.1,0)
+    {$[u'+v']=[u+v]$};
+  \draw[->, line width=0.5pt] (reps) -- (sum);
+  \draw[->, line width=0.5pt] (sum) -- (same);
+\end{tikzpicture}
+\end{center}
+
+\textbf{3.2.} A matrix in \(\GL_2(\Z)\) gives integer combinations of
+\(\omega_1,\omega_2\), and its inverse also has integer entries.  Thus each old
+basis vector is an integer combination of the new ones and conversely, so the
+generated subgroup is unchanged.
+
+\begin{center}
+\begin{tikzpicture}[>=Latex, every node/.style={font=\small}]
+  \draw[->, black!55, line width=0.45pt] (0,0) -- (1.8,0) node[below] {$\omega_1$};
+  \draw[->, black!55, line width=0.45pt] (0,0) -- (0.65,1.35) node[left] {$\omega_2$};
+  \draw[->, line width=0.55pt] (2.4,0.6) -- node[above] {$A\in\GL_2(\Z)$} (4.0,0.6);
+  \begin{scope}[xshift=4.6cm]
+    \draw[->, black!55, line width=0.45pt] (0,0) -- (1.45,0.55) node[below right] {$\omega'_1$};
+    \draw[->, black!55, line width=0.45pt] (0,0) -- (-0.25,1.45) node[left] {$\omega'_2$};
+  \end{scope}
+  \node[align=center] at (2.95,-0.75)
+    {integer change of basis preserves the lattice};
+\end{tikzpicture}
+\end{center}
+
+\textbf{3.3.} The ratio \(\tau=\omega_2/\omega_1\) is non-real because, if
+\(\tau\in\R\), then \(\omega_2=\tau\omega_1\) would make
+\(\omega_1,\omega_2\) real-linearly dependent.  If \(\tau=a+ib\) with
+\(b<0\), swapping the basis vectors gives the new ratio
+\[
+  \frac{\omega_1}{\omega_2}=\frac1{\tau}
+  =\frac{a-ib}{a^2+b^2},
+\]
+whose imaginary part is \(-b/(a^2+b^2)>0\).  Hence an oriented basis can be
+chosen with \(\tau\in\HH\).
+
+\begin{center}
+\begin{tikzpicture}[>=Latex, every node/.style={font=\small}]
+  \draw[->, black!55, line width=0.45pt] (-2.2,0) -- (2.2,0) node[right] {$\operatorname{Re}\tau$};
+  \draw[->, black!55, line width=0.45pt] (0,-1.25) -- (0,1.45) node[above] {$\operatorname{Im}\tau$};
+  \fill[black] (1.0,-0.7) circle (1.5pt) node[below right] {$\tau$};
+  \fill[black] (1.0,0.7) circle (1.5pt) node[above right] {$\tau'\in\HH$};
+  \draw[->, line width=0.5pt] (1.0,-0.55) -- (1.0,0.55);
+  \node[align=center] at (-1.15,0.75)
+    {choose orientation\\with positive imaginary part};
+\end{tikzpicture}
+\end{center}
+
+\textbf{3.4.} The map is well-defined because if \(z'=z+\lambda\), then
+\[
+  z'+a=z+a+\lambda,
+\]
+so \([z'+a]=[z+a]\).  It is holomorphic because it is induced locally by the
+holomorphic map \(z\mapsto z+a\) on \(\C\).  Its inverse is translation by
+\(-a\), so it is biholomorphic.
+
+\begin{center}
+\begin{tikzpicture}[>=Latex, every node/.style={font=\small}]
+  \coordinate (A) at (0,0);
+  \coordinate (B) at (3.0,0);
+  \coordinate (C) at (3.75,1.6);
+  \coordinate (D) at (0.75,1.6);
+  \draw[line width=0.55pt] (A)--(B)--(C)--(D)--cycle;
+  \draw[->, line width=0.45pt, black!60] (0.75,0.45) -- (1.7,0.9)
+    node[midway, below] {$+a$};
+  \fill[black] (0.75,0.45) circle (1.5pt) node[below left] {$z$};
+  \fill[black] (1.7,0.9) circle (1.5pt) node[above right] {$z+a$};
+  \draw[->, line width=0.45pt, black!60] (0.75,0.45) -- (3.75,0.45)
+    node[midway, below] {$+\lambda$};
+  \fill[black] (3.75,0.45) circle (1.3pt) node[right] {$z+\lambda$};
+  \draw[->, line width=0.45pt, black!60] (3.75,0.45) -- (4.7,0.9)
+    node[midway, below right] {$+a$};
+  \node[align=center] at (2,-0.9)
+    {\([z]=[z+\lambda]\) and \([z+a]=[z+\lambda+a]\).};
+\end{tikzpicture}
+\end{center}
+
+\textbf{3.5.} For a map \(F:G\to H\), the checklist is:
+\[
+\begin{array}{c|c}
+\text{condition} & \text{calculation or property}\\ \hline
+\text{group homomorphism} & F(x+y)=F(x)+F(y)\\
+\text{holomorphic map} & F \text{ is holomorphic in local complex charts}\\
+\text{holomorphic inverse} & F^{-1} \text{ exists and is holomorphic.}
+\end{array}
+\]
+Thus an isomorphism of complex Lie groups is simultaneously a biholomorphism and
+a group isomorphism, not merely an abstract abelian-group isomorphism.
+
+\begin{center}
+\begin{tikzpicture}[>=Latex, every node/.style={font=\small}]
+  \node[smallvisual] (iso) at (0,0) {complex Lie\\group isomorphism};
+  \node[smallvisual] (hol) at (3.0,0.75) {biholomorphic};
+  \node[smallvisual] (grp) at (3.0,-0.75) {respects addition};
+  \draw[->, line width=0.5pt] (iso) -- (hol);
+  \draw[->, line width=0.5pt] (iso) -- (grp);
+  \node[align=center] at (5.6,0)
+    {stronger than an abstract\\abelian-group isomorphism};
+\end{tikzpicture}
+\end{center}
+
+\section{Chapter 4}
+
+\textbf{4.1.} A nonconstant elliptic function cannot be holomorphic, so it has a
+pole.  If the total pole order were \(1\), there would be exactly one simple
+pole.  Its Laurent expansion would have a nonzero coefficient of
+\((z-a)^{-1}\), hence a nonzero residue.  This contradicts the residue-sum law
+for elliptic functions.  Therefore the total pole order is at least \(2\).
+
+\begin{center}
+\begin{tikzpicture}[>=Latex, every node/.style={font=\small}]
+  \draw[line width=0.6pt] (0,0) ellipse (1.7 and 0.8);
+  \fill[black] (0.25,0.1) circle (1.5pt) node[above] {simple pole};
+  \node[smallvisual] (res) at (4.0,0.25) {nonzero residue};
+  \node[smallvisual] (bad) at (6.7,0.25) {contradicts\\residue sum \(0\)};
+  \draw[->, line width=0.55pt] (1.9,0.1) -- (res);
+  \draw[->, line width=0.55pt] (res) -- (bad);
+  \node at (0,-1.1) {total pole order \(1\) is impossible};
+\end{tikzpicture}
+\end{center}
+
+\textbf{4.2.} Choose a period parallelogram whose boundary contains no zeros or
+poles of \(f\).  Apply the argument principle to \(f\) on its boundary:
+\[
+  \frac{1}{2\pi i}\int_{\partial P}\frac{f'}{f}\,dz.
+\]
+Opposite sides cancel by periodicity.  The integral is therefore zero, and it
+equals the number of zeros minus the number of poles, counted with
+multiplicity.
+
+\begin{center}
+\begin{tikzpicture}[>=Latex, every node/.style={font=\small}]
+  \coordinate (A) at (0,0);
+  \coordinate (B) at (2.7,0);
+  \coordinate (C) at (3.45,1.45);
+  \coordinate (D) at (0.75,1.45);
+  \draw[line width=0.55pt] (A)--(B)--(C)--(D)--cycle;
+  \draw[->, line width=0.5pt] (0.55,0) -- (1.65,0);
+  \draw[->, line width=0.5pt] (3.12,1.45) -- (2.05,1.45);
+  \draw[->, line width=0.5pt] (0.18,0.35) -- (0.52,1.05);
+  \draw[->, line width=0.5pt] (3.28,1.05) -- (2.95,0.35);
+  \node[align=center] at (5.6,0.75)
+    {periodicity pairs\\opposite boundary integrals\\with opposite signs};
+  \draw[->, line width=0.55pt] (3.8,0.75) -- (4.45,0.75);
+\end{tikzpicture}
+\end{center}
+
+\textbf{4.3.} Changing a lift \(z_i\) by a lattice element changes the weighted
+sum by an element of \(\Lambda\).  Therefore the Abel sum is intrinsic only
+modulo \(\Lambda\), that is, as a point of \(\C/\Lambda\).
+
+\begin{center}
+\begin{tikzpicture}[>=Latex, every node/.style={font=\small}]
+  \node[smallvisual] (lift) at (0,0)
+    {$z_i\rightsquigarrow z_i+\lambda_i$};
+  \node[smallvisual] (sum) at (3.4,0)
+    {$\sum m_i z_i\rightsquigarrow
+      \sum m_i z_i+\lambda$};
+  \node[smallvisual] (quot) at (6.85,0)
+    {well-defined only\\in \(\C/\Lambda\)};
+  \draw[->, line width=0.5pt] (lift) -- (sum);
+  \draw[->, line width=0.5pt] (sum) -- (quot);
+\end{tikzpicture}
+\end{center}
+
+\textbf{4.4.} If \(F\) is meromorphic on \(T\), then \(F\circ q\) is meromorphic
+on \(\C\) and satisfies
+\[
+  F(q(z+\lambda))=F(q(z))
+\]
+for all \(\lambda\in\Lambda\).  Conversely, if \(f\) is elliptic, define
+\(F([z])=f(z)\).  Periodicity makes this well-defined, and the quotient charts
+show that \(F\) is meromorphic on \(T\).
+
+\begin{center}
+\begin{tikzpicture}[>=Latex, every node/.style={font=\small}]
+  \node[smallvisual] (C) at (0,0.75) {$\C$};
+  \node[smallvisual] (T) at (0,-0.75) {$T=\C/\Lambda$};
+  \node[smallvisual] (vals) at (4.1,-0.75) {$\CP^1$};
+  \draw[->, line width=0.55pt] (C) -- node[left] {$q$} (T);
+  \draw[->, line width=0.55pt] (T) -- node[below] {$F$} (vals);
+  \draw[->, line width=0.55pt] (C) -- node[above] {$f=F\circ q$} (vals);
+  \node[align=center] at (4.1,0.8)
+    {periodic meromorphic functions\\are functions on the quotient};
+\end{tikzpicture}
+\end{center}
+
+\textbf{4.5.} For
+\[
+  \divisor(f)=[a_1]+[a_2]-[b_1]-[b_2],
+\]
+the third Liouville law gives
+\[
+  a_1+a_2-b_1-b_2\in\Lambda.
+\]
+Modulo \(\Lambda\), this is
+\[
+  a_1+a_2-b_1-b_2\equiv0\pmod{\Lambda}.
+\]
+By the definition of the Abel-sum map, this says
+\[
+  \smap(\divisor(f))=0\in T.
+\]
+
+\begin{center}
+\begin{tikzpicture}[>=Latex, every node/.style={font=\small}]
+  \coordinate (A) at (0,0);
+  \coordinate (B) at (3.2,0);
+  \coordinate (C) at (4.1,1.7);
+  \coordinate (D) at (0.9,1.7);
+  \draw[line width=0.55pt] (A)--(B)--(C)--(D)--cycle;
+  \draw[->, line width=0.45pt] ($(A)!0.25!(B)$) -- ($(A)!0.55!(B)$);
+  \draw[->, line width=0.45pt] ($(D)!0.55!(C)$) -- ($(D)!0.25!(C)$);
+  \draw[->, line width=0.45pt] ($(A)!0.3!(D)$) -- ($(A)!0.62!(D)$);
+  \draw[->, line width=0.45pt] ($(B)!0.62!(C)$) -- ($(B)!0.3!(C)$);
+  \fill[black] (1.2,0.55) circle (1.5pt) node[below] {$a_1,+$};
+  \fill[white] (2.7,1.1) circle (1.6pt);
+  \draw[black] (2.7,1.1) circle (1.6pt) node[above right] {$b_1,-$};
+  \fill[black] (3.25,0.55) circle (1.5pt) node[below right] {$a_2,+$};
+  \fill[white] (1.85,1.25) circle (1.6pt);
+  \draw[black] (1.85,1.25) circle (1.6pt) node[above left] {$b_2,-$};
+  \node[align=center] at (6.2,0.95)
+    {$\divisor(f)=[a_1]+[a_2]-[b_1]-[b_2]$\\[2pt]
+     \(a_1+a_2-b_1-b_2\equiv0\pmod{\Lambda}\)};
+  \draw[->, line width=0.55pt] (4.35,0.9) -- (5.15,0.9);
+\end{tikzpicture}
+\end{center}
+
+\section{Chapter 5}
+
+\textbf{5.1.} Replacing \(z\) by \(-z\) permutes the lattice terms
+\(\lambda\mapsto-\lambda\) and leaves the series unchanged.  Hence
+\(\wp(-z)=\wp(z)\).
+
+\begin{center}
+\begin{tikzpicture}[>=Latex, every node/.style={font=\small}]
+  \draw[line width=0.5pt] (-1.1,0) -- (1.1,0);
+  \draw[line width=0.5pt] (0,-0.75) -- (0,0.75);
+  \foreach \x in {-1,0,1}{\foreach \y in {-0.6,0,0.6}{\fill[black] (\x,\y) circle (1pt);}}
+  \fill[black] (0.55,0.32) circle (1.4pt) node[above right] {$z$};
+  \fill[black] (-0.55,-0.32) circle (1.4pt) node[below left] {$-z$};
+  \draw[->, line width=0.5pt] (0.4,0.25) -- (-0.4,-0.25);
+  \node[align=center] at (3.65,0)
+    {the lattice is unchanged by\\\(\lambda\mapsto-\lambda\), so \(\wp\) is even};
+\end{tikzpicture}
+\end{center}
+
+\textbf{5.2.} The derivative of an even function is odd: differentiating
+\(\wp(-z)=\wp(z)\) gives \(-\wp'(-z)=\wp'(z)\), so
+\(\wp'(-z)=-\wp'(z)\).
+
+\begin{center}
+\begin{tikzpicture}[>=Latex, every node/.style={font=\small}]
+  \node[smallvisual] (even) at (0,0) {$\wp(-z)=\wp(z)$};
+  \node[smallvisual] (diff) at (3.0,0) {$-\wp'(-z)=\wp'(z)$};
+  \node[smallvisual] (odd) at (6.0,0) {$\wp'(-z)=-\wp'(z)$};
+  \draw[->, line width=0.5pt] (even) -- node[above] {differentiate} (diff);
+  \draw[->, line width=0.5pt] (diff) -- (odd);
+\end{tikzpicture}
+\end{center}
+
+\textbf{5.3.} The equation
+\[
+  \wp'^2=4\wp^3-g_2\wp-g_3
+\]
+is a polynomial equation for \(\wp'\) with coefficients in \(\C(\wp)\).  It is
+quadratic in \(\wp'\), so \(\wp'\) has degree at most \(2\) over \(\C(\wp)\).
+
+\begin{center}
+\begin{tikzpicture}[>=Latex, every node/.style={font=\small}]
+  \node[smallvisual] (field) at (0,0) {$\C(\wp)$};
+  \node[smallvisual] (quad) at (3.2,0)
+    {$Y^2-(4\wp^3-g_2\wp-g_3)=0$};
+  \node[smallvisual] (deg) at (6.6,0)
+    {degree of \(\wp'\)\\is at most \(2\)};
+  \draw[->, line width=0.5pt] (field) -- (quad);
+  \draw[->, line width=0.5pt] (quad) -- (deg);
+\end{tikzpicture}
+\end{center}
+
+\textbf{5.4.} From the Laurent expansion
+\[
+  \wp(z)=z^{-2}+O(z^2),
+\]
+\(\wp\) has a pole of order \(2\) at \(O\).  From
+\[
+  \wp'(z)=-2z^{-3}+O(z),
+\]
+\(\wp'\) has a pole of order \(3\) at \(O\).
+
+\begin{center}
+\begin{tikzpicture}[>=Latex, every node/.style={font=\small}]
+  \node[smallvisual] (wp) at (0,0.55)
+    {$\wp=z^{-2}+O(z^2)$\\ pole order \(2\)};
+  \node[smallvisual] (wpp) at (4.1,0.55)
+    {$\wp'=-2z^{-3}+O(z)$\\ pole order \(3\)};
+  \node[align=center] at (2.05,-0.75)
+    {the leading negative power gives the pole order at \(O\)};
+  \draw[->, line width=0.5pt] (wp) -- (wpp);
+\end{tikzpicture}
+\end{center}
+
+\textbf{5.5.} Substituting \(x=\wp(z)\) and \(y=\wp'(z)\) into the differential
+equation gives
+\[
+  y^2=4x^3-g_2x-g_3.
+\]
+Thus every point \((\wp(z),\wp'(z))\), away from the pole, lies on the affine
+cubic.
+
+\begin{center}
+\begin{tikzpicture}[>=Latex, every node/.style={font=\small}]
+  \node[smallvisual] (torus) at (0,0) {$z\in\C/\Lambda$};
+  \node[smallvisual] (coord) at (3.0,0) {$(x,y)=(\wp(z),\wp'(z))$};
+  \node[smallvisual] (curve) at (6.6,0) {$y^2=4x^3-g_2x-g_3$};
+  \draw[->, line width=0.5pt] (torus) -- (coord);
+  \draw[->, line width=0.5pt] (coord) -- (curve);
+\end{tikzpicture}
+\end{center}
+
+\section{Chapter 6}
+
+\textbf{6.1.} The function \(z^2(z-1)^{-3}\) has a zero of order \(2\) at
+\(0\), a pole of order \(3\) at \(1\), and a pole/zero contribution at
+\(\infty\) chosen so the total degree is zero.  In the coordinate \(w=1/z\),
+the function is
+\[
+  \frac{w}{(1-w)^3},
+\]
+so it has a zero of order \(1\) at \(\infty\).  Hence
+\[
+  \divisor(z^2(z-1)^{-3})=2[0]-3[1]+[\infty].
+\]
+
+\begin{center}
+\begin{tikzpicture}[>=Latex, every node/.style={font=\small}]
+  \draw[->, black!55, line width=0.45pt] (-0.5,0) -- (6.4,0);
+  \foreach \x/\lab/\mult in {1/{0}/{+2},3/{1}/{-3},5.4/{\infty}/{+1}}{
+    \fill[black] (\x,0) circle (1.5pt);
+    \node[above] at (\x,0) {$\lab$};
+    \node[below] at (\x,0) {$\mult$};
+  }
+  \node[align=center] at (3,-1.05)
+    {zeros and poles balance to total degree \(0\)};
+\end{tikzpicture}
+\end{center}
+
+\textbf{6.2.} Products of meromorphic functions add divisors:
+\[
+  \divisor(fg)=\divisor(f)+\divisor(g).
+\]
+Inverses negate divisors, and constants give the zero divisor.  Since principal
+divisors have degree zero, \(\Prin(X)\) is a subgroup of \(\Div^0(X)\).
+
+\begin{center}
+\begin{tikzpicture}[>=Latex, every node/.style={font=\small}]
+  \node[smallvisual] (f) at (0,0.6) {$f$};
+  \node[smallvisual] (g) at (0,-0.6) {$g$};
+  \node[smallvisual] (fg) at (3.0,0) {$fg$};
+  \node[smallvisual] (div) at (6.25,0)
+    {$\divisor(fg)=\divisor(f)+\divisor(g)$};
+  \draw[->, line width=0.5pt] (f) -- (fg);
+  \draw[->, line width=0.5pt] (g) -- (fg);
+  \draw[->, line width=0.5pt] (fg) -- (div);
+\end{tikzpicture}
+\end{center}
+
+\textbf{6.3.} The coefficients of \([P]-[O]\) are \(1\) and \(-1\), so the
+degree is \(1-1=0\).
+
+\begin{center}
+\begin{tikzpicture}[>=Latex, every node/.style={font=\small}]
+  \node[smallvisual] (P) at (0,0) {$[P]$\\ \(+1\)};
+  \node[smallvisual] (O) at (2.3,0) {$[O]$\\ \(-1\)};
+  \node[smallvisual] (zero) at (4.7,0) {$1-1=0$\\ degree zero};
+  \draw[->, line width=0.5pt] (P) -- (O);
+  \draw[->, line width=0.5pt] (O) -- (zero);
+\end{tikzpicture}
+\end{center}
+
+\textbf{6.4.} The divisor
+\[
+  [P]+[Q]-2[O]
+\]
+has degree \(1+1-2=0\).  Therefore it lies in \(\Div^0(X)\), and its class
+modulo principal divisors is an element of \(\Pic^0(X)\).
+
+\begin{center}
+\begin{tikzpicture}[>=Latex, every node/.style={font=\small}]
+  \node[smallvisual] (div) at (0,0)
+    {$[P]+[Q]-2[O]$\\ degree \(0\)};
+  \node[smallvisual] (Div0) at (3.2,0) {$\Div^0(X)$};
+  \node[smallvisual] (Pic) at (6.1,0) {$\Pic^0(X)$};
+  \draw[->, line width=0.5pt] (div) -- (Div0);
+  \draw[->, line width=0.5pt] (Div0) -- node[above] {mod \(\Prin(X)\)} (Pic);
+\end{tikzpicture}
+\end{center}
+
+\textbf{6.5.} Two degree-zero divisors \(D,D'\) define the same element of
+\(\Pic^0(X)=\Div^0(X)/\Prin(X)\) exactly when
+\[
+  D-D'\in\Prin(X).
+\]
+This is the defining equivalence relation in the quotient group.
+
+\begin{center}
+\begin{tikzpicture}[>=Latex, every node/.style={font=\small}]
+  \node[smallvisual] (D) at (0,0.65) {$D$};
+  \node[smallvisual] (Dp) at (0,-0.65) {$D'$};
+  \node[smallvisual] (diff) at (3.0,0) {$D-D'\in\Prin(X)$};
+  \node[smallvisual] (same) at (6.0,0) {$[D]=[D']$\\in \(\Pic^0(X)\)};
+  \draw[->, line width=0.5pt] (D) -- (diff);
+  \draw[->, line width=0.5pt] (Dp) -- (diff);
+  \draw[->, line width=0.5pt] (diff) -- (same);
+\end{tikzpicture}
+\end{center}
+
+\section{Chapter 7}
+
+\textbf{7.1.} The dimensions are
+\[
+  \ell(O)=1,\qquad \ell(2O)=2,\qquad \ell(3O)=3.
+\]
+
+\begin{center}
+\begin{tikzpicture}[>=Latex, every node/.style={font=\small}]
+  \node[smallvisual] (one) at (0,0) {$O$\\ \(\ell=1\)};
+  \node[smallvisual] (two) at (2.7,0) {$2O$\\ \(\ell=2\)};
+  \node[smallvisual] (three) at (5.4,0) {$3O$\\ \(\ell=3\)};
+  \draw[->, line width=0.5pt] (one) -- (two);
+  \draw[->, line width=0.5pt] (two) -- (three);
+  \node[align=center] at (2.7,-1.0)
+    {genus-one Riemann--Roch: \(\ell(nO)=n\)};
+\end{tikzpicture}
+\end{center}
+
+\textbf{7.2.} A function in \(L(O)\) has at most a simple pole at \(O\) and no
+other poles.  If it has no pole, it is holomorphic on the compact torus and is
+constant.  If it has a simple pole at \(O\), it has total pole order \(1\),
+which is impossible by Exercise 4.1.  Hence every element of \(L(O)\) is
+constant.
+
+\begin{center}
+\begin{tikzpicture}[>=Latex, every node/.style={font=\small}]
+  \node[smallvisual] (LO) at (0,0) {$f\in L(O)$};
+  \node[smallvisual] (simple) at (3.0,0.65) {simple pole?\\total order \(1\)};
+  \node[smallvisual] (no) at (6.0,0.65) {impossible};
+  \node[smallvisual] (const) at (3.0,-0.75) {no pole\\compact holomorphic};
+  \node[smallvisual] (C) at (6.0,-0.75) {constant};
+  \draw[->, line width=0.5pt] (LO) -- (simple);
+  \draw[->, line width=0.5pt] (simple) -- (no);
+  \draw[->, line width=0.5pt] (LO) -- (const);
+  \draw[->, line width=0.5pt] (const) -- (C);
+\end{tikzpicture}
+\end{center}
+
+\textbf{7.3.} The pole orders at \(O\) are \(0,2,3\) for \(1,\wp,\wp'\).  In a
+linear relation, the term with the largest pole order cannot be cancelled by
+terms with smaller pole order.  Descending through the possible largest pole
+orders forces all coefficients to be zero.
+
+\begin{center}
+\begin{tikzpicture}[>=Latex, every node/.style={font=\small}]
+  \draw[->, black!55, line width=0.45pt] (-0.3,0) -- (5.2,0) node[right] {pole order};
+  \foreach \x/\lab in {0/{1},2/{\wp},3/{\wp'}}{
+    \fill[black] (\x,0) circle (1.4pt);
+    \node[above] at (\x,0) {$\lab$};
+    \node[below] at (\x,0) {$\x$};
+  }
+  \node[align=center] at (2.6,-1.1)
+    {the largest pole order in a relation cannot be cancelled};
+\end{tikzpicture}
+\end{center}
+
+\textbf{7.4.} The constant function satisfies
+\[
+  \divisor(1)+2[O]=2[O]\ge0,
+\]
+so \(1\in L(2O)\).  Since \(\wp\) has no poles away from \(O\) and has pole
+order \(2\) at \(O\),
+\[
+  \divisor(\wp)+2[O]\ge0,
+\]
+so \(\wp\in L(2O)\).  The pole orders \(0\) and \(2\) make \(1,\wp\) linearly
+independent.  Since \(\ell(2O)=2\), they form a basis:
+\[
+  L(2O)=\Span_\C(1,\wp).
+\]
+
+\begin{center}
+\begin{tikzpicture}[>=Latex, every node/.style={font=\small}]
+  \node[smallvisual] (ind) at (0,0) {$1,\wp$\\independent};
+  \node[smallvisual] (dim) at (3.0,0) {$\ell(2O)=2$};
+  \node[smallvisual] (basis) at (6.0,0) {$L(2O)=\Span_\C(1,\wp)$};
+  \draw[->, line width=0.5pt] (ind) -- (dim);
+  \draw[->, line width=0.5pt] (dim) -- (basis);
+\end{tikzpicture}
+\end{center}
+
+\textbf{7.5.} Membership is checked by the divisor inequalities
+\[
+  \divisor(1)+3[O]=3[O]\ge0,\qquad
+  \divisor(\wp)+3[O]\ge0,\qquad
+  \divisor(\wp')+3[O]\ge0.
+\]
+The second inequality holds because \(\wp\) has pole order \(2\le3\) at \(O\);
+the third holds because \(\wp'\) has pole order exactly \(3\) at \(O\).  The
+functions \(1,\wp,\wp'\) are linearly independent by pole orders \(0,2,3\).
+Since \(\ell(3O)=3\), they form a basis:
+\[
+  L(3O)=\Span_\C(1,\wp,\wp').
+\]
+
+\begin{center}
+\begin{tikzpicture}[>=Latex, every node/.style={font=\small}]
+  \node[visualnode, minimum width=2.6cm] (LO) at (0,1.7) {$L(O)$\\ \(1\)};
+  \node[visualnode, minimum width=3.1cm] (L2) at (0,0.55) {$L(2O)$\\ \(1,\wp\)};
+  \node[visualnode, minimum width=3.7cm] (L3) at (0,-0.75) {$L(3O)$\\ \(1,\wp,\wp'\)};
+  \draw[->, line width=0.5pt] (LO) -- (L2);
+  \draw[->, line width=0.5pt] (L2) -- (L3);
+  \node[align=left] at (4.2,0.55)
+    {pole orders at \(O\):\\[2pt]
+     \(1:\,0\)\\
+     \(\wp:\,2\)\\
+     \(\wp':\,3\)};
+  \draw[->, line width=0.55pt] (1.95,-0.75) -- node[above] {\(\Phi\)} (3.2,-0.75);
+  \node[align=center] at (5.1,-0.75)
+    {\([\wp:\wp':1]\)\\uses a basis of \(L(3O)\)};
+\end{tikzpicture}
+\end{center}
+
+\section{Chapter 8}
+
+\textbf{8.1.} Choose lifts \(p,q\in\C\) of \(P,Q\).  Then
+\[
+  \smap([P]-[Q])=p-q\pmod{\Lambda}.
+\]
+This is exactly the class \(P-Q\) in the quotient group \(T=\C/\Lambda\).
+
+\begin{center}
+\begin{tikzpicture}[>=Latex, every node/.style={font=\small}]
+  \begin{scope}[scale=0.3]
+    \drawprecisetorus
+  \end{scope}
+  \fill[black] (0.65,0.35) circle (1.5pt) node[above right] {$P$};
+  \fill[black] (-0.55,-0.25) circle (1.5pt) node[below left] {$Q$};
+  \draw[->, line width=0.5pt] (-0.55,-0.25) -- (0.65,0.35)
+    node[midway, above] {$P-Q$};
+  \node[align=center] at (3.9,0)
+    {\([P]-[Q]\) has Abel sum \(P-Q\) in \(T\)};
+\end{tikzpicture}
+\end{center}
+
+\textbf{8.2.} Choose lifts \(p,q,0\in\C\) of \(P,Q,O\).  The Abel sum is
+\[
+  p+q-2\cdot0\equiv p+q\pmod{\Lambda}.
+\]
+By Abel's theorem, \([P]+[Q]-2[O]\) is principal exactly when this class is
+zero, namely when \(p+q\equiv0\pmod{\Lambda}\), or \(P+Q=O\) in \(T\).
+
+\begin{center}
+\begin{tikzpicture}[>=Latex, every node/.style={font=\small}]
+  \node[smallvisual] (div) at (0,0)
+    {$[P]+[Q]-2[O]$};
+  \node[smallvisual] (sum) at (3.0,0)
+    {Abel sum\\ \(P+Q\)};
+  \node[smallvisual] (prin) at (6.0,0)
+    {principal\\\(\Longleftrightarrow P+Q=O\)};
+  \draw[->, line width=0.5pt] (div) -- (sum);
+  \draw[->, line width=0.5pt] (sum) -- (prin);
+\end{tikzpicture}
+\end{center}
+
+\textbf{8.3.} If \([P]-[O]=[Q]-[O]\), then \([P]-[Q]\) is principal.  Abel's
+theorem gives \(P-Q=0\) in \(T\), hence \(P=Q\).
+
+\begin{center}
+\begin{tikzpicture}[>=Latex, every node/.style={font=\small}]
+  \node[smallvisual] (classes) at (0,0)
+    {$[P]-[O]=[Q]-[O]$};
+  \node[smallvisual] (principal) at (3.25,0)
+    {$[P]-[Q]$ principal};
+  \node[smallvisual] (same) at (6.35,0)
+    {$P-Q=0$\\ \(P=Q\)};
+  \draw[->, line width=0.5pt] (classes) -- (principal);
+  \draw[->, line width=0.5pt] (principal) -- node[above] {Abel} (same);
+\end{tikzpicture}
+\end{center}
+
+\textbf{8.4.} Write \(D=\sum_i n_i[p_i]\) and \(D'=\sum_j m_j[q_j]\).  Then
+\[
+  \smap(D+D')=\sum_i n_i p_i+\sum_j m_j q_j
+  =\smap(D)+\smap(D')
+\]
+in \(\C/\Lambda\).
+
+\begin{center}
+\begin{tikzpicture}[>=Latex, every node/.style={font=\small}]
+  \node[smallvisual] (D) at (0,0.65) {$D$\\ \(\smap(D)\)};
+  \node[smallvisual] (Dp) at (0,-0.65) {$D'$\\ \(\smap(D')\)};
+  \node[smallvisual] (sum) at (3.2,0) {$D+D'$};
+  \node[smallvisual] (image) at (6.2,0)
+    {$\smap(D+D')=\smap(D)+\smap(D')$};
+  \draw[->, line width=0.5pt] (D) -- (sum);
+  \draw[->, line width=0.5pt] (Dp) -- (sum);
+  \draw[->, line width=0.5pt] (sum) -- (image);
+\end{tikzpicture}
+\end{center}
+
+\textbf{8.5.} If \(D\) is replaced by \(D+\divisor(f)\), then
+\[
+  \smap(D+\divisor(f))-\smap(D)=\smap(\divisor(f)).
+\]
+The divisor \(\divisor(f)\) is principal, so Abel's theorem gives
+\(\smap(\divisor(f))=0\).  Therefore \(\smap\) is well-defined on divisor
+classes in \(\Pic^0(T)\).  Exercise 8.4 gives additivity, so the induced map is
+a group homomorphism.
+
+\begin{center}
+\begin{tikzpicture}[>=Latex, every node/.style={font=\small}]
+  \node[visualnode] (Div) at (0,1.15) {$\Div^0(T)$};
+  \node[visualnode] (Pic) at (0,-0.55) {$\Pic^0(T)=\Div^0(T)/\Prin(T)$};
+  \node[visualnode] (T) at (5.0,-0.55) {$T=\C/\Lambda$};
+  \node[font=\footnotesize] (Prin) at (0,-1.7) {$\Prin(T)$};
+  \node[font=\footnotesize] (zero) at (5.0,-1.7) {$0\in T$};
+  \draw[->, line width=0.55pt] (Div) -- node[left] {quotient} (Pic);
+  \draw[->, line width=0.55pt] (Div) -- node[above] {\(\smap\)} (T);
+  \draw[->, line width=0.55pt] (Pic) -- node[above] {induced \(\smap\)} (T);
+  \draw[->, line width=0.45pt] (Prin) -- node[below] {\(\smap=0\) on principal divisors} (zero);
+  \node[align=center] at (2.5,-2.45)
+    {Abel's theorem kills principal divisors,\\so \(\smap\) descends.};
+\end{tikzpicture}
+\end{center}
+
+\section{Chapter 9}
+
+\textbf{9.1.} Homogeneous coordinates may be multiplied by \(z^3\):
+\[
+  [\wp:\wp':1]=[z+O(z^5):-2+O(z^4):z^3],
+\]
+which tends to \([0:1:0]\).
+
+\begin{center}
+\begin{tikzpicture}[>=Latex, every node/.style={font=\small}]
+  \node[smallvisual] (aff) at (0,0)
+    {$[\wp:\wp':1]$};
+  \node[smallvisual] (scaled) at (3.0,0)
+    {$[z+O(z^5):-2+O(z^4):z^3]$};
+  \node[smallvisual] (limit) at (6.2,0)
+    {$[0:1:0]=O$};
+  \draw[->, line width=0.5pt] (aff) -- node[above] {multiply by \(z^3\)} (scaled);
+  \draw[->, line width=0.5pt] (scaled) -- node[above] {\(z\to0\)} (limit);
+\end{tikzpicture}
+\end{center}
+
+\textbf{9.2.} With \(x(z)=\wp(z)\) and \(y(z)=\wp'(z)\),
+\[
+  x(-z)=\wp(-z)=\wp(z)=x(z),
+\]
+while
+\[
+  y(-z)=\wp'(-z)=-\wp'(z)=-y(z).
+\]
+Thus \(z\mapsto -z\) fixes the \(x\)-coordinate and changes the sign of the
+\(y\)-coordinate.
+
+\begin{center}
+\begin{tikzpicture}[>=Latex, every node/.style={font=\small}]
+  \node[smallvisual] (z) at (0,0.65) {$z$};
+  \node[smallvisual] (mz) at (0,-0.65) {$-z$};
+  \node[smallvisual] (P) at (3.4,0.65) {$(x,y)=(\wp(z),\wp'(z))$};
+  \node[smallvisual] (mP) at (3.4,-0.65) {$(x,-y)=(\wp(z),-\wp'(z))$};
+  \draw[->, line width=0.5pt] (z) -- (P);
+  \draw[->, line width=0.5pt] (mz) -- (mP);
+  \draw[->, line width=0.5pt] (P) -- node[right] {reflect} (mP);
+\end{tikzpicture}
+\end{center}
+
+\textbf{9.3.} For \(F(x,y)=y^2-(4x^3-g_2x-g_3)\), a singular affine point must
+satisfy \(F=0\), \(F_y=2y=0\), and \(F_x=-12x^2+g_2=0\).  Thus \(y=0\) and
+\(x\) is a repeated root of \(4x^3-g_2x-g_3\).  Conversely, a repeated root gives
+such a singular point.
+
+\begin{center}
+\begin{tikzpicture}[>=Latex, every node/.style={font=\small}]
+  \node[smallvisual] (sing) at (0,0) {singular point};
+  \node[smallvisual] (partials) at (3.0,0)
+    {$F=F_x=F_y=0$};
+  \node[smallvisual] (root) at (6.0,0)
+    {$y=0$\\ repeated cubic root};
+  \draw[->, line width=0.5pt] (sing) -- (partials);
+  \draw[->, line width=0.5pt] (partials) -- (root);
+\end{tikzpicture}
+\end{center}
+
+\textbf{9.4.} Since \(\wp(-z)=\wp(z)\) and \(\wp'(-z)=-\wp'(z)\),
+\[
+  \Phi(-z)=[\wp(z):-\wp'(z):1]=\ominus\Phi(z).
+\]
+At \(O\), both sides are \(O=[0:1:0]\).
+
+\begin{center}
+\begin{tikzpicture}[>=Latex, every node/.style={font=\small}]
+  \node[smallvisual] (torus) at (0,0) {$z\mapsto -z$\\on \(T\)};
+  \node[smallvisual] (coords) at (3.1,0)
+    {$[\wp:\wp':1]\mapsto[\wp:-\wp':1]$};
+  \node[smallvisual] (cubic) at (6.45,0) {reflection\\\(\Phi(z)\mapsto\ominus\Phi(z)\)};
+  \draw[->, line width=0.5pt] (torus) -- (coords);
+  \draw[->, line width=0.5pt] (coords) -- (cubic);
+\end{tikzpicture}
+\end{center}
+
+\textbf{9.5.} The torus notation is \(z\in T\).  The cubic notation is
+\(\Phi(z)\in E(\C)\).  The divisor-class notation is
+\[
+  [\Phi(z)]-[O]\in\Pic^0(E).
+\]
+The first identification is the Weierstrass map \(\Phi\), and the second is the
+Abel-Jacobi divisor-class map \(P\mapsto[P]-[O]\).
+
+\begin{center}
+\begin{tikzpicture}[>=Latex, every node/.style={font=\small}]
+  \node[smallvisual] (T) at (0,0)
+    {$z\in\C/\Lambda$};
+  \node[smallvisual] (E) at (3.5,0)
+    {$\Phi(z)\in E(\C)$};
+  \node[smallvisual] (J) at (7.2,0)
+    {$[\Phi(z)]-[O]\in\Pic^0(E)$};
+  \draw[->, line width=0.55pt] (T) -- node[above] {\(\Phi=[\wp:\wp':1]\)} (E);
+  \draw[->, line width=0.55pt] (E) --
+    node[above] {$P\mapsto[P]-[O]$} (J);
+  \node[align=center] at (3.6,-0.9)
+    {one group element written in three languages};
+\end{tikzpicture}
+\end{center}
+
+\textbf{9.6.} If \(\Phi(z)=\Phi(w)\) in the affine chart, then equality of
+projective coordinates gives
+\[
+  \wp(z)=\wp(w),\qquad \wp'(z)=\wp'(w).
+\]
+For a generic \(x\)-value, the equation \(\wp(t)=\wp(z)\) has the two solutions
+\[
+  t\equiv z,\qquad t\equiv -z \pmod{\Lambda}.
+\]
+If \(w\equiv -z\), then oddness gives
+\[
+  \wp'(w)=\wp'(-z)=-\wp'(z).
+\]
+Together with \(\wp'(w)=\wp'(z)\), this forces \(\wp'(z)=0\).  Thus away from
+the branch points where \(\wp'(z)=0\), the second coordinate removes the
+generic \(z\) versus \(-z\) ambiguity and gives \(w\equiv z\).  The exceptional
+half-period cases, where \(z\equiv -z\) modulo \(\Lambda\), and the point
+\(O\) at infinity are handled by the full Weierstrass embedding theorem.  This
+calculation is an injectivity check in the generic case, not a complete proof of
+the theorem.
+
+\begin{center}
+\begin{tikzpicture}[>=Latex, every node/.style={font=\small}]
+  \node[smallvisual] (samex) at (0,0.75)
+    {$\wp(w)=\wp(z)$\\ \(w\equiv z\) or \(-z\)};
+  \node[smallvisual] (samey) at (3.7,0.75)
+    {$\wp'(w)=\wp'(z)$};
+  \node[smallvisual] (odd) at (3.7,-0.75)
+    {if \(w\equiv -z\),\\ \(\wp'(w)=-\wp'(z)\)};
+  \node[smallvisual] (concl) at (7.1,0)
+    {generic case:\\ \(w\equiv z\)};
+  \draw[->, line width=0.5pt] (samex) -- (samey);
+  \draw[->, line width=0.5pt] (samey) -- (concl);
+  \draw[->, line width=0.5pt] (samex) -- (odd);
+  \draw[->, line width=0.5pt] (odd) -- (concl);
+  \node[align=center] at (3.6,-1.75)
+    {exceptional half-periods: \(\wp'(z)=0\)};
+\end{tikzpicture}
+\end{center}
+
+\section{Chapter 10}
+
+\textbf{10.1.} In affine coordinates, write \(P=(x_0,y_0)\) and
+\(Q=(x_0+h,y(x_0+h))\).  When the tangent is not vertical, the chord slope is
+\[
+  \frac{y(x_0+h)-y(x_0)}{h}\longrightarrow y'(x_0).
+\]
+For an implicit equation \(F(x,y)=0\), this derivative is
+\[
+  y'(x_0)=-\frac{F_x(P)}{F_y(P)}
+\]
+when \(F_y(P)\ne0\).  The limiting line is the tangent line.  Algebraically, its
+intersection with the cubic has a double zero at \(P\), so \(P\) is counted with
+intersection multiplicity \(2\).
+
+\begin{center}
+\begin{tikzpicture}[>=Latex, every node/.style={font=\small}]
+  \draw[line width=0.6pt] (-1.6,-0.55) .. controls (-0.6,0.9) and (0.8,0.9) .. (1.7,-0.55);
+  \fill[black] (-0.25,0.45) circle (1.5pt) node[above left] {$P$};
+  \fill[black] (0.45,0.43) circle (1.5pt) node[above right] {$Q$};
+  \draw[line width=0.5pt] (-1.1,0.5) -- (1.2,0.36);
+  \draw[->, line width=0.5pt] (0.45,0.2) -- (-0.05,0.35) node[midway, below] {$Q\to P$};
+  \draw[line width=0.55pt] (-0.9,0.62) -- (1.0,0.18);
+  \node[align=center] at (4.0,0.15)
+    {the chord limit is a tangent\\and counts \(P\) twice};
+\end{tikzpicture}
+\end{center}
+
+\textbf{10.2.} Substitute \(y=mx+b\) into
+\[
+  y^2=4x^3-g_2x-g_3.
+\]
+The resulting cubic in \(x\) has roots \(x_P,x_Q,x_R\), counted with
+multiplicity in the tangent case.  The coefficient of \(x^2\) gives
+\[
+  x_P+x_Q+x_R=\frac{m^2}{4}.
+\]
+The chord-tangent sum is the reflection of \(R\), so its \(x\)-coordinate is
+\[
+  x_{P\boxplus Q}=x_R=\frac{m^2}{4}-x_P-x_Q.
+\]
+
+\begin{center}
+\begin{tikzpicture}[>=Latex, every node/.style={font=\small}]
+  \node[smallvisual] (line) at (0,0) {$y=mx+b$};
+  \node[smallvisual] (cubic) at (3.1,0)
+    {cubic in \(x\)\\roots \(x_P,x_Q,x_R\)};
+  \node[smallvisual] (vieta) at (6.4,0)
+    {$x_P+x_Q+x_R=m^2/4$};
+  \draw[->, line width=0.5pt] (line) -- (cubic);
+  \draw[->, line width=0.5pt] (cubic) -- (vieta);
+  \node[font=\footnotesize] at (3.2,-0.75) {substitution, then Vieta's formula};
+\end{tikzpicture}
+\end{center}
+
+\textbf{10.3.} If \(P=(x,y)\), the vertical line \(X=xZ\) gives the affine
+intersections \((x,y)\) and \((x,-y)\), since the equation contains \(y^2\).
+In projective coordinates the same vertical line also meets the cubic at
+\(O=[0:1:0]\).  Thus a vertical line meets \(P\), \(\ominus P\), and \(O\), and
+the third intersection construction gives
+\[
+  P\boxplus(\ominus P)=O.
+\]
+
+\begin{center}
+\begin{tikzpicture}[>=Latex, every node/.style={font=\small}]
+  \begin{scope}[scale=0.55]
+    \drawprecisecurve
+    \draw[dashed, line width=0.5pt] (0.45,-2.2) -- (0.45,2.2);
+    \fill[black] (0.45,1.35) circle (1.7pt) node[above right] {$P$};
+    \fill[black] (0.45,-1.35) circle (1.7pt) node[below right] {$\ominus P$};
+    \node at (0,-3.2) {$O$};
+  \end{scope}
+  \node[align=center] at (4.2,0)
+    {a vertical line gives the inverse relation\\\(P\boxplus(\ominus P)=O\)};
+\end{tikzpicture}
+\end{center}
+
+\textbf{10.4.} Let \(f=\ell/h=\ell/Z\) on \(E\).  The zeros of \(f\) are the
+zeros of \(\ell|_E\), namely the three intersections of the line \(\ell=0\)
+with the cubic:
+\[
+  [P]+[Q]+[R],
+\]
+counted with multiplicity.  The poles of \(f\) are the zeros of \(Z|_E\).  On
+the Weierstrass cubic,
+\[
+  Z=0 \quad\Longrightarrow\quad 0=4X^3,
+\]
+so the line at infinity meets \(E\) only at \(O=[0:1:0]\), with total
+intersection multiplicity \(3\).  Hence the pole divisor is \(3[O]\), and
+\[
+  \divisor(\ell/Z)=[P]+[Q]+[R]-3[O].
+\]
+Its degree is \(1+1+1-3=0\).
+
+\begin{center}
+\begin{tikzpicture}[>=Latex, every node/.style={font=\small}]
+  \node[smallvisual] (line) at (0,0.75)
+    {\(\ell|_E=0\)\\zeros \(P,Q,R\)};
+  \node[smallvisual] (div) at (3.15,0.75)
+    {\(Z|_E=0\)\\pole \(3[O]\)};
+  \node[smallvisual] (deg) at (3.15,-0.65)
+    {\(\divisor(\ell/Z)\)\\ \([P]+[Q]+[R]-3[O]\)};
+  \draw[->, line width=0.5pt] (line) -- (div);
+  \draw[->, line width=0.5pt] (div) -- node[right] {subtract} (deg);
+\end{tikzpicture}
+\end{center}
+
+\textbf{10.5.} Since \([P]+[Q]+[R]-3[O]\) is principal, Abel's theorem says its
+Abel sum is the identity.  Choose torus preimages \(p,q,r,0\) of \(P,Q,R,O\).
+The Abel sum is
+\[
+  p+q+r-3\cdot0\equiv0\pmod{\Lambda}.
+\]
+In the transported group law this is exactly
+\[
+  P+Q+R=O.
+\]
+
+\begin{center}
+\begin{tikzpicture}[>=Latex, every node/.style={font=\small}]
+  \begin{scope}[scale=0.62]
+    \drawprecisecurve
+    \draw[black, line width=0.65pt]
+      (\chordlefta,\chordleftb) -- (\chordrighta,\chordrightb);
+    \fill[black] (\chordPx,\chordPy) circle (2pt);
+    \node[below left] at (\chordPx,\chordPy) {$P$};
+    \fill[black] (\chordQx,\chordQy) circle (2pt);
+    \node[above right] at (\chordQx,\chordQy) {$Q$};
+    \fill[black] (\chordRx,\chordRy) circle (2pt);
+    \node[above left] at (\chordRx,\chordRy) {$R$};
+    \node at (0,-3.35) {$O=[0:1:0]$};
+  \end{scope}
+  \node[align=center] at (5.6,0.2)
+    {\([P]+[Q]+[R]-3[O]\in\Prin(E)\)\\[4pt]
+     Abel sum \(=0\)\\[4pt]
+     \(P+Q+R=O\)};
+  \draw[->, line width=0.55pt] (2.7,0.2) -- (4.2,0.2);
+\end{tikzpicture}
+\end{center}
+
+\section{Chapter 11}
+
+\textbf{11.1.} Abel's theorem is used after the line divisor is known to be
+principal.  After choosing torus preimages \(u,v,r\) of \(P,Q,R\), the Abel sum
+of the divisor is
+\[
+  u+v+r-3\cdot0\equiv u+v+r\pmod{\Lambda}.
+\]
+Abel's theorem converts
+\[
+  [P]+[Q]+[R]-3[O]\in\Prin(E)
+\]
+into the group equation \(u+v+r=0\) on the torus.
+
+\begin{center}
+\begin{tikzpicture}[>=Latex, every node/.style={font=\small}]
+  \node[smallvisual] (line) at (0,0)
+    {$[P]+[Q]+[R]-3[O]$\\ principal};
+  \node[smallvisual] (abel) at (3.4,0) {Abel's theorem};
+  \node[smallvisual] (torus) at (6.5,0) {$u+v+r=0$\\on \(\C/\Lambda\)};
+  \draw[->, line width=0.5pt] (line) -- (abel);
+  \draw[->, line width=0.5pt] (abel) -- (torus);
+\end{tikzpicture}
+\end{center}
+
+\textbf{11.2.} A direct proof must compute the third intersection of the line
+through \(P,Q\), reflect it to get \(P\boxplus Q\), then compute the third
+intersection of the line through \(P\boxplus Q,R\).  The other bracketing
+requires the analogous line through \(Q,R\) and then the line through
+\(P,Q\boxplus R\).  Comparing the final reflected points is a nonlinear
+intersection calculation.  On the torus, the corresponding check is the linear
+calculation
+\[
+  (u+v)+w=u+(v+w).
+\]
+The transported proof avoids the direct intersection comparison by inheriting
+associativity from \(\C/\Lambda\).
+
+\begin{center}
+\begin{tikzpicture}[>=Latex, every node/.style={font=\small}]
+  \node[smallvisual] (direct) at (0,0.65) {direct cubic proof\\many line intersections};
+  \node[smallvisual] (transport) at (0,-0.75) {transported proof\\add in \(\C/\Lambda\)};
+  \node[smallvisual] (assoc) at (4.0,-0.75) {associativity is inherited};
+  \draw[->, line width=0.5pt] (transport) -- (assoc);
+  \draw[dashed, line width=0.45pt] (direct) -- node[right] {harder} (transport);
+\end{tikzpicture}
+\end{center}
+
+\textbf{11.3.} For \(P=(x,y)\), the projective line \(X=xZ\) contains
+\[
+  P=(x,y,1),\qquad \ominus P=(x,-y,1),\qquad O=[0:1:0].
+\]
+Indeed, \(O\) satisfies \(X=xZ\) because both sides are \(0\), and the affine
+intersections have the same \(x\)-coordinate with \(y\)-coordinates \(y\) and
+\(-y\).  Thus the third intersection of the line through \(O\) and \(P\) is
+\(\ominus P\).  Reflecting \(\ominus P\) gives \(P\), so
+\[
+  O\boxplus P=P.
+\]
+The case \(P=O\) gives \(O\boxplus O=O\) by the tangent construction at the
+identity.
+
+\begin{center}
+\begin{tikzpicture}[>=Latex, every node/.style={font=\small}]
+  \node[smallvisual] (line) at (0,0)
+    {projective line\\\(X=xZ\)};
+  \node[smallvisual] (third) at (3.2,0)
+    {points\\\(P,\ominus P,O\)};
+  \node[smallvisual] (reflect) at (6.15,0)
+    {reflect\\\(O\boxplus P=P\)};
+  \draw[->, line width=0.5pt] (line) -- (third);
+  \draw[->, line width=0.5pt] (third) -- (reflect);
+\end{tikzpicture}
+\end{center}
+
+\textbf{11.4.} Let \(R=\Phi(r)\) be the third intersection of the line through
+\(P=\Phi(u)\) and \(Q=\Phi(v)\).  The line divisor is principal:
+\[
+  [P]+[Q]+[R]-3[O].
+\]
+Abel's theorem gives \(u+v+r=0\) in \(\C/\Lambda\), hence
+\[
+  r=-(u+v).
+\]
+Reflecting \(R=\Phi(r)\) gives
+\[
+  \ominus R=\Phi(-r)=\Phi(u+v).
+\]
+Thus the chord-tangent construction gives the transported torus sum.
+
+\begin{center}
+\begin{tikzpicture}[>=Latex, every node/.style={font=\small}]
+  \node[smallvisual] (third) at (0,0.8) {$R=\Phi(r)$\\third intersection};
+  \node[smallvisual] (abel) at (3.2,0.8) {$u+v+r=0$};
+  \node[smallvisual] (neg) at (6.0,0.8) {$r=-(u+v)$};
+  \node[smallvisual] (ref) at (3.2,-0.75) {$\ominus R=\Phi(-r)=\Phi(u+v)$};
+  \draw[->, line width=0.5pt] (third) -- (abel);
+  \draw[->, line width=0.5pt] (abel) -- (neg);
+  \draw[->, line width=0.5pt] (neg) -- (ref);
+\end{tikzpicture}
+\end{center}
+
+\textbf{11.5.} The reflection enters after the third intersection is identified
+as \(R=\Phi(r)\) with \(r=-(u+v)\).  Reflection on the cubic corresponds to
+\(z\mapsto -z\) on the torus because
+\[
+  \Phi(-z)=\ominus\Phi(z).
+\]
+Therefore the reflected point is \(\Phi(-r)=\Phi(u+v)\).
+
+\begin{center}
+\begin{tikzpicture}[>=Latex, every node/.style={font=\small}]
+  \node[visualnode] (uv) at (0,1.1) {$u,v\in\C/\Lambda$};
+  \node[visualnode] (sum) at (4.2,1.1) {$u+v\in\C/\Lambda$};
+  \node[visualnode] (PQ) at (0,-0.8) {$P=\Phi(u),\ Q=\Phi(v)$};
+  \node[visualnode] (box) at (4.2,-0.8) {$P\boxplus Q$};
+  \draw[->, line width=0.55pt] (uv) -- node[above] {add on torus} (sum);
+  \draw[->, line width=0.55pt] (uv) -- node[left] {\(\Phi\)} (PQ);
+  \draw[->, line width=0.55pt] (sum) -- node[right] {\(\Phi\)} (box);
+  \draw[->, line width=0.55pt] (PQ) -- node[below] {chord--tangent} (box);
+  \node[align=center] at (2.1,-1.75)
+    {The square commutes: \(P\boxplus Q=\Phi(u+v)\).};
+\end{tikzpicture}
+\end{center}
+
+\section{Chapter 12}
+
+\textbf{12.1.} Under \(g_2\mapsto a^{-4}g_2\) and
+\(g_3\mapsto a^{-6}g_3\), one has
+\[
+  g_2^3\mapsto a^{-12}g_2^3,\qquad
+  g_3^2\mapsto a^{-12}g_3^2.
+\]
+Therefore
+\[
+  \Delta=g_2^3-27g_3^2\mapsto a^{-12}\Delta.
+\]
+The common factor \(a^{-12}\) cancels in
+\[
+  j=1728\frac{g_2^3}{g_2^3-27g_3^2}.
+\]
+
+\begin{center}
+\begin{tikzpicture}[>=Latex, every node/.style={font=\small}]
+  \node[smallvisual] (g2) at (0,0.55) {$g_2^3\mapsto a^{-12}g_2^3$};
+  \node[smallvisual] (g3) at (0,-0.55) {$g_3^2\mapsto a^{-12}g_3^2$};
+  \node[smallvisual] (j) at (4.4,0) {common factor cancels\\\(j\) is unchanged};
+  \draw[->, line width=0.5pt] (g2) -- (j);
+  \draw[->, line width=0.5pt] (g3) -- (j);
+\end{tikzpicture}
+\end{center}
+
+\textbf{12.2.} In genus one, \(H^1(E,\OO_E)\cong\C\) as a complex vector space,
+and \(H^1(E,\Z)\cong\Z^2\).  Under the natural map into \(H^1(E,\OO_E)\), the
+integral classes give a rank-two lattice \(\Lambda\subset\C\), generated by two
+periods.  Therefore
+\[
+  H^1(E,\OO_E)/H^1(E,\Z)\cong\C/\Lambda.
+\]
+
+\begin{center}
+\begin{tikzpicture}[>=Latex, every node/.style={font=\small}]
+  \node[smallvisual] (vector) at (0,0.6) {$H^1(E,\OO_E)\cong\C$};
+  \node[smallvisual] (lattice) at (0,-0.7) {$H^1(E,\Z)\leadsto\Lambda$};
+  \node[smallvisual] (quot) at (4.0,0) {$H^1(E,\OO_E)/H^1(E,\Z)\cong\C/\Lambda$};
+  \draw[->, line width=0.5pt] (vector) -- (quot);
+  \draw[->, line width=0.5pt] (lattice) -- (quot);
+\end{tikzpicture}
+\end{center}
+
+\textbf{12.3.} For \(\Lambda=\Z+i\Z\), multiplication by \(i\) sends
+\[
+  1\mapsto i,\qquad i\mapsto -1,
+\]
+so it preserves the lattice and has order \(4\).  For
+\(\Lambda=\Z+\tau\Z\), \(\tau=e^{2\pi i/3}\), multiplication by \(\tau\) sends
+\[
+  1\mapsto \tau,\qquad \tau\mapsto \tau^2=-1-\tau,
+\]
+so it preserves the lattice and has order \(3\).  Together with multiplication
+by \(-1\), the hexagonal lattice has rotations of order \(6\).  These rotations
+suggest extra automorphisms.
+
+\begin{center}
+\begin{tikzpicture}[>=Latex, every node/.style={font=\small}]
+  \node[smallvisual] (square) at (0,0)
+    {$\tau=i$\\square lattice\\order \(4\) rotation};
+  \node[smallvisual] (hex) at (4.0,0)
+    {$\tau=e^{2\pi i/3}$\\hexagonal lattice\\order \(6\) rotation};
+  \draw[->, line width=0.5pt] (square) -- node[above] {extra symmetry} (hex);
+\end{tikzpicture}
+\end{center}
+
+\textbf{12.4.} The quotient re-expresses the identification
+\[
+  \Pic^0(E)\cong\C/\Lambda.
+\]
+It explains the Jacobian as a complex torus.  It does not by itself prove the
+chord-tangent formula.  Two further calculations are needed: first, the line
+section calculation
+\[
+  \divisor(L|_E)=[P]+[Q]+[R]-3[O],
+\]
+and second, the Abel-sum calculation \(u+v+r\equiv0\pmod{\Lambda}\), which turns
+that divisor into the group equation.
+
+\begin{center}
+\begin{tikzpicture}[>=Latex, every node/.style={font=\small}]
+  \node[smallvisual] (coh) at (0,0.65)
+    {cohomology quotient\\\(\Pic^0(E)\cong\C/\Lambda\)};
+  \node[smallvisual] (line) at (4.2,0.65)
+    {line divisor\\on the cubic};
+  \node[smallvisual] (abel) at (4.2,-0.85)
+    {Abel's theorem};
+  \node[smallvisual] (law) at (0,-0.85)
+    {chord--tangent law};
+  \draw[->, line width=0.5pt] (coh) -- (line);
+  \draw[->, line width=0.5pt] (line) -- (abel);
+  \draw[->, line width=0.5pt] (abel) -- (law);
+\end{tikzpicture}
+\end{center}
+
+\section{Chapter 13}
+
+\textbf{13.1.} Over \(\F_5\), compute \(x^3+2x+1\):
+\[
+  1,4,3,4,3
+\]
+for \(x=0,1,2,3,4\).  The quadratic residues modulo \(5\) are \(0,1,4\).
+Thus \(x=0\) gives two points, \(x=1\) gives two points, \(x=2\) gives none,
+\(x=3\) gives two points, and \(x=4\) gives none.  Adding the point at infinity
+gives \(\#E(\F_5)=7\).
+
+\begin{center}
+\begin{tikzpicture}[>=Latex, every node/.style={font=\small}]
+  \foreach \x/\val/\pts in {0/1/2,1/4/2,2/3/0,3/4/2,4/3/0}{
+    \node[smallvisual, minimum width=1.15cm] at (1.25*\x,0)
+      {$x=\x$\\ \(f(x)=\val\)\\ \(\pts\) pts};
+  }
+  \node[smallvisual] at (6.9,0) {$+O$\\ total \(7\)};
+  \draw[->, line width=0.5pt] (5.35,0) -- (6.1,0);
+\end{tikzpicture}
+\end{center}
+
+\textbf{13.2.} The chord-tangent formulas use addition, subtraction,
+multiplication, and division by a nonzero denominator.  For example, the slope is
+\[
+  m=\frac{y_Q-y_P}{x_Q-x_P}
+\]
+for a nonvertical chord, and the tangent slope is obtained by a similar quotient
+involving the derivative.  Therefore the formulas make sense over any field
+where the curve is smooth.  The exceptional denominator cases are vertical
+lines, the point at infinity, coincident points requiring the tangent formula,
+and tangent denominators equal to zero.
+
+\begin{center}
+\begin{tikzpicture}[>=Latex, every node/.style={font=\small}]
+  \node[smallvisual] (smooth) at (0,0)
+    {smooth cubic over \(k\)};
+  \node[smallvisual] (ops) at (3.0,0)
+    {field operations\\in \(k\)};
+  \node[smallvisual] (law) at (6.0,0)
+    {chord--tangent\\group law};
+  \draw[->, line width=0.5pt] (smooth) -- (ops);
+  \draw[->, line width=0.5pt] (ops) -- (law);
+\end{tikzpicture}
+\end{center}
+
+\textbf{13.3.} The Hasse bound says that \(\#E(\F_p)\) lies within
+\(2\sqrt p\) of \(p+1\).  Geometrically, the number of finite-field points is
+close to the projective-line count \(p+1\), with a square-root-size error.
+
+\begin{center}
+\begin{tikzpicture}[>=Latex, every node/.style={font=\small}]
+  \draw[->, black!55, line width=0.45pt] (-3.1,0) -- (3.3,0);
+  \draw[line width=0.6pt] (-2.0,0.12) -- (2.0,0.12);
+  \fill[black] (0,0.12) circle (1.5pt) node[above] {$p+1$};
+  \node[below] at (-2.0,0) {$p+1-2\sqrt p$};
+  \node[below] at (2.0,0) {$p+1+2\sqrt p$};
+  \node[align=center] at (0,-1.05)
+    {\(\#E(\F_p)\) lies in this interval};
+\end{tikzpicture}
+\end{center}
+
+\textbf{13.4.} The requested separation is:
+\[
+\begin{array}{c|c}
+\text{algebraic over a general field} & \text{analytic over }\C\\ \hline
+\text{smooth cubic equation} & \text{lattice }\Lambda\subset\C\\
+O=[0:1:0] & \C/\Lambda\\
+\text{divisors and divisor classes} & \wp,\wp'\\
+\text{rational chord--tangent formulas} & \text{period integrals}\\
+E(k) \text{ for a field } k & \text{complex Lie group structure}
+\end{array}
+\]
+The analytic uniformization
+\[
+  E(\C)\cong\C/\Lambda
+\]
+uses complex analysis, lattices in \(\C\), and meromorphic functions such as
+\(\wp\); that part is special to the complex setting.
+
+\begin{center}
+\begin{tikzpicture}[>=Latex, every node/.style={font=\small}]
+  \node[smallvisual] (alg) at (0,0.65)
+    {algebraic cubic\\works over many fields};
+  \node[smallvisual] (ct) at (4.0,0.65)
+    {chord--tangent formulas};
+  \node[smallvisual] (complex) at (0,-0.85)
+    {analytic uniformization\\needs \(\C\), \(\Lambda\), \(\wp\)};
+  \node[smallvisual] (torus) at (4.0,-0.85)
+    {\(E(\C)\cong\C/\Lambda\)};
+  \draw[->, line width=0.5pt] (alg) -- (ct);
+  \draw[->, line width=0.5pt] (complex) -- (torus);
+\end{tikzpicture}
+\end{center}
+
+\section{Chapter 14}
+
+\textbf{14.1.} A line through \(P,Q,R\) makes
+\[
+  [P]+[Q]+[R]-3[O]
+\]
+principal.  Abel's theorem gives the group equation
+\[
+  P+Q+R=O.
+\]
+Solving for the group sum gives \(P+Q=-R=\ominus R\).  The chord--tangent rule
+therefore defines \(P\boxplus Q=\ominus R\); the reflection step is forced by
+the group equation.
+
+\begin{center}
+\begin{tikzpicture}[>=Latex, every node/.style={font=\small}]
+  \node[smallvisual] (line) at (0,0.75)
+    {line through \(P,Q,R\)};
+  \node[smallvisual] (abel) at (3.15,0.75)
+    {$P+Q+R=O$};
+  \node[smallvisual] (reflect) at (3.15,-0.7)
+    {\(P\boxplus Q=-R\)\\reflection is forced};
+  \draw[->, line width=0.5pt] (line) -- (abel);
+  \draw[->, line width=0.5pt] (abel) -- node[right] {reflect} (reflect);
+  \node[font=\footnotesize] at (1.55,0.25) {Abel's theorem};
+\end{tikzpicture}
+\end{center}
+
+\textbf{14.2.} One possible table is:
+\[
+\begin{array}{c|c|c}
+\text{analytic} & \text{divisor-theoretic} & \text{algebraic}\\ \hline
+\C/\Lambda,\wp & \Pic^0(E),\text{ divisors} & E(\C),\text{ lines}\\
+\Phi=[\wp:\wp':1] & \text{Abel--Jacobi} & P\mapsto[P]-[O]
+\end{array}
+\]
+The first map sends the torus to the cubic, and the second sends a cubic point
+to its degree-zero divisor class.
+
+\begin{center}
+\begin{tikzpicture}[>=Latex, every node/.style={font=\small}]
+  \node[smallvisual] (T) at (0,1.2) {analytic\\\(\C/\Lambda,\wp\)};
+  \node[smallvisual] (J) at (-2.6,-0.8) {geometric\\\(\Pic^0(E)\)};
+  \node[smallvisual] (E) at (2.6,-0.8) {algebraic\\\(E(\C)\), lines};
+  \draw[->, line width=0.5pt] (T) -- node[above right] {\(\Phi\)} (E);
+  \draw[->, line width=0.5pt] (E) -- node[below] {$P\mapsto[P]-[O]$} (J);
+  \draw[->, line width=0.5pt] (J) -- node[above left] {Abel--Jacobi} (T);
+\end{tikzpicture}
+\end{center}
+
+\textbf{14.3.} A compact chapter-to-method table is:
+\[
+\begin{array}{c|c|c}
+\text{chapters} & \text{viewpoint} & \text{calculation type}\\ \hline
+1\text{--}2 & \text{complex-analysis background} & \text{residues, integrals, genus}\\
+3\text{--}5 & \text{analytic torus} & \text{lattice algebra, pole orders}\\
+6\text{--}8 & \text{divisors and Jacobian} & \text{divisor coefficients, Abel sums}\\
+9\text{--}11 & \text{plane cubic} & \text{Vieta and line intersections}\\
+12 & \text{cohomology and moduli} & \text{quotients and scaling weights}\\
+13 & \text{arithmetic} & \text{finite-field point counts}
+\end{array}
+\]
+
+\begin{center}
+\begin{tikzpicture}[>=Latex, every node/.style={font=\small}]
+  \node[smallvisual] (a) at (0,0) {Ch. 3--5\\analytic};
+  \node[smallvisual] (b) at (2.4,0) {Ch. 6--8\\divisors};
+  \node[smallvisual] (c) at (4.8,0) {Ch. 9--11\\cubic};
+  \node[smallvisual] (d) at (7.2,0) {Ch. 12--13\\extensions};
+  \draw[->, line width=0.5pt] (a) -- (b);
+  \draw[->, line width=0.5pt] (b) -- (c);
+  \draw[->, line width=0.5pt] (c) -- (d);
+\end{tikzpicture}
+\end{center}
+
+\textbf{14.4.} A compact map-check table is:
+
+\begin{center}
+\scriptsize
+\setlength{\tabcolsep}{2pt}
+\begin{tabular}{|L{1.15cm}|L{2.05cm}|L{1.35cm}|L{1.35cm}|L{2.35cm}|L{2.25cm}|L{2.45cm}|}
+\hline
+map & formula & source & target & group-law compatibility &
+holomorphicity input & inverse or bijectivity input\\
+\hline
+\(\Phi\) &
+\(z\mapsto[\wp(z):\wp'(z):1]\) &
+\(\C/\Lambda\) &
+\(E(\C)\) &
+direct transport calculation:
+\(\Phi(u+v)=\Phi(u)\boxplus\Phi(v)\) after Ex. 11.4 &
+calculation with meromorphic coordinates and the projective limit at \(O\);
+global extension is theorem input &
+Weierstrass embedding theorem; Ex. 9.6 gives only the generic injectivity
+calculation\\
+\hline
+\(AJ\) &
+\(P\mapsto[P]-[O]\) &
+\(E(\C)\) &
+\(\Pic^0(E)\) &
+Abel-sum calculation in Ex. 14.5 plus Abel's theorem &
+accepted Jacobian/Abel-Jacobi theorem input &
+Abel's theorem and genus-one representative statement\\
+\hline
+\end{tabular}
+\end{center}
+
+Thus the final isomorphism as complex Lie groups uses direct calculations for
+the formulas, Abel sums, reflection step, and transported addition, and uses
+named theorems for the global biholomorphic and Jacobian-identification inputs.
+
+\begin{center}
+\begin{tikzpicture}[>=Latex, every node/.style={font=\small}]
+  \node[smallvisual] (T) at (0,0) {$\C/\Lambda$};
+  \node[smallvisual] (E) at (3.0,0) {$E(\C)$};
+  \node[smallvisual] (P) at (6.0,0) {$\Pic^0(E)$};
+  \draw[->, line width=0.5pt] (T) -- node[above] {\(\Phi\)} (E);
+  \draw[->, line width=0.5pt] (E) -- node[above] {$P\mapsto[P]-[O]$} (P);
+  \node[align=center] at (3.0,-0.95)
+    {both maps preserve complex structure and addition};
+\end{tikzpicture}
+\end{center}
+
+\textbf{14.5.} A point \(z\in\C/\Lambda\) is written on the cubic as
+\[
+  \Phi(z)=[\wp(z):\wp'(z):1],
+\]
+and in the Jacobian as
+\[
+  [\Phi(z)]-[O].
+\]
+Adding \(z_1,z_2\) on the torus gives \(z_1+z_2\).  On the cubic this is
+\[
+  \Phi(z_1)\oplus\Phi(z_2)=\Phi(z_1+z_2),
+\]
+which equals the chord-tangent construction.  In the Jacobian it is addition of
+divisor classes:
+\[
+  ([\Phi(z_1)]-[O])+([\Phi(z_2)]-[O]).
+\]
+If \(S=\Phi(z_1+z_2)\), then Abel's theorem gives
+\[
+  [\Phi(z_1)]+[\Phi(z_2)]-[S]-[O]\in\Prin(E)
+\]
+because its Abel sum is
+\[
+  z_1+z_2-(z_1+z_2)-0\equiv0\pmod{\Lambda}.
+\]
+Therefore the class of this divisor is zero in \(\Pic^0(E)\), so
+\[
+  [\Phi(z_1)]+[\Phi(z_2)]-2[O]=[S]-[O].
+\]
+Equivalently,
+\[
+  ([P_1]-[O])+([P_2]-[O])=[S]-[O]
+\]
+for \(P_i=\Phi(z_i)\) and \(S=\Phi(z_1+z_2)\).
+
+\begin{center}
+\begin{tikzpicture}[>=Latex, every node/.style={font=\small}]
+  \node[visualnode] (z) at (0,0.95) {$z\in\C/\Lambda$};
+  \node[visualnode] (P) at (4.6,0.95) {$\Phi(z)\in E(\C)$};
+  \node[visualnode] (D) at (2.3,-0.85) {$[\Phi(z)]-[O]\in\Pic^0(E)$};
+  \draw[->, line width=0.55pt] (z) -- node[above] {\(\Phi=[\wp:\wp':1]\)} (P);
+  \draw[->, line width=0.55pt] (P) -- node[right] {\(\;P\mapsto[P]-[O]\)} (D);
+  \draw[->, line width=0.55pt] (D) -- node[left] {Abel--Jacobi} (z);
+  \node[align=center] at (2.3,-1.8)
+    {one group element, three notations};
+\end{tikzpicture}
+\end{center}

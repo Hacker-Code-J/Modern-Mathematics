@@ -1,0 +1,220 @@
+% Transporting the Group Law (Why It Is Forced)  (merge of source §12 + §19:
+% the transported law, the proof that it equals chord-tangent via Thm 10.5, the
+% "no arbitrary convention" logic, and intrinsicness/uniqueness)
+\chapter{Transporting the Group Law (Why It Is Forced)}
+\label{ch:transport}
+
+Everything is now in place to prove the main theorem. The isomorphism \(\Phi\)
+moves the torus group law onto the cubic; the collinearity criterion of
+\cref{ch:lines_divisors} shows that the moved law is the chord--tangent
+construction. This chapter assembles the two, isolates the logical mechanism that
+makes the chord--tangent rule unavoidable, and observes that the resulting group
+law is intrinsic to the pair \((E, O)\) --- independent of which lattice and
+embedding produced it.
+
+\section{The Transported Group Law}
+\label{sec:tr-transported}
+
+The torus already carries an abelian group law, \([u] + [v] = [u+v]\), with no
+freedom: it is addition in \(\C\) (\cref{prop:tg-welldef}). The biholomorphism
+\(\Phi : T \xrightarrow{\sim} E\) of \cref{thm:emb-iso} carries it to \(E\) by the
+only rule that makes \(\Phi\) a group isomorphism.
+
+\begin{definition}
+\label{def:tr-law}
+The \emph{transported group law} on \(E\) is
+\[
+  P \oplus Q = \Phi\bigl( \Phi^{-1}(P) + \Phi^{-1}(Q) \bigr),
+\]
+with identity \(O = \Phi(0) = [0:1:0]\) and inverse \(\ominus P = \Phi(-\Phi^{-1}(P))\).
+In affine coordinates, by \cref{sec:emb-reflection}, the inverse is reflection,
+\(\ominus(x, y) = (x, -y)\).
+\end{definition}
+
+By construction \((E, \oplus)\) is an abelian group and \(\Phi\) is an
+isomorphism of groups. The substantive question is geometric:
+
+\begin{quote}
+What is \(P \oplus Q\) in terms of the cubic alone?
+\end{quote}
+
+\section{The Chord--Tangent Construction}
+\label{sec:tr-chord-tangent}
+
+\begin{definition}
+\label{def:tr-chordtangent}
+The \emph{chord--tangent operation} \(\boxplus\) on \(E\) is defined as follows.
+For \(P, Q \in E\), let \(L\) be the line through \(P\) and \(Q\) --- the tangent to
+\(E\) at \(P\) if \(P = Q\) --- and let \(R\) be the third point of \(L \cap E\)
+(\cref{prop:lin-bezout}). Then
+\[
+  P \boxplus Q = \ominus R,
+\]
+the reflection of \(R\). Here \(\ominus R\) is the third intersection of the line
+\(RO\) with \(E\), which in affine coordinates is \((x_R, -y_R)\).
+\end{definition}
+
+This is the recipe of \cref{sec:intro-construction}: draw the chord (or tangent),
+take the third intersection, reflect. The main theorem is that it agrees with the
+transported law.
+
+\begin{theorem}[Chord--tangent is the group law]
+\label{thm:tr-main}
+Under the Weierstrass embedding \(\Phi : \C/\Lambda \to E\),
+\(z \mapsto [\wp(z):\wp'(z):1]\), the transported group law equals the
+chord--tangent operation:
+\[
+  P \oplus Q = P \boxplus Q \qquad\text{for all } P, Q \in E .
+\]
+Consequently the chord--tangent construction is an abelian group law on \(E\) with
+identity \(O\), and \(\Phi\) is an isomorphism of groups
+\((\C/\Lambda, +) \cong (E, \boxplus)\). This is the group-theoretic assertion of
+\cref{thm:main}.
+\end{theorem}
+
+\begin{proof}
+Let \(L\) be the line through \(P\) and \(Q\) (tangent if \(P = Q\)), meeting \(E\)
+in \(P + Q + R\) with multiplicity. By the collinearity criterion
+\cref{thm:lin-collinear}, the three points sum to the identity in the transported
+law:
+\[
+  P \oplus Q \oplus R = O,
+  \qquad\text{hence}\qquad
+  P \oplus Q = \ominus R .
+\]
+The group inverse \(\ominus R\) is the reflection of \(R\)
+(\cref{def:tr-law,sec:emb-reflection}), which is exactly \(P \boxplus R\)'s
+defining reflection, i.e.\ \(P \oplus Q = \ominus R = P \boxplus Q\). The identity,
+inverse, and tangent cases are the same statement specialized: when \(P = Q\) the
+line is the tangent and \(L \cdot E = 2P + R\), giving \(2P = \ominus R\); when
+\(Q = \ominus P\) the line \(PQ\) is vertical through \(O\) and \(R = O\), giving
+\(P \oplus (\ominus P) = O\); when \(Q = O\) the line \(PO\) meets \(E\) at
+\(P, \ominus P, O\), giving \(P \oplus O = P\). All are instances of
+\cref{thm:lin-collinear}, worked out one by one in \cref{ch:chord_tangent_cases}.
+\end{proof}
+
+\section{Why the Rule Is Forced}
+\label{sec:tr-forced}
+
+The proof exposes the exact mechanism. The chord--tangent law is not a clever
+convention; it is the only possible answer, dictated by three inputs, none of
+which involves a choice.
+
+\begin{enumerate}
+\item \textbf{The torus has a group law.} \([u]+[v]=[u+v]\) is addition in \(\C\),
+  forced (\cref{prop:tg-welldef}).
+\item \textbf{The embedding transfers it.} Requiring \(\Phi\) to be a group
+  isomorphism leaves no freedom in \(\oplus\) (\cref{def:tr-law}).
+\item \textbf{Lines see that law.} A line cuts \(E\) in a divisor \(P+Q+R-3O\)
+  that is principal (\cref{thm:lin-principal}), and Abel's law makes its points
+  sum to \(O\) (\cref{thm:lin-collinear}). So a line through \(P, Q\) determines
+  \(R = \ominus(P \oplus Q)\), and the sum is recovered by the one further forced
+  step --- negate, i.e.\ reflect.
+\end{enumerate}
+
+\begin{keyidea}{No arbitrary convention}
+The reflection in the chord--tangent rule is often presented as a definition to be
+accepted. It is not optional. A line gives the symmetric relation
+\(P + Q + R = O\), because line divisors are principal and principal divisors have
+Abel sum zero. Solving this for \(P \oplus Q\) forces
+\[
+  P \oplus Q = \ominus R,
+\]
+and \(\ominus\) is reflection because the torus inverse \(z \mapsto -z\) is
+\((x,y) \mapsto (x,-y)\). Chord, tangent, third point, reflect: each step is
+compelled.
+\end{keyidea}
+
+\section{The Group Law Is Intrinsic}
+\label{sec:tr-intrinsic}
+
+A subtle point deserves emphasis. The construction passed through a lattice
+\(\Lambda\) and an embedding \(\Phi\), but the resulting law does not depend on
+them.
+
+\begin{proposition}
+\label{prop:tr-intrinsic}
+The chord--tangent law \(\boxplus\) depends only on the cubic \(E\) and the choice
+of identity \(O\); it is independent of the lattice \(\Lambda\) and the embedding
+\(\Phi\) used to construct it.
+\end{proposition}
+
+\begin{proof}
+\Cref{def:tr-chordtangent} refers only to lines in \(\CP^2\), their
+intersections with \(E\), and the point \(O\) --- all intrinsic to \((E, O)\). No
+lattice or \(\wp\) appears. \Cref{thm:tr-main} shows this intrinsic operation
+coincides with any transported law \(\oplus\) built from a \(\Phi\); hence all such
+transported laws agree with \(\boxplus\) and therefore with each other.
+\end{proof}
+
+In other words, the abelian group is attached to the geometric object \((E, O)\)
+itself. The uniformization \(\C/\Lambda \cong E\) explains \emph{why} the law is a
+group and why it is commutative and associative --- properties that are opaque from
+the cubic but transparent on the torus --- yet the law it computes is the one a
+geometer reading only the plane curve would write down.
+
+\begin{remark}
+\label{rem:tr-associativity}
+Associativity of \(\boxplus\) is the property hardest to see directly on the cubic;
+the classical proofs invoke the Cayley--Bacharach theorem. Here it is free: \(\oplus\)
+is associative because addition in \(\C\) is, and \(\boxplus = \oplus\). The torus
+is, in this sense, the explanation of associativity.
+\end{remark}
+
+\section{Summary}
+\label{sec:tr-summary}
+
+Transporting the torus law by \(\Phi\) gives a group \((E, \oplus)\) with identity
+\(O\) and reflection as inverse (\cref{def:tr-law}). By the collinearity criterion,
+this transported law is exactly the chord--tangent construction
+(\cref{thm:tr-main}): a line through \(P, Q\) meets \(E\) again at
+\(R = \ominus(P\oplus Q)\), so \(P \oplus Q\) is the reflection of \(R\). The rule
+is forced by three choiceless facts --- the torus group law, its transfer by
+\(\Phi\), and the principality of line divisors (\cref{sec:tr-forced}) --- and the
+resulting law is intrinsic to \((E, O)\), with associativity inherited from \(\C\)
+(\cref{prop:tr-intrinsic,rem:tr-associativity}). The remaining chapters make the
+construction explicit: the pictorial dictionary and the case analysis
+(\cref{ch:chord_tangent_cases}), then closed-form coordinates
+(\cref{ch:coordinate_formulas}).
+
+\section*{Exercises}
+\addcontentsline{toc}{section}{Exercises}
+
+\begin{exercise}
+\label{ex:tr-unique-transport}
+Show that \(\oplus\) in \cref{def:tr-law} is the unique binary operation on \(E\)
+making \(\Phi\) a group homomorphism, and verify directly that it is abelian with
+identity \(O\) and inverse \(\ominus P = \Phi(-\Phi^{-1}(P))\).
+\end{exercise}
+
+\begin{exercise}
+\label{ex:tr-identity-case}
+Work out the identity case from \cref{thm:tr-main}: show the line through \(P\) and
+\(O\) meets \(E\) at \(P\), \(\ominus P\), and \(O\), and deduce \(P \oplus O = P\)
+directly from \cref{thm:lin-collinear}.
+\end{exercise}
+
+\begin{exercise}
+\label{ex:tr-associativity-free}
+Explain in one paragraph why associativity of the chord--tangent law is immediate
+from \cref{thm:tr-main}, and state precisely which property of \(\C\) it reduces
+to. Why is the direct geometric proof hard?
+\end{exercise}
+
+\begin{exercise}
+\label{ex:tr-intrinsic}
+Suppose two lattices \(\Lambda, \Lambda'\) and embeddings \(\Phi, \Phi'\) both
+present the \emph{same} cubic \(E\) (with the same \(O\)). Using
+\cref{prop:tr-intrinsic}, show the two transported laws coincide. What does this
+say about the relationship between \(\Lambda\) and \(\Lambda'\) (cf.\
+\cref{prop:lat-normal-form})?
+\end{exercise}
+
+\begin{exercise}
+\label{ex:tr-translation}
+Show that for fixed \(A \in E\), the translation \(P \mapsto P \oplus A\) is a
+biholomorphism of \(E\) (an automorphism of the Riemann surface), corresponding
+under \(\Phi\) to \(z \mapsto z + \Phi^{-1}(A)\) on \(T\)
+(\cref{prop:tg-lie}). Deduce that \(E\) acts on itself by holomorphic
+translations, so \(E\) is a complex Lie group.
+\end{exercise}

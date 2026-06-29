@@ -1,0 +1,295 @@
+% Divisors and the Degree-Zero Theorem  (source §5; added: the divisor group
+% Div(X), degree homomorphism, linear equivalence and Pic^0, and the Abel-sum
+% map Div^0(T) -> T with Pic^0(T) =~ T)
+\chapter{Divisors and the Degree-Zero Theorem}
+\label{ch:divisors}
+
+\Cref{ch:elliptic_liouville} controlled the zeros and poles of a single elliptic
+function. Divisors are the bookkeeping that turns those zero/pole data into an
+algebraic object one can add and compare. On a compact Riemann surface the
+divisor of a function has degree zero; on the torus it additionally has Abel sum
+zero. Packaging these two constraints gives the \emph{Picard group}
+\(\Pic^0(T)\) and a map \(\Pic^0(T) \to T\) that is the structural shadow of the
+group law: when we later put a group law on the cubic, it will be exactly this
+map.
+
+\section{Orders and the Divisor of a Function}
+\label{sec:div-orders}
+
+Let \(X\) be a Riemann surface and \(f\) a nonzero meromorphic function. In a
+local coordinate \(t\) centered at a point \(p\) we may write
+\[
+  f(t) = t^{m} u(t), \qquad u \text{ holomorphic}, \quad u(0) \ne 0 .
+\]
+The integer \(m\) is the \emph{order} of \(f\) at \(p\), written
+\(\ord_p(f) = m\):
+\[
+  m > 0 \ \text{(zero of order } m),\qquad
+  m = 0 \ \text{(finite, nonzero)},\qquad
+  m < 0 \ \text{(pole of order } {-m}).
+\]
+
+\begin{remark}
+\label{rem:div-ord-welldef}
+The order does not depend on the chart. If \(s\) is another coordinate at
+\(p\), then \(t = s\,h(s)\) with \(h\) holomorphic and \(h(0) \ne 0\), so
+\(f = s^{m}\bigl(h(s)^{m} u(t(s))\bigr)\) and the new unit
+\(h^{m}\,(u\circ t)\) is again nonvanishing at \(s=0\); the exponent \(m\) is
+unchanged. Thus \(\ord_p(f)\) is intrinsic.
+\end{remark}
+
+\begin{definition}
+\label{def:div-divisor-of-f}
+The \emph{divisor} of a nonzero meromorphic function \(f\) is the formal sum
+\[
+  \divisor(f) = \sum_{p \in X} \ord_p(f)\, p .
+\]
+On a compact \(X\) only finitely many terms are nonzero, so this is a finite
+sum.
+\end{definition}
+
+\section{The Divisor Group and Degree}
+\label{sec:div-group}
+
+\begin{definition}
+\label{def:div-group}
+A \emph{divisor} on \(X\) is a finite formal integer combination of points,
+\[
+  D = \sum_{p \in X} n_p\, p, \qquad n_p \in \Z, \ \ n_p = 0 \text{ for all but finitely many } p .
+\]
+Under coefficientwise addition the divisors form the free abelian group
+\(\Div(X)\) on the points of \(X\). The \emph{degree} is the homomorphism
+\[
+  \degdiv : \Div(X) \to \Z, \qquad \degdiv\Bigl( \sum_p n_p\, p \Bigr) = \sum_p n_p .
+\]
+A divisor of the form \(\divisor(f)\) is called \emph{principal}; we write
+\(\Prin(X)\) for the set of principal divisors.
+\end{definition}
+
+\begin{proposition}
+\label{prop:div-prin-subgroup}
+The principal divisors form a subgroup of \(\Div(X)\): for nonzero meromorphic
+\(f, g\),
+\[
+  \divisor(fg) = \divisor(f) + \divisor(g),
+  \qquad
+  \divisor(1/f) = -\divisor(f),
+\]
+and \(\divisor(c) = 0\) for a nonzero constant \(c\).
+\end{proposition}
+
+\begin{proof}
+Orders add under multiplication: \(\ord_p(fg) = \ord_p(f) + \ord_p(g)\), directly
+from \(f = t^{m}u\), \(g = t^{n}v\) giving \(fg = t^{m+n}uv\). Summing over \(p\)
+gives the first identity; the others are the cases \(g = 1/f\) and \(f = c\).
+Hence \(\Prin(X)\) is closed under addition and negation, a subgroup.
+\end{proof}
+
+\section{Principal Divisors Have Degree Zero}
+\label{sec:div-degzero}
+
+The single most important property of principal divisors on a compact surface is
+that they are invisible to the degree.
+
+\begin{theorem}[Degree-zero theorem]
+\label{thm:div-degzero}
+If \(X\) is compact and \(f\) is a nonzero meromorphic function on \(X\), then
+\[
+  \degdiv \divisor(f) = 0 .
+\]
+\end{theorem}
+
+\begin{proof}
+Consider the meromorphic differential \(df/f\). Near \(p\), writing
+\(f = t^{m} u\) with \(u(0) \ne 0\),
+\[
+  \frac{df}{f} = \frac{d(t^{m}u)}{t^{m}u}
+  = m\,\frac{dt}{t} + \frac{du}{u},
+\]
+and the second term is holomorphic at \(p\). Hence \(df/f\) has at worst a simple
+pole at \(p\), with
+\[
+  \Res_p\!\left( \frac{df}{f} \right) = m = \ord_p(f) .
+\]
+By the residue theorem on the compact Riemann surface \(X\) the sum of all
+residues of the global differential \(df/f\) vanishes, so
+\[
+  0 = \sum_{p} \Res_p\!\left( \frac{df}{f} \right) = \sum_p \ord_p(f)
+  = \degdiv \divisor(f) . \qedhere
+\]
+\end{proof}
+
+\begin{keyidea}{What degree zero means}
+A meromorphic function on a compact Riemann surface has as many zeros as poles,
+counted with multiplicity --- the divisor form of the argument principle. On the
+torus this is \cref{thm:ell-valence} with \(N = \deg(\text{pole divisor})\): the
+two theorems are the same fact seen from the two sides of the
+\(T \leftrightarrow \C\) dictionary.
+\end{keyidea}
+
+In particular \(\Prin(X) \subseteq \Div^0(X)\), where
+\[
+  \Div^0(X) = \ker(\degdiv) = \{ D : \degdiv D = 0 \}
+\]
+is the group of degree-zero divisors.
+
+\section{Linear Equivalence and the Picard Group}
+\label{sec:div-picard}
+
+\begin{definition}
+\label{def:div-lineq}
+Two divisors \(D, D'\) are \emph{linearly equivalent}, written \(D \sim D'\), if
+\(D - D'\) is principal. The quotient group
+\[
+  \Pic(X) = \Div(X)/\Prin(X)
+\]
+is the \emph{Picard group}, and the class of \(D\) is denoted \([D]\).
+\end{definition}
+
+Because principal divisors have degree zero (\cref{thm:div-degzero}), the degree
+descends to a homomorphism \(\degdiv : \Pic(X) \to \Z\), and its kernel
+\[
+  \Pic^0(X) = \Div^0(X)/\Prin(X)
+\]
+is the \emph{degree-zero Picard group}. The size of \(\Pic^0\) measures how far
+divisors of degree zero are from being principal --- equivalently, how many
+meromorphic functions the surface admits. On \(\CP^1\) every degree-zero divisor
+is principal and \(\Pic^0 = 0\); on the torus, as we now show, \(\Pic^0\) is as
+large as \(T\) itself.
+
+\section{The Abel--Jacobi Sum Map}
+\label{sec:div-abel-jacobi}
+
+Specialize to \(X = T = \C/\Lambda\). Here points of \(T\) are themselves group
+elements, so a degree-zero divisor can be \emph{summed}.
+
+\begin{definition}
+\label{def:div-sigma}
+The \emph{Abel--Jacobi sum map} is
+\[
+  \smap : \Div^0(T) \to T,
+  \qquad
+  \smap\Bigl( \sum_i n_i\,[z_i] \Bigr) = \sum_i n_i\,[z_i] \in T,
+\]
+where the right-hand sum is taken in the group \(T\).
+\end{definition}
+
+It is a group homomorphism, immediately from the definition. The content of the
+previous chapter is exactly that \(\smap\) annihilates principal divisors.
+
+\begin{proposition}
+\label{prop:div-sigma-kills-prin}
+For every nonzero elliptic function \(f\), \(\smap(\divisor f) = 0\). Hence
+\(\smap\) descends to a homomorphism
+\[
+  \bar\smap : \Pic^0(T) \to T .
+\]
+\end{proposition}
+
+\begin{proof}
+Write \(\divisor(f) = \sum_k [z_k] - \sum_k [p_k]\) with the zeros and poles
+listed by multiplicity; it has degree zero by \cref{thm:div-degzero} (or
+\cref{thm:ell-valence}), so it lies in \(\Div^0(T)\). Then
+\(\smap(\divisor f) = \sum_k [z_k] - \sum_k [p_k]\), which is \(0\) in \(T\) by
+the Abel relation \cref{thm:ell-abel}. Since \(\smap\) kills the subgroup
+\(\Prin(T)\), it factors through \(\Pic^0(T) = \Div^0(T)/\Prin(T)\).
+\end{proof}
+
+\begin{theorem}[Abel--Jacobi for the torus]
+\label{thm:div-pic-iso}
+The map \(\bar\smap : \Pic^0(T) \to T\) is an isomorphism of groups. In
+particular every complex torus is its own \emph{Jacobian}:
+\(\Pic^0(T) \cong T\).
+\end{theorem}
+
+\begin{proof}[Proof of surjectivity, and the standing of injectivity]
+\emph{Surjectivity.} Given any \([a] \in T\), the divisor \([a] - [0]\) has degree
+zero and \(\smap([a]-[0]) = [a] - [0] = [a]\). So \(\bar\smap\) hits every
+element of \(T\).
+
+\emph{Well-definedness and homomorphism} are \cref{prop:div-sigma-kills-prin}.
+
+\emph{Injectivity} is the converse of Abel's relation: if \(D \in \Div^0(T)\)
+has \(\smap(D) = 0\), then \(D\) is principal, i.e.\ \(D = \divisor(f)\) for some
+elliptic \(f\). This requires \emph{constructing} an elliptic function with
+prescribed zeros and poles, which we do not yet have the tools for. It follows
+once the Weierstrass machinery is in place: \cref{ch:riemann_roch} produces
+enough functions, and the explicit construction is carried out through
+\crefrange{ch:weierstrass_wp}{ch:transport}. We therefore record injectivity
+here and complete it there.
+\end{proof}
+
+\begin{keyidea}{Why this is the whole story}
+\Cref{thm:div-pic-iso} says the degree-zero divisor classes on the torus
+\emph{are} the points of the torus, via summation. Two divisors are linearly
+equivalent precisely when their points have the same Abel sum. When we transport
+the picture to the cubic \(E\) in \crefrange{ch:lines_divisors}{ch:transport},
+the group law on \(E\) will be defined by linear equivalence of divisors --- and
+by this theorem that is the same as addition on \(T\). The chord--tangent law is
+the composite
+\[
+  E \;\cong\; T \;\xleftarrow{\ \bar\smap\ }\; \Pic^0(T) ,
+\]
+read as a single group.
+\end{keyidea}
+
+\section{Summary}
+\label{sec:div-summary}
+
+Divisors on \(X\) form the free abelian group \(\Div(X)\), graded by degree, with
+the principal divisors \(\divisor(f)\) as a subgroup. On a compact surface every
+principal divisor has degree zero (\cref{thm:div-degzero}), so degree descends to
+the Picard group \(\Pic(X) = \Div(X)/\Prin(X)\) and cuts out \(\Pic^0(X)\). On
+the torus the Abel--Jacobi map \(\smap : \Div^0(T) \to T\) sums a divisor's
+points; it kills principal divisors by the Abel relation
+(\cref{prop:div-sigma-kills-prin}), and the induced
+\(\bar\smap : \Pic^0(T) \to T\) is an isomorphism (\cref{thm:div-pic-iso}, with
+injectivity completed later). This identification \(\Pic^0(T) \cong T\) is the
+algebraic form of the group law that the rest of the book transports to the
+cubic.
+
+\section*{Exercises}
+\addcontentsline{toc}{section}{Exercises}
+
+\begin{exercise}
+\label{ex:div-hom}
+Show that \(f \mapsto \divisor(f)\) is a homomorphism from the multiplicative
+group of nonzero meromorphic functions to \(\Div(X)\), and that on a compact
+\(X\) its kernel is exactly the nonzero constants. (Use
+\cref{thm:div-degzero} and \cref{thm:ell-const} for the torus case.)
+\end{exercise}
+
+\begin{exercise}
+\label{ex:div-ord-welldef}
+Prove carefully that \(\ord_p(f)\) is independent of the local coordinate
+(\cref{rem:div-ord-welldef}), and deduce that \(\ord_p(f+g) \ge
+\min(\ord_p f, \ord_p g)\) with equality when the two orders differ.
+\end{exercise}
+
+\begin{exercise}
+\label{ex:div-pic-split}
+Using the base point \([0] \in T\), show that
+\[
+  \Div(T) \xrightarrow{\ \sim\ } \Z \oplus \Div^0(T),
+  \qquad D \mapsto \bigl( \degdiv D,\ D - (\degdiv D)[0] \bigr),
+\]
+and deduce a splitting \(\Pic(T) \cong \Z \oplus \Pic^0(T)\). Combined with
+\cref{thm:div-pic-iso}, conclude \(\Pic(T) \cong \Z \oplus T\).
+\end{exercise}
+
+\begin{exercise}
+\label{ex:div-distinct-points}
+Let \([a], [b] \in T\). Using the Abel relation \cref{thm:ell-abel}, prove that
+the divisor \([a] - [b]\) is principal \emph{if and only if} \([a] = [b]\).
+Contrast this with \(\CP^1\), where \emph{any} two points satisfy
+\([a] - [b] = \divisor\!\bigl(\tfrac{z-a}{z-b}\bigr)\). Why does this recover
+\cref{cor:ell-order2}?
+\end{exercise}
+
+\begin{exercise}
+\label{ex:div-sigma-compute}
+Take \(\Lambda = \Z + \Z\tau\) and the divisor
+\(D = [\tfrac12] + [\tfrac{\tau}{2}] + [\tfrac{1+\tau}{2}] - 3\,[0]\). Compute
+\(\degdiv D\) and \(\smap(D) \in T\). Is \(D\) a candidate for a principal
+divisor? (Recall the two-torsion points from \cref{ex:tg-two-torsion}.)
+\end{exercise}

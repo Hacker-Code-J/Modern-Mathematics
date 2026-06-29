@@ -1,0 +1,21 @@
+% The n-torsion E[n] = (1/n)Lambda / Lambda is a regular n x n grid inside one tile,
+% so E[n] = (Z/nZ)^2.  Shown for n=3: the 9 three-torsion points (the flexes of E).
+\begin{tikzpicture}[>=Latex]
+  \def\ax{4.2}\def\bx{1.25}\def\by{3.1}
+  \fill[formteal!8] (0,0)--(\ax,0)--(\ax+\bx,\by)--(\bx,\by)--cycle;
+  % sub-grid at thirds
+  \foreach \k in {1,2}{
+    \draw[formteal!35, line width=0.6pt]
+      ({\k/3*\ax},0)--({\k/3*\ax+\bx},\by);
+    \draw[formteal!35, line width=0.6pt]
+      ({\k/3*\bx},{\k/3*\by})--({\ax+\k/3*\bx},{\k/3*\by});}
+  \draw[formteal!60!black, line width=1pt] (0,0)--(\ax,0)--(\ax+\bx,\by)--(\bx,\by)--cycle;
+  % the 9 three-torsion points
+  \foreach \a in {0,1,2}{\foreach \b in {0,1,2}{
+    \fill[formrust!85!black] ({\a/3*\ax+\b/3*\bx},{\b/3*\by}) circle (2.8pt);}}
+  \draw[->, formslate, line width=0.9pt] (0,0)--(\ax,0)
+    node[midway, below=2pt, font=\small] {$\omega_1$};
+  \draw[->, formslate, line width=0.9pt] (0,0)--(\bx,\by)
+    node[midway, left=1pt, font=\small] {$\omega_2$};
+  \fill[black] (0,0) circle (1.7pt) node[below left, font=\small] {$0$};
+\end{tikzpicture}

@@ -1,0 +1,47 @@
+\usepackage{tcolorbox}
+\tcbset{colback=white, arc=5pt}
+
+% teal-family colors for math boxes
+\definecolor{axiomcolor}{HTML}{00646A}
+\definecolor{defcolor}{HTML}{007575}
+\definecolor{procolor}{HTML}{00575E}
+\definecolor{thmcolor}{HTML}{003F46}
+\definecolor{lemcolor}{HTML}{006F73}
+\definecolor{corcolor}{HTML}{00615F}
+\definecolor{execolor}{HTML}{004F54}
+
+\newcommand{\axiombox}[2][]{%
+  \begin{tcolorbox}[colframe=axiomcolor, title={\color{white}\bfseries #1}]
+    #2
+  \end{tcolorbox}
+}
+\newcommand{\defbox}[2][]{%
+  \begin{tcolorbox}[colframe=defcolor, title={\color{white}\bfseries #1}]
+    #2
+  \end{tcolorbox}
+}
+\newcommand{\lembox}[2][]{%
+  \begin{tcolorbox}[colframe=lemcolor, title={\color{white}\bfseries #1}]
+    #2
+  \end{tcolorbox}
+}
+\newcommand{\probox}[2][]{%
+  \begin{tcolorbox}[colframe=procolor, title={\color{white}\bfseries #1}]
+    #2
+  \end{tcolorbox}
+}
+\newcommand{\thmbox}[2][]{%
+  \begin{tcolorbox}[colframe=thmcolor, title={\color{white}\bfseries #1}]
+    #2
+  \end{tcolorbox}
+}
+\newcommand{\corbox}[2][]{%
+  \begin{tcolorbox}[colframe=corcolor, title={\color{white}\bfseries #1}]
+    #2
+  \end{tcolorbox}
+}
+\newcommand{\exebox}[2][]{%
+  \begin{tcolorbox}[colframe=execolor, title={\color{white}\bfseries #1}]
+    #2
+  \end{tcolorbox}
+}

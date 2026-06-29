@@ -1,0 +1,362 @@
+% Riemann--Roch and Its Consequences  (source §6; restructured: the dimension
+% counts that justify 1, wp, wp' are derived ELEMENTARILY from Chapter 4 plus the
+% explicit Weierstrass functions, so the main line is self-contained; Riemann--Roch
+% is kept as the general theorem (stated, cited) and is genuinely needed only for
+% the converse of Abel / Pic^0(T) =~ T, which is off the critical path.)
+\chapter{Riemann--Roch and Its Consequences}
+\label{ch:riemann_roch}
+
+We can now answer the question left open in \cref{ch:elliptic_liouville}: how
+small can the pole divisor of a nonconstant elliptic function be? The answer is a
+dimension count, and on the torus that count is \emph{elementary} --- it follows
+from the Liouville theorems of \cref{ch:elliptic_liouville} together with the
+explicit functions built in \cref{ch:weierstrass_wp}, with no appeal to a deep
+theorem. We derive it that way first, because it is what justifies the functions
+\(1, \wp, \wp'\) and carries the main argument. We then state the
+\emph{Riemann--Roch} theorem in general, for context. The one auxiliary result it
+might have supplied --- the converse of Abel's law, \(\Pic^0(T) \cong T\) --- is
+instead proved constructively in \cref{ch:weierstrass_wp} with the
+\(\sigma\)-function, so Riemann--Roch is needed nowhere and appears only as the
+general theorem behind the elementary counts.
+
+\section{The Spaces \texorpdfstring{$L(D)$}{L(D)}}
+\label{sec:rr-spaces}
+
+We order divisors by \(D \ge 0\) iff every coefficient of \(D\) is
+nonnegative (an \emph{effective} divisor), and \(D \ge D'\) iff \(D - D' \ge 0\).
+
+\begin{definition}
+\label{def:rr-LD}
+For a divisor \(D\) on a compact Riemann surface \(X\),
+\[
+  L(D) = \{ f \in \M(X) : \divisor(f) + D \ge 0 \} \cup \{0\},
+  \qquad \ell(D) = \dim_\C L(D) .
+\]
+The condition \(\divisor(f) + D \ge 0\) says \(f\) may have a pole of order at
+most \(n_p\) where \(D = \sum n_p\,p\) has \(n_p > 0\), and must have a zero of
+order at least \(-n_p\) where \(n_p < 0\). For \(D = nO\) with \(n \ge 0\),
+\(L(nO)\) is the space of functions whose only pole is at \(O\), of order at most
+\(n\).
+\end{definition}
+
+\begin{proposition}[Elementary properties of \texorpdfstring{$L(D)$}{L(D)}]
+\label{prop:rr-LD-props}
+Let \(D, D'\) be divisors on a compact Riemann surface \(X\).
+\begin{enumerate}
+\item \(L(D)\) is a \(\C\)-vector space, and \(\ell(0) = 1\) with \(L(0) = \C\).
+\item If \(D \le D'\) then \(L(D) \subseteq L(D')\) and
+  \(\ell(D') - \ell(D) \le \deg(D' - D)\).
+\item If \(\deg D < 0\) then \(L(D) = 0\), so \(\ell(D) = 0\).
+\item Linearly equivalent divisors have isomorphic spaces: \(D \sim D'\) implies
+  \(L(D) \cong L(D')\), so \(\ell\) depends only on the class \([D]\).
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) If \(\divisor(f) + D \ge 0\) and \(\divisor(g) + D \ge 0\) then for
+\(a, b \in \C\), \(\ord_p(af+bg) \ge \min(\ord_p f, \ord_p g) \ge -n_p\)
+(\cref{ex:div-ord-welldef}), so \(af + bg \in L(D)\). For \(D = 0\), \(L(0)\) is
+the holomorphic functions on \(X\), which are the constants by
+\cref{thm:ell-const} (compactness), so \(\ell(0) = 1\).
+
+(2) The inclusion is immediate from \(\divisor(f) + D \le \divisor(f) + D'\).
+Writing \(D' = D + \sum_j p_j\) with \(\deg(D'-D)\) points (with multiplicity),
+each added point relaxes the pole bound at \(p_j\) by one, and the map sending
+\(f\) to its Laurent coefficient of that extra allowed order is linear; its
+kernel is the smaller space, so the dimension grows by at most one per point.
+
+(3) A nonzero \(f \in L(D)\) has \(\divisor(f) \ge -D\), so
+\(0 = \deg\divisor(f) \ge -\deg D\) by \cref{thm:div-degzero}; thus
+\(\deg D \ge 0\). Contrapositively \(\deg D < 0\) forces \(L(D) = 0\).
+
+(4) If \(D' = D + \divisor(h)\), then \(f \mapsto f/h\) is a linear isomorphism
+\(L(D) \to L(D')\), since \(\divisor(f/h) + D' = \divisor(f) + D \ge 0\).
+\end{proof}
+
+\section{The Dimension Counts, Elementarily}
+\label{sec:rr-counts}
+
+The counts that the rest of the book uses --- \(\ell(O) = 1\), \(\ell([a]) = 1\),
+and \(\ell(nO) = n\) --- need nothing beyond \cref{ch:elliptic_liouville} and the
+explicit functions of \cref{ch:weierstrass_wp}.
+
+\begin{proposition}[Dimension counts on the torus]
+\label{prop:rr-counts}
+On \(T = \C/\Lambda\):
+\begin{enumerate}
+\item \(\ell(O) = 1\), and \(\ell([a]) = 1\) for every single point \([a]\);
+\item \(\ell(nO) \le n\) for all \(n \ge 1\);
+\item \(\ell(nO) = n\) for all \(n \ge 1\).
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) A nonzero \(f \in L([a])\) has at most a simple pole at \([a]\) and no other
+poles, so it is an elliptic function of order at most one. By
+\cref{cor:ell-order2} there is no elliptic function of order exactly one, so \(f\)
+is holomorphic, hence constant (\cref{thm:ell-const}); thus \(\ell([a]) = 1\).
+The case \([a] = O\) is the same.
+
+(2) By the point lemma \(\ell(D + p) - \ell(D) \in \{0,1\}\)
+(\cref{ex:rr-point-lemma}), applied \(n-1\) times starting from \(\ell(O) = 1\),
+\[
+  \ell(nO) \le \ell(O) + (n-1) = n .
+\]
+
+(3) For the matching lower bound we exhibit \(n\) independent elements of
+\(L(nO)\). \Cref{ch:weierstrass_wp} constructs the elliptic functions \(\wp\)
+(a double pole at \(O\), order \(2\)) and \(\wp'\) (a triple pole, order \(3\)).
+The functions
+\[
+  1, \quad \wp^{a}\ (a \ge 1),\quad \wp^{a}\wp'\ (a \ge 0)
+\]
+have poles only at \(O\), of orders \(0\) and \(2a\) and \(2a+3\) respectively, so
+they realize every pole order in \(\{0, 2, 3, 4, \dots, n\}\) --- that is \(n\)
+distinct orders, hence \(n\) linearly independent members of \(L(nO)\). Therefore
+\(\ell(nO) \ge n\), and with (2), \(\ell(nO) = n\).
+\end{proof}
+
+\begin{remark}
+\label{rem:rr-elementary}
+The proof used only the Liouville theorems of \cref{ch:elliptic_liouville}
+(\cref{cor:ell-order2,thm:ell-const}), the degree-zero theorem
+(\cref{thm:div-degzero}, via the point lemma), and the existence of \(\wp, \wp'\)
+from \cref{ch:weierstrass_wp}. No Riemann--Roch is needed. The same argument gives
+\(\ell([a]) = 1\) for any point, which is all the converse of Abel will require of
+these counts.
+\end{remark}
+
+\section{The Canonical Divisor of a Torus}
+\label{sec:rr-canonical}
+
+For the general theorem we need the \emph{canonical divisor} \(K\), the divisor of
+any nonzero meromorphic \(1\)-form. On a compact surface of genus \(g\) all such
+forms are linearly equivalent and \(\deg K = 2g - 2\). For the torus the canonical
+class is trivial.
+
+\begin{proposition}
+\label{prop:rr-canonical}
+On \(T = \C/\Lambda\) the holomorphic \(1\)-form \(dz\) is translation-invariant
+and nowhere vanishing, so
+\[
+  K = \divisor(dz) = 0 .
+\]
+Hence the canonical class is trivial, \(\deg K = 0\), and the space of
+holomorphic \(1\)-forms is one-dimensional, \(\Omega(T) = \C\,dz\); in particular
+\(g = \dim\Omega(T) = 1\).
+\end{proposition}
+
+\begin{proof}
+Since \(d(z+\lambda) = dz\) for every \(\lambda \in \Lambda\), the form \(dz\)
+descends to \(T\); in the charts of \cref{thm:lat-riemann-surface} it is simply
+\(dz\), which has no zeros or poles, so \(\divisor(dz) = 0\). Any holomorphic
+\(1\)-form is \(f\,dz\) with \(f\) holomorphic on \(T\), hence constant
+(\cref{thm:ell-const}); thus \(\Omega(T) = \C\,dz\) is one-dimensional. The
+relation \(\deg K = 2g - 2\) with \(\deg K = 0\) gives \(g = 1\), agreeing with
+\cref{prop:tg-euler}.
+\end{proof}
+
+\section{Riemann--Roch: The General Theorem}
+\label{sec:rr-theorem}
+
+For surfaces of any genus the dimension count is governed by one theorem, which we
+state for context. On the torus it reproduces the counts of \cref{prop:rr-counts}
+and extends them to \emph{arbitrary} divisors; we include it for context only.
+Even the converse of the next section --- the one result beyond the elementary
+counts --- is obtained constructively in \cref{ch:weierstrass_wp} via the
+\(\sigma\)-function, so nothing in the book depends on this theorem.
+
+\begin{theorem}[Riemann--Roch]
+\label{thm:rr}
+Let \(X\) be a compact Riemann surface of genus \(g\) with canonical divisor
+\(K\). For every divisor \(D\),
+\[
+  \ell(D) - \ell(K - D) = \deg D + 1 - g .
+\]
+\end{theorem}
+
+A proof belongs to a course on Riemann surfaces; see, e.g., Miranda
+\cite{miranda} or Forster \cite{forster}. The term \(\ell(K-D)\) is the
+\emph{index of speciality}; by
+Serre duality it equals the dimension of holomorphic \(1\)-forms whose divisor is
+\(\ge D\). On the torus \(g = 1\) and \(K \sim 0\) (\cref{prop:rr-canonical}), so
+\(\ell(K - D) = \ell(-D)\) (\cref{prop:rr-LD-props}(4)) and Riemann--Roch reads
+\[
+  \boxed{\ \ell(D) - \ell(-D) = \deg D\ } .
+\]
+
+\begin{proposition}[Dimensions for arbitrary \(D\), from Riemann--Roch]
+\label{prop:rr-dims}
+On \(T\), for any divisor \(D\): if \(\deg D < 0\) then \(\ell(D) = 0\); if
+\(\deg D > 0\) then \(\ell(D) = \deg D\); and if \(\deg D = 0\) then
+\(\ell(D) = 1\) for \(D \sim 0\) and \(0\) otherwise. In particular
+\(\ell(D) = \deg D\) for every divisor of degree \(\ge 1\), whether or not \(D\)
+is supported at \(O\).
+\end{proposition}
+
+\begin{proof}
+For \(\deg D < 0\), \cref{prop:rr-LD-props}(3). For \(\deg D > 0\), \(-D\) has
+negative degree so \(\ell(-D) = 0\) and the boxed identity gives
+\(\ell(D) = \deg D\). For \(\deg D = 0\), the identity gives
+\(\ell(D) = \ell(-D)\); a nonzero \(f \in L(D)\) has \(\divisor(f) \ge -D\) of
+degree \(0\), forcing \(\divisor(f) = -D\), i.e.\ \(D \sim 0\), so
+\(\ell(D) \le 1\) with equality iff \(D \sim 0\).
+\end{proof}
+
+For divisors supported at \(O\) this only restates \cref{prop:rr-counts}; its new
+content, the value for \emph{arbitrary} degree-one divisors, is what
+Riemann--Roch would contribute --- but the next section reaches the same end
+constructively, so we do not rely on it.
+
+\section{The Converse of Abel: Completing \texorpdfstring{$\Pic^0(T) \cong T$}{Pic0(T) = T}}
+\label{sec:rr-pic-completion}
+
+We can now finish the injectivity left open in \cref{thm:div-pic-iso}.
+
+\begin{corollary}
+\label{cor:rr-degree-one}
+Every divisor of degree \(1\) on \(T\) is linearly equivalent to a unique point
+\([a]\). Consequently every degree-zero divisor is linearly equivalent to a unique
+\([a] - [0]\), and the Abel--Jacobi map \(\bar\smap : \Pic^0(T) \to T\) of
+\cref{thm:div-pic-iso} is an isomorphism.
+\end{corollary}
+
+\begin{proof}
+The key input is the constructive converse of Abel, \cref{thm:wp-converse}: a
+degree-zero divisor with Abel sum zero is principal. \emph{Injectivity:} if
+\(\smap(D) = 0\) for \(\deg D = 0\), then \(D\) is principal, so its class in
+\(\Pic^0(T)\) is trivial; with surjectivity from \cref{thm:div-pic-iso},
+\(\bar\smap\) is an isomorphism. \emph{Degree-one statement:} for \(\deg D = 1\)
+set \(a := \smap(D - [0]) \in T\); then \(D - [a]\) has degree \(0\) and Abel sum
+\(\smap(D-[0]) - a = 0\), so by \cref{thm:wp-converse} \(D - [a]\) is principal and
+\(D \sim [a]\). Uniqueness: if \([a] \sim [a']\) then \([a] - [a']\) is principal of
+degree \(0\), so by \cref{ex:div-distinct-points} (the forward direction of Abel)
+\([a] = [a']\).
+\end{proof}
+
+\begin{remark}[Where existence is genuinely used]
+\label{rem:rr-existence}
+This corollary is the one result needing more than the elementary counts: the
+converse of Abel, that a balanced degree-zero divisor is principal. We do
+\emph{not} import it from Riemann--Roch --- \cref{thm:wp-converse} supplies it
+constructively, building the required elliptic function explicitly from the
+Weierstrass \(\sigma\)-function. So even this is proved from within the book.
+Moreover it is \emph{not} on the critical path to the main theorem:
+\cref{thm:tr-main} uses only the necessity direction of Abel (\cref{thm:ell-abel})
+and the elementary counts of \cref{prop:rr-counts}. The isomorphism
+\(\Pic^0(T) \cong T\) is the algebraic \emph{view} of the group law, proved in full
+but not a step in the chord--tangent argument.
+\end{remark}
+
+\section{The Functions Forced}
+\label{sec:rr-functions}
+
+By \cref{prop:rr-counts}, \(\ell(nO) = n\) for \(n \ge 1\): the dimensions climb by
+exactly one at each step, so each \(L((n{+}1)O)\) contains a function with a pole
+at \(O\) of order exactly \(n+1\) not already present.
+
+\begin{itemize}
+\item \(\ell(O) = 1\): \(L(O) = \C\). There is \emph{no} nonconstant function with
+  a single simple pole --- the count restates \cref{cor:ell-order2}.
+\item \(\ell(2O) = 2\): beyond the constants there is one new function, with a
+  double pole at \(O\). After normalization this is the Weierstrass function
+  \(\wp\).
+\item \(\ell(3O) = 3\): one further new function, with a triple pole at \(O\),
+  namely \(\wp'\). A basis of \(L(3O)\) is \(\{1, \wp, \wp'\}\).
+\end{itemize}
+
+\begin{center}
+\begin{tabular}{c|c|c|l}
+Divisor & \(\ell\) & Typical basis & Meaning\\
+\hline
+\(O\)  & \(1\) & \(1\)            & no simple-pole function\\
+\(2O\) & \(2\) & \(1, \wp\)       & first nonconstant function\\
+\(3O\) & \(3\) & \(1, \wp, \wp'\) & projective embedding data
+\end{tabular}
+\end{center}
+
+\begin{keyidea}{Why \(\wp\) and \(\wp'\) are inevitable}
+The dimension counts (\cref{prop:rr-counts}) force the first nonconstant function
+on the torus to appear with a double pole, and its derivative then has a triple
+pole. The first three natural functions are therefore
+\[
+  1, \qquad \wp, \qquad \wp' ,
+\]
+and these are exactly the coordinates of the map that embeds the torus as a plane
+cubic in \cref{ch:embedding}.
+\end{keyidea}
+
+\begin{remark}[The cubic is forced too]
+\label{rem:rr-cubic-preview}
+Push the count one step further. In \(L(6O)\), which has dimension \(\ell(6O) =
+6\), the seven functions
+\[
+  1,\ \wp,\ \wp^2,\ \wp^3,\ \wp',\ \wp\wp',\ \wp'^2
+\]
+all lie (their pole orders at \(O\) are \(0,2,4,6,3,5,6\), each \(\le 6\)). Seven
+vectors in a six-dimensional space are linearly dependent, so they satisfy a
+linear relation. Matching the order-six poles forces \(\wp'^2\) and \(\wp^3\) to
+appear with nonzero coefficients: the relation is the Weierstrass cubic
+\(\wp'^2 = 4\wp^3 - g_2\wp - g_3\), derived explicitly in
+\cref{ch:weierstrass_wp}.
+\end{remark}
+
+\section{Summary}
+\label{sec:rr-summary}
+
+The space \(L(D)\) measures functions with poles bounded by \(D\)
+(\cref{prop:rr-LD-props}). On the torus the counts that matter --- \(\ell(O) = 1\),
+\(\ell([a]) = 1\), and \(\ell(nO) = n\) --- are \emph{elementary}, following from
+the Liouville theorems and the explicit \(\wp, \wp'\) with no Riemann--Roch
+(\cref{prop:rr-counts}); they force the functions \(1, \wp, \wp'\)
+(\cref{sec:rr-functions}) and already predict the cubic
+(\cref{rem:rr-cubic-preview}). Riemann--Roch (\cref{thm:rr}) is the general theorem
+behind them; on the torus it collapses to \(\ell(D) - \ell(-D) = \deg D\)
+(\cref{prop:rr-dims}). Even the converse of Abel, giving \(\Pic^0(T) \cong T\)
+(\cref{cor:rr-degree-one}), is proved constructively in \cref{ch:weierstrass_wp}
+via the \(\sigma\)-function (\cref{rem:rr-existence}), so Riemann--Roch is needed
+nowhere and serves only as the general theorem. The next chapter constructs
+\(\wp\) --- and \(\sigma\) --- and verifies all of this by hand.
+
+\section*{Exercises}
+\addcontentsline{toc}{section}{Exercises}
+
+\begin{exercise}
+\label{ex:rr-point-lemma}
+Prove the ``point lemma'': for any divisor \(D\) and point \(p\),
+\(\ell(D + p) - \ell(D) \in \{0, 1\}\). (Map \(f \in L(D+p)\) to the Laurent
+coefficient of order \(-n_p - 1\) at \(p\); identify the kernel.)
+\end{exercise}
+
+\begin{exercise}
+\label{ex:rr-neg-degree}
+Without invoking Riemann--Roch, show directly from \cref{thm:div-degzero} that
+\(\ell(D) = 0\) whenever \(\deg D < 0\), and that \(\ell(D) \le \deg D + 1\) for
+all \(D\). (The second is the ``Riemann inequality'' half of the theorem.)
+\end{exercise}
+
+\begin{exercise}
+\label{ex:rr-degree-one-unique}
+Show that on \(T\) a divisor of degree one is effective if and only if it is a
+single point, and combine this with \cref{prop:rr-counts} to give an independent
+proof that the only effective divisor in the class of \([a]\) is \([a]\) itself.
+\end{exercise}
+
+\begin{exercise}
+\label{ex:rr-canonical-deg}
+Using \cref{prop:rr-canonical} and Riemann--Roch with \(D = K\), verify the two
+consistency checks \(\ell(K) = g\) and \(\deg K = 2g - 2\) for the torus
+(\(g = 1\)).
+\end{exercise}
+
+\begin{exercise}
+\label{ex:rr-cubic-count}
+Carry out the counting of \cref{rem:rr-cubic-preview} in detail: list the pole
+orders at \(O\) of the seven functions
+\[
+  1,\quad \wp,\quad \wp^2,\quad \wp^3,\quad \wp',\quad \wp\wp',\quad \wp'^2,
+\]
+explain why all seven lie in \(L(6O)\), and argue that any linear relation among
+them must have nonzero coefficients on both \(\wp'^2\) and \(\wp^3\). What goes
+wrong if either coefficient is zero?
+\end{exercise}

@@ -1,0 +1,73 @@
+\chapter{Cohomology, Moduli, and the \texorpdfstring{\(j\)}{j}-Invariant}
+\label{ch:cohomology-moduli}
+
+The Jacobian also has a cohomological incarnation.  The exponential sequence of
+sheaves
+\[
+  0\to\Z\to\OO_E\to\OO_E^*\to0
+\]
+connects integral cycles, holomorphic functions, and line bundles.  Taking
+cohomology yields, in degree one, the complex torus
+\[
+  \Pic^0(E)=H^1(E,\OO_E)/H^1(E,\Z)\cong\C/\Lambda.
+\]
+
+\begin{center}
+\resizebox{0.78\linewidth}{!}{\classicExpSequenceDiagram}
+\end{center}
+
+This chapter's claim is a structural explanation, not a replacement for the
+divisor proof.  Divisors make the group visible through zeros and poles; sheaf
+cohomology makes the same group visible through line bundles and periods.
+
+\begin{definition}
+The \(j\)-invariant of \(E:Y^2Z=4X^3-g_2XZ^2-g_3Z^3\) is
+\[
+  j(E)=1728\,\frac{g_2^3}{g_2^3-27g_3^2}.
+\]
+\end{definition}
+
+Scaling a lattice changes \(g_2\) and \(g_3\), but it does not change \(j\).
+Thus \(j\) records the isomorphism class of the complex elliptic curve.  Lattice
+shapes are parametrized by \(\tau\in\HH\) modulo the modular group
+\(\SL_2(\Z)\), and the \(j\)-function identifies the quotient
+\(\HH/\SL_2(\Z)\) with the complex line.
+
+\section*{Exercises}
+\addcontentsline{toc}{section}{Exercises}
+
+\exerciseintent{Check that the \(j\)-invariant is unchanged by scaling weights.}
+\begin{exercise}
+If \(g_2\mapsto a^{-4}g_2\) and \(g_3\mapsto a^{-6}g_3\), show that \(j\) is
+unchanged.  Compute separately the scaling weights of \(g_2^3\), \(g_3^2\), and
+\(\Delta=g_2^3-27g_3^2\).
+\end{exercise}
+
+\exerciseintent{Recognize the cohomological Jacobian as a complex vector space modulo a lattice.}
+\begin{exercise}
+Use the genus-one facts
+\[
+  H^1(E,\OO_E)\cong\C,\qquad H^1(E,\Z)\cong\Z^2
+\]
+to write the quotient \(H^1(E,\OO_E)/H^1(E,\Z)\) in the form
+\(\C/\Lambda\).  State explicitly what the rank-two lattice \(\Lambda\) is
+standing for.
+\end{exercise}
+
+\exerciseintent{Compute the extra lattice rotations at the special square and hexagonal shapes.}
+\begin{exercise}
+For the lattices \(\Z+i\Z\) and \(\Z+e^{2\pi i/3}\Z\), compute which rotations
+preserve the lattice: multiplication by \(i\) in the first case and by
+\(e^{2\pi i/3}\) in the second.  Record the corresponding rotation orders.
+\end{exercise}
+
+\exerciseintent{Separate what cohomology explains from what the chord--tangent proof still needs.}
+\begin{exercise}
+Which part of the three-face theorem is re-expressed by the quotient
+\[
+  H^1(E,\OO_E)/H^1(E,\Z)\cong\C/\Lambda?
+\]
+Write the map or identification it replaces, and list the two extra calculations
+still needed for the chord--tangent formula: the line divisor calculation and
+the Abel-sum calculation.
+\end{exercise}

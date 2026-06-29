@@ -1,0 +1,130 @@
+% figuremacros.tex --- figure infrastructure harvested from book/preamble.tex
+% (TikZ libraries, the form* colour palette, the three \drawprecise macros,
+%  and the diagram tikzset). Do not edit; mirror of the book's definitions.
+
+\usetikzlibrary{arrows.meta,calc,positioning,decorations.markings,decorations.pathmorphing,
+  patterns,shadings,shapes.geometric,fadings,backgrounds,intersections,bending}
+
+\definecolor{formteal}{HTML}{1f4e79}
+\definecolor{formgold}{HTML}{b88a14}
+\definecolor{formrust}{HTML}{a8431d}
+\definecolor{formplum}{HTML}{6b2e6e}
+\definecolor{formsage}{HTML}{467b3a}
+\definecolor{formslate}{HTML}{3a5168}
+\definecolor{formivory}{HTML}{f6efe0}
+
+\newcommand{\drawprecisetorus}{%
+  % (1) Fill the visible torus body with light teal.
+  \fill[formteal!13, line join=round]
+    plot[smooth cycle] coordinates {\torusOuter};
+  % (2) Cut out the donut hole using the inner silhouette curve.
+  \fill[white, line join=round]
+    plot[smooth cycle] coordinates {\torusInner};
+  % (3) Visible meridian arcs (eight small circles spaced 45 deg apart).
+  % Back meridians (v in [0, pi]) form one visible arc each;
+  % front meridians (v in (pi, 2 pi)) wrap across u = 0 and are split
+  % into two visible chunks (VA and VB) by the sampling boundary.
+  \draw[draw=formteal!60!black, line width=0.42pt, line join=round, opacity=0.9]
+    plot[smooth] coordinates {\torusMerZeroVA};
+  \draw[draw=formteal!60!black, line width=0.42pt, line join=round, opacity=0.9]
+    plot[smooth] coordinates {\torusMerOneVA};
+  \draw[draw=formteal!60!black, line width=0.42pt, line join=round, opacity=0.9]
+    plot[smooth] coordinates {\torusMerTwoVA};
+  \draw[draw=formteal!60!black, line width=0.42pt, line join=round, opacity=0.9]
+    plot[smooth] coordinates {\torusMerThreeVA};
+  \draw[draw=formteal!60!black, line width=0.42pt, line join=round, opacity=0.9]
+    plot[smooth] coordinates {\torusMerFourVA};
+  \draw[draw=formteal!60!black, line width=0.42pt, line join=round, opacity=0.9]
+    plot[smooth] coordinates {\torusMerFiveVA};
+  \draw[draw=formteal!60!black, line width=0.42pt, line join=round, opacity=0.9]
+    plot[smooth] coordinates {\torusMerFiveVB};
+  \draw[draw=formteal!60!black, line width=0.42pt, line join=round, opacity=0.9]
+    plot[smooth] coordinates {\torusMerSixVA};
+  \draw[draw=formteal!60!black, line width=0.42pt, line join=round, opacity=0.9]
+    plot[smooth] coordinates {\torusMerSixVB};
+  \draw[draw=formteal!60!black, line width=0.42pt, line join=round, opacity=0.9]
+    plot[smooth] coordinates {\torusMerSevenVA};
+  \draw[draw=formteal!60!black, line width=0.42pt, line join=round, opacity=0.9]
+    plot[smooth] coordinates {\torusMerSevenVB};
+  % (4) Visible longitude arcs (the four canonical latitude circles).
+  % Outer (u=0) is visible only on the front half (v in (pi, 2 pi)),
+  % inner (u=pi) only on the back half (v in (0, pi)); the top crest
+  % (u=pi/2) is visible everywhere; the bottom (u=3pi/2) is fully hidden.
+  \draw[draw=formteal!60!black, line width=0.5pt, line join=round, opacity=0.95]
+    plot[smooth] coordinates {\torusLonTopVA};
+  \draw[draw=formteal!60!black, line width=0.42pt, line join=round, opacity=0.8]
+    plot[smooth] coordinates {\torusLonOuterVA};
+  \draw[draw=formteal!60!black, line width=0.42pt, line join=round, opacity=0.8]
+    plot[smooth] coordinates {\torusLonInnerVA};
+  % (5) Crisp silhouette outlines drawn last so they sit on top.
+  \draw[draw=formteal!65!black, line width=0.95pt, line join=round]
+    plot[smooth cycle] coordinates {\torusOuter};
+  \draw[draw=formteal!65!black, line width=0.8pt, line join=round]
+    plot[smooth cycle] coordinates {\torusInner};
+}
+
+\newcommand{\drawprecisesphere}{%
+  % Color tone matches the torus (formteal) for visual unity across figures.
+  % (1) Flat-filled body of the sphere (same filling style as the torus)
+  \fill[formteal!13, line join=round]
+    plot[smooth cycle] coordinates {\sphereOutline};
+  % (2) Visible latitude arcs
+  \draw[draw=formteal!60!black, line width=0.45pt, line join=round, opacity=0.9]
+    plot[smooth] coordinates {\sphereLatEquatorVA};
+  \draw[draw=formteal!60!black, line width=0.4pt, line join=round, opacity=0.85]
+    plot[smooth] coordinates {\sphereLatNorthVA};
+  \draw[draw=formteal!60!black, line width=0.4pt, line join=round, opacity=0.85]
+    plot[smooth] coordinates {\sphereLatNorthVB};
+  \draw[draw=formteal!60!black, line width=0.4pt, line join=round, opacity=0.85]
+    plot[smooth] coordinates {\sphereLatTropicVA};
+  \draw[draw=formteal!60!black, line width=0.4pt, line join=round, opacity=0.85]
+    plot[smooth] coordinates {\sphereLatTropicVB};
+  \draw[draw=formteal!60!black, line width=0.4pt, line join=round, opacity=0.85]
+    plot[smooth] coordinates {\sphereLatSouthVA};
+  % (3) Visible meridian arcs (eight meridians at v = k pi/4)
+  \draw[draw=formteal!60!black, line width=0.42pt, line join=round, opacity=0.9]
+    plot[smooth] coordinates {\sphereMerZeroVA};
+  \draw[draw=formteal!60!black, line width=0.42pt, line join=round, opacity=0.9]
+    plot[smooth] coordinates {\sphereMerOneVA};
+  \draw[draw=formteal!60!black, line width=0.42pt, line join=round, opacity=0.9]
+    plot[smooth] coordinates {\sphereMerTwoVA};
+  \draw[draw=formteal!60!black, line width=0.42pt, line join=round, opacity=0.9]
+    plot[smooth] coordinates {\sphereMerThreeVA};
+  \draw[draw=formteal!60!black, line width=0.42pt, line join=round, opacity=0.9]
+    plot[smooth] coordinates {\sphereMerFourVA};
+  \draw[draw=formteal!60!black, line width=0.42pt, line join=round, opacity=0.9]
+    plot[smooth] coordinates {\sphereMerFiveVA};
+  \draw[draw=formteal!60!black, line width=0.42pt, line join=round, opacity=0.9]
+    plot[smooth] coordinates {\sphereMerSixVA};
+  \draw[draw=formteal!60!black, line width=0.42pt, line join=round, opacity=0.9]
+    plot[smooth] coordinates {\sphereMerSevenVA};
+  % (4) Hidden back arcs as dashed light strokes
+  \draw[draw=formteal!50!black, dashed, line width=0.3pt, line join=round, opacity=0.55]
+    plot[smooth] coordinates {\sphereLatEquatorHA};
+  % (5) Crisp silhouette outline on top
+  \draw[draw=formteal!65!black, line width=0.95pt, line join=round]
+    plot[smooth cycle] coordinates {\sphereOutline};
+}
+
+\newcommand{\drawprecisecurve}{%
+  % Oval (compact component, x in [-1,0]): draw as closed smooth cycle.
+  \draw[draw=formteal!60!black, line width=0.88pt, line join=round]
+    plot[smooth cycle, tension=0.85] coordinates {\curveOvalFull};
+  % Branch (unbounded component, x >= 1): upper and lower arcs.
+  \draw[draw=formteal!60!black, line width=0.88pt, line join=round]
+    plot[smooth, tension=0.9] coordinates {\curveBranchUpper};
+  \draw[draw=formteal!60!black, line width=0.88pt, line join=round]
+    plot[smooth, tension=0.9] coordinates {\curveBranchLower};
+  % Branch points (Weierstrass roots e1=-1, e2=0, e3=1)
+  \fill[formteal!70!black] (-1,0) circle (1.8pt);
+  \fill[formteal!70!black] ( 0,0) circle (1.8pt);
+  \fill[formteal!70!black] ( 1,0) circle (1.8pt);
+}
+
+\tikzset{
+  arrow/.style={-{Latex[length=2mm]}, thick},
+  point/.style={circle, fill=black, inner sep=1.5pt},
+  labelnode/.style={font=\small, align=center},
+  note/.style={draw=black!55, rounded corners=2pt, align=center, inner sep=5pt, fill=black!3},
+  visualnode/.style={draw=black!60, rounded corners=2pt, align=center, inner sep=6pt, fill=black!2}
+}

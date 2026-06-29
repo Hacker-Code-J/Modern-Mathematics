@@ -1,0 +1,1046 @@
+%=======================================================
+% CHAPTER 2: HAMMING CODES
+%=======================================================
+
+\begin{frame}[plain]
+  \begin{center}\bfseries\centering
+    \includegraphics[scale=1]{assets/branding/opa0}
+    \vspace{-5.75cm}\\
+    {\adjustbox{scale=2.15}{\color{TealDarkCyan}\;III.\;Hamming Codes}}
+    \bigskip\bigskip
+    {\ }\vspace{4cm}\\
+    \bigskip
+  \end{center}
+\end{frame}
+
+%--- NEW: Historical Motivation ---
+\begin{frame}{\textbf{III. Hamming Codes}}{Hamming (1950): The Original Problem}
+\small
+Richard Hamming worked at Bell Labs in 1947. The relay computer he used ran \textbf{punched-card jobs} overnight — and a single wrong hole would crash the job.
+
+\medskip
+\textbf{His frustration:} ``If the machine can detect an error, why can't it fix it?''
+
+\medskip
+\defbox[Hamming's insight (1950)]{
+	Add \emph{redundant} parity bits so that:
+	\begin{itemize}
+		\item the syndrome identifies the \textbf{exact position} of the error, and
+		\item \textbf{no syndrome is wasted} — each possible syndrome maps to exactly one error pattern.
+	\end{itemize}
+}
+
+\medskip
+This requires $n + 1 = 2^r$ syndromes for $n$ positions, giving $n = 2^r - 1$.
+%\begin{columns}[T,onlytextwidth]
+%  \begin{column}{.54\textwidth}
+%    Richard Hamming worked at Bell Labs in 1947. The relay computer he used ran \textbf{punched-card jobs} overnight — and a single wrong hole would crash the job.
+%
+%    \medskip
+%    \textbf{His frustration:} ``If the machine can detect an error, why can't it fix it?''
+%
+%    \medskip
+%    \defbox[Hamming's insight (1950)]{
+%    Add \emph{redundant} parity bits so that:
+%    \begin{itemize}
+%      \item the syndrome identifies the \textbf{exact position} of the error, and
+%      \item \textbf{no syndrome is wasted} — each possible syndrome maps to exactly one error pattern.
+%    \end{itemize}
+%    }
+%
+%    \medskip
+%    This requires $n + 1 = 2^r$ syndromes for $n$ positions, giving $n = 2^r - 1$.
+%  \end{column}
+%  \begin{column}{.43\textwidth}
+%    \begin{tikzpicture}[scale=0.88]
+%      % Show how syndromes map to errors
+%      \node[font=\small\bfseries, TealDarkCyan] at (1.5,4.0)
+%        {Syndrome $\to$ action};
+%      \draw[TealDarkCyan, thick] (0,3.6)--(3.0,3.6);
+%
+%      % No error
+%      \node[draw=TealDarkCyan!40, rounded corners=3pt, fill=TealDarkCyan!8,
+%            minimum width=2.8cm, minimum height=0.38cm, font=\scriptsize]
+%        at (1.5,3.25) {$000$ $\to$ no error};
+%      % Errors at positions
+%      \foreach \i/\bits in {1/001, 2/010, 3/011, 4/100, 5/101, 6/110, 7/111} {
+%        \pgfmathsetmacro{\yy}{3.25 - \i*0.42}
+%        \node[draw=AccentCyan!60, rounded corners=3pt, fill=AccentCyan!10,
+%              minimum width=2.8cm, minimum height=0.38cm, font=\scriptsize]
+%          at (1.5,\yy) {$\bits$ $\to$ flip bit $\i$};
+%      }
+%    \end{tikzpicture}
+%  \end{column}
+%\end{columns}
+\end{frame}
+
+\begin{frame}{\textbf{III. Hamming Codes}}{The design problem}
+\small
+\begin{block}{Goal}
+Construct binary linear codes that correct exactly one error and use all possible syndromes.
+\end{block}
+\begin{itemize}
+  \item A received word has either no error or one error in position $i$.
+  \item Thus there are $1+n$ elementary cases.
+  \item With $r$ parity checks, there are $2^r$ syndromes.
+\end{itemize}
+\[
+  1+n=2^r
+  \quad\Rightarrow\quad
+  n=2^r-1.
+\]
+\end{frame}
+
+\begin{frame}{\textbf{III. Hamming Codes}}{The parity-check matrix}
+\small
+\defbox[Binary Hamming matrix]{
+For $r\ge2$, let $H_r$ be the $r\times(2^r-1)$ matrix whose columns are all nonzero vectors of $\F_2^r$.
+}
+\[
+  H_3=
+  \begin{bmatrix}
+  1&0&1&0&1&0&1\\
+  0&1&1&0&0&1&1\\
+  0&0&0&1&1&1&1
+  \end{bmatrix}.
+\]
+\begin{itemize}
+  \item Column labels are nonzero binary syndromes.
+  \item Every nonzero syndrome identifies a unique column.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{\textbf{III. Hamming Codes}}{Definition}
+\small
+\defbox[Binary Hamming code]{
+The binary Hamming code of order $r$ is
+\[
+  \operatorname{Ham}(r,2)=\ker(H_r)\le\F_2^{2^r-1}.
+\]
+}
+\begin{itemize}
+  \item Length: $n=2^r-1$.
+  \item Redundancy: $r$.
+  \item Dimension: $k=n-r=2^r-1-r$.
+\end{itemize}
+\[
+  \operatorname{Ham}(r,2)\text{ has parameters }[2^r-1,2^r-1-r,3]_2.
+\]
+\end{frame}
+
+\begin{frame}{\textbf{III. Hamming Codes}}{Dimension}
+\small
+\thmbox[Dimension count]{
+The matrix $H_r$ has rank $r$, hence
+\[
+  \dim\ker(H_r)=2^r-1-r.
+\]
+}
+%\begin{proof}
+%The standard basis vectors $e_1,\ldots,e_r$ occur among the nonzero columns of $H_r$, so the row rank is $r$.
+%\end{proof}
+%\begin{block}{Interpretation}
+%The parity checks are independent; no check is redundant.
+%\end{block}
+\end{frame}
+
+\begin{frame}{\textbf{III. Hamming Codes}}{Minimum distance}
+\small
+\thmbox[Distance]{
+The binary Hamming code $\operatorname{Ham}(r,2)$ has minimum distance $3$.
+}
+%\begin{proof}
+%No column of $H_r$ is zero, so $d\ge2$. No two columns are equal over $\F_2$, so no two are dependent, hence $d\ge3$. But $u+v+(u+v)=0$, so three suitable columns are dependent.
+%\end{proof}
+\begin{itemize}
+  \item Therefore Hamming codes correct one error.
+  \item They detect two errors.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{\textbf{III. Hamming Codes}}{Perfectness}
+\small
+\thmbox[Hamming codes are perfect]{
+The binary Hamming code satisfies equality in the Hamming bound for $t=1$.
+}
+\[
+  2^k(1+n)=2^{2^r-1-r}(1+2^r-1)=2^{2^r-1}=2^n.
+\]
+\begin{itemize}
+  \item Every word of $\F_2^n$ is at distance at most $1$ from exactly one codeword.
+  \item The syndrome is not merely a diagnostic: it is a complete decoder.
+\end{itemize}
+\end{frame}
+
+%--- NEW: Perfect Tiling Visual ---
+\begin{frame}{\textbf{III. Hamming Codes}}{Perfect Tiling: A Geometric View}
+\small
+\begin{columns}[T,onlytextwidth]
+  \begin{column}{.48\textwidth}
+    For the $[3,1,3]$ repetition code in $\F_2^3$: the two correction balls of radius 1 \textbf{tile the cube exactly} — no overlap, no gap.
+
+    \medskip
+    \begin{center}
+    \begin{tikzpicture}[scale=0.80]
+      % 3-cube edges
+      \draw[gray!35,thick] (0,0)--(2,0); \draw[gray!35,thick] (0,0)--(1,0.9);
+      \draw[gray!35,thick] (0,0)--(0.5,1.6); \draw[gray!35,thick] (2,0)--(3,0.9);
+      \draw[gray!35,thick] (2,0)--(2.5,1.6); \draw[gray!35,thick] (1,0.9)--(3,0.9);
+      \draw[gray!35,thick] (1,0.9)--(1.5,2.5); \draw[gray!35,thick] (0.5,1.6)--(2.5,1.6);
+      \draw[gray!35,thick] (0.5,1.6)--(1.5,2.5); \draw[gray!35,thick] (3,0.9)--(3.5,2.5);
+      \draw[gray!35,thick] (2.5,1.6)--(3.5,2.5); \draw[gray!35,thick] (1.5,2.5)--(3.5,2.5);
+      % Ball around 000: {000,100,010,001} — TealDarkCyan fill
+      \node[circle,draw=TealDarkCyan,fill=TealDarkCyan!20,minimum size=0.62cm,font=\tiny\bfseries]
+        at (0,0)     {$000$};
+      \node[circle,draw=TealDarkCyan,fill=TealDarkCyan!20,minimum size=0.62cm,font=\tiny\bfseries]
+        at (2,0)     {$100$};
+      \node[circle,draw=TealDarkCyan,fill=TealDarkCyan!20,minimum size=0.62cm,font=\tiny\bfseries]
+        at (1,0.9)   {$010$};
+      \node[circle,draw=TealDarkCyan,fill=TealDarkCyan!20,minimum size=0.62cm,font=\tiny\bfseries]
+        at (0.5,1.6) {$001$};
+      % Ball around 111: {111,011,101,110} — AccentCyan fill
+      \node[circle,draw=AccentCyan,fill=AccentCyan!22,minimum size=0.62cm,font=\tiny\bfseries]
+        at (3.5,2.5) {$111$};
+      \node[circle,draw=AccentCyan,fill=AccentCyan!22,minimum size=0.62cm,font=\tiny\bfseries]
+        at (1.5,2.5) {$011$};
+      \node[circle,draw=AccentCyan,fill=AccentCyan!22,minimum size=0.62cm,font=\tiny\bfseries]
+        at (2.5,1.6) {$101$};
+      \node[circle,draw=AccentCyan,fill=AccentCyan!22,minimum size=0.62cm,font=\tiny\bfseries]
+        at (3,0.9)   {$110$};
+      % Codeword labels
+      \node[below=3pt,font=\tiny,TealDarkCyan] at (0,0)     {\textbf{c=000}};
+      \node[above=3pt,font=\tiny,AccentCyan]   at (3.5,2.5) {\textbf{c=111}};
+    \end{tikzpicture}
+	\end{center}
+  \end{column}
+  \begin{column}{.49\textwidth}
+    \textcolor{TealDarkCyan}{\textbf{Why "perfect"?}}
+    \begin{itemize}
+      \item Each ball has 4 elements: 1 codeword + 3 neighbors
+      \item Two balls cover all $2^3 = 8$ points of $\F_2^3$
+      \item $2 \times 4 = 8$ — the Hamming bound holds with \emph{equality}
+    \end{itemize}
+
+%    \medskip
+%    \defbox[For $\operatorname{Ham}(r,2)$]{
+%    $2^{2^r-1-r} \times (1 + 2^r - 1) = 2^{2^r-1}$ — all of $\F_2^{2^r-1}$ is tiled.\\[2pt]
+%    Every received word is within distance 1 of \textbf{exactly one} codeword.
+%    }
+
+    \medskip
+    Hamming codes are the \emph{only} linear perfect 1-error-correcting codes (apart from trivial cases).
+  \end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{\textbf{III. Hamming Codes}}{Syndrome decoding}
+\small
+\defbox[Decoder]{
+Given $v\in\F_2^n$, compute $s=H_rv^T$.
+}
+\begin{itemize}
+  \item If $s=0$, accept $v$.
+  \item If $s\ne0$, find the unique column $H_i=s$.
+  \item Correct by flipping coordinate $i$.
+\end{itemize}
+%\begin{block}{Reason}
+%For a single error $e_i$, the syndrome is $H_re_i^T=H_i$.
+%\end{block}
+\end{frame}
+
+%--- NEW: Full Syndrome Decoder Table ---
+\begin{frame}{\textbf{III. Hamming Codes}}{The Complete Syndrome Table for $[7,4,3]$}
+\small
+With $H_3$ as written, the syndrome $(s_1,s_2,s_3)^T$ equals column $i$ when bit $i$ is flipped.
+
+\medskip
+\begin{center}
+\begin{tikzpicture}[scale=0.82]
+  % Header
+  \node[font=\scriptsize\bfseries,TealDarkCyan] at (0.0,3.5) {Syndrome %$(s_1\,s_2\,s_3)$
+  };
+  \node[font=\scriptsize\bfseries,TealDarkCyan] at (2.5,3.5) {Error pattern $e$};
+  \node[font=\scriptsize\bfseries,TealDarkCyan] at (5.2,3.5) {Action};
+  \draw[TealDarkCyan!50,thick] (-0.8,3.25)--(6.0,3.25);
+  % Row 0: no error
+  \node[draw=TealDarkCyan!30,fill=TealDarkCyan!8,rounded corners=2pt,
+        minimum width=2.0cm,minimum height=0.34cm,font=\scriptsize]
+    at (0.0,3.0) {$(0,0,0)$};
+  \node[font=\scriptsize] at (2.5,3.0) {$0000000$};
+  \node[font=\scriptsize,TealDarkCyan] at (5.2,3.0) {no error — accept};
+  % Rows 1-7: each error position
+  \node[draw=AccentCyan,fill=AccentCyan!12,rounded corners=2pt,
+        minimum width=2.0cm,minimum height=0.34cm,font=\scriptsize]
+    at (0.0,2.6) {$(1,0,0)$};
+  \node[font=\scriptsize] at (2.5,2.6) {$1000000$};
+  \node[font=\scriptsize,AccentCyan] at (5.2,2.6) {flip bit 1};
+
+  \node[draw=AccentCyan,fill=AccentCyan!12,rounded corners=2pt,
+        minimum width=2.0cm,minimum height=0.34cm,font=\scriptsize]
+    at (0.0,2.2) {$(0,1,0)$};
+  \node[font=\scriptsize] at (2.5,2.2) {$0100000$};
+  \node[font=\scriptsize,AccentCyan] at (5.2,2.2) {flip bit 2};
+
+  \node[draw=AccentCyan,fill=AccentCyan!12,rounded corners=2pt,
+        minimum width=2.0cm,minimum height=0.34cm,font=\scriptsize]
+    at (0.0,1.8) {$(1,1,0)$};
+  \node[font=\scriptsize] at (2.5,1.8) {$0010000$};
+  \node[font=\scriptsize,AccentCyan] at (5.2,1.8) {flip bit 3};
+
+  \node[draw=AccentCyan,fill=AccentCyan!12,rounded corners=2pt,
+        minimum width=2.0cm,minimum height=0.34cm,font=\scriptsize]
+    at (0.0,1.4) {$(0,0,1)$};
+  \node[font=\scriptsize] at (2.5,1.4) {$0001000$};
+  \node[font=\scriptsize,AccentCyan] at (5.2,1.4) {flip bit 4};
+
+  \node[draw=AccentCyan,fill=AccentCyan!12,rounded corners=2pt,
+        minimum width=2.0cm,minimum height=0.34cm,font=\scriptsize]
+    at (0.0,1.0) {$(1,0,1)$};
+  \node[font=\scriptsize] at (2.5,1.0) {$0000100$};
+  \node[font=\scriptsize,AccentCyan] at (5.2,1.0) {flip bit 5};
+
+  \node[draw=AccentCyan,fill=AccentCyan!12,rounded corners=2pt,
+        minimum width=2.0cm,minimum height=0.34cm,font=\scriptsize]
+    at (0.0,0.6) {$(0,1,1)$};
+  \node[font=\scriptsize] at (2.5,0.6) {$0000010$};
+  \node[font=\scriptsize,AccentCyan] at (5.2,0.6) {flip bit 6};
+
+  \node[draw=AccentCyan,fill=AccentCyan!12,rounded corners=2pt,
+        minimum width=2.0cm,minimum height=0.34cm,font=\scriptsize]
+    at (0.0,0.2) {$(1,1,1)$};
+  \node[font=\scriptsize] at (2.5,0.2) {$0000001$};
+  \node[font=\scriptsize,AccentCyan] at (5.2,0.2) {flip bit 7};
+\end{tikzpicture}
+\end{center}
+
+\vspace{-2pt}
+\begin{itemize}
+  \item All $2^3 = 8$ syndromes are used — confirming \textbf{perfectness}
+  \item Decoding is a single table look-up — $O(1)$ hardware
+\end{itemize}
+\end{frame}
+
+\begin{frame}{\textbf{III. Hamming Codes}}{Binary index convention}
+\small
+\defbox[Indexed columns]{
+If the $i$-th column of $H_r$ is the binary expansion of $i$, then the nonzero syndrome is literally the error position.
+}
+\[
+  s=(1,0,1)^T\quad\leadsto\quad i=5
+\]
+depending on the chosen bit order.
+\begin{itemize}
+  \item This is a notational convention, not an invariant.
+  \item It explains the classical parity-bit positions $1,2,4,\ldots$.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{\textbf{III. Hamming Codes}}{The classical [7,4,3] code}
+\small
+\[
+H=
+\begin{bmatrix}
+1&0&1&0&1&0&1\\
+0&1&1&0&0&1&1\\
+0&0&0&1&1&1&1
+\end{bmatrix}.
+\]
+\begin{itemize}
+  \item There are $7$ nonzero syndromes.
+  \item Each syndrome names one error coordinate.
+  \item The kernel has dimension $4$.
+\end{itemize}
+\[
+  \operatorname{Ham}(3,2)=[7,4,3]_2.
+\]
+\end{frame}
+
+%--- NEW: Parity Bit Layout ---
+\begin{frame}{\textbf{III. Hamming Codes}}{The $[7,4,3]$ Code: Parity Bit Positions}
+\small
+Bits are numbered $1$ through $7$. Positions that are powers of 2 ($1, 2, 4$) are \textcolor{AccentCyan}{\textbf{parity bits}}; the rest carry \textcolor{TealDarkCyan}{\textbf{data}}.
+
+\medskip
+\begin{center}
+\begin{tikzpicture}[scale=0.88]
+  % Seven position boxes
+  \foreach \i/\type in {1/par, 2/par, 3/data, 4/par, 5/data, 6/data, 7/data} {
+    \pgfmathsetmacro{\xp}{(\i-1)*1.05}
+    \ifnum\i=1
+      \node[draw=AccentCyan, thick, fill=AccentCyan!20, rounded corners=4pt,
+            minimum width=0.9cm, minimum height=0.9cm, font=\small\bfseries]
+        (b\i) at (\xp,0) {$p_1$};
+    \else\ifnum\i=2
+      \node[draw=AccentCyan, thick, fill=AccentCyan!20, rounded corners=4pt,
+            minimum width=0.9cm, minimum height=0.9cm, font=\small\bfseries]
+        (b\i) at (\xp,0) {$p_2$};
+    \else\ifnum\i=4
+      \node[draw=AccentCyan, thick, fill=AccentCyan!20, rounded corners=4pt,
+            minimum width=0.9cm, minimum height=0.9cm, font=\small\bfseries]
+        (b\i) at (\xp,0) {$p_4$};
+    \else
+      \node[draw=TealDarkCyan, thick, fill=TealDarkCyan!12, rounded corners=4pt,
+            minimum width=0.9cm, minimum height=0.9cm, font=\small\bfseries]
+        (b\i) at (\xp,0) {$d_{\i}$};
+    \fi\fi\fi
+    \node[font=\tiny, TealDarkCyan!70] at (\xp,-0.62) {bit \i};
+  }
+\end{tikzpicture}
+\end{center}
+
+\medskip
+\textbf{Parity check coverage:}
+\begin{center}
+\begin{tabular}{c|l|l}
+  \textbf{Parity bit} & \textbf{Checks bits} & \textbf{Syndrome row} \\\hline
+  $p_1$ (bit 1) & 1, 3, 5, 7 & $H$ row 1: $(1,0,1,0,1,0,1)$ \\
+  $p_2$ (bit 2) & 2, 3, 6, 7 & $H$ row 2: $(0,1,1,0,0,1,1)$ \\
+  $p_4$ (bit 4) & 4, 5, 6, 7 & $H$ row 3: $(0,0,0,1,1,1,1)$ \\
+\end{tabular}
+\end{center}
+
+\medskip
+\begin{itemize}
+  \item Each parity bit checks all positions whose index has a $1$ in the corresponding binary place
+  \item The 3-bit syndrome tells us the \emph{binary address} of the flipped bit
+\end{itemize}
+\end{frame}
+
+\begin{frame}{\textbf{III. Hamming Codes}}{A systematic generator matrix}
+\small
+One systematic form for the $[7,4,3]$ Hamming code is
+\[
+G=
+\begin{bmatrix}
+1&0&0&0&0&1&1\\
+0&1&0&0&1&0&1\\
+0&0&1&0&1&1&0\\
+0&0&0&1&1&1&1
+\end{bmatrix}.
+\]
+\begin{itemize}
+  \item The first four coordinates are message symbols.
+  \item The last three are parity symbols.
+  \item This $G$ is equivalent to the kernel of a suitable $H$.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{\textbf{III. Hamming Codes}}{Encoding example}
+\small
+For $m=(1,0,1,1)$ and the systematic matrix $G$,
+\[
+  c=mG=(1,0,1,1,0,0,1).
+\]
+\begin{itemize}
+  \item The parity bits are linear forms in the message bits.
+  \item A single flipped bit changes the syndrome to the corresponding column.
+  \item The correction rule does not require knowing the transmitted message.
+\end{itemize}
+\end{frame}
+
+%--- NEW: Encoding and Error Correction Flow ---
+\begin{frame}{\textbf{III. Hamming Codes}}{Encoding \& Error Correction}
+\small
+\begin{center}
+\begin{tikzpicture}[
+  box/.style={draw=TealDarkCyan,thick,rounded corners=4pt,
+              minimum width=2.0cm,minimum height=0.65cm,
+              fill=TealDarkCyan!10,font=\scriptsize,align=center},
+  arr/.style={-Stealth,thick,TealDarkCyan},
+  earr/.style={-Stealth,thick,AccentCyan,dashed}
+]
+  % Nodes
+  \node[box] (msg)  at (0,0)   {Message\\$m=(1,0,1,1)$};
+  \node[box] (enc)  at (3,0)   {Encoder\\$c=mG$};
+  \node[box] (cw)   at (6,0)   {Codeword\\$c=(1,0,1,1,0,1,0)$};
+  \node[box,fill=AccentCyan!12,draw=AccentCyan] (ch) at (9,0)
+    {Channel\\flip bit 5};
+  \node[box,fill=AccentCyan!8,draw=AccentCyan]  (rv)  at (9,-1.5)
+    {Received\\$v=(1,0,1,1,\mathbf{1},1,0)$};
+  \node[box] (syn)  at (6,-1.5) {Syndrome\\$s=Hv^T=(1,0,1)^T$};
+  \node[box] (lkp)  at (3,-1.5) {Look up:\\col 5 of $H$};
+  \node[box] (fix)  at (0,-1.5) {Correct:\\$\hat{c}=c$\;\checkmark};
+  % Arrows
+  \draw[arr]  (msg)--(enc);
+  \draw[arr]  (enc)--(cw);
+  \draw[arr]  (cw)--(ch);
+  \draw[earr] (ch)--(rv);
+  \draw[arr]  (rv)--(syn);
+  \draw[arr]  (syn)--(lkp);
+  \draw[arr]  (lkp)--(fix);
+  % Labels
+  \node[above=2pt,font=\tiny,TealDarkCyan] at (1.5,0)   {$mG$};
+  \node[above=2pt,font=\tiny,AccentCyan]   at (9,-0.75) {noise};
+  \node[above=2pt,font=\tiny,TealDarkCyan] at (7.5,-1.5) {$Hv^T$};
+\end{tikzpicture}
+\end{center}
+
+\begin{columns}[T,onlytextwidth]
+  \begin{column}{.50\textwidth}
+    \textbf{Key numbers:}
+    \begin{itemize}
+      \item Syndrome $s=(1,0,1)^T$ matches column 5 of $H_3$
+      \item Flip bit 5: $(1,0,1,1,\mathbf{1},1,0)\to(1,0,1,1,0,1,0)$
+      \item Recovered $\hat{c}$ is the original codeword (v)
+    \end{itemize}
+  \end{column}
+  \begin{column}{.47\textwidth}
+%    \begin{block}{The decoder never needs $m$}
+	The decoder never needs $m$\\
+    The syndrome alone identifies the error. Once we flip the right bit, the first 4 bits of the corrected $\hat{c}$ directly give $\hat{m}=(1,0,1,1)$.
+%    \end{block}
+  \end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{\textbf{III. Hamming Codes}}{Projective geometry}
+\small
+\defbox[Projective interpretation]{
+The nonzero columns of $H_r$, modulo scalar multiplication, are the points of projective space
+\[
+  \mathbb{P}^{r-1}(\F_q).
+\]
+}
+\begin{itemize}
+  \item Over $\F_2$, each nonzero vector is its own projective point.
+  \item Over $\F_q$, scalar multiples define the same projective point.
+  \item Hamming codes are parity checks indexed by projective points.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{\textbf{III. Hamming Codes}}{The Fano plane}
+\small
+For $r=3$, the projective space $\mathbb{P}^2(\F_2)$ has $7$ points and $7$ lines.
+\begin{itemize}
+  \item The $7$ columns of $H_3$ are the points.
+  \item A dependent triple of columns is a line of the Fano plane.
+  \item Weight-$3$ codewords are exactly these lines.
+\end{itemize}
+%\begin{block}{Geometry}
+The minimum distance $3$ is the statement that the smallest projective line has three points.
+%\end{block}
+\end{frame}
+
+%--- NEW: Fano Plane Drawing ---
+\begin{frame}{\textbf{III. Hamming Codes}}{The Fano Plane — Drawn}
+\small
+\begin{columns}[T,onlytextwidth]
+  \begin{column}{.44\textwidth}
+    \begin{center}
+    \begin{tikzpicture}[scale=0.88]
+      % Outer triangle edges (3 lines of the Fano plane)
+      % Line {1,2,3}: P1(0,2) -- P3(-0.865,0.5) -- P2(-1.73,-1)
+      \draw[TealDarkCyan, thick] (0,2) -- (-1.73,-1);
+      % Line {1,4,5}: P1(0,2) -- P5(0.865,0.5) -- P4(1.73,-1)
+      \draw[TealDarkCyan, thick] (0,2) -- (1.73,-1);
+      % Line {2,4,6}: P2(-1.73,-1) -- P6(0,-1) -- P4(1.73,-1)
+      \draw[TealDarkCyan, thick] (-1.73,-1) -- (1.73,-1);
+      % Three "altitude" lines (through center P7=(0,0))
+      % Line {1,7,6}: P1(0,2) -- P7(0,0) -- P6(0,-1)
+      \draw[AccentCyan, thick] (0,2) -- (0,-1);
+      % Line {2,7,5}: P2(-1.73,-1) -- P7(0,0) -- P5(0.865,0.5)
+      \draw[AccentCyan, thick] (-1.73,-1) -- (0.865,0.5);
+      % Line {3,7,4}: P3(-0.865,0.5) -- P7(0,0) -- P4(1.73,-1)
+      \draw[AccentCyan, thick] (-0.865,0.5) -- (1.73,-1);
+      % Inner circle through {3,5,6} (circumradius ≈ 1 centered at P7=(0,0))
+      \draw[TealDarkCyan!55, thick] (0,0) circle (1.0);
+      % Points — outer triangle (columns 1,2,4)
+      \fill[TealDarkCyan] (0,2)      circle (3.5pt);
+      \node[above=3pt, font=\scriptsize, TealDarkCyan]
+        at (0,2)      {$1\ (100)$};
+      \fill[TealDarkCyan] (-1.73,-1) circle (3.5pt);
+      \node[left=3pt,  font=\scriptsize, TealDarkCyan]
+        at (-1.73,-1) {$2\ (010)$};
+      \fill[TealDarkCyan] (1.73,-1)  circle (3.5pt);
+      \node[right=3pt, font=\scriptsize, TealDarkCyan]
+        at (1.73,-1)  {$4\ (001)$};
+      % Edge midpoints (columns 3,5,6)
+      \fill[AccentCyan] (-0.865,0.5) circle (3.5pt);
+      \node[left=3pt,  font=\scriptsize, AccentCyan]
+        at (-0.865,0.5) {$3\ (110)$};
+      \fill[AccentCyan] (0.865,0.5)  circle (3.5pt);
+      \node[right=3pt, font=\scriptsize, AccentCyan]
+        at (0.865,0.5)  {$5\ (101)$};
+      \fill[AccentCyan] (0,-1)        circle (3.5pt);
+      \node[below=3pt, font=\scriptsize, AccentCyan]
+        at (0,-1)       {$6\ (011)$};
+      % Center (column 7)
+      \fill[TealDarkCyan!70] (0,0) circle (3.5pt);
+      \node[right=4pt, font=\scriptsize, TealDarkCyan]
+        at (0,0) {$7\ (111)$};
+    \end{tikzpicture}
+    \end{center}
+  \end{column}
+  \begin{column}{.53\textwidth}
+    \textcolor{TealDarkCyan}{\textbf{The 7 lines (each has 3 points):}}
+    \smallskip
+
+    \begin{tabular}{c|l|l}
+      \# & \textbf{Points} & \textbf{Columns sum to 0} \\\hline
+      \rowcolor{TealDarkCyan!8}
+      1 & $\{1,2,3\}$ & $100{+}010{=}110$ \\
+      2 & $\{1,4,5\}$ & $100{+}001{=}101$ \\
+      \rowcolor{TealDarkCyan!8}
+      3 & $\{2,4,6\}$ & $010{+}001{=}011$ \\
+      4 & $\{1,6,7\}$ & $100{+}011{=}111$ \\
+      \rowcolor{TealDarkCyan!8}
+      5 & $\{2,5,7\}$ & $010{+}101{=}111$ \\
+      6 & $\{3,4,7\}$ & $110{+}001{=}111$ \\
+      \rowcolor{TealDarkCyan!8}
+      7 & $\{3,5,6\}$ & $110{+}101{=}011$ \\
+    \end{tabular}
+
+%    \bigskip
+%    \begin{block}{Why minimum distance $= 3$}
+%    Each line is a weight-$3$ codeword. No point lies alone (weight-$1$), no pair sums to zero (weight-$2$). Hence $d = 3$.
+%    \end{block}
+  \end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{\textbf{III. Hamming Codes}}{Lines give codewords}
+\small
+In $\mathbb{P}^2(\F_2)$, if $a,b,c$ are the three points on a line, then
+\[
+  a+b+c=0.
+\]
+\begin{itemize}
+  \item The incidence vector of that line is a Hamming codeword.
+  \item The $7$ lines give the $7$ words of weight $3$.
+  \item Their complements give $7$ words of weight $4$.
+\end{itemize}
+\[
+  W_{\operatorname{Ham}(3,2)}(Y)=1+7Y^3+7Y^4+Y^7.
+\]
+\end{frame}
+
+\begin{frame}{\textbf{III. Hamming Codes}}{The simplex dual}
+\small
+\defbox[Simplex code]{
+The row space of $H_r$ is the binary simplex code:
+\[
+  \operatorname{Sim}(r,2)=\operatorname{rowspan}(H_r).
+\]
+}
+\begin{itemize}
+  \item It has parameters $[2^r-1,r,2^{r-1}]_2$.
+  \item Every nonzero word has weight $2^{r-1}$.
+  \item It is dual to the Hamming code.
+\end{itemize}
+\[
+  \operatorname{Ham}(r,2)^\perp=\operatorname{Sim}(r,2).
+\]
+\end{frame}
+
+\begin{frame}{\textbf{III. Hamming Codes}}{MacWilliams check}
+\small
+For $r=3$, the simplex code has weight enumerator
+\[
+  W_{\operatorname{Sim}}(X,Y)=X^7+7X^3Y^4.
+\]
+Applying MacWilliams gives
+\[
+  W_{\operatorname{Ham}}(X,Y)=X^7+7X^4Y^3+7X^3Y^4+Y^7.
+\]
+\begin{itemize}
+  \item The algebraic transform recovers the geometric weight distribution.
+  \item Duality is visible both in matrices and in enumerators.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{\textbf{III. Hamming Codes}}{Q-ary Hamming codes}
+\small
+\defbox[Q-ary construction]{
+Choose one nonzero representative from each one-dimensional subspace of $\F_q^r$ and use these vectors as columns of $H$.
+}
+\[
+  n=\frac{q^r-1}{q-1}.
+\]
+\begin{itemize}
+  \item The resulting code has parameters
+  \[
+    \left[\frac{q^r-1}{q-1},\frac{q^r-1}{q-1}-r,3\right]_q.
+  \]
+  \item It is again perfect for one-error correction.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{\textbf{III. Hamming Codes}}{Why projective representatives}
+\small
+Over $\F_q$, two proportional nonzero columns are linearly dependent.
+\begin{itemize}
+  \item To have $d\ge3$, no two columns may be proportional.
+  \item Therefore columns must be projective points, not raw nonzero vectors.
+  \item Taking all projective points uses the maximum possible number of columns.
+\end{itemize}
+%\begin{block}{Conclusion}
+Hamming codes are the maximal parity-check configurations with no zero column and no repeated projective point.
+%\end{block}
+\end{frame}
+
+\begin{frame}{\textbf{III. Hamming Codes}}{Q-ary perfectness}
+\small
+For the $q$-ary Hamming code,
+\[
+  n=\frac{q^r-1}{q-1},\qquad k=n-r.
+\]
+The radius-one sphere has size
+\[
+  1+n(q-1)=1+q^r-1=q^r.
+\]
+Hence
+\[
+  q^k(1+n(q-1))=q^{n-r}q^r=q^n.
+\]
+%\begin{block}{Perfect again}
+Every received word lies at distance at most one from a unique codeword.
+%\end{block}
+\end{frame}
+
+%%--- NEW: Hamming Family Parameters ---
+%\begin{frame}{\textbf{III. Hamming Codes}}{The Hamming Family: Parameters at a Glance}
+%\small
+%\begin{center}
+%\begin{tikzpicture}[scale=0.88]
+%  % Table header
+%  \node[font=\scriptsize\bfseries,TealDarkCyan] at (0.0,4.5) {$r$};
+%  \node[font=\scriptsize\bfseries,TealDarkCyan] at (1.2,4.5) {$n=2^r{-}1$};
+%  \node[font=\scriptsize\bfseries,TealDarkCyan] at (2.6,4.5) {$k=n{-}r$};
+%  \node[font=\scriptsize\bfseries,TealDarkCyan] at (3.9,4.5) {Rate $k/n$};
+%  \node[font=\scriptsize\bfseries,TealDarkCyan] at (5.3,4.5) {$t$ corrected};
+%  \node[font=\scriptsize\bfseries,TealDarkCyan] at (6.7,4.5) {Use case};
+%  \draw[TealDarkCyan!40,thick] (-0.4,4.25)--(7.5,4.25);
+%  % r=2
+%  \node[font=\scriptsize] at (0.0,3.9) {2};
+%  \node[font=\scriptsize] at (1.2,3.9) {3};
+%  \node[font=\scriptsize] at (2.6,3.9) {1};
+%  \node[font=\scriptsize] at (3.9,3.9) {$33\%$};
+%  \node[font=\scriptsize] at (5.3,3.9) {1};
+%  \node[font=\scriptsize,gray] at (6.7,3.9) {tiny};
+%  % r=3
+%  \node[draw=TealDarkCyan!30,fill=TealDarkCyan!8,rounded corners=2pt,
+%        minimum width=6.6cm,minimum height=0.34cm] at (3.35,3.45) {};
+%  \node[font=\scriptsize\bfseries,TealDarkCyan] at (0.0,3.45) {3};
+%  \node[font=\scriptsize\bfseries,TealDarkCyan] at (1.2,3.45) {7};
+%  \node[font=\scriptsize\bfseries,TealDarkCyan] at (2.6,3.45) {4};
+%  \node[font=\scriptsize\bfseries,TealDarkCyan] at (3.9,3.45) {$57\%$};
+%  \node[font=\scriptsize\bfseries,TealDarkCyan] at (5.3,3.45) {1};
+%  \node[font=\scriptsize\bfseries,TealDarkCyan] at (6.7,3.45) {[7,4,3]};
+%  % r=4
+%  \node[font=\scriptsize] at (0.0,3.0) {4};
+%  \node[font=\scriptsize] at (1.2,3.0) {15};
+%  \node[font=\scriptsize] at (2.6,3.0) {11};
+%  \node[font=\scriptsize] at (3.9,3.0) {$73\%$};
+%  \node[font=\scriptsize] at (5.3,3.0) {1};
+%  \node[font=\scriptsize,gray] at (6.7,3.0) {medium};
+%  % r=5
+%  \node[draw=TealDarkCyan!30,fill=TealDarkCyan!8,rounded corners=2pt,
+%        minimum width=6.6cm,minimum height=0.34cm] at (3.35,2.55) {};
+%  \node[font=\scriptsize] at (0.0,2.55) {5};
+%  \node[font=\scriptsize] at (1.2,2.55) {31};
+%  \node[font=\scriptsize] at (2.6,2.55) {26};
+%  \node[font=\scriptsize] at (3.9,2.55) {$84\%$};
+%  \node[font=\scriptsize] at (5.3,2.55) {1};
+%  \node[font=\scriptsize,gray] at (6.7,2.55) {medium};
+%  % r=6
+%  \node[font=\scriptsize] at (0.0,2.1) {6};
+%  \node[font=\scriptsize] at (1.2,2.1) {63};
+%  \node[font=\scriptsize] at (2.6,2.1) {57};
+%  \node[font=\scriptsize] at (3.9,2.1) {$90\%$};
+%  \node[font=\scriptsize] at (5.3,2.1) {1};
+%  \node[font=\scriptsize,gray] at (6.7,2.1) {large};
+%  % r=8 (ECC RAM extended)
+%  \node[draw=AccentCyan!20,fill=AccentCyan!8,rounded corners=2pt,
+%        minimum width=6.6cm,minimum height=0.34cm] at (3.35,1.65) {};
+%  \node[font=\scriptsize,AccentCyan] at (0.0,1.65) {$*$};
+%  \node[font=\scriptsize\bfseries,AccentCyan] at (1.2,1.65) {72};
+%  \node[font=\scriptsize\bfseries,AccentCyan] at (2.6,1.65) {64};
+%  \node[font=\scriptsize\bfseries,AccentCyan] at (3.9,1.65) {$89\%$};
+%  \node[font=\scriptsize\bfseries,AccentCyan] at (5.3,1.65) {1 (SECDED)};
+%  \node[font=\scriptsize\bfseries,AccentCyan] at (6.7,1.65) {ECC RAM};
+%\end{tikzpicture}
+%\end{center}
+%
+%\vspace{-4pt}
+%{\footnotesize $*$ Extended Hamming code $[72,64,4]_2$: shortened and extended for byte-aligned memory.}
+%
+%\begin{itemize}
+%  \item Rate $\to 1$ as $r \to \infty$ — Hamming codes become increasingly efficient
+%  \item All correct exactly \textbf{one} bit error (single-error-correcting)
+%\end{itemize}
+%\end{frame}
+
+\begin{frame}{\textbf{III. Hamming Codes}}{Extended Hamming codes}
+\small
+\defbox[Extension]{
+Add one overall parity coordinate to force even total weight.
+}
+\begin{itemize}
+  \item The binary $[7,4,3]$ code becomes an $[8,4,4]$ code.
+  \item The new minimum distance is $4$.
+  \item It detects three errors and corrects one error.
+\end{itemize}
+\[
+  \widehat{\operatorname{Ham}}(3,2)=[8,4,4]_2.
+\]
+\end{frame}
+
+\begin{frame}{\textbf{III. Hamming Codes}}{The [8,4,4] code}
+\small
+The extended Hamming code has weight enumerator
+\[
+  W(X,Y)=X^8+14X^4Y^4+Y^8.
+\]
+\begin{itemize}
+  \item All codeword weights are divisible by $4$.
+  \item The code is self-dual.
+  \item It is the smallest doubly-even self-dual binary code.
+\end{itemize}
+%\begin{block}{Connection}
+This code is the length-$8$ seed behind the $E_8$ lattice construction.
+%\end{block}
+\end{frame}
+
+\begin{frame}{\textbf{III. Hamming Codes}}{Automorphisms}
+\small
+\defbox[Symmetry group]{
+The automorphism group of the binary Hamming code is induced by invertible linear transformations of $\F_2^r$:
+\[
+  \Aut(\operatorname{Ham}(r,2))\cong \operatorname{GL}(r,2).
+\]
+}
+\begin{itemize}
+  \item A matrix in $\operatorname{GL}(r,2)$ permutes the nonzero columns of $H_r$.
+  \item Hence it permutes coordinates and preserves the kernel.
+  \item The code remembers the projective geometry.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{\textbf{III. Hamming Codes}}{Tanner graph}
+\small
+\begin{itemize}
+  \item The Tanner graph of $H_r$ has $n=2^r-1$ variable nodes and $r$ check nodes.
+  \item It is dense compared with modern LDPC codes.
+  \item But it has an exceptionally simple exact decoder.
+\end{itemize}
+\begin{block}{Interpretation}
+For Hamming codes, the syndrome is not iteratively refined; it is read directly as a projective point.
+\end{block}
+\end{frame}
+
+\begin{frame}{\textbf{III. Hamming Codes}}{Failure modes}
+\small
+\begin{itemize}
+  \item A two-error pattern has syndrome equal to the sum of two columns.
+  \item In a binary Hamming matrix, that sum is another nonzero column.
+  \item Therefore a two-error pattern may be miscorrected as a one-error pattern.
+\end{itemize}
+%\begin{block}{Moral}
+Minimum distance $3$ guarantees single-error correction, not reliable detection after attempting correction.
+%\end{block}
+\end{frame}
+
+%\begin{frame}{\textbf{III. Hamming Codes}}{SECDED}
+%\small
+%\defbox[SECDED]{
+%Single-error correction, double-error detection is obtained by using the extended Hamming code.
+%}
+%\begin{itemize}
+%  \item The extension raises the distance from $3$ to $4$.
+%  \item One error is corrected by the Hamming syndrome.
+%  \item Two errors are detected because parity and syndrome disagree in a recognizable way.
+%\end{itemize}
+%\end{frame}
+%
+%%--- NEW: ECC RAM Application ---
+%\begin{frame}{\textbf{III. Hamming Codes}}{ECC Memory: Hamming in Your Computer}
+%\small
+%\begin{columns}[T,onlytextwidth]
+%  \begin{column}{.54\textwidth}
+%    \textcolor{TealDarkCyan}{\textbf{Error-correcting DRAM (ECC RAM)}}
+%
+%    \medskip
+%    Standard server RAM uses the \textbf{extended Hamming code $[72, 64, 4]_2$}:
+%    \begin{itemize}
+%      \item $64$ data bits + $8$ check bits per 64-bit memory word
+%      \item Corrects \emph{any single-bit} error automatically
+%      \item Detects (but does not correct) any \emph{double-bit} error
+%      \item Rate $= 64/72 \approx 89\%$ — very efficient
+%    \end{itemize}
+%
+%    \medskip
+%    \textcolor{TealDarkCyan}{\textbf{Why does it matter?}}
+%    \begin{itemize}
+%      \item Cosmic rays and thermal noise can flip a bit in DRAM roughly once per gigabyte per day
+%      \item In a server with $1\,\text{TB}$ of RAM, that is $\sim 1000$ bit flips per day
+%      \item ECC corrects each flip silently — the OS never sees it
+%    \end{itemize}
+%  \end{column}
+%  \begin{column}{.43\textwidth}
+%    \begin{tikzpicture}[scale=0.82]
+%      % 72-bit word as colored blocks
+%      \node[font=\scriptsize\bfseries, TealDarkCyan] at (1.8,3.5) {72-bit ECC word};
+%
+%      % Data bits (64): draw 4 rows of 16 → simplified as 4 wide bars
+%      \foreach \row in {1,2,3,4} {
+%        \pgfmathsetmacro{\yy}{3.1-(\row-1)*0.45}
+%        \node[draw=TealDarkCyan, fill=TealDarkCyan!15, rounded corners=2pt,
+%              minimum width=3.2cm, minimum height=0.38cm, font=\tiny]
+%          at (1.2,\yy) {data bits (16 each)};
+%      }
+%      % Check bits (8)
+%      \node[draw=AccentCyan, fill=AccentCyan!22, rounded corners=2pt,
+%            minimum width=3.2cm, minimum height=0.38cm, font=\tiny\bfseries]
+%        at (1.2,1.25) {8 check bits (Hamming)};
+%
+%      % Brace
+%      \draw[TealDarkCyan, decorate,
+%            decoration={brace, amplitude=4pt, raise=3pt, mirror}]
+%        (2.85,1.08) -- (2.85,3.30);
+%      \node[right=10pt, font=\tiny, TealDarkCyan] at (2.85,2.2) {72 bits total};
+%
+%      \medskip
+%      \node[draw=TealDarkCyan!40, rounded corners=4pt, fill=TealDarkCyan!5,
+%            minimum width=3.4cm, minimum height=0.9cm, font=\scriptsize,
+%            align=center] at (1.5,0.5)
+%        {Syndrome = 0: OK\\Syndrome $\ne$ 0: fix bit};
+%    \end{tikzpicture}
+%  \end{column}
+%\end{columns}
+%\end{frame}
+%
+%\begin{frame}{\textbf{III. Hamming Codes}}{Shortened Hamming codes}
+%\small
+%\defbox[Shortening]{
+%Shortened Hamming codes are obtained by fixing selected coordinates to zero and deleting them.
+%}
+%\begin{itemize}
+%  \item They are useful when exact lengths $2^r-1$ are inconvenient.
+%  \item The minimum distance remains at least $3$.
+%  \item Perfectness is usually lost.
+%\end{itemize}
+%\begin{block}{Engineering}
+%Many practical memory codes are shortened or extended Hamming codes.
+%\end{block}
+%\end{frame}
+
+\begin{frame}{\textbf{III. Hamming Codes}}{Hamming codes as BCH codes}
+\small
+\defbox[Cyclic viewpoint]{
+When $n=2^r-1$, the binary Hamming code can be realized as a narrow-sense BCH code of designed distance $3$.
+}
+\begin{itemize}
+  \item Choose a primitive $n$-th root $\alpha\in\F_{2^r}$.
+  \item Let $g(X)$ be the minimal polynomial of $\alpha$ over $\F_2$.
+  \item Then the cyclic code generated by $g(X)$ is a Hamming code.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{\textbf{III. Hamming Codes}}{The [7,4,3] cyclic form}
+\small
+Over $\F_2$,
+\[
+  X^7-1=(X+1)(X^3+X+1)(X^3+X^2+1).
+\]
+Taking
+\[
+  g(X)=X^3+X+1
+\]
+gives a cyclic $[7,4,3]$ Hamming code.
+\begin{itemize}
+  \item This is the bridge from projective checks to polynomial ideals.
+  \item The next chapter makes that bridge systematic.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{\textbf{III. Hamming Codes}}{Classification intuition}
+\small
+\begin{itemize}
+  \item Perfect one-error-correcting linear codes are essentially Hamming codes, apart from trivial cases.
+  \item The parity-check matrix must use every possible nonzero syndrome once.
+  \item Thus the construction is forced by the Hamming bound.
+\end{itemize}
+%\begin{block}{Mathematical taste}
+Hamming codes are beautiful because optimality, decoding, and geometry are the same statement.
+%\end{block}
+\end{frame}
+
+%\begin{frame}{\textbf{III. Hamming Codes}}{Exercise: distance}
+%\small
+%\begin{block}{Problem}
+%Let $H$ contain one representative of every point of $\mathbb{P}^{r-1}(\F_q)$. Prove that $\ker H$ has distance exactly $3$.
+%\end{block}
+%\textbf{Hint.}
+%\begin{itemize}
+%  \item No one or two columns are dependent.
+%  \item Any projective line contains three dependent representatives after scaling.
+%  \item Translate column dependence into a codeword support.
+%\end{itemize}
+%\end{frame}
+%
+%\begin{frame}{\textbf{III. Hamming Codes}}{Exercise: perfectness}
+%\small
+%\begin{block}{Problem}
+%Verify directly that the $q$-ary Hamming code meets the Hamming bound with equality for $t=1$.
+%\end{block}
+%\[
+%  n=\frac{q^r-1}{q-1},\qquad k=n-r.
+%\]
+%\textbf{Computation.}
+%\[
+%  q^k(1+n(q-1))=q^{n-r}(1+q^r-1)=q^n.
+%\]
+%\end{frame}
+%
+%\begin{frame}{\textbf{III. Hamming Codes}}{Exercise: dual weights}
+%\small
+%\begin{block}{Problem}
+%Show that every nonzero word of the binary simplex code has weight $2^{r-1}$.
+%\end{block}
+%\textbf{Hint.}
+%For a nonzero row vector $a\in\F_2^r$, the word $aH_r$ evaluates the nonzero linear functional $x\mapsto ax^T$ on every nonzero vector $x$.
+%\begin{itemize}
+%  \item Exactly half of all vectors of $\F_2^r$ evaluate to $1$.
+%  \item The zero vector evaluates to $0$.
+%\end{itemize}
+%\end{frame}
+
+\begin{frame}{\textbf{III. Hamming Codes}}{Summary}
+\small
+\begin{columns}[T,onlytextwidth]
+  \begin{column}{.48\textwidth}
+    \defbox[Construction]{
+    \begin{itemize}\small
+      \item parity-check columns are projective points
+      \item no repeated projective column
+      \item all syndromes are used
+    \end{itemize}
+    }
+  \end{column}
+  \begin{column}{.48\textwidth}
+    \defbox[Consequences]{
+    \begin{itemize}\small
+      \item parameters $[2^r-1,2^r-1-r,3]_2$
+      \item perfect one-error correction
+      \item dual simplex code
+    \end{itemize}
+    }
+  \end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{\textbf{III. Hamming Codes}}{Transition to cyclic codes}
+\small
+\begin{block}{New symmetry}
+Hamming codes are governed by projective geometry. Cyclic codes are governed by the cyclic shift operator.
+\end{block}
+\begin{itemize}
+  \item Linear code: subspace of $\F_q^n$.
+  \item Hamming code: subspace defined by projective parity checks.
+  \item Cyclic code: subspace stable under a cyclic permutation.
+\end{itemize}
+\[
+  \text{shift symmetry}\quad\Longleftrightarrow\quad\text{ideals in }\F_q[X]/(X^n-1).
+\]
+\end{frame}
+

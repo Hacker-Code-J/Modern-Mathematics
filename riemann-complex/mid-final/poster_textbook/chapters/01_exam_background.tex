@@ -1,0 +1,88 @@
+\chapter[Exam Background]{Exam Background: Forms, Residues, and Global Obstructions}
+\label{ch:exam-background}
+
+The main theorem concerns a torus, a Jacobian, and a cubic.  The proof begins
+much earlier, with a lesson from the midterm: a local calculation can fail
+globally because a differential form carries an obstruction.
+The winding form on \(\R^2\setminus\{0\}\),
+\[
+  \omega_{\mathrm{wind}}=\frac{-y\,dx+x\,dy}{x^2+y^2},
+\]
+is closed, but \(\int_{S^1}\omega_{\mathrm{wind}}=2\pi\).  It is locally
+\(d\theta\), but no global single-valued angle function exists.
+
+\begin{definition}
+An obstruction is a locally invisible quantity that is detected by integration
+around a global cycle.  In complex analysis the model obstruction is the residue:
+\[
+  \frac{1}{2\pi i}\int_\gamma \frac{f'(z)}{f(z)}\,dz.
+\]
+\end{definition}
+
+The same idea drives the later theory of divisors.  Zeros and poles of a
+meromorphic function are local data.  On a compact surface they cannot be chosen
+freely, because residues and periods force global balancing laws.
+
+\begin{proposition}[The exam mechanism]
+\label{prop:exam-mechanism}
+The sequence
+\[
+  \text{forms} \longrightarrow \text{Stokes} \longrightarrow
+  \text{residues} \longrightarrow \text{global constraints}
+\]
+is the mechanism behind the divisor statements used later.
+\end{proposition}
+
+\begin{proof}
+Stokes' theorem turns the integral of an exact form over a boundary into an
+interior integral.  If a meromorphic form is regular except at finitely many
+points, deleting small disks around those points makes Stokes applicable.  Letting
+the disk radii shrink leaves only small circle integrals, hence residues.  On a
+compact surface the outer boundary is absent, so the sum of all local residues
+must vanish.
+\end{proof}
+
+\begin{keyidea}{Why this matters}
+The statement that principal divisors have degree zero is the divisor version of
+the residue theorem applied to \(df/f\).  Abel's theorem is a refined version:
+not only the total number of zeros and poles but also their Abel sum is
+constrained.
+\end{keyidea}
+
+\section*{Exercises}
+\addcontentsline{toc}{section}{Exercises}
+
+\exerciseintent{Check, by direct differentiation, that the local winding form is closed away from its singularity.}
+\begin{exercise}
+Write \(\omega_{\mathrm{wind}}=P\,dx+Q\,dy\).  Compute \(Q_x\), compute
+\(P_y\), and subtract them to verify directly that
+\[
+  d\omega_{\mathrm{wind}}=(Q_x-P_y)\,dx\wedge dy=0
+\]
+on \(\R^2\setminus\{0\}\).
+\end{exercise}
+
+\exerciseintent{Compute the period of the winding form on the basic loop and see the obstruction to exactness.}
+\begin{exercise}
+Parametrize the unit circle by \(x=\cos t\), \(y=\sin t\).  Compute \(dx\),
+\(dy\), the numerator \(-y\,dx+x\,dy\), and then the integral
+\(\int_{S^1}\omega_{\mathrm{wind}}\).
+\end{exercise}
+
+\exerciseintent{Relate the local order of a meromorphic function to the residue of its logarithmic derivative.}
+\begin{exercise}
+Let \(f\) be meromorphic near \(p\).  Write \(f=(z-p)^m u(z)\) with
+\(u(p)\ne0\).  Compute \(df/f\) explicitly and read off the coefficient of
+\((z-p)^{-1}\,dz\), showing that it is \(\ord_p(f)\).
+\end{exercise}
+
+\exerciseintent{Turn the compact residue theorem into the degree-zero property of principal divisors.}
+\begin{exercise}
+Assume \(X\) is compact and \(f\) is a nonzero meromorphic function on \(X\).
+Compute
+\[
+  \sum_p\Res_p(df/f)
+\]
+in two ways: first by the compact residue theorem, and second using the previous
+exercise.  Conclude that \(\degdiv\divisor(f)=0\).
+\end{exercise}

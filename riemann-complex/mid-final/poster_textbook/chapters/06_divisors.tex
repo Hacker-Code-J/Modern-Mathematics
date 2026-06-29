@@ -1,0 +1,83 @@
+\chapter{Divisors and Principal Divisors}
+\label{ch:divisors}
+
+A divisor records zeros and poles as a formal integer combination of points.
+
+\begin{definition}
+For a compact Riemann surface \(X\), a divisor is a finite sum
+\[
+  D=\sum n_p[p],\qquad n_p\in\Z.
+\]
+Its degree is \(\degdiv D=\sum n_p\).  If \(f\) is meromorphic, its principal
+divisor is
+\[
+  \divisor(f)=\sum_p \ord_p(f)[p].
+\]
+\end{definition}
+
+Principal divisors are the geometric version of logarithmic derivatives.  Since
+\(\Res_p(df/f)=\ord_p(f)\), the compact residue theorem gives:
+
+\begin{proposition}
+\label{prop:principal-degree-zero}
+Every principal divisor on a compact Riemann surface has degree zero.
+\end{proposition}
+
+\begin{proof}
+The meromorphic one-form \(df/f\) has residue \(\ord_p(f)\) at \(p\).  The sum of
+residues on a compact Riemann surface is zero, so
+\(\degdiv\divisor(f)=0\).
+\end{proof}
+
+\begin{definition}
+The degree-zero divisor group is \(\Div^0(X)\).  The principal divisors form a
+subgroup \(\Prin(X)\subset\Div^0(X)\), and
+\[
+  \Pic^0(X)=\Div^0(X)/\Prin(X).
+\]
+\end{definition}
+
+The group \(\Pic^0(E)\) is not decorative notation.  It is the geometric home of
+the same group already seen analytically as \(\C/\Lambda\).  A point \([P]-[O]\)
+is a degree-zero divisor class, and the map \(P\mapsto[P]-[O]\) will identify the
+curve with its Jacobian.
+
+\section*{Exercises}
+\addcontentsline{toc}{section}{Exercises}
+
+\exerciseintent{Practice divisor bookkeeping, including the contribution at infinity.}
+\begin{exercise}
+Compute the divisor of \(z^2(z-1)^{-3}\) on \(\CP^1\).  First compute the
+orders at \(0\) and \(1\).  Then use the coordinate \(w=1/z\) to compute the
+order at \(\infty\).
+\end{exercise}
+
+\exerciseintent{Verify that principal divisors form a degree-zero subgroup.}
+\begin{exercise}
+For meromorphic functions \(f,g\), compute \(\divisor(fg)\),
+\(\divisor(f^{-1})\), and \(\divisor(c)\) for \(c\in\C^*\).  Use these
+calculations, together with degree zero for principal divisors, to show that
+\(\Prin(X)\) is a subgroup of \(\Div^0(X)\).
+\end{exercise}
+
+\exerciseintent{Check the basic degree-zero divisor attached to a pointed curve.}
+\begin{exercise}
+Compute the degree of \([P]-[O]\) by adding its two coefficients.
+\end{exercise}
+
+\exerciseintent{Compute addition of degree-zero divisor classes in \(\Pic^0\).}
+\begin{exercise}
+Show that
+\[
+  ([P]-[O])+([Q]-[O])=[P]+[Q]-2[O]
+\]
+defines an element of \(\Pic^0(X)\) by explicitly computing the degree of the
+right-hand side and then passing modulo \(\Prin(X)\).
+\end{exercise}
+
+\exerciseintent{Translate equality in \(\Pic^0\) into a principal-divisor condition.}
+\begin{exercise}
+Let \(D,D'\in\Div^0(X)\).  Compute the difference \(D-D'\) in the quotient
+\(\Div^0(X)/\Prin(X)\).  State and prove the criterion for \(D\) and \(D'\) to
+define the same element of \(\Pic^0(X)\).
+\end{exercise}

@@ -1,0 +1,37 @@
+% Extended Hamming SECDED decision flow.
+\documentclass[tikz, border=8pt]{standalone}
+\input{coding-fig-common.tex}
+
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm,node distance=0.9cm]
+  \node[title text] at (0,3.08) {Extended Hamming: SECDED Logic};
+  \node[caption text] at (0,2.67) {Use the Hamming syndrome $s$ and the overall parity bit $p$.};
+
+  \node[process] (recv) at (0,1.55) {received word $v$};
+  \node[process blue, below left=0.75cm and 1.0cm of recv] (syn) {compute\\[-1pt]$s=Hv^T$};
+  \node[process amber, below right=0.75cm and 1.0cm of recv] (par) {compute\\[-1pt]overall $p$};
+  \node[process, below=1.1cm of recv, minimum width=2.2cm] (case) {classify $(s,p)$};
+
+  \node[process, fill=GoodGreen!11, draw=GoodGreen!70, below left=1.05cm and 3.15cm of case] (ok)
+    {$s=0,\ p=0$\\[-1pt]\scriptsize accept};
+  \node[process red, below left=1.05cm and 0.95cm of case] (single)
+    {$s\ne0,\ p=1$\\[-1pt]\scriptsize flip bit named by $s$};
+  \node[process amber, below right=1.05cm and 0.95cm of case] (parity)
+    {$s=0,\ p=1$\\[-1pt]\scriptsize flip parity bit};
+  \node[process blue, below right=1.05cm and 3.15cm of case] (double)
+    {$s\ne0,\ p=0$\\[-1pt]\scriptsize detect double error};
+
+  \draw[flow] (recv) -- (syn);
+  \draw[flow amber] (recv) -- (par);
+  \draw[flow] (syn) -- (case);
+  \draw[flow amber] (par) -- (case);
+  \draw[flow] (case) -- (ok);
+  \draw[flow red] (case) -- (single);
+  \draw[flow amber] (case) -- (parity);
+  \draw[flow blue] (case) -- (double);
+
+  \node[panel, align=center] at (0,-2.82)
+    {\small Distance increases from $3$ to $4$: one error corrected, two errors detected.};
+\end{tikzpicture}
+\end{document}
+

@@ -1,0 +1,24 @@
+% The cohomological incarnation over C.  The exponential sequence of sheaves on E,
+%   0 -> Z -> O_E -> O_E^* -> 0   (the last map is exp(2 pi i * -)),
+% on taking cohomology gives  Pic^0(E) = H^1(O_E)/H^1(Z),  and since H^1(O_E)=C,
+% H^1(E,Z)=Z^2=Lambda, this is again C/Lambda.
+\begin{tikzpicture}[>=Latex]
+  % the exponential short exact sequence
+  \node (z0) at (0,0)   {$0$};
+  \node (Z)  at (1.7,0) {$\Z$};
+  \node (O)  at (4.2,0) {$\mathcal{O}_E$};
+  \node (Os) at (7.4,0) {$\mathcal{O}_E^{*}$};
+  \node (z1) at (9.6,0) {$0$};
+  \draw[->, line width=1pt, draw=formslate] (z0)--(Z);
+  \draw[->, line width=1pt, draw=formslate] (Z)--node[above, font=\small] {$2\pi i$} (O);
+  \draw[->, line width=1pt, draw=formslate] (O)--node[above, font=\small] {$\exp$} (Os);
+  \draw[->, line width=1pt, draw=formslate] (Os)--(z1);
+  % conclusion box
+  \node[draw=formgold!84!black, fill=formgold!15, rounded corners=6pt, line width=1.3pt,
+        inner sep=11pt, align=center] (c) at (4.8,-2.8)
+    {\textbf{take cohomology}\\[4pt]
+     $\Pic^0(E)=\dfrac{H^1(E,\mathcal{O}_E)}{H^1(E,\Z)}=\dfrac{\C}{\Lambda}$};
+  \draw[->, line width=1.2pt, draw=formslate] (O.south) to[bend right=10] (c.north);
+  \node[font=\small, formteal!55!black, anchor=north] at (4.8,-4.7)
+    {$H^1(E,\mathcal{O}_E)\cong\C \qquad H^1(E,\Z)\cong\Z^2=\Lambda$};
+\end{tikzpicture}

@@ -1,0 +1,882 @@
+% Solutions to Exercises  (full solutions, all chapters)
+% Add one \section per chapter as chapters are written. Reference each exercise
+% with \cref{ex:...} so numbering stays automatic.
+\chapter{Solutions to Exercises}
+\label{app:D}
+
+This appendix gives full solutions to every exercise. Solutions are grouped by
+chapter and reference each exercise by its number.
+
+\section{Chapter 1}
+\label{sec:soln-ch1}
+
+\paragraph{\Cref{ex:intro-thirdpoint}.}
+Write the line and the cubic in homogeneous coordinates on \(\CP^2\).
+Substituting the linear equation of the line into the cubic gives a single
+homogeneous cubic equation in one projective parameter along the line, i.e.\ a
+degree-three form. Over \(\C\), and counting multiplicity, such a form has
+exactly three roots, so the line meets the cubic in three points counted with
+multiplicity. Two of them are \(P\) and \(Q\); the third is \(R\). Passing to
+the projective plane is what guarantees the count is exact --- it supplies the
+points at infinity where, for example, a vertical line meets the curve. The
+precise statement is B\'ezout's theorem (\cref{ch:lines_divisors}).
+
+\paragraph{\Cref{ex:intro-tangent}.}
+As \(Q \to P\) along the curve, the secant line through \(P\) and \(Q\)
+approaches the tangent line at \(P\). The chord construction needs two
+intersection points to start from; when the two points coincide, ``meeting the
+curve at \(P\) twice'' is exactly the condition that the line be tangent there,
+i.e.\ that it meet \(E\) at \(P\) with intersection multiplicity at least two.
+So doubling \(P \oplus P\) uses the tangent at \(P\), whose third intersection
+with \(E\) is then reflected. Intersection multiplicity is made precise in
+\cref{ch:lines_divisors}, and the tangent (doubling) law in
+\cref{ch:chord_tangent_cases}.
+
+\paragraph{\Cref{ex:intro-liouville}.}
+A holomorphic function on \(\C/\Lambda\) lifts to a holomorphic function on
+\(\C\) that is periodic with respect to \(\Lambda\); its values are determined
+by those on the (compact) fundamental parallelogram, so it is bounded, hence by
+Liouville's theorem constant. Therefore the only holomorphic functions on
+\(\C/\Lambda\) are the constants (\cref{ch:elliptic_liouville}).
+
+\paragraph{\Cref{ex:intro-map-arrows}.}
+Reading the arrows of \cref{fig:dependency}:
+\begin{itemize}
+\item \(T \xrightarrow{\ \Phi\ } (\wp,\wp')\): the Weierstrass functions are
+  built on the torus in \cref{ch:weierstrass_wp}.
+\item \((\wp,\wp') \to E\): the differential equation embeds the torus as the
+  cubic, \cref{ch:weierstrass_wp,ch:embedding}.
+\item \(E \to (\text{a line cuts } P+Q+R)\): intersecting \(E\) with a line,
+  \cref{ch:lines_divisors}.
+\item \((\text{line}) \to (\text{principal divisors have Abel sum zero})\):
+  a line gives a principal divisor, \cref{ch:lines_divisors}.
+\item \((\text{Abel sum zero}) \to T\) with label \(P+Q+R=O\): Abel's sum law,
+  \cref{ch:abel}, transported in \cref{ch:transport}.
+\end{itemize}
+
+\section{Chapter 2}
+\label{sec:soln-ch2}
+
+\paragraph{\Cref{ex:lat-area}.}
+Writing \(\omega_1 = x_1 + iy_1\) and \(\omega_2 = x_2 + iy_2\), the
+parallelogram spanned by the vectors \((x_1,y_1)\) and \((x_2,y_2)\) has area
+\(|x_1 y_2 - x_2 y_1|\). A short computation gives
+\(\operatorname{Im}(\overline{\omega_1}\,\omega_2)
+= x_1 y_2 - y_1 x_2\), so the area is
+\(|\operatorname{Im}(\overline{\omega_1}\,\omega_2)|\), which is nonzero exactly
+because \(\omega_1,\omega_2\) are \(\R\)-independent. Under a change of basis by
+\(M \in \mathrm{GL}_2(\Z)\) (\cref{prop:lat-basis-change}) the area scales by
+\(|\det M| = 1\), so it is a lattice invariant, the \emph{covolume} of
+\(\Lambda\).
+
+\paragraph{\Cref{ex:lat-discrete}.}
+The function \((s,t) \mapsto |s\omega_1 + t\omega_2|\) is continuous and, by
+\(\R\)-independence, strictly positive on the compact set
+\(K = \{(s,t) \in \R^2 : \max(|s|,|t|) = 1\}\); let \(c > 0\) be its minimum.
+For integers \(a,b\) not both zero, put \(n = \max(|a|,|b|) \ge 1\); then
+\((a/n, b/n) \in K\), so \(|a\omega_1 + b\omega_2| = n\,|(a/n)\omega_1 +
+(b/n)\omega_2| \ge cn = c\,\max(|a|,|b|)\). In particular
+\(m(\Lambda) \ge c > 0\). A bounded region \(\{|\lambda| \le R\}\) then forces
+\(\max(|a|,|b|) \le R/c\), leaving finitely many \((a,b)\), so finitely many
+lattice points.
+
+\paragraph{\Cref{ex:lat-square}.}
+For \(\Lambda = \Z + \Z i\), the matrix
+\(M = \left(\begin{smallmatrix} 0 & -1 \\ 1 & 0 \end{smallmatrix}\right)
+\in \mathrm{SL}_2(\Z)\) sends \(\tau = i\) to
+\(\frac{0\cdot i - 1}{1 \cdot i + 0} = -1/i = i\), so it fixes \(i\). It
+corresponds to the basis change \((\omega_1,\omega_2) = (1,i) \mapsto
+(\omega_1', \omega_2') = (i, -1) = (i\cdot 1,\, i\cdot i)\), i.e.\ multiplication
+of the lattice by \(i\): the order-four rotational symmetry of the square
+lattice. (Its square \(-I\) acts trivially on \(\tau\), reflecting that \(-1\)
+also preserves \(\Lambda\).)
+
+\paragraph{\Cref{ex:lat-homothety-iso}.}
+If \(z \sim w\) in \(\C/\Lambda\), i.e.\ \(z - w \in \Lambda\), then
+\(\alpha z - \alpha w \in \alpha\Lambda = \Lambda'\), so
+\([z] \mapsto [\alpha z]\) is well defined; the inverse is
+\([w] \mapsto [\alpha^{-1} w]\), so it is a bijection, and it is continuous both
+ways because \(\pi' \circ (\alpha \cdot) = (\text{map}) \circ \pi\) with
+\(z \mapsto \alpha z\) continuous. In the charts of
+\cref{thm:lat-riemann-surface} the map lifts to \(z \mapsto \alpha z\), which is
+holomorphic with holomorphic inverse; hence it is biholomorphic.
+
+\paragraph{\Cref{ex:lat-chart-radius}.}
+Take \(\Lambda = \Z + \Z i\), so \(m(\Lambda) = 1\) and \(m(\Lambda)/2 = 1/2\).
+For any \(r > 1/2\) the open disk \(D(0, r)\) contains both \(-1/2\) and
+\(1/2\), and these differ by \(1 \in \Lambda\); hence
+\(\pi(-1/2) = \pi(1/2)\) while \(-1/2 \ne 1/2\), so \(\pi\) is not injective on
+\(D(0,r)\). Conversely, for \(r \le 1/2\) any two points \(z, z' \in D(z_0, r)\)
+satisfy \(|z - z'| < 2r \le 1 = m(\Lambda)\); a nonzero lattice vector has length
+at least \(m(\Lambda)\), so \(z - z' \in \Lambda\) forces \(z = z'\) and \(\pi\)
+is injective. Thus injectivity holds exactly up to radius \(m(\Lambda)/2\), and
+the threshold is sharp. (The proof's choice \(r < m(\Lambda)/2\) is a convenient
+strict bound; any \(r \le m(\Lambda)/2\) would serve.)
+
+\section{Chapter 3}
+\label{sec:soln-ch3}
+
+\paragraph{\Cref{ex:tg-lie-holo}.}
+Cover \(T \times T\) by products \(U_{z_0} \times U_{w_0}\) of the charts
+\(\varphi_{z_0}, \varphi_{w_0}\) from \cref{thm:lat-riemann-surface}. In the
+source product chart the points are \((z, w)\) with \(z \in D(z_0, r)\),
+\(w \in D(w_0, r)\), and \(m([z],[w]) = [z+w]\); reading the target through the
+chart \(\varphi_{z_0 + w_0}\) (valid near \([z_0+w_0]\)) the map is
+\((z, w) \mapsto z + w\), a holomorphic function of two complex variables. Since
+\(\pi\) is a local biholomorphism, \(m\) is holomorphic. For \(\iota\), the
+local expression through \(\varphi_{z_0}\) and \(\varphi_{-z_0}\) is
+\(z \mapsto -z\), holomorphic with holomorphic inverse \(z \mapsto -z\); hence
+\(\iota\) is biholomorphic.
+
+\paragraph{\Cref{ex:tg-two-torsion}.}
+A point \([z]\) is fixed by \(\iota\) iff \([-z] = [z]\), i.e.\ \(2z \in
+\Lambda\), i.e.\ \(z \in \tfrac12\Lambda\). Modulo \(\Lambda\), the quotient
+\(\tfrac12\Lambda / \Lambda \cong (\tfrac12\Z/\Z)^2 \cong (\Z/2\Z)^2\) has
+exactly four elements, represented by
+\(0,\ \tfrac{\omega_1}{2},\ \tfrac{\omega_2}{2},\ \tfrac{\omega_1+\omega_2}{2}\).
+These are precisely the solutions of \(2[z] = [0]\), the two-torsion subgroup
+\(T[2] \cong (\Z/2\Z)^2\).
+
+\paragraph{\Cref{ex:tg-first-iso}.}
+The map \(e : \R \to S^1\), \(t \mapsto e^{2\pi i t}\), satisfies
+\(e(t_1 + t_2) = e(t_1)e(t_2)\), so it is a homomorphism; it is continuous and
+surjective (every unit-modulus number is \(e^{2\pi i t}\) for some \(t\)), and
+\(e(t) = 1 \iff t \in \Z\), so \(\ker e = \Z\). The first isomorphism theorem
+gives a continuous group isomorphism \(\bar e : \R/\Z \to S^1\). Finally
+\(\R/\Z\) is the continuous image of the compact interval \([0,1]\), hence
+compact, and \(S^1\) is Hausdorff, so the continuous bijection \(\bar e\) is a
+homeomorphism.
+
+\paragraph{\Cref{ex:tg-euler-refine}.}
+Cut \(P_\Lambda\) along a diagonal into two triangles before gluing. After
+identification one finds, for example, \(V = 1\) (all corners still collapse to
+one vertex), \(E = 3\) (the two boundary loops \(a, b\) plus the diagonal
+\(d\)), and \(F = 2\) (the two triangles). Then
+\(\chi = V - E + F = 1 - 3 + 2 = 0\), the same value: the Euler characteristic
+is independent of the chosen CW structure.
+
+\paragraph{\Cref{ex:tg-homeo-not-biholo}.}
+Both lattices are of the form \(\Z + \Z\tau\) with \(\tau = i\) and
+\(\tau = 2i\), so by \cref{cor:tg-abelian} each torus is homeomorphic (and
+diffeomorphic) to \(S^1 \times S^1\); composing the two homeomorphisms gives a
+homeomorphism between them. For the complex structure, \cref{prop:lat-normal-form}
+says \(\C/(\Z+\Z i)\) and \(\C/(\Z+\Z\,2i)\) are biholomorphic iff \(i\) and
+\(2i\) are related by an element of \(\mathrm{SL}_2(\Z)\). Granting that both lie
+in the closed fundamental domain and are not identified there, they are
+inequivalent, so the tori are not biholomorphic. There is no contradiction with
+\cref{cor:tg-abelian}: that corollary asserts only a \emph{topological}
+isomorphism, and \cref{warn:tg-not-biholo} stresses that the homeomorphism
+\(\Psi\) is not holomorphic. Homeomorphic surfaces can carry inequivalent complex
+structures.
+
+\section{Chapter 4}
+\label{sec:soln-ch4}
+
+\paragraph{\Cref{ex:ell-field}.}
+For \(f, g\) elliptic, each of \(f \pm g, fg, f/g\) is meromorphic, and
+periodicity is pointwise: \((fg)(z+\lambda) = f(z+\lambda)g(z+\lambda) =
+f(z)g(z)\), and similarly for the others; the constants \(0, 1\) are elliptic, so
+we have a field. Differentiating \(f(z+\lambda) = f(z)\) gives
+\(f'(z+\lambda) = f'(z)\), so \(f'\) is elliptic. For fixed \(a\), \((f(\cdot+a))
+(z+\lambda) = f(z+a+\lambda) = f(z+a)\), so \(f(z+a)\) is elliptic. If
+\(f(-z) = f(z)\), differentiate: \(-f'(-z) = f'(z)\), i.e.\ \(f'(-z) = -f'(z)\),
+so \(f'\) is odd.
+
+\paragraph{\Cref{ex:ell-no-order-one}.}
+An order-one function would have, in a period parallelogram, a single simple
+pole and no other poles; the residue there is nonzero (the defining feature of a
+simple pole), contradicting \(\sum \Res = 0\) (\cref{thm:ell-residues}). Hence no
+order-one elliptic function exists. For order two the total pole multiplicity is
+\(2\): either two simple poles at \(p_1 \ne p_2\) with residues \(r_1, r_2\), and
+\cref{thm:ell-residues} forces \(r_1 + r_2 = 0\); or a single pole of order two,
+with Laurent expansion \(c_{-2}(z-p)^{-2} + c_{-1}(z-p)^{-1} + \cdots\) whose
+residue is \(c_{-1}\), and since it is the only pole, \(\sum\Res = c_{-1} = 0\).
+
+\paragraph{\Cref{ex:ell-double-pole-zeros}.}
+By \cref{thm:ell-valence} the order-two function \(f\) has exactly two zeros
+\(z_1, z_2\) (with multiplicity). Its only pole is the double pole at \([0]\), so
+\cref{thm:ell-abel} reads \(z_1 + z_2 - (0 + 0) \in \Lambda\), i.e.\
+\(z_2 \equiv -z_1 =: -w\). The zeros are \([w], [-w]\). Now \(f - f(z_0)\) is
+again elliptic of order two with the same double pole at \([0]\); one zero is
+\(z_0\), so by the same argument its second zero is \(-z_0\). Thus \(f\) takes
+each value at a pair \(\pm z_0\), which is the hallmark of an even function
+\(f(-z) = f(z)\).
+
+\paragraph{\Cref{ex:ell-sum-values}.}
+The function \(f - c_1\) is elliptic of order \(N\) with the same poles
+\(p_1, \dots, p_N\) as \(f\) and with zeros the solutions \(z_1^{(1)}, \dots\) of
+\(f = c_1\). By \cref{thm:ell-abel}, \(\sum_k z_k^{(1)} - \sum_k p_k \in
+\Lambda\). The same for \(c_2\): \(\sum_k z_k^{(2)} - \sum_k p_k \in \Lambda\).
+Subtracting the two congruences, the pole sums cancel and
+\(\sum_k z_k^{(1)} \equiv \sum_k z_k^{(2)} \pmod \Lambda\). Hence the sum of the
+solution set of \(f = c\) is, modulo \(\Lambda\), independent of \(c\); its common
+value (equal to \(\sum p_k\) mod \(\Lambda\)) is an invariant of \(f\).
+
+\paragraph{\Cref{ex:ell-winding}.}
+Let \(\gamma(s) = a + s\omega_1\), \(s \in [0,1]\), avoid the zeros and poles of
+\(f\). Then \(\int_a^{a+\omega_1} (f'/f)\,dz = \int_0^1 \frac{d}{ds}\log f(\gamma(s))\,ds
+= \log f(a+\omega_1) - \log f(a)\) for a continuous branch of \(\log f\) along
+\(\gamma\). The real part is \(\log|f(a+\omega_1)| - \log|f(a)| = 0\) because
+\(f(a+\omega_1) = f(a)\); the imaginary part is the net change of argument,
+\(2\pi k_1\), where \(k_1 \in \Z\) is the number of times the image curve
+\(s \mapsto f(\gamma(s))\) winds around \(0\). Hence the integral equals
+\(2\pi i\,k_1\), and \(k_1\) is precisely that winding number.
+
+\section{Chapter 5}
+\label{sec:soln-ch5}
+
+\paragraph{\Cref{ex:div-hom}.}
+By \cref{prop:div-prin-subgroup}, \(\divisor(fg) = \divisor(f) + \divisor(g)\),
+so \(\divisor\) is a homomorphism from \((\mathcal{M}(X)^\times, \cdot)\) to
+\((\Div(X), +)\). If \(\divisor(f) = 0\) then \(f\) has no zeros or poles, so it
+is holomorphic and nonvanishing on the compact \(X\); by \cref{thm:ell-const}
+(or the maximum modulus principle) \(f\) is a nonzero constant. Conversely
+\(\divisor(c) = 0\). Hence \(\ker\divisor = \C^\times\).
+
+\paragraph{\Cref{ex:div-ord-welldef}.}
+Independence of coordinate is \cref{rem:div-ord-welldef}: a coordinate change
+\(t = s\,h(s)\), \(h(0)\ne0\), turns \(f = t^m u\) into
+\(f = s^m\,(h^m\, u\!\circ\! t)\) with a nonvanishing unit, so the exponent
+\(m\) is unchanged. For the sum, write \(f = t^{a}u\), \(g = t^{b}v\) with
+\(a = \ord_p f \le b = \ord_p g\) and units \(u, v\). Then
+\(f + g = t^{a}(u + t^{b-a}v)\); the factor \(u + t^{b-a}v\) is holomorphic, so
+\(\ord_p(f+g) \ge a = \min(a,b)\), and if \(a < b\) it equals \(u(0) \ne 0\) at
+\(t=0\), giving \(\ord_p(f+g) = a\).
+
+\paragraph{\Cref{ex:div-pic-split}.}
+The map \(D \mapsto (\degdiv D,\ D - (\degdiv D)[0])\) is a homomorphism, since
+\(\degdiv\) is and the second slot is linear in \(D\); its second component has
+degree \(\degdiv D - \degdiv D = 0\), so it lands in \(\Z \oplus \Div^0(T)\). The
+inverse is \((n, E) \mapsto E + n[0]\), so it is an isomorphism. Principal
+divisors have degree \(0\) and lie in the \(\Div^0\) slot, so quotienting gives
+\(\Pic(T) \cong \Z \oplus \Pic^0(T)\); with \(\Pic^0(T) \cong T\) from
+\cref{thm:div-pic-iso}, \(\Pic(T) \cong \Z \oplus T\).
+
+\paragraph{\Cref{ex:div-distinct-points}.}
+If \([a] = [b]\) then \([a] - [b] = 0 = \divisor(1)\) is principal. Conversely, if
+\([a] - [b] = \divisor(f)\) is principal, then it lies in \(\Div^0(T)\) and
+\cref{thm:ell-abel} (via \cref{prop:div-sigma-kills-prin}) gives
+\(\smap([a]-[b]) = [a] - [b] = 0\) in \(T\), i.e.\ \([a] = [b]\). On \(\CP^1\)
+the function \((z-a)/(z-b)\) has divisor \([a] - [b]\) for any \(a \ne b\), so the
+statement fails there. The torus version recovers \cref{cor:ell-order2}: a
+principal divisor \([a] - [b]\) with \(a \ne b\) would be the divisor of an
+order-one elliptic function (one simple zero, one simple pole), which does not
+exist.
+
+\paragraph{\Cref{ex:div-sigma-compute}.}
+The divisor \(D = [\tfrac12] + [\tfrac{\tau}{2}] + [\tfrac{1+\tau}{2}] - 3[0]\)
+has \(\degdiv D = 3 - 3 = 0\). Its Abel sum is
+\[
+  \smap(D) = \Bigl[\tfrac12 + \tfrac{\tau}{2} + \tfrac{1+\tau}{2}\Bigr]
+  = \Bigl[\tfrac{2 + 2\tau}{2}\Bigr] = [\,1 + \tau\,] = [0],
+\]
+since \(1 + \tau \in \Lambda\). So \(D\) has degree zero and Abel sum zero, hence
+is a candidate for a principal divisor --- and indeed it is: the three nonzero
+half-periods \(\tfrac12, \tfrac{\tau}{2}, \tfrac{1+\tau}{2}\) are exactly the
+two-torsion points of \cref{ex:tg-two-torsion}, and \(D = \divisor(\wp')\), the
+divisor of the Weierstrass derivative (simple zeros at the half-periods, a
+triple pole at \([0]\)), as we will see in \cref{ch:weierstrass_wp}.
+
+\section{Chapter 6}
+\label{sec:soln-ch6}
+
+\paragraph{\Cref{ex:rr-point-lemma}.}
+Let \(D = \sum n_q\,q\). An \(f \in L(D+p)\) may have a pole at \(p\) of order up
+to \(n_p + 1\). In a coordinate \(t\) at \(p\), the map
+\(\lambda : L(D+p) \to \C\) sending \(f\) to its Laurent coefficient of order
+\(-(n_p+1)\) (the most negative now allowed) is linear. Its kernel is exactly the
+functions whose pole order at \(p\) is at most \(n_p\), i.e.\ \(L(D)\). Hence
+\(L(D+p)/L(D) \hookrightarrow \C\), so \(\ell(D+p) - \ell(D) = \dim\operatorname{im}\lambda
+\in \{0,1\}\).
+
+\paragraph{\Cref{ex:rr-neg-degree}.}
+If \(\deg D < 0\) and \(0 \ne f \in L(D)\), then \(\divisor(f) \ge -D\) has
+degree \(0\) (\cref{thm:div-degzero}) but \(\deg(-D) > 0\), impossible; so
+\(L(D) = 0\). For the inequality, induct on \(\deg D\) downward using the point
+lemma: any \(D\) can be written \(D = D_0 + \sum_{j=1}^{k} p_j\) with
+\(\deg D_0 \le 0\) and \(k = \deg D - \deg D_0\); since
+\(\ell(D_0) \le 1\) (it is \(0\) for negative degree, and for degree \(0\) a
+nonzero \(f \in L(D_0)\) has \(\divisor(f) = -D_0\), so \(D_0 \sim 0\) and
+\(\ell(D_0) = 1\)) and each added point raises \(\ell\) by at most
+one (\cref{ex:rr-point-lemma}), \(\ell(D) \le 1 + (\deg D - \deg D_0) \le \deg D + 1\).
+
+\paragraph{\Cref{ex:rr-degree-one-unique}.}
+A divisor of degree one is \(\sum n_q\,q\) with \(\sum n_q = 1\); it is effective
+(\(\ge 0\)) iff all \(n_q \ge 0\), which with sum \(1\) means exactly one
+coefficient equals \(1\) and the rest \(0\), i.e.\ a single point. By
+\cref{prop:rr-counts}, \(\ell([a]) = 1\), so \(L([a]) = \C\) (constants); the
+effective divisors linearly equivalent to \([a]\) are the \(\divisor(f) + [a]\)
+for \(0 \ne f \in L([a])\), i.e.\ \(f\) constant, giving only \([a]\) itself.
+
+\paragraph{\Cref{ex:rr-canonical-deg}.}
+By \cref{prop:rr-canonical}, \(K \sim 0\), so \(\ell(K) = \ell(0) = 1 = g\). Taking
+\(D = K\) in Riemann--Roch: \(\ell(K) - \ell(K - K) = \deg K + 1 - g\), i.e.\
+\(\ell(K) - \ell(0) = \deg K + 1 - g\). With \(\ell(K) = \ell(0) = 1\) and
+\(g = 1\) this reads \(0 = \deg K + 1 - 1\), so \(\deg K = 0 = 2g - 2\),
+consistent.
+
+\paragraph{\Cref{ex:rr-cubic-count}.}
+The pole orders at \(O\) are
+\[
+  1 \!:\! 0,\quad \wp \!:\! 2,\quad \wp^2 \!:\! 4,\quad \wp^3 \!:\! 6,\quad
+  \wp' \!:\! 3,\quad \wp\wp' \!:\! 5,\quad \wp'^2 \!:\! 6,
+\]
+all \(\le 6\) and with no other poles, so all seven lie in \(L(6O)\). Since
+\(\ell(6O) = 6 < 7\), they are linearly dependent: \(\sum c_i\,F_i = 0\)
+nontrivially. The only two functions with a pole of order exactly \(6\) are
+\(\wp^3\) and \(\wp'^2\); their leading Laurent coefficients at \(O\) are the
+only order-\(6\) contributions, so for the order-\(6\) pole to cancel, the
+coefficients of \(\wp^3\) and \(\wp'^2\) must be nonzero and balance. If either
+were zero, the other would contribute an uncancelled order-six pole, contradicting
+\(\sum c_i F_i = 0\) (a holomorphic, indeed zero, function). Hence both appear,
+and solving for the relation gives \(\wp'^2 = 4\wp^3 - g_2\wp - g_3\).
+
+\section{Chapter 7}
+\label{sec:soln-ch7}
+
+\paragraph{\Cref{ex:wp-convergence}.}
+Lattice points are uniformly separated (\cref{ex:lat-discrete}), so disjoint disks
+of radius \(\rho = \tfrac12 m(\Lambda)\) about them are contained in the disk of
+radius \(R + \rho\) once \(|\lambda| \le R\); comparing areas bounds their number
+by \((R+\rho)^2/\rho^2 = O(R^2)\). Splitting into annuli \(n \le |\lambda| < n+1\)
+(each with \(O(n)\) points) gives \(\sum_\lambda |\lambda|^{-s} \le \sum_n O(n)\,
+n^{-s} = \sum_n O(n^{1-s}) < \infty\) for \(s > 2\). The differentiated terms
+\(\frac{d}{dz}\bigl((z-\lambda)^{-2} - \lambda^{-2}\bigr) = -2(z-\lambda)^{-3}\)
+satisfy \(|{-2}(z-\lambda)^{-3}| \le 16/|\lambda|^3\) for \(|z| \le R\),
+\(|\lambda| \ge 2R\), which is summable (\(s = 3\)); uniform convergence of the
+differentiated series justifies term-by-term differentiation, and adding the
+\(\lambda = 0\) term \(\tfrac{d}{dz}z^{-2} = -2z^{-3}\) gives
+\(\wp'(z) = -2\sum_{\lambda \in \Lambda}(z-\lambda)^{-3}\).
+
+\paragraph{\Cref{ex:wp-g2g3}.}
+From \cref{prop:wp-laurent}, \(\wp = z^{-2} + 3G_4 z^2 + 5G_6 z^4 + O(z^6)\), so
+\(a_2 = 3G_4\), \(a_4 = 5G_6\). Using \(\wp' = -2z^{-3} + 2a_2 z + 4a_4 z^3 +
+\cdots\), one computes \(\wp'^2 - 4\wp^3 = -20a_2 z^{-2} - 28 a_4 + O(z^2)\).
+Choosing \(g_2 = 20 a_2\) and \(g_3 = 28 a_4\) cancels the \(z^{-2}\) term and the
+constant; substituting \(a_2 = 3G_4\), \(a_4 = 5G_6\) gives \(g_2 = 60G_4\),
+\(g_3 = 140 G_6\).
+
+\paragraph{\Cref{ex:wp-roots-distinct}.}
+The cubic \(4x^3 - g_2 x - g_3 = 4\bigl(x^3 - \tfrac{g_2}{4}x - \tfrac{g_3}{4}\bigr)\)
+is monic after dividing by \(4\), with \(p = -g_2/4\), \(q = -g_3/4\). The
+discriminant of a monic cubic \(x^3 + px + q\) is \(\prod_{i<j}(e_i-e_j)^2 =
+-4p^3 - 27q^2\). Hence
+\[
+  \prod_{i<j}(e_i-e_j)^2 = -4\Bigl(-\tfrac{g_2}{4}\Bigr)^3 - 27\Bigl(-\tfrac{g_3}{4}\Bigr)^2
+  = \frac{g_2^3}{16} - \frac{27 g_3^2}{16} = \frac{g_2^3 - 27g_3^2}{16},
+\]
+so \(\Delta = g_2^3 - 27g_3^2 = 16\prod_{i<j}(e_i-e_j)^2\). By
+\cref{prop:wp-roots}(3) the \(e_i\) are distinct, so \(\Delta \ne 0\).
+
+\paragraph{\Cref{ex:wp-field}.}
+Write \(f = f_+ + f_-\) with \(f_\pm(z) = \tfrac12(f(z) \pm f(-z))\), both
+elliptic, \(f_+\) even and \(f_-\) odd. By the generation step of
+\cref{thm:wp-generation}, even elliptic functions lie in \(\C(\wp)\), so
+\(f_+ = A(\wp)\) for a rational \(A\). Since \(\wp'\) is odd, \(f_-/\wp'\) is even,
+hence \(f_-/\wp' = B(\wp)\) for a rational \(B\); thus \(f_- = B(\wp)\,\wp'\) and
+\(f = A(\wp) + B(\wp)\,\wp'\). The fact \(\wp' \notin \C(\wp)\) guarantees this
+representation is genuine and unique: if
+\(A_1(\wp) + B_1(\wp)\wp' = A_2(\wp) + B_2(\wp)\wp'\) then
+\((B_1 - B_2)(\wp)\,\wp' = (A_2 - A_1)(\wp) \in \C(\wp)\) forces
+\(B_1 = B_2\) (else \(\wp' \in \C(\wp)\)) and then \(A_1 = A_2\).
+
+\paragraph{\Cref{ex:wp-recurrence}.}
+Differentiating \(\wp'^2 = 4\wp^3 - g_2\wp - g_3\) gives \(2\wp'\wp'' =
+(12\wp^2 - g_2)\wp'\), and dividing by \(2\wp'\) (not identically zero),
+\(\wp'' = 6\wp^2 - \tfrac12 g_2\). Write \(\wp = z^{-2} + \sum_{n\ge1} c_n z^{2n}\)
+with \(c_n = (2n+1)G_{2n+2}\). Then \(\wp'' = 6z^{-4} + \sum_{n\ge1}
+2n(2n-1)c_n z^{2n-2}\), while
+\(6\wp^2 = 6z^{-4} + 12\sum_{n\ge1} c_n z^{2n-2} + 6\sum_{n\ge2}\bigl(\sum_{i+j=n}
+c_i c_j\bigr)z^{2n-2}\). Matching the coefficient of \(z^{2n-2}\) for \(n \ge 3\)
+(the cases \(n=1,2\) absorb \(g_2\)) gives \(2n(2n-1)c_n = 12c_n +
+6\sum_{i+j=n}c_ic_j\), i.e.
+\[
+  c_n = \frac{3}{(2n+3)(n-2)}\sum_{\substack{i+j=n\\ i,j\ge1}} c_i c_j
+  \qquad (n \ge 3).
+\]
+Since \(c_1 = 3G_4\) and \(c_2 = 5G_6\), this recurrence determines every
+\(c_n\), hence every \(G_{2n+2}\), as a polynomial in \(G_4\) and \(G_6\); for
+instance \(c_3 = \tfrac{3}{9\cdot1}c_1^2 = \tfrac13 c_1^2\), giving
+\(G_8 = \tfrac{3}{7}G_4^2\).
+
+\paragraph{\Cref{ex:wp-sigma-quasi}.}
+Because \(\zeta' = -\wp\) is periodic, \(g(z) := \zeta(z+\omega_k) - \zeta(z)\) has
+\(g' = 0\), so \(g \equiv \eta_k\) is constant; at \(z = -\omega_k/2\), oddness of
+\(\zeta\) gives \(\eta_k = \zeta(\omega_k/2) - \zeta(-\omega_k/2) = 2\zeta(\omega_k/2)\).
+Since \((\log\sigma)' = \sigma'/\sigma = \zeta\), the function
+\(\log\frac{\sigma(z+\omega_k)}{\sigma(z)}\) has derivative
+\(\zeta(z+\omega_k) - \zeta(z) = \eta_k\), so it equals \(\eta_k z + c_k\) for some
+constant \(c_k\), i.e.\ \(\sigma(z+\omega_k) = \sigma(z)\,e^{\eta_k z + c_k}\).
+Evaluate at \(z = -\omega_k/2\): the left side is \(\sigma(\omega_k/2)\), the right
+\(\sigma(-\omega_k/2)e^{-\eta_k\omega_k/2 + c_k} = -\sigma(\omega_k/2)
+e^{-\eta_k\omega_k/2 + c_k}\) (oddness), and \(\sigma(\omega_k/2) \neq 0\) since
+\(\omega_k/2 \notin \Lambda\); hence \(e^{c_k - \eta_k\omega_k/2} = -1\) and
+\(\sigma(z+\omega_k) = -\sigma(z)\,e^{\eta_k(z+\omega_k/2)}\).
+
+\paragraph{\Cref{ex:wp-converse-check}.}
+Using \(\sigma(z+\omega_k - c) = -\sigma(z-c)\,e^{\eta_k(z - c + \omega_k/2)}\) for
+each shift \(c \in \{a_i, b_i\}\),
+\[
+  \frac{F(z+\omega_k)}{F(z)}
+  = \frac{\prod_{i=1}^n\bigl(-e^{\eta_k(z - a_i + \omega_k/2)}\bigr)}
+         {\prod_{i=1}^n\bigl(-e^{\eta_k(z - b_i + \omega_k/2)}\bigr)} .
+\]
+The numerator is \((-1)^n e^{\eta_k(nz - \sum a_i + n\omega_k/2)}\) and the
+denominator \((-1)^n e^{\eta_k(nz - \sum b_i + n\omega_k/2)}\); the factor
+\((-1)^n\) cancels because the two products have the \emph{same number} of factors
+(degree zero), and the \(nz\) and \(n\omega_k/2\) terms cancel, leaving
+\(\exp\!\bigl(\eta_k(\sum b_i - \sum a_i)\bigr)\). This is \(1\) because
+\(\sum a_i = \sum b_i\) (Abel sum zero). Thus degree zero is used to cancel
+\((-1)^n\) and the \(z\)-dependence, and Abel sum zero to kill the residual
+exponent. For \([a] - [0]\) with \(a \notin \Lambda\) the counts match (degree
+zero), so the candidate \(\sigma(z-a)/\sigma(z-0)\) has the right zeros and poles,
+but \(\sum a_i - \sum b_i = a \notin \Lambda\), so \(F(z+\omega_k)/F(z) =
+e^{\eta_k a} \neq 1\) in general: \(F\) is not elliptic, consistent with there
+being no order-one elliptic function (\cref{cor:ell-order2}).
+
+\section{Chapter 8}
+\label{sec:soln-ch8}
+
+\paragraph{\Cref{ex:emb-holo-origin}.}
+Near \([0]\), the homogeneous representative \((z^3\wp, z^3\wp', z^3)\) has middle
+entry tending to \(-2 \ne 0\), so divide by it: in the chart \(Y = 1\) the map is
+\(z \mapsto (X, Z) = (\wp/\wp',\, 1/\wp')\). From \(\wp = z^{-2} + O(z^2)\),
+\(\wp' = -2z^{-3} + O(z)\): \(\wp/\wp' = \frac{z^{-2} + \cdots}{-2z^{-3} + \cdots}
+= -\tfrac12 z + O(z^3)\) and \(1/\wp' = -\tfrac12 z^3 + O(z^5)\). Both are
+holomorphic at \(z = 0\) with value \((0,0) = O\), and \(X = \wp/\wp'\) has
+derivative \(-\tfrac12 \ne 0\) there, so it is a local holomorphic coordinate and
+\(\Phi\) is an immersion at \(O\) (indeed \(z\) and \(X\) agree to first order up
+to the factor \(-\tfrac12\)).
+
+\paragraph{\Cref{ex:emb-flex}.}
+Write the curve as \(G = Y^2 Z - 4X^3 + g_2 X Z^2 + g_3 Z^3 = 0\). At
+\(O = [0:1:0]\), \(\nabla G = (-12X^2 + g_2 Z^2,\ 2YZ,\ Y^2 + 2g_2 XZ + 3g_3 Z^2)
+= (0, 0, 1) \ne 0\), so \(O\) is smooth with tangent \(Z = 0\). Substituting
+\(Z = 0\) into \(G\) gives \(-4X^3 = 0\), a triple root, so \(Z = 0\) meets \(E\)
+at \(O\) with multiplicity three; \(O\) is a flex. Hence the line \(Z = 0\) cuts
+the divisor \(3O\) on \(E\), so \(3O = \divisor(\text{line}/\text{line})\) is
+principal --- concretely \(3O \sim 3O\), and any two lines cut linearly equivalent
+divisors, making \(3O\) the class that will be the group identity.
+
+\paragraph{\Cref{ex:emb-fiber-lemma}.}
+\Cref{lem:emb-fibers} is proved in the text: \(\wp - \wp(w)\) has order two, with
+zeros \(w, -w\), so \(\wp(z) = \wp(w) \Rightarrow z \equiv \pm w\). Thus the fibers
+of \(\wp : T \to \CP^1\) are the orbits \(\{z, -z\}\) of \(z \mapsto -z\), giving a
+bijection \(T/\{\pm1\} \to \CP^1\). The fixed points of \(z \mapsto -z\) are the
+four two-torsion points (\cref{ex:tg-two-torsion}); there the two sheets come
+together, so they map to the branch values, namely \(\wp(\omega_i/2) = e_i\) and
+\(\wp(0) = \infty\).
+
+\paragraph{\Cref{ex:emb-two-torsion-image}.}
+At \(z = 0\), \(\Phi(0) = O\). At a half-period \(\omega_i/2\), \(\wp'(\omega_i/2)
+= 0\) (\cref{prop:wp-roots}) and \(\wp(\omega_i/2) = e_i\), so
+\(\Phi(\omega_i/2) = (e_i, 0)\). The points of \(E\) fixed by \((x,y) \mapsto
+(x,-y)\) satisfy \(y = -y\), i.e.\ \(y = 0\) (the three \((e_i, 0)\)) or the point
+at infinity \(O\); these are exactly the four images, matching the two-torsion.
+
+\paragraph{\Cref{ex:emb-involution}.}
+The map \(\iota_E(x,y) = (x,-y)\) preserves \(y^2 = 4x^3 - g_2 x - g_3\) (the
+right side depends only on \(x\)), fixes \(O\), and satisfies \(\iota_E^2 = \id\),
+so it is a holomorphic involution. Its invariant function is \(x = \wp\), and two
+points share an \(x\)-value iff they are \(\pm\)-related, so the quotient
+\(E/\iota_E\) is the \(x\)-line \(\CP^1\). Under \(\Phi\), \(\iota_E\) pulls back to
+the map with \(\wp(z) \mapsto \wp(z)\), \(\wp'(z) \mapsto -\wp'(z) = \wp'(-z)\),
+i.e.\ \(z \mapsto -z\). Since the double cover \(\wp : T \to \CP^1\) has deck group
+\(\{\pm1\}\) of order two, its unique nontrivial deck transformation is
+\(z \mapsto -z\), which is \(\iota_E\).
+
+\section{Chapter 9}
+\label{sec:soln-ch9}
+
+\paragraph{\Cref{ex:abel-independence}.}
+Take \(D_1 = [a] - [0]\) with \(a \notin \Lambda\): \(\deg D_1 = 0\) but
+\(\smap(D_1) = [a] \ne 0\), so \(D_1\) is not principal (a principal divisor of
+this shape would be an order-one elliptic function, excluded by
+\cref{cor:ell-order2}). Take \(D_2 = 2[0]\): \(\smap(D_2) = 2[0] = 0\) but
+\(\deg D_2 = 2 \ne 0\), so \(D_2\) is not principal. Thus each condition can hold
+while the other fails, so neither alone characterizes principality.
+
+\paragraph{\Cref{ex:abel-three-point}.}
+\Cref{cor:abel-three-point} is immediate from \cref{thm:abel-law}:
+\([p]+[q]+[r]-3[0]\) has degree \(0\), and its Abel sum is \([p]+[q]+[r]\), zero
+iff \(p+q+r \in \Lambda\). For existence/uniqueness of \(R\): given \(P = [p]\),
+\(Q = [q]\), the equation \(P + Q + R = O\) in the group \(T\) has the unique
+solution \(R = -(P+Q) = [-(p+q)]\). Through the isomorphism \(\Phi\) this \(R\) is
+a well-defined point of the cubic, the reflection of the third intersection.
+
+\paragraph{\Cref{ex:abel-period-integral}.}
+Label the sides of \(P_a\) as in \cref{sec:ell-contour}. Pairing side
+\(\mathrm{I}\) with \(\mathrm{III}\) (translates by \(\omega_2\), reversed) and
+using \(\omega_2\)-periodicity of \(F'/F\),
+\(\int_{\mathrm{I}} + \int_{\mathrm{III}} = -\omega_2 \int_{a}^{a+\omega_1}
+(F'/F)\,dz\); pairing \(\mathrm{II}\) with \(\mathrm{IV}\) gives
+\(+\omega_1 \int_{a}^{a+\omega_2}(F'/F)\,dz\). Each remaining integral is the
+change of a branch of \(\log F\) along a side; since \(F(a+\omega_k) = F(a)\), the
+real part returns to its start and the imaginary part changes by \(2\pi\) times an
+integer (the winding number, \cref{ex:ell-winding}), so each integral lies in
+\(2\pi i\,\Z\). Hence \(\oint z(F'/F)\,dz = \omega_1\cdot 2\pi i\,k_2 - \omega_2
+\cdot 2\pi i\,k_1 \in 2\pi i\,\Lambda\).
+
+\paragraph{\Cref{ex:abel-addition-function}.}
+The divisor \(D = [a] + [b] - [a+b] - [0]\) has \(\deg D = 2 - 2 = 0\) and Abel
+sum \(\smap(D) = [a] + [b] - [a+b] - [0] = (a + b) - (a+b) = 0\) in \(T\). By
+sufficiency in \cref{thm:abel-law}, \(D\) is principal, so some elliptic \(F\) has
+\(\divisor(F) = D\); its zeros \(a, b\) and poles \(a+b, 0\) encode the
+group sum \(a + b\). By contrast \([a] - [0]\) with \(a \ne 0\) has Abel sum
+\([a] \ne 0\), so it is \emph{not} principal --- there is no elliptic function with
+a single simple zero and a single simple pole, consistent with
+\cref{cor:ell-order2}.
+
+\paragraph{\Cref{ex:abel-kernel}.}
+Both \(\deg\) and \(\smap\) are homomorphisms \(\Div(T) \to \Z\) and
+\(\Div(T) \to T\), so \((\deg, \smap)\) is a homomorphism to \(\Z \oplus T\). It
+is surjective: \((n, [a]) = (\deg, \smap)\bigl(n[0] + ([a] - [0])\bigr)\), since
+that divisor has degree \(n\) and Abel sum \([a]\). Its kernel is the divisors
+with \(\deg = 0\) and \(\smap = 0\), which by \cref{thm:abel-law} are exactly
+\(\Prin(T)\). The first isomorphism theorem then gives \(\Div(T)/\Prin(T) =
+\Pic(T) \cong \Z \oplus T\), matching \cref{ex:div-pic-split}.
+
+\section{Chapter 10}
+\label{sec:soln-ch10}
+
+\paragraph{\Cref{ex:lin-vertical}.}
+The vertical line \(x = c\) is \(X - cZ = 0\). On \(E\), \(y^2 = 4c^3 - g_2 c - g_3
+=: y_0^2\), giving the two affine points \((c, \pm y_0)\); and the line passes
+through \(O = [0:1:0]\) (it contains the direction \([0:1:0]\), since
+\(X - cZ\) vanishes there). So \(L \cdot E = (c, y_0) + (c, -y_0) + O\), which has
+degree three as required. By \cref{thm:lin-collinear} these three sum to \(O\):
+\((c, y_0) \oplus (c, -y_0) \oplus O = O\), i.e.\ \((c, y_0) \oplus (c, -y_0) = O\).
+Thus \((c, -y_0) = -(c, y_0)\), the reflection across the \(x\)-axis of
+\cref{sec:emb-reflection}.
+
+\paragraph{\Cref{ex:lin-mult-welldef}.}
+If \(m, m'\) both satisfy \(m(P), m'(P) \ne 0\), then \(m/m'\) is a rational
+function on \(E\) with neither zero nor pole at \(P\), hence
+\(\ord_P(m/m') = 0\). Therefore \(\ord_P(\ell/m) = \ord_P(\ell/m') +
+\ord_P(m'/m) = \ord_P(\ell/m')\), so the multiplicity does not depend on the
+auxiliary form.
+
+\paragraph{\Cref{ex:lin-tangent}.}
+By definition \(I_P(L,E) = \ord_P(\ell/m)\ge 1\) exactly when \(P \in L\). Choose a
+local coordinate \(t\) on \(E\) at \(P\) and parametrize \(E\) by \(\gamma(t)\) with
+\(\gamma(0) = P\). Then \(I_P(L,E) \ge 2\) iff \((\ell/m)(\gamma(t))\) vanishes to
+order \(\ge 2\), iff \(\frac{d}{dt}(\ell/m)(\gamma(t))|_0 = 0\), iff the line
+\(\ell = 0\) contains the tangent direction \(\gamma'(0)\) --- i.e.\ \(L\) is the
+tangent line to \(E\) at \(P\). When \(L\) is tangent, \(I_P(L,E) \ge 2\) absorbs
+two of the three intersections (\cref{prop:lin-bezout}), leaving one further point
+\(R'\) (possibly \(= P\) at a flex), so \(L \cdot E = 2P + R'\).
+
+\paragraph{\Cref{ex:lin-infinity-mult}.}
+With \(v = 4u^3 - g_2 u v^2 - g_3 v^3\) and \(v = O(u^3)\) near \(0\): substituting
+the ansatz \(v = c_3 u^3 + c_5 u^5 + \cdots\) (only odd powers by the symmetry
+\(u \mapsto -u\), \(v \mapsto -v\)), the terms \(g_2 u v^2\) and \(g_3 v^3\) are
+\(O(u^7)\), so to leading order \(v = 4u^3 + O(u^5)\); hence \(c_3 = 4\) and
+\(\ord_O(Z/Y) = \ord_O v = 3\). Since \(Y\) is a unit at \(O\), \(\ord_O(Z|_E) =
+3\) and \(\divisor_0(Z|_E) = 3O\).
+
+\paragraph{\Cref{ex:lin-three-collinear}.}
+Let \(R\) be the third intersection of the line through \(P\) and \(Q\) with \(E\),
+so \(L \cdot E = P + Q + R\). By \cref{thm:lin-collinear},
+\(P \oplus Q \oplus R = O\), hence \(R = -(P \oplus Q)\) and
+\(P \oplus Q = -R\), the reflection of \(R\). When \(P = Q\) the chord degenerates;
+the correct line is the \emph{tangent} to \(E\) at \(P\), which meets \(E\) at
+\(2P + R\) (\cref{ex:lin-tangent}), giving \(2P = -R\) --- the doubling rule.
+
+\section{Chapter 11}
+\label{sec:soln-ch11}
+
+\paragraph{\Cref{ex:tr-unique-transport}.}
+If \(\boxdot\) makes \(\Phi\) a homomorphism, then \(\Phi(u+v) = \Phi(u) \boxdot
+\Phi(v)\); since \(\Phi\) is a bijection, every \(P = \Phi(u)\), \(Q = \Phi(v)\),
+and \(P \boxdot Q = \Phi(u+v)\) is determined --- this is \(\oplus\). It is abelian
+because \(u + v = v + u\) in \(\C\); \(P \oplus O = \Phi(u + 0) = \Phi(u) = P\);
+and \(\Phi(u) \oplus \Phi(-u) = \Phi(0) = O\), so \(\ominus\Phi(u) = \Phi(-u)\).
+
+\paragraph{\Cref{ex:tr-identity-case}.}
+The line \(L = PO\) through \(P = (x,y)\) and \(O = [0:1:0]\) is the vertical line
+\(x = x_P\) (the point at infinity \(O\) lies on every vertical line). It meets
+\(E\) at \((x, y)\), \((x, -y) = \ominus P\), and \(O\); so \(L \cdot E = P +
+\ominus P + O\). By \cref{thm:lin-collinear}, \(P \oplus \ominus P \oplus O = O\),
+which is automatic, and reading the chord--tangent recipe: the third point of
+\(PO\) is \(\ominus P\), and \(P \oplus O = \ominus(\ominus P) = P\). Hence \(O\) is
+the identity.
+
+\paragraph{\Cref{ex:tr-associativity-free}.}
+By \cref{thm:tr-main}, \(\boxplus = \oplus\), and \(\oplus\) is associative because
+\(\Phi\) carries it to addition on \(\C/\Lambda\), which is associative since
+addition in \(\C\) is: \((P \oplus Q) \oplus S = \Phi((u+v)+w) = \Phi(u+(v+w)) =
+P \oplus (Q \oplus S)\). It reduces precisely to associativity of \(+\) in \(\C\).
+The direct geometric proof is hard because associativity of the chord--tangent rule
+is a nonobvious incidence statement about nine points and lines (the
+Cayley--Bacharach/\(9\)-point theorem); the torus makes it a triviality by
+linearizing the group.
+
+\paragraph{\Cref{ex:tr-intrinsic}.}
+By \cref{prop:tr-intrinsic} the operation \(\boxplus\) is defined using only lines
+and \(O\) on \(E\), so it is one and the same regardless of how \(E\) was
+presented. \Cref{thm:tr-main} applied to \(\Phi\) gives \(\oplus = \boxplus\), and
+applied to \(\Phi'\) gives \(\oplus' = \boxplus\); hence \(\oplus = \oplus'\). Since
+both \(\Phi\) and \(\Phi'\) are isomorphisms onto the same \((E, \boxplus)\), the
+composite \(\Phi^{-1}\!\circ \Phi'\) is a group isomorphism
+\(\C/\Lambda' \to \C/\Lambda\), forcing \(\Lambda\) and \(\Lambda'\) to be
+homothetic (\cref{prop:lat-normal-form}): the same cubic comes only from
+homothetic lattices.
+
+\paragraph{\Cref{ex:tr-translation}.}
+Under \(\Phi\), the translation \(P \mapsto P \oplus A\) corresponds to
+\(z \mapsto z + a\) on \(T\), where \(a = \Phi^{-1}(A)\); this is the biholomorphism
+\(\tau_a\) of \cref{prop:tg-lie}. Conjugating by \(\Phi\),
+\(P \mapsto P \oplus A = \Phi(\Phi^{-1}(P) + a)\) is a composition of
+biholomorphisms, hence a biholomorphism of \(E\). The addition map \(E \times E \to
+E\) and inversion are holomorphic (transported from \(T\)), so \(E\) is a complex
+Lie group acting on itself by holomorphic translations.
+
+\section{Chapter 12}
+\label{sec:soln-ch12}
+
+\paragraph{\Cref{ex:cases-chord-vieta}.}
+Substituting \(y = mx + k\) into \(y^2 = 4x^3 - g_2 x - g_3\) gives
+\(4x^3 - m^2 x^2 - (g_2 + 2mk)x - (g_3 + k^2) = 0\), a cubic whose three roots are
+\(x_P, x_Q, x_R\). By Vieta's formula the sum of the roots is the negative of the
+\(x^2\)-coefficient over the leading coefficient: \(x_P + x_Q + x_R = m^2/4\),
+hence \(x_R = \tfrac{m^2}{4} - x_P - x_Q\). The third intersection is
+\(R = (x_R, m x_R + k)\), and \(P \oplus Q = -R = (x_R, -(m x_R + k))\).
+
+\paragraph{\Cref{ex:cases-tangent-slope}.}
+Differentiating \(y^2 = 4x^3 - g_2 x - g_3\) implicitly: \(2y\,y' = 12x^2 - g_2\),
+so the tangent slope at \(P = (x_P, y_P)\) is \(m = (12 x_P^2 - g_2)/(2 y_P)\). The
+tangent meets \(E\) at \(P\) with multiplicity two, so in the cubic of the previous
+exercise \(x_P\) is a double root and \(x_P + x_P + x_{2P} = m^2/4\), giving
+\(x_{2P} = \tfrac{m^2}{4} - 2x_P\). If \(y_P = 0\), the slope \(m\) is infinite:
+the tangent is vertical, meeting \(E\) at \(P\) (doubly) and \(O\), so
+\(R = O\) and \(2P = \ominus O = O\), matching that \(P\) is two-torsion.
+
+\paragraph{\Cref{ex:cases-two-torsion-sum}.}
+The line \(y = 0\) (the \(x\)-axis) meets \(E : y^2 = 4x^3 - g_2 x - g_3\) where
+\(4x^3 - g_2 x - g_3 = 0\), i.e.\ at \((e_1,0), (e_2,0), (e_3,0) = T_1, T_2, T_3\);
+these are exactly the nonzero two-torsion points. As three points on a line,
+\cref{thm:lin-collinear} gives \(T_1 \oplus T_2 \oplus T_3 = O\). In
+\(E[2] \cong (\Z/2\Z)^2\) the three nonzero elements are \(T_1, T_2, T_3\), and
+indeed the sum of all nonzero elements of \((\Z/2\Z)^2\) is \((1,1)+(1,0)+(0,1) =
+(0,0)\), consistent.
+
+\paragraph{\Cref{ex:cases-flex-three-torsion}.}
+If \(3P = O\), then in the divisor language \(3[P] - 3[O]\) is principal, so by
+\cref{thm:lin-collinear} (with \(P = Q = R\)) the line \(L\) with \(L \cdot E = 3P\)
+exists --- the tangent at \(P\) meets \(E\) only at \(P\), with multiplicity three,
+which is the definition of an inflection point. Conversely a flex \(P\) has
+\(L \cdot E = 3P\), so \(3P \oplus = O\), i.e.\ \(3P = O\). The point \(O\) is a
+flex by \cref{prop:emb-flex} (the line at infinity meets \(E\) at \(O\) with
+multiplicity three), consistent with \(3O = O\).
+
+\section{Chapter 13}
+\label{sec:soln-ch13}
+
+\paragraph{\Cref{ex:coord-yform}.}
+With \(b = y_1 - m x_1\), \(-(m x_3 + b) = -m x_3 - (y_1 - m x_1) = m(x_1 - x_3)
+- y_1\). The second form is preferable numerically because it uses the input point
+\((x_1, y_1)\) directly and avoids forming the intercept \(b\) as a separate
+quantity (one fewer subtraction, less cancellation error); it also makes the
+geometric reading clear --- start at \(P\), move by slope \(m\) over the run
+\(x_1 - x_3\), then the sign records the reflection.
+
+\paragraph{\Cref{ex:coord-commute}.}
+The slope \(m = (y_2-y_1)/(x_2-x_1) = (y_1-y_2)/(x_1-x_2)\) is unchanged by
+swapping \(P \leftrightarrow Q\). Then \(x_3 = m^2/4 - x_1 - x_2\) is symmetric in
+\(x_1, x_2\). For \(y_3\), note the line intercept \(b = y_1 - m x_1 = y_2 - m x_2\)
+is the same computed from either point (both lie on the line), so
+\(y_3 = -(m x_3 + b)\) is manifestly symmetric. Hence \(P \oplus Q = Q \oplus P\).
+
+\paragraph{\Cref{ex:coord-limit}.}
+On \(E\), \(y_2^2 - y_1^2 = 4(x_2^3 - x_1^3) - g_2(x_2 - x_1)\). Factoring,
+\((y_2-y_1)(y_2+y_1) = (x_2-x_1)\bigl(4(x_2^2 + x_2 x_1 + x_1^2) - g_2\bigr)\), so
+for \(x_2 \ne x_1\),
+\[
+  m = \frac{y_2 - y_1}{x_2 - x_1} = \frac{4(x_2^2 + x_2 x_1 + x_1^2) - g_2}{y_2 + y_1}.
+\]
+As \(Q \to P\) (so \(x_2 \to x_1\), \(y_2 \to y_1 \ne 0\)) this tends to
+\((4 \cdot 3x_1^2 - g_2)/(2y_1) = (12x_1^2 - g_2)/(2y_1)\), the tangent slope.
+Correspondingly Vieta's \(x_1 + x_2 + x_R = m^2/4\) becomes \(2x_1 + x_R = m^2/4\),
+so the addition formula limits to the doubling formula.
+
+\paragraph{\Cref{ex:coord-vertical}.}
+If \(x_1 = x_2\) then \(y_1^2 = y_2^2\) (both equal \(4x_1^3 - g_2 x_1 - g_3\)), so
+\(y_2 = \pm y_1\); since \(P \ne Q\), \(y_2 = -y_1\), i.e.\ \(Q = \ominus P\). The
+slope \((y_2-y_1)/(x_2-x_1)\) has zero denominator and is undefined --- the line is
+vertical --- and the third intersection is \(O\), so \(P \oplus Q = \ominus O = O\).
+Pseudocode:
+\begin{quote}\ttfamily
+add(P, Q):\\
+\ \ if P = O: return Q;\quad if Q = O: return P\\
+\ \ if x1 = x2:\\
+\ \ \ \ if y1 = -y2: return O\quad // includes y1 = y2 = 0\\
+\ \ \ \ else: return double(P)\quad // here P = Q, y1 != 0\\
+\ \ else:\\
+\ \ \ \ m = (y2-y1)/(x2-x1)\\
+\ \ \ \ x3 = m\^{}2/4 - x1 - x2\\
+\ \ \ \ return (x3, m*(x1-x3)-y1)
+\end{quote}
+
+\paragraph{\Cref{ex:coord-check}.}
+With \(x_{2P} = \tfrac{25}{24}\) and \(y_{2P} = -\tfrac{35}{24\sqrt6}\):
+\(y_{2P}^2 = \tfrac{1225}{576 \cdot 6} = \tfrac{1225}{3456}\), while
+\(4x_{2P}^3 - 4x_{2P} = 4\cdot\tfrac{15625}{13824} - \tfrac{100}{24}
+= \tfrac{62500}{13824} - \tfrac{57600}{13824} = \tfrac{4900}{13824} = \tfrac{1225}{3456}\).
+They agree, so \(2P \in E\). Its inverse is the reflection
+\(\ominus(2P) = \bigl(\tfrac{25}{24}, +\tfrac{35}{24\sqrt6}\bigr)\).
+
+\section{Chapter 14}
+\label{sec:soln-ch14}
+
+\paragraph{\Cref{ex:aa-h-order}.}
+\(h = \wp' - A\wp - B\) is a \(\C\)-linear combination of \(\wp', \wp, 1\), hence
+elliptic. Its poles can only be at lattice points; at \(0\), \(\wp'\) has a pole
+of order three and \(\wp\) of order two, so \(h\) has a pole of order exactly three
+(the \(\wp'\) term dominates). Thus \(h\) has order three, and by
+\cref{thm:ell-valence} exactly three zeros. By the choice of \(A, B\), \(h(u) =
+\wp'(u) - A\wp(u) - B = 0\) and likewise \(h(v) = 0\), so \(u, v\) are zeros. The
+case \(u \equiv \pm v\) is excluded because then \(\wp(u) = \wp(v)\) and the slope
+\(A\) has a zero denominator (for \(u \equiv v\) one must instead take the limit,
+giving the duplication formula; for \(u \equiv -v\) the sum \(u+v \equiv 0\) is a
+pole of \(\wp\)).
+
+\paragraph{\Cref{ex:aa-determinant-expand}.}
+Expanding along the first column, the determinant equals
+\[
+  \bigl[\wp(v)(-\wp'(u{+}v)) - \wp(u{+}v)\wp'(v)\bigr]
+  - \bigl[\wp(u)(-\wp'(u{+}v)) - \wp(u{+}v)\wp'(u)\bigr]
+  + \bigl[\wp(u)\wp'(v) - \wp(v)\wp'(u)\bigr] = 0,
+\]
+a linear equation in the row \((1, \wp(u+v), -\wp'(u+v))\). Geometrically it says
+\((\wp(u+v), -\wp'(u+v))\) lies on the line through \(P, Q\); its \(x\)-coordinate
+is therefore the third root \(\tfrac{A^2}{4} - \wp(u) - \wp(v)\) of the
+intersection cubic, which is \(\wp(u+v)\) --- exactly \cref{thm:aa-addition}.
+
+\paragraph{\Cref{ex:aa-duplication-match}.}
+Differentiating \(\wp'^2 = 4\wp^3 - g_2\wp - g_3\) gives \(2\wp'\wp'' = (12\wp^2 -
+g_2)\wp'\), so \(\wp'' = 6\wp^2 - \tfrac12 g_2\). Hence
+\[
+  \frac{\wp''(u)}{\wp'(u)} = \frac{6\wp(u)^2 - \tfrac12 g_2}{\wp'(u)}
+  = \frac{12\wp(u)^2 - g_2}{2\wp'(u)} = \frac{12x^2 - g_2}{2y},
+\]
+with \(x = \wp(u)\), \(y = \wp'(u)\) --- precisely the tangent slope of
+\cref{thm:coord-double}. So the analytic duplication slope and the geometric
+tangent slope agree.
+
+\paragraph{\Cref{ex:aa-symmetry}.}
+Swapping \(u \leftrightarrow v\) negates both \(\wp'(u) - \wp'(v)\) and
+\(\wp(u) - \wp(v)\), leaving the slope \(A\) and hence \(A^2\) unchanged; the term
+\(-\wp(u) - \wp(v)\) is symmetric, so \cref{thm:aa-addition} is symmetric. As
+\(v \to 0\), \(\wp(v) \sim v^{-2} \to \infty\) and \(\wp'(v) \sim -2v^{-3}\), so
+\(A \sim \wp'(v)/(-\wp(v)) \sim (-2v^{-3})/(-v^{-2}) = 2v^{-1}\) and
+\(A^2/4 \sim v^{-2} \sim \wp(v)\); the divergent \(-\wp(v)\) and
+\(+A^2/4\) cancel to leading order, leaving \(\wp(u+0) = \wp(u)\).
+
+\paragraph{\Cref{ex:aa-three-term}.}
+Replacing \(v\) by \(-v\) in \cref{thm:aa-addition} and using \(\wp(-v) = \wp(v)\),
+\(\wp'(-v) = -\wp'(v)\),
+\[
+  \wp(u-v) = -\wp(u) - \wp(v) + \tfrac14\Bigl(\tfrac{\wp'(u) + \wp'(v)}{\wp(u) - \wp(v)}\Bigr)^2 .
+\]
+Adding to the formula for \(\wp(u+v)\), the two square terms combine via
+\((a-b)^2 + (a+b)^2 = 2a^2 + 2b^2\) with \(a = \wp'(u)\), \(b = \wp'(v)\):
+\[
+  \wp(u+v) + \wp(u-v) = -2\wp(u) - 2\wp(v)
+  + \frac{\wp'(u)^2 + \wp'(v)^2}{2(\wp(u) - \wp(v))^2}.
+\]
+By the differential equation \(\wp'(u)^2 = 4\wp(u)^3 - g_2\wp(u) - g_3\) (and
+likewise for \(v\)), the numerator is a polynomial in \(\wp(u), \wp(v)\), so the
+right-hand side is rational in \(\wp(u), \wp(v)\).
+
+\section{Chapter 15}
+\label{sec:soln-ch15}
+
+\paragraph{\Cref{ex:wk-numeric-check}.}
+\(\bigl(\tfrac{28\sqrt6}{125}\bigr)^2 = \tfrac{784 \cdot 6}{15625} =
+\tfrac{4704}{15625}\). On the other side, with \(x_3 = -\tfrac{24}{25}\),
+\(4x_3^3 - 4x_3 = 4\bigl(-\tfrac{13824}{15625}\bigr) + \tfrac{96}{25}
+= -\tfrac{55296}{15625} + \tfrac{60000}{15625} = \tfrac{4704}{15625}\). They agree,
+so \(P \oplus Q \in E\). Its inverse is \(\ominus(P\oplus Q) =
+\bigl(-\tfrac{24}{25}, +\tfrac{28\sqrt6}{125}\bigr)\).
+
+\paragraph{\Cref{ex:wk-doubling-symbolic}.}
+The tangent at \(P\) has slope \(m = (12x_1^2 - g_2)/(2y_1)\) and intercept
+\(b = y_1 - m x_1\). It meets \(E\) at \(P\) doubly, so \(x_1\) is a double root of
+\(4x^3 - m^2 x^2 - (g_2 + 2mb)x - (g_3 + b^2) = 0\); matching against
+\(4(x - x_1)^2(x - x_3)\), the \(x^2\)-coefficient gives \(2x_1 + x_3 = m^2/4\),
+so \(x_3 = \tfrac{m^2}{4} - 2x_1\). Reflecting the third point,
+\(2P = (x_3, -(m x_3 + b)) = \bigl(\tfrac{m^2}{4} - 2x_1,\, -m(\tfrac{m^2}{4} -
+2x_1) - b\bigr)\), as in \cref{thm:coord-double}.
+
+\paragraph{\Cref{ex:wk-standard-recompute}.}
+By \cref{prop:wk-standard} with \(g_2 = 4\), \(g_3 = 0\): \(a = -1\), \(b = 0\), so
+\(E' : Y^2 = X^3 - X\). In these coordinates \(P = (2, \sqrt6)\),
+\(Q = (-\tfrac12, \tfrac{\sqrt6}{4})\) (halving the \(y\)'s), and the slope is
+\(M = m/2 = \tfrac{3\sqrt6}{10}\), \(M^2 = \tfrac{54}{100}\). Then
+\(X_3 = M^2 - X_1 - X_2 = \tfrac{27}{50} - \tfrac32 = -\tfrac{24}{25}\) (the same
+\(x\)) and \(Y_3 = M(X_1 - X_3) - Y_1 = -\tfrac{14\sqrt6}{125}\). Mapping back by
+\(y = 2Y\) gives \(y_3 = -\tfrac{28\sqrt6}{125}\), matching \cref{sec:wk-numeric}.
+
+\paragraph{\Cref{ex:wk-pitfall-instances}.}
+\emph{Pitfall 1.} Compute \(P \oplus (\ominus P)\) for \(P = (2, 2\sqrt6)\): the
+line is the vertical \(x = 2\), which has \emph{no} third finite intersection. If
+\(O\) is forgotten the sum looks undefined; including \(O\), the line meets \(E\)
+at \(P, \ominus P, O\), so \(P \oplus (\ominus P) = O\).
+\emph{Pitfall 2.} In \cref{sec:wk-numeric} the third intersection is
+\(R = (-\tfrac{24}{25}, +\tfrac{28\sqrt6}{125})\); reporting \(R\) as \(P \oplus Q\)
+gives the reflection of the true answer --- wrong by a sign in \(y\). The correct
+sum is \(\ominus R = (-\tfrac{24}{25}, -\tfrac{28\sqrt6}{125})\).
+\emph{Pitfall 7.} On the singular cubic \(y^2 = 4x^3\) (\(g_2 = g_3 = 0\),
+\(\Delta = 0\)) the origin \((0,0)\) is a cusp; the tangent there is not defined and
+the doubling formula divides by \(y = 0\). With \(\Delta \ne 0\)
+(\cref{cor:wp-smooth}) no such point exists and every step is well defined.
+
+\paragraph{\Cref{ex:wk-associativity-numeric}.}
+Take \(S = (-1, 0)\), a two-torsion point. From \cref{sec:wk-numeric},
+\(P \oplus Q = (-\tfrac{24}{25}, -\tfrac{28\sqrt6}{125})\). Computing with the
+formulas (slope cases handled as in \cref{ex:coord-vertical}):
+\[
+  (P \oplus Q) \oplus S = (49, 280\sqrt6) = P \oplus (Q \oplus S),
+\]
+so the two bracketings agree, confirming associativity numerically (guaranteed by
+\cref{rem:tr-associativity}). Both intermediate sums lie on \(E\), as a direct
+substitution checks.
+
+\section{Chapter 16}
+\label{sec:soln-ch16}
+
+\paragraph{\Cref{ex:syn-j1728}.}
+With \(g_2 = 4\), \(g_3 = 0\): \(\Delta = g_2^3 - 27 g_3^2 = 64 - 0 = 64\), and
+\[
+  j = 1728\,\frac{g_2^3}{\Delta} = 1728\,\frac{64}{64} = 1728 .
+\]
+For a curve with \(g_2 = 0\) (and \(g_3 \ne 0\)), \(j = 1728 \cdot 0/\Delta = 0\):
+these are the curves with \(j = 0\), having complex multiplication by
+\(\Z[\zeta_3]\).
+
+\paragraph{\Cref{ex:syn-torsion}.}
+A point \([z]\) satisfies \(n[z] = [0]\) iff \(nz \in \Lambda\) iff
+\(z \in \tfrac1n\Lambda\). Hence \(E[n] = \tfrac1n\Lambda/\Lambda\). The map
+\(\tfrac1n\Lambda/\Lambda \to \Lambda/n\Lambda\), \(z \mapsto nz\), is an
+isomorphism, and \(\Lambda \cong \Z^2\) gives \(\Lambda/n\Lambda \cong (\Z/n\Z)^2\).
+The map \([n]: [z] \mapsto [nz]\) has fibers the cosets of \(E[n]\), of which there
+are \(|E[n]| = n^2\); so \([n]\) is \(n^2\)-to-one and has degree \(n^2\).
+
+\paragraph{\Cref{ex:syn-weight}.}
+From \(G_k(\alpha\Lambda) = \sum_{\lambda\ne0}(\alpha\lambda)^{-k} =
+\alpha^{-k} G_k(\Lambda)\): \(g_2 = 60 G_4 \mapsto \alpha^{-4} g_2\) and
+\(g_3 = 140 G_6 \mapsto \alpha^{-6} g_3\). Then \(g_2^3 \mapsto \alpha^{-12} g_2^3\),
+\(g_3^2 \mapsto \alpha^{-12} g_3^2\), so \(\Delta = g_2^3 - 27 g_3^2 \mapsto
+\alpha^{-12}\Delta\). Finally \(j = 1728 g_2^3/\Delta \mapsto
+1728\,\alpha^{-12}g_2^3 / (\alpha^{-12}\Delta) = j\): invariant. In modular-forms
+language \(g_2, g_3, \Delta, j\) have weights \(4, 6, 12, 0\).
+
+\paragraph{\Cref{ex:syn-hasse}.}
+For \(E : y^2 = x^3 + 1\) over \(\F_5\), the squares are \(\{0,1,4\}\). Checking
+each \(x\): \(x=0 \Rightarrow y^2 = 1\), \(y = \pm1\); \(x=1 \Rightarrow y^2 = 2\),
+none; \(x=2 \Rightarrow y^2 = 9 = 4\), \(y = \pm2\); \(x=3 \Rightarrow y^2 = 28 =
+3\), none; \(x=4 \Rightarrow y^2 = 65 = 0\), \(y = 0\). The affine points are
+\((0,1), (0,4), (2,2), (2,3), (4,0)\) --- five of them --- plus \(O\), so
+\(\#E(\F_5) = 6\). Then \(a_5 = 5 + 1 - 6 = 0\) and \(|a_5| = 0 \le 2\sqrt5 \approx
+4.47\), satisfying Hasse. The point \((4,0)\) has order \(2\); a group of order \(6\)
+with an element of order \(2\) is \(\Z/6\Z\), so \(E(\F_5) \cong \Z/6\Z\).

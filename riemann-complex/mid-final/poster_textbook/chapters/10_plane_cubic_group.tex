@@ -1,0 +1,90 @@
+\chapter{The Plane Cubic and Its Group Law}
+\label{ch:plane-cubic-group}
+
+Let \(E\) be the smooth cubic from \cref{ch:weierstrass-embedding}, with identity
+point \(O=[0:1:0]\).  A line in \(\CP^2\) meets a cubic in three points counted
+with multiplicity.  This is the only geometric input needed for the chord--
+tangent rule.
+
+\begin{definition}
+Given \(P,Q\in E\), draw the line through \(P\) and \(Q\), using the tangent line
+if \(P=Q\).  Let \(R\) be the third intersection point with \(E\).  Define
+\[
+  P\boxplus Q=\ominus R,
+\]
+where \(\ominus(x,y)=(x,-y)\) in the affine chart and \(\ominus O=O\).
+\end{definition}
+
+\begin{center}
+\resizebox{0.62\linewidth}{!}{\classicChordDiagram}
+\end{center}
+
+The reflection step is often the mysterious part.  It is not arbitrary: a line
+through \(P,Q,R\) cuts a principal divisor
+\[
+  [P]+[Q]+[R]-3[O].
+\]
+By Abel's theorem, this means \(P+Q+R=O\) in the group transported from the torus.
+Therefore the group sum of \(P\) and \(Q\) is \(-R\).
+
+\begin{proposition}
+\label{prop:line-divisor}
+If a projective line \(L\) meets \(E\) in \(P,Q,R\), counted with multiplicity,
+then \([P]+[Q]+[R]-3[O]\) is principal.
+\end{proposition}
+
+\begin{proof}[Proof sketch]
+The quotient of the linear form defining \(L\) by the linear form defining the
+line at infinity is a meromorphic function on \(E\).  Its zeros are the
+intersections with \(L\), and its poles are the triple intersection with the line
+at infinity at \(O\).
+\end{proof}
+
+\section*{Exercises}
+\addcontentsline{toc}{section}{Exercises}
+
+\exerciseintent{See tangent lines as limiting secants in the nonvertical affine case.}
+\begin{exercise}
+Let \(P\) and \(Q\) be nearby affine points on a smooth cubic, and assume the
+tangent at \(P\) is not vertical.  Let \(Q\to P\).  Compute the limiting slope
+of the chord line in local affine coordinates.  State why the limiting line has
+intersection multiplicity \(2\) at \(P\).
+\end{exercise}
+
+\exerciseintent{Derive the chord formula from substitution and Vieta's formula.}
+\begin{exercise}
+For \(y^2=4x^3-g_2x-g_3\), derive the formula
+\[
+  x_{P\boxplus Q}=\frac{m^2}{4}-x_P-x_Q
+\]
+when the chord has slope \(m\).
+Do this by substituting \(y=mx+b\), comparing the \(x^2\)-coefficient of the
+resulting cubic, and applying Vieta's formula.
+\end{exercise}
+
+\exerciseintent{Compute the vertical-line case that gives inverses on the cubic.}
+\begin{exercise}
+If \(P=(x,y)\), compute the intersections of the vertical line \(X=xZ\) with
+the cubic.  Show that they are \(P\), \(\ominus P=(x,-y)\), and \(O\), counted
+with multiplicity when necessary.
+\end{exercise}
+
+\exerciseintent{Compute the line divisor directly from the meromorphic function \(\ell/Z\).}
+\begin{exercise}
+Let \(\ell(X,Y,Z)=0\) be a projective line meeting \(E\) in \(P,Q,R\), counted
+with multiplicity, and let \(h=Z\) define the line at infinity.  Compute the
+divisor of the meromorphic function \(\ell/h\) on \(E\): identify its zeros from
+\(\ell|_E=0\), identify its poles from \(Z|_E=0\), and use the fact that the
+line at infinity meets the Weierstrass cubic triply at \(O=[0:1:0]\).  Conclude
+that
+\[
+  \divisor(\ell/h)=[P]+[Q]+[R]-3[O].
+\]
+\end{exercise}
+
+\exerciseintent{Turn the line divisor into the group equation \(P+Q+R=O\) by Abel sums.}
+\begin{exercise}
+Assume Abel's theorem and the transported group law on \(E\).  Use the line
+divisor \([P]+[Q]+[R]-3[O]\) to compute the Abel sum and prove that
+\(P+Q+R=O\).
+\end{exercise}

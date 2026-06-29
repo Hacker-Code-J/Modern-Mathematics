@@ -1,0 +1,193 @@
+% Abel's Sum Law  (source §10; consolidated: the full principal-divisor
+% criterion (both directions), related back to Liouville IV / Thm 4.8 and the
+% Pic^0 =~ T isomorphism, and specialized to the three-point form used for the
+% chord-tangent law)
+\chapter{Abel's Sum Law}
+\label{ch:abel}
+
+The analytic relation \(\sum(\text{zeros}) - \sum(\text{poles}) \in \Lambda\) was
+proved in \cref{ch:elliptic_liouville} (Liouville's fourth theorem,
+\cref{thm:ell-abel}) and packaged in \cref{ch:divisors,ch:riemann_roch} as the
+isomorphism \(\Pic^0(T) \cong T\). This chapter states it in the form the cubic
+needs: a complete criterion for when a divisor is principal, and its
+specialization to three points. That criterion is the bridge of \cref{thm:main} ---
+once we know a line cuts the cubic in a principal divisor (\cref{ch:lines_divisors}),
+Abel's law turns ``collinear'' into ``sums to \(O\)'' (\cref{ch:transport}).
+
+\section{Statement}
+\label{sec:abel-statement}
+
+\begin{theorem}[Abel's sum law]
+\label{thm:abel-law}
+Let \(D = \sum_j n_j [z_j]\) be a divisor on \(T = \C/\Lambda\). Then \(D\) is
+principal --- \(D = \divisor(F)\) for some nonzero elliptic function \(F\) --- if and
+only if it satisfies both
+\[
+  \deg D = \sum_j n_j = 0
+  \qquad\text{and}\qquad
+  \smap(D) = \sum_j n_j [z_j] = 0 \ \text{in } T .
+\]
+In representatives, the second condition reads \(\sum_j n_j z_j \in \Lambda\).
+\end{theorem}
+
+The two conditions are independent and both necessary: the degree records that a
+function has as many zeros as poles, and the Abel sum records that their
+\emph{positions} also balance in the group of \(T\). Neither alone suffices
+(\cref{ex:abel-independence}).
+
+\section{Necessity: Principal Implies Both Conditions}
+\label{sec:abel-necessity}
+
+Both halves of the forward direction are already theorems, proved by integrating
+around a period parallelogram in \cref{ch:elliptic_liouville}.
+
+\begin{proof}[Proof of necessity in \cref{thm:abel-law}]
+Let \(D = \divisor(F)\) and choose a period parallelogram \(P_a\) whose boundary
+avoids the zeros and poles. Integrating \(F'/F\) over \(\partial P_a\), opposite
+sides cancel (\cref{lem:ell-cancel}), so \(\deg D = \frac{1}{2\pi i}\oint F'/F\,dz
+= 0\): this is \cref{thm:div-degzero}. For the Abel sum, integrate \(z\,F'/F\); its
+residue at \(z_j\) is \(n_j z_j\), so the boundary integral is
+\(2\pi i\sum_j n_j z_j\). The factor \(z\) is not periodic, and pairing opposite
+sides leaves
+\[
+  \oint_{\partial P_a} z\,\frac{F'}{F}\,dz
+  = \omega_1\!\!\int_{\omega_2\text{-side}}\!\!\frac{F'}{F}\,dz
+  - \omega_2\!\!\int_{\omega_1\text{-side}}\!\!\frac{F'}{F}\,dz
+  \in 2\pi i\,\Lambda,
+\]
+because each side integral is the change of a branch of \(\log F\) over a period,
+an element of \(2\pi i\,\Z\). Dividing by \(2\pi i\),
+\(\smap(D) = \sum_j n_j z_j \in \Lambda\): this is Liouville's fourth theorem,
+\cref{thm:ell-abel} (the side-pairing detail is \cref{ex:abel-period-integral}).
+\end{proof}
+
+\section{Sufficiency: The Converse of Abel}
+\label{sec:abel-sufficiency}
+
+The harder direction --- that the two balance conditions are \emph{enough} to make
+a divisor principal --- is the converse of Abel, proved constructively by the
+\(\sigma\)-function in \cref{thm:wp-converse} and recorded as \(\Pic^0(T)\cong T\)
+in \cref{cor:rr-degree-one}.
+
+\begin{proof}[Proof of sufficiency in \cref{thm:abel-law}]
+Suppose \(\deg D = 0\) and \(\smap(D) = 0\). By \cref{cor:rr-degree-one} every
+degree-zero divisor is linearly equivalent to \([a] - [0]\) for a unique
+\([a] \in T\), and applying \(\smap\) shows \(a = \smap(D) = 0\). Hence
+\(D \sim [0] - [0] = 0\), i.e.\ \(D\) is principal. (Equivalently,
+\(\bar\smap : \Pic^0(T) \xrightarrow{\sim} T\) is an isomorphism
+(\cref{thm:div-pic-iso,cor:rr-degree-one}), so its kernel is exactly the principal
+divisors.)
+\end{proof}
+
+\begin{remark}
+\label{rem:abel-constructive}
+The converse is an existence statement: it asserts an elliptic function with
+prescribed balanced zeros and poles. It is not merely abstract --- \cref{thm:wp-converse}
+names the function explicitly, \(F(z) = \prod_i \sigma(z-a_i)/\prod_i \sigma(z-b_i)\),
+built from the Weierstrass \(\sigma\)-function; for the divisors arising on the
+cubic it is the restriction of a line (\cref{ch:lines_divisors}).
+\end{remark}
+
+Combining the two directions, the principal divisors are precisely the kernel of
+the combined map
+\[
+  (\deg, \smap) : \Div(T) \longrightarrow \Z \oplus T,
+  \qquad \Prin(T) = \ker(\deg,\smap),
+\]
+which is another way to state \(\Pic(T) \cong \Z \oplus T\)
+(\cref{ex:div-pic-split}).
+
+\section{The Three-Point Form}
+\label{sec:abel-three-point}
+
+For the chord--tangent law we need Abel's law for divisors supported at three
+points and \(O\). Writing points of the cubic through \(\Phi\), with \(P = [p]\),
+\(Q = [q]\), \(R = [r]\), the relevant divisors are \([p] + [q] + [r] - 3[O]\).
+
+\begin{corollary}
+\label{cor:abel-three-point}
+For \(p, q, r \in \C\), the divisor \([p] + [q] + [r] - 3[0]\) on \(T\) is
+principal if and only if
+\[
+  p + q + r \equiv 0 \pmod\Lambda,
+  \qquad\text{i.e.}\qquad [p] + [q] + [r] = 0 \ \text{in } T .
+\]
+More generally \([p] + [q] - [r] - [0]\) is principal iff
+\([p] + [q] = [r]\) in \(T\).
+\end{corollary}
+
+\begin{proof}
+The divisor \([p]+[q]+[r]-3[0]\) has degree \(3 - 3 = 0\), so by
+\cref{thm:abel-law} it is principal iff its Abel sum vanishes; and
+\(\smap\bigl([p]+[q]+[r]-3[0]\bigr) = [p]+[q]+[r] - 3[0] = [p]+[q]+[r]\), which is
+\(0\) iff \(p+q+r \in \Lambda\). The second statement is the same computation for
+the degree-zero divisor \([p]+[q]-[r]-[0]\), whose Abel sum is
+\([p]+[q]-[r]\).
+\end{proof}
+
+\begin{keyidea}{What Abel's law buys}
+On the torus, ``balanced'' has two layers. Degree zero (as many zeros as poles)
+is the argument principle. The Abel sum being zero (their positions cancel in the
+group) is the genus-one refinement. Together they say: a configuration of points
+is the zero/pole set of an elliptic function exactly when it sums to \(O\). When
+those points are where a line meets the cubic, this becomes \(P + Q + R = O\), and
+the chord--tangent law is forced.
+\end{keyidea}
+
+\section{Summary}
+\label{sec:abel-summary}
+
+Abel's sum law (\cref{thm:abel-law}) is the complete criterion for a divisor on
+\(T\) to be principal: degree zero and Abel sum zero. Necessity is the
+contour-integral computation of \cref{ch:elliptic_liouville}
+(\cref{thm:div-degzero,thm:ell-abel}); sufficiency is the constructive converse via
+the \(\sigma\)-function (\cref{thm:wp-converse}), recorded as
+\(\Pic^0(T) \cong T\) (\cref{cor:rr-degree-one}). Equivalently
+\(\Prin(T) = \ker(\deg, \smap)\). In the
+three-point form (\cref{cor:abel-three-point}), \([p]+[q]+[r]-3[0]\) is principal
+iff \(p+q+r \equiv 0\). The next chapter shows that a line meeting the cubic at
+\(P, Q, R\) produces exactly such a principal divisor, and
+\cref{ch:transport} reads off \(P + Q + R = O\).
+
+\section*{Exercises}
+\addcontentsline{toc}{section}{Exercises}
+
+\begin{exercise}
+\label{ex:abel-independence}
+Show the two conditions of \cref{thm:abel-law} are independent: exhibit a divisor
+of degree zero whose Abel sum is nonzero (hence not principal), and a divisor with
+Abel sum zero but nonzero degree (hence not principal). Conclude that neither
+condition alone characterizes principal divisors.
+\end{exercise}
+
+\begin{exercise}
+\label{ex:abel-three-point}
+Prove \cref{cor:abel-three-point} directly from \cref{thm:abel-law}, and use it to
+show that for any \(P, Q\) on the cubic there is a unique \(R\) with
+\(P + Q + R = O\), namely \(R = -(P+Q)\). (This \(R\) is the third intersection
+in the chord construction.)
+\end{exercise}
+
+\begin{exercise}
+\label{ex:abel-period-integral}
+Fill in the period computation in the proof of necessity: show that pairing
+opposite sides of \(\partial P_a\) for \(\oint z\,(F'/F)\,dz\) gives
+\(\omega_1 \int_{\omega_2\text{-side}} (F'/F)\,dz - \omega_2 \int_{\omega_1\text{-side}}
+(F'/F)\,dz\), and that each side integral lies in \(2\pi i\,\Z\). (Compare
+\cref{thm:ell-abel} and \cref{ex:ell-winding}.)
+\end{exercise}
+
+\begin{exercise}
+\label{ex:abel-addition-function}
+Using sufficiency (\cref{thm:abel-law}), show that for any \(a, b \in T\) there is
+an elliptic function with divisor \([a] + [b] - [a+b] - [0]\). Interpret this
+function as encoding ``\(a + b\)'' and explain why no such function exists with
+divisor \([a] - [0]\) when \(a \ne 0\).
+\end{exercise}
+
+\begin{exercise}
+\label{ex:abel-kernel}
+Verify that \((\deg, \smap) : \Div(T) \to \Z \oplus T\) is a surjective group
+homomorphism with kernel \(\Prin(T)\), and deduce \(\Pic(T) \cong \Z \oplus T\),
+recovering \cref{ex:div-pic-split}.
+\end{exercise}

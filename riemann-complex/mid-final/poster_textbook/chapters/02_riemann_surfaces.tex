@@ -1,0 +1,75 @@
+\chapter{Compact Riemann Surfaces and Genus}
+\label{ch:riemann-surfaces}
+
+A Riemann surface is the natural setting for one-variable complex analysis after
+we stop insisting that all functions live on open subsets of \(\C\).  It is a
+topological surface with charts to \(\C\) whose transition functions are
+holomorphic.  Compact Riemann surfaces are the complex-analytic analogues of
+closed algebraic curves.
+
+\begin{definition}
+A compact Riemann surface \(X\) has genus \(g\) if its underlying oriented
+topological surface has \(g\) handles.  Equivalently,
+\(\chi(X)=2-2g\).
+\end{definition}
+
+The midterm computation that the real torus has Euler characteristic \(0\) is
+therefore already telling us that a complex torus has genus \(1\).  This number is
+not cosmetic.  It is exactly the number that makes Riemann--Roch read
+\(\ell(D)=\deg D\) for positive divisors on an elliptic curve.
+
+\begin{proposition}
+\label{prop:compact-functions}
+Every holomorphic function on a compact connected Riemann surface is constant.
+\end{proposition}
+
+\begin{proof}
+The image of a compact surface under a holomorphic function is compact in \(\C\),
+so the function has a maximum absolute value.  The maximum modulus principle then
+forces the function to be locally constant, hence constant.
+\end{proof}
+
+\begin{definition}
+A meromorphic function on a Riemann surface is a holomorphic map to
+\(\CP^1\).  Its poles are the points mapping to \(\infty\).
+\end{definition}
+
+\begin{keyidea}{Compactness changes the rules}
+On a compact surface, nonconstant holomorphic functions disappear, but
+meromorphic functions become structured maps to \(\CP^1\).  The map
+\(\wp:T\to\CP^1\) is exactly such a map.
+\end{keyidea}
+
+\section*{Exercises}
+\addcontentsline{toc}{section}{Exercises}
+
+\exerciseintent{Convert Euler characteristic into genus in the genus-one case.}
+\begin{exercise}
+Substitute \(\chi=0\) into \(\chi=2-2g\) and solve the resulting linear equation
+for \(g\).
+\end{exercise}
+
+\exerciseintent{Identify exactly where compactness enters the maximum modulus argument.}
+\begin{exercise}
+Use the concrete function \(f(z)=z\) on \(\C\).  Compute why \(|f|\) has no
+maximum on \(\C\), and use this calculation to identify the step in the maximum
+modulus proof that fails on noncompact surfaces.
+\end{exercise}
+
+\exerciseintent{Use compactness and local normal forms to prove zeros and poles are finite.}
+\begin{exercise}
+Suppose a meromorphic function on a compact surface had infinitely many zeros or
+poles.  Use compactness to produce an accumulation point, then use the local
+forms \((z-p)^m u(z)\) and \((z-p)^{-m}u(z)\) to compute why this contradicts
+isolation of zeros and poles.
+\end{exercise}
+
+\exerciseintent{Recover the torus genus by a concrete cell count on the glued parallelogram.}
+\begin{exercise}
+The quotient of a parallelogram by identifying opposite sides is a topological
+torus.  Count the cell classes \(F,E,V\) after the identifications, compute
+\[
+  \chi=F-E+V,
+\]
+and then use \(\chi=2-2g\) to compute the genus.
+\end{exercise}

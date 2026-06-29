@@ -1,0 +1,36 @@
+% LFSR-style remainder computation for a cyclic code.
+\documentclass[tikz, border=8pt]{standalone}
+\input{coding-fig-common.tex}
+
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+  \node[title text] at (0,3.05) {Shift-Register View of Cyclic Encoding};
+  \node[caption text] at (0,2.64) {For $g(X)=X^3+X+1$, the remainder needs three memory cells.};
+
+  \node[process] (input) at (-4.7,0.45) {message stream\\[-1pt]\scriptsize one symbol per clock};
+  \node[circle, draw=TealDarkCyan!75, fill=Paper, minimum size=0.42cm] (xor0) at (-2.55,0.45) {$+$};
+
+  \foreach \i/\name in {0/r_0,1/r_1,2/r_2}{
+    \node[process blue, minimum width=0.78cm, minimum height=0.58cm] (r\i) at (-1.1+1.18*\i,0.45) {$\name$};
+  }
+  \node[circle, draw=AmberCode!80, fill=AmberCode!10, minimum size=0.42cm] (xor1) at (0.08,-1.0) {$+$};
+
+  \node[process amber] (out) at (3.2,0.45) {parity remainder\\[-1pt]\scriptsize $p(X)$};
+
+  \draw[flow] (input) -- (xor0);
+  \draw[flow] (xor0) -- (r0);
+  \draw[flow] (r0) -- (r1);
+  \draw[flow] (r1) -- (r2);
+  \draw[flow] (r2) -- (out);
+
+  \draw[flow amber] (r2.south) |- (xor1.east);
+  \draw[flow amber] (xor1.west) -| (xor0.south);
+  \draw[flow amber] (xor1.north) -- (r1.south)
+    node[midway, right, tiny label] {tap $X$};
+  \node[tiny label] at (-1.6,-1.15) {tap $1$};
+
+  \node[panel, align=center] at (0,-2.25)
+    {\small Division by $g(X)$ is implemented by feedback taps at nonzero coefficients.};
+\end{tikzpicture}
+\end{document}
+

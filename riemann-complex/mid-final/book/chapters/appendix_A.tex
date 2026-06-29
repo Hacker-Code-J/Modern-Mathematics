@@ -1,0 +1,106 @@
+% Complex-Analysis Toolkit  (prerequisites refresher; reference appendix for the
+% single-variable complex analysis the book relies on)
+\chapter{Complex-Analysis Toolkit}
+\label{app:A}
+
+This appendix collects, for reference, the results from a first course in complex
+analysis that the main text uses. Proofs are in any standard text --- Ahlfors
+\cite{ahlfors}, Stein--Shakarchi \cite{stein-shakarchi}, Conway \cite{conway} ---
+and we state the facts precisely and note where each is invoked.
+
+\section{Holomorphic and Meromorphic Functions}
+\label{sec:A-holo}
+
+A function \(f\) on an open \(U \subseteq \C\) is \emph{holomorphic} if it is
+complex-differentiable at every point; equivalently it is given near each point by
+a convergent power series. It is \emph{meromorphic} on \(U\) if it is holomorphic
+off a discrete set of poles. Near a point \(p\) a meromorphic \(f \not\equiv 0\)
+has a \emph{Laurent expansion}
+\[
+  f(z) = \sum_{k \ge m} c_k (z-p)^k, \qquad c_m \ne 0,
+\]
+and the integer \(m = \ord_p(f)\) is the \emph{order}: \(m > 0\) a zero, \(m < 0\)
+a pole of order \(-m\), \(m = 0\) a nonzero finite value. The \emph{residue} is the
+coefficient \(\Res_p f = c_{-1}\). These notions are intrinsic to a Riemann surface
+because they are unchanged by holomorphic coordinate changes
+(\cref{rem:div-ord-welldef}), which is what lets us speak of orders and residues on
+\(T = \C/\Lambda\) throughout \crefrange{ch:elliptic_liouville}{ch:divisors}.
+
+\section{Liouville's Theorem and the Maximum Modulus Principle}
+\label{sec:A-liouville}
+
+\begin{theorem}[Liouville]
+\label{thm:A-liouville}
+A bounded entire function (holomorphic on all of \(\C\)) is constant.
+\end{theorem}
+
+\begin{theorem}[Maximum modulus]
+\label{thm:A-maxmod}
+A nonconstant holomorphic function on a connected open set has no interior local
+maximum of \(|f|\). Consequently a holomorphic function on a compact connected
+Riemann surface is constant.
+\end{theorem}
+
+These are the engine of \cref{thm:ell-const}: a holomorphic elliptic function is
+bounded (by periodicity and compactness of the fundamental parallelogram), hence
+constant. The same statements force \(L(0) = \C\) and \(\Omega(T) = \C\,dz\) in
+\cref{ch:riemann_roch}.
+
+\section{Residues and the Residue Theorem}
+\label{sec:A-residues}
+
+\begin{theorem}[Residue theorem in the plane]
+\label{thm:A-residue-plane}
+If \(f\) is meromorphic on a domain containing a positively oriented simple closed
+curve \(\gamma\) and its interior, with no poles on \(\gamma\), then
+\[
+  \frac{1}{2\pi i} \oint_\gamma f(z)\,dz = \sum_{p \text{ inside}} \Res_p f .
+\]
+\end{theorem}
+
+On a compact Riemann surface there is no boundary, and the global form is a
+vanishing theorem.
+
+\begin{theorem}[Sum of residues on a compact surface]
+\label{thm:A-residue-compact}
+For a meromorphic \(1\)-form \(\omega\) on a compact Riemann surface \(X\),
+\(\sum_{p \in X} \Res_p \omega = 0\).
+\end{theorem}
+
+The planar version drives the period-parallelogram computations of
+\cref{ch:elliptic_liouville} (the boundary integral vanishes because opposite
+sides cancel, leaving \(\sum \Res = 0\)); the compact version is the clean
+statement behind \(\deg\divisor(f) = 0\) applied to \(df/f\) in
+\cref{thm:div-degzero}. Both are global Stokes-type statements
+(\cref{app:B}).
+
+\section{The Argument Principle and Winding Numbers}
+\label{sec:A-argument}
+
+\begin{theorem}[Argument principle]
+\label{thm:A-argument}
+If \(f\) is meromorphic inside and on a positively oriented simple closed curve
+\(\gamma\), with no zeros or poles on \(\gamma\), then
+\[
+  \frac{1}{2\pi i} \oint_\gamma \frac{f'(z)}{f(z)}\,dz = Z - P,
+\]
+the number of zeros minus the number of poles inside, with multiplicity. The
+left side is the winding number of \(f \circ \gamma\) about \(0\).
+\end{theorem}
+
+Applied on a period parallelogram, this gives the valence theorem
+\cref{thm:ell-valence} (\#zeros \(=\) \#poles for an elliptic function) and,
+through \(\oint z\,f'/f\), the Abel relation \cref{thm:ell-abel}; the integrality
+of the winding number is the \(2\pi i\,\Z\) in those proofs
+(\cref{ex:ell-winding}).
+
+\section{Pointers}
+\label{sec:A-pointers}
+
+The Weierstrass \(M\)-test (uniform convergence of a series dominated by a
+convergent series of constants) justifies the convergence of the \(\wp\)-series in
+\cref{prop:wp-converges}. The implicit function theorem provides holomorphic charts
+on a smooth plane curve, making \(E\) a Riemann surface in \cref{sec:emb-l3o}. A
+nonconstant holomorphic map between compact Riemann surfaces is a finite branched
+cover and is surjective; this underlies the degree-two cover \(\wp : T \to \CP^1\)
+(\cref{sec:wp-roots}) and the surjectivity of \(\Phi\) in \cref{thm:emb-iso}.

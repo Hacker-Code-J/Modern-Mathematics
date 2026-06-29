@@ -1,0 +1,42 @@
+% Generator polynomial shifts create a generator matrix.
+\documentclass[tikz, border=8pt]{standalone}
+\input{coding-fig-common.tex}
+
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+  \node[title text] at (0,3.05) {Generator Matrix from Polynomial Shifts};
+  \node[caption text] at (0,2.64) {$g(X)=1+X+X^3$ generates a cyclic $[7,4]$ code by shifts.};
+
+  \node[process amber] (g) at (-4.1,1.12) {$g(X)=1+X+X^3$};
+  \foreach \i/\b in {0/1,1/1,2/0,3/1}{
+    \node[bit amber] at (-5.0+0.52*\i,0.42) {$\b$};
+  }
+  \node[tiny label] at (-4.24,-0.05) {coefficient vector of $g$};
+
+  \matrix[matrix of nodes,
+    nodes={bit, minimum width=0.43cm, minimum height=0.39cm},
+    column sep=-0.7pt,
+    row sep=-0.7pt,
+    left delimiter={[},
+    right delimiter={]}
+  ] (M) at (1.25,0.25) {
+    1&1&0&1&0&0&0\\
+    0&1&1&0&1&0&0\\
+    0&0&1&1&0&1&0\\
+    0&0&0&1&1&0&1\\
+  };
+  \node[tiny label, above=0.18cm of M] {$G$};
+  \node[tiny label, right=0.15cm of M] {$g,Xg,X^2g,X^3g$};
+
+  \draw[flow amber] (g.east) -- (M.west)
+    node[midway, above=0.1cm, tiny label] {shift};
+
+  \draw[decorate, decoration={brace, amplitude=5pt}, TealDarkCyan!78, line width=0.8pt]
+    (-0.8,-1.25) -- (3.3,-1.25)
+    node[midway, below=0.16cm, tiny label] {$k=n-\deg g=4$ rows};
+
+  \node[panel, align=center] at (0,-2.25)
+    {\small Encoding is multiplication $m(X)\mapsto m(X)g(X)$.};
+\end{tikzpicture}
+\end{document}
+

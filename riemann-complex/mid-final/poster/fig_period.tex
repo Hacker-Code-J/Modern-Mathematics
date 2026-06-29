@@ -1,0 +1,23 @@
+% One tile of the lattice with the boundary traversed counterclockwise.
+% Integrating f, f'/f, z f'/f around it: opposite sides carry equal values (f is doubly
+% periodic) and cancel -- this is Liouville's count (#zeros = #poles) and the Abel relation.
+\begin{tikzpicture}[>=Latex,
+    edge/.style={formslate, line width=1.7pt, postaction={decorate},
+      decoration={markings, mark=at position 0.57 with {\arrow{Latex[length=4.2mm]}}}}]
+  \def\ax{4.0}\def\bx{1.1}\def\by{2.7}
+  \fill[formteal!9] (0,0)--(\ax,0)--(\ax+\bx,\by)--(\bx,\by)--cycle;
+  % directed boundary contour, ccw
+  \draw[edge] (0,0)--(\ax,0) node[midway, below=4pt, formslate, font=\small] {$\omega_1$};
+  \draw[edge] (\ax,0)--(\ax+\bx,\by);
+  \draw[edge] (\ax+\bx,\by)--(\bx,\by);
+  \draw[edge] (\bx,\by)--(0,0) node[midway, left=3pt, formslate, font=\small] {$\omega_2$};
+  \fill[black] (0,0) circle (1.8pt) node[below left, font=\small] {$0$};
+  % label the oriented boundary, placed outside above the top edge
+  \node[formslate, font=\small] at (3.0,3.08) {$\partial P_\Lambda$ (ccw)};
+  % two zeros and a double pole, stacked with clear vertical separation
+  \node[formteal!60!black, font=\small] at (2.6,2.18) {zeros};
+  \draw[formteal!70!black, line width=1.3pt] (1.7,1.65) circle (4.5pt);
+  \draw[formteal!70!black, line width=1.3pt] (3.6,1.65) circle (4.5pt);
+  \node[formrust, font=\Large] at (2.6,1.0) {$\boldsymbol\times$};
+  \node[formrust!72!black, font=\small] at (2.6,0.5) {double pole};
+\end{tikzpicture}

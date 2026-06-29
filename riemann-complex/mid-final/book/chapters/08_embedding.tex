@@ -1,0 +1,318 @@
+% The Embedding into CP^2  (source §8, §9; added: holomorphy of Phi at O, the
+% flex at infinity, the isomorphism-of-Riemann-surfaces theorem proved from
+% injectivity + compactness, and inverses as reflection)
+\chapter{The Embedding into \texorpdfstring{$\CP^2$}{CP2}}
+\label{ch:embedding}
+
+With \(\wp\) and \(\wp'\) in hand we can build the map of \cref{thm:main}: the
+embedding
+\[
+  \Phi : T = \C/\Lambda \longrightarrow E \subset \CP^2,
+  \qquad \Phi([z]) = [\wp(z) : \wp'(z) : 1] .
+\]
+This chapter shows \(\Phi\) is a well-defined holomorphic map onto the smooth
+cubic \(E\), extends it across the origin to the point at infinity \(O =
+[0:1:0]\), and proves it is an isomorphism of compact Riemann surfaces --- the
+analytic half of \cref{thm:main}. Finally we read off the first piece of the
+group dictionary: the torus inverse \(z \mapsto -z\) becomes reflection across
+the \(x\)-axis. The group law itself is transported in \cref{ch:transport}.
+
+\section{The Projective Map}
+\label{sec:emb-map}
+
+For \(z \notin \Lambda\) set \(\Phi([z]) = [\wp(z) : \wp'(z) : 1]\). Since \(\wp,
+\wp'\) are \(\Lambda\)-periodic (\cref{prop:wp-even-periodic}) this is
+well-defined on \(T\). The differential equation places the image on the cubic.
+
+\begin{proposition}
+\label{prop:emb-lands}
+For \(z \notin \Lambda\), the point \(\Phi([z])\) lies on
+\[
+  E : \quad Y^2 Z = 4 X^3 - g_2 X Z^2 - g_3 Z^3 .
+\]
+\end{proposition}
+
+\begin{proof}
+In the affine chart \(Z = 1\) the equation reads \(y^2 = 4x^3 - g_2 x - g_3\).
+Substituting \(x = \wp(z)\), \(y = \wp'(z)\) gives exactly the Weierstrass
+differential equation \(\wp'^2 = 4\wp^3 - g_2\wp - g_3\) of \cref{thm:wp-ode},
+which holds; so \((\wp(z), \wp'(z)) \in E\).
+\end{proof}
+
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[scale=1.0, every node/.style={font=\small}]
+  \begin{scope}[scale=0.65]
+    \drawprecisetorus
+    \fill[formteal!85!black] (\torusMarkZx,\torusMarkZy) circle (2.5pt);
+    \node[formteal!60!black, right, font=\scriptsize] at (\torusMarkZx,\torusMarkZy) {$[z]$};
+    \fill[black] (\torusMarkOriginx,\torusMarkOriginy) circle (2.5pt);
+    \node[font=\scriptsize, above] at (\torusMarkOriginx,\torusMarkOriginy) {$[0]$};
+    \node at (0,-1.9) {\textbf{torus }$T=\C/\Lambda$};
+  \end{scope}
+  \draw[-{Latex[length=3mm]}, formplum, line width=1.1pt] (2.0,0) -- (3.4,0);
+  \node[formplum] at (2.7,0.4) {$\Phi$};
+  \node[formplum, font=\scriptsize, align=center] at (2.7,-0.4) {$[z]\mapsto$\\$[\wp(z){:}\wp'(z){:}1]$};
+  \begin{scope}[xshift=6.0cm]
+    \draw[->, black!50, line width=0.4pt] (-1.4,0) -- (2.1,0) node[right, black!55, font=\scriptsize] {$x$};
+    \draw[->, black!50, line width=0.4pt] (0,-1.6) -- (0,1.6) node[above, black!55, font=\scriptsize] {$y$};
+    \draw[draw=formteal!60!black, line width=0.85pt, smooth, samples=70, variable=\x, domain=-1.0:0.0]
+      plot (\x, {0.65*sqrt(max(0,4*\x*\x*\x-4*\x))});
+    \draw[draw=formteal!60!black, line width=0.85pt, smooth, samples=70, variable=\x, domain=-1.0:0.0]
+      plot (\x, {-0.65*sqrt(max(0,4*\x*\x*\x-4*\x))});
+    \draw[draw=formteal!60!black, line width=0.85pt, smooth, samples=70, variable=\x, domain=1.0:1.9]
+      plot (\x, {0.65*sqrt(max(0,4*\x*\x*\x-4*\x))});
+    \draw[draw=formteal!60!black, line width=0.85pt, smooth, samples=70, variable=\x, domain=1.0:1.9]
+      plot (\x, {-0.65*sqrt(max(0,4*\x*\x*\x-4*\x))});
+    \foreach \rt in {\rooteone,\rootetwo,\rootethree}
+      \fill[formteal!60!black] (\rt,0) circle (1.2pt);
+    \fill[formteal!85!black] (\chordQx,{0.65*\chordQy}) circle (1.8pt);
+    \node[formteal!60!black, right, font=\scriptsize] at (\chordQx,{0.65*\chordQy}) {$\Phi([z])$};
+    \node at (0.4,-1.85) {\textbf{cubic} $E\subset\CP^2$};
+    \node[font=\scriptsize] at (0.4,1.85) {$y^2=4x^3-4x$};
+  \end{scope}
+\end{tikzpicture}
+\caption{The map \(\Phi([z]) = [\wp(z):\wp'(z):1]\) carries the torus onto the
+real locus of the cubic \(y^2 = 4x^3 - 4x\) (here \(g_2 = 4\), \(g_3 = 0\)).
+Curve and sample point are from \texttt{sagemath/12\_curve\_sample.sage}.}
+\label{fig:embedding}
+\end{figure}
+
+\section{Extension at the Origin}
+\label{sec:emb-origin}
+
+At \(z = 0\) both \(\wp\) and \(\wp'\) blow up, so the affine formula fails, but
+the projective one has a limit. Multiplying all three homogeneous coordinates by
+\(z^3\),
+\[
+  [\wp(z) : \wp'(z) : 1] = [z^3\wp(z) : z^3\wp'(z) : z^3],
+\]
+and using \(\wp = z^{-2} + O(z^2)\), \(\wp' = -2z^{-3} + O(z)\),
+\[
+  z^3\wp(z) \to 0, \qquad z^3\wp'(z) \to -2, \qquad z^3 \to 0
+  \quad (z \to 0).
+\]
+Hence \(\lim_{z\to0}\Phi([z]) = [0 : -2 : 0] = [0:1:0]\), and we set
+\[
+  \Phi(O) = [0:1:0] =: O \in E .
+\]
+
+\begin{proposition}
+\label{prop:emb-holo}
+With this value at the origin, \(\Phi : T \to E\) is holomorphic.
+\end{proposition}
+
+\begin{proof}
+Away from \([0]\), \(\Phi\) is given by the holomorphic functions \(\wp, \wp'\) in
+the chart \(Z = 1\), so it is holomorphic there. Near \([0]\) use the homogeneous
+representative \(\bigl(z^3\wp(z),\, z^3\wp'(z),\, z^3\bigr)\): each entry is
+holomorphic in \(z\) (the poles of \(\wp, \wp'\) are cancelled by \(z^3\)), and
+they do not vanish simultaneously, since the middle entry tends to \(-2 \ne 0\).
+In the affine chart \(Y = 1\) of \(\CP^2\) the map is therefore
+\(\bigl(z^3\wp/(z^3\wp'),\ z^3/(z^3\wp')\bigr) = \bigl(\wp/\wp',\ 1/\wp'\bigr)\),
+holomorphic at \(z = 0\) with value \((0,0) = O\). So \(\Phi\) is holomorphic on
+all of \(T\).
+\end{proof}
+
+\section{The Point at Infinity}
+\label{sec:emb-infinity}
+
+\begin{proposition}
+\label{prop:emb-flex}
+\(O = [0:1:0]\) is the unique point of \(E\) on the line at infinity \(Z = 0\). It
+is a smooth point of \(E\), and the line at infinity is the tangent there, meeting
+\(E\) only at \(O\) with intersection multiplicity three: \(O\) is an inflection
+point.
+\end{proposition}
+
+\begin{proof}
+Setting \(Z = 0\) in \(Y^2 Z = 4X^3 - g_2 X Z^2 - g_3 Z^3\) gives \(0 = 4X^3\), so
+\(X = 0\); the only such projective point is \([0:1:0]\). In the affine chart
+\(Y = 1\), with \(F(X,Z) = Z - 4X^3 + g_2 X Z^2 + g_3 Z^3\), we have
+\(\partial F/\partial Z\,|_{(0,0)} = 1 \ne 0\), so \(O\) is smooth and the tangent
+is \(Z = 0\). Substituting \(Z = 0\) into \(E\) yields \(4X^3 = 0\), a triple root
+at \(X = 0\), so \(Z = 0\) meets \(E\) at \(O\) with multiplicity three.
+\end{proof}
+
+The flex at \(O\) is the geometric reason \(O\) will serve as the identity of the
+group law: a line meeting \(E\) three times at \(O\) records \(3O\), the divisor
+class that is the identity (\cref{ch:transport}).
+
+\section{Why \texorpdfstring{$L(3O)$}{L(3O)} Gives the Embedding}
+\label{sec:emb-l3o}
+
+The coordinates of \(\Phi\) are a basis of \(L(3O)\). By
+\cref{prop:rr-counts}, \(\ell(3O) = 3\), with basis \(\{1, \wp, \wp'\}\): a function
+with no pole, one with a double pole, one with a triple pole, all at \(O\). Three
+linearly independent functions define a map to \(\CP^2\),
+\[
+  [z] \longmapsto [\wp(z) : \wp'(z) : 1],
+\]
+and the single algebraic relation among the three sections --- forced by the
+dimension count of \cref{rem:rr-cubic-preview} --- is the cubic. Because
+\(\Delta \ne 0\) (\cref{cor:wp-smooth}), \(E\) is a \emph{smooth} projective plane
+curve, hence a compact Riemann surface: near each point one of the partial
+derivatives of the defining equation is nonzero, and the implicit function
+theorem provides a holomorphic chart. It is also connected (the polynomial
+\(Y^2 - (4X^3 - g_2 X - g_3)\) is irreducible when the cubic has distinct roots).
+
+\section{Injectivity and the Isomorphism}
+\label{sec:emb-iso}
+
+\begin{lemma}
+\label{lem:emb-fibers}
+If \(\wp(z) = \wp(w)\) then \(w \equiv z\) or \(w \equiv -z \pmod\Lambda\).
+\end{lemma}
+
+\begin{proof}
+Fix \(w\) and consider \(\wp - \wp(w)\), elliptic of order two (double pole at
+\([0]\)), so by \cref{thm:ell-valence} it has exactly two zeros counted with
+multiplicity. Both \(w\) and \(-w\) are zeros, since \(\wp\) is even; if
+\(w \not\equiv -w\) these are the two distinct zeros, and \(\wp(z) = \wp(w)\)
+forces \(z \equiv w\) or \(z \equiv -w\). If \(w \equiv -w\) (a half-period), then
+\(\wp - \wp(w)\) has a double zero at \(w\), again accounting for both zeros, and
+\(\wp(z) = \wp(w)\) forces \(z \equiv w \equiv -w\). In all cases
+\(z \equiv \pm w\).
+\end{proof}
+
+\begin{theorem}[\texorpdfstring{$\Phi$}{Phi} is an isomorphism]
+\label{thm:emb-iso}
+The map \(\Phi : T \to E\) is a biholomorphism of compact Riemann surfaces.
+\end{theorem}
+
+\begin{proof}
+\emph{Injectivity.} Suppose \(\Phi([z]) = \Phi([w])\) with neither at \(O\). Then
+\(\wp(z) = \wp(w)\) and \(\wp'(z) = \wp'(w)\). By \cref{lem:emb-fibers},
+\(w \equiv z\) or \(w \equiv -z\). In the second case \(\wp'(w) = \wp'(-z) =
+-\wp'(z)\), and combined with \(\wp'(w) = \wp'(z)\) this gives \(\wp'(z) = 0\),
+i.e.\ \(z\) is a half-period (\cref{prop:wp-roots}), where \(z \equiv -z\); so
+\(w \equiv z\) anyway. As \(O\) is the only point mapping to \([0:1:0]\)
+(\cref{prop:emb-flex}), \(\Phi\) is injective.
+
+\emph{Bijectivity and biholomorphy.} \(\Phi\) is a nonconstant holomorphic map
+between the compact connected Riemann surfaces \(T\) and \(E\); its image is open
+(open mapping theorem) and compact, hence all of the connected curve \(E\), so
+\(\Phi\) is surjective. An injective holomorphic map between Riemann surfaces is
+an immersion with nonvanishing derivative, so \(\Phi\) is a holomorphic bijection
+whose inverse is holomorphic. Therefore \(\Phi\) is a biholomorphism.
+\end{proof}
+
+This proves the Riemann-surface assertion of \cref{thm:main}: the torus and the
+cubic are the same compact Riemann surface, identified by \((\wp, \wp')\). The
+remaining assertion --- that \(\Phi\) is a group isomorphism for the chord--tangent
+law --- is the subject of \crefrange{ch:abel}{ch:transport}.
+
+\section{Inverses Become Reflection}
+\label{sec:emb-reflection}
+
+Transport the torus inverse \(z \mapsto -z\) through \(\Phi\). Since \(\wp\) is
+even and \(\wp'\) odd,
+\[
+  \Phi(-z) = [\wp(-z) : \wp'(-z) : 1] = [\wp(z) : -\wp'(z) : 1],
+\]
+so in affine coordinates \(P = (x, y) = (\wp(z), \wp'(z))\) maps to
+\[
+  -P = (x, -y) .
+\]
+
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[scale=1.0, every node/.style={font=\small}]
+  \draw[->, black!50, line width=0.5pt] (-1.8,0) -- (3.0,0) node[right, black!55] {$x=\wp$};
+  \draw[->, black!50, line width=0.5pt] (0,-3.4) -- (0,3.5) node[above, black!55] {$y=\wp'$};
+  \drawprecisecurve
+  \foreach \rt in {\rooteone,\rootetwo,\rootethree}
+    \fill[formteal!60!black] (\rt,0) circle (1.3pt);
+  \fill[formrust!85!black] (\chordQx,\chordQy) circle (2pt);
+  \node[formrust!60!black, right] at (\chordQx,\chordQy) {$P=(\wp(z),\wp'(z))$};
+  \fill[formgold!85!black] (\chordQx,{-\chordQy}) circle (2pt);
+  \node[formgold!50!black, right] at (\chordQx,{-\chordQy}) {$-P=(\wp(-z),-\wp'(z))$};
+  \draw[<->, draw=formplum, line width=0.6pt, dashed]
+    (\chordQx,{\chordQy-0.18}) -- (\chordQx,{-\chordQy+0.18});
+  \node[formplum, font=\scriptsize, anchor=west] at ({\chordQx+0.10},0) {reflect};
+  \node[draw=black!40, rounded corners=2pt, fill=formivory, align=left, anchor=south,
+        inner sep=4pt, font=\scriptsize] at (0.0,-3.4)
+    {$\wp$ even, $\wp'$ odd $\Rightarrow$ $z\mapsto-z$ on the torus becomes
+     $(x,y)\mapsto(x,-y)$ on the curve.\\
+     Sage: $P=(\chordQx,\chordQy)$, $-P=(\chordQx,{-\chordQy})$.};
+\end{tikzpicture}
+\caption{The torus inverse \(z \mapsto -z\) becomes reflection across the
+\(x\)-axis on the cubic. The fixed points \(y = 0\) are the half-periods
+\(e_1, e_2, e_3\); \(O\) is its own inverse at infinity. Curve from
+\texttt{sagemath/12\_curve\_sample.sage}.}
+\label{fig:reflection}
+\end{figure}
+
+\begin{keyidea}{Why reflection appears}
+Reflection across the \(x\)-axis is not an extra convention bolted onto the
+chord--tangent rule. It \emph{is} the torus inverse \(z \mapsto -z\), written in
+the coordinates \(x = \wp(z)\), \(y = \wp'(z)\). The points fixed by the
+reflection are exactly those with \(y = 0\) --- the images
+\((e_1, 0), (e_2, 0), (e_3, 0)\) of the half-periods --- together with \(O\) at
+infinity. These four are the two-torsion of the group: the points equal to their
+own inverse.
+\end{keyidea}
+
+\section{Summary}
+\label{sec:emb-summary}
+
+The map \(\Phi([z]) = [\wp(z):\wp'(z):1]\), extended by \(\Phi(O) = [0:1:0]\), is a
+holomorphic map of \(T\) onto the smooth cubic \(E\)
+(\cref{prop:emb-lands,prop:emb-holo}). The point \(O\) is the unique point at
+infinity and an inflection (\cref{prop:emb-flex}), destined to be the identity.
+The coordinates are a basis of \(L(3O)\), and because \(\Delta \ne 0\) the curve
+\(E\) is a compact Riemann surface; \(\Phi\) is injective
+(\cref{lem:emb-fibers}) and hence a biholomorphism
+\(T \xrightarrow{\sim} E\) (\cref{thm:emb-iso}), the analytic content of
+\cref{thm:main}. Under \(\Phi\) the torus inverse \(z \mapsto -z\) is reflection
+\((x,y) \mapsto (x,-y)\), whose fixed points are the two-torsion. What remains is
+to see that the \emph{addition} on \(T\) becomes the chord--tangent law; that
+needs Abel's sum law, taken up next.
+
+\section*{Exercises}
+\addcontentsline{toc}{section}{Exercises}
+
+\begin{exercise}
+\label{ex:emb-holo-origin}
+Verify \cref{prop:emb-holo} in the chart \(Y = 1\): show the map near \([0]\) is
+\(z \mapsto (\wp/\wp', 1/\wp')\), compute its value and derivative at \(z = 0\),
+and confirm it is a local holomorphic coordinate. (This shows \(\Phi\) is an
+immersion at \(O\).)
+\end{exercise}
+
+\begin{exercise}
+\label{ex:emb-flex}
+Carry out \cref{prop:emb-flex} in full: confirm \(O\) is smooth by computing the
+gradient of the projective equation there, and verify the intersection
+multiplicity of \(Z = 0\) with \(E\) at \(O\) is three by substitution. Why does a
+flex at \(O\) make \(3O\) a principal divisor?
+\end{exercise}
+
+\begin{exercise}
+\label{ex:emb-fiber-lemma}
+Prove \cref{lem:emb-fibers} and deduce that \(z \mapsto \wp(z)\) realizes
+\(T/\{\pm1\} \cong \CP^1\), with the four fixed points of \(z \mapsto -z\) mapping
+to the branch values \(e_1, e_2, e_3, \infty\).
+\end{exercise}
+
+\begin{exercise}
+\label{ex:emb-two-torsion-image}
+Show that \(\Phi\) sends the four two-torsion points to the points of \(E\) fixed
+by \((x,y) \mapsto (x,-y)\), according to
+\[
+  0 \mapsto O, \quad
+  \tfrac{\omega_1}{2} \mapsto (e_1,0), \quad
+  \tfrac{\omega_2}{2} \mapsto (e_2,0), \quad
+  \tfrac{\omega_1+\omega_2}{2} \mapsto (e_3,0),
+\]
+and that these four points are precisely those of \(E\) with \(y = 0\) or
+\(y = \infty\).
+\end{exercise}
+
+\begin{exercise}
+\label{ex:emb-involution}
+Show the reflection \(\iota_E(x,y) = (x,-y)\) is a holomorphic involution of \(E\)
+with quotient \(\CP^1\) (via \(x = \wp\)), and that under \(\Phi\) it corresponds
+to \(z \mapsto -z\). Conclude that \(\iota_E\) is the unique nontrivial deck
+transformation of the double cover \(\wp : T \to \CP^1\).
+\end{exercise}

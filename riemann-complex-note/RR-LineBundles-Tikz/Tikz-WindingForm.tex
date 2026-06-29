@@ -1,0 +1,31 @@
+% Tikz-WindingForm.tex
+% Winding form on C^× : punctured plane with loop γ, showing (1/2πi)∮dz/z = 1
+\begin{tikzpicture}[scale=1.2]
+  % Axes
+  \draw[->] (-1.8,0) -- (1.8,0) node[right] {$\operatorname{Re}(z)$};
+  \draw[->] (0,-1.6) -- (0,1.6) node[above] {$\operatorname{Im}(z)$};
+
+  % Puncture at origin
+  \filldraw[fill=white, draw=black, line width=0.8pt] (0,0) circle (0.08);
+  \node[below left, font=\small] at (0,0) {$0$};
+
+  % Loop γ (unit circle) with counterclockwise arrow
+  \draw[line width=1.2pt, blue,
+        decoration={markings,
+          mark=at position 0.15 with {\arrow[blue]{>}},
+          mark=at position 0.65 with {\arrow[blue]{>}}
+        },
+        postaction={decorate}]
+    (0,0) circle (1cm);
+
+  % Label γ
+  \node[blue, above right, font=\small] at (0.72, 0.72) {$\gamma$};
+
+  % Annotation: winding integral
+  \node[align=center, font=\small] at (0,-2.1)
+    {$\displaystyle\frac{1}{2\pi i}\oint_\gamma \frac{dz}{z} = 1$};
+
+  % Small tick at z=1
+  \node[below right, font=\footnotesize] at (1,0) {$1$};
+  \filldraw (1,0) circle (1.5pt);
+\end{tikzpicture}

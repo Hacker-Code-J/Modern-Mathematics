@@ -1,0 +1,34 @@
+% Cyclic shift as multiplication by X modulo X^n - 1.
+\documentclass[tikz, border=8pt]{standalone}
+\input{coding-fig-common.tex}
+
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+  \node[title text] at (0,3.20) {Cyclic Shift Operator};
+  \node[caption text] at (0,2.80) {Multiplication by $X$ rotates coefficients in $\mathbb F_q[X]/(X^n-1)$.};
+
+  \coordinate (O) at (0,0);
+  \draw[TealDarkCyan!22, line width=12pt] (O) circle (1.75);
+  \draw[TealDarkCyan!65, line width=1.1pt] (O) circle (1.75);
+  \draw[flow amber, line width=1.2pt] (35:2.18) arc[start angle=35, end angle=-250, radius=2.18];
+
+  \foreach \i/\ang in {0/90,1/38.571,2/-12.858,3/-64.287,4/-115.716,5/-167.145,6/-218.574}{
+    \node[bit teal, minimum width=0.58cm] (c\i) at (\ang:1.75) {$c_{\i}$};
+    \node[tiny label] at (\ang:2.35) {$X^{\i}$};
+  }
+
+  \node[process blue, align=center] at (0,0) {
+    \small $c(X)$\\[-1pt]
+    \scriptsize $c_0+\cdots+c_6X^6$
+  };
+  \node[process amber, align=center] at (4.0,0.62) {
+    \small $Xc(X)$\\[-1pt]
+    \scriptsize $c_6+c_0X+\cdots+c_5X^6$
+  };
+  \draw[flow amber] (2.1,0.45) -- (3.0,0.55);
+
+  \node[panel, align=center] at (0,-2.72)
+    {\small A cyclic code is a linear subspace stable under this rotation.};
+\end{tikzpicture}
+\end{document}
+

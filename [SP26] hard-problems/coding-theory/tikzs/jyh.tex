@@ -1,0 +1,31 @@
+\documentclass[11pt, tikz]{standalone}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usetikzlibrary{arrows.meta, decorations.pathmorphing, positioning, calc}
+\usepackage{xcolor}
+\usepackage{pdfrender}
+\usepackage[outline]{contour}
+
+\usepackage{calrsfs}
+\DeclareMathAlphabet{\pazocal}{OMS}{zplm}{m}{n}
+
+\usepackage{mathtools, amssymb, amsthm}
+\usepackage[scr=boondox, cal=esstix]{mathalpha}
+
+\begin{document}
+%\definecolor{cseteal}{HTML}{008C8C}
+%\definecolor{csedarkteal}{HTML}{003F46}
+\definecolor{namegold}{HTML}{fdb515}
+\definecolor{namegold2}{HTML}{f78708}
+\begin{tikzpicture}
+	\node at (0,0) {
+	\textpdfrender{
+		TextRenderingMode=FillStrokeClip,
+		LineWidth=.5pt,
+			FillColor=namegold,
+			StrokeColor=namegold2,
+		}{\textbf{\Large\selectfont $\pazocal{J}$\hspace{-.5mm}$\mathcal{i}$, $\pazocal{Y}\mathcal{ong}\mathcal{Hyeon}$}}
+	};
+	\end{tikzpicture}
+\end{document}

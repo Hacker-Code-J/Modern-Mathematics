@@ -1,0 +1,91 @@
+\usetheme[
+%%% option passed to the outer theme
+%    progressstyle=fixedCircCnt,   % fixedCircCnt, movingCircCnt (default)
+]{CodingTealArc}
+
+% To override theme colors, uncomment and edit:
+%\setbeamercolor{CodingTealArc}{fg=red!20,bg=red}
+%\setbeamercolor{structure}{fg=red}
+%\setbeamercolor{frametitle}{fg=blue}
+%\setbeamercolor{normal text}{fg=black,bg=gray!10}
+
+%-------------------------------------------------------
+% PACKAGES
+%-------------------------------------------------------
+
+%\usepackage{helvet}
+%\usepackage[T1]{fontenc}
+%\usepackage[utf8]{inputenc}
+%\usepackage{textcomp}
+%\renewcommand{\ttdefault}{lmtt}
+
+\usepackage{helvet}
+\usepackage{fontspec}
+\usepackage{unicode-math}
+\setmainfont{TeX Gyre Termes}
+%\setmathfont{TeX Gyre Termes Math}
+\setmathfont{TeX Gyre Pagella Math}
+
+\setsansfont[
+Path = fonts/,
+UprightFont = *Medium.ttf,
+BoldFont    = *Bold.ttf
+]{GmarketSansTTF}
+\usepackage{textcomp}
+\renewcommand{\ttdefault}{lmtt} %
+
+% colored hyperlinks using theme color
+\newcommand{\chref}[2]{
+  \href{#1}{{\usebeamercolor[bg]{CodingTealArc} #2}}
+}
+
+\makeatletter
+\def\blfootnote{\gdef\@thefnmark{}\@footnotetext}
+\makeatother
+
+\usepackage{listings}
+
+\usepackage{tikz}
+\usepackage{pgfplots, pgfplotstable}
+\pgfplotsset{compat=1.18}
+\usetikzlibrary{
+	3d, % For 3D drawing
+	angles,
+	arrows,
+	arrows.meta,
+	backgrounds,
+	bending,
+	calc,
+	decorations.pathmorphing,
+	decorations.pathreplacing,
+	decorations.markings,
+	fit,
+	matrix,
+	patterns,
+	patterns.meta,
+	positioning,
+	shadows,
+	shapes,
+	shapes.geometric,
+	tikzmark,
+	quotes
+}
+\usetikzlibrary{positioning, shapes.geometric, arrows}
+\usetikzlibrary{patterns}
+\usetikzlibrary{decorations.markings, arrows.meta}
+\usetikzlibrary{decorations.pathmorphing}
+\usetikzlibrary{bending, shadows.blur}
+\usetikzlibrary{fit, calc, shapes}
+\usetikzlibrary{mindmap}
+\usetikzlibrary{tikzmark}
+
+\usepackage{multicol}
+\renewcommand{\lstlistingname}{Code}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{adjustbox}
+\usepackage{kotex}
+
+\usepackage{soul}
+\usepackage{colortbl}
+\usepackage{booktabs}

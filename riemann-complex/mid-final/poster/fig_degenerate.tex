@@ -1,0 +1,39 @@
+% Why we insist on Delta != 0.  As the discriminant degenerates, the smooth cubic (a
+% torus) collapses: two roots colliding give a node (group C^*), a triple root gives a
+% cusp (group C).  Only the smooth case is an elliptic curve.
+\begin{tikzpicture}[>=Latex, scale=0.95]
+  % smooth: y^2 = x^3 - x
+  \begin{scope}[xshift=0cm]
+    \draw[->, black!45, line width=0.4pt] (-1.4,0)--(2.0,0);
+    \draw[->, black!45, line width=0.4pt] (0,-2.3)--(0,2.4);
+    \foreach \s in {1,-1}{
+      \draw[formteal!62!black, line width=1.1pt, smooth, samples=40, domain=-1:0]
+        plot (\x,{\s*2*sqrt(max(\x*\x*\x-\x,0))});
+      \draw[formteal!62!black, line width=1.1pt, smooth, samples=40, domain=1:1.55]
+        plot (\x,{\s*2*sqrt(max(\x*\x*\x-\x,0))});}
+    \node[font=\small, anchor=north] at (0.4,-2.45) {smooth: $\Delta\ne0$};
+    \node[font=\small, formteal!55!black, anchor=north] at (0.4,-3.05) {torus $\C/\Lambda$};
+  \end{scope}
+  % node: y^2 = x^2 (x+1)
+  \begin{scope}[xshift=5.7cm]
+    \draw[->, black!45, line width=0.4pt] (-1.4,0)--(1.7,0);
+    \draw[->, black!45, line width=0.4pt] (0,-2.3)--(0,2.4);
+    \foreach \s in {1,-1}{
+      \draw[formrust!60!black, line width=1.1pt, smooth, samples=55, domain=-1:1.25]
+        plot (\x,{\s*(\x)*sqrt(max(\x+1,0))});}
+    \fill[black] (0,0) circle (1.7pt);
+    \node[font=\small, anchor=north] at (0.2,-2.45) {node: $\Delta=0$};
+    \node[font=\small, formrust!55!black, anchor=north] at (0.2,-3.05) {group $\C^\ast$};
+  \end{scope}
+  % cusp: y^2 = x^3
+  \begin{scope}[xshift=11.4cm]
+    \draw[->, black!45, line width=0.4pt] (-0.6,0)--(1.9,0);
+    \draw[->, black!45, line width=0.4pt] (0,-2.3)--(0,2.4);
+    \foreach \s in {1,-1}{
+      \draw[formplum!65!black, line width=1.1pt, smooth, samples=55, domain=0:1.45]
+        plot (\x,{\s*(\x)*sqrt(max(\x,0))});}
+    \fill[black] (0,0) circle (1.7pt);
+    \node[font=\small, anchor=north] at (0.65,-2.45) {cusp: triple root};
+    \node[font=\small, formplum!60!black, anchor=north] at (0.65,-3.05) {group $\C$};
+  \end{scope}
+\end{tikzpicture}

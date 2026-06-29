@@ -1,0 +1,436 @@
+% The Chord--Tangent Law in Cases  (source §13-§16; pictorial dictionary plus
+% the four structural cases. Figures reused verbatim from the source notes,
+% rendered from the Sage pipeline -- including 11_correspondence.sage.)
+\chapter{The Chord--Tangent Law in Cases}
+\label{ch:chord_tangent_cases}
+
+\Cref{thm:tr-main} proved once and for all that the chord--tangent operation is
+the transported group law. This chapter makes the statement concrete, walking
+through every structurally distinct case --- adding the identity, two distinct
+points, doubling, vertical lines and inverses, and two-torsion --- and displaying
+each as a picture. Every case is the single identity \(P + Q + R = O\) of
+\cref{thm:lin-collinear} read in a particular configuration; nothing new is
+proved, but the geometry becomes visible.
+
+\paragraph{Colour convention.}
+In the figures, rust marks the input points, plum the auxiliary line (chord,
+tangent, or vertical), teal the third intersection \(R\), and gold the final
+result obtained by reflecting \(R\) across the \(x\)-axis. All coordinates are
+computed by the Sage scripts of \cref{app:C}; the running example is
+\(E : y^2 = 4x^3 - 4x\), with \(g_2 = 4\), \(g_3 = 0\) and roots
+\(e_1 = -1\), \(e_2 = 0\), \(e_3 = 1\).
+
+\section{The Pictorial Dictionary}
+\label{sec:cases-dictionary}
+
+The isomorphism \(\Phi : \C/\Lambda \to E\) lets us watch a single point in three
+synchronized pictures: its position in the fundamental parallelogram, its image
+on the embedded torus, and its image on the cubic (\cref{fig:dict-overview}).
+Addition on the left --- vector addition modulo \(\Lambda\) --- becomes the
+chord--tangent construction on the right.
+
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[every node/.style={font=\small}]
+  %=== Panel 1: Lattice Lambda ============================================
+  % Scale 0.70: fundamental domain is 3.1*0.70 = 2.17 cm wide.
+  % Tiles for i in {-1,0,1}, j in {0,1} (6 cells, 2 rows above x-axis).
+  % Rightmost tile corner (i=1,j=1): (6.2,3.9)*0.70 = (4.34,2.73) cm in parent.
+  \begin{scope}[scale=0.70]
+    % Background lattice tiles
+    \foreach \i in {-1,0,1}{
+      \foreach \j in {0,1}{
+        \pgfmathsetmacro{\xa}{\i*\latwax+\j*\latwbx}
+        \pgfmathsetmacro{\ya}{\i*\latway+\j*\latwby}
+        \pgfmathsetmacro{\xb}{(\i+1)*\latwax+\j*\latwbx}
+        \pgfmathsetmacro{\yb}{(\i+1)*\latway+\j*\latwby}
+        \pgfmathsetmacro{\xc}{(\i+1)*\latwax+(\j+1)*\latwbx}
+        \pgfmathsetmacro{\yc}{(\i+1)*\latway+(\j+1)*\latwby}
+        \pgfmathsetmacro{\xd}{\i*\latwax+(\j+1)*\latwbx}
+        \pgfmathsetmacro{\yd}{\i*\latway+(\j+1)*\latwby}
+        \draw[draw=formteal!50!black, fill=formteal!6, line width=0.35pt, opacity=0.80]
+          (\xa,\ya) -- (\xb,\yb) -- (\xc,\yc) -- (\xd,\yd) -- cycle;
+      }
+    }
+    % Lattice points
+    \foreach \i in {-1,0,1,2}{
+      \foreach \j in {0,1,2}{
+        \pgfmathsetmacro{\xx}{\i*\latwax+\j*\latwbx}
+        \pgfmathsetmacro{\yy}{\i*\latway+\j*\latwby}
+        \fill[formteal!80!black] (\xx,\yy) circle (1.2pt);
+      }
+    }
+    % Fundamental parallelogram (highlighted)
+    \draw[draw=formrust!72!black, fill=formrust!13, line width=0.85pt]
+      (0,0) -- (\latwax,\latway) -- (\latsxc,\latsyc) -- (\latwbx,\latwby) -- cycle;
+    % Basis vectors with arrows
+    \draw[-{Latex[length=1.8mm]}, formrust!78!black, line width=0.65pt]
+      (0,0) -- (\latwax,\latway)
+      node[midway, below, font=\scriptsize, inner sep=1.5pt] {$\omega_1$};
+    \draw[-{Latex[length=1.8mm]}, formrust!78!black, line width=0.65pt]
+      (0,0) -- (\latwbx,\latwby)
+      node[midway, left, font=\scriptsize, inner sep=1.5pt] {$\omega_2$};
+    \fill[black] (0,0) circle (1.7pt);
+    \node[below left, inner sep=1.5pt, font=\scriptsize] at (0,0) {$0$};
+    \node[formrust!55!black, font=\scriptsize]
+      at (\latcellcx,\latcellcy) {$P_\Lambda$};
+    % Caption (in scope coords, below domain)
+    \node[font=\small, anchor=north] at ({(\latwax+\latwbx)/2},{\latway-0.65})
+      {lattice $\Lambda\subset\C$};
+  \end{scope}
+
+  %=== Arrow: quotient map pi: C -> C/Lambda ==============================
+  % Arrow placed between rightmost tile edge (~4.34 cm) and torus left edge.
+  % Torus: xshift=6.30, scale=0.47 => left edge = 6.30 - 2.5*0.47 = 5.125 cm.
+  \draw[-{Latex[length=2.2mm]}, formplum, line width=0.9pt] (4.55,1.0) -- (5.00,1.0);
+  \node[formplum, above, font=\scriptsize, inner sep=2pt] at (4.775,1.0)
+    {$\pi$};
+  \node[formplum, below, font=\scriptsize, inner sep=2pt] at (4.775,1.0)
+    {$/\Lambda$};
+
+  %=== Panel 2: Torus T = C/Lambda ========================================
+  % At scale 0.47: outer silhouette radius = 2.5*0.47 = 1.175 cm.
+  % Scope center at parent (6.30, 1.0).
+  \begin{scope}[xshift=6.30cm, yshift=1.0cm, scale=0.47]
+    \drawprecisetorus
+    \node[font=\small, anchor=north] at (0,-2.72)
+      {torus $T=\C/\Lambda$};
+  \end{scope}
+
+  %=== Arrow: Weierstrass embedding Phi ===================================
+  % Torus right edge = 6.30 + 2.5*0.47 = 7.475 cm.
+  \draw[-{Latex[length=2.2mm]}, formplum, line width=0.9pt] (7.65,1.0) -- (8.15,1.0);
+  \node[formplum, above, font=\scriptsize, inner sep=2pt] at (7.90,1.0)
+    {$\Phi$};
+  \node[formplum, below, font=\scriptsize, inner sep=2pt] at (7.90,1.0)
+    {$\wp,\wp'$};
+
+  %=== Panel 3: Elliptic curve E: y^2 = 4x^3 - 4x ========================
+  % Scope center at parent (9.40, 1.0).
+  % At scale 0.56: x in [-1.55, 1.69] maps to parent x in [8.532, 10.346].
+  \begin{scope}[xshift=9.40cm, yshift=1.0cm, scale=0.56]
+    % Axes
+    \draw[->, black!50, line width=0.5pt]
+      (-1.55,0) -- (2.00,0) node[right, black!55, font=\scriptsize] {$x$};
+    \draw[->, black!50, line width=0.5pt]
+      (0,-3.70) -- (0,3.85) node[above, black!55, font=\scriptsize] {$y$};
+    % Root tick marks
+    \draw[black!40, line width=0.4pt] (-1,-0.12) -- (-1,0.12);
+    \draw[black!40, line width=0.4pt] ( 0,-0.12) -- ( 0,0.12);
+    \draw[black!40, line width=0.4pt] ( 1,-0.12) -- ( 1,0.12);
+    \node[black!60, below, font=\scriptsize] at (-1,-0.12) {$e_1$};
+    \node[black!60, below right, font=\scriptsize] at (0,-0.12) {$e_2$};
+    \node[black!60, below, font=\scriptsize] at (1,-0.12) {$e_3$};
+    % Curve arcs from sage-computed coordinate lists
+    \drawprecisecurve
+    % Caption and equation label
+    \node[font=\small, anchor=north] at (0.25,-3.85)
+      {cubic $E\subset\CP^2$};
+    \node[font=\scriptsize, formteal!50!black, anchor=north west] at (-1.50,3.85)
+      {$y^2=4x^3-4x$};
+  \end{scope}
+\end{tikzpicture}
+\caption{The dictionary \(\Lambda \leadsto T \leadsto E\). A lattice point class
+\([w] = a\omega_1 + b\omega_2\) appears in the fundamental parallelogram (left),
+at its embedded position on the torus (middle), and on the cubic
+\(E : y^2 = 4x^3 - 4x\) (right). Computed by \texttt{sagemath/11\_correspondence.sage}
+and the rendering scripts.}
+\label{fig:dict-overview}
+\end{figure}
+
+\section{Two Distinct Points: the Chord}
+\label{sec:cases-chord}
+
+Let \(P, Q \in E\) be distinct finite points with \(Q \ne \ominus P\), and let
+\(L\) be the line through them; it is not vertical, so it meets \(E\) in a third
+finite point \(R\). Writing \(P = \Phi(u)\), \(Q = \Phi(v)\), \(R = \Phi(w)\), the
+intersection divisor is \(L \cdot E = P + Q + R\), so \(\divisor(\ell/Z) =
+P + Q + R - 3O\) is principal (\cref{thm:lin-principal}). Abel's law
+(\cref{cor:abel-three-point}) gives \(u + v + w \equiv 0\), hence
+\(w \equiv -(u+v)\) and \(R = \Phi(-(u+v))\). Since the inverse is reflection,
+\[
+  P \oplus Q = \Phi(u+v) = \ominus\Phi(-(u+v)) = \ominus R = -R .
+\]
+
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[every node/.style={font=\small}]
+  %--- Panel 1: lattice ---------------------------------------------------
+  \begin{scope}[scale=0.85]
+    \draw[draw=formteal!55!black, fill=formteal!8, line width=0.7pt]
+      (0,0) -- (\latwax,\latway) -- (\latsxc,\latsyc) -- (\latwbx,\latwby) -- cycle;
+    \draw[-{Latex[length=1.5mm]}, formteal!60!black, line width=0.5pt, opacity=0.75]
+      (0,0) -- (\latwax,\latway) node[midway, below, font=\scriptsize] {$\omega_1$};
+    \draw[-{Latex[length=1.5mm]}, formteal!60!black, line width=0.5pt, opacity=0.75]
+      (0,0) -- (\latwbx,\latwby) node[midway, left, font=\scriptsize] {$\omega_2$};
+    % Origin
+    \fill[black] (\corOriginLx,\corOriginLy) circle (1.6pt)
+      node[below left, inner sep=1pt, font=\scriptsize] {$0$};
+    % u, v, sum
+    \fill[formrust!85!black] (\corULx,\corULy) circle (1.9pt);
+    \node[formrust!60!black, below right, inner sep=1pt, font=\scriptsize] at (\corULx,\corULy) {$u$};
+    \fill[formrust!85!black] (\corVLx,\corVLy) circle (1.9pt);
+    \node[formrust!60!black, above right, inner sep=1pt, font=\scriptsize] at (\corVLx,\corVLy) {$v$};
+    \fill[formgold!85!black] (\corSumLiftLx,\corSumLiftLy) circle (1.9pt);
+    \node[formgold!50!black, above right, inner sep=1pt, font=\scriptsize]
+      at (\corSumLiftLx,\corSumLiftLy) {$u{+}v$};
+    % Translation arrows from origin -> u -> u+v (forming a "+v" shift)
+    \draw[-{Latex[length=1.8mm]}, draw=formgold!70!black, line width=0.55pt, dashed]
+      (\corULx,\corULy) -- (\corSumLiftLx,\corSumLiftLy);
+    \draw[-{Latex[length=1.8mm]}, draw=formgold!70!black, line width=0.55pt, dashed]
+      (\corVLx,\corVLy) -- (\corSumLiftLx,\corSumLiftLy);
+    \node[font=\small] at (1.55,-0.65) {lattice};
+  \end{scope}
+  %--- Arrow lattice -> torus ---------------------------------------------
+  \draw[-{Latex[length=2.4mm]}, formplum, line width=0.9pt] (3.05,1.0) -- (3.95,1.0);
+  \node[formplum] at (3.5,1.35) {$\pi$};
+  %--- Panel 2: torus -----------------------------------------------------
+  \begin{scope}[xshift=5.65cm, yshift=1.1cm, scale=0.45]
+    \drawprecisetorus
+    \fill[black] (\corOriginTx,\corOriginTy) circle (2.6pt);
+    \node[anchor=south west, inner sep=1pt, font=\scriptsize] at (\corOriginTx,\corOriginTy) {$[0]$};
+    \fill[formrust!85!black] (\corUTx,\corUTy) circle (3.6pt);
+    \node[formrust!60!black, anchor=south, inner sep=1pt, font=\scriptsize]
+      at ({\corUTx},{\corUTy+0.15}) {$[u]$};
+    \fill[formrust!85!black] (\corVTx,\corVTy) circle (3.6pt);
+    \node[formrust!60!black, anchor=south east, inner sep=1pt, font=\scriptsize]
+      at ({\corVTx-0.05},{\corVTy+0.05}) {$[v]$};
+    \fill[formgold!85!black] (\corSumRedTx,\corSumRedTy) circle (3.6pt);
+    \node[formgold!50!black, anchor=east, inner sep=1pt, font=\scriptsize]
+      at ({\corSumRedTx-0.15},{\corSumRedTy}) {$[u{+}v]$};
+    \node[font=\small] at (0,-2.85) {torus $T=\C/\Lambda$};
+  \end{scope}
+  %--- Arrow torus -> curve -----------------------------------------------
+  \draw[-{Latex[length=2.4mm]}, formplum, line width=0.9pt] (7.4,1.0) -- (8.3,1.0);
+  \node[formplum] at (7.85,1.35) {$\Phi$};
+  %--- Panel 3: curve -----------------------------------------------------
+  \begin{scope}[xshift=10.0cm, yshift=-0.95cm, scale=0.55]
+    \draw[->, black!50, line width=0.5pt] (-1.6,0) -- (2.9,0) node[right, black!55, font=\scriptsize] {$x$};
+    \draw[->, black!50, line width=0.5pt] (0,-3.4) -- (0,3.6) node[above, black!55, font=\scriptsize] {$y$};
+    % Curve arcs and branch points from sagemath/12_curve_sample.sage
+    \drawprecisecurve
+    \draw[draw=formplum, line width=0.85pt]
+      (\corCurveCLeftx,\corCurveCLefty) -- (\corCurveCRightx,\corCurveCRighty);
+    \draw[dashed, line width=0.55pt, formgold!75!black]
+      (\corCurveCRx,\corCurveCRy) -- (\corCurveCSumx,\corCurveCSumy);
+    \fill[formrust!85!black] (\corCurveCPx,\corCurveCPy) circle (2.3pt);
+    \node[formrust!60!black, above left, font=\scriptsize] at (\corCurveCPx,\corCurveCPy) {$P$};
+    \fill[formrust!85!black] (\corCurveCQx,\corCurveCQy) circle (2.3pt);
+    \node[formrust!60!black, above right, font=\scriptsize] at (\corCurveCQx,\corCurveCQy) {$Q$};
+    \fill[formteal!85!black] (\corCurveCRx,\corCurveCRy) circle (2.2pt);
+    \node[formteal!60!black, above left, font=\scriptsize] at (\corCurveCRx,\corCurveCRy) {$R$};
+    \fill[formgold!85!black] (\corCurveCSumx,\corCurveCSumy) circle (2.6pt);
+    \node[formgold!50!black, below left, font=\scriptsize] at (\corCurveCSumx,\corCurveCSumy) {$P{+}Q$};
+    \node[font=\small] at (0.65,-3.9) {curve $E$};
+  \end{scope}
+\end{tikzpicture}
+\caption{Adding two distinct points. On the lattice (left) the gold arrows show
+\(u \to u+v \leftarrow v\); on the torus (middle) both land at \([u+v]\); on the
+cubic (right) the chord \(PQ\) meets \(E\) at \(R\), and \(P \oplus Q = -R\) is
+its reflection. Coordinates from \texttt{sagemath/11\_correspondence.sage}.}
+\label{fig:cases-chord}
+\end{figure}
+
+\begin{keyidea}{Why the sign appears}
+The line gives \(P + Q + R = O\), not \(P + Q = R\). Solving forces
+\(P \oplus Q = -R\): the final reflection is exactly this minus sign, traced back
+to the torus inverse \(z \mapsto -z\).
+\end{keyidea}
+
+\section{Doubling: the Tangent}
+\label{sec:cases-double}
+
+When \(P = Q\) the chord degenerates to the tangent line at \(P\), the limit of
+the chord as \(Q \to P\). The tangent meets \(E\) at \(P\) with intersection
+multiplicity two (\cref{ex:lin-tangent}), so \(L \cdot E = 2P + R\). With
+\(P = \Phi(u)\), \(R = \Phi(w)\), the principal divisor \(2P + R - 3O\) and
+Abel's law give \(2u + w \equiv 0\), so \(w \equiv -2u\), \(R = \Phi(-2u)\), and
+\[
+  2P = \Phi(2u) = \ominus R = -R .
+\]
+
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[scale=1.1, every node/.style={font=\small}]
+  \draw[->, black!50, line width=0.5pt] (-1.8,0) -- (3.0,0) node[right, black!55] {$x$};
+  \draw[->, black!50, line width=0.5pt] (0,-3.4) -- (0,3.5) node[above, black!55] {$y$};
+  % Sage curve y^2 = 4x^3 - 4x
+  % Curve arcs and branch points from sagemath/12_curve_sample.sage
+  \drawprecisecurve
+  \foreach \rt in {\rooteone,\rootetwo,\rootethree}
+    \fill[formteal!60!black] (\rt,0) circle (1.3pt);
+  % Sage-computed tangent line at P
+  \draw[draw=formplum, line width=0.85pt]
+    (\dbllefta,\dblleftb) -- (\dblrighta,\dblrightb);
+  % Reflection line
+  \draw[dashed, line width=0.45pt, formgold!75!black]
+    (\dblRx,\dblRy) -- (\dbltwoPx,\dbltwoPy);
+  % P, R, 2P
+  \fill[formrust!85!black] (\dblPx,\dblPy) circle (2.1pt);
+  \node[formrust!60!black, above right] at (\dblPx,\dblPy) {$P$};
+  \draw[draw=formrust!75!black, line width=0.6pt] (\dblPx,\dblPy) circle (4.5pt);
+  \fill[formteal!85!black] (\dblRx,\dblRy) circle (2pt);
+  \node[formteal!60!black, below right] at (\dblRx,\dblRy) {$R$};
+  \fill[formgold!85!black] (\dbltwoPx,\dbltwoPy) circle (2.4pt);
+  \node[formgold!50!black, above right] at (\dbltwoPx,\dbltwoPy) {$2P=-R$};
+  % Annotation
+  \node[draw=black!40, rounded corners=2pt, fill=formivory, align=left, anchor=west,
+        inner sep=3pt, font=\scriptsize] at (-1.85,-2.4)
+    {Sage: $P=(\dblPx,\dblPy)$\\
+     tangent slope $m=\dblslope$\\
+     Vieta with double root $\Rightarrow$\\
+     $x_R=\tfrac{m^2}{4}-2x_P$\\
+     $\Rightarrow R=(\dblRx,\dblRy)$};
+\end{tikzpicture}
+\caption{Doubling a point. The tangent to \(E\) at \(P\) (plum) meets \(E\) again
+at \(R\), and \(2P = -R\) is its reflection (gold). The slope is
+\(m = (12x_P^2 - g_2)/(2y_P)\); see \cref{ch:coordinate_formulas}. Coordinates
+from \texttt{sagemath/05\_tangent\_double.sage}.}
+\label{fig:cases-tangent}
+\end{figure}
+
+\section{The Identity and Inverses: Vertical Lines}
+\label{sec:cases-vertical}
+
+The identity is \(O = \Phi(0)\). A line through a finite point \(P = (x,y)\) and
+\(O\) is the vertical line \(X = xZ\), which also passes through \(-P = (x,-y)\).
+Its intersection divisor is \(P + (\ominus P) + O\), so \cref{thm:lin-collinear}
+gives \(P \oplus (\ominus P) \oplus O = O\). Reading this two ways: with the third
+point \(\ominus P\) it says \(P \oplus O = P\) (the identity law); directly it says
+\(P \oplus (\ominus P) = O\) (inverses), confirming that \(\ominus P = (x,-y)\) is
+the group inverse.
+
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[scale=1.1, every node/.style={font=\small}]
+  \draw[->, black!50, line width=0.5pt] (-1.8,0) -- (3.0,0) node[right, black!55] {$x$};
+  \draw[->, black!50, line width=0.5pt] (0,-3.4) -- (0,3.5) node[above, black!55] {$y$};
+  % Curve arcs and branch points from sagemath/12_curve_sample.sage
+  \drawprecisecurve
+  \foreach \rt in {\rooteone,\rootetwo,\rootethree}
+    \fill[formteal!60!black] (\rt,0) circle (1.3pt);
+  % Sage-computed vertical line and the two intersections
+  \draw[draw=formplum, line width=0.85pt] (\vertx,-3.3) -- (\vertx,3.3);
+  \fill[formrust!85!black] (\vertx,\verty) circle (2pt);
+  \node[formrust!60!black, right] at (\vertx,\verty) {$P=(x_0,y_0)$};
+  \fill[formgold!85!black] (\vertx,{-\verty}) circle (2pt);
+  \node[formgold!50!black, right] at (\vertx,{-\verty}) {$-P=(x_0,-y_0)$};
+  \draw[draw=formplum, dashed, line width=0.55pt, -{Latex[length=2.0mm]}]
+    (\vertx,3.3) to[bend right=14] ({\vertx+0.55},3.5);
+  \node[formplum, font=\scriptsize, right] at ({\vertx+0.55},3.5) {$\to O=[0{:}1{:}0]$};
+  \node[draw=black!40, rounded corners=2pt, fill=formivory, align=left, anchor=west,
+        inner sep=3pt, font=\scriptsize] at (-1.85,-2.5)
+    {Sage: $x_0=\vertx,\;y_0=\verty$\\
+     Vertical line $x=x_0$ meets $E$\\
+     at $P$, $-P$ and $O$ at infinity,\\
+     so $P+(-P)+O=O$.};
+\end{tikzpicture}
+\caption{Vertical lines give inverses. The line \(x = x_0\) meets \(E\) at
+\(P = (x_0, y_0)\), \(-P = (x_0, -y_0)\), and \(O\) at infinity, so
+\(P \oplus (\ominus P) = O\). Coordinates from \texttt{sagemath/06\_two\_torsion.sage}.}
+\label{fig:cases-vertical}
+\end{figure}
+
+\section{Two-Torsion Points}
+\label{sec:cases-torsion}
+
+A point is its own inverse, \(P = \ominus P\), exactly when \(2P = O\): the
+\emph{two-torsion}. In affine coordinates \(P = \ominus P\) means \((x,y) =
+(x,-y)\), so \(y = 0\); the nonzero two-torsion points are therefore the three
+\(x\)-axis crossings
+\[
+  4x^3 - g_2 x - g_3 = 0, \qquad\text{i.e.}\qquad x \in \{e_1, e_2, e_3\},
+\]
+the roots of \cref{prop:wp-roots}. At each the tangent is vertical, so doubling
+gives \(2P = O\) directly. Together with \(O\) they form
+\[
+  E[2] = \{O, T_1, T_2, T_3\} \cong (\Z/2\Z)^2,
+\]
+the images under \(\Phi\) of the two-torsion of \cref{ex:tg-two-torsion}.
+
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[scale=1.1, every node/.style={font=\small}]
+  \draw[->, black!50, line width=0.5pt] (-1.8,0) -- (3.0,0) node[right, black!55] {$x$};
+  \draw[->, black!50, line width=0.5pt] (0,-3.4) -- (0,3.5) node[above, black!55] {$y$};
+  % Curve arcs and branch points from sagemath/12_curve_sample.sage
+  \drawprecisecurve
+  % Sage-computed real 2-torsion x-coords
+  \fill[formrust!85!black] (\torstwoone,0) circle (2.4pt);
+  \node[formrust!60!black, above] at (\torstwoone,0.10) {$T_1$};
+  \fill[formrust!85!black] (\torstwotwo,0) circle (2.4pt);
+  \node[formrust!60!black, above] at (\torstwotwo,0.10) {$T_2$};
+  \fill[formrust!85!black] (\torstwothree,0) circle (2.4pt);
+  \node[formrust!60!black, above] at (\torstwothree,0.10) {$T_3$};
+  % Vertical tangents at the roots
+  \draw[draw=formplum, dashed, line width=0.5pt] (\torstwoone,-3.3) -- (\torstwoone,3.3);
+  \draw[draw=formplum, dashed, line width=0.5pt] (\torstwotwo,-3.3) -- (\torstwotwo,3.3);
+  \draw[draw=formplum, dashed, line width=0.5pt] (\torstwothree,-3.3) -- (\torstwothree,3.3);
+  \node[formgold!50!black, font=\small] at (2.5,3.1) {$O=[0{:}1{:}0]$};
+  \node[draw=black!40, rounded corners=2pt, fill=formivory, align=left, anchor=west,
+        inner sep=3pt, font=\scriptsize] at (-1.85,-2.6)
+    {Sage roots of $4x^3-4x=0$:\\
+     $T_1=(\torstwoone,0)$\\
+     $T_2=(\torstwotwo,0)$\\
+     $T_3=(\torstwothree,0)$\\
+     $E[2]=\{O,T_1,T_2,T_3\}\cong(\Z/2)^2$};
+\end{tikzpicture}
+\caption{The two-torsion. The nonzero two-torsion points \(T_1, T_2, T_3\) are
+the \(x\)-axis crossings \((e_i, 0)\), each with a vertical tangent; with \(O\)
+they form \(E[2] \cong (\Z/2\Z)^2\). Roots of \(4x^3 - 4x\) from
+\texttt{sagemath/06\_two\_torsion.sage}.}
+\label{fig:cases-torsion}
+\end{figure}
+
+The three nonzero two-torsion points are collinear --- they all lie on the
+\(x\)-axis \(y = 0\), itself a line meeting \(E\) at \((e_1,0), (e_2,0), (e_3,0)\).
+By \cref{thm:lin-collinear}, \(T_1 \oplus T_2 \oplus T_3 = O\), which is the
+statement that the three nonzero elements of \((\Z/2\Z)^2\) sum to zero.
+
+\section{Summary}
+\label{sec:cases-summary}
+
+Each case of the chord--tangent law is one reading of \(P + Q + R = O\). For two
+distinct points the line is a chord and \(P \oplus Q = -R\)
+(\cref{sec:cases-chord}); for a repeated point it is the tangent and \(2P = -R\)
+(\cref{sec:cases-double}); a vertical line through \(P\) and \(O\) yields the
+identity law and exhibits \(\ominus P = (x,-y)\) (\cref{sec:cases-vertical}); and
+the points fixed by reflection are the two-torsion \(E[2] \cong (\Z/2\Z)^2\)
+(\cref{sec:cases-torsion}). The pictures make the dictionary
+\(\Lambda \leadsto T \leadsto E\) literal. \Cref{ch:coordinate_formulas} converts
+these geometric rules into closed-form coordinate formulas.
+
+\section*{Exercises}
+\addcontentsline{toc}{section}{Exercises}
+
+\begin{exercise}
+\label{ex:cases-chord-vieta}
+Let \(P = (x_P, y_P)\), \(Q = (x_Q, y_Q)\) be distinct with chord \(y = mx + k\).
+Substitute into \(y^2 = 4x^3 - g_2 x - g_3\) and use Vieta's formulas on the
+resulting cubic in \(x\) to show the third intersection has
+\(x_R = \tfrac{m^2}{4} - x_P - x_Q\). Then \(P \oplus Q = (x_R, -(m x_R + k))\).
+\end{exercise}
+
+\begin{exercise}
+\label{ex:cases-tangent-slope}
+For doubling, differentiate \(y^2 = 4x^3 - g_2 x - g_3\) implicitly to get the
+tangent slope \(m = (12 x_P^2 - g_2)/(2 y_P)\), and show the doubled point has
+\(x_{2P} = \tfrac{m^2}{4} - 2 x_P\). What happens to \(m\) when \(y_P = 0\), and
+how does that match \(2P = O\)?
+\end{exercise}
+
+\begin{exercise}
+\label{ex:cases-two-torsion-sum}
+Show that the \(x\)-axis is the line through the three nonzero two-torsion points,
+and deduce \(T_1 \oplus T_2 \oplus T_3 = O\) from \cref{thm:lin-collinear}.
+Verify this is consistent with \(E[2] \cong (\Z/2\Z)^2\), where the three nonzero
+elements sum to zero.
+\end{exercise}
+
+\begin{exercise}
+\label{ex:cases-flex-three-torsion}
+A point \(P\) is \emph{three-torsion}, \(3P = O\), if and only if \(P\) is an
+inflection point of \(E\) (the tangent at \(P\) meets \(E\) with multiplicity
+three). Using \(L \cdot E = 3P\) and \cref{thm:lin-collinear}, prove this, and note
+\(O\) is one such flex (\cref{prop:emb-flex}).
+\end{exercise}

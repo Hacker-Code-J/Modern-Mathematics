@@ -1,0 +1,37 @@
+\documentclass{beamer}
+\usepackage{fontspec}
+\input{presentation/tex/preamble.tex}
+
+\begin{document}
+\setbeamercolor{background canvas}{bg=black!2}
+\begin{frame}{\textbf{I. Introduction}}{Choosing the Nearest Codeword}
+\small
+When a word is received, decoding means choosing the codeword at \textbf{minimum distance}.
+\medskip
+\begin{center}
+\begin{frame}{\textbf{I. Introduction}}{Choosing the Nearest Codeword}
+\small
+When a word is received, decoding means choosing the codeword at \textbf{minimum distance}.
+\medskip
+\begin{center}
+\begin{tikzpicture}[scale=0.86, font=\scriptsize]
+  \node[circle,draw=TealDarkCyan,fill=TealDarkCyan!22,minimum size=.56cm] (c0) at (0,2.6) {$000$};
+  \node[circle,draw=TealDarkCyan,fill=AccentCyan!20,minimum size=.56cm] (c1) at (4.1,2.6) {$111$};
+  \draw[->,thick] (0,1.9) -- (4.1,1.9);
+  \node at (2.05,1.35) {received from channel};
+
+  \node[circle,draw=black,fill=AccentCyan!12,minimum size=.56cm] (r1) at (1.9,0.0) {$001$};
+  \node[above=4pt of c0,font=\footnotesize] {\textbf{Candidate 1}};
+  \node[above=4pt of c1,font=\footnotesize] {\textbf{Candidate 2}};
+
+  \node[below left=7pt and -4pt of c0,font=\footnotesize] {\textbf{$d(001,000)=1$}};
+  \node[below right=7pt and -4pt of c1,font=\footnotesize] {\textbf{$d(001,111)=2$}};
+
+  \draw[thick,TealDarkCyan] (c0) -- node[sloped,above,midway,\footnotesize] {$1$} (r1);
+  \draw[thick,AccentCyan] (c1) -- node[sloped,above,midway,\footnotesize] {$2$} (r1);
+  \draw[->,thick,TealDarkCyan] (2.05,0.4) -- (0.75,1.9);
+  \node[font=\footnotesize,TealDarkCyan] at (0.65,1.1) {decode to $000$};
+\end{tikzpicture}
+\end{center}
+
+\end{document}

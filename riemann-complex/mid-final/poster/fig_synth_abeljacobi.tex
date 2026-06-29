@@ -1,0 +1,24 @@
+% Abel--Jacobi: a degree-0 divisor D = (p1)+(p2)-(q1)-(q2) on E maps to the point
+% s(D) = p1 + p2 - q1 - q2  of  C/Lambda.  Principal divisors map to 0 -- which is exactly
+% why Pic^0(E) = C/Lambda.  (Zeros as circles, poles as crosses.)
+\begin{tikzpicture}[>=Latex]
+  \def\ax{4.4}\def\bx{1.1}\def\by{2.9}
+  \fill[formteal!8] (0,0)--(\ax,0)--(\ax+\bx,\by)--(\bx,\by)--cycle;
+  \draw[formteal!60!black, line width=1pt] (0,0)--(\ax,0)--(\ax+\bx,\by)--(\bx,\by)--cycle;
+  \draw[->, formslate, line width=0.9pt] (0,0)--(\ax,0) node[midway, below=2pt, font=\small] {$\omega_1$};
+  \draw[->, formslate, line width=0.9pt] (0,0)--(\bx,\by) node[midway, left=1pt, font=\small] {$\omega_2$};
+  % zeros (o)
+  \draw[formteal!70!black, line width=1.3pt] (1.25,0.95) circle (5.5pt);
+  \node[font=\small, formteal!60!black, below=5pt] at (1.25,0.95) {$p_1$};
+  \draw[formteal!70!black, line width=1.3pt] (3.55,1.95) circle (5.5pt);
+  \node[font=\small, formteal!60!black, above=4pt] at (3.55,1.95) {$p_2$};
+  % poles (x)
+  \node[formrust, font=\Large] at (2.15,2.05) {$\boldsymbol\times$};
+  \node[font=\small, formrust!72!black, above=4pt] at (2.15,2.05) {$q_1$};
+  \node[formrust, font=\Large] at (3.05,0.7) {$\boldsymbol\times$};
+  \node[font=\small, formrust!72!black, below=4pt] at (3.05,0.7) {$q_2$};
+  % the Abel sum
+  \fill[formgold!88!black] (2.05,1.35) circle (3.2pt);
+  \node[font=\small, formgold!52!black, right=2pt] at (2.05,1.35) {$\mathfrak{s}(D)$};
+  \fill[black] (0,0) circle (1.7pt) node[below left, font=\small] {$0$};
+\end{tikzpicture}

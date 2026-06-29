@@ -1,0 +1,129 @@
+\documentclass[11pt]{book}
+
+\input{preamble}
+
+\hypersetup{
+  pdftitle={Complex Tori, Jacobians, and Elliptic Curves},
+  pdfsubject={The Three Faces of a Genus-One Group}
+}
+
+\begin{document}
+
+\frontmatter
+\raggedbottom
+\begin{titlepage}
+\thispagestyle{empty}
+\centering
+\vspace*{0.08\textheight}
+
+{\large\scshape A Textbook for Complex Analysis and Genus One\par}
+
+\vspace{1.25cm}
+\rule{0.74\textwidth}{0.45pt}\par
+\vspace{0.85cm}
+
+{\Huge\bfseries Complex Tori, Jacobians,\\[0.25em]
+and Elliptic Curves\par}
+
+\vspace{0.55cm}
+{\Large\itshape The Three Faces of a Genus-One Group\par}
+
+\vspace{0.85cm}
+\rule{0.74\textwidth}{0.45pt}\par
+
+\vspace{1.35cm}
+\begin{minipage}{0.74\textwidth}
+\centering
+Complex tori, degree-zero divisor classes, and plane cubics as one genus-one
+group:
+\[
+  \C/\Lambda\;\cong\;\Pic^0(E)\;\cong\;E(\C)
+\]
+as complex Lie groups.  The chord--tangent law is torus addition transported by
+\[
+  z\longmapsto[\wp(z):\wp'(z):1].
+\]
+\end{minipage}
+
+\vfill
+{\large Spring 2026\par}
+\vspace{0.45cm}
+{\small\scshape Riemann Surfaces and Complex Analysis\par}
+\end{titlepage}
+
+\chapter*{Preface}
+\addcontentsline{toc}{chapter}{Preface}
+
+This textbook develops the genus-one bridge between complex analysis, Riemann
+surface theory, and the algebraic geometry of plane cubics.  Its main purpose is
+to explain why the complex torus, the Jacobian, and the smooth cubic are three
+presentations of one mathematical object.
+
+The organizing claim is simple to state.  A lattice \(\Lambda\subset\C\) gives a
+compact complex Lie group \(T=\C/\Lambda\).  The Weierstrass functions attach to
+it a smooth cubic
+\[
+  E:\quad Y^2Z=4X^3-g_2XZ^2-g_3Z^3,
+\]
+and the map \(z\mapsto[\wp(z):\wp'(z):1]\) identifies \(T\) with \(E(\C)\).
+Divisors identify the same group with \(\Pic^0(E)\).  Under this identification,
+the geometric chord--tangent rule on \(E\) is just addition on the torus.
+
+The book starts from the exam material: differential forms, Stokes' theorem,
+residues, compact Riemann surfaces, divisors, and Riemann--Roch.  Those topics
+are not reviewed as a checklist; they are used as the mechanism that makes the
+main theorem natural.
+
+\input{chapters/00_big_picture}
+\input{chapters/00_notation}
+\input{chapters/00_syllabus}
+\tableofcontents
+
+\mainmatter
+\flushbottom
+
+\input{chapters/01_exam_background}
+\input{chapters/02_riemann_surfaces}
+\input{chapters/03_lattices_tori}
+\input{chapters/04_elliptic_functions}
+\input{chapters/05_weierstrass_wp}
+
+\input{chapters/06_divisors}
+\input{chapters/07_riemann_roch}
+\input{chapters/08_abel_jacobian}
+\input{chapters/09_weierstrass_embedding}
+\input{chapters/10_plane_cubic_group}
+\input{chapters/11_chord_tangent_transport}
+
+\input{chapters/12_cohomology_moduli}
+\input{chapters/13_finite_fields}
+\input{chapters/14_synthesis}
+
+\appendix
+\input{chapters/appendices/A_complex_toolkit}
+\input{chapters/appendices/B_exam_bridge}
+\input{chapters/appendices/D_solutions}
+
+\backmatter
+
+\begin{thebibliography}{9}
+\bibitem{ahlfors}
+L. V. Ahlfors, \emph{Complex Analysis}, 3rd ed., McGraw--Hill, 1979.
+
+\bibitem{miranda}
+R. Miranda, \emph{Algebraic Curves and Riemann Surfaces}, American Mathematical
+Society, 1995.
+
+\bibitem{silverman}
+J. H. Silverman, \emph{The Arithmetic of Elliptic Curves}, 2nd ed., Springer,
+2009.
+
+\bibitem{silverman-tate}
+J. H. Silverman and J. Tate, \emph{Rational Points on Elliptic Curves}, 2nd ed.,
+Springer, 2015.
+
+\bibitem{forster}
+O. Forster, \emph{Lectures on Riemann Surfaces}, Springer, 1981.
+\end{thebibliography}
+
+\end{document}

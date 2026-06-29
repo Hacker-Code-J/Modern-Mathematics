@@ -1,0 +1,57 @@
+% Tikz-RiemannRoch-Balance.tex
+% Graph of ℓ(D) and ℓ(K-D) vs n = deg D.
+% ℓ(D)   = max(0, n+1)  : zero for n < 0, ramp for n ≥ 0
+% ℓ(K-D) = max(0,-n-1)  : ramp for n ≤ -2, zero for n ≥ -1
+% Vertical gap = n+1 for all n.
+\begin{tikzpicture}[scale=0.9, >=stealth]
+
+  % Axes
+  \draw[->] (-4.5,0) -- (4.5,0) node[right, font=\small] {$n=\deg D$};
+  \draw[->] (0,-0.3) -- (0,4.2) node[above, font=\small] {dimension};
+
+  % Tick marks on x-axis
+  \foreach \x/\lbl in {-4/{-4},-3/{-3},-2/{-2},-1/{-1},0/{0},1/{1},2/{2},3/{3},4/{4}}{
+    \draw (\x, 0.07) -- (\x, -0.07);
+    \node[below, font=\scriptsize] at (\x, -0.08) {$\lbl$};
+  }
+
+  % Tick marks on y-axis
+  \foreach \y in {1,2,3,4}{
+    \draw (0.07,\y) -- (-0.07,\y);
+    \node[left, font=\scriptsize] at (-0.1,\y) {$\y$};
+  }
+
+  % ── ℓ(D) = max(0, n+1) : blue ────────────────────
+  % flat 0 for n ≤ -1
+  \draw[line width=1.8pt, defcolor] (-4.4, 0) -- (-1, 0);
+  % ramp for n ≥ 0: (0,1),(1,2),(2,3),(3,4)
+  \draw[line width=1.8pt, defcolor] (0,1) -- (3,4);
+  % dot at transition
+  \filldraw[defcolor] (0,1) circle (2.5pt);
+  \filldraw[defcolor] (-1,0) circle (2.5pt);
+  \node[defcolor, right, font=\small] at (3.1, 4.0) {$\ell(D)$};
+
+  % ── ℓ(K-D) = max(0,-n-1) : red ───────────────────
+  % flat 0 for n ≥ -1
+  \draw[line width=1.8pt, thmcolor] (-1, 0) -- (4.4, 0);
+  % ramp for n ≤ -2: (-2,1),(-3,2),(-4,3)
+  \draw[line width=1.8pt, thmcolor] (-2,1) -- (-4.4, 3.4);
+  \filldraw[thmcolor] (-2,1) circle (2.5pt);
+  \filldraw[thmcolor] (-1,0) circle (2.5pt);
+  \node[thmcolor, left, font=\small] at (-4.3, 3.5) {$\ell(K{-}D)$};
+
+  % ── Vertical gap annotation at n=2 ────────────────
+  \draw[<->, orange, line width=1pt] (2, 0.05) -- (2, 2.95);
+  \node[orange, right, font=\scriptsize] at (2.1, 1.5)
+    {gap $= n+1 = 3$};
+
+  % n = -1: both zero
+  \draw[dotted, gray] (-1,-0.3) -- (-1, 0.5);
+  \node[font=\scriptsize, gray, above] at (-1, 0.5) {$n=-1$};
+
+  % Formula box
+  \node[fill=noteblue, rounded corners, font=\small, inner sep=4pt,
+        align=center] at (0,-1.5)
+    {$\ell(D) - \ell(K-D) = n+1 = \deg D + 1$\quad for all $n\in\mathbb{Z}$};
+
+\end{tikzpicture}

@@ -1,0 +1,627 @@
+\documentclass[11pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+
+\theoremstyle{definition}
+\newtheorem*{solution}{Solution}
+
+\newcommand{\A}{\mathbb{A}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Pj}{\mathbb{P}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\K}{K}
+\newcommand{\V}{\operatorname{V}}
+\newcommand{\Frac}{\operatorname{Frac}}
+\newcommand{\Gal}{\operatorname{Gal}}
+
+\title{Worked Solutions Companion\\
+       \large Algebraic Geometry and Galois Theory}
+\author{Companion to \texttt{algebraic\_geometry\_notes\_2026\_06\_06.tex}}
+\date{June 6, 2026}
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+
+\section*{About This Companion}
+\addcontentsline{toc}{section}{About This Companion}
+
+This document gives worked solutions to the exercises in the lecture chapter
+\emph{Algebraic Geometry and Galois Theory}.  The solutions are standard
+background calculations written to be read alongside the notes.  They are not
+additional recovered content from the handwritten source PDF.
+
+\section{Field Extensions}
+
+\subsection*{Exercise 12.1}
+\addcontentsline{toc}{subsection}{Exercise 12.1}
+\textbf{Problem.}  Let \(F\subseteq E\) be a finite field extension.  Explain
+why \(E\) is an \(F\)-vector space, and identify scalar multiplication.
+
+\begin{solution}
+The elements of the vector space are the elements of the larger field \(E\).
+The addition operation is addition in the field \(E\).  Since \(F\subseteq E\),
+each scalar \(a\in F\) is also an element of \(E\), so scalar multiplication is
+field multiplication:
+\[
+  F\times E\longrightarrow E,
+  \qquad
+  (a,v)\longmapsto av.
+\]
+The vector-space axioms follow from the field axioms in \(E\).  For example,
+if \(a,b\in F\) and \(u,v\in E\), then
+\[
+  a(u+v)=au+av,
+  \qquad
+  (a+b)v=av+bv,
+  \qquad
+  (ab)v=a(bv),
+  \qquad
+  1_Fv=v.
+\]
+The extension is finite exactly when this vector space has finite dimension:
+\[
+  [E:F]=\dim_F E<\infty.
+\]
+\end{solution}
+
+\subsection*{Exercise 12.2}
+\addcontentsline{toc}{subsection}{Exercise 12.2}
+\textbf{Problem.}  For \(\Q(\sqrt d)/\Q\), with \(d\) squarefree and not a
+square, write the matrix for multiplication by \(a+b\sqrt d\) in the basis
+\((1,\sqrt d)\).
+
+\begin{solution}
+Every element of \(\Q(\sqrt d)\) has a unique form
+\[
+  r+s\sqrt d,\qquad r,s\in\Q.
+\]
+Let \(u=a+b\sqrt d\).  Multiplication by \(u\) is the \(\Q\)-linear map
+\[
+  m_u\colon \Q(\sqrt d)\longrightarrow \Q(\sqrt d),
+  \qquad
+  v\longmapsto uv.
+\]
+Compute
+\[
+  (a+b\sqrt d)(r+s\sqrt d)
+  =
+  ar+as\sqrt d+br\sqrt d+bs d
+  =
+  (ar+bds)+(as+br)\sqrt d.
+\]
+Thus the coordinate column of \(m_u(r+s\sqrt d)\) in the basis
+\((1,\sqrt d)\) is
+\[
+  \begin{pmatrix}
+    ar+bds\\
+    br+as
+  \end{pmatrix}
+  =
+  \begin{pmatrix}
+    a & bd\\
+    b & a
+  \end{pmatrix}
+  \begin{pmatrix}
+    r\\
+    s
+  \end{pmatrix}.
+\]
+Therefore
+\[
+  [m_{a+b\sqrt d}]_{(1,\sqrt d)}
+  =
+  \begin{pmatrix}
+    a & bd\\
+    b & a
+  \end{pmatrix}.
+\]
+\end{solution}
+
+\section{Coordinate Rings and Function Fields}
+
+\subsection*{Exercise 12.3}
+\addcontentsline{toc}{subsection}{Exercise 12.3}
+\textbf{Problem.}  Compute the coordinate ring and function field of
+\[
+  X=\V(y-x^2)\subseteq \A^2_{\C}.
+\]
+
+\begin{solution}
+By definition,
+\[
+  \C[X]=\C[x,y]/(y-x^2).
+\]
+Define
+\[
+  \Phi\colon \C[x,y]\longrightarrow \C[t],
+  \qquad
+  \Phi(x)=t,\quad \Phi(y)=t^2.
+\]
+Then
+\[
+  \Phi(y-x^2)=t^2-t^2=0,
+\]
+so \((y-x^2)\subseteq\ker\Phi\).
+
+Conversely, reduce any polynomial \(f(x,y)\) modulo the relation
+\(y=x^2\).  Since \(y-x^2\) is monic in \(y\), division by \(y-x^2\) gives
+\[
+  f(x,y)=q(x,y)(y-x^2)+r(x),
+\]
+where \(r(x)=f(x,x^2)\).  If \(f\in\ker\Phi\), then
+\[
+  0=\Phi(f)=f(t,t^2)=r(t).
+\]
+Hence \(r=0\), so \(f\in (y-x^2)\).  Therefore
+\[
+  \ker\Phi=(y-x^2).
+\]
+By the first isomorphism theorem,
+\[
+  \C[x,y]/(y-x^2)\cong \C[t].
+\]
+The function field is the fraction field:
+\[
+  \K(X)=\Frac(\C[X])\cong \Frac(\C[t])=\C(t).
+\]
+\end{solution}
+
+\subsection*{Exercise 12.4}
+\addcontentsline{toc}{subsection}{Exercise 12.4}
+\textbf{Problem.}  Compute the coordinate ring and function field of
+\[
+  U=\V(xy-1)\subseteq \A^2_{\C}.
+\]
+
+\begin{solution}
+The coordinate ring is
+\[
+  \C[U]=\C[x,y]/(xy-1).
+\]
+In this quotient, the relation \(xy-1=0\) says
+\[
+  xy=1.
+\]
+Thus the class of \(y\) is the inverse of the class of \(x\):
+\[
+  y=x^{-1}.
+\]
+
+To express this as an isomorphism, define
+\[
+  \Psi\colon \C[x,y]\longrightarrow \C[t,t^{-1}],
+  \qquad
+  \Psi(x)=t,\quad \Psi(y)=t^{-1}.
+\]
+Then
+\[
+  \Psi(xy-1)=tt^{-1}-1=0,
+\]
+so \((xy-1)\subseteq\ker\Psi\).  The map is surjective because \(t=\Psi(x)\)
+and \(t^{-1}=\Psi(y)\).  Reducing by the relation \(xy=1\) lets every element
+be written using powers of \(x\) and \(x^{-1}\), so the kernel is exactly
+\((xy-1)\).  Hence
+\[
+  \C[x,y]/(xy-1)\cong \C[t,t^{-1}].
+\]
+Therefore
+\[
+  \K(U)=\Frac(\C[t,t^{-1}])=\C(t).
+\]
+\end{solution}
+
+\section{Projective Coordinates}
+
+\subsection*{Exercise 12.5}
+\addcontentsline{toc}{subsection}{Exercise 12.5}
+\textbf{Problem.}  Show that \(XZ-Y^2=0\) is well-defined on
+\(\Pj^2_{\C}\).
+
+\begin{solution}
+In projective space,
+\[
+  [X:Y:Z]=[\lambda X:\lambda Y:\lambda Z]
+  \qquad
+  \text{for }\lambda\in\C^\times.
+\]
+Let
+\[
+  F(X,Y,Z)=XZ-Y^2.
+\]
+Then
+\[
+  F(\lambda X,\lambda Y,\lambda Z)
+  =
+  (\lambda X)(\lambda Z)-(\lambda Y)^2
+  =
+  \lambda^2(XZ-Y^2)
+  =
+  \lambda^2F(X,Y,Z).
+\]
+Since \(\lambda^2\neq 0\), we have
+\[
+  F(\lambda X,\lambda Y,\lambda Z)=0
+  \quad\Longleftrightarrow\quad
+  F(X,Y,Z)=0.
+\]
+Thus the truth of \(XZ-Y^2=0\) does not depend on the representative of the
+projective point.
+\end{solution}
+
+\subsection*{Exercise 12.6}
+\addcontentsline{toc}{subsection}{Exercise 12.6}
+\textbf{Problem.}  Give an example showing that \(X+1=0\) is not
+well-defined on \(\Pj^1_{\C}\).
+
+\begin{solution}
+The two nonzero vectors \((-1,1)\) and \((-2,2)\) define the same point of
+\(\Pj^1_{\C}\), because
+\[
+  (-2,2)=2(-1,1).
+\]
+Thus
+\[
+  [-1:1]=[-2:2].
+\]
+Now test the equation \(X+1=0\) on the two representatives:
+\[
+  -1+1=0,
+  \qquad
+  -2+1=-1\neq 0.
+\]
+The same projective point satisfies the equation for one representative and
+does not satisfy it for another.  Therefore \(X+1=0\) is not a well-defined
+equation on projective space.
+\end{solution}
+
+\section{Veronese Maps}
+
+\subsection*{Exercise 12.7}
+\addcontentsline{toc}{subsection}{Exercise 12.7}
+\textbf{Problem.}  For
+\[
+  \nu_2([x:y])=[x^2:xy:y^2],
+\]
+verify \(XZ-Y^2=0\) and recover the parameter on \(X\neq 0\).
+
+\begin{solution}
+Let
+\[
+  [X:Y:Z]=[x^2:xy:y^2]
+\]
+be a point in the image.  Then
+\[
+  XZ-Y^2=(x^2)(y^2)-(xy)^2=x^2y^2-x^2y^2=0.
+\]
+Thus every image point satisfies the conic equation.
+
+On the target chart \(X\neq 0\), the source coordinate \(x\) is nonzero.  We
+may write the source point as
+\[
+  [x:y]=[1:t],
+  \qquad
+  t=y/x.
+\]
+Then
+\[
+  \nu_2([1:t])=[1:t:t^2].
+\]
+In target coordinates, this means
+\[
+  t=\frac{Y}{X},
+  \qquad
+  \frac{Z}{X}=t^2.
+\]
+So the parameter is recovered by \(t=Y/X\) on the chart \(X\neq 0\).
+\end{solution}
+
+\subsection*{Exercise 12.8}
+\addcontentsline{toc}{subsection}{Exercise 12.8}
+\textbf{Problem.}  Repeat the injectivity argument for
+\[
+  \nu_3([x:y])=[x^3:x^2y:xy^2:y^3].
+\]
+
+\begin{solution}
+Use source coordinates \([u:v]\) to avoid confusing them with target
+coordinates.  The map is
+\[
+  \nu_3([u:v])=[u^3:u^2v:uv^2:v^3].
+\]
+If \(u\neq 0\), then
+\[
+  [u:v]=[1:t],
+  \qquad
+  t=v/u.
+\]
+The image is
+\[
+  \nu_3([1:t])=[1:t:t^2:t^3].
+\]
+Thus on the target chart \(X\neq 0\), the parameter is recovered as
+\[
+  t=\frac{Y}{X}.
+\]
+Hence the image determines the source point \([1:t]\).
+
+If \(u=0\), then the source point is \([0:1]\), and
+\[
+  \nu_3([0:1])=[0:0:0:1].
+\]
+This target point cannot arise from any source point with \(u\neq 0\), because
+those have \(X\neq 0\).  Therefore each image point has a unique preimage, so
+\(\nu_3\) is injective.
+\end{solution}
+
+\subsection*{Exercise 12.9}
+\addcontentsline{toc}{subsection}{Exercise 12.9}
+\textbf{Problem.}  Verify the three equations
+\[
+  Y^2=XZ,\qquad Z^2=YW,\qquad YZ=XW
+\]
+on the image of \(\nu_3\).
+
+\begin{solution}
+For a point in the image of \(\nu_3\), write
+\[
+  X=x^3,\qquad
+  Y=x^2y,\qquad
+  Z=xy^2,\qquad
+  W=y^3.
+\]
+Then
+\[
+  Y^2=(x^2y)^2=x^4y^2
+  \qquad\text{and}\qquad
+  XZ=(x^3)(xy^2)=x^4y^2,
+\]
+so \(Y^2=XZ\).  Also
+\[
+  Z^2=(xy^2)^2=x^2y^4
+  \qquad\text{and}\qquad
+  YW=(x^2y)(y^3)=x^2y^4,
+\]
+so \(Z^2=YW\).  Finally,
+\[
+  YZ=(x^2y)(xy^2)=x^3y^3
+  \qquad\text{and}\qquad
+  XW=(x^3)(y^3)=x^3y^3,
+\]
+so \(YZ=XW\).  Hence every image point satisfies all three equations.
+\end{solution}
+
+\section{The Elliptic Curve}
+
+\subsection*{Exercise 12.10}
+\addcontentsline{toc}{subsection}{Exercise 12.10}
+\textbf{Problem.}  On the chart \(Z\neq 0\), reduce
+\[
+  Y^2Z=X^3+aXZ^2+bZ^3
+\]
+to \(y^2=x^3+ax+b\).  Then compute the point with \(Z=0\).
+
+\begin{solution}
+On \(Z\neq 0\), define affine coordinates
+\[
+  x=X/Z,\qquad y=Y/Z.
+\]
+Divide the homogeneous equation by \(Z^3\):
+\[
+  \frac{Y^2Z}{Z^3}
+  =
+  \frac{X^3}{Z^3}
+  +a\frac{XZ^2}{Z^3}
+  +b\frac{Z^3}{Z^3}.
+\]
+This gives
+\[
+  \left(\frac{Y}{Z}\right)^2
+  =
+  \left(\frac{X}{Z}\right)^3
+  +a\left(\frac{X}{Z}\right)+b,
+\]
+or
+\[
+  y^2=x^3+ax+b.
+\]
+
+Now set \(Z=0\) in the homogeneous equation.  We get
+\[
+  0=X^3,
+\]
+so \(X=0\).  Since \([0:0:0]\) is not a projective point, we must have
+\(Y\neq 0\).  Rescale by \(Y^{-1}\):
+\[
+  [0:Y:0]=[0:1:0].
+\]
+Thus the only point of the curve with \(Z=0\) is \([0:1:0]\).
+\end{solution}
+
+\subsection*{Exercise 12.11}
+\addcontentsline{toc}{subsection}{Exercise 12.11}
+\textbf{Problem.}  Verify that \((x,y)\mapsto (x,-y)\) preserves
+\[
+  y^2=x^3+ax+b.
+\]
+
+\begin{solution}
+Suppose \((x,y)\) lies on the affine curve.  Then
+\[
+  y^2=x^3+ax+b.
+\]
+For the transformed point \((x,-y)\), the left side of the equation becomes
+\[
+  (-y)^2=y^2.
+\]
+Therefore
+\[
+  (-y)^2=y^2=x^3+ax+b.
+\]
+So \((x,-y)\) also lies on the same affine curve.  Hence the transformation
+preserves the equation.
+\end{solution}
+
+\section{Function Fields, Invariants, and Galois Theory}
+
+\subsection*{Exercise 12.12}
+\addcontentsline{toc}{subsection}{Exercise 12.12}
+\textbf{Problem.}  In \(\C(x)(y)\), where \(y^2=f(x)=x^3+ax+b\), reduce
+\[
+  c_0(x)+c_1(x)y+c_2(x)y^2+c_3(x)y^3
+\]
+to \(A(x)+B(x)y\).
+
+\begin{solution}
+Use the defining relation
+\[
+  y^2=f(x).
+\]
+Then
+\[
+  y^3=y\cdot y^2=yf(x)=f(x)y.
+\]
+Therefore
+\[
+\begin{aligned}
+  &c_0(x)+c_1(x)y+c_2(x)y^2+c_3(x)y^3 \\
+  &\qquad
+  =
+  c_0(x)+c_1(x)y+c_2(x)f(x)+c_3(x)f(x)y\\
+  &\qquad
+  =
+  \bigl(c_0(x)+c_2(x)f(x)\bigr)
+  +
+  \bigl(c_1(x)+c_3(x)f(x)\bigr)y.
+\end{aligned}
+\]
+Thus
+\[
+  A(x)=c_0(x)+c_2(x)f(x),
+  \qquad
+  B(x)=c_1(x)+c_3(x)f(x).
+\]
+\end{solution}
+
+\subsection*{Exercise 12.13}
+\addcontentsline{toc}{subsection}{Exercise 12.13}
+\textbf{Problem.}  Using
+\[
+  \K(E)=\C(x)\oplus \C(x)y,
+\]
+show that
+\[
+  \K(E)^{\langle\iota^*\rangle}=\C(x),
+\]
+where \(\iota^*(x)=x\) and \(\iota^*(y)=-y\).
+
+\begin{solution}
+Let \(u\in\K(E)\).  Using the vector-space decomposition, write
+\[
+  u=a(x)+b(x)y,
+  \qquad
+  a(x),b(x)\in \C(x).
+\]
+Since \(\iota^*(x)=x\), every rational function of \(x\) is fixed:
+\[
+  \iota^*(a(x))=a(x),
+  \qquad
+  \iota^*(b(x))=b(x).
+\]
+Since \(\iota^*(y)=-y\), we get
+\[
+  \iota^*(u)
+  =
+  a(x)-b(x)y.
+\]
+The element \(u\) is invariant if and only if
+\[
+  a(x)+b(x)y=a(x)-b(x)y.
+\]
+Subtracting gives
+\[
+  2b(x)y=0.
+\]
+The field has characteristic zero and \(y\neq 0\), so \(b(x)=0\).  Hence every
+invariant element is \(a(x)\in \C(x)\).  Conversely, every element of
+\(\C(x)\) is fixed because \(\iota^*(x)=x\).  Therefore
+\[
+  \K(E)^{\langle\iota^*\rangle}=\C(x).
+\]
+\end{solution}
+
+\subsection*{Exercise 12.14}
+\addcontentsline{toc}{subsection}{Exercise 12.14}
+\textbf{Problem.}  Let \(L=\C(x)(y)\), where \(y^2=x^3+ax+b\).  Verify that
+\[
+  \sigma(x)=x,\qquad \sigma(y)=-y
+\]
+defines a nontrivial \(\C(x)\)-automorphism of \(L\), and compute
+\(\sigma^2\).
+
+\begin{solution}
+Let
+\[
+  f(x)=x^3+ax+b.
+\]
+The field \(L\) is generated over \(\C(x)\) by \(y\), with relation
+\[
+  y^2=f(x).
+\]
+The proposed map fixes every element of \(\C(x)\), because it fixes \(x\).
+It sends \(y\) to \(-y\).  This preserves the defining relation:
+\[
+  \sigma(y)^2=(-y)^2=y^2=f(x)=\sigma(f(x)).
+\]
+Therefore the assignment extends to a \(\C(x)\)-automorphism of \(L\).
+
+It is nontrivial because
+\[
+  \sigma(y)=-y\neq y
+\]
+in the function field.  Applying \(\sigma\) twice gives
+\[
+  \sigma^2(x)=\sigma(x)=x,
+  \qquad
+  \sigma^2(y)=\sigma(-y)=-\sigma(y)=-(-y)=y.
+\]
+Since \(L=\C(x)(y)\) is generated by \(x\) and \(y\), this proves
+\[
+  \sigma^2=\operatorname{id}_L.
+\]
+Thus the automorphism has order two.
+\end{solution}
+
+\subsection*{Exercise 12.15}
+\addcontentsline{toc}{subsection}{Exercise 12.15}
+\textbf{Problem.}  Explain why invariant rational functions are constant on
+paired points \(P\) and \(\iota(P)\), and why they descend to the quotient.
+
+\begin{solution}
+Let \(f\in\K(E)\) be invariant under the involution.  Algebraically this means
+\[
+  \iota^*(f)=f.
+\]
+The pullback \(\iota^*(f)\) is the rational function obtained by first applying
+\(\iota\) and then evaluating \(f\).  Thus, wherever both sides are defined,
+\[
+  \iota^*(f)(P)=f(\iota(P)).
+\]
+The equality \(\iota^*(f)=f\) therefore gives
+\[
+  f(P)=f(\iota(P)).
+\]
+So \(f\) has the same value on the paired points \(P\) and \(\iota(P)\).
+
+The quotient \(E/\langle\iota\rangle\) identifies \(P\) and \(\iota(P)\).
+Because \(f\) takes the same value on the two representatives of each generic
+equivalence class, its value depends only on the quotient point.  Hence \(f\)
+descends to a rational function on the quotient.  In the elliptic-curve
+example, the quotient has function field \(\C(x)\), so the invariant rational
+functions are exactly rational functions of the \(x\)-coordinate.
+\end{solution}
+
+\end{document}

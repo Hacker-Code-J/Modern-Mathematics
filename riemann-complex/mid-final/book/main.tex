@@ -1,0 +1,196 @@
+% Complex Tori and Elliptic Curves -- textbook expansion of
+% ../torus_elliptic_group_law_notes.tex.  See PLAN.md for the full outline.
+%
+% Build (run from inside book/ so \sagedir = ../sagemath resolves):
+%     cd book && pdflatex main.tex && pdflatex main.tex
+% Re-run sagemath/build_coords.sh first if any Sage figure script changed.
+
+\documentclass[11pt]{book}
+
+\input{preamble}
+
+\title{Complex Tori and Elliptic Curves\\
+\large Why the Abelian Group Law Must Be the Chord--Tangent Law\\
+via the $\wp$-Embedding}
+\author{}
+\date{Spring 2026}
+
+\begin{document}
+
+\frontmatter
+\maketitle
+
+\begin{center}
+\emph{A textbook developed from midterm and final exam themes:
+differential forms, residues, compact Riemann surfaces, divisors,
+Riemann--Roch, complex tori, and the Weierstrass $\wp$-function.}
+\end{center}
+
+\chapter*{Preface}
+\addcontentsline{toc}{chapter}{Preface}
+
+This book explains one fact in full: the chord--tangent law on a smooth plane
+cubic is not an arbitrary geometric trick but the abelian group law on the complex
+torus $\C/\Lambda$, carried onto the cubic by the Weierstrass functions $\wp$ and
+$\wp'$. Addition on the torus is addition of complex numbers modulo a lattice ---
+associative and commutative for the most elementary reasons --- and the embedding
+$z \mapsto [\wp(z):\wp'(z):1]$ turns it into ``draw a line, take the third
+intersection, reflect.'' Seen this way, every feature of the chord--tangent rule,
+including the puzzling reflection step, is forced.
+
+The treatment is meant to be \emph{self-contained}. The genus-one theory is built
+from a single course in complex analysis: the dimension counts that single out
+$1, \wp, \wp'$ are derived elementarily from Liouville's theorems and the explicit
+Weierstrass functions, and the converse of Abel's law is proved constructively
+with the Weierstrass $\sigma$-function. Riemann--Roch is stated as the general
+theorem for context, but nothing in the book depends on it. Every figure is drawn
+from coordinates computed exactly by the Sage scripts of \cref{app:C}, so the
+pictures are reproducible rather than schematic, and roughly eighty exercises, all
+with complete solutions in \cref{app:D}, let the reader reconstruct the theory.
+
+\paragraph{Audience and prerequisites.}
+The intended reader is a strong final-year undergraduate or beginning graduate
+student. We assume one course in single-variable complex analysis (holomorphic and
+meromorphic functions, Laurent series, residues, Liouville's theorem, the argument
+principle --- all recalled in \cref{app:A}), comfort with quotient spaces, and the
+rudiments of abelian groups and linear algebra. No prior acquaintance with Riemann
+surfaces, divisors, or Riemann--Roch is needed.
+
+\paragraph{How to read it.}
+The chapters are linear, and \cref{fig:dependency} maps the whole argument on the
+first pages. A reader meeting the subject for the first time may skim the
+convergence, Eisenstein-series, and field-generation material of
+\cref{ch:weierstrass_wp} --- the most technical in the book --- without losing the
+main thread. The List of Symbols that follows fixes notation, and \cref{app:B}
+records how the material grew out of a course's midterm and final.
+
+\tableofcontents
+
+\chapter*{List of Symbols}
+\addcontentsline{toc}{chapter}{List of Symbols}
+
+\begin{center}
+\footnotesize
+\begin{tabular}{@{}ll@{}}
+\multicolumn{2}{@{}l}{\itshape Number systems and spaces}\\
+\(\C, \R, \Z, \Q\) & complex, real, integer, rational numbers\\
+\(\F\) & a field (e.g.\ a finite field \(\F_p\))\\
+\(\CP^n\) & complex projective space\\
+\(\HH\) & upper half-plane \(\{\operatorname{Im}\tau>0\}\)\\[2pt]
+\multicolumn{2}{@{}l}{\itshape Lattices and the torus}\\
+\(\Lambda = \Z\omega_1+\Z\omega_2\) & a lattice; \(\omega_1,\omega_2\) its periods\\
+\(\tau = \omega_2/\omega_1\) & period ratio, normalized to \(\HH\)\\
+\(P_\Lambda\) & fundamental parallelogram\\
+\(T = \C/\Lambda\) & the complex torus\\
+\(O\) & identity; image of \(0\); point at infinity of \(E\)\\
+\(m(\Lambda)\) & least length of a nonzero lattice vector\\[2pt]
+\multicolumn{2}{@{}l}{\itshape Weierstrass functions}\\
+\(\wp,\ \wp'\) & Weierstrass function (double pole) and derivative\\
+\(\zeta = \sigma'/\sigma\) & Weierstrass zeta function, \(\zeta' = -\wp\)\\
+\(\sigma\) & Weierstrass sigma function\\
+\(G_k\) & Eisenstein series of weight \(k\)\\
+\(g_2, g_3\) & invariants, \(g_2 = 60G_4\), \(g_3 = 140G_6\)\\
+\(\Delta\) & discriminant \(g_2^3 - 27g_3^2\)\\
+\(e_1, e_2, e_3\) & roots of \(4x^3-g_2x-g_3\); values \(\wp(\omega_i/2)\)\\
+\(\eta_k\) & quasi-periods, \(\eta_k = 2\zeta(\omega_k/2)\)\\
+\(j\) & the \(j\)-invariant \(1728\,g_2^3/\Delta\)\\[2pt]
+\multicolumn{2}{@{}l}{\itshape Functions and fields}\\
+\(\OO,\ \M\) & holomorphic, meromorphic functions\\
+\(\C(\wp,\wp')\) & field of elliptic functions\\[2pt]
+\multicolumn{2}{@{}l}{\itshape Divisors and Riemann--Roch}\\
+\(\Div(X),\ \Div^0(X)\) & divisors; degree-zero divisors\\
+\(\divisor(f)\) & divisor of \(f\) (a principal divisor)\\
+\(\ord_p,\ \Res,\ \degdiv\) & order at \(p\), residue, degree\\
+\(\Prin(X)\) & principal divisors\\
+\(\Pic(X),\ \Pic^0(X)\) & Picard group; degree-zero Picard group\\
+\(K\) & canonical divisor (\(K\sim0\) on \(T\))\\
+\(L(D),\ \ell(D)\) & Riemann--Roch space and its dimension\\
+\(\smap,\ \bar\smap\) & Abel--Jacobi sum map \(\Div^0(T)\!\to\!T\) and \(\Pic^0(T)\!\to\!T\)\\[2pt]
+\multicolumn{2}{@{}l}{\itshape The cubic and its group law}\\
+\(E\) & the cubic \(Y^2Z = 4X^3 - g_2XZ^2 - g_3Z^3\)\\
+\(\Phi\) & Weierstrass embedding \(T \to E\)\\
+\(\oplus,\ \ominus\) & group law on \(E\) and its inverse (reflection)\\
+\(\boxplus\) & chord--tangent operation (equal to \(\oplus\))\\
+\end{tabular}
+\end{center}
+
+\mainmatter
+
+\part{Tori as Riemann Surfaces}
+\input{chapters/01_intro}
+\input{chapters/02_lattices}
+\input{chapters/03_torus_group_surface}
+
+\part{Elliptic Functions}
+\input{chapters/04_elliptic_liouville}
+\input{chapters/05_divisors}
+
+\part{Riemann--Roch on Genus One}
+\input{chapters/06_riemann_roch}
+
+\part{The Weierstrass Functions}
+\input{chapters/07_weierstrass_wp}
+\input{chapters/08_embedding}
+
+\part{The Group Law on the Cubic}
+\input{chapters/09_abel}
+\input{chapters/10_lines_divisors}
+\input{chapters/11_transport}
+\input{chapters/12_chord_tangent_cases}
+
+\part{Formulas, Computations, and Synthesis}
+\input{chapters/13_coordinate_formulas}
+\input{chapters/14_analytic_addition}
+\input{chapters/15_worked_pitfalls}
+\input{chapters/16_synthesis}
+
+\appendix
+\part{Appendices}
+\input{chapters/appendix_A}
+\input{chapters/appendix_B}
+\input{chapters/appendix_C}
+\input{chapters/appendix_D}
+
+\backmatter
+
+\addcontentsline{toc}{chapter}{Bibliography}
+\begin{thebibliography}{9}
+
+\bibitem{ahlfors}
+L.~V. Ahlfors, \emph{Complex Analysis}, 3rd ed., McGraw--Hill, 1979.
+
+\bibitem{stein-shakarchi}
+E.~M. Stein and R.~Shakarchi, \emph{Complex Analysis}, Princeton Lectures in
+Analysis II, Princeton University Press, 2003.
+
+\bibitem{conway}
+J.~B. Conway, \emph{Functions of One Complex Variable I}, 2nd ed., Graduate Texts
+in Mathematics 11, Springer, 1978.
+
+\bibitem{miranda}
+R.~Miranda, \emph{Algebraic Curves and Riemann Surfaces}, Graduate Studies in
+Mathematics 5, American Mathematical Society, 1995.
+
+\bibitem{forster}
+O.~Forster, \emph{Lectures on Riemann Surfaces}, Graduate Texts in Mathematics 81,
+Springer, 1981.
+
+\bibitem{silverman}
+J.~H. Silverman, \emph{The Arithmetic of Elliptic Curves}, 2nd ed., Graduate Texts
+in Mathematics 106, Springer, 2009.
+
+\bibitem{silverman-tate}
+J.~H. Silverman and J.~Tate, \emph{Rational Points on Elliptic Curves}, 2nd ed.,
+Undergraduate Texts in Mathematics, Springer, 2015.
+
+\bibitem{diamond-shurman}
+F.~Diamond and J.~Shurman, \emph{A First Course in Modular Forms}, Graduate Texts
+in Mathematics 228, Springer, 2005.
+
+\bibitem{serre}
+J.-P. Serre, \emph{A Course in Arithmetic}, Graduate Texts in Mathematics 7,
+Springer, 1973.
+
+\end{thebibliography}
+
+\end{document}

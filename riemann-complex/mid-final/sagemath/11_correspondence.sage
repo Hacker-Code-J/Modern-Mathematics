@@ -1,0 +1,247 @@
+# Three side-by-side correspondence figures (identity, P+Q, 2P):
+# lattice <-> embedded 3D torus <-> elliptic curve.
+#
+# For each marker [w] = a*omega1 + b*omega2 we compute:
+#   (i)  lattice 2D coordinate (Re w, Im w) inside the fundamental parallelogram
+#   (ii) embedded torus 3D position via the convention
+#           u_t = 2 pi b   (small-circle / meridian angle)
+#           v_t = 2 pi a   (big-circle  / longitude angle)
+#         X(u_t, v_t) = ((R + r cos u_t) cos v_t, (R + r cos u_t) sin v_t, r sin u_t)
+#   (iii) orthographic projection to image plane with theta = 60 deg, matching
+#         08_torus_render.sage:  x_2d = X, y_2d = Y sin theta + Z cos theta
+#   (iv) visibility check  -cos u_t sin v_t cos theta + sin u_t sin theta > 0
+#
+# Lattice points are chosen so that ALL embedded markers (origin, u, v, u+v,
+# 2u) project to visible portions of the torus.  Concretely the small-circle
+# coordinate b is kept in the top-half band b in [0.05, 0.45], which lies
+# strictly above the lower silhouette tangent.
+#
+# Elliptic curve y^2 = 4 x^3 - 4 x has e_1=-1, e_2=0, e_3=1.  We pick the
+# corresponding chord/tangent positions and recompute the third intersection
+# and reflection by Vieta's formula.
+
+from sage.all import RDF, I, pi, cos, sin, sqrt, Matrix
+import math
+
+# ----- Lattice ------------------------------------------------------
+omega1 = RDF(2.4) + RDF(0.25)*I
+omega2 = RDF(0.7) + RDF(1.7)*I
+
+def lift(a, b):
+    """Lift (a,b) -> a*omega1 + b*omega2 in C."""
+    return a*omega1 + b*omega2
+
+def reduce_ab(a, b):
+    """Reduce (a,b) modulo 1 into [0,1)^2."""
+    return a - math.floor(a), b - math.floor(b)
+
+# ----- Torus geometry -----------------------------------------------
+R_outer = RDF(1.80)
+r_inner = RDF(0.70)
+theta   = RDF(60.0) * RDF(pi) / RDF(180)
+st = sin(theta); ct = cos(theta)
+
+def torus_proj(a, b):
+    """Map lattice coefficients (a,b) -> embedded 3D point and 2D projection.
+    Convention: u_t = 2 pi b (meridian), v_t = 2 pi a (longitude)."""
+    u_t = RDF(2)*RDF(pi)*RDF(b)
+    v_t = RDF(2)*RDF(pi)*RDF(a)
+    X = (R_outer + r_inner*cos(u_t)) * cos(v_t)
+    Y = (R_outer + r_inner*cos(u_t)) * sin(v_t)
+    Z = r_inner * sin(u_t)
+    x2 = X
+    y2 = Y*st + Z*ct
+    Ncam = -cos(u_t)*sin(v_t)*ct + sin(u_t)*st
+    return float(x2), float(y2), bool(Ncam > 0)
+
+# ----- Elliptic curve y^2 = 4 x^3 - 4 x -----------------------------
+g2 = RDF(4); g3 = RDF(0)
+e1, e2, e3 = RDF(-1), RDF(0), RDF(1)
+
+def y_plus(xv):
+    val = 4*xv**3 - g2*xv - g3
+    if val < 0: return None
+    return RDF(val).sqrt()
+
+# ============================================================
+# Marker selection -- chosen so ALL torus markers are visible
+# ============================================================
+# Common point: u (used in identity + doubling figures)
+#   Chosen with small a, b so that u, v, u+v, and 2u all stay in the
+#   "top half" b-band where visibility is guaranteed.
+a_u, b_u = RDF(0.20), RDF(0.15)
+# Second point: v (used in P+Q figure)
+a_v, b_v = RDF(0.30), RDF(0.20)
+# Origin is at the corner of the parallelogram (lattice point 0)
+# which projects to outer-equator at v_t=0 -> right silhouette.
+# To keep the figures readable we additionally show the front-most
+# corner of the parallelogram as the "0" marker (its torus image is
+# right on the silhouette, which is intentional and informative).
+
+u_pt = lift(a_u, b_u)
+v_pt = lift(a_v, b_v)
+sum_lift = u_pt + v_pt
+# Reduce sum
+a_sum_lift = a_u + a_v
+b_sum_lift = b_u + b_v
+a_sum_red, b_sum_red = reduce_ab(a_sum_lift, b_sum_lift)
+sum_red = lift(a_sum_red, b_sum_red)
+delta_a = a_sum_lift - a_sum_red
+delta_b = b_sum_lift - b_sum_red
+
+# Doubling
+a_2u_lift = 2*a_u; b_2u_lift = 2*b_u
+a_2u_red, b_2u_red = reduce_ab(a_2u_lift, b_2u_lift)
+two_u_red = lift(a_2u_red, b_2u_red)
+
+# Print summary
+print("Lattice basis: omega1 = ({:.4f},{:.4f}),  omega2 = ({:.4f},{:.4f})".format(
+    float(omega1.real()), float(omega1.imag()),
+    float(omega2.real()), float(omega2.imag())))
+print()
+print("Markers (a, b) on the lattice  |  torus (x2,y2)  |  visible")
+print("-"*70)
+def report(name, a, b):
+    pt = lift(a, b)
+    x2, y2, vis = torus_proj(float(a), float(b))
+    print("{:>10}  ({:.3f}, {:.3f})  | ({:7.4f}, {:7.4f}) | {}".format(
+        name, float(a), float(b), x2, y2, "YES" if vis else "NO"))
+    return float(pt.real()), float(pt.imag()), x2, y2
+
+ux, uy, ux2, uy2 = report("u",     a_u, b_u)
+vx, vy, vx2, vy2 = report("v",     a_v, b_v)
+sx_l, sy_l, sx2_l, sy2_l = report("u+v lift", a_sum_lift, b_sum_lift)
+sx_r, sy_r, sx2_r, sy2_r = report("[u+v]",    a_sum_red,  b_sum_red)
+tx, ty, tx2, ty2     = report("2u lift",  a_2u_lift, b_2u_lift)
+tx_r, ty_r, tx2_r, ty2_r = report("[2u]",   a_2u_red,  b_2u_red)
+ox, oy, ox2, oy2     = report("[0]",     RDF(0), RDF(0))
+
+# ============================================================
+# Curve-side markers and chord/tangent computations
+# ============================================================
+# For the identity figure, choose P at a point on the unbounded branch:
+x_P_id = RDF(1.45)
+y_P_id = float(y_plus(x_P_id))
+# For the P+Q figure, choose P on the oval, Q on the unbounded branch.
+x_P_chord = RDF(-0.55)
+y_P_chord = float(y_plus(x_P_chord))
+x_Q_chord = RDF(1.45)
+y_Q_chord = float(y_plus(x_Q_chord))
+# Chord through P, Q meets the cubic at R = (x_R, y_R) computed by Vieta:
+# 4 x^3 - g2 x - g3 - (m x + c)^2 = 0 has roots x_P, x_Q, x_R.
+# Sum of roots = m^2 / 4  =>  x_R = m^2/4 - x_P - x_Q
+m_chord = (y_Q_chord - y_P_chord) / (x_Q_chord - x_P_chord)
+c_chord = y_P_chord - m_chord * x_P_chord
+x_R_chord = m_chord**2 / RDF(4) - x_P_chord - x_Q_chord
+y_R_chord = m_chord * x_R_chord + c_chord
+x_PpQ = x_R_chord
+y_PpQ = -y_R_chord
+
+# Endpoints of the chord segment (for drawing) -- extend slightly past P and Q.
+chord_left_x  = RDF(-1.10)
+chord_right_x = RDF(2.55)
+chord_left_y  = m_chord*chord_left_x  + c_chord
+chord_right_y = m_chord*chord_right_x + c_chord
+
+# For the doubling figure, choose P on the oval and compute tangent slope.
+x_P_dbl = RDF(-0.30)
+y_P_dbl = float(y_plus(x_P_dbl))
+# y^2 = 4x^3 - g2 x - g3  =>  2 y y' = 12 x^2 - g2  =>  y' = (12 x^2 - g2)/(2y)
+m_dbl = (12*x_P_dbl**2 - g2) / (2*y_P_dbl)
+c_dbl = y_P_dbl - m_dbl * x_P_dbl
+# Double root at x_P, single root at x_R: 2 x_P + x_R = m_dbl^2 / 4
+x_R_dbl = m_dbl**2 / RDF(4) - 2*x_P_dbl
+y_R_dbl = m_dbl * x_R_dbl + c_dbl
+x_2P = x_R_dbl
+y_2P = -y_R_dbl
+
+dbl_left_x  = RDF(-1.10)
+dbl_right_x = RDF(2.55)
+dbl_left_y  = m_dbl*dbl_left_x  + c_dbl
+dbl_right_y = m_dbl*dbl_right_x + c_dbl
+
+print()
+print("Identity figure  -- P on unbounded branch")
+print("  P = ({:.4f}, {:.4f})  on E (vertical line through P, -P, O)".format(
+    float(x_P_id), float(y_P_id)))
+print()
+print("Chord figure -- P on oval, Q on branch")
+print("  P  = ({:.4f}, {:.4f}),  Q = ({:.4f}, {:.4f})".format(
+    float(x_P_chord), float(y_P_chord), float(x_Q_chord), float(y_Q_chord)))
+print("  m  = {:.4f},  c = {:.4f}".format(float(m_chord), float(c_chord)))
+print("  R  = ({:.4f}, {:.4f})".format(float(x_R_chord), float(y_R_chord)))
+print("  P+Q = ({:.4f}, {:.4f}) = -R".format(float(x_PpQ), float(y_PpQ)))
+print()
+print("Doubling figure -- P on oval")
+print("  P = ({:.4f}, {:.4f})".format(float(x_P_dbl), float(y_P_dbl)))
+print("  tangent slope m = {:.4f}".format(float(m_dbl)))
+print("  R = ({:.4f}, {:.4f}),  2P = ({:.4f}, {:.4f})".format(
+    float(x_R_dbl), float(y_R_dbl), float(x_2P), float(y_2P)))
+
+# ============================================================
+# Output coords_correspondence.tex
+# ============================================================
+with open("coords_correspondence.tex", "w") as f:
+    f.write("% Side-by-side correspondence: lattice <-> torus <-> curve.\n")
+    f.write("% Computed by 11_correspondence.sage.  Conventions:\n")
+    f.write("%   u_t = 2*pi*b (meridian), v_t = 2*pi*a (longitude),\n")
+    f.write("%   theta = 60 deg orthographic, matching 08_torus_render.sage.\n")
+    # Lattice basis coords (already in coords_lattice.tex, but repeat shortcuts)
+    # -- Marker coordinates: lattice (xL, yL) and torus image (xT, yT) --
+    def write_pair(prefix, a, b, lift_pt=None):
+        if lift_pt is None:
+            lift_pt = lift(a, b)
+        x2, y2, vis = torus_proj(float(a), float(b))
+        f.write(r"\newcommand{\%sLx}{%.4f}" % (prefix, float(lift_pt.real())) + "\n")
+        f.write(r"\newcommand{\%sLy}{%.4f}" % (prefix, float(lift_pt.imag())) + "\n")
+        f.write(r"\newcommand{\%sTx}{%.4f}" % (prefix, x2) + "\n")
+        f.write(r"\newcommand{\%sTy}{%.4f}" % (prefix, y2) + "\n")
+        return x2, y2, vis
+    # Origin
+    write_pair("corOrigin", RDF(0), RDF(0))
+    # u (used in identity + doubling)
+    write_pair("corU", a_u, b_u, u_pt)
+    # v (used in P+Q)
+    write_pair("corV", a_v, b_v, v_pt)
+    # Lifted u+v
+    write_pair("corSumLift", a_sum_lift, b_sum_lift, sum_lift)
+    # Reduced [u+v]
+    write_pair("corSumRed",  a_sum_red,  b_sum_red,  sum_red)
+    # Lifted 2u
+    write_pair("corTwoULift", a_2u_lift, b_2u_lift, 2*u_pt)
+    # Reduced [2u]
+    write_pair("corTwoURed",  a_2u_red,  b_2u_red,  two_u_red)
+    # Reduction translation (which lattice vector to subtract for u+v)
+    delta_vec = delta_a*omega1 + delta_b*omega2
+    f.write(r"\newcommand{\corSumShiftX}{%.4f}" % float(delta_vec.real()) + "\n")
+    f.write(r"\newcommand{\corSumShiftY}{%.4f}" % float(delta_vec.imag()) + "\n")
+
+    # -- Curve-side markers --
+    f.write(r"\newcommand{\corCurveIDPx}{%.4f}" % float(x_P_id) + "\n")
+    f.write(r"\newcommand{\corCurveIDPy}{%.4f}" % float(y_P_id) + "\n")
+    f.write(r"\newcommand{\corCurveCPx}{%.4f}" % float(x_P_chord) + "\n")
+    f.write(r"\newcommand{\corCurveCPy}{%.4f}" % float(y_P_chord) + "\n")
+    f.write(r"\newcommand{\corCurveCQx}{%.4f}" % float(x_Q_chord) + "\n")
+    f.write(r"\newcommand{\corCurveCQy}{%.4f}" % float(y_Q_chord) + "\n")
+    f.write(r"\newcommand{\corCurveCRx}{%.4f}" % float(x_R_chord) + "\n")
+    f.write(r"\newcommand{\corCurveCRy}{%.4f}" % float(y_R_chord) + "\n")
+    f.write(r"\newcommand{\corCurveCSumx}{%.4f}" % float(x_PpQ) + "\n")
+    f.write(r"\newcommand{\corCurveCSumy}{%.4f}" % float(y_PpQ) + "\n")
+    f.write(r"\newcommand{\corCurveCLeftx}{%.4f}" % float(chord_left_x) + "\n")
+    f.write(r"\newcommand{\corCurveCLefty}{%.4f}" % float(chord_left_y) + "\n")
+    f.write(r"\newcommand{\corCurveCRightx}{%.4f}" % float(chord_right_x) + "\n")
+    f.write(r"\newcommand{\corCurveCRighty}{%.4f}" % float(chord_right_y) + "\n")
+
+    f.write(r"\newcommand{\corCurveDPx}{%.4f}" % float(x_P_dbl) + "\n")
+    f.write(r"\newcommand{\corCurveDPy}{%.4f}" % float(y_P_dbl) + "\n")
+    f.write(r"\newcommand{\corCurveDRx}{%.4f}" % float(x_R_dbl) + "\n")
+    f.write(r"\newcommand{\corCurveDRy}{%.4f}" % float(y_R_dbl) + "\n")
+    f.write(r"\newcommand{\corCurveDTwoPx}{%.4f}" % float(x_2P) + "\n")
+    f.write(r"\newcommand{\corCurveDTwoPy}{%.4f}" % float(y_2P) + "\n")
+    f.write(r"\newcommand{\corCurveDLeftx}{%.4f}" % float(dbl_left_x) + "\n")
+    f.write(r"\newcommand{\corCurveDLefty}{%.4f}" % float(dbl_left_y) + "\n")
+    f.write(r"\newcommand{\corCurveDRightx}{%.4f}" % float(dbl_right_x) + "\n")
+    f.write(r"\newcommand{\corCurveDRighty}{%.4f}" % float(dbl_right_y) + "\n")
+
+print()
+print("Wrote coords_correspondence.tex")

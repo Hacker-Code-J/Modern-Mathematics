@@ -1,0 +1,32 @@
+% The moduli space of complex tori: a torus C/Lambda depends only on its shape
+% tau in H, modulo SL_2(Z).  The shaded region F (|Re tau|<=1/2, |tau|>=1) is one
+% representative per torus; H/SL_2(Z) is coordinatized by the j-invariant.  The faint
+% geodesics and walls suggest the SL_2(Z) tessellation.
+\begin{tikzpicture}[>=Latex]
+  \def\rt{0.86603}
+  \draw[->, black!55, line width=0.6pt] (-2.15,0)--(2.15,0) node[right, font=\small] {$\operatorname{Re}\tau$};
+  \draw[->, black!55, line width=0.6pt] (0,-0.12)--(0,2.55) node[above, font=\small] {$\operatorname{Im}\tau$};
+  % tessellation: integer-to-integer geodesics, then half-integer ones, fainter
+  \foreach \a/\b in {-2/-1,-1/0,0/1,1/2}{
+    \pgfmathsetmacro\c{(\a+\b)/2}\pgfmathsetmacro\rr{(\b-\a)/2}
+    \draw[formteal!30, line width=0.6pt] (\c+\rr,0) arc[start angle=0, end angle=180, radius=\rr];}
+  \foreach \a/\b in {-1/-0.5,-0.5/0,0/0.5,0.5/1}{
+    \pgfmathsetmacro\c{(\a+\b)/2}\pgfmathsetmacro\rr{(\b-\a)/2}
+    \draw[formteal!17, line width=0.5pt] (\c+\rr,0) arc[start angle=0, end angle=180, radius=\rr];}
+  % neighbour walls (faint)
+  \foreach \x in {-1.5,-0.5,0.5,1.5}{\draw[black!18, line width=0.5pt] (\x,0)--(\x,2.5);}
+  % fundamental domain F
+  \fill[formgold!16] (-0.5,2.5)--(-0.5,\rt) arc[start angle=120, end angle=60, radius=1]--(0.5,2.5)--cycle;
+  \draw[formgold!82!black, line width=1.3pt]
+    (-0.5,2.5)--(-0.5,\rt) arc[start angle=120, end angle=60, radius=1]--(0.5,2.5);
+  % unit circle, faint
+  \draw[black!28, line width=0.7pt] (1,0) arc[start angle=0, end angle=180, radius=1];
+  % distinguished points and labels
+  \fill[formrust!88!black] (0,1) circle (2.4pt);
+  \node[right=2pt, font=\small, formrust!70!black] at (0,1) {$i$};
+  \fill[formrust!88!black] (-0.5,\rt) circle (2.4pt);
+  \node[left=1pt, font=\small, formrust!70!black] at (-0.5,\rt) {$\rho$};
+  \node[formgold!50!black] at (0,1.72) {$F$};
+  \node[below, font=\small] at (-0.5,-0.04) {$-\tfrac12$};
+  \node[below, font=\small] at (0.5,-0.04) {$\tfrac12$};
+\end{tikzpicture}

@@ -1,0 +1,108 @@
+\chapter{The Weierstrass Embedding into \texorpdfstring{\(\CP^2\)}{CP2}}
+\label{ch:weierstrass-embedding}
+
+The three functions spanning \(L(3O)\) define a projective map
+\[
+  \Phi:T\longrightarrow\CP^2,\qquad
+  z\longmapsto[\wp(z):\wp'(z):1],
+\]
+with \(O\) sent to \([0:1:0]\).  By \cref{thm:wp-ode-new}, its image lies on
+\[
+  E:\quad Y^2Z=4X^3-g_2XZ^2-g_3Z^3.
+\]
+
+\begin{theorem}
+\label{thm:wp-embedding-new}
+If \(\Delta=g_2^3-27g_3^2\ne0\), the map \(\Phi\) is a biholomorphism from
+\(\C/\Lambda\) onto the smooth projective cubic \(E\).
+\end{theorem}
+
+\begin{proof}[Proof sketch]
+Near \(O\), the Laurent expansions
+\(\wp(z)=z^{-2}+\cdots\) and \(\wp'(z)=-2z^{-3}+\cdots\) show that the map
+extends holomorphically to \([0:1:0]\).  The equation shows the image lies on
+\(E\).  Smoothness follows from \(\Delta\ne0\).  The evenness of \(\wp\) and
+oddness of \(\wp'\) distinguish the two points over a generic \(x\)-value, and
+the special half-period points are accounted for by ramification.  Compactness
+then promotes the holomorphic bijection to a biholomorphism.
+\end{proof}
+
+\begin{keyidea}{The analytic-to-algebraic map}
+The map \(\Phi=[\wp:\wp':1]\) is not only a parametrization.  It is the
+identification that allows the elementary group law on \(\C/\Lambda\) to become
+a geometric law on a cubic.
+\end{keyidea}
+
+\section*{Exercises}
+\addcontentsline{toc}{section}{Exercises}
+
+\exerciseintent{Compute the projective limit that sends the lattice origin to the point at infinity.}
+\begin{exercise}
+Use
+\[
+  \wp(z)=z^{-2}+O(z^2),\qquad \wp'(z)=-2z^{-3}+O(z)
+\]
+and multiply the homogeneous coordinates
+\([\wp(z):\wp'(z):1]\) by \(z^3\).  Compute the limit as \(z\to0\) and obtain
+\(\Phi(0)=[0:1:0]\).
+\end{exercise}
+
+\exerciseintent{Track how \(z\mapsto -z\) changes the affine Weierstrass coordinates.}
+\begin{exercise}
+Using \(\wp(-z)=\wp(z)\) and \(\wp'(-z)=-\wp'(z)\), compute
+\[
+  x(-z),\qquad y(-z)
+\]
+for \(x(z)=\wp(z)\), \(y(z)=\wp'(z)\).
+\end{exercise}
+
+\exerciseintent{Detect singularity of the affine cubic by solving the partial-derivative equations.}
+\begin{exercise}
+For
+\[
+  F(x,y)=y^2-4x^3+g_2x+g_3,
+\]
+compute \(F_x\) and \(F_y\).  Solve the equations
+\[
+  F=F_x=F_y=0
+\]
+and show that they are equivalent to \(y=0\) and \(x\) being a repeated root of
+\(4x^3-g_2x-g_3\).
+\end{exercise}
+
+\exerciseintent{Convert parity of \(\wp,\wp'\) into cubic reflection.}
+\begin{exercise}
+Compute the homogeneous coordinates of \(\Phi(-z)\) and use the parity of
+\(\wp\) and \(\wp'\) to prove
+\[
+  \Phi(-z)=\ominus\Phi(z),
+\]
+where \(\ominus(x,y)=(x,-y)\) and \(\ominus O=O\).
+\end{exercise}
+
+\exerciseintent{Write one group element in torus, cubic, and divisor-class notation.}
+\begin{exercise}
+For \(z\in T\), write the same group element in the three notations
+\[
+  z\in T,\qquad \Phi(z)\in E(\C),\qquad [\Phi(z)]-[O]\in\Pic^0(E).
+\]
+Give the two explicit formulas
+\[
+  z\longmapsto[\wp(z):\wp'(z):1],\qquad
+  P\longmapsto[P]-[O]
+\]
+that identify these notations.
+\end{exercise}
+
+\exerciseintent{Check the generic injectivity mechanism of the Weierstrass map and mark the theorem boundary.}
+\begin{exercise}
+Assume \(\Phi(z)=\Phi(w)\) in the affine chart.  Compute the two equalities
+\[
+  \wp(z)=\wp(w),\qquad \wp'(z)=\wp'(w).
+\]
+For a generic value of \(\wp\), the equation \(\wp(t)=\wp(z)\) has the two
+possibilities \(t\equiv z\) and \(t\equiv -z\) modulo \(\Lambda\).  Use the
+oddness of \(\wp'\) to show how the second coordinate removes the generic
+\(z\) versus \(-z\) ambiguity.  State which exceptional half-period and
+point-at-infinity cases still belong to the full Weierstrass embedding theorem.
+\end{exercise}

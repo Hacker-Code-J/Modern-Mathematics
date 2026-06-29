@@ -1,0 +1,33 @@
+% Perfect packing count for the [7,4,3] Hamming code.
+\documentclass[tikz, border=8pt]{standalone}
+\input{coding-fig-common.tex}
+
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+  \node[title text] at (0,3.08) {Perfect One-Error Correction};
+  \node[caption text] at (0,2.67) {For $[7,4,3]$, each radius-one ball has $1+7=8$ words.};
+
+  \foreach \cx/\cy/\lab/\col in {-3/0.65/c_1/TealDarkCyan,0/0.65/c_2/BlueCode,3/0.65/c_3/AmberCode,-1.5/-1.45/c_4/GoodGreen,1.5/-1.45/c_5/VioletCode}{
+    \foreach \ang in {0,51.428,102.856,154.284,205.712,257.14,308.568}{
+      \fill[\col!13] ({\cx+0.55*cos(\ang)},{\cy+0.55*sin(\ang)}) circle (0.14);
+      \draw[\col!60, line width=0.6pt] ({\cx+0.55*cos(\ang)},{\cy+0.55*sin(\ang)}) circle (0.14);
+    }
+    \fill[Paper] (\cx,\cy) circle (0.18);
+    \draw[\col!85!black, line width=0.9pt] (\cx,\cy) circle (0.18);
+    \fill[\col!85!black] (\cx,\cy) circle (0.06);
+    \draw[\col!65, dashed, line width=0.8pt] (\cx,\cy) circle (0.78);
+    \node[tiny label, above=0.86cm] at (\cx,\cy) {$B_1(\lab)$};
+  }
+
+  \node[process, minimum width=2.65cm] at (-3,-2.65)
+    {$|\mathcal C|=2^4=16$};
+  \node[process blue, minimum width=2.65cm] at (0,-2.65)
+    {$|B_1(c)|=1+7=8$};
+  \node[process amber, minimum width=2.65cm] at (3,-2.65)
+    {$16\cdot 8=2^7$};
+
+  \node[caption text] at (0,-3.38)
+    {The balls tile $\mathbb F_2^7$: every received word has a unique nearest codeword.};
+\end{tikzpicture}
+\end{document}
+

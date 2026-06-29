@@ -1,0 +1,26 @@
+% Different lattice shapes give non-isomorphic tori, told apart by the j-invariant:
+% the square lattice (tau=i, j=1728) and the hexagonal lattice (tau=rho, j=0) are the
+% two extra-symmetric ones; a generic tau gives a generic j.
+\begin{tikzpicture}[>=Latex]
+  % square, tau = i
+  \begin{scope}[xshift=0cm]
+    \foreach \i in {0,1,2}{\foreach \j in {0,1,2}{\fill[formteal!78!black] (\i,\j) circle (1.8pt);}}
+    \draw[formrust!72!black, line width=1pt, fill=formrust!8] (0,0)--(1,0)--(1,1)--(0,1)--cycle;
+    \node[align=center, font=\small, anchor=north] at (0.5,-0.45)
+      {square\\$\tau=i$\\{\color{formgold!58!black}$j=1728$}};
+  \end{scope}
+  % hexagonal, tau = rho
+  \begin{scope}[xshift=5.0cm]
+    \foreach \i in {0,1,2}{\foreach \j in {0,1,2}{\fill[formteal!78!black] ({\i+0.5*\j},{0.866*\j}) circle (1.8pt);}}
+    \draw[formrust!72!black, line width=1pt, fill=formrust!8] (0,0)--(1,0)--(1.5,0.866)--(0.5,0.866)--cycle;
+    \node[align=center, font=\small, anchor=north] at (0.75,-0.45)
+      {hexagonal\\$\tau=\rho$\\{\color{formgold!58!black}$j=0$}};
+  \end{scope}
+  % generic
+  \begin{scope}[xshift=10.0cm]
+    \foreach \i in {0,1,2}{\foreach \j in {0,1,2}{\fill[formteal!78!black] ({\i+0.32*\j},{0.72*\j}) circle (1.8pt);}}
+    \draw[formrust!72!black, line width=1pt, fill=formrust!8] (0,0)--(1.1,0)--(1.42,0.72)--(0.32,0.72)--cycle;
+    \node[align=center, font=\small, anchor=north] at (0.71,-0.45)
+      {generic\\$\tau$\\{\color{formgold!58!black}$j\in\C$}};
+  \end{scope}
+\end{tikzpicture}

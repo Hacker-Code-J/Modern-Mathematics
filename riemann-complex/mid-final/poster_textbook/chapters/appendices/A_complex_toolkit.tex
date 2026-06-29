@@ -1,0 +1,31 @@
+\chapter{Complex-Analysis Toolkit}
+\label{app:complex-toolkit}
+
+This appendix records the analytic facts used in the chapters.
+
+\section{Residues}
+
+If \(f\) has Laurent expansion \(f(z)=\sum a_n(z-p)^n\), then
+\(\Res_p(f\,dz)=a_{-1}\).  The residue theorem says that the integral of a
+meromorphic \(1\)-form around a contour is \(2\pi i\) times the sum of residues
+inside.
+
+\section{Argument Principle}
+
+For meromorphic \(f\),
+\[
+  \frac{1}{2\pi i}\int_\gamma \frac{f'}{f}\,dz
+\]
+counts zeros minus poles inside \(\gamma\), with multiplicity.
+
+\section{Compact Residue Theorem}
+
+On a compact Riemann surface, the sum of residues of a meromorphic \(1\)-form is
+zero.  This is the global form of the puncture-and-Stokes argument from the
+midterm.
+
+\section{Maximum Modulus}
+
+A holomorphic function on a compact connected Riemann surface is constant.  This
+is used repeatedly to show that a holomorphic elliptic function must be constant.
+

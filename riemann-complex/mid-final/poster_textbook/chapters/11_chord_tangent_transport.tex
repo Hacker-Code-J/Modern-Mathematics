@@ -1,0 +1,91 @@
+\chapter{Why Chord--Tangent Equals Torus Addition}
+\label{ch:transport}
+
+We now put the two laws next to each other.  The analytic law is
+\[
+  \Phi(u)\oplus\Phi(v)=\Phi(u+v).
+\]
+The geometric law is the chord--tangent operation \(\boxplus\).  The main theorem
+says these are the same.
+
+\begin{theorem}[Transport theorem]
+\label{thm:transport-new}
+For all \(P,Q\in E(\C)\),
+\[
+  P\oplus Q=P\boxplus Q.
+\]
+\end{theorem}
+
+\begin{proof}
+Write \(P=\Phi(u)\), \(Q=\Phi(v)\), and let \(R\) be the third intersection of the
+line through \(P\) and \(Q\).  By \cref{prop:line-divisor},
+\([P]+[Q]+[R]-3[O]\) is principal.  Abel's theorem therefore gives
+\[
+  u+v+r\equiv 0 \pmod{\Lambda},
+\]
+where \(R=\Phi(r)\).  Hence \(R=\Phi(-(u+v))\).  Since \(\wp\) is even and
+\(\wp'\) is odd, reflecting \(R\) gives \(\Phi(u+v)\).  Thus the chord--tangent
+result is exactly the transported torus sum.
+\end{proof}
+
+\begin{corollary}
+The chord--tangent law is associative and commutative.
+\end{corollary}
+
+\begin{proof}
+It is transported from the associative and commutative law on \(\C/\Lambda\).
+\end{proof}
+
+\begin{keyidea}{No arbitrary convention}
+The reflection is forced by the equation \(P+Q+R=O\).  The third intersection is
+not the sum; its inverse is the sum.
+\end{keyidea}
+
+\section*{Exercises}
+\addcontentsline{toc}{section}{Exercises}
+
+\exerciseintent{Locate the exact Abel-sum calculation inside the transport proof.}
+\begin{exercise}
+In the proof of \cref{thm:transport-new}, write the line divisor
+\([P]+[Q]+[R]-3[O]\), choose torus preimages \(u,v,r,0\), and compute its Abel
+sum.  Identify the exact equality where Abel's theorem is used.
+\end{exercise}
+
+\exerciseintent{Compare direct cubic associativity with linear associativity on the torus.}
+\begin{exercise}
+List the third-intersection computations needed to compare
+\[
+  (P\boxplus Q)\boxplus R
+  \quad\text{and}\quad
+  P\boxplus(Q\boxplus R)
+\]
+directly on the cubic.  Then write the corresponding torus calculation
+\[
+  (u+v)+w=u+(v+w)
+\]
+and explain which side is linear.
+\end{exercise}
+
+\exerciseintent{Verify the identity element using the projective vertical line \(X=xZ\).}
+\begin{exercise}
+For \(P=(x,y)\), compute the three intersections of the projective line
+\(X=xZ\) with the cubic.  Check that this line contains \(P\) and
+\(O=[0:1:0]\).  Use the reflection step to show that \(O\boxplus P=P\).
+\end{exercise}
+
+\exerciseintent{Derive \(P\boxplus Q=\Phi(u+v)\) from the line divisor and Abel sum.}
+\begin{exercise}
+Let \(P=\Phi(u)\) and \(Q=\Phi(v)\).  Give a step-by-step proof that the
+chord--tangent construction gives \(\Phi(u+v)\).  Your proof must include the
+Abel-sum equation \(u+v+r\equiv0\pmod{\Lambda}\) and the computation
+\(\Phi(-r)=\Phi(u+v)\).
+\end{exercise}
+
+\exerciseintent{Identify the reflection step as the torus operation \(r\mapsto -r\).}
+\begin{exercise}
+In the previous exercise, compute \(r=-(u+v)\).  Then use
+\[
+  \Phi(-r)=\ominus\Phi(r)
+\]
+to identify the exact point where the reflection \(\ominus R\) enters.
+\end{exercise}

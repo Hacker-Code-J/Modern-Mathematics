@@ -1,0 +1,25 @@
+% The Tate module and the Galois representation, stacked vertically.  The torsion
+% E[l^n]=(Z/l^n)^2 forms an inverse system under x l; its limit is T_l E = Z_l^2, on which
+% the absolute Galois group acts, giving  rho : Gal(Qbar/Q) -> GL_2(Z_l).
+\begin{tikzpicture}[>=Latex,
+    tb/.style={rectangle, rounded corners=5pt, draw=formteal!70!black, line width=1pt,
+      fill=formteal!8, inner sep=7pt, align=center}]
+  % inverse system (top row)
+  \node[tb] (e1) at (0,0)   {$E[\ell]$};
+  \node[tb] (e2) at (2.6,0) {$E[\ell^2]$};
+  \node[tb] (e3) at (5.2,0) {$E[\ell^3]$};
+  \node[font=\Large] at (6.9,0) {$\cdots$};
+  \draw[<-, line width=1.4pt, draw=formslate] (e1)--node[above, font=\small] {$\ell$} (e2);
+  \draw[<-, line width=1.4pt, draw=formslate] (e2)--node[above, font=\small] {$\ell$} (e3);
+  \draw[<-, line width=1.4pt, draw=formslate] (e3)--node[above, font=\small] {$\ell$} (6.55,0);
+  \node[font=\small, formteal!55!black, anchor=north] at (2.6,-0.9)
+    {each $E[\ell^n]\cong(\Z/\ell^n)^2$};
+  % Tate module (middle), centred
+  \node[tb, draw=formgold!84!black, fill=formgold!15] (T) at (3.0,-3.9)
+    {\textbf{Tate module}\\[2pt]$T_\ell E=\varprojlim_n E[\ell^n]\cong\Z_\ell^{2}$};
+  \draw[->, dotted, line width=1pt, draw=formslate] (e2.south) to[bend right=10] (T.north);
+  % Galois representation (bottom), centred
+  \node[tb, draw=formrust!76!black, fill=formrust!10] (G) at (3.0,-7.4)
+    {\textbf{Galois representation}\\[2pt]$\rho:\operatorname{Gal}(\overline{\Q}/\Q)\to\mathrm{GL}_2(\Z_\ell)$};
+  \draw[->, line width=1.5pt, draw=formslate] (T)--node[right=1pt, font=\small] {Galois acts} (G);
+\end{tikzpicture}

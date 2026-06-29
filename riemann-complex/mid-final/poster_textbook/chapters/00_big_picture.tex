@@ -1,0 +1,78 @@
+\chapter*{Big Picture}
+\addcontentsline{toc}{chapter}{Big Picture}
+\label{front:big-picture}
+
+The goal of this book is to understand one object from three directions.  The
+object is a genus-one complex group.  It first appears analytically as a quotient
+\[
+  T=\C/\Lambda,
+\]
+where addition is inherited from addition in \(\C\).  It then appears
+geometrically as a Jacobian,
+\[
+  \Pic^0(E),
+\]
+where the group law is encoded by degree-zero divisor classes.  Finally it
+appears algebraically as the complex points of a smooth plane cubic,
+\[
+  E(\C):\quad Y^2Z=4X^3-g_2XZ^2-g_3Z^3.
+\]
+
+\begin{center}
+\resizebox{0.82\linewidth}{!}{\classicTrinityDiagram}
+\end{center}
+
+\noindent
+The central theorem says that these are not merely related examples:
+\[
+  \C/\Lambda \cong \Pic^0(E) \cong E(\C)
+\]
+as complex Lie groups.  This phrase is important: the maps are both
+biholomorphic and compatible with the group laws.  Thus the statement is
+stronger than an isomorphism of abstract abelian groups; it also preserves the
+complex structure.  The most visible consequence is the chord--tangent law.  On
+the torus, addition is simply
+\[
+  [u]+[v]=[u+v].
+\]
+On the cubic, the same addition is disguised as a geometric recipe: draw the line
+through two points, take the third intersection with the cubic, and reflect it.
+
+\section*{What Must Be Understood}
+
+\begin{enumerate}
+\item \textbf{Why a torus is a Riemann surface.}
+  A lattice quotient \(\C/\Lambda\) is compact, genus one, and still carries a
+  holomorphic group law.
+
+\item \textbf{Why elliptic functions are constrained.}
+  Meromorphic periodic functions cannot have arbitrary zeros and poles.  The
+  residue theorem and the argument principle force balancing laws.
+
+\item \textbf{Why the Weierstrass function creates a cubic.}
+  The functions \(\wp\) and \(\wp'\) satisfy
+  \[
+    \wp'^2=4\wp^3-g_2\wp-g_3,
+  \]
+  so \(z\mapsto[\wp(z):\wp'(z):1]\) sends the torus into a plane cubic.
+
+\item \textbf{Why divisors produce the Jacobian.}
+  Principal divisors have degree zero, and Abel's theorem says that on a torus a
+  degree-zero divisor is principal exactly when its Abel sum vanishes.
+
+\item \textbf{Why Riemann--Roch gives the correct coordinates.}
+  On a genus-one surface, \(\ell(nO)=n\).  Thus \(1,\wp,\wp'\) are exactly the
+  three functions needed to map the torus into \(\CP^2\).
+
+\item \textbf{Why line intersection becomes addition.}
+  A line meeting the cubic in \(P,Q,R\) cuts out a principal divisor
+  \([P]+[Q]+[R]-3[O]\).  Abel's theorem converts this into the group equation
+  \(P+Q+R=O\), so the sum of \(P\) and \(Q\) is the reflection of \(R\).
+\end{enumerate}
+
+\begin{keyidea}{The route through the book}
+The chapters move from the exam tools to the torus, from the torus to elliptic
+functions, from elliptic functions to the cubic, and from divisors to the
+Jacobian.  The final synthesis is that the analytic, geometric, and algebraic
+constructions describe the same group.
+\end{keyidea}

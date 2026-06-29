@@ -1,0 +1,58 @@
+% Hamming [7,4,3] syndrome decoder visualization.
+\documentclass[tikz, border=8pt]{standalone}
+\input{coding-fig-common.tex}
+
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+  \node[title text] at (0,3.05) {Hamming Syndrome Decoder};
+  \node[caption text] at (0,2.64) {For $\operatorname{Ham}(3,2)$, every nonzero syndrome names one coordinate.};
+
+  \matrix[matrix of nodes,
+    nodes={bit blue, minimum width=0.42cm, minimum height=0.42cm},
+    column sep=-0.8pt,
+    row sep=-0.8pt,
+    left delimiter={[},
+    right delimiter={]}
+  ] (H) at (-3.15,0.85) {
+    1&0&1&0&1&0&1\\
+    0&1&1&0&0&1&1\\
+    0&0&0&1&1&1&1\\
+  };
+  \foreach \i in {1,...,7}{
+    \node[tiny label] at (-4.77+0.46*\i,1.78) {\i};
+  }
+  \node[tiny label, above=0.18cm of H] {$H_3$};
+
+  \matrix[matrix of nodes,
+    nodes={bit error},
+    row sep=-0.8pt,
+    left delimiter={(},
+    right delimiter={)}
+  ] (s) at (0.95,0.85) {
+    1\\0\\1\\
+  };
+  \node[process red, right=0.75cm of s] (lookup) {column $5$\\[-1pt]\scriptsize $H_5=s$};
+  \draw[flow red] (s) -- (lookup);
+
+  \foreach \i/\b in {1/1,2/0,3/1,4/1,5/1,6/0,7/1}{
+    \ifnum\i=5
+      \node[bit error] (v\i) at (-1.85+0.52*\i,-1.15) {$\b$};
+    \else
+      \node[bit teal] (v\i) at (-1.85+0.52*\i,-1.15) {$\b$};
+    \fi
+  }
+  \node[tiny label, below=0.12cm of v4] {received word $v$};
+  \draw[ErrorRed, line width=1pt] (v5.north west) -- (v5.south east);
+  \draw[ErrorRed, line width=1pt] (v5.south west) -- (v5.north east);
+
+  \draw[flow blue] (H.east) -- (s.west)
+    node[midway, above=0.12cm, tiny label] {$Hv^T$};
+  \draw[flow red] (lookup.south) .. controls (2.1,-1.95) and (0.95,-2.28) .. (v5.south)
+    node[midway, below=0.05cm, tiny label] {flip};
+
+  \node[panel, align=center] at (-3.15,-2.2) {
+    \small no table search: the syndrome is the binary column label
+  };
+\end{tikzpicture}
+\end{document}
+

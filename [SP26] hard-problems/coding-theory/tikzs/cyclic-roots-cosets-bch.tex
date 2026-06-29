@@ -1,0 +1,56 @@
+% BCH roots and cyclotomic cosets on a root-of-unity circle.
+\documentclass[tikz, border=8pt]{standalone}
+\input{coding-fig-common.tex}
+
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+  \node[title text] at (0,3.15) {Roots, Cyclotomic Cosets, and BCH Design};
+  \node[caption text] at (0,2.74) {Over $\mathbb F_2$ modulo $7$: $C_1=\{1,2,4\}$ and $C_3=\{3,6,5\}$.};
+
+  \coordinate (O) at (-1.25,0);
+  \draw[TealDarkCyan!45, line width=0.9pt] (O) circle (1.8);
+
+  \foreach \i/\ang in {0/90,1/38.571,2/-12.858,3/-64.287,4/-115.716,5/-167.145,6/-218.574}{
+    \coordinate (a\i) at ($(O)+(\ang:1.8)$);
+    \ifnum\i=1
+      \node[bit error, minimum width=0.54cm] at (a\i) {$\alpha^\i$};
+    \else\ifnum\i=2
+      \node[bit error, minimum width=0.54cm] at (a\i) {$\alpha^\i$};
+    \else\ifnum\i=4
+      \node[bit error, minimum width=0.54cm] at (a\i) {$\alpha^\i$};
+    \else\ifnum\i=3
+      \node[bit blue, minimum width=0.54cm] at (a\i) {$\alpha^\i$};
+    \else\ifnum\i=5
+      \node[bit blue, minimum width=0.54cm] at (a\i) {$\alpha^\i$};
+    \else\ifnum\i=6
+      \node[bit blue, minimum width=0.54cm] at (a\i) {$\alpha^\i$};
+    \else
+      \node[bit teal, minimum width=0.54cm] at (a\i) {$1$};
+    \fi\fi\fi\fi\fi\fi
+  }
+
+  \draw[flow red] (a1) to[bend left=15] (a2);
+  \draw[flow red] (a2) to[bend left=15] (a4);
+  \draw[flow red] (a4) to[bend left=15] (a1);
+  \draw[flow blue] (a3) to[bend left=15] (a6);
+  \draw[flow blue] (a6) to[bend left=15] (a5);
+  \draw[flow blue] (a5) to[bend left=15] (a3);
+
+  \node[process red, align=center] at (3.0,1.05) {
+    \small BCH $\delta=3$\\[-1pt]
+    \scriptsize roots $\alpha,\alpha^2$
+  };
+  \node[process blue, align=center] at (3.0,-0.35) {
+    \small closure under Frobenius\\[-1pt]
+    \scriptsize include full coset $C_1$
+  };
+  \node[process amber, align=center] at (3.0,-1.65) {
+    \small $g(X)=\prod_{i\in C_1}(X-\alpha^i)$\\[-1pt]
+    \scriptsize binary cubic generator
+  };
+
+  \draw[flow red] (2.0,1.0) -- (a1);
+  \draw[flow blue] (2.0,-0.35) -- (a4);
+\end{tikzpicture}
+\end{document}
+

@@ -1,0 +1,74 @@
+\chapter{Finite Fields and Arithmetic Directions}
+\label{ch:finite-fields}
+
+The theory does not stop over \(\C\): it also moves to finite fields and number
+fields.  This is possible because the chord--tangent formulas are rational in
+the coordinates.  Once the cubic equation and the addition formulas are written
+with coefficients in a field \(k\), the same formulas define a group \(E(k)\)
+whenever the cubic is smooth.
+
+\begin{theorem}[Hasse bound]
+\label{thm:hasse}
+For an elliptic curve \(E/\F_p\),
+\[
+  \#E(\F_p)=p+1-a_p,\qquad |a_p|\le 2\sqrt p.
+\]
+\end{theorem}
+
+\begin{proof}[Status]
+This is a deep theorem, not proved in this textbook.  It is included to mark the
+transition from complex geometry to arithmetic geometry.
+\end{proof}
+
+Cryptography uses the finite abelian group \(E(\F_p)\).  Adding points is fast
+because it is given by explicit rational formulas.  Reversing repeated addition,
+recovering \(n\) from \(P\) and \(nP\), is the elliptic-curve discrete logarithm
+problem.
+
+The Tate module is another arithmetic object.  For a prime \(\ell\ne p\), the
+\(\ell^n\)-torsion groups fit into an inverse system, and
+\[
+  T_\ell E=\varprojlim E[\ell^n]\cong \Z_\ell^2.
+\]
+If \(E\) is defined over \(\Q\), the absolute Galois group acts on these torsion
+points:
+\[
+  \rho_\ell:\Gal(\overline{\Q}/\Q)\to \GL_2(\Z_\ell).
+\]
+
+\section*{Exercises}
+\addcontentsline{toc}{section}{Exercises}
+
+\exerciseintent{Count finite-field points by a concrete residue table.}
+\begin{exercise}
+Count the points on \(y^2=x^3+2x+1\) over \(\F_5\).  Make a table for
+\(x=0,1,2,3,4\), compute \(x^3+2x+1\pmod 5\), compare with the square set
+\(\{0,1,4\}\), and then add the point at infinity.
+\end{exercise}
+
+\exerciseintent{Identify the field operations used by the rational addition formulas.}
+\begin{exercise}
+In the chord--tangent formulas, list the field operations that appear
+\(+, -, \times,\) and division by a nonzero denominator.  From that list, state
+the calculation rule that lets the same formulas define addition over any field
+where the cubic is smooth, and name the exceptional denominator cases that must
+be handled separately.
+\end{exercise}
+
+\exerciseintent{Place a finite-field point count inside Hasse's interval.}
+\begin{exercise}
+Write the Hasse bound as the explicit interval
+\[
+  p+1-2\sqrt p\le \#E(\F_p)\le p+1+2\sqrt p.
+\]
+Then interpret the interval geometrically.
+\end{exercise}
+
+\exerciseintent{Separate algebraic ingredients valid over general fields from complex-analytic ones.}
+\begin{exercise}
+Make a two-column table.  In the first column, list algebraic ingredients that
+still make sense over a general field: the cubic equation, \(O\), divisors, and
+rational chord--tangent formulas.  In the second column, list analytic
+ingredients that depend on \(\C\): lattices, \(\C/\Lambda\), \(\wp\), periods,
+and complex Lie groups.
+\end{exercise}

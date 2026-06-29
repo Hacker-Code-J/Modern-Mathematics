@@ -1,0 +1,224 @@
+% The Analytic Addition Formula  (source §18; added: an independent proof of the
+% wp addition theorem from Abel + the ODE, the determinant form, the reflected
+% sign via oddness of wp', and the duplication formula)
+\chapter{The Analytic Addition Formula}
+\label{ch:analytic_addition}
+
+The chord computation of \cref{ch:coordinate_formulas} has an analytic
+counterpart: a closed formula for \(\wp(u+v)\) in terms of \(\wp\) and \(\wp'\) at
+\(u\) and \(v\). This chapter proves the Weierstrass addition theorem directly
+from Abel's law and the differential equation --- independently of the geometry ---
+and then shows it reproduces the chord law exactly, with the oddness of \(\wp'\)
+accounting for the reflection. The two derivations meeting is the analytic seal on
+\cref{thm:main}.
+
+\section{The Addition Theorem}
+\label{sec:aa-theorem}
+
+\begin{theorem}[Weierstrass addition formula]
+\label{thm:aa-addition}
+For \(u, v \notin \Lambda\) with \(u \not\equiv \pm v \pmod\Lambda\),
+\[
+  \boxed{\,\wp(u+v) = -\wp(u) - \wp(v)
+  + \frac14\left( \frac{\wp'(u) - \wp'(v)}{\wp(u) - \wp(v)} \right)^2 .\,}
+\]
+\end{theorem}
+
+\begin{proof}
+Let \(A = \dfrac{\wp'(u) - \wp'(v)}{\wp(u) - \wp(v)}\) and \(B = \wp'(u) - A\wp(u)\),
+so that the line \(Y = A\,X + B\) passes through \((\wp(u), \wp'(u))\) and
+\((\wp(v), \wp'(v))\). Consider the elliptic function
+\[
+  h(z) = \wp'(z) - A\,\wp(z) - B .
+\]
+It is elliptic with a single pole at \(0\), of order three (from \(\wp'\)), so it
+has order three and, by \cref{thm:ell-valence}, exactly three zeros counted with
+multiplicity. Two of them are \(u\) and \(v\) (where the line meets the curve);
+let \(w\) be the third. By Abel's law (\cref{thm:ell-abel}) applied to
+\(\divisor(h) = [u] + [v] + [w] - 3[0]\),
+\[
+  u + v + w \equiv 0 \pmod\Lambda, \qquad\text{so}\qquad w \equiv -(u+v).
+\]
+
+At a zero \(z\) of \(h\) we have \(\wp'(z) = A\wp(z) + B\); squaring and using the
+differential equation \(\wp'^2 = 4\wp^3 - g_2\wp - g_3\) (\cref{thm:wp-ode}),
+\[
+  4\,\wp(z)^3 - g_2\,\wp(z) - g_3 = \bigl(A\,\wp(z) + B\bigr)^2
+  = A^2 \wp(z)^2 + 2AB\,\wp(z) + B^2 .
+\]
+Thus \(\wp(z)\) is a root of the cubic \(4X^3 - A^2 X^2 - \cdots = 0\), whose three
+roots are \(\wp(u), \wp(v), \wp(w)\). Vieta's formula for the sum of the roots
+gives
+\[
+  \wp(u) + \wp(v) + \wp(w) = \frac{A^2}{4} .
+\]
+Finally \(\wp(w) = \wp(-(u+v)) = \wp(u+v)\) because \(\wp\) is even
+(\cref{prop:wp-even-periodic}). Solving,
+\(\wp(u+v) = \tfrac{A^2}{4} - \wp(u) - \wp(v)\), which is the boxed formula.
+\end{proof}
+
+The proof used only Abel's law, the differential equation, and the evenness of
+\(\wp\) --- no reference to the cubic in \(\CP^2\). It nevertheless reconstructs the
+chord rule.
+
+\section{Agreement with the Chord Law}
+\label{sec:aa-chord}
+
+Set \(P = \Phi(u) = (\wp(u), \wp'(u))\), \(Q = \Phi(v) = (\wp(v), \wp'(v))\), and
+\(x_1 = \wp(u)\), \(y_1 = \wp'(u)\), \(x_2 = \wp(v)\), \(y_2 = \wp'(v)\). The chord
+slope is
+\[
+  m = \frac{y_2 - y_1}{x_2 - x_1}
+    = \frac{\wp'(v) - \wp'(u)}{\wp(v) - \wp(u)}
+    = \frac{\wp'(u) - \wp'(v)}{\wp(u) - \wp(v)} = A .
+\]
+The chord formula of \cref{thm:coord-add} gives \(x_{P\oplus Q} = \tfrac{m^2}{4} -
+x_1 - x_2\), and the addition theorem gives \(\wp(u+v) = \tfrac{A^2}{4} - \wp(u) -
+\wp(v)\); since \(m = A\), these are identical:
+\[
+  x_{P \oplus Q} = \wp(u+v).
+\]
+The two computations --- summing the roots of the intersection cubic, and summing
+the values of \(\wp\) at the zeros of \(h\) --- are the same calculation viewed
+through \(\Phi\).
+
+\section{Why the \texorpdfstring{$y$}{y}-Coordinate Has the Reflected Sign}
+\label{sec:aa-reflection}
+
+The third intersection of the chord is \(R = \Phi(w) = \Phi(-(u+v))\). Its
+coordinates are
+\[
+  R = \bigl( \wp(-(u+v)),\, \wp'(-(u+v)) \bigr)
+    = \bigl( \wp(u+v),\, -\wp'(u+v) \bigr),
+\]
+using \(\wp\) even and \(\wp'\) odd. Reflecting,
+\[
+  \ominus R = \bigl( \wp(u+v),\, \wp'(u+v) \bigr) = \Phi(u+v) = P \oplus Q .
+\]
+So the \(y\)-coordinate of the sum is \(+\wp'(u+v)\), while the third intersection
+had \(-\wp'(u+v)\): the reflection across the \(x\)-axis is exactly the oddness of
+\(\wp'\).
+
+\begin{keyidea}{Analytic and geometric agreement}
+The addition formula for \(\wp\) is the analytic form of the chord law. The
+root-sum computation produces the same \(x\)-coordinate as \(\wp(u+v)\), and the
+oddness of \(\wp'\) supplies the reflection that produces the \(y\)-coordinate.
+The minus sign in ``reflect \(R\)'' and the minus sign in \(\wp'(-z) = -\wp'(z)\)
+are one and the same.
+\end{keyidea}
+
+\section{The Determinant Form}
+\label{sec:aa-determinant}
+
+Collinearity of \(P\), \(Q\), and \(R\) is a vanishing determinant, which packages
+the addition theorem symmetrically.
+
+\begin{proposition}
+\label{prop:aa-determinant}
+For \(u, v\) generic,
+\[
+  \det\begin{pmatrix}
+    1 & \wp(u)   & \wp'(u) \\
+    1 & \wp(v)   & \wp'(v) \\
+    1 & \wp(u+v) & -\wp'(u+v)
+  \end{pmatrix} = 0 .
+\]
+\end{proposition}
+
+\begin{proof}
+The three rows are the coordinates \((1, x, y)\) of \(P = \Phi(u)\),
+\(Q = \Phi(v)\), and \(R = \Phi(-(u+v)) = (\wp(u+v), -\wp'(u+v))\). By
+\cref{thm:lin-collinear} these three points are collinear --- they are the
+intersection of the chord with \(E\) --- and three points of the affine plane are
+collinear precisely when this determinant vanishes.
+\end{proof}
+
+Expanding the determinant and solving for \(\wp(u+v)\) returns
+\cref{thm:aa-addition}; the symmetric form makes the role of all three points
+\(u, v, -(u+v)\) manifest.
+
+\section{The Duplication Formula}
+\label{sec:aa-duplication}
+
+Letting \(v \to u\) gives the formula for \(\wp(2u)\).
+
+\begin{corollary}[Duplication]
+\label{cor:aa-duplication}
+For \(u\) with \(\wp'(u) \ne 0\),
+\[
+  \wp(2u) = -2\wp(u) + \frac14\left( \frac{\wp''(u)}{\wp'(u)} \right)^2
+          = -2\wp(u) + \frac14\left( \frac{6\wp(u)^2 - \tfrac12 g_2}{\wp'(u)} \right)^2 .
+\]
+\end{corollary}
+
+\begin{proof}
+As \(v \to u\), the slope \(A = \dfrac{\wp'(u) - \wp'(v)}{\wp(u) - \wp(v)}\) is a
+difference quotient; by l'H\^opital (dividing numerator and denominator by
+\(u - v\) and taking the limit) it tends to \(\dfrac{\wp''(u)}{\wp'(u)}\).
+\Cref{thm:aa-addition} then gives \(\wp(2u) = -2\wp(u) + \tfrac14(\wp''/\wp')^2\).
+Differentiating \(\wp'^2 = 4\wp^3 - g_2\wp - g_3\) yields \(\wp'' = 6\wp^2 -
+\tfrac12 g_2\) (\cref{ex:wp-recurrence}), giving the second form.
+\end{proof}
+
+This matches the doubling formula of \cref{thm:coord-double}: the tangent slope
+\((12 x^2 - g_2)/(2y)\) is exactly \((6\wp^2 - \tfrac12 g_2)/\wp' =
+\wp''/\wp'\), with \(x = \wp(u)\), \(y = \wp'(u)\).
+
+\section{Summary}
+\label{sec:aa-summary}
+
+The Weierstrass addition formula (\cref{thm:aa-addition}) gives \(\wp(u+v)\) as
+\(-\wp(u) - \wp(v)\) plus a quarter-square of the slope \(A\); it is proved
+directly from Abel's law and the differential equation, by summing the values of
+\(\wp\) at the three zeros of \(h = \wp' - A\wp - B\). It reproduces the chord
+\(x\)-coordinate, and the oddness of \(\wp'\) supplies the reflected \(y\)-sign
+(\cref{sec:aa-chord,sec:aa-reflection}). In symmetric form it is a vanishing
+\(3 \times 3\) determinant (\cref{prop:aa-determinant}), and the \(v \to u\) limit
+is the duplication formula (\cref{cor:aa-duplication}), matching the geometric
+doubling. Analytic and geometric addition are one operation.
+
+\section*{Exercises}
+\addcontentsline{toc}{section}{Exercises}
+
+\begin{exercise}
+\label{ex:aa-h-order}
+Verify the claims about \(h(z) = \wp'(z) - A\wp(z) - B\) in the proof of
+\cref{thm:aa-addition}: that it is elliptic of order three with a triple pole at
+\(0\), and that \(u, v\) are among its zeros. Why does the case
+\(u \equiv \pm v\) have to be excluded?
+\end{exercise}
+
+\begin{exercise}
+\label{ex:aa-determinant-expand}
+Expand the determinant of \cref{prop:aa-determinant} along the first column and
+solve the resulting linear relation for \(\wp(u+v)\), recovering
+\cref{thm:aa-addition}.
+\end{exercise}
+
+\begin{exercise}
+\label{ex:aa-duplication-match}
+Show that the duplication slope \(\wp''(u)/\wp'(u)\) equals the tangent slope
+\((12x^2 - g_2)/(2y)\) of \cref{thm:coord-double} with \(x = \wp(u)\),
+\(y = \wp'(u)\), confirming \cref{cor:aa-duplication} matches the geometric
+doubling formula.
+\end{exercise}
+
+\begin{exercise}
+\label{ex:aa-symmetry}
+Check that \cref{thm:aa-addition} is symmetric under \(u \leftrightarrow v\), and
+compute the limit \(v \to 0\) to confirm consistency with \(\wp(u+0) = \wp(u)\).
+(The pole of \(\wp(v)\) at \(v = 0\) cancels against the slope term.)
+\end{exercise}
+
+\begin{exercise}
+\label{ex:aa-three-term}
+Apply \cref{thm:aa-addition} to \(\wp(u-v)\) by replacing \(v\) with \(-v\) (so the
+slope becomes \((\wp'(u) + \wp'(v))/(\wp(u) - \wp(v))\), using \(\wp\) even,
+\(\wp'\) odd). Adding the formulas for \(\wp(u+v)\) and \(\wp(u-v)\), derive
+\[
+  \wp(u+v) + \wp(u-v) = -2\wp(u) - 2\wp(v)
+  + \frac{\wp'(u)^2 + \wp'(v)^2}{2\,(\wp(u) - \wp(v))^2},
+\]
+and conclude, using the differential equation, that the right-hand side is a
+rational function of \(\wp(u)\) and \(\wp(v)\).
+\end{exercise}
