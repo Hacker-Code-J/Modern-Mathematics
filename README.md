@@ -1,3 +1,5 @@
+
+
 # Modern-Mathematics
 
 ## Introduction
@@ -135,7 +137,7 @@ The `grad-math-full` directory contains detailed documents for graduate-level ma
 <details>
 <summary><strong>grad-math-11.tex/pdf</strong>: Abstract Algebra I</summary>
 <ul>
-<li>Cyclic Group<li>
+<li>Cyclic Group</li>
 <li>TBA</li>
 </ul>
 </details>
